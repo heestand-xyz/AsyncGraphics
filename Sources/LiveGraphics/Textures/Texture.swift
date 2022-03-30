@@ -1,5 +1,5 @@
 //
-//  LiveFrame.swift
+//  Texture.swift
 //  
 //
 //  Created by Anton Heestand on 2022-03-29.
@@ -8,27 +8,27 @@
 import Foundation
 import Metal
 
-struct LiveFrame {
+struct Texture {
     
-    let texture: MTLTexture!
+    let rawTexture: MTLTexture!
     
     var resolution: CGSize {
-        texture.size
+        rawTexture.size
     }
 }
 
-extension LiveFrame: Equatable {
+extension Texture: Equatable {
     
-    static func == (lhs: LiveFrame, rhs: LiveFrame) -> Bool {
+    static func == (lhs: Texture, rhs: Texture) -> Bool {
         
         guard lhs.resolution == rhs.resolution else {
             return false
         }
         
-        return lhs.texture.hash == rhs.texture.hash
+        return lhs.rawTexture.hash == rhs.rawTexture.hash
     }
 }
 
-//extension LiveFrame: Comparable {
+//extension Texture: Comparable {
 //    
 //}

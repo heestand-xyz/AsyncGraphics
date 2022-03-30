@@ -9,9 +9,9 @@ import Foundation
 import Metal
 import TextureMap
 
-extension LiveFrame {
+extension Texture {
     
-    func inverted() async -> LiveFrame {
+    func inverted() async -> Texture {
         
         let emptyTexture: MTLTexture! = await withCheckedContinuation { continuation in
             
@@ -20,6 +20,6 @@ extension LiveFrame {
             continuation.resume(returning: emptyTexture)
         }
         
-        return LiveFrame(texture: texture)
+        return Texture(rawTexture: emptyTexture)
     }
 }

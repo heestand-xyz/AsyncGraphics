@@ -11,11 +11,11 @@ import CoreGraphicsExtensions
 import Metal
 import TextureMap
 
-extension LiveFrame {
+extension Texture {
  
     init(image: TMImage) async {
         
-        texture = await withCheckedContinuation { continuation in
+        rawTexture = await withCheckedContinuation { continuation in
             let texture = try? image.texture
             continuation.resume(returning: texture)
         }
@@ -25,7 +25,7 @@ extension LiveFrame {
         
         if let image = TMImage(named: name) {
             
-            texture = await withCheckedContinuation { continuation in
+            rawTexture = await withCheckedContinuation { continuation in
                 
                 let texture = try? image.texture
                 
@@ -36,7 +36,7 @@ extension LiveFrame {
             
             let resolution = LiveGraphics.fallbackResolution
             
-            texture = await withCheckedContinuation { continuation in
+            rawTexture = await withCheckedContinuation { continuation in
                 
                 let emptyTexture = try? TextureMap.emptyTexture(size: resolution, bits: ._8)
                 
