@@ -8,18 +8,25 @@
 import Foundation
 import Metal
 import TextureMap
+import Logger
 
 extension Texture {
     
     func inverted() async -> Texture {
         
-        let emptyTexture: MTLTexture! = await withCheckedContinuation { continuation in
+        let texture: MTLTexture! = await withCheckedContinuation { continuation in
             
-            let emptyTexture: MTLTexture! = try? TextureMap.emptyTexture(size: LiveGraphics.fallbackResolution, bits: ._8)
+            let renderer = Renderer()
+            let texture: MTLTexture!
+            do {
+                texture = try renderer.render(as: "invert", texture: metalTexture, bits: bits)
+            } catch {
+                Logger.log(.error(error), message: "Render Failed", frequency: .verbose)
+            }
             
-            continuation.resume(returning: emptyTexture)
+            continuation.resume(returning: texture)
         }
         
-        return Texture(rawTexture: emptyTexture)
+        return Texture(metalTexture: texture, bits: bits)
     }
 }

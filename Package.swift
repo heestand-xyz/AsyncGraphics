@@ -17,11 +17,12 @@ let package = Package(
     dependencies: [
          .package(url: "https://github.com/heestand-xyz/TextureMap", from: "0.1.1"),
          .package(url: "https://github.com/heestand-xyz/CoreGraphicsExtensions", from: "1.2.1"),
+         .package(url: "https://github.com/heestand-xyz/Logger", from: "0.2.1"),
     ],
     targets: [
         .target(
             name: "LiveGraphics",
-            dependencies: ["TextureMap", "CoreGraphicsExtensions"]),
+            dependencies: ["TextureMap", "CoreGraphicsExtensions", "Logger"]),
         .testTarget(
             name: "LiveGraphicsTests",
             dependencies: ["LiveGraphics"],

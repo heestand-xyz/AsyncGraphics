@@ -15,33 +15,39 @@ extension Texture {
  
     init(image: TMImage) async {
         
-        rawTexture = await withCheckedContinuation { continuation in
+        metalTexture = await withCheckedContinuation { continuation in
             let texture = try? image.texture
             continuation.resume(returning: texture)
         }
+        
+        bits = (try? image.bits) ?? ._8
     }
     
     init(named name: String) async {
         
         if let image = TMImage(named: name) {
             
-            rawTexture = await withCheckedContinuation { continuation in
+            metalTexture = await withCheckedContinuation { continuation in
                 
                 let texture = try? image.texture
                 
                 continuation.resume(returning: texture)
             }
             
+            bits = (try? image.bits) ?? ._8
+            
         } else {
             
             let resolution = LiveGraphics.fallbackResolution
             
-            rawTexture = await withCheckedContinuation { continuation in
+            metalTexture = await withCheckedContinuation { continuation in
                 
                 let emptyTexture = try? TextureMap.emptyTexture(size: resolution, bits: ._8)
                 
                 continuation.resume(returning: emptyTexture)
             }
+            
+            bits = ._8
         }
     }
 }

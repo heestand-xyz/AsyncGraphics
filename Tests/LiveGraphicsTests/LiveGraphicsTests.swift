@@ -7,20 +7,20 @@ final class LiveGraphicsTests: XCTestCase {
         
         let image = await Texture(named: "Kite")
         
-        XCTAssertNotNil(image.rawTexture)
+        XCTAssertNotNil(image.metalTexture)
     }
     
     func testInvert() async throws {
         
         let image = await Texture(named: "Kite")
-        XCTAssertNotNil(image.rawTexture)
+        XCTAssertNotNil(image.metalTexture)
 
         let inverted = await image.inverted()
-        XCTAssertNotNil(inverted.rawTexture)
+        XCTAssertNotNil(inverted.metalTexture)
         XCTAssertNotEqual(image, inverted)
         
         let original = await inverted.inverted()
-        XCTAssertNotNil(original.rawTexture)
+        XCTAssertNotNil(original.metalTexture)
         XCTAssertEqual(image, original)
     }
 }

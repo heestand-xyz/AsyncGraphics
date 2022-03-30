@@ -7,13 +7,16 @@
 
 import Foundation
 import Metal
+import TextureMap
 
 struct Texture {
     
-    let rawTexture: MTLTexture!
+    let metalTexture: MTLTexture!
+    
+    let bits: TMBits
     
     var resolution: CGSize {
-        rawTexture.size
+        metalTexture.size
     }
 }
 
@@ -25,7 +28,7 @@ extension Texture: Equatable {
             return false
         }
         
-        return lhs.rawTexture.hash == rhs.rawTexture.hash
+        return lhs.metalTexture.hash == rhs.metalTexture.hash
     }
 }
 

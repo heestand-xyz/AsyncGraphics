@@ -1,6 +1,6 @@
 //
-//  MIBViewModel.swift
-//  Metal Image Blending
+//  Renderer.swift
+//  LiveGraphics
 //
 //  Created by Anton Heestand on 2021-09-18.
 //
@@ -8,8 +8,9 @@
 import Foundation
 import AppKit
 import MetalKit
+import TextureMap
 
-class MIBViewModel: ObservableObject {
+class Renderer: ObservableObject {
     
     let metalDevice: MTLDevice = {
         guard let device = MTLCreateSystemDefaultDevice() else {
@@ -18,7 +19,7 @@ class MIBViewModel: ObservableObject {
         return device
     }()
     
-    enum MIBError: Error {
+    enum RendererError: Error {
         case textureCGImage
         case emptyTexture
         case vertexQuadBuffer
@@ -31,23 +32,20 @@ class MIBViewModel: ObservableObject {
         case image
     }
     
-    func blend(_ sourceImageA: NSImage, with sourceImageB: NSImage) throws -> NSImage {
+    func render(as shaderName: String, texture: MTLTexture, bits: TMBits) throws -> MTLTexture {
         
-        let sourceTextureA: MTLTexture = try texture(image: sourceImageA)
-        let sourceTextureB: MTLTexture = try texture(image: sourceImageB)
-        
-        let destinationTexture: MTLTexture = try emptyTexture(size: CGSize(width: 1500, height: 1000))
+        let destinationTexture: MTLTexture = try TextureMap.emptyTexture(size: texture.size, bits: bits)
         
         guard let commandQueue = metalDevice.makeCommandQueue() else {
-            throw MIBError.commandQueue
+            throw RendererError.commandQueue
         }
         guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {
-            throw MIBError.commandBuffer
+            throw RendererError.commandBuffer
         }
         
         let commandEncoder: MTLRenderCommandEncoder = try commandEncoder(texture: destinationTexture, commandBuffer: commandBuffer)
         
-        let pipeline: MTLRenderPipelineState = try pipeline()
+        let pipeline: MTLRenderPipelineState = try pipeline(as: shaderName)
         
         let sampler: MTLSamplerState = try sampler()
         
@@ -55,8 +53,7 @@ class MIBViewModel: ObservableObject {
         
         commandEncoder.setRenderPipelineState(pipeline)
         
-        commandEncoder.setFragmentTexture(sourceTextureA, index: 0)
-        commandEncoder.setFragmentTexture(sourceTextureB, index: 1)
+        commandEncoder.setFragmentTexture(texture, index: 0)
         
         commandEncoder.setFragmentSamplerState(sampler, index: 0)
         
@@ -67,58 +64,18 @@ class MIBViewModel: ObservableObject {
         commandBuffer.commit()
         commandBuffer.waitUntilCompleted()
         
-        let destinationImage: NSImage = try image(texture: destinationTexture)
-        
-        return destinationImage
-    }
-}
-
-// MARK: - Texture
-
-extension MIBViewModel {
-    
-    func texture(image: NSImage) throws -> MTLTexture {
-        guard let cgImage: CGImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
-            throw MIBError.textureCGImage
-        }
-        let loader = MTKTextureLoader(device: metalDevice)
-        return try loader.newTexture(cgImage: cgImage, options: [.SRGB: false])
-    }
-    
-    func emptyTexture(size: CGSize) throws -> MTLTexture {
-        let descriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .bgra8Unorm, width: Int(size.width), height: Int(size.height), mipmapped: true)
-        descriptor.usage = MTLTextureUsage(rawValue: MTLTextureUsage.renderTarget.rawValue | MTLTextureUsage.shaderRead.rawValue)
-        guard let texture = metalDevice.makeTexture(descriptor: descriptor) else {
-            throw MIBError.emptyTexture
-        }
-        return texture
-    }
-}
-
-// MARK: - Image
-
-extension MIBViewModel {
-    
-    func image(texture: MTLTexture) throws -> NSImage {
-        let size = CGSize(width: texture.width, height: texture.height)
-        guard let colorSpace = CGColorSpace(name: CGColorSpace.sRGB),
-              let ciImage: CIImage = CIImage(mtlTexture: texture, options: [.colorSpace: colorSpace]),
-              let cgImage: CGImage = CIContext(options: nil).createCGImage(ciImage, from: ciImage.extent, format: .RGBA8, colorSpace: colorSpace)
-        else {
-            throw MIBError.image
-        }
-        return NSImage(cgImage: cgImage, size: size)
+        return destinationTexture
     }
 }
 
 // MARK: - Pipeline
 
-extension MIBViewModel {
+extension Renderer {
     
-    func pipeline() throws -> MTLRenderPipelineState {
+    func pipeline(as shaderName: String) throws -> MTLRenderPipelineState {
         let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
         pipelineStateDescriptor.vertexFunction = try shader(name: "vertexQuad")
-        pipelineStateDescriptor.fragmentFunction = try shader(name: "imageBlending")
+        pipelineStateDescriptor.fragmentFunction = try shader(name: shaderName)
         pipelineStateDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
         pipelineStateDescriptor.colorAttachments[0].isBlendingEnabled = true
         pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = .blendAlpha
@@ -128,7 +85,7 @@ extension MIBViewModel {
 
 // MARK: - Command Encoder
 
-extension MIBViewModel {
+extension Renderer {
     
     func commandEncoder(texture: MTLTexture, commandBuffer: MTLCommandBuffer) throws -> MTLRenderCommandEncoder {
         let renderPassDescriptor = MTLRenderPassDescriptor()
@@ -136,7 +93,7 @@ extension MIBViewModel {
         renderPassDescriptor.colorAttachments[0].loadAction = .clear
         renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 0)
         guard let commandEncoder: MTLRenderCommandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor) else {
-            throw MIBError.commandEncoder
+            throw RendererError.commandEncoder
         }
         return commandEncoder
     }
@@ -144,7 +101,7 @@ extension MIBViewModel {
 
 // MARK: - Sampler
 
-extension MIBViewModel {
+extension Renderer {
     
     func sampler() throws -> MTLSamplerState {
         let samplerInfo = MTLSamplerDescriptor()
@@ -155,7 +112,7 @@ extension MIBViewModel {
         samplerInfo.compareFunction = .never
         samplerInfo.mipFilter = .linear
         guard let sampler = metalDevice.makeSamplerState(descriptor: samplerInfo) else {
-            throw MIBError.sampler
+            throw RendererError.sampler
         }
         return sampler
     }
@@ -163,7 +120,7 @@ extension MIBViewModel {
 
 // MARK: - Vertex Quad
 
-extension MIBViewModel {
+extension Renderer {
     
     struct Vertex {
         let x, y: CGFloat
@@ -182,7 +139,7 @@ extension MIBViewModel {
         let vertexBuffer: [Float] = vertices.flatMap(\.buffer)
         let dataSize = vertexBuffer.count * MemoryLayout.size(ofValue: vertexBuffer[0])
         guard let buffer = metalDevice.makeBuffer(bytes: vertexBuffer, length: dataSize, options: []) else {
-            throw MIBError.vertexQuadBuffer
+            throw RendererError.vertexQuadBuffer
         }
         return buffer
     }
@@ -190,12 +147,12 @@ extension MIBViewModel {
 
 // MARK: - Shader
 
-extension MIBViewModel {
+extension Renderer {
     
     func shader(name: String) throws -> MTLFunction {
         let metalLibrary: MTLLibrary = try metalDevice.makeDefaultLibrary(bundle: Bundle.main)
         guard let shader = metalLibrary.makeFunction(name: name) else {
-            throw MIBError.shaderFunction
+            throw RendererError.shaderFunction
         }
         return shader
     }
