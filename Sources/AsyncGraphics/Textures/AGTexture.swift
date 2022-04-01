@@ -9,20 +9,20 @@ import Foundation
 import Metal
 import TextureMap
 
-struct AGTexture {
+public struct AGTexture {
     
-    let metalTexture: MTLTexture!
+    public let metalTexture: MTLTexture!
     
-    let bits: TMBits
+    public let bits: TMBits
     
-    var resolution: CGSize {
+    public var resolution: CGSize {
         metalTexture.size
     }
 }
 
 extension AGTexture: Equatable {
     
-    static func == (lhs: AGTexture, rhs: AGTexture) -> Bool {
+    public static func == (lhs: AGTexture, rhs: AGTexture) -> Bool {
         
         guard lhs.resolution == rhs.resolution else {
             return false
