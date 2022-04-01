@@ -10,9 +10,9 @@ import Metal
 import TextureMap
 import Logger
 
-extension Texture {
+extension AGTexture {
     
-    func inverted() async -> Texture {
+    func inverted() async -> AGTexture {
         
         let texture: MTLTexture! = await withCheckedContinuation { continuation in
             
@@ -27,6 +27,6 @@ extension Texture {
             continuation.resume(returning: texture)
         }
         
-        return Texture(metalTexture: texture, bits: bits)
+        return AGTexture(metalTexture: texture, bits: bits)
     }
 }

@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "LiveGraphics",
+    name: "AsyncGraphics",
     platforms: [
         .iOS(.v13),
         .tvOS(.v13),
@@ -11,21 +11,21 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "LiveGraphics",
-            targets: ["LiveGraphics"]),
+            name: "AsyncGraphics",
+            targets: ["AsyncGraphics"]),
     ],
     dependencies: [
          .package(url: "https://github.com/heestand-xyz/TextureMap", from: "0.1.1"),
-         .package(url: "https://github.com/heestand-xyz/CoreGraphicsExtensions", from: "1.2.1"),
-         .package(url: "https://github.com/heestand-xyz/Logger", from: "0.2.1"),
+//         .package(url: "https://github.com/heestand-xyz/CoreGraphicsExtensions", from: "1.2.1"),
+//         .package(url: "https://github.com/heestand-xyz/Logger", from: "0.2.1"),
     ],
     targets: [
         .target(
-            name: "LiveGraphics",
-            dependencies: ["TextureMap", "CoreGraphicsExtensions", "Logger"]),
+            name: "AsyncGraphics",
+            dependencies: ["TextureMap"/*, "CoreGraphicsExtensions", "Logger"*/]),
         .testTarget(
-            name: "LiveGraphicsTests",
-            dependencies: ["LiveGraphics"],
+            name: "AsyncGraphicsTests",
+            dependencies: ["AsyncGraphics"],
             resources: [
                 .process("TestAssets.xcassets")
             ]),

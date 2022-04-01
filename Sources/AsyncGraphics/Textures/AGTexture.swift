@@ -1,5 +1,5 @@
 //
-//  Texture.swift
+//  AGTexture.swift
 //  
 //
 //  Created by Anton Heestand on 2022-03-29.
@@ -9,7 +9,7 @@ import Foundation
 import Metal
 import TextureMap
 
-struct Texture {
+struct AGTexture {
     
     let metalTexture: MTLTexture!
     
@@ -20,9 +20,9 @@ struct Texture {
     }
 }
 
-extension Texture: Equatable {
+extension AGTexture: Equatable {
     
-    static func == (lhs: Texture, rhs: Texture) -> Bool {
+    static func == (lhs: AGTexture, rhs: AGTexture) -> Bool {
         
         guard lhs.resolution == rhs.resolution else {
             return false
@@ -32,6 +32,6 @@ extension Texture: Equatable {
     }
 }
 
-//extension Texture: Comparable {
+//extension AGTexture: Comparable {
 //    
 //}
