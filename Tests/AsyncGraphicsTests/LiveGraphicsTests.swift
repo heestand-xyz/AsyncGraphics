@@ -1,18 +1,18 @@
 import XCTest
-@testable import LiveGraphics
+@testable import AsyncGraphics
 
 final class LiveGraphicsTests: XCTestCase {
     
     func testImage() async throws {
         
-        let image = await Texture(named: "Kite")
+        let image: AGTexture = await .image(named: "Kite")
         
         XCTAssertNotNil(image.metalTexture)
     }
     
     func testInvert() async throws {
         
-        let image = await Texture(named: "Kite")
+        let image: AGTexture = await .image(named: "Kite")
         XCTAssertNotNil(image.metalTexture)
 
         let inverted = await image.inverted()

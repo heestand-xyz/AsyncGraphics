@@ -7,15 +7,14 @@
 
 import Foundation
 import CoreGraphics
-import CoreGraphicsExtensions
 import Metal
 import TextureMap
 
-extension AGTexture {
+public extension AGTexture {
  
     static func image(_ image: TMImage) async -> AGTexture {
         
-        let metalTexture: MTLTexture! = await try? image.texture
+        let metalTexture: MTLTexture! = try? await image.texture
         
         let bits: TMBits = (try? image.bits) ?? ._8
         
@@ -26,13 +25,13 @@ extension AGTexture {
         
         if let image = TMImage(named: name) {
             
-            return .image(image)
+            return await .image(image)
             
         } else {
             
             let resolution = LiveGraphics.fallbackResolution
             
-            let metalTexture: MTLTexture! = await try? TextureMap.emptyTexture(size: resolution, bits: ._8)
+            let metalTexture: MTLTexture! = try? await TextureMap.emptyTexture(size: resolution, bits: ._8)
             
             return AGTexture(metalTexture: metalTexture, bits: ._8)
         }

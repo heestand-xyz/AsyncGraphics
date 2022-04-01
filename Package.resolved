@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/heestand-xyz/TextureMap",
       "state" : {
-        "revision" : "92a11461c9125951ef17eb578871853cca9920a7",
-        "version" : "0.1.1"
+        "revision" : "873e426f5b63d80c0d548e5e05d222d23de4ad8c",
+        "version" : "0.2.0"
       }
     }
   ],

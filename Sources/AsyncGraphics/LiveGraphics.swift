@@ -7,7 +7,7 @@
 
 import Foundation
 import CoreGraphics
-import Logger
+//import Logger
 
 public class LiveGraphics {
     
@@ -16,7 +16,7 @@ public class LiveGraphics {
     static let fallbackResolution = CGSize(width: 100, height: 100)
     
     init() {
-        Logger.frequency = .verbose
+//        Logger.frequency = .verbose
     }
     
 }

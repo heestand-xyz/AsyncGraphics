@@ -8,20 +8,20 @@
 import Foundation
 import Metal
 import TextureMap
-import Logger
+//import Logger
 
-extension AGTexture {
+public extension AGTexture {
     
     func inverted() async -> AGTexture {
         
         let texture: MTLTexture! = await withCheckedContinuation { continuation in
             
             let renderer = Renderer()
-            let texture: MTLTexture!
+            var texture: MTLTexture!
             do {
                 texture = try renderer.render(as: "invert", texture: metalTexture, bits: bits)
             } catch {
-                Logger.log(.error(error), message: "Render Failed", frequency: .verbose)
+//                Logger.log(.error(error), message: "Render Failed", frequency: .verbose)
             }
             
             continuation.resume(returning: texture)
