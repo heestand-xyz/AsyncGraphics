@@ -1,3 +1,3 @@
-# LiveGraphics
+# AsyncGraphics
 
-A description of this package.
+Texture effects powered by Metal.
