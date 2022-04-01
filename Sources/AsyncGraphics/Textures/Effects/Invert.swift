@@ -14,18 +14,7 @@ public extension AGTexture {
     
     func inverted() async -> AGTexture {
         
-        let texture: MTLTexture! = await withCheckedContinuation { continuation in
-            
-            let renderer = Renderer()
-            var texture: MTLTexture!
-            do {
-                texture = try renderer.render(as: "invert", texture: metalTexture, bits: bits)
-            } catch {
-//                Logger.log(.error(error), message: "Render Failed", frequency: .verbose)
-            }
-            
-            continuation.resume(returning: texture)
-        }
+        let texture: MTLTexture! = try? await AGRenderer.render(as: "invert", texture: metalTexture, bits: bits)
         
         return AGTexture(metalTexture: texture, bits: bits)
     }
