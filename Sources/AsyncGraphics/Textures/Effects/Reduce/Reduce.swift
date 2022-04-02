@@ -23,18 +23,16 @@ public extension Graphic {
     /// Reduce
     ///
     /// Reduction to a singe pixel
+    @available(iOS 14.0, tvOS 14, macOS 11, *)
     func reduce(by sampleMethod: SampleMethod) async throws -> PixelColor {
         
-        #warning("Fix")
-        let highBitTexture = self
+        let highBitGraphic = try await with(bits: ._16)
         
-        let rowTexture = try await highBitTexture.reduce(by: sampleMethod, in: .y)
+        let rowGraphic = try await highBitGraphic.reduce(by: sampleMethod, in: .y)
+                
+        let pixelGraphic = try await rowGraphic.reduce(by: sampleMethod, in: .x)
         
-        print(try await rowTexture.channels)
-        
-        let pixelTexture = try await rowTexture.reduce(by: sampleMethod, in: .x)
-        
-        return try await pixelTexture.firstPixel
+        return try await pixelGraphic.firstPixel
     }
     
     /// Reduce
@@ -43,7 +41,7 @@ public extension Graphic {
     ///
     /// Reduction in sample axis y, gives you a row
     func reduce(by sampleMethod: SampleMethod, in sampleAxis: SampleAxis) async throws -> Graphic {
-        
+                
         let reducedTexture: MTLTexture = try await withCheckedThrowingContinuation { continuation in
             
             DispatchQueue.global(qos: .userInteractive).async {

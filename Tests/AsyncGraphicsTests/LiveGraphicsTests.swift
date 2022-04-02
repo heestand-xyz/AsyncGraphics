@@ -26,23 +26,17 @@ final class LiveGraphicsTests: XCTestCase {
         XCTAssertEqual(firstColor, firstPixel)
     }
     
-    func testReduce1() async throws {
+    func testReduce() async throws {
         
         let imageTexture: Graphic = try await .image(named: "Kite", in: .module)
-        
+
         let reducedTexture: Graphic = try await imageTexture.reduce(by: .average, in: .y)
         
         XCTAssertEqual(reducedTexture.resolution.width, imageTexture.resolution.width)
         XCTAssertEqual(reducedTexture.resolution.height, 1)
-    }
-    
-    func testReduce2() async throws {
         
-        let imageTexture: Graphic = try await .image(named: "Kite", in: .module)
-        
-        let reducedColor: PixelColor = try await imageTexture.reduce(by: .average)
-        
-        print("----->", reducedColor)
+        let reducedBrightness: CGFloat = try await reducedTexture.firstPixel.brightness
+        XCTAssertNotEqual(0.0, reducedBrightness)
     }
     
     @available(iOS 14.0, tvOS 14, macOS 11, *)

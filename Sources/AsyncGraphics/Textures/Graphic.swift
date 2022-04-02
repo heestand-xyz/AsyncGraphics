@@ -131,6 +131,7 @@ extension Graphic {
 
 // MARK: - Equal
 
+@available(iOS 14.0, tvOS 14, macOS 11, *)
 extension Graphic {
     
     public func isEqual(to texture: Graphic) async throws -> Bool {
@@ -138,6 +139,8 @@ extension Graphic {
         guard resolution == texture.resolution else {
             return false
         }
+        
+        #warning("Difference")
         
         return try await reduce(by: .average) == texture.reduce(by: .average)
     }
