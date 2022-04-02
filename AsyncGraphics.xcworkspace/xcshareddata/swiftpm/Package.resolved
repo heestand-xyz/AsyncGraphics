@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "pixelcolor",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/heestand-xyz/PixelColor",
+      "state" : {
+        "revision" : "23851e7ea5f2dc844dd6d9a4d730864199583921",
+        "version" : "1.3.2"
+      }
+    }
+  ],
+  "version" : 2
+}
