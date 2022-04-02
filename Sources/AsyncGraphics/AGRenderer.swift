@@ -18,17 +18,31 @@ struct AGRenderer {
         return device
     }()
     
-    enum AGRendererError: Error {
-        case textureCGImage
-        case emptyTexture
-        case vertexQuadBuffer
-        case shaderFunction
-        case commandBuffer
-        case commandEncoder
-        case commandQueue
-        case textureCache
-        case sampler
-        case image
+    enum AGRendererError: LocalizedError {
+        
+        case failedToMakeVertexQuadBuffer
+        case shaderFunctionNotFound(name: String)
+        case failedToMakeCommandBuffer
+        case failedToMakeCommandEncoder
+        case failedToMakeCommandQueue
+        case failedToMakeSampler
+        
+        var errorDescription: String? {
+            switch self {
+            case .failedToMakeVertexQuadBuffer:
+                return "Async Graphics - Renderer - Failed to Make Vertex Quad Buffer"
+            case .shaderFunctionNotFound(let name):
+                return "Async Graphics - Renderer - Shader Function Not Found (\"\(name)\")"
+            case .failedToMakeCommandBuffer:
+                return "Async Graphics - Renderer - Failed to Make Command Buffer"
+            case .failedToMakeCommandEncoder:
+                return "Async Graphics - Renderer - Failed to Make Command Encoder"
+            case .failedToMakeCommandQueue:
+                return "Async Graphics - Renderer - Failed to Make Command Queue"
+            case .failedToMakeSampler:
+                return "Async Graphics - Renderer - Failed to Make Sampler"
+            }
+        }
     }
     
     static func render(as shaderName: String, texture: MTLTexture, bits: TMBits) async throws -> MTLTexture {
@@ -38,44 +52,57 @@ struct AGRenderer {
             DispatchQueue.global(qos: .userInteractive).async {
                 
                 do {
-                 
+                    
                     let destinationTexture: MTLTexture = try TextureMap.emptyTexture(size: texture.size, bits: bits)
                     
                     guard let commandQueue = metalDevice.makeCommandQueue() else {
-                        throw AGRendererError.commandQueue
+                        throw AGRendererError.failedToMakeCommandQueue
                     }
+                    
                     guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {
-                        throw AGRendererError.commandBuffer
+                        throw AGRendererError.failedToMakeCommandBuffer
                     }
                     
                     let commandEncoder: MTLRenderCommandEncoder = try commandEncoder(texture: destinationTexture, commandBuffer: commandBuffer)
                     
-                    let pipeline: MTLRenderPipelineState = try pipeline(as: shaderName)
-                    
-                    let sampler: MTLSamplerState = try sampler()
-                    
-                    let vertexBuffer: MTLBuffer = try vertexQuadBuffer()
-                    
-                    commandEncoder.setRenderPipelineState(pipeline)
-                    
-                    commandEncoder.setFragmentTexture(texture, index: 0)
-                    
-                    commandEncoder.setFragmentSamplerState(sampler, index: 0)
-                    
-                    commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
-                    commandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 6, instanceCount: 1)
-                    
-                    commandEncoder.endEncoding()
-                    
-                    commandBuffer.addCompletedHandler { _ in
+                    do {
+                        
+                        let pipeline: MTLRenderPipelineState = try pipeline(as: shaderName)
+                        
+                        let sampler: MTLSamplerState = try sampler()
+                        
+                        let vertexBuffer: MTLBuffer = try vertexQuadBuffer()
+                        
+                        commandEncoder.setRenderPipelineState(pipeline)
+                        
+                        commandEncoder.setFragmentTexture(texture, index: 0)
+                        
+                        commandEncoder.setFragmentSamplerState(sampler, index: 0)
+                        
+                        commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+                        commandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 6, instanceCount: 1)
+                        
+                        commandEncoder.endEncoding()
+                        
+                        commandBuffer.addCompletedHandler { _ in
+                            
+                            DispatchQueue.main.async {
+                                
+                                continuation.resume(returning: destinationTexture)
+                            }
+                        }
+                        
+                        commandBuffer.commit()
+                        
+                    } catch {
+                        
+                        commandEncoder.endEncoding()
                         
                         DispatchQueue.main.async {
                             
-                            continuation.resume(returning: destinationTexture)
+                            continuation.resume(throwing: error)
                         }
                     }
-                    
-                    commandBuffer.commit()
                     
                 } catch {
                     
@@ -114,7 +141,7 @@ extension AGRenderer {
         renderPassDescriptor.colorAttachments[0].loadAction = .clear
         renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 0)
         guard let commandEncoder: MTLRenderCommandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor) else {
-            throw AGRendererError.commandEncoder
+            throw AGRendererError.failedToMakeCommandEncoder
         }
         return commandEncoder
     }
@@ -133,7 +160,7 @@ extension AGRenderer {
         samplerInfo.compareFunction = .never
         samplerInfo.mipFilter = .linear
         guard let sampler = metalDevice.makeSamplerState(descriptor: samplerInfo) else {
-            throw AGRendererError.sampler
+            throw AGRendererError.failedToMakeSampler
         }
         return sampler
     }
@@ -160,7 +187,7 @@ extension AGRenderer {
         let vertexBuffer: [Float] = vertices.flatMap(\.buffer)
         let dataSize = vertexBuffer.count * MemoryLayout.size(ofValue: vertexBuffer[0])
         guard let buffer = metalDevice.makeBuffer(bytes: vertexBuffer, length: dataSize, options: []) else {
-            throw AGRendererError.vertexQuadBuffer
+            throw AGRendererError.failedToMakeVertexQuadBuffer
         }
         return buffer
     }
@@ -171,9 +198,9 @@ extension AGRenderer {
 extension AGRenderer {
     
     static func shader(name: String) throws -> MTLFunction {
-        let metalLibrary: MTLLibrary = try metalDevice.makeDefaultLibrary(bundle: Bundle.main)
+        let metalLibrary: MTLLibrary = try metalDevice.makeDefaultLibrary(bundle: .module)
         guard let shader = metalLibrary.makeFunction(name: name) else {
-            throw AGRendererError.shaderFunction
+            throw AGRendererError.shaderFunctionNotFound(name: name)
         }
         return shader
     }

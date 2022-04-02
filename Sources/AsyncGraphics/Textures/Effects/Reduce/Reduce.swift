@@ -1,0 +1,121 @@
+//
+//  Created by Anton Heestand on 2022-04-02.
+//
+
+import MetalPerformanceShaders
+import TextureMap
+import PixelColor
+
+public extension AGGraphic {
+    
+    enum SampleAxis {
+        case x
+        case y
+    }
+    
+    enum SampleMethod {
+        case average
+        case minimum
+        case maximum
+        case sum
+    }
+    
+    /// Reduce
+    ///
+    /// Reduction to a singe pixel
+    func reduce(by sampleMethod: SampleMethod) async throws -> PixelColor {
+        
+        #warning("Fix")
+        let highBitTexture = self
+        
+        let rowTexture = try await highBitTexture.reduce(by: sampleMethod, in: .y)
+        
+        print(try await rowTexture.channels)
+        
+        let pixelTexture = try await rowTexture.reduce(by: sampleMethod, in: .x)
+        
+        return try await pixelTexture.firstPixel
+    }
+    
+    /// Reduce
+    ///
+    /// Reduction in sample axis x, gives you a column
+    ///
+    /// Reduction in sample axis y, gives you a row
+    func reduce(by sampleMethod: SampleMethod, in sampleAxis: SampleAxis) async throws -> AGGraphic {
+        
+        let reducedTexture: MTLTexture = try await withCheckedThrowingContinuation { continuation in
+            
+            DispatchQueue.global(qos: .userInteractive).async {
+                
+                do {
+                    
+                    guard let commandQueue = AGRenderer.metalDevice.makeCommandQueue() else {
+                        throw AGRenderer.AGRendererError.failedToMakeCommandQueue
+                    }
+                    
+                    guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {
+                        throw AGRenderer.AGRendererError.failedToMakeCommandBuffer
+                    }
+         
+                    let texture: MTLTexture = try TextureMap.emptyTexture(size: resolution(in: sampleAxis), bits: bits, usage: .write)
+                    
+                    let kernel: MPSImageReduceUnary = kernel(by: sampleMethod, in: sampleAxis)
+
+                    kernel.encode(commandBuffer: commandBuffer, sourceTexture: metalTexture, destinationTexture: texture)
+                    
+                    DispatchQueue.main.async {
+                        continuation.resume(returning: texture)
+                    }
+                    
+                } catch {
+                    
+                    DispatchQueue.main.async {
+                        continuation.resume(throwing: error)
+                    }
+                }
+            }
+        }
+        
+        return AGGraphic(metalTexture: reducedTexture, bits: bits, colorSpace: colorSpace)
+    }
+    
+    private func resolution(in sampleAxis: SampleAxis) -> CGSize {
+        switch sampleAxis {
+        case .x:
+            return CGSize(width: 1, height: resolution.height)
+        case .y:
+            return CGSize(width: resolution.width, height: 1)
+        }
+    }
+    
+    private func kernel(by sampleMethod: SampleMethod, in sampleAxis: SampleAxis) -> MPSImageReduceUnary {
+        
+        let device: MTLDevice = AGRenderer.metalDevice
+        
+        switch sampleAxis {
+        case .x:
+            switch sampleMethod {
+            case .average:
+                return MPSImageReduceRowMean(device: device)
+            case .minimum:
+                return MPSImageReduceRowMin(device: device)
+            case .maximum:
+                return MPSImageReduceRowMax(device: device)
+            case .sum:
+                return MPSImageReduceRowSum(device: device)
+            }
+        case .y:
+            switch sampleMethod {
+            case .average:
+                return MPSImageReduceColumnMean(device: device)
+            case .minimum:
+                return MPSImageReduceColumnMin(device: device)
+            case .maximum:
+                return MPSImageReduceColumnMax(device: device)
+            case .sum:
+                return MPSImageReduceColumnSum(device: device)
+            }
+        }
+    }
+}

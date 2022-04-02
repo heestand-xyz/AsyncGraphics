@@ -1,27 +1,75 @@
 import XCTest
 @testable import AsyncGraphics
 import TextureMap
+import PixelColor
 
 final class LiveGraphicsTests: XCTestCase {
     
     func testImage() async throws {
-        
-        let imageTexture: AGTexture = try await .image(named: "Kite", in: .module)
-            
+
+        let imageTexture: AGGraphic = try await .image(named: "Kite", in: .module)
+
         _ = try await imageTexture.image
     }
     
-//    func testInvert() async throws {
-//
-//        let image: AGTexture = await .image(named: "Kite")
-//        XCTAssertNotNil(image.metalTexture)
-//
-//        let inverted = await image.inverted()
-//        XCTAssertNotNil(inverted.metalTexture)
-//        XCTAssertNotEqual(image, inverted)
-//
-//        let original = await inverted.inverted()
-//        XCTAssertNotNil(original.metalTexture)
-//        XCTAssertEqual(image, original)
-//    }
+    func testPixels() async throws {
+        
+        let imageTexture: AGGraphic = try await .image(named: "Kite", in: .module)
+                
+        let firstPixel: PixelColor = try await imageTexture.firstPixel
+        
+        let firstColor = PixelColor(red: 0.4392156862745098,
+                                    green: 0.2196078431372549,
+                                    blue: 0.00392156862745098,
+                                    alpha: 1.0)
+
+        XCTAssertEqual(firstColor, firstPixel)
+    }
+    
+    func testReduce1() async throws {
+        
+        let imageTexture: AGGraphic = try await .image(named: "Kite", in: .module)
+        
+        let reducedTexture: AGGraphic = try await imageTexture.reduce(by: .average, in: .y)
+        
+        XCTAssertEqual(reducedTexture.resolution.width, imageTexture.resolution.width)
+        XCTAssertEqual(reducedTexture.resolution.height, 1)
+    }
+    
+    func testReduce2() async throws {
+        
+        let imageTexture: AGGraphic = try await .image(named: "Kite", in: .module)
+        
+        let reducedColor: PixelColor = try await imageTexture.reduce(by: .average)
+        
+        print("----->", reducedColor)
+    }
+    
+    @available(iOS 14.0, tvOS 14, macOS 11, *)
+    func testBits() async throws {
+        
+        let imageTexture: AGGraphic = try await .image(named: "Kite", in: .module)
+        
+        XCTAssertEqual(imageTexture.bits, ._8)
+        
+        let bitTexture: AGGraphic = try await imageTexture.with(bits: ._16)
+        
+        XCTAssertEqual(bitTexture.bits, ._16)
+    }
+    
+    func testInvert() async throws {
+
+        let image: AGGraphic = try await .image(named: "Kite", in: .module)
+        print("--> image:", try await image.reduce(by: .average))
+
+        let inverted: AGGraphic = try await image.inverted()
+        print("--> inverted:", try await inverted.reduce(by: .average))
+        let invertedIsEqual: Bool = try await inverted.isEqual(to: image)
+        XCTAssertFalse(invertedIsEqual)
+
+        let original: AGGraphic = try await inverted.inverted()
+        print("--> original:", try await original.reduce(by: .average))
+        let originalIsEqual: Bool = try await original.isEqual(to: image)
+        XCTAssertTrue(originalIsEqual)
+    }
 }

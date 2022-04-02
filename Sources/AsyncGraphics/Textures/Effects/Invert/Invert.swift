@@ -9,12 +9,12 @@ import Foundation
 import Metal
 import TextureMap
 
-public extension AGTexture {
+public extension AGGraphic {
     
-    func inverted() async throws -> AGTexture {
+    func inverted() async throws -> AGGraphic {
         
         let texture: MTLTexture = try await AGRenderer.render(as: "invert", texture: metalTexture, bits: bits)
         
-        return AGTexture(metalTexture: texture, bits: bits, colorSpace: colorSpace)
+        return AGGraphic(metalTexture: texture, bits: bits, colorSpace: colorSpace)
     }
 }

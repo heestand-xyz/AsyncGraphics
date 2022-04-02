@@ -10,9 +10,9 @@ import CoreGraphics
 import Metal
 import TextureMap
 
-public extension AGTexture {
+public extension AGGraphic {
     
-    static func image(_ image: TMImage) async throws -> AGTexture {
+    static func image(_ image: TMImage) async throws -> AGGraphic {
         
         let metalTexture: MTLTexture = try await image.texture
         
@@ -20,10 +20,10 @@ public extension AGTexture {
         
         let colorSpace: TMColorSpace = try image.colorSpace
         
-        return AGTexture(metalTexture: metalTexture, bits: bits, colorSpace: colorSpace)
+        return AGGraphic(metalTexture: metalTexture, bits: bits, colorSpace: colorSpace)
     }
     
-    static func image(named name: String, in bundle: Bundle = .main) async throws -> AGTexture {
+    static func image(named name: String, in bundle: Bundle = .main) async throws -> AGGraphic {
         
         let image = try bundle.image(named: name)
             
