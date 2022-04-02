@@ -11,29 +11,22 @@ import Metal
 import TextureMap
 
 public extension AGTexture {
- 
-    static func image(_ image: TMImage) async -> AGTexture {
+    
+    static func image(_ image: TMImage) async throws -> AGTexture {
         
-        let metalTexture: MTLTexture! = try? await image.texture
+        let metalTexture: MTLTexture = try await image.texture
         
-        let bits: TMBits = (try? image.bits) ?? ._8
+        let bits: TMBits = try image.bits
         
-        return AGTexture(metalTexture: metalTexture, bits: bits)
+        let colorSpace: TMColorSpace = try image.colorSpace
+        
+        return AGTexture(metalTexture: metalTexture, bits: bits, colorSpace: colorSpace)
     }
     
-    static func image(named name: String) async -> AGTexture {
+    static func image(named name: String, in bundle: Bundle = .main) async throws -> AGTexture {
         
-        if let image = TMImage(named: name) {
+        let image = try bundle.image(named: name)
             
-            return await .image(image)
-            
-        } else {
-            
-            let resolution = LiveGraphics.fallbackResolution
-            
-            let metalTexture: MTLTexture! = try? await TextureMap.emptyTexture(size: resolution, bits: ._8)
-            
-            return AGTexture(metalTexture: metalTexture, bits: ._8)
-        }
+        return try await .image(image)
     }
 }

@@ -17,9 +17,9 @@ fragment float4 invert(VertexOut vertexOut [[stage_in]],
                        texture2d<float> texture [[ texture(0) ]],
                        sampler sampler [[ sampler(0) ]]) {
     
-//    float u = vertexOut.texCoord[0];
-//    float v = vertexOut.texCoord[1];
-//    float2 uv = float2(u, v);
+    float u = vertexOut.texCoord[0];
+    float v = vertexOut.texCoord[1];
+    float2 uv = float2(u, v);
     
     float4 color = texture.sample(sampler, uv);
     

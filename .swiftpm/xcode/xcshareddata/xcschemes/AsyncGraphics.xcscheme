@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AsyncGraphics"
-               BuildableName = "AsyncGraphics"
-               BlueprintName = "AsyncGraphics"
+               BlueprintIdentifier = "AsyncGraphics_AsyncGraphics"
+               BuildableName = "AsyncGraphics_AsyncGraphics"
+               BlueprintName = "AsyncGraphics_AsyncGraphics"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -31,6 +31,34 @@
                BlueprintIdentifier = "AsyncGraphics_AsyncGraphicsTests"
                BuildableName = "AsyncGraphics_AsyncGraphicsTests"
                BlueprintName = "AsyncGraphics_AsyncGraphicsTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AsyncGraphics"
+               BuildableName = "AsyncGraphics"
+               BlueprintName = "AsyncGraphics"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AsyncGraphicsTests"
+               BuildableName = "AsyncGraphicsTests"
+               BlueprintName = "AsyncGraphicsTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -74,9 +102,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AsyncGraphics"
-            BuildableName = "AsyncGraphics"
-            BlueprintName = "AsyncGraphics"
+            BlueprintIdentifier = "AsyncGraphics_AsyncGraphics"
+            BuildableName = "AsyncGraphics_AsyncGraphics"
+            BlueprintName = "AsyncGraphics_AsyncGraphics"
             ReferencedContainer = "container:">
          </BuildableReference>
       </MacroExpansion>

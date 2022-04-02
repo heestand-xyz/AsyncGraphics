@@ -6,19 +6,39 @@
 //
 
 import Foundation
+import CoreGraphics
 import Metal
 import TextureMap
 
 public struct AGTexture {
     
-    public let metalTexture: MTLTexture!
+    public let metalTexture: MTLTexture
     
     public let bits: TMBits
+    public let colorSpace: TMColorSpace
+}
+
+// MARK: - Resolution
+
+extension AGTexture {
     
     public var resolution: CGSize {
         metalTexture.size
     }
 }
+
+// MARK: - Image
+
+extension AGTexture {
+    
+    public var image: TMImage {
+        get async throws {
+            try await metalTexture.image(colorSpace: colorSpace, bits: bits)
+        }
+    }
+}
+
+// MARK: - Equatable
 
 extension AGTexture: Equatable {
     

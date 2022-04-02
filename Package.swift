@@ -15,7 +15,8 @@ let package = Package(
             targets: ["AsyncGraphics"]),
     ],
     dependencies: [
-         .package(url: "https://github.com/heestand-xyz/TextureMap", from: "0.2.0"),
+//        .package(path: "../TextureMap")
+         .package(url: "https://github.com/heestand-xyz/TextureMap", from: "0.2.2"),
 //         .package(url: "https://github.com/heestand-xyz/CoreGraphicsExtensions", from: "1.2.1"),
 //         .package(url: "https://github.com/heestand-xyz/Logger", from: "0.2.1"),
     ],
@@ -25,7 +26,7 @@ let package = Package(
             dependencies: ["TextureMap"/*, "CoreGraphicsExtensions", "Logger"*/]),
         .testTarget(
             name: "AsyncGraphicsTests",
-            dependencies: ["AsyncGraphics"],
+            dependencies: ["AsyncGraphics", "TextureMap"],
             resources: [
                 .process("TestAssets.xcassets")
             ]),
