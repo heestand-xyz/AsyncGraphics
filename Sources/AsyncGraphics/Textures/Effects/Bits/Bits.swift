@@ -9,9 +9,9 @@ import Metal
 import TextureMap
 
 @available(iOS 14.0, tvOS 14, macOS 11, *)
-public extension AGGraphic {
+public extension Graphic {
     
-    func with(bits: TMBits) async throws -> AGGraphic {
+    func with(bits: TMBits) async throws -> Graphic {
         
         guard self.bits != bits else {
             return self
@@ -40,7 +40,7 @@ public extension AGGraphic {
                             
                             let texture = try TextureMap.texture(raw: &mappedChannels,
                                                                  size: resolution,
-                                                                 on: AGRenderer.metalDevice)
+                                                                 on: Renderer.metalDevice)
                             
                             DispatchQueue.main.async {
                                 continuation.resume(returning: texture)
@@ -60,7 +60,7 @@ public extension AGGraphic {
                             
                             let texture = try TextureMap.texture(raw: &mappedChannels,
                                                                  size: resolution,
-                                                                 on: AGRenderer.metalDevice)
+                                                                 on: Renderer.metalDevice)
                             
                             DispatchQueue.main.async {
                                 continuation.resume(returning: texture)
@@ -80,6 +80,6 @@ public extension AGGraphic {
             }
         }
         
-        return AGGraphic(metalTexture: bitTexture, bits: bits, colorSpace: colorSpace)
+        return Graphic(metalTexture: bitTexture, bits: bits, colorSpace: colorSpace)
     }
 }

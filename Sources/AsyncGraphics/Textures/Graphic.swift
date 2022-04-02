@@ -1,7 +1,4 @@
 //
-//  AGGraphic.swift
-//  
-//
 //  Created by Anton Heestand on 2022-03-29.
 //
 
@@ -11,7 +8,7 @@ import Metal
 import TextureMap
 import PixelColor
 
-public struct AGGraphic {
+public struct Graphic {
     
     public let metalTexture: MTLTexture
     
@@ -21,7 +18,7 @@ public struct AGGraphic {
 
 // MARK: - Resolution
 
-extension AGGraphic {
+extension Graphic {
     
     public var resolution: CGSize {
         metalTexture.size
@@ -30,7 +27,7 @@ extension AGGraphic {
 
 // MARK: - Image
 
-extension AGGraphic {
+extension Graphic {
     
     public var image: TMImage {
         get async throws {
@@ -41,9 +38,9 @@ extension AGGraphic {
 
 // MARK: - Pixels
 
-extension AGGraphic {
+extension Graphic {
     
-    enum AGGraphicPixelError: LocalizedError {
+    enum GraphicPixelError: LocalizedError {
         
         case noChannelsFound
         case badChannelCount
@@ -65,7 +62,7 @@ extension AGGraphic {
             let channels: [CGFloat] = try await channels
             
             guard !channels.isEmpty, channels.count >= 4 else {
-                throw AGGraphicPixelError.noChannelsFound
+                throw GraphicPixelError.noChannelsFound
             }
             
             return PixelColor(red: channels[0],
@@ -85,12 +82,12 @@ extension AGGraphic {
             let channels: [CGFloat] = try await channels
             
             guard !channels.isEmpty else {
-                throw AGGraphicPixelError.noChannelsFound
+                throw GraphicPixelError.noChannelsFound
             }
             
             let count = Int(resolution.width) * Int(resolution.height) * 4
             guard channels.count == count else {
-                throw AGGraphicPixelError.badChannelCount
+                throw GraphicPixelError.badChannelCount
             }
             
             var pixels: [[PixelColor]] = []
@@ -134,9 +131,9 @@ extension AGGraphic {
 
 // MARK: - Equal
 
-extension AGGraphic {
+extension Graphic {
     
-    public func isEqual(to texture: AGGraphic) async throws -> Bool {
+    public func isEqual(to texture: Graphic) async throws -> Bool {
         
         guard resolution == texture.resolution else {
             return false
@@ -148,6 +145,6 @@ extension AGGraphic {
 
 // MARK: - Greater
 
-//extension AGGraphic {
+//extension Graphic {
 //
 //}

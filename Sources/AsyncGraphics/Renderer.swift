@@ -1,5 +1,5 @@
 //
-//  AGRenderer.swift
+//  Renderer.swift
 //  LiveGraphics
 //
 //  Created by Anton Heestand on 2021-09-18.
@@ -9,7 +9,7 @@ import Foundation
 import MetalKit
 import TextureMap
 
-struct AGRenderer {
+struct Renderer {
     
     static let metalDevice: MTLDevice = {
         guard let device = MTLCreateSystemDefaultDevice() else {
@@ -18,7 +18,7 @@ struct AGRenderer {
         return device
     }()
     
-    enum AGRendererError: LocalizedError {
+    enum RendererError: LocalizedError {
         
         case failedToMakeVertexQuadBuffer
         case shaderFunctionNotFound(name: String)
@@ -56,11 +56,11 @@ struct AGRenderer {
                     let destinationTexture: MTLTexture = try TextureMap.emptyTexture(size: texture.size, bits: bits)
                     
                     guard let commandQueue = metalDevice.makeCommandQueue() else {
-                        throw AGRendererError.failedToMakeCommandQueue
+                        throw RendererError.failedToMakeCommandQueue
                     }
                     
                     guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {
-                        throw AGRendererError.failedToMakeCommandBuffer
+                        throw RendererError.failedToMakeCommandBuffer
                     }
                     
                     let commandEncoder: MTLRenderCommandEncoder = try commandEncoder(texture: destinationTexture, commandBuffer: commandBuffer)
@@ -118,7 +118,7 @@ struct AGRenderer {
 
 // MARK: - Pipeline
 
-extension AGRenderer {
+extension Renderer {
     
     static func pipeline(as shaderName: String) throws -> MTLRenderPipelineState {
         let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
@@ -133,7 +133,7 @@ extension AGRenderer {
 
 // MARK: - Command Encoder
 
-extension AGRenderer {
+extension Renderer {
     
     static func commandEncoder(texture: MTLTexture, commandBuffer: MTLCommandBuffer) throws -> MTLRenderCommandEncoder {
         let renderPassDescriptor = MTLRenderPassDescriptor()
@@ -141,7 +141,7 @@ extension AGRenderer {
         renderPassDescriptor.colorAttachments[0].loadAction = .clear
         renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 0)
         guard let commandEncoder: MTLRenderCommandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor) else {
-            throw AGRendererError.failedToMakeCommandEncoder
+            throw RendererError.failedToMakeCommandEncoder
         }
         return commandEncoder
     }
@@ -149,7 +149,7 @@ extension AGRenderer {
 
 // MARK: - Sampler
 
-extension AGRenderer {
+extension Renderer {
     
     static func sampler() throws -> MTLSamplerState {
         let samplerInfo = MTLSamplerDescriptor()
@@ -160,7 +160,7 @@ extension AGRenderer {
         samplerInfo.compareFunction = .never
         samplerInfo.mipFilter = .linear
         guard let sampler = metalDevice.makeSamplerState(descriptor: samplerInfo) else {
-            throw AGRendererError.failedToMakeSampler
+            throw RendererError.failedToMakeSampler
         }
         return sampler
     }
@@ -168,7 +168,7 @@ extension AGRenderer {
 
 // MARK: - Vertex Quad
 
-extension AGRenderer {
+extension Renderer {
     
     struct Vertex {
         let x, y: CGFloat
@@ -187,7 +187,7 @@ extension AGRenderer {
         let vertexBuffer: [Float] = vertices.flatMap(\.buffer)
         let dataSize = vertexBuffer.count * MemoryLayout.size(ofValue: vertexBuffer[0])
         guard let buffer = metalDevice.makeBuffer(bytes: vertexBuffer, length: dataSize, options: []) else {
-            throw AGRendererError.failedToMakeVertexQuadBuffer
+            throw RendererError.failedToMakeVertexQuadBuffer
         }
         return buffer
     }
@@ -195,12 +195,12 @@ extension AGRenderer {
 
 // MARK: - Shader
 
-extension AGRenderer {
+extension Renderer {
     
     static func shader(name: String) throws -> MTLFunction {
         let metalLibrary: MTLLibrary = try metalDevice.makeDefaultLibrary(bundle: .module)
         guard let shader = metalLibrary.makeFunction(name: name) else {
-            throw AGRendererError.shaderFunctionNotFound(name: name)
+            throw RendererError.shaderFunctionNotFound(name: name)
         }
         return shader
     }

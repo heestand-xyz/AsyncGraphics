@@ -6,7 +6,7 @@ import MetalPerformanceShaders
 import TextureMap
 import PixelColor
 
-public extension AGGraphic {
+public extension Graphic {
     
     enum SampleAxis {
         case x
@@ -42,7 +42,7 @@ public extension AGGraphic {
     /// Reduction in sample axis x, gives you a column
     ///
     /// Reduction in sample axis y, gives you a row
-    func reduce(by sampleMethod: SampleMethod, in sampleAxis: SampleAxis) async throws -> AGGraphic {
+    func reduce(by sampleMethod: SampleMethod, in sampleAxis: SampleAxis) async throws -> Graphic {
         
         let reducedTexture: MTLTexture = try await withCheckedThrowingContinuation { continuation in
             
@@ -50,12 +50,12 @@ public extension AGGraphic {
                 
                 do {
                     
-                    guard let commandQueue = AGRenderer.metalDevice.makeCommandQueue() else {
-                        throw AGRenderer.AGRendererError.failedToMakeCommandQueue
+                    guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else {
+                        throw Renderer.RendererError.failedToMakeCommandQueue
                     }
                     
                     guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {
-                        throw AGRenderer.AGRendererError.failedToMakeCommandBuffer
+                        throw Renderer.RendererError.failedToMakeCommandBuffer
                     }
          
                     let texture: MTLTexture = try TextureMap.emptyTexture(size: resolution(in: sampleAxis), bits: bits, usage: .write)
@@ -77,7 +77,7 @@ public extension AGGraphic {
             }
         }
         
-        return AGGraphic(metalTexture: reducedTexture, bits: bits, colorSpace: colorSpace)
+        return Graphic(metalTexture: reducedTexture, bits: bits, colorSpace: colorSpace)
     }
     
     private func resolution(in sampleAxis: SampleAxis) -> CGSize {
@@ -91,7 +91,7 @@ public extension AGGraphic {
     
     private func kernel(by sampleMethod: SampleMethod, in sampleAxis: SampleAxis) -> MPSImageReduceUnary {
         
-        let device: MTLDevice = AGRenderer.metalDevice
+        let device: MTLDevice = Renderer.metalDevice
         
         switch sampleAxis {
         case .x:
