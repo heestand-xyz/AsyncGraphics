@@ -52,18 +52,25 @@ final class LiveGraphicsTests: XCTestCase {
     }
     
     func testInvert() async throws {
-
+        
         let image: Graphic = try await .image(named: "Kite", in: .module)
-        print("--> image:", try await image.reduce(by: .average))
-
+        
         let inverted: Graphic = try await image.inverted()
-        print("--> inverted:", try await inverted.reduce(by: .average))
         let invertedIsEqual: Bool = try await inverted.isEqual(to: image)
         XCTAssertFalse(invertedIsEqual)
-
+        
         let original: Graphic = try await inverted.inverted()
-        print("--> original:", try await original.reduce(by: .average))
         let originalIsEqual: Bool = try await original.isEqual(to: image)
         XCTAssertTrue(originalIsEqual)
+    }
+    
+    func testBlend() async throws {
+        
+        let image1: Graphic = try await .image(named: "Kite", in: .module)
+        let image2: Graphic = try await .image(named: "City", in: .module)
+        
+        #warning("Resolution is not the same")
+        
+        let blended: Graphic = try await image1.blended(.add, with: image2)
     }
 }

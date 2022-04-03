@@ -13,7 +13,7 @@ public extension Graphic {
     
     func inverted() async throws -> Graphic {
         
-        let texture: MTLTexture = try await Renderer.render(as: "invert", texture: metalTexture, bits: bits)
+        let texture: MTLTexture = try await Renderer.render(as: "invert", textures: [metalTexture], bits: bits)
         
         return Graphic(metalTexture: texture, bits: bits, colorSpace: colorSpace)
     }

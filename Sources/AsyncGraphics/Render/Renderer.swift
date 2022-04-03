@@ -26,6 +26,7 @@ struct Renderer {
         case failedToMakeCommandEncoder
         case failedToMakeCommandQueue
         case failedToMakeSampler
+        case failedToMakeUniformBuffer
         
         var errorDescription: String? {
             switch self {
@@ -41,19 +42,23 @@ struct Renderer {
                 return "Async Graphics - Renderer - Failed to Make Command Queue"
             case .failedToMakeSampler:
                 return "Async Graphics - Renderer - Failed to Make Sampler"
+            case .failedToMakeUniformBuffer:
+                return "Async Graphics - Renderer - Failed to Make Uniform Buffer"
             }
         }
     }
     
-    static func render(as shaderName: String, texture: MTLTexture, bits: TMBits) async throws -> MTLTexture {
+    static func render(as shaderName: String, textures: [MTLTexture], uniforms: [Uniform] = [], bits: TMBits) async throws -> MTLTexture {
         
-        try await withCheckedThrowingContinuation { continuation in
+        precondition(!textures.isEmpty)
+        
+        return try await withCheckedThrowingContinuation { continuation in
             
             DispatchQueue.global(qos: .userInteractive).async {
                 
                 do {
                     
-                    let destinationTexture: MTLTexture = try TextureMap.emptyTexture(size: texture.size, bits: bits)
+                    let destinationTexture: MTLTexture = try TextureMap.emptyTexture(size: textures.first!.size, bits: bits)
                     
                     guard let commandQueue = metalDevice.makeCommandQueue() else {
                         throw RendererError.failedToMakeCommandQueue
@@ -75,12 +80,26 @@ struct Renderer {
                         
                         commandEncoder.setRenderPipelineState(pipeline)
                         
-                        commandEncoder.setFragmentTexture(texture, index: 0)
-                        
+                        for (index, texture) in textures.enumerated() {
+                            commandEncoder.setFragmentTexture(texture, index: index)
+                        }
+
                         commandEncoder.setFragmentSamplerState(sampler, index: 0)
                         
                         commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
                         commandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 6, instanceCount: 1)
+                        
+                        if !uniforms.isEmpty {
+                            var uniformFloats: [CGFloat] = uniforms.flatMap(\.floats)
+                            let size = MemoryLayout<Float>.size * uniformFloats.count
+                            guard let uniformsBuffer = metalDevice.makeBuffer(length: size, options: []) else {
+                                commandEncoder.endEncoding()
+                                throw RendererError.failedToMakeUniformBuffer
+                            }
+                            let bufferPointer = uniformsBuffer.contents()
+                            memcpy(bufferPointer, &uniformFloats, size)
+                            commandEncoder.setFragmentBuffer(uniformsBuffer, offset: 0, index: 0)
+                        }
                         
                         commandEncoder.endEncoding()
                         
