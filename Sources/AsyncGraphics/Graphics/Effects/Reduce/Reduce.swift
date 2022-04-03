@@ -23,7 +23,7 @@ public extension Graphic {
     /// Reduce
     ///
     /// Reduction to a singe pixel
-    @available(iOS 14.0, tvOS 14, macOS 11, *)
+//    @available(iOS 14.0, tvOS 14, macOS 11, *)
     func reduce(by sampleMethod: SampleMethod) async throws -> PixelColor {
         
         let highBitGraphic = try await with(bits: ._16)
@@ -32,7 +32,7 @@ public extension Graphic {
                 
         let pixelGraphic = try await rowGraphic.reduce(by: sampleMethod, in: .x)
         
-        return try await pixelGraphic.firstPixel
+        return try await pixelGraphic.firstPixelColor
     }
     
     /// Reduce

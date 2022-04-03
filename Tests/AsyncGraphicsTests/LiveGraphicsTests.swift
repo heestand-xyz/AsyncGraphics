@@ -16,7 +16,7 @@ final class LiveGraphicsTests: XCTestCase {
         
         let imageTexture: Graphic = try await .image(named: "Kite", in: .module)
                 
-        let firstPixel: PixelColor = try await imageTexture.firstPixel
+        let firstPixel: PixelColor = try await imageTexture.firstPixelColor
         
         let firstColor = PixelColor(red: 0.4392156862745098,
                                     green: 0.2196078431372549,
@@ -35,7 +35,7 @@ final class LiveGraphicsTests: XCTestCase {
         XCTAssertEqual(reducedTexture.resolution.width, imageTexture.resolution.width)
         XCTAssertEqual(reducedTexture.resolution.height, 1)
         
-        let reducedBrightness: CGFloat = try await reducedTexture.firstPixel.brightness
+        let reducedBrightness: CGFloat = try await reducedTexture.firstPixelColor.brightness
         XCTAssertNotEqual(0.0, reducedBrightness)
     }
     
