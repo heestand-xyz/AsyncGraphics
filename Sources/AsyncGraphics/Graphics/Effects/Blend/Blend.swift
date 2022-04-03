@@ -8,7 +8,7 @@ import TextureMap
 
 public extension Graphic {
     
-    func blended(graphic: Graphic, with blendingMode: BlendingMode, at placement: Placement) async throws -> Graphic {
+    func blended(graphic: Graphic, blendingMode: BlendingMode, placement: Placement) async throws -> Graphic {
         
         let texture: MTLTexture = try await Renderer.render(
             as: "blend",

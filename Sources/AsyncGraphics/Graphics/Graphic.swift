@@ -146,23 +146,16 @@ extension Graphic {
 @available(iOS 14.0, tvOS 14, macOS 11, *)
 extension Graphic {
     
-    /// Compares all pixels, if just one pixel is not the same, the functions returns false
     public func isEqual(to graphic: Graphic) async throws -> Bool {
         
         guard resolution == graphic.resolution else {
             return false
         }
         
-        let difference = try await blended(graphic: graphic, with: .difference, at: .fit)
+        let difference = try await blended(graphic: graphic, blendingMode: .difference, placement: .stretch)
         
         let color = try await difference.averagePixelColor
-        
-        return color.brightness == 0.0
+                
+        return color.brightness < 0.000_1
     }
 }
-
-// MARK: - Greater
-
-//extension Graphic {
-//
-//}
