@@ -17,7 +17,7 @@ let package = Package(
     dependencies: [
 //        .package(path: "../TextureMap")
          .package(url: "https://github.com/heestand-xyz/TextureMap", exact: "0.3.0"),
-         .package(url: "https://github.com/heestand-xyz/PixelColor", exact: "1.3.2"),
+         .package(url: "https://github.com/heestand-xyz/PixelColor", exact: "1.3.3"),
 //         .package(url: "https://github.com/heestand-xyz/CoreGraphicsExtensions", from: "1.2.1"),
 //         .package(url: "https://github.com/heestand-xyz/Logger", from: "0.2.1"),
     ],

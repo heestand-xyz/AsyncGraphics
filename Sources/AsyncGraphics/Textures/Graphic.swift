@@ -55,7 +55,7 @@ extension Graphic {
         }
     }
     
-    public var firstPixel: PixelColor {
+    public var firstPixelColor: PixelColor {
 
         get async throws {
             
@@ -69,6 +69,18 @@ extension Graphic {
                               green: channels[1],
                               blue: channels[2],
                               alpha: channels[3])
+        }
+    }
+    
+    public var averagePixelColor: PixelColor {
+        
+        get async throws {
+            
+            let pixels: [PixelColor] = try await pixels.flatMap { $0 }
+            
+            let color: PixelColor = pixels.reduce(.clear, +) / CGFloat(pixels.count)
+            
+            return color
         }
     }
     
