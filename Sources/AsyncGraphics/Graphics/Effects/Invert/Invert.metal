@@ -1,7 +1,4 @@
 //
-//  ImageBlending.metal
-//  Metal Image Blending
-//
 //  Created by Anton Heestand on 2021-09-18.
 //
 

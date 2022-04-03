@@ -42,7 +42,7 @@ public extension Graphic {
     /// Reduction in sample axis y, gives you a row
     func reduce(by sampleMethod: SampleMethod, in sampleAxis: SampleAxis) async throws -> Graphic {
                 
-        let reducedTexture: MTLTexture = try await withCheckedThrowingContinuation { continuation in
+        let texture: MTLTexture = try await withCheckedThrowingContinuation { continuation in
             
             DispatchQueue.global(qos: .userInteractive).async {
                 
@@ -60,7 +60,7 @@ public extension Graphic {
                     
                     let kernel: MPSImageReduceUnary = kernel(by: sampleMethod, in: sampleAxis)
 
-                    kernel.encode(commandBuffer: commandBuffer, sourceTexture: metalTexture, destinationTexture: texture)
+                    kernel.encode(commandBuffer: commandBuffer, sourceTexture: texture, destinationTexture: texture)
                     
                     DispatchQueue.main.async {
                         continuation.resume(returning: texture)
@@ -75,7 +75,7 @@ public extension Graphic {
             }
         }
         
-        return Graphic(metalTexture: reducedTexture, bits: bits, colorSpace: colorSpace)
+        return Graphic(texture: texture, bits: bits, colorSpace: colorSpace)
     }
     
     private func resolution(in sampleAxis: SampleAxis) -> CGSize {

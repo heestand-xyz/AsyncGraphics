@@ -10,7 +10,7 @@ import PixelColor
 
 public struct Graphic {
     
-    public let metalTexture: MTLTexture
+    public let texture: MTLTexture
     
     public let bits: TMBits
     public let colorSpace: TMColorSpace
@@ -21,7 +21,7 @@ public struct Graphic {
 extension Graphic {
     
     public var resolution: CGSize {
-        metalTexture.size
+        texture.size
     }
 }
 
@@ -31,7 +31,7 @@ extension Graphic {
     
     public var image: TMImage {
         get async throws {
-            try await metalTexture.image(colorSpace: colorSpace, bits: bits)
+            try await texture.image(colorSpace: colorSpace, bits: bits)
         }
     }
 }
@@ -136,7 +136,7 @@ extension Graphic {
         
         get async throws {
             
-            try await TextureMap.rawNormalized(texture: metalTexture, bits: bits)
+            try await TextureMap.rawNormalized(texture: texture, bits: bits)
         }
     }
 }

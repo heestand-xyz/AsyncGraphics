@@ -11,18 +11,19 @@ public extension Graphic {
     func blended(graphic: Graphic, blendingMode: BlendingMode, placement: Placement) async throws -> Graphic {
         
         let texture: MTLTexture = try await Renderer.render(
-            as: "blend",
+            shaderName: "blend",
             textures: [
-                metalTexture,
-                graphic.metalTexture
+                texture,
+                graphic.texture
             ],
             uniforms: [
                 blendingMode.index,
                 placement.index,
             ],
+            resolution: resolution,
             bits: bits
         )
         
-        return Graphic(metalTexture: texture, bits: bits, colorSpace: colorSpace)
+        return Graphic(texture: texture, bits: bits, colorSpace: colorSpace)
     }
 }

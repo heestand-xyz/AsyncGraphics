@@ -68,7 +68,12 @@ final class LiveGraphicsTests: XCTestCase {
         
         let image1: Graphic = try await .image(named: "Kite", in: .module)
         let image2: Graphic = try await .image(named: "City", in: .module)
-                
+        
         _ = try await image1.blended(graphic: image2, blendingMode: .add, placement: .fill)
+    }
+    
+    func testCircle() async throws {
+        
+        _ = try await Graphic.circle(size: CGSize(width: 1920, height: 1080))
     }
 }

@@ -14,13 +14,13 @@ public extension Graphic {
     
     static func image(_ image: TMImage) async throws -> Graphic {
         
-        let metalTexture: MTLTexture = try await image.texture
+        let texture: MTLTexture = try await image.texture
         
         let bits: TMBits = try image.bits
         
         let colorSpace: TMColorSpace = try image.colorSpace
         
-        return Graphic(metalTexture: metalTexture, bits: bits, colorSpace: colorSpace)
+        return Graphic(texture: texture, bits: bits, colorSpace: colorSpace)
     }
     
     static func image(named name: String, in bundle: Bundle = .main) async throws -> Graphic {

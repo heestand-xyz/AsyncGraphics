@@ -48,17 +48,19 @@ struct Renderer {
         }
     }
     
-    static func render(as shaderName: String, textures: [MTLTexture], uniforms: [Uniform] = [], bits: TMBits) async throws -> MTLTexture {
-        
-        precondition(!textures.isEmpty)
-        
+    static func render(shaderName: String,
+                       textures: [MTLTexture] = [],
+                       uniforms: [Uniform] = [],
+                       resolution: CGSize,
+                       bits: TMBits) async throws -> MTLTexture {
+
         return try await withCheckedThrowingContinuation { continuation in
             
             DispatchQueue.global(qos: .userInteractive).async {
                 
                 do {
                     
-                    let destinationTexture: MTLTexture = try TextureMap.emptyTexture(size: textures.first!.size, bits: bits)
+                    let destinationTexture: MTLTexture = try TextureMap.emptyTexture(size: resolution, bits: bits)
                     
                     guard let commandQueue = metalDevice.makeCommandQueue() else {
                         throw RendererError.failedToMakeCommandQueue
@@ -85,14 +87,14 @@ struct Renderer {
                         }
 
                         if !uniforms.isEmpty {
-                            var uniforms: [Uniform] = uniforms
-                            let size = uniforms.map(\.size).reduce(0, +)
+                            var rawUniforms: [RawUniform] = uniforms.flatMap(\.rawUniforms)
+                            let size = rawUniforms.map(\.size).reduce(0, +)
                             guard let uniformsBuffer = metalDevice.makeBuffer(length: size, options: []) else {
                                 commandEncoder.endEncoding()
                                 throw RendererError.failedToMakeUniformBuffer
                             }
                             let bufferPointer = uniformsBuffer.contents()
-                            memcpy(bufferPointer, &uniforms, size)
+                            memcpy(bufferPointer, &rawUniforms, size)
                             commandEncoder.setFragmentBuffer(uniformsBuffer, offset: 0, index: 0)
                         }
                         

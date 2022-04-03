@@ -10,4 +10,7 @@
    <FileRef
       location = "group:../PixelColor">
    </FileRef>
+   <FileRef
+      location = "group:../CoreGraphicsExtensions">
+   </FileRef>
 </Workspace>
