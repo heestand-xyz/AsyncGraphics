@@ -7,4 +7,7 @@
    <FileRef
       location = "group:../TextureMap">
    </FileRef>
+   <FileRef
+      location = "group:../PixelColor">
+   </FileRef>
 </Workspace>
