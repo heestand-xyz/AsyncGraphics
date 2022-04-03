@@ -153,7 +153,7 @@ extension Graphic {
             return false
         }
         
-        let difference = try await blended(.difference, with: graphic)
+        let difference = try await blended(graphic: graphic, with: .difference, at: .fit)
         
         let color = try await difference.averagePixelColor
         

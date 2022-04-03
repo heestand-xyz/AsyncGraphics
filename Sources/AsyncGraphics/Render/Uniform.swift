@@ -8,21 +8,25 @@
 import CoreGraphics
 
 protocol Uniform {
-    
-    var floats: [CGFloat] { get }
+    var size: Int { get }
+}
+
+extension Bool: Uniform {
+    var size: Int { MemoryLayout<Bool>.size }
+}
+
+extension Int: Uniform {
+    var size: Int { MemoryLayout<Int>.size }
 }
 
 extension CGFloat: Uniform {
-    
-    var floats: [CGFloat] { [self] }
+    var size: Int { MemoryLayout<CGFloat>.size }
 }
 
 extension CGPoint: Uniform {
-    
-    var floats: [CGFloat] { [x, y] }
+    var size: Int { MemoryLayout<CGPoint>.size }
 }
 
 extension CGSize: Uniform {
-    
-    var floats: [CGFloat] { [width, height] }
+    var size: Int { MemoryLayout<CGSize>.size }
 }

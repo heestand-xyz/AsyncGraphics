@@ -84,22 +84,22 @@ struct Renderer {
                             commandEncoder.setFragmentTexture(texture, index: index)
                         }
 
-                        commandEncoder.setFragmentSamplerState(sampler, index: 0)
-                        
-                        commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
-                        commandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 6, instanceCount: 1)
-                        
                         if !uniforms.isEmpty {
-                            var uniformFloats: [CGFloat] = uniforms.flatMap(\.floats)
-                            let size = MemoryLayout<Float>.size * uniformFloats.count
+                            var uniforms: [Uniform] = uniforms
+                            let size = uniforms.map(\.size).reduce(0, +)
                             guard let uniformsBuffer = metalDevice.makeBuffer(length: size, options: []) else {
                                 commandEncoder.endEncoding()
                                 throw RendererError.failedToMakeUniformBuffer
                             }
                             let bufferPointer = uniformsBuffer.contents()
-                            memcpy(bufferPointer, &uniformFloats, size)
+                            memcpy(bufferPointer, &uniforms, size)
                             commandEncoder.setFragmentBuffer(uniformsBuffer, offset: 0, index: 0)
                         }
+                        
+                        commandEncoder.setFragmentSamplerState(sampler, index: 0)
+                        
+                        commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+                        commandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 6, instanceCount: 1)
                         
                         commandEncoder.endEncoding()
                         
@@ -143,7 +143,7 @@ extension Renderer {
         let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
         pipelineStateDescriptor.vertexFunction = try shader(name: "vertexQuad")
         pipelineStateDescriptor.fragmentFunction = try shader(name: shaderName)
-        pipelineStateDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
+        pipelineStateDescriptor.colorAttachments[0].pixelFormat = .rgba8Unorm
         pipelineStateDescriptor.colorAttachments[0].isBlendingEnabled = true
         pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = .blendAlpha
         return try metalDevice.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
@@ -198,10 +198,10 @@ extension Renderer {
     }
     
     static func vertexQuadBuffer() throws -> MTLBuffer {
-        let a = Vertex(x: -1.0, y: -1.0, s: 0.0, t: 0.0)
-        let b = Vertex(x: 1.0, y: -1.0, s: 1.0, t: 0.0)
-        let c = Vertex(x: -1.0, y: 1.0, s: 0.0, t: 1.0)
-        let d = Vertex(x: 1.0, y: 1.0, s: 1.0, t: 1.0)
+        let a = Vertex(x: -1.0, y: -1.0, s: 0.0, t: 1.0)
+        let b = Vertex(x: 1.0, y: -1.0, s: 1.0, t: 1.0)
+        let c = Vertex(x: -1.0, y: 1.0, s: 0.0, t: 0.0)
+        let d = Vertex(x: 1.0, y: 1.0, s: 1.0, t: 0.0)
         let vertices: [Vertex] = [a, b, c, b, c, d]
         let vertexBuffer: [Float] = vertices.flatMap(\.buffer)
         let dataSize = vertexBuffer.count * MemoryLayout.size(ofValue: vertexBuffer[0])
