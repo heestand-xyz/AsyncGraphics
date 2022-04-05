@@ -7,6 +7,7 @@ import CoreGraphics
 import Metal
 import TextureMap
 import PixelColor
+import CoreGraphicsExtensions
 
 public struct Graphic {
     
@@ -22,6 +23,10 @@ extension Graphic {
     
     public var resolution: CGSize {
         texture.size
+    }
+    
+    public var size: CGSize {
+        resolution / CGFloat.scale
     }
 }
 
