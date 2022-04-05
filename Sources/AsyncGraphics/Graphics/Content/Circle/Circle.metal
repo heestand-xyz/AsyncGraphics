@@ -24,8 +24,7 @@ struct Uniforms {
 };
 
 fragment float4 circle(VertexOut out [[stage_in]],
-                       const device Uniforms& uniforms [[ buffer(0) ]],
-                       sampler s [[ sampler(0) ]]) {
+                       const device Uniforms& uniforms [[ buffer(0) ]]) {
     
     float u = out.texCoord[0];
     float v = out.texCoord[1];
@@ -41,14 +40,8 @@ fragment float4 circle(VertexOut out [[stage_in]],
     if (edgeRadius < 0.0) {
         edgeRadius = 0.0;
     }
-    
-    return float4(foregroundColor.rgb, 1.0);
-    
-    return float4((u - 0.5) * uniforms.aspectRatio, v - 0.5, 0.0, 1.0);
-    
+            
     float radius = sqrt(pow((u - 0.5) * uniforms.aspectRatio - uniforms.position.x, 2) + pow(v - 0.5 - uniforms.position.y, 2));
-    
-    return float4(float3(radius), 1.0);
     
     if (edgeRadius > 0.0) {
         if (radius < uniforms.radius - edgeRadius / 2 - onePixel / 2) {

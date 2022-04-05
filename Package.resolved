@@ -1,12 +1,30 @@
 {
   "pins" : [
     {
+      "identity" : "coregraphicsextensions",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/heestand-xyz/CoreGraphicsExtensions",
+      "state" : {
+        "revision" : "a40dc230306daacb410f9a2f36f63a811ea2e88e",
+        "version" : "1.2.1"
+      }
+    },
+    {
+      "identity" : "pixelcolor",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/heestand-xyz/PixelColor",
+      "state" : {
+        "revision" : "04d2444fc288edc5fa5cbfd85bbbc9128b63e6db",
+        "version" : "1.3.4"
+      }
+    },
+    {
       "identity" : "texturemap",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/heestand-xyz/TextureMap",
       "state" : {
-        "revision" : "382dd6592132461b5cebdee6c3959ccf37050de9",
-        "version" : "0.2.2"
+        "revision" : "34781125ed9bb07744ca7d63fc4ce75334d09aa0",
+        "version" : "0.3.0"
       }
     }
   ],

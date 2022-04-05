@@ -48,11 +48,25 @@ struct Renderer {
         }
     }
     
+    struct EmptyUniforms {}
+    
     static func render(shaderName: String,
                        textures: [MTLTexture] = [],
-                       uniforms: [Uniform] = [],
                        resolution: CGSize,
                        bits: TMBits) async throws -> MTLTexture {
+        
+        try await render(shaderName: shaderName,
+                         textures: textures,
+                         uniforms: EmptyUniforms(),
+                         resolution: resolution,
+                         bits: bits)
+    }
+    
+    static func render<Uniforms>(shaderName: String,
+                                 textures: [MTLTexture] = [],
+                                 uniforms: Uniforms,
+                                 resolution: CGSize,
+                                 bits: TMBits) async throws -> MTLTexture {
 
         return try await withCheckedThrowingContinuation { continuation in
             
@@ -82,23 +96,41 @@ struct Renderer {
                         
                         commandEncoder.setRenderPipelineState(pipeline)
                         
-                        for (index, texture) in textures.enumerated() {
-                            commandEncoder.setFragmentTexture(texture, index: index)
+                        if !textures.isEmpty {
+                            
+                            for (index, texture) in textures.enumerated() {
+                                commandEncoder.setFragmentTexture(texture, index: index)
+                            }
+                            
+                            commandEncoder.setFragmentSamplerState(sampler, index: 0)
                         }
 
-                        if !uniforms.isEmpty {
-                            var rawUniforms: [RawUniform] = uniforms.flatMap(\.rawUniforms)
-                            let size = rawUniforms.map(\.size).reduce(0, +)
+                        if uniforms is EmptyUniforms == false {
+                            var uniforms: Uniforms = uniforms
+//                            var rawFloats: [Float] = rawUniforms.compactMap({ $0 as? Float })
+//                            var rawUniforms: [RawUniform] = uniforms.flatMap(\.rawUniforms)
+//                            var rawUniforms: [RawUniform] = []
+//                            let maxSize = uniforms.map(\.size).max()!
+//                            for uniform in uniforms {
+//                                print("-->", uniform.size, uniform)
+//                                let floatCount = (maxSize - uniform.size) / 4
+//                                print("floatCount:", floatCount)
+//                                for _ in 0..<floatCount {
+//                                    print(".")
+//                                    rawUniforms.append(Float(0))
+//                                }
+//                                rawUniforms.append(contentsOf: uniform.rawUniforms)
+//                            }
+//                            let size = rawFloats.map(\.size).reduce(0, +)
+                            let size = MemoryLayout<Uniforms>.size
                             guard let uniformsBuffer = metalDevice.makeBuffer(length: size, options: []) else {
                                 commandEncoder.endEncoding()
                                 throw RendererError.failedToMakeUniformBuffer
                             }
                             let bufferPointer = uniformsBuffer.contents()
-                            memcpy(bufferPointer, &rawUniforms, size)
+                            memcpy(bufferPointer, &uniforms, size)
                             commandEncoder.setFragmentBuffer(uniformsBuffer, offset: 0, index: 0)
                         }
-                        
-                        commandEncoder.setFragmentSamplerState(sampler, index: 0)
                         
                         commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
                         commandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 6, instanceCount: 1)
