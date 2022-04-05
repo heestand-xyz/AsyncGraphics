@@ -107,28 +107,10 @@ struct Renderer {
 
                         if uniforms is EmptyUniforms == false {
                             var uniforms: Uniforms = uniforms
-//                            var rawFloats: [Float] = rawUniforms.compactMap({ $0 as? Float })
-//                            var rawUniforms: [RawUniform] = uniforms.flatMap(\.rawUniforms)
-//                            var rawUniforms: [RawUniform] = []
-//                            let maxSize = uniforms.map(\.size).max()!
-//                            for uniform in uniforms {
-//                                print("-->", uniform.size, uniform)
-//                                let floatCount = (maxSize - uniform.size) / 4
-//                                print("floatCount:", floatCount)
-//                                for _ in 0..<floatCount {
-//                                    print(".")
-//                                    rawUniforms.append(Float(0))
-//                                }
-//                                rawUniforms.append(contentsOf: uniform.rawUniforms)
-//                            }
-//                            let size = rawFloats.map(\.size).reduce(0, +)
                             let size = MemoryLayout<Uniforms>.size
-                            guard let uniformsBuffer = metalDevice.makeBuffer(length: size, options: []) else {
-                                commandEncoder.endEncoding()
+                            guard let uniformsBuffer = metalDevice.makeBuffer(bytes: &uniforms, length: size) else {
                                 throw RendererError.failedToMakeUniformBuffer
                             }
-                            let bufferPointer = uniformsBuffer.contents()
-                            memcpy(bufferPointer, &uniforms, size)
                             commandEncoder.setFragmentBuffer(uniformsBuffer, offset: 0, index: 0)
                         }
                         

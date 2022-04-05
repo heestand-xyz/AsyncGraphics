@@ -13,13 +13,13 @@ struct VertexOut {
 
 struct Uniforms {
     float radius;
-    float2 position;
+    packed_float2 position;
     float edgeRadius;
-    float4 foregroundColor;
-    float4 edgeColor;
-    float4 backgroundColor;
+    packed_float4 foregroundColor;
+    packed_float4 edgeColor;
+    packed_float4 backgroundColor;
     bool premultiply;
-    float2 resolution;
+    packed_float2 resolution;
     float aspectRatio;
 };
 
@@ -35,7 +35,7 @@ fragment float4 circle(VertexOut out [[stage_in]],
     float4 backgroundColor = uniforms.backgroundColor;
     
     float4 color = backgroundColor;
-    
+        
     float edgeRadius = uniforms.edgeRadius;
     if (edgeRadius < 0.0) {
         edgeRadius = 0.0;

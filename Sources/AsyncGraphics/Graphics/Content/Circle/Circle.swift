@@ -2,6 +2,7 @@
 //  Created by Anton Heestand on 2022-04-03.
 //
 
+//import simd
 import CoreGraphics
 import CoreGraphicsExtensions
 import PixelColor
@@ -18,21 +19,30 @@ public extension Graphic {
         let premultiply: Bool
         let resolution: SizeUniform
         let aspectRatio: Float
+//        let radius: Float
+//        let position: SIMD2<Float>
+//        let edgeRadius: Float
+//        let foregroundColor: SIMD4<Float>
+//        let edgeColor: SIMD4<Float>
+//        let backgroundColor: SIMD4<Float>
+//        let premultiply: Bool
+//        let resolution: SIMD2<Float>
+//        let aspectRatio: Float
     }
 
-    static func circle(color: PixelColor = .white,
-                       backgroundColor: PixelColor = .black,
-                       size: CGSize,
-                       frame: CGRect) async throws -> Graphic {
+    static func circle(size: CGSize,
+                       radius: CGFloat? = nil,
+                       center: CGPoint? = nil,
+                       color: PixelColor = .white,
+                       backgroundColor: PixelColor = .black) async throws -> Graphic {
         
         let resolution: CGSize = size.resolution
         
-        let radius: CGFloat = min(frame.width, frame.height) / 2
+        let radius: CGFloat = radius ?? min(size.width, size.height) / 2
         let relativeRadius: CGFloat = radius / size.height
         
-        let position: CGPoint = frame.center
-        let relativePosition: CGPoint = (position - size / 2) / size.height
-        #warning("Flip Y")
+        let center: CGPoint = center?.flipY(size: size) ?? (size / 2).asPoint
+        let relativePosition: CGPoint = (center - size / 2) / size.height
         
         let edgeRadius: CGFloat = 0.0
         let edgeColor: PixelColor = .clear
