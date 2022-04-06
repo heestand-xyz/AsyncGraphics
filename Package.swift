@@ -18,11 +18,12 @@ let package = Package(
          .package(url: "https://github.com/heestand-xyz/TextureMap", exact: "0.3.0"),
          .package(url: "https://github.com/heestand-xyz/PixelColor", exact: "1.3.4"),
          .package(url: "https://github.com/heestand-xyz/CoreGraphicsExtensions", from: "1.2.1"),
+         .package(url: "https://github.com/heestand-xyz/VideoFrames", from: "0.1.0"),
     ],
     targets: [
         .target(
             name: "AsyncGraphics",
-            dependencies: ["TextureMap", "PixelColor", "CoreGraphicsExtensions"]),
+            dependencies: ["TextureMap", "PixelColor", "CoreGraphicsExtensions", "VideoFrames"]),
         .testTarget(
             name: "AsyncGraphicsTests",
             dependencies: ["AsyncGraphics", "TextureMap", "PixelColor"],
