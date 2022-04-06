@@ -10,3 +10,4 @@ DerivedData/
 
 *.xcworkspace
 Package.resolved
+.swiftpm/*
