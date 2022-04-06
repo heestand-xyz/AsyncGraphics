@@ -9,7 +9,7 @@ It's like an image, tho it can be used with various *async* methods.
 ## Swift Package
 
 ```swift
-.package(url: "https://github.com/heestand-xyz/AsyncGraphics", from: "#.#.#")
+.package(url: "https://github.com/heestand-xyz/AsyncGraphics", from: "0.1.0")
 ```
 
 ```swift
