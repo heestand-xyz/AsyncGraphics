@@ -124,12 +124,10 @@ func blended(with graphic: Graphic, blendingMode: BlendingMode, placement: Place
 *Example:*
 
 ```swift
-let blended: Graphic = try await someGraphic.blended(with: otherGraphic, 
-                                                     blendingMode: .multiply, 
-                                                     placement: .fit) 
+let blended: Graphic = try await someGraphic.blended(with: otherGraphic, blendingMode: .multiply) 
 ```
 
-### Blend
+### Displace
 
 ```swift
 func displaced(with graphic: Graphic, offset: CGFloat, origin: PixelColor = .gray, placement: Placement = .fill) async throws -> Graphic
