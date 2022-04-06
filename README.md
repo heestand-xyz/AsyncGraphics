@@ -136,7 +136,7 @@ func displaced(with graphic: Graphic, offset: CGFloat, origin: PixelColor = .gra
 *Example:*
 
 ```swift
-let displaced: Graphic = try await someGraphic.displaced(graphic: otherGraphic, offset: 100.0) 
+let displaced: Graphic = try await someGraphic.displaced(with: otherGraphic, offset: 100.0) 
 ```
 
 
