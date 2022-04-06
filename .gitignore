@@ -9,3 +9,4 @@ DerivedData/
 .netrc
 
 *.xcworkspace
+Package.resolved
