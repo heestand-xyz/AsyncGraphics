@@ -30,11 +30,11 @@ public extension Graphic {
 //        let aspectRatio: Float
     }
 
-    static func circle(size: CGSize,
-                       radius: CGFloat? = nil,
+    static func circle(radius: CGFloat? = nil,
                        center: CGPoint? = nil,
                        color: PixelColor = .white,
-                       backgroundColor: PixelColor = .black) async throws -> Graphic {
+                       backgroundColor: PixelColor = .black,
+                       size: CGSize) async throws -> Graphic {
         
         let resolution: CGSize = size.resolution
         

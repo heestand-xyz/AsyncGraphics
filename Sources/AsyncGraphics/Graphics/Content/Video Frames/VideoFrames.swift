@@ -8,9 +8,9 @@ import TextureMap
 
 public extension Array where Element == Graphic {
     
-    static func frames(videoURL: URL) async throws -> [Graphic] {
+    static func videoFrames(url: URL) async throws -> [Graphic] {
         
-        let images: [TMImage] = try await convertVideoToFrames(from: videoURL)
+        let images: [TMImage] = try await convertVideoToFrames(from: url)
                 
         let graphics: [Graphic] = try await withThrowingTaskGroup(of: (Int, Graphic).self) { group in
         
