@@ -3,19 +3,21 @@
 The core value type in **AsyncGraphics** is a `Graphic`.<br>
 It's like an image, tho it can be used with various *async* methods.  
 
+
 ## Swift Package
 
 ```swift
 .package(url: "https://github.com/heestand-xyz/AsyncGraphics", from: "#.#.#")
 ```
 
-## Graphic
-
-A `Graphic` can be created with static funcs e.g. `Graphic.image(named:)` or `Graphic.circle(size:radius:center:)`.
-
 ```swift
 import AsyncGraphics
 ```
+
+
+## Graphic Content
+
+A `Graphic` can be created with static funcs e.g. `Graphic.image(named:)` or `Graphic.circle(size:radius:center:)`.
 
 ### Color
 
@@ -92,4 +94,60 @@ static func videoFrames(url: URL) async throws -> [Graphic]
 ```swift
 guard let url: URL = Bundle.main.url(forResource: "Video", withExtension: "mov") else { return }
 let frames: [Graphic] = try await .videoFrames(url: url)
+```
+
+
+## Graphic Effects
+
+A `Graphic` can be modified with effect funcs e.g. `.inverted()` or `.blend(graphic:blendingMode:placement:)`.
+
+### Invert
+
+```swift
+func inverted() async throws -> Graphic
+```
+
+*Example:*
+
+```swift
+let inverted: Graphic = try await someGraphic.inverted() 
+```
+
+### Blend
+
+```swift
+func blended(graphic: Graphic, blendingMode: BlendingMode, placement: Placement) async throws -> Graphic
+```
+
+*Example:*
+
+```swift
+let blended: Graphic = try await someGraphic.blended(graphic: otherGraphic, 
+                                                     blendingMode: .multiply, 
+                                                     placement: .fit) 
+```
+
+
+## Graphic Export
+
+A `Graphic` can be exported to a video with func `.video()`.
+
+### Invert
+
+```swift
+func video(fps: Int = 30, kbps: Int = 1_000, format: VideoFormat = .mov) async throws -> Data {
+```
+
+*Examples:*
+
+```
+let frames: [Graphic] = ...
+```
+
+```swift
+let videoData: Data = try await frames.video(fps: 60, kbps: 750, format: .mp4) 
+```
+
+```swift
+let videoURL: URL = try await frames.video(fps: 24, kbps: 500, format: .mov) 
 ```
