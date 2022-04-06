@@ -63,7 +63,7 @@ let image: Graphic = try await .image(named: "Image")
 
 ### Circle
 
-<img src=".../CircleGraphic.png" width="125px"/>
+<img src="https://github.com/heestand-xyz/AsyncGraphics/blob/main/Assets/Graphics/CircleGraphic.png" width="125px"/>
 
 ```swift
 static func circle(radius: CGFloat? = nil, center: CGPoint? = nil, color: PixelColor = .white, backgroundColor: PixelColor = .black, size: CGSize) async throws -> Graphic
