@@ -2,9 +2,7 @@
 //  Created by Anton Heestand on 2022-04-03.
 //
 
-import Foundation
 import Metal
-import TextureMap
 
 public extension Graphic {
     
@@ -13,7 +11,9 @@ public extension Graphic {
         let placement: Int
     }
     
-    func blended(graphic: Graphic, blendingMode: BlendingMode, placement: Placement) async throws -> Graphic {
+    func blended(with graphic: Graphic,
+                 blendingMode: BlendingMode,
+                 placement: Placement) async throws -> Graphic {
         
         let texture: MTLTexture = try await Renderer.render(
             shaderName: "blend",

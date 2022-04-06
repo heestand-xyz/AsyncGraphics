@@ -5,8 +5,14 @@
 import CoreGraphics
 
 struct PointUniform {
+    
     let x: Float
     let y: Float
+}
+
+extension PointUniform {
+    
+    static let zero = PointUniform(x: 0.0, y: 0.0)
 }
 
 extension CGPoint {

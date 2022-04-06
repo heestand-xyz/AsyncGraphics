@@ -5,6 +5,7 @@
 import PixelColor
 
 struct ColorUniform {
+    
     let red: Float
     let green: Float
     let blue: Float

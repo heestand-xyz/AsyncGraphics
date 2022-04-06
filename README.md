@@ -17,7 +17,7 @@ import AsyncGraphics
 ```
 
 
-## Graphic Content
+## Graphic - Content
 
 A `Graphic` can be created with static funcs e.g. `Graphic.image(named:)` or `Graphic.circle(size:radius:center:)`.
 
@@ -99,7 +99,7 @@ let frames: [Graphic] = try await .videoFrames(url: url)
 ```
 
 
-## Graphic Effects
+## Graphic - Effects
 
 A `Graphic` can be modified with effect funcs e.g. `.inverted()` or `.blend(graphic:blendingMode:placement:)`.
 
@@ -118,19 +118,31 @@ let inverted: Graphic = try await someGraphic.inverted()
 ### Blend
 
 ```swift
-func blended(graphic: Graphic, blendingMode: BlendingMode, placement: Placement) async throws -> Graphic
+func blended(with graphic: Graphic, blendingMode: BlendingMode, placement: Placement) async throws -> Graphic
 ```
 
 *Example:*
 
 ```swift
-let blended: Graphic = try await someGraphic.blended(graphic: otherGraphic, 
+let blended: Graphic = try await someGraphic.blended(with: otherGraphic, 
                                                      blendingMode: .multiply, 
                                                      placement: .fit) 
 ```
 
+### Blend
 
-## Graphic Export
+```swift
+func displaced(with graphic: Graphic, offset: CGFloat, origin: PixelColor = .gray, placement: Placement = .fill) async throws -> Graphic
+```
+
+*Example:*
+
+```swift
+let displaced: Graphic = try await someGraphic.displaced(graphic: otherGraphic, offset: 100.0) 
+```
+
+
+## Graphic - Export
 
 A `Graphic` can be exported to a video with func `.video(fps:kbps:format:)`.
 
