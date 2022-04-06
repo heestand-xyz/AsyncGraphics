@@ -1,3 +1,5 @@
+<img src="https://github.com/heestand-xyz/AsyncGraphics/blob/main/Assets/AsyncGraphics-Icon.png?raw=true" width="256px"/>
+
 # AsyncGraphics
 
 The core value type in **AsyncGraphics** is a `Graphic`.<br>
