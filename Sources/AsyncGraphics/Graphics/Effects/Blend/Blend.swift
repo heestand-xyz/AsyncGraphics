@@ -8,6 +8,11 @@ import TextureMap
 
 public extension Graphic {
     
+    struct BlendUniforms {
+        let blendingMode: Int
+        let placement: Int
+    }
+    
     func blended(graphic: Graphic, blendingMode: BlendingMode, placement: Placement) async throws -> Graphic {
         
         let texture: MTLTexture = try await Renderer.render(
@@ -16,10 +21,10 @@ public extension Graphic {
                 texture,
                 graphic.texture
             ],
-            uniforms: [
-                blendingMode.index,
-                placement.index,
-            ],
+            uniforms: BlendUniforms(
+                blendingMode: blendingMode.index,
+                placement: placement.index
+            ),
             resolution: resolution,
             bits: bits
         )
