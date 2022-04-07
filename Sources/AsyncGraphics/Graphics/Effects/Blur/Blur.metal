@@ -66,11 +66,11 @@ fragment float4 blur(VertexOut out [[stage_in]],
                         float xu = u;
                         float yv = v;
                         if (aspect < 1.0) {
-                            xu += ((float(x) / iw) * radius) / count;
-                            yv += (((float(y) / iw) * radius) / count) * aspect;
+                            xu += ((float(x) / width) * radius) / count;
+                            yv += (((float(y) / width) * radius) / count) * aspect;
                         } else {
-                            xu += ((float(x) / ih) * radius) / count;
-                            yv += (((float(y) / ih) * radius) / count) * aspect;
+                            xu += ((float(x) / height) * radius) / count;
+                            yv += (((float(y) / height) * radius) / count) * aspect;
                         }
                         color += texture.sample(sampler, float2(xu, yv)) * amount;
                         amounts += amount;
@@ -89,11 +89,11 @@ fragment float4 blur(VertexOut out [[stage_in]],
                 float xu = u;
                 float yv = v;
                 if (aspect < 1.0) {
-                    xu += ((float(x) / iw) * cos(-angle) * radius) / count;
-                    yv += (((float(x) / iw) * sin(-angle) * radius) / count) * aspect;
+                    xu += ((float(x) / width) * cos(-angle) * radius) / count;
+                    yv += (((float(x) / width) * sin(-angle) * radius) / count) * aspect;
                 } else {
-                    xu += ((float(x) / ih) * cos(-angle) * radius) / count;
-                    yv += (((float(x) / ih) * sin(-angle) * radius) / count) * aspect;
+                    xu += ((float(x) / height) * cos(-angle) * radius) / count;
+                    yv += (((float(x) / height) * sin(-angle) * radius) / count) * aspect;
                 }
                 color += texture.sample(sampler, float2(xu, yv)) * amount;
                 amounts += amount;
@@ -110,11 +110,11 @@ fragment float4 blur(VertexOut out [[stage_in]],
                 float xu = u;
                 float yv = v;
                 if (aspect < 1.0) {
-                    xu += (((float(x) * (u - 0.5 - position.x)) / iw) * radius) / count;
-                    yv += ((((float(x) * (v - 0.5 + position.y)) / iw) * radius) / count);// * aspect;
+                    xu += (((float(x) * (u - 0.5 - position.x)) / width) * radius) / count;
+                    yv += ((((float(x) * (v - 0.5 + position.y)) / width) * radius) / count);// * aspect;
                 } else {
-                    xu += (((float(x) * (u - 0.5 - position.x)) / ih) * radius) / count;
-                    yv += ((((float(x) * (v - 0.5 + position.y)) / ih) * radius) / count);// * aspect;
+                    xu += (((float(x) * (u - 0.5 - position.x)) / height) * radius) / count;
+                    yv += ((((float(x) * (v - 0.5 + position.y)) / height) * radius) / count);// * aspect;
                 }
                 color += texture.sample(sampler, float2(xu, yv)) * amount;
                 amounts += amount;
@@ -132,11 +132,11 @@ fragment float4 blur(VertexOut out [[stage_in]],
     //                float xu = u;
     //                float yv = v;
     //                if (aspect < 1.0) {
-    //                    xu += ((float(x) / iw) * cos(atan2(v - 0.5 + position.y, u - 0.5 - position.x) + pi / 2) * radius) / count;
-    //                    yv += ((float(x) / iw) * sin(atan2(v - 0.5 + position.y, u - 0.5 - position.x) + pi / 2) * radius) / count;
+    //                    xu += ((float(x) / width) * cos(atan2(v - 0.5 + position.y, u - 0.5 - position.x) + pi / 2) * radius) / count;
+    //                    yv += ((float(x) / width) * sin(atan2(v - 0.5 + position.y, u - 0.5 - position.x) + pi / 2) * radius) / count;
     //                } else {
-    //                    xu += ((float(x) / ih) * cos(atan2(v - 0.5 + position.y, u - 0.5 - position.x) + pi / 2) * radius) / count;
-    //                    yv += ((float(x) / ih) * sin(atan2(v - 0.5 + position.y, u - 0.5 - position.x) + pi / 2) * radius) / count;
+    //                    xu += ((float(x) / height) * cos(atan2(v - 0.5 + position.y, u - 0.5 - position.x) + pi / 2) * radius) / count;
+    //                    yv += ((float(x) / height) * sin(atan2(v - 0.5 + position.y, u - 0.5 - position.x) + pi / 2) * radius) / count;
     //                }
     //                color += texture.sample(sampler, float2(xu, yv)) * amount;
     //                amounts += amount;
