@@ -8,7 +8,7 @@ import PixelColor
 
 public extension Graphic {
     
-    struct DisplaceUniforms {
+    private struct DisplaceUniforms {
         let offset: Float
         let origin: PointUniform
         let placement: Int
@@ -21,21 +21,17 @@ public extension Graphic {
         
         let relativeOffset: CGFloat = offset / size.height
         
-        let texture: MTLTexture = try await Renderer.render(
+        return try await Renderer.render(
             shaderName: "displace",
-            textures: [
-                texture,
-                graphic.texture
+            graphics: [
+                self,
+                graphic
             ],
             uniforms: DisplaceUniforms(
                 offset: Float(relativeOffset),
                 origin: PointUniform(x: Float(origin.red),
                                      y: Float(origin.green)),
-                placement: placement.index),
-            resolution: resolution,
-            bits: bits
+                placement: placement.index)
         )
-        
-        return Graphic(texture: texture, bits: bits, colorSpace: colorSpace)
     }
 }

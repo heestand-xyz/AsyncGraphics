@@ -6,7 +6,7 @@ import Metal
 
 public extension Graphic {
     
-    struct BlendUniforms {
+    private struct BlendUniforms {
         let blendingMode: Int
         let placement: Int
     }
@@ -15,20 +15,16 @@ public extension Graphic {
                  blendingMode: BlendingMode,
                  placement: Placement) async throws -> Graphic {
         
-        let texture: MTLTexture = try await Renderer.render(
+        try await Renderer.render(
             shaderName: "blend",
-            textures: [
-                texture,
-                graphic.texture
+            graphics: [
+                self,
+                graphic
             ],
             uniforms: BlendUniforms(
                 blendingMode: blendingMode.index,
                 placement: placement.index
-            ),
-            resolution: resolution,
-            bits: bits
+            )
         )
-        
-        return Graphic(texture: texture, bits: bits, colorSpace: colorSpace)
     }
 }

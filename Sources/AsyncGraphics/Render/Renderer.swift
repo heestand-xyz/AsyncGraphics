@@ -20,6 +20,7 @@ struct Renderer {
     
     enum RendererError: LocalizedError {
         
+        case badMetadata
         case failedToMakeVertexQuadBuffer
         case shaderFunctionNotFound(name: String)
         case failedToMakeCommandBuffer
@@ -30,6 +31,8 @@ struct Renderer {
         
         var errorDescription: String? {
             switch self {
+            case .badMetadata:
+                return "Async Graphics - Renderer - Bad Metadata"
             case .failedToMakeVertexQuadBuffer:
                 return "Async Graphics - Renderer - Failed to Make Vertex Quad Buffer"
             case .shaderFunctionNotFound(let name):
@@ -51,22 +54,31 @@ struct Renderer {
     struct EmptyUniforms {}
     
     static func render(shaderName: String,
-                       textures: [MTLTexture] = [],
-                       resolution: CGSize,
-                       bits: TMBits) async throws -> MTLTexture {
+                       graphics: [Graphic] = [],
+                       resolution: CGSize? = nil,
+                       colorSpace: TMColorSpace? = nil,
+                       bits: TMBits? = nil) async throws -> Graphic {
         
         try await render(shaderName: shaderName,
-                         textures: textures,
+                         graphics: graphics,
                          uniforms: EmptyUniforms(),
                          resolution: resolution,
+                         colorSpace: colorSpace,
                          bits: bits)
     }
     
     static func render<Uniforms>(shaderName: String,
-                                 textures: [MTLTexture] = [],
+                                 graphics: [Graphic] = [],
                                  uniforms: Uniforms,
-                                 resolution: CGSize,
-                                 bits: TMBits) async throws -> MTLTexture {
+                                 resolution: CGSize? = nil,
+                                 colorSpace: TMColorSpace? = nil,
+                                 bits: TMBits? = nil) async throws -> Graphic {
+        
+        guard let resolution: CGSize = resolution ?? graphics.first?.resolution,
+              let colorSpace: TMColorSpace = colorSpace ?? graphics.first?.colorSpace,
+              let bits: TMBits = bits ?? graphics.first?.bits else {
+            throw RendererError.badMetadata
+        }
 
         return try await withCheckedThrowingContinuation { continuation in
             
@@ -96,10 +108,10 @@ struct Renderer {
                         
                         commandEncoder.setRenderPipelineState(pipeline)
                         
-                        if !textures.isEmpty {
+                        if !graphics.isEmpty {
                             
-                            for (index, texture) in textures.enumerated() {
-                                commandEncoder.setFragmentTexture(texture, index: index)
+                            for (index, graphic) in graphics.enumerated() {
+                                commandEncoder.setFragmentTexture(graphic.texture, index: index)
                             }
                             
                             commandEncoder.setFragmentSamplerState(sampler, index: 0)
@@ -123,7 +135,11 @@ struct Renderer {
                             
                             DispatchQueue.main.async {
                                 
-                                continuation.resume(returning: destinationTexture)
+                                let graphic = Graphic(texture: destinationTexture,
+                                                      bits: bits,
+                                                      colorSpace: colorSpace)
+                                
+                                continuation.resume(returning: graphic)
                             }
                         }
                         

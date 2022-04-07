@@ -9,7 +9,7 @@ import PixelColor
 
 public extension Graphic {
     
-    struct CircleUniforms {
+    private struct CircleUniforms {
         let radius: Float
         let position: PointUniform
         let edgeRadius: Float
@@ -19,15 +19,6 @@ public extension Graphic {
         let premultiply: Bool
         let resolution: SizeUniform
         let aspectRatio: Float
-//        let radius: Float
-//        let position: SIMD2<Float>
-//        let edgeRadius: Float
-//        let foregroundColor: SIMD4<Float>
-//        let edgeColor: SIMD4<Float>
-//        let backgroundColor: SIMD4<Float>
-//        let premultiply: Bool
-//        let resolution: SIMD2<Float>
-//        let aspectRatio: Float
     }
 
     static func circle(radius: CGFloat? = nil,
@@ -49,7 +40,7 @@ public extension Graphic {
 
         let premultiply: Bool = true
         
-        let texture = try await Renderer.render(
+        return try await Renderer.render(
             shaderName: "circle",
             uniforms: CircleUniforms(
                 radius: Float(relativeRadius),
@@ -63,9 +54,8 @@ public extension Graphic {
                 aspectRatio: Float(resolution.aspectRatio)
             ),
             resolution: resolution,
+            colorSpace: .sRGB,
             bits: ._8
         )
-        
-        return Graphic(texture: texture, bits: ._8, colorSpace: .sRGB)
     }
 }

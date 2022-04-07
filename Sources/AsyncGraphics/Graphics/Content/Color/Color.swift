@@ -9,20 +9,19 @@ import PixelColor
 
 public extension Graphic {
     
-    struct ColorUniforms {
+    private struct ColorUniforms {
         let color: ColorUniform
 //        let color: SIMD4<Float>
     }
     
     static func color(_ color: PixelColor, size: CGSize) async throws -> Graphic {
                 
-        let texture = try await Renderer.render(
+        try await Renderer.render(
             shaderName: "color",
             uniforms: ColorUniforms(color: color.uniform),
             resolution: size.resolution,
+            colorSpace: .sRGB,
             bits: ._8
         )
-        
-        return Graphic(texture: texture, bits: ._8, colorSpace: .sRGB)
     }
 }
