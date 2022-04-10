@@ -118,7 +118,7 @@ let inverted: Graphic = try await someGraphic.inverted()
 ### Blend
 
 ```swift
-func blended(with graphic: Graphic, blendingMode: BlendingMode, placement: Placement) async throws -> Graphic
+func blended(with graphic: Graphic, blendingMode: BlendingMode, placement: Placement = .fit) async throws -> Graphic
 ```
 
 *Example:*

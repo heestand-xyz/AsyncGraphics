@@ -13,7 +13,7 @@ public extension Graphic {
     
     func blended(with graphic: Graphic,
                  blendingMode: BlendingMode,
-                 placement: Placement) async throws -> Graphic {
+                 placement: Placement = .fit) async throws -> Graphic {
         
         try await Renderer.render(
             shaderName: "blend",

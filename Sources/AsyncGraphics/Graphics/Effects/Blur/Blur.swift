@@ -7,21 +7,23 @@ import Metal
 public extension Graphic {
     
     private struct BlurUniforms {
-        let type: Int
+        let type: Int32
         let radius: Float
-        let count: Int
+        let count: Int32
         let angle: Float
         let position: PointUniform
     }
     
-    func blurred() async throws -> Graphic {
+    func blurred(radius: CGFloat) async throws -> Graphic {
         
-        try await Renderer.render(
+        let relativeRadius = radius / size.height
+        
+        return try await Renderer.render(
             shaderName: "blur",
             graphics: [self],
             uniforms: BlurUniforms(
-                type: 0,
-                radius: 0.5,
+                type: 1,
+                radius: Float(relativeRadius),
                 count: 100,
                 angle: 0.0,
                 position: PointUniform(x: 0.0, y: 0.0)

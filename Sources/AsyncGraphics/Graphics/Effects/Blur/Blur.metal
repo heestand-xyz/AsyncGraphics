@@ -63,15 +63,8 @@ fragment float4 blur(VertexOut out [[stage_in]],
                     float dist = sqrt(pow(float(x), 2) + pow(float(y), 2));
                     if (dist <= count) {
                         float amount = pow(1.0 - dist / (count + 1), 0.5);
-                        float xu = u;
-                        float yv = v;
-                        if (aspect < 1.0) {
-                            xu += ((float(x) / width) * radius) / count;
-                            yv += (((float(y) / width) * radius) / count) * aspect;
-                        } else {
-                            xu += ((float(x) / height) * radius) / count;
-                            yv += (((float(y) / height) * radius) / count) * aspect;
-                        }
+                        float xu = u + (float(x) / count) * radius / aspect;
+                        float yv = v + (float(y) / count) * radius;
                         color += texture.sample(sampler, float2(xu, yv)) * amount;
                         amounts += amount;
                     }
