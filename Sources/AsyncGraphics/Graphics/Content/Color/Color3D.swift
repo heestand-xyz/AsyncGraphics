@@ -16,6 +16,7 @@ public extension Graphic3D {
     static func color(_ color: PixelColor, resolution: SIMD3<Int>) async throws -> Graphic3D {
                 
         try await Renderer.render(
+            name: "Color",
             shaderName: "color",
             uniforms: Color3DUniforms(color: color.uniform),
             resolution: resolution,

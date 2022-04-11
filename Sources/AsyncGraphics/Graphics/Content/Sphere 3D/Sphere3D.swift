@@ -8,16 +8,16 @@ import PixelColor
 public extension Graphic3D {
     
     private struct Sphere3DUniforms {
+        let premultiply: Bool
         let radius: Float
         let position: VectorUniform
         let edgeRadius: Float
         let foregroundColor: ColorUniform
         let edgeColor: ColorUniform
         let backgroundColor: ColorUniform
-        let premultiply: Bool
     };
 
-    static func circle(radius: Double? = nil,
+    static func sphere(radius: Double? = nil,
                        center: SIMD3<Double>? = nil,
                        color: PixelColor = .white,
                        backgroundColor: PixelColor = .black,
@@ -39,15 +39,16 @@ public extension Graphic3D {
         let premultiply: Bool = true
         
         return try await Renderer.render(
+            name: "Sphere",
             shaderName: "sphere",
             uniforms: Sphere3DUniforms(
+                premultiply: premultiply,
                 radius: Float(relativeRadius),
                 position: relativePosition.uniform,
                 edgeRadius: Float(edgeRadius),
                 foregroundColor: color.uniform,
                 edgeColor: edgeColor.uniform,
-                backgroundColor: backgroundColor.uniform,
-                premultiply: premultiply
+                backgroundColor: backgroundColor.uniform
             ),
             resolution: resolution,
             colorSpace: .sRGB,

@@ -22,6 +22,7 @@ public extension Graphic {
         let relativeOffset: CGFloat = offset / size.height
         
         return try await Renderer.render(
+            name: "Displace",
             shaderName: "displace",
             graphics: [
                 self,

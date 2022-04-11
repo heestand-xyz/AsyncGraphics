@@ -6,14 +6,13 @@ import Metal
 import TextureMap
 
 protocol Graphicable {
+    
+    var name: String { get }
 
     var texture: MTLTexture { get }
     
     var bits: TMBits { get }
     var colorSpace: TMColorSpace { get }
-    
-    associatedtype R
-    var resolution: R { get }
-    
-    init(texture: MTLTexture, bits: TMBits, colorSpace: TMColorSpace)
+        
+    init(name: String, texture: MTLTexture, bits: TMBits, colorSpace: TMColorSpace)
 }

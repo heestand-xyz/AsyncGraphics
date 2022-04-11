@@ -11,6 +11,8 @@ import CoreGraphicsExtensions
 
 public struct Graphic: Graphicable {
     
+    public let name: String
+    
     public let texture: MTLTexture
     
     public let bits: TMBits

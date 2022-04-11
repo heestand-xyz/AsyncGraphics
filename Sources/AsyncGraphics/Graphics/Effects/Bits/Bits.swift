@@ -13,7 +13,7 @@ public extension Graphic {
     
     func with(bits: TMBits) async throws -> Graphic {
         
-        Graphic(texture: texture, bits: bits, colorSpace: colorSpace)
+        Graphic(name: "Bits", texture: texture, bits: bits, colorSpace: colorSpace)
     }
     
 //    func with(bits: TMBits) async throws -> Graphic {

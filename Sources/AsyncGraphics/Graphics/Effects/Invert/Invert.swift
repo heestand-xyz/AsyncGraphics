@@ -14,6 +14,7 @@ public extension Graphic {
     func inverted() async throws -> Graphic {
         
         try await Renderer.render(
+            name: "Invert",
             shaderName: "invert",
             graphics: [self]
         )

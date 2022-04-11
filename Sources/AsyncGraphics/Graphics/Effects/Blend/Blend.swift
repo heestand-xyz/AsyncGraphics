@@ -16,6 +16,7 @@ public extension Graphic {
                  placement: Placement = .fit) async throws -> Graphic {
         
         try await Renderer.render(
+            name: "Blend",
             shaderName: "blend",
             graphics: [
                 self,

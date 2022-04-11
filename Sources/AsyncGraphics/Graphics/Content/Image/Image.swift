@@ -20,7 +20,7 @@ public extension Graphic {
         
         let colorSpace: TMColorSpace = try image.colorSpace
         
-        return Graphic(texture: texture, bits: bits, colorSpace: colorSpace)
+        return Graphic(name: "Image", texture: texture, bits: bits, colorSpace: colorSpace)
     }
     
     static func image(named name: String, in bundle: Bundle = .main) async throws -> Graphic {

@@ -7,13 +7,13 @@
 using namespace metal;
 
 struct Uniforms {
+    bool premultiply;
     float radius;
     packed_float3 position;
     float edgeRadius;
     packed_float4 foregroundColor;
     packed_float4 edgeColor;
     packed_float4 backgroundColor;
-    bool premultiply;
 };
 
 kernel void sphere(const device Uniforms& uniforms [[ buffer(0) ]],

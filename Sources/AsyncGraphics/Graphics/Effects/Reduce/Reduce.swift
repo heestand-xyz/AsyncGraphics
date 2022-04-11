@@ -75,7 +75,7 @@ public extension Graphic {
             }
         }
         
-        return Graphic(texture: texture, bits: bits, colorSpace: colorSpace)
+        return Graphic(name: "Reduce", texture: texture, bits: bits, colorSpace: colorSpace)
     }
     
     private func resolution(in sampleAxis: SampleAxis) -> CGSize {

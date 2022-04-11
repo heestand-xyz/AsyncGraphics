@@ -15,6 +15,7 @@ public extension Graphic {
     static func color(_ color: PixelColor, size: CGSize) async throws -> Graphic {
                 
         try await Renderer.render(
+            name: "Color",
             shaderName: "color",
             uniforms: ColorUniforms(color: color.uniform),
             resolution: size.resolution,

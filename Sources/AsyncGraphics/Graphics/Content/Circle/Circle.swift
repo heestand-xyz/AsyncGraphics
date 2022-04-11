@@ -40,6 +40,7 @@ public extension Graphic {
         let premultiply: Bool = true
         
         return try await Renderer.render(
+            name: "Circle",
             shaderName: "circle",
             uniforms: CircleUniforms(
                 radius: Float(relativeRadius),

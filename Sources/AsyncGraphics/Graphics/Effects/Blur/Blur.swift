@@ -19,6 +19,7 @@ public extension Graphic {
         let relativeRadius = radius / size.height
         
         return try await Renderer.render(
+            name: "Blur",
             shaderName: "blur",
             graphics: [self],
             uniforms: BlurUniforms(

@@ -56,13 +56,15 @@ struct Renderer {
     
     struct EmptyUniforms {}
     
-    static func render(shaderName: String,
-                       graphics: [Graphic] = [],
-                       resolution: CGSize? = nil,
-                       colorSpace: TMColorSpace? = nil,
-                       bits: TMBits? = nil) async throws -> Graphic {
+    static func render<G: Graphicable>(name: String,
+                                       shaderName: String,
+                                       graphics: [Graphicable] = [],
+                                       resolution: Resolution? = nil,
+                                       colorSpace: TMColorSpace? = nil,
+                                       bits: TMBits? = nil) async throws -> G {
         
-        try await render(shaderName: shaderName,
+        try await render(name: name,
+                         shaderName: shaderName,
                          graphics: graphics,
                          uniforms: EmptyUniforms(),
                          resolution: resolution,
@@ -70,14 +72,22 @@ struct Renderer {
                          bits: bits)
     }
     
-    static func render<U, G: Graphicable>(shaderName: String,
-                                          graphics: [G] = [],
+    static func render<U, G: Graphicable>(name: String,
+                                          shaderName: String,
+                                          graphics: [Graphicable] = [],
                                           uniforms: U,
-                                          resolution: G.R? = nil,
+                                          resolution: Resolution? = nil,
                                           colorSpace: TMColorSpace? = nil,
                                           bits: TMBits? = nil) async throws -> G {
         
-        guard let resolution: G.R = resolution ?? graphics.first?.resolution,
+        guard let resolution: Resolution = resolution ?? {
+            if let graphic = graphics.first as? Graphic {
+                return graphic.resolution
+            } else if let graphic3d = graphics.first as? Graphic3D {
+                return graphic3d.resolution
+            }
+            return nil
+        }(),
               let colorSpace: TMColorSpace = colorSpace ?? graphics.first?.colorSpace,
               let bits: TMBits = bits ?? graphics.first?.bits else {
             throw RendererError.badMetadata
@@ -208,7 +218,8 @@ struct Renderer {
                             
                             DispatchQueue.main.async {
                                 
-                                let graphic = G(texture: destinationTexture,
+                                let graphic = G(name: name,
+                                                texture: destinationTexture,
                                                 bits: bits,
                                                 colorSpace: colorSpace)
                                 

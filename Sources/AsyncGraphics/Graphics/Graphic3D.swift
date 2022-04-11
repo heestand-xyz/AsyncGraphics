@@ -11,6 +11,8 @@ import PixelColor
 
 public struct Graphic3D: Graphicable {
     
+    public let name: String
+    
     public let texture: MTLTexture
     
     public let bits: TMBits
