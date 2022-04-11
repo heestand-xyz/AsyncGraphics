@@ -21,12 +21,36 @@ public extension Graphic {
         let resolution: SizeUniform
     }
     
+    static func rectangle(width: CGFloat,
+                          height: CGFloat,
+                          center: CGPoint,
+                          cornerRadius: CGFloat = 0.0,
+                          color: PixelColor = .white,
+                          backgroundColor: PixelColor = .black,
+                          size: CGSize) async throws -> Graphic {
+
+        let frame = CGRect(
+            x: center.x - width / 2,
+            y: center.y - height / 2,
+            width: width,
+            height: height
+        )
+        
+        return try await rectangle(
+            frame: frame,
+            cornerRadius: cornerRadius,
+            color: color,
+            backgroundColor: backgroundColor,    
+            size: size
+        )
+    }
+    
     static func rectangle(frame: CGRect,
                           cornerRadius: CGFloat = 0.0,
                           color: PixelColor = .white,
                           backgroundColor: PixelColor = .black,
                           size: CGSize) async throws -> Graphic {
-        
+    
         let relativeSize: CGSize = frame.size / size.height
         
         let relativePosition: CGPoint = (frame.center - size / 2) / size.height

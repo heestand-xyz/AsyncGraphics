@@ -59,7 +59,7 @@ struct Renderer {
     static func render<G: Graphicable>(name: String,
                                        shaderName: String,
                                        graphics: [Graphicable] = [],
-                                       resolution: Resolution? = nil,
+                                       resolution: MultiDimensionalResolution? = nil,
                                        colorSpace: TMColorSpace? = nil,
                                        bits: TMBits? = nil) async throws -> G {
         
@@ -76,11 +76,11 @@ struct Renderer {
                                           shaderName: String,
                                           graphics: [Graphicable] = [],
                                           uniforms: U,
-                                          resolution: Resolution? = nil,
+                                          resolution: MultiDimensionalResolution? = nil,
                                           colorSpace: TMColorSpace? = nil,
                                           bits: TMBits? = nil) async throws -> G {
         
-        guard let resolution: Resolution = resolution ?? {
+        guard let resolution: MultiDimensionalResolution = resolution ?? {
             if let graphic = graphics.first as? Graphic {
                 return graphic.resolution
             } else if let graphic3d = graphics.first as? Graphic3D {

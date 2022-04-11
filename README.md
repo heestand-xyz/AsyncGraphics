@@ -144,7 +144,7 @@ let displaced: Graphic = try await someGraphic.displaced(with: otherGraphic, off
 
 A `Graphic` can be exported to a video with func `.video(fps:kbps:format:)`.
 
-### Invert
+### Video
 
 ```swift
 func video(fps: Int = 30, kbps: Int = 1_000, format: VideoFormat = .mov) async throws -> Data

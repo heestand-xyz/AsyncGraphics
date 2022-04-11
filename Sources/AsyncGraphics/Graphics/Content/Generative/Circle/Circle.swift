@@ -20,16 +20,16 @@ public extension Graphic {
         let resolution: SizeUniform
     }
 
-    static func circle(radius: CGFloat? = nil,
-                       center: CGPoint? = nil,
+    static func circle(radius: CGFloat,
+                       center: CGPoint,
                        color: PixelColor = .white,
                        backgroundColor: PixelColor = .black,
                        size: CGSize) async throws -> Graphic {
-                
-        let radius: CGFloat = radius ?? min(size.width, size.height) / 2
+        
         let relativeRadius: CGFloat = radius / size.height
         
-        let center: CGPoint = center?.flipY(size: size) ?? (size / 2).asPoint
+        // TODO: Test Flip Y
+        let center: CGPoint = center.flipY(size: size)
         let relativePosition: CGPoint = (center - size / 2) / size.height
         
         return try await Renderer.render(

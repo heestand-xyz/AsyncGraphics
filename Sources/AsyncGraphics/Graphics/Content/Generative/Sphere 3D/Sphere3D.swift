@@ -16,13 +16,53 @@ public extension Graphic3D {
         let foregroundColor: ColorUniform
         let edgeColor: ColorUniform
         let backgroundColor: ColorUniform
-    };
+    }
 
     static func sphere(radius: Double? = nil,
                        center: SIMD3<Double>? = nil,
                        color: PixelColor = .white,
                        backgroundColor: PixelColor = .black,
                        resolution: SIMD3<Int>) async throws -> Graphic3D {
+        
+        let radius: Double = radius ?? Double(min(resolution.x, resolution.y, resolution.z)) / 2
+        let relativeRadius: Double = radius / Double(resolution.y)
+        
+        let center: SIMD3<Double> = center ?? SIMD3<Double>(
+            Double(resolution.x / 2),
+            Double(resolution.y / 2),
+            Double(resolution.z / 2)
+        )
+        let relativeCenter = SIMD3<Double>(
+            (center.x - Double(resolution.x) / 2) / Double(resolution.y),
+            (center.y - Double(resolution.y) / 2) / Double(resolution.y),
+            (center.z - Double(resolution.z) / 2) / Double(resolution.y)
+        )
+        
+        return try await Renderer.render(
+            name: "Sphere",
+            shaderName: "sphere3d",
+            uniforms: Sphere3DUniforms(
+                premultiply: true,
+                antiAlias: true,
+                radius: Float(relativeRadius),
+                position: relativeCenter.uniform,
+                edgeRadius: 0.0,
+                foregroundColor: color.uniform,
+                edgeColor: PixelColor.clear.uniform,
+                backgroundColor: backgroundColor.uniform
+            ),
+            resolution: resolution,
+            colorSpace: .sRGB,
+            bits: ._8
+        )
+    }
+    
+    static func surfaceSphere(radius: Double? = nil,
+                              center: SIMD3<Double>? = nil,
+                              surfaceWidth: Double,
+                              color: PixelColor = .white,
+                              backgroundColor: PixelColor = .black,
+                              resolution: SIMD3<Int>) async throws -> Graphic3D {
         
         let radius: Double = radius ?? Double(min(resolution.x, resolution.y, resolution.z)) / 2
         let relativeRadius: Double = radius / Double(resolution.y)
@@ -34,22 +74,19 @@ public extension Graphic3D {
                                              (center.y - Double(resolution.y) / 2) / Double(resolution.y),
                                              (center.z - Double(resolution.z) / 2) / Double(resolution.z))
         
-        let edgeRadius: Double = 0.0
-        let edgeColor: PixelColor = .clear
-
-        let premultiply: Bool = true
+        let surfaceWidth: Double = surfaceWidth / Double(resolution.y)
         
         return try await Renderer.render(
             name: "Sphere",
             shaderName: "sphere3d",
             uniforms: Sphere3DUniforms(
-                premultiply: premultiply,
+                premultiply: true,
                 antiAlias: true,
                 radius: Float(relativeRadius),
                 position: relativePosition.uniform,
-                edgeRadius: Float(edgeRadius),
-                foregroundColor: color.uniform,
-                edgeColor: edgeColor.uniform,
+                edgeRadius: Float(surfaceWidth),
+                foregroundColor: backgroundColor.uniform,
+                edgeColor: color.uniform,
                 backgroundColor: backgroundColor.uniform
             ),
             resolution: resolution,

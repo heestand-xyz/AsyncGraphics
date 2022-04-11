@@ -24,7 +24,19 @@ public struct Graphic3D: Graphicable {
 extension Graphic3D {
     
     public var resolution: SIMD3<Int> {
-        SIMD3(texture.width, texture.height, texture.depth)
+        SIMD3(width, height, depth)
+    }
+    
+    public var width: Int {
+        texture.width
+    }
+    
+    public var height: Int {
+        texture.height
+    }
+    
+    public var depth: Int {
+        texture.depth
     }
 }
 

@@ -30,6 +30,14 @@ extension Graphic {
     public var size: CGSize {
         resolution / CGFloat.scale
     }
+    
+    public var width: CGFloat {
+        size.width
+    }
+    
+    public var height: CGFloat {
+        size.height
+    }
 }
 
 // MARK: - Image
