@@ -9,7 +9,7 @@ public extension Graphic3D {
     
     private struct Sphere3DUniforms {
         let premultiply: Bool
-        let antiAliasing: Bool
+        let antiAlias: Bool
         let radius: Float
         let position: VectorUniform
         let edgeRadius: Float
@@ -44,7 +44,7 @@ public extension Graphic3D {
             shaderName: "sphere3d",
             uniforms: Sphere3DUniforms(
                 premultiply: premultiply,
-                antiAliasing: true,
+                antiAlias: true,
                 radius: Float(relativeRadius),
                 position: relativePosition.uniform,
                 edgeRadius: Float(edgeRadius),

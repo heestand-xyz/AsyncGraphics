@@ -10,7 +10,7 @@ public extension Graphic {
     
     private struct CircleUniforms {
         let premultiply: Bool
-        let antiAliasing: Bool
+        let antiAlias: Bool
         let radius: Float
         let position: PointUniform
         let edgeRadius: Float
@@ -18,7 +18,6 @@ public extension Graphic {
         let edgeColor: ColorUniform
         let backgroundColor: ColorUniform
         let resolution: SizeUniform
-        let aspectRatio: Float
     }
 
     static func circle(radius: CGFloat? = nil,
@@ -26,36 +25,63 @@ public extension Graphic {
                        color: PixelColor = .white,
                        backgroundColor: PixelColor = .black,
                        size: CGSize) async throws -> Graphic {
-        
-        let resolution: CGSize = size.resolution
-        
+                
         let radius: CGFloat = radius ?? min(size.width, size.height) / 2
         let relativeRadius: CGFloat = radius / size.height
         
         let center: CGPoint = center?.flipY(size: size) ?? (size / 2).asPoint
         let relativePosition: CGPoint = (center - size / 2) / size.height
         
-        let edgeRadius: CGFloat = 0.0
-        let edgeColor: PixelColor = .clear
-
-        let premultiply: Bool = true
-        
         return try await Renderer.render(
             name: "Circle",
             shaderName: "circle",
             uniforms: CircleUniforms(
-                premultiply: premultiply,
-                antiAliasing: true,
+                premultiply: true,
+                antiAlias: true,
                 radius: Float(relativeRadius),
                 position: relativePosition.uniform,
-                edgeRadius: Float(edgeRadius),
+                edgeRadius: 0.0,
                 foregroundColor: color.uniform,
-                edgeColor: edgeColor.uniform,
+                edgeColor: PixelColor.clear.uniform,
                 backgroundColor: backgroundColor.uniform,
-                resolution: resolution.uniform,
-                aspectRatio: Float(resolution.aspectRatio)
+                resolution: size.resolution.uniform
             ),
-            resolution: resolution,
+            resolution: size.resolution,
+            colorSpace: .sRGB,
+            bits: ._8
+        )
+    }
+    
+    static func strokedCircle(radius: CGFloat? = nil,
+                              center: CGPoint? = nil,
+                              lineWidth: CGFloat,
+                              color: PixelColor = .white,
+                              backgroundColor: PixelColor = .black,
+                              size: CGSize) async throws -> Graphic {
+        
+        let radius: CGFloat = radius ?? min(size.width, size.height) / 2
+        let relativeRadius: CGFloat = radius / size.height
+        
+        let center: CGPoint = center?.flipY(size: size) ?? (size / 2).asPoint
+        let relativePosition: CGPoint = (center - size / 2) / size.height
+
+        let relativeLineWidth: CGFloat = lineWidth / size.height
+
+        return try await Renderer.render(
+            name: "Circle",
+            shaderName: "circle",
+            uniforms: CircleUniforms(
+                premultiply: true,
+                antiAlias: true,
+                radius: Float(relativeRadius),
+                position: relativePosition.uniform,
+                edgeRadius: Float(relativeLineWidth),
+                foregroundColor: backgroundColor.uniform,
+                edgeColor: color.uniform,
+                backgroundColor: backgroundColor.uniform,
+                resolution: size.resolution.uniform
+            ),
+            resolution: size.resolution,
             colorSpace: .sRGB,
             bits: ._8
         )

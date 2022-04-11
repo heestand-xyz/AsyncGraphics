@@ -10,7 +10,7 @@ using namespace metal;
 
 struct Uniforms {
     bool premultiply;
-    bool antiAliasing;
+    bool antiAlias;
     float radius;
     packed_float3 position;
     float edgeRadius;
@@ -59,7 +59,7 @@ kernel void sphere3d(const device Uniforms& uniforms [[ buffer(0) ]],
     float zRadius = (z - 0.5) * depthAspectRatio - uniforms.position.z;
     float radius = sqrt(pow(sqrt(pow(xRadius, 2) + pow(yRadius, 2)), 2) + pow(zRadius, 2));
     
-    float4 color = radiusColor(radius, uniforms.radius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAliasing, onePixel);
+    float4 color = radiusColor(radius, uniforms.radius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
     
     if (uniforms.premultiply) {
         color = float4(color.rgb * color.a, color.a);
