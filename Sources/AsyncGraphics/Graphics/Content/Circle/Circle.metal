@@ -65,7 +65,7 @@ fragment float4 circle(VertexOut out [[stage_in]],
     }
     
     if (uniforms.premultiply) {
-        color = float4(color.r * color.a, color.g * color.a, color.b * color.a, color.a);
+        color = float4(color.rgb * color.a, color.a);
     }
     
     return color;

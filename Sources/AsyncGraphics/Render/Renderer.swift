@@ -28,6 +28,7 @@ struct Renderer {
         case failedToMakeCommandQueue
         case failedToMakeSampler
         case failedToMakeUniformBuffer
+        case failedToMakeComputeCommandEncoder
         
         var errorDescription: String? {
             switch self {
@@ -47,6 +48,8 @@ struct Renderer {
                 return "Async Graphics - Renderer - Failed to Make Sampler"
             case .failedToMakeUniformBuffer:
                 return "Async Graphics - Renderer - Failed to Make Uniform Buffer"
+            case .failedToMakeComputeCommandEncoder:
+                return "Async Graphics - Renderer - Failed to Make Compute Command Encoder"
             }
         }
     }
@@ -67,26 +70,33 @@ struct Renderer {
                          bits: bits)
     }
     
-    static func render<Uniforms>(shaderName: String,
-                                 graphics: [Graphic] = [],
-                                 uniforms: Uniforms,
-                                 resolution: CGSize? = nil,
-                                 colorSpace: TMColorSpace? = nil,
-                                 bits: TMBits? = nil) async throws -> Graphic {
+    static func render<U, G: Graphicable>(shaderName: String,
+                                          graphics: [G] = [],
+                                          uniforms: U,
+                                          resolution: G.R? = nil,
+                                          colorSpace: TMColorSpace? = nil,
+                                          bits: TMBits? = nil) async throws -> G {
         
-        guard let resolution: CGSize = resolution ?? graphics.first?.resolution,
+        guard let resolution: G.R = resolution ?? graphics.first?.resolution,
               let colorSpace: TMColorSpace = colorSpace ?? graphics.first?.colorSpace,
               let bits: TMBits = bits ?? graphics.first?.bits else {
             throw RendererError.badMetadata
         }
-
+        
         return try await withCheckedThrowingContinuation { continuation in
             
             DispatchQueue.global(qos: .userInteractive).async {
                 
                 do {
                     
-                    let destinationTexture: MTLTexture = try TextureMap.emptyTexture(size: resolution, bits: bits)
+                    let destinationTexture: MTLTexture = try {
+                        if let resolution: CGSize = resolution as? CGSize {
+                            return try TextureMap.emptyTexture(resolution: resolution, bits: bits)
+                        } else if let resolution: SIMD3<Int> = resolution as? SIMD3<Int> {
+                            return try TextureMap.emptyTexture3d(resolution: resolution, bits: bits)
+                        }
+                        fatalError("Unknown Graphicable")
+                    }()
                     
                     guard let commandQueue = metalDevice.makeCommandQueue() else {
                         throw RendererError.failedToMakeCommandQueue
@@ -96,38 +106,101 @@ struct Renderer {
                         throw RendererError.failedToMakeCommandBuffer
                     }
                     
-                    let commandEncoder: MTLRenderCommandEncoder = try commandEncoder(texture: destinationTexture, commandBuffer: commandBuffer)
+                    let commandEncoder: MTLCommandEncoder
+                    if resolution is SIMD3<Int> {
+                        guard let computeCommandEncoder = commandBuffer.makeComputeCommandEncoder() else {
+                            throw RendererError.failedToMakeComputeCommandEncoder
+                        }
+                        commandEncoder = computeCommandEncoder
+                    } else {
+                        commandEncoder = try self.commandEncoder(texture: destinationTexture, commandBuffer: commandBuffer)
+                    }
                     
                     do {
-                        
-                        let pipeline: MTLRenderPipelineState = try pipeline(as: shaderName)
                         
                         let sampler: MTLSamplerState = try sampler()
                         
                         let vertexBuffer: MTLBuffer = try vertexQuadBuffer()
                         
-                        commandEncoder.setRenderPipelineState(pipeline)
+                        if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
+                            
+                            let pipeline: MTLRenderPipelineState = try pipeline(as: shaderName)
+                            renderCommandEncoder.setRenderPipelineState(pipeline)
+                            
+                        } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
+                            
+                            let pipeline3d: MTLComputePipelineState = try pipeline3d(as: shaderName)
+                            computeCommandEncoder.setComputePipelineState(pipeline3d)
+                        }
+                        
                         
                         if !graphics.isEmpty {
                             
                             for (index, graphic) in graphics.enumerated() {
-                                commandEncoder.setFragmentTexture(graphic.texture, index: index)
+                                
+                                if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
+                                    
+                                    renderCommandEncoder.setFragmentTexture(graphic.texture, index: index)
+                                    
+                                } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
+                                    
+                                    computeCommandEncoder.setTexture(graphic.texture, index: index)
+                                }
                             }
                             
-                            commandEncoder.setFragmentSamplerState(sampler, index: 0)
+                            if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
+                                
+                                renderCommandEncoder.setFragmentSamplerState(sampler, index: 0)
+                                
+                            } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
+                                
+                                computeCommandEncoder.setSamplerState(sampler, index: 0)
+                            }
                         }
 
                         if uniforms is EmptyUniforms == false {
-                            var uniforms: Uniforms = uniforms
-                            let size = MemoryLayout<Uniforms>.size
+                            
+                            var uniforms: U = uniforms
+                            
+                            let size = MemoryLayout<U>.size
+                            
                             guard let uniformsBuffer = metalDevice.makeBuffer(bytes: &uniforms, length: size) else {
                                 throw RendererError.failedToMakeUniformBuffer
                             }
-                            commandEncoder.setFragmentBuffer(uniformsBuffer, offset: 0, index: 0)
+                            
+                            if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
+                                
+                                renderCommandEncoder.setFragmentBuffer(uniformsBuffer, offset: 0, index: 0)
+                                
+                            } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
+                                
+                                computeCommandEncoder.setBuffer(uniformsBuffer, offset: 0, index: 0)
+                            }
                         }
                         
-                        commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
-                        commandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 6, instanceCount: 1)
+                        if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
+                            
+                            renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+                            
+                            renderCommandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 6, instanceCount: 1)
+                            
+                        } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
+                            
+                            let threadsPerThreadGroup = MTLSize(width: 8, height: 8, depth: 8)
+                            
+                            let threadsPerGrid: MTLSize
+                            if let resolution: SIMD3<Int> = resolution as? SIMD3<Int> {
+                                threadsPerGrid = MTLSize(width: resolution.x, height: resolution.y, depth: resolution.z)
+                            } else {
+                                fatalError("3D resolution not found")
+                            }
+                            
+//                            #if !os(tvOS)
+                            computeCommandEncoder.dispatchThreads(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadGroup)
+//                            #else
+//                            fatalError("3D graphics rendering on tvOS is not supported")
+//                            #endif
+                        }
                         
                         commandEncoder.endEncoding()
                         
@@ -135,9 +208,9 @@ struct Renderer {
                             
                             DispatchQueue.main.async {
                                 
-                                let graphic = Graphic(texture: destinationTexture,
-                                                      bits: bits,
-                                                      colorSpace: colorSpace)
+                                let graphic = G(texture: destinationTexture,
+                                                bits: bits,
+                                                colorSpace: colorSpace)
                                 
                                 continuation.resume(returning: graphic)
                             }
@@ -180,6 +253,10 @@ extension Renderer {
         pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = .blendAlpha
         return try metalDevice.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
     }
+    
+    static func pipeline3d(as shaderName: String) throws -> MTLComputePipelineState {
+        try metalDevice.makeComputePipelineState(function: try shader(name: shaderName))
+    }
 }
 
 // MARK: - Command Encoder
@@ -204,12 +281,13 @@ extension Renderer {
     
     static func sampler() throws -> MTLSamplerState {
         let samplerInfo = MTLSamplerDescriptor()
+        samplerInfo.mipFilter = .linear
         samplerInfo.minFilter = .linear
         samplerInfo.magFilter = .linear
         samplerInfo.sAddressMode = .clampToZero
         samplerInfo.tAddressMode = .clampToZero
+        samplerInfo.rAddressMode = .clampToZero
         samplerInfo.compareFunction = .never
-        samplerInfo.mipFilter = .linear
         guard let sampler = metalDevice.makeSamplerState(descriptor: samplerInfo) else {
             throw RendererError.failedToMakeSampler
         }

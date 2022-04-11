@@ -9,7 +9,7 @@ import TextureMap
 import PixelColor
 import CoreGraphicsExtensions
 
-public struct Graphic {
+public struct Graphic: Graphicable {
     
     public let texture: MTLTexture
     
@@ -115,7 +115,7 @@ extension Graphic {
                 
                 for x in 0..<Int(resolution.width) {
             
-                    let index = y * Int(resolution.height) * 4 + x * 4
+                    let index = y * Int(resolution.width) * 4 + x * 4
                     
                     let red = channels[index]
                     let green = channels[index + 1]

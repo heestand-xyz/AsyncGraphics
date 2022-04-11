@@ -2,7 +2,6 @@
 //  Created by Anton Heestand on 2022-04-03.
 //
 
-//import simd
 import CoreGraphics
 import CoreGraphicsExtensions
 import PixelColor
