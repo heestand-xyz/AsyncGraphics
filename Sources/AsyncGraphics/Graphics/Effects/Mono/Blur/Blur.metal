@@ -9,7 +9,7 @@
 #include <metal_stdlib>
 using namespace metal;
 
-#import "../../../Metal/Content/random_header.metal"
+#import "../../../../Metal/Content/random_header.metal"
 
 struct VertexOut {
     float4 position [[position]];

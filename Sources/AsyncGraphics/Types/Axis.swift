@@ -2,6 +2,8 @@
 //  Created by Anton Heestand on 2022-04-11.
 //
 
+import TextureMap
+
 public enum Axis {
     case x
     case y
@@ -18,6 +20,20 @@ extension Axis {
             return 1
         case .z:
             return 2
+        }
+    }
+}
+
+extension Axis {
+    
+    var tmAxis: TMAxis {
+        switch self {
+        case .x:
+            return .x
+        case .y:
+            return .y
+        case .z:
+            return .z
         }
     }
 }

@@ -11,7 +11,7 @@ struct VertexOut {
 };
 
 struct Uniforms {
-    float4 color;
+    packed_float4 color;
 };
 
 fragment float4 color(VertexOut out [[stage_in]],

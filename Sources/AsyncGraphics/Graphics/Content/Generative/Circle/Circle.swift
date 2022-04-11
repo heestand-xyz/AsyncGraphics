@@ -9,13 +9,14 @@ import PixelColor
 public extension Graphic {
     
     private struct CircleUniforms {
+        let premultiply: Bool
+        let antiAliasing: Bool
         let radius: Float
         let position: PointUniform
         let edgeRadius: Float
         let foregroundColor: ColorUniform
         let edgeColor: ColorUniform
         let backgroundColor: ColorUniform
-        let premultiply: Bool
         let resolution: SizeUniform
         let aspectRatio: Float
     }
@@ -43,13 +44,14 @@ public extension Graphic {
             name: "Circle",
             shaderName: "circle",
             uniforms: CircleUniforms(
+                premultiply: premultiply,
+                antiAliasing: true,
                 radius: Float(relativeRadius),
                 position: relativePosition.uniform,
                 edgeRadius: Float(edgeRadius),
                 foregroundColor: color.uniform,
                 edgeColor: edgeColor.uniform,
                 backgroundColor: backgroundColor.uniform,
-                premultiply: premultiply,
                 resolution: resolution.uniform,
                 aspectRatio: Float(resolution.aspectRatio)
             ),

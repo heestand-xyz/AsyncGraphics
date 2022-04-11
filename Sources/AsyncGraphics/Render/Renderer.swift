@@ -99,11 +99,11 @@ struct Renderer {
                 
                 do {
                     
-                    let destinationTexture: MTLTexture = try {
+                    let targetTexture: MTLTexture = try {
                         if let resolution: CGSize = resolution as? CGSize {
                             return try TextureMap.emptyTexture(resolution: resolution, bits: bits)
                         } else if let resolution: SIMD3<Int> = resolution as? SIMD3<Int> {
-                            return try TextureMap.emptyTexture3d(resolution: resolution, bits: bits)
+                            return try TextureMap.emptyTexture3d(resolution: resolution, bits: bits, usage: .write)
                         }
                         fatalError("Unknown Graphicable")
                     }()
@@ -118,23 +118,22 @@ struct Renderer {
                     
                     let commandEncoder: MTLCommandEncoder
                     if resolution is SIMD3<Int> {
-                        guard let computeCommandEncoder = commandBuffer.makeComputeCommandEncoder() else {
+                        guard let computeCommandEncoder: MTLComputeCommandEncoder = commandBuffer.makeComputeCommandEncoder() else {
                             throw RendererError.failedToMakeComputeCommandEncoder
                         }
                         commandEncoder = computeCommandEncoder
                     } else {
-                        commandEncoder = try self.commandEncoder(texture: destinationTexture, commandBuffer: commandBuffer)
+                        let renderCommandEncoder: MTLRenderCommandEncoder = try self.commandEncoder(texture: targetTexture, commandBuffer: commandBuffer)
+                        commandEncoder = renderCommandEncoder
                     }
                     
                     do {
                         
-                        let sampler: MTLSamplerState = try sampler()
-                        
-                        let vertexBuffer: MTLBuffer = try vertexQuadBuffer()
+                        // MARK: Pipeline
                         
                         if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                             
-                            let pipeline: MTLRenderPipelineState = try pipeline(as: shaderName)
+                            let pipeline: MTLRenderPipelineState = try pipeline(as: shaderName, bits: bits)
                             renderCommandEncoder.setRenderPipelineState(pipeline)
                             
                         } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
@@ -143,6 +142,11 @@ struct Renderer {
                             computeCommandEncoder.setComputePipelineState(pipeline3d)
                         }
                         
+                        // MARK: Textures
+                        
+                        if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
+                            computeCommandEncoder.setTexture(targetTexture, index: 0)
+                        }
                         
                         if !graphics.isEmpty {
                             
@@ -158,6 +162,10 @@ struct Renderer {
                                 }
                             }
                             
+                            // MARK: Sampler
+                            
+                            let sampler: MTLSamplerState = try sampler()
+                            
                             if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                                 
                                 renderCommandEncoder.setFragmentSamplerState(sampler, index: 0)
@@ -167,6 +175,8 @@ struct Renderer {
                                 computeCommandEncoder.setSamplerState(sampler, index: 0)
                             }
                         }
+                        
+                        // MARK: Uniforms
 
                         if uniforms is EmptyUniforms == false {
                             
@@ -188,10 +198,19 @@ struct Renderer {
                             }
                         }
                         
+                        // MARK: Vertex
+                        
                         if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                             
-                            renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+                            let vertexBuffer: MTLBuffer = try vertexQuadBuffer()
                             
+                            renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+                        }
+                        
+                        // MARK: Draw
+                        
+                        if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
+                         
                             renderCommandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 6, instanceCount: 1)
                             
                         } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
@@ -212,6 +231,8 @@ struct Renderer {
 //                            #endif
                         }
                         
+                        // MARK: Render
+                        
                         commandEncoder.endEncoding()
                         
                         commandBuffer.addCompletedHandler { _ in
@@ -219,7 +240,7 @@ struct Renderer {
                             DispatchQueue.main.async {
                                 
                                 let graphic = G(name: name,
-                                                texture: destinationTexture,
+                                                texture: targetTexture,
                                                 bits: bits,
                                                 colorSpace: colorSpace)
                                 
@@ -255,18 +276,19 @@ struct Renderer {
 
 extension Renderer {
     
-    static func pipeline(as shaderName: String) throws -> MTLRenderPipelineState {
+    static func pipeline(as shaderName: String, bits: TMBits) throws -> MTLRenderPipelineState {
         let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
         pipelineStateDescriptor.vertexFunction = try shader(name: "vertexQuad")
         pipelineStateDescriptor.fragmentFunction = try shader(name: shaderName)
-        pipelineStateDescriptor.colorAttachments[0].pixelFormat = .rgba8Unorm
+        pipelineStateDescriptor.colorAttachments[0].pixelFormat = bits.metalPixelFormat()
         pipelineStateDescriptor.colorAttachments[0].isBlendingEnabled = true
         pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = .blendAlpha
         return try metalDevice.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
     }
     
     static func pipeline3d(as shaderName: String) throws -> MTLComputePipelineState {
-        try metalDevice.makeComputePipelineState(function: try shader(name: shaderName))
+        let function = try shader(name: shaderName)
+        return try metalDevice.makeComputePipelineState(function: function)
     }
 }
 
