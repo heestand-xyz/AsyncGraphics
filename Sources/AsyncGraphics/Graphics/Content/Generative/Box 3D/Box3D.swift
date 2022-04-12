@@ -17,7 +17,6 @@ public extension Graphic3D {
         let foregroundColor: ColorUniform
         let edgeColor: ColorUniform
         let backgroundColor: ColorUniform
-        let resolution: VectorUniform
     }
 
     static func box(origin: SIMD3<Double>,
@@ -76,12 +75,7 @@ public extension Graphic3D {
                 edgeRadius: 0.0,
                 foregroundColor: color.uniform,
                 edgeColor: PixelColor.clear.uniform,
-                backgroundColor: backgroundColor.uniform,
-                resolution: SIMD3<Double>(
-                    Double(resolution.x),
-                    Double(resolution.y),
-                    Double(resolution.z)
-                ).uniform
+                backgroundColor: backgroundColor.uniform
             ),
             resolution: resolution,
             colorSpace: .sRGB,

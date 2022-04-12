@@ -42,18 +42,18 @@ fragment float4 rectangle(VertexOut out [[stage_in]],
     
     float edgeRadius = max(uniforms.edgeRadius, 0.0);
     
-    float aspect = uniforms.resolution.x / uniforms.resolution.y;
+    float aspectRatio = uniforms.resolution.x / uniforms.resolution.y;
 
-    float x = (u - 0.5) * aspect;
-    float y = v - 0.5;
+    float x = (u - 0.5) * aspectRatio;
+    float y = (v - 0.5);
 
     float2 position = uniforms.position;
     float2 size = uniforms.size;
 
     float left = position.x - size.x / 2;
     float right = position.x + size.x / 2;
-    float bottom = -position.y - size.y / 2;
-    float top = -position.y + size.y / 2;
+    float bottom = position.y - size.y / 2;
+    float top = position.y + size.y / 2;
 
     float width = right - left;
     float height = top - bottom;

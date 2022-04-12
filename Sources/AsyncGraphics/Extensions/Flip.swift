@@ -10,3 +10,10 @@ extension CGPoint {
         CGPoint(x: x, y: size.height - y)
     }
 }
+
+extension CGRect {
+    
+    func flipY(size: CGSize) -> CGRect {
+        CGRect(x: minX, y: size.height - maxY, width: width, height: height)
+    }
+}

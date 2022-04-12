@@ -42,7 +42,7 @@ fragment float4 circle(VertexOut out [[stage_in]],
     float aspectRatio = uniforms.resolution.x / uniforms.resolution.y;
             
     float xRadius = (u - 0.5) * aspectRatio - uniforms.position.x;
-    float yRadius = v - 0.5 - uniforms.position.y;
+    float yRadius = (v - 0.5) - uniforms.position.y;
     float radius = sqrt(pow(xRadius, 2) + pow(yRadius, 2));
     
     float4 color = radiusColor(radius, uniforms.radius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);

@@ -21,8 +21,7 @@ struct Uniforms {
 
 kernel void sphere3d(const device Uniforms& uniforms [[ buffer(0) ]],
                      texture3d<float, access::write> targetTexture [[ texture(0) ]],
-                     uint3 pos [[ thread_position_in_grid ]],
-                     sampler s [[ sampler(0) ]]) {
+                     uint3 pos [[ thread_position_in_grid ]]) {
 
     if (pos.x >= targetTexture.get_width()) {
         return;
@@ -38,9 +37,9 @@ kernel void sphere3d(const device Uniforms& uniforms [[ buffer(0) ]],
 
     float onePixel = 1.0 / float(max(max(width, height), depth));
 
-    float x = float(pos.x + 0.5) / float(width);
-    float y = float(pos.y + 0.5) / float(height);
-    float z = float(pos.z + 0.5) / float(depth);
+    float u = float(pos.x + 0.5) / float(width);
+    float v = float(pos.y + 0.5) / float(height);
+    float w = float(pos.z + 0.5) / float(depth);
     
     float4 foregroundColor = uniforms.foregroundColor;
     float4 edgeColor = uniforms.edgeColor;
@@ -54,9 +53,9 @@ kernel void sphere3d(const device Uniforms& uniforms [[ buffer(0) ]],
     float aspectRatio = float(width) / float(height);
     float depthAspectRatio = float(depth) / float(height);
     
-    float xRadius = (x - 0.5) * aspectRatio - uniforms.position.x;
-    float yRadius = y - 0.5 - uniforms.position.y;
-    float zRadius = (z - 0.5) * depthAspectRatio - uniforms.position.z;
+    float xRadius = (u - 0.5) * aspectRatio - uniforms.position.x;
+    float yRadius = (v - 0.5) - uniforms.position.y;
+    float zRadius = (w - 0.5) * depthAspectRatio - uniforms.position.z;
     float radius = sqrt(pow(sqrt(pow(xRadius, 2) + pow(yRadius, 2)), 2) + pow(zRadius, 2));
     
     float4 color = radiusColor(radius, uniforms.radius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
