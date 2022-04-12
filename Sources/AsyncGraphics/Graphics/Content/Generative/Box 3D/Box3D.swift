@@ -24,7 +24,7 @@ public extension Graphic3D {
                     cornerRadius: Double = 0.0,
                     color: PixelColor = .white,
                     backgroundColor: PixelColor = .black,
-                    resolution: SIMD3<Int>) async throws -> Graphic3D {
+                    at resolution: SIMD3<Int>) async throws -> Graphic3D {
         
         let center: SIMD3<Double> = SIMD3<Double>(
             origin.x + size.x / 2,
@@ -38,7 +38,7 @@ public extension Graphic3D {
             cornerRadius: cornerRadius,
             color: color,
             backgroundColor: backgroundColor,
-            resolution: resolution
+            at: resolution
         )
     }
     
@@ -47,7 +47,7 @@ public extension Graphic3D {
                     cornerRadius: Double = 0.0,
                     color: PixelColor = .white,
                     backgroundColor: PixelColor = .black,
-                    resolution: SIMD3<Int>) async throws -> Graphic3D {
+                    at resolution: SIMD3<Int>) async throws -> Graphic3D {
 
         let relativeCenter = SIMD3<Double>(
             (center.x - Double(resolution.x) / 2) / Double(resolution.y),

@@ -49,14 +49,14 @@ fragment float4 rectangle(VertexOut out [[stage_in]],
 
     float2 position = uniforms.position;
     float2 size = uniforms.size;
+    
+    float width = size.x;
+    float height = size.y;
 
     float left = position.x - size.x / 2;
     float right = position.x + size.x / 2;
     float bottom = position.y - size.y / 2;
     float top = position.y + size.y / 2;
-
-    float width = right - left;
-    float height = top - bottom;
 
     float cornerRadius = max(min(min(uniforms.cornerRadius, width / 2), height / 2), 0.0);
 

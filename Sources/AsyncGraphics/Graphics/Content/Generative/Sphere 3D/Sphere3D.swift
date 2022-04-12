@@ -18,20 +18,14 @@ public extension Graphic3D {
         let backgroundColor: ColorUniform
     }
 
-    static func sphere(radius: Double? = nil,
-                       center: SIMD3<Double>? = nil,
+    static func sphere(radius: Double,
+                       center: SIMD3<Double>,
                        color: PixelColor = .white,
                        backgroundColor: PixelColor = .black,
-                       resolution: SIMD3<Int>) async throws -> Graphic3D {
+                       at resolution: SIMD3<Int>) async throws -> Graphic3D {
         
-        let radius: Double = radius ?? Double(min(resolution.x, resolution.y, resolution.z)) / 2
         let relativeRadius: Double = radius / Double(resolution.y)
         
-        let center: SIMD3<Double> = center ?? SIMD3<Double>(
-            Double(resolution.x / 2),
-            Double(resolution.y / 2),
-            Double(resolution.z / 2)
-        )
         let relativeCenter = SIMD3<Double>(
             (center.x - Double(resolution.x) / 2) / Double(resolution.y),
             (center.y - Double(resolution.y) / 2) / Double(resolution.y),
@@ -57,22 +51,20 @@ public extension Graphic3D {
         )
     }
     
-    static func surfaceSphere(radius: Double? = nil,
-                              center: SIMD3<Double>? = nil,
+    static func surfaceSphere(radius: Double,
+                              center: SIMD3<Double>,
                               surfaceWidth: Double,
                               color: PixelColor = .white,
                               backgroundColor: PixelColor = .black,
-                              resolution: SIMD3<Int>) async throws -> Graphic3D {
+                              at resolution: SIMD3<Int>) async throws -> Graphic3D {
         
-        let radius: Double = radius ?? Double(min(resolution.x, resolution.y, resolution.z)) / 2
         let relativeRadius: Double = radius / Double(resolution.y)
         
-        let center: SIMD3<Double> = center ?? SIMD3<Double>(Double(resolution.x / 2),
-                                                            Double(resolution.y / 2),
-                                                            Double(resolution.z / 2))
-        let relativePosition = SIMD3<Double>((center.x - Double(resolution.x) / 2) / Double(resolution.x),
-                                             (center.y - Double(resolution.y) / 2) / Double(resolution.y),
-                                             (center.z - Double(resolution.z) / 2) / Double(resolution.z))
+        let relativeCenter = SIMD3<Double>(
+            (center.x - Double(resolution.x) / 2) / Double(resolution.y),
+            (center.y - Double(resolution.y) / 2) / Double(resolution.y),
+            (center.z - Double(resolution.z) / 2) / Double(resolution.y)
+        )
         
         let surfaceWidth: Double = surfaceWidth / Double(resolution.y)
         
@@ -83,7 +75,7 @@ public extension Graphic3D {
                 premultiply: true,
                 antiAlias: true,
                 radius: Float(relativeRadius),
-                position: relativePosition.uniform,
+                position: relativeCenter.uniform,
                 edgeRadius: Float(surfaceWidth),
                 foregroundColor: backgroundColor.uniform,
                 edgeColor: color.uniform,
