@@ -62,9 +62,9 @@ public extension Graphic {
                 size: relativeSize.uniform,
                 position: relativePosition.uniform,
                 cornerRadius: Float(relativeCornerRadius),
-                edgeRadius: Float(0.1),
+                edgeRadius: 0.0,
                 foregroundColor: color.uniform,
-                edgeColor: PixelColor.gray.uniform,
+                edgeColor: PixelColor.clear.uniform,
                 backgroundColor: backgroundColor.uniform,
                 resolution: graphicSize.resolution.uniform
             ),

@@ -57,13 +57,9 @@ kernel void box3d(const device Uniforms& uniforms [[ buffer(0) ]],
     float x = (u - 0.5) * aspectRatio;
     float y = v - 0.5;
     float z = (w - 0.5) * depthAspectRatio;
-
+    
     float3 position = uniforms.position;
     float3 size = uniforms.size;
-
-    float width = size.x;
-    float height = size.y;
-    float depth = size.z;
 
     float left = position.x - size.x / 2;
     float right = position.x + size.x / 2;
@@ -72,7 +68,7 @@ kernel void box3d(const device Uniforms& uniforms [[ buffer(0) ]],
     float near = position.z - size.z / 2;
     float far = position.z + size.z / 2;
 
-    float cornerRadius = max(min(min(min(uniforms.cornerRadius, width / 2), height / 2), depth / 2), 0.0);
+    float cornerRadius = max(min(min(min(uniforms.cornerRadius, size.x / 2), size.y / 2), size.z / 2), 0.0);
 
     float in_x = x > left && x < right;
     float in_y = y > bottom && y < top;
@@ -88,15 +84,15 @@ kernel void box3d(const device Uniforms& uniforms [[ buffer(0) ]],
 
         if (edgeRadius > 0.0) {
 
-            if (in_edge_inner_x && in_edge_inner_y) {
+            if (in_edge_inner_x && in_edge_inner_y && in_edge_inner_z) {
                 color = foregroundColor;
-            } else if (in_edge_outer_x && in_edge_outer_y) {
+            } else if (in_edge_outer_x && in_edge_outer_y && in_edge_outer_z) {
                 color = edgeColor;
             }
 
         } else {
 
-            if (in_x && in_y) {
+            if (in_x && in_y && in_z) {
                 color = foregroundColor;
             }
         }
@@ -105,59 +101,70 @@ kernel void box3d(const device Uniforms& uniforms [[ buffer(0) ]],
 
         float in_x_inset = x > left + cornerRadius && x < right - cornerRadius;
         float in_y_inset = y > bottom + cornerRadius && y < top - cornerRadius;
+        float in_z_inset = z > near + cornerRadius && z < far - cornerRadius;
 
-        if (in_x_inset || in_y_inset) {
+        if (in_x_inset || in_y_inset || in_z_inset) {
 
             if (edgeRadius > 0.0) {
 
-                if (in_edge_inner_x && in_edge_inner_y) {
+                if (in_edge_inner_x && in_edge_inner_y && in_edge_inner_z) {
                     color = foregroundColor;
-                } else if (in_edge_outer_x && in_edge_outer_y) {
+                } else if (in_edge_outer_x && in_edge_outer_y && in_edge_outer_z) {
                     color = edgeColor;
                 }
 
             } else {
 
-                color = foregroundColor;
+                if (in_x && in_y && in_z) {
+                    color = foregroundColor;
+                }
             }
 
         } else {
 
-            float2 corner_bottomLeft = float2(left + cornerRadius, bottom + cornerRadius);
-            float2 corner_topLeft = float2(left + cornerRadius, top - cornerRadius);
-            float2 corner_bottomRight = float2(right - cornerRadius, bottom + cornerRadius);
-            float2 corner_topRight = float2(right - cornerRadius, top - cornerRadius);
+            float3 corner_nearBottomLeft = float3(left + cornerRadius, bottom + cornerRadius, near + cornerRadius);
+            float3 corner_nearTopLeft = float3(left + cornerRadius, top - cornerRadius, near + cornerRadius);
+            float3 corner_nearBottomRight = float3(right - cornerRadius, bottom + cornerRadius, near + cornerRadius);
+            float3 corner_nearTopRight = float3(right - cornerRadius, top - cornerRadius, near + cornerRadius);
+            float3 corner_farBottomLeft = float3(left + cornerRadius, bottom + cornerRadius, far - cornerRadius);
+            float3 corner_farTopLeft = float3(left + cornerRadius, top - cornerRadius, far - cornerRadius);
+            float3 corner_farBottomRight = float3(right - cornerRadius, bottom + cornerRadius, far - cornerRadius);
+            float3 corner_farTopRight = float3(right - cornerRadius, top - cornerRadius, far - cornerRadius);
 
-            float cornerRadius_bottomLeft = sqrt(pow(x - corner_bottomLeft.x, 2) + pow(y - corner_bottomLeft.y, 2));
-            float cornerRadius_topLeft = sqrt(pow(x - corner_topLeft.x, 2) + pow(y - corner_topLeft.y, 2));
-            float cornerRadius_bottomRight = sqrt(pow(x - corner_bottomRight.x, 2) + pow(y - corner_bottomRight.y, 2));
-            float cornerRadius_topRight = sqrt(pow(x - corner_topRight.x, 2) + pow(y - corner_topRight.y, 2));
+            float cornerRadius_nearBottomLeft = sqrt(pow(sqrt(pow(x - corner_nearBottomLeft.x, 2) + pow(y - corner_nearBottomLeft.y, 2)), 2) + pow(z - corner_nearBottomLeft.z, 2));
+            float cornerRadius_nearTopLeft = sqrt(pow(sqrt(pow(x - corner_nearTopLeft.x, 2) + pow(y - corner_nearTopLeft.y, 2)), 2) + pow(z - corner_nearTopLeft.z, 2));
+            float cornerRadius_nearBottomRight = sqrt(pow(sqrt(pow(x - corner_nearBottomRight.x, 2) + pow(y - corner_nearBottomRight.y, 2)), 2) + pow(z - corner_nearBottomRight.z, 2));
+            float cornerRadius_nearTopRight = sqrt(pow(sqrt(pow(x - corner_nearTopRight.x, 2) + pow(y - corner_nearTopRight.y, 2)), 2) + pow(z - corner_nearTopRight.z, 2));
+            float cornerRadius_farBottomLeft = sqrt(pow(sqrt(pow(x - corner_farBottomLeft.x, 2) + pow(y - corner_farBottomLeft.y, 2)), 2) + pow(z - corner_farBottomLeft.z, 2));
+            float cornerRadius_farTopLeft = sqrt(pow(sqrt(pow(x - corner_farTopLeft.x, 2) + pow(y - corner_farTopLeft.y, 2)), 2) + pow(z - corner_farTopLeft.z, 2));
+            float cornerRadius_farBottomRight = sqrt(pow(sqrt(pow(x - corner_farBottomRight.x, 2) + pow(y - corner_farBottomRight.y, 2)), 2) + pow(z - corner_farBottomRight.z, 2));
+            float cornerRadius_farTopRight = sqrt(pow(sqrt(pow(x - corner_farTopRight.x, 2) + pow(y - corner_farTopRight.y, 2)), 2) + pow(z - corner_farTopRight.z, 2));
 
-            if (uniforms.antiAlias || edgeRadius > 0.0) {
-
-                if (x < position.x && y < position.y) {
-
-                    color = radiusColor(cornerRadius_bottomLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
-
-                } else if (x < position.x && y > position.y) {
-
-                    color = radiusColor(cornerRadius_topLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
-
-                } else if (x > position.x && y < position.y) {
-
-                    color = radiusColor(cornerRadius_bottomRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
-
-                } else if (x > position.x && y > position.y) {
-
-                    color = radiusColor(cornerRadius_topRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
-                }
-
-            } else {
-
-                if (cornerRadius_bottomLeft < cornerRadius || cornerRadius_topLeft < cornerRadius || cornerRadius_bottomRight < cornerRadius || cornerRadius_topRight < cornerRadius) {
-                    color = foregroundColor;
-                }
-            }
+//            if (uniforms.antiAlias || edgeRadius > 0.0) {
+//
+//                if (x < position.x && y < position.y) {
+//
+//                    color = radiusColor(cornerRadius_bottomLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+//
+//                } else if (x < position.x && y > position.y) {
+//
+//                    color = radiusColor(cornerRadius_topLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+//
+//                } else if (x > position.x && y < position.y) {
+//
+//                    color = radiusColor(cornerRadius_bottomRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+//
+//                } else if (x > position.x && y > position.y) {
+//
+//                    color = radiusColor(cornerRadius_topRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+//                }
+//
+//            } else {
+//
+//                if (cornerRadius_bottomLeft < cornerRadius || cornerRadius_topLeft < cornerRadius || cornerRadius_bottomRight < cornerRadius || cornerRadius_topRight < cornerRadius) {
+//                    color = foregroundColor;
+//                }
+//            }
         }
 
     }
@@ -166,5 +173,5 @@ kernel void box3d(const device Uniforms& uniforms [[ buffer(0) ]],
         color = float4(color.rgb * color.a, color.a);
     }
 
-    return color;
+    targetTexture.write(color, pos);
 }

@@ -28,7 +28,8 @@ public extension Graphic3D {
         return try await sample(index: index, axis: axis)
     }
     
-    func sample(index: Int, axis: Axis) async throws -> Graphic {
+    #warning("Axis other than Z failes")
+    func sample(index: Int, axis: Axis = .z) async throws -> Graphic {
         
         let texture = try await texture.sample3d(index: index, axis: axis.tmAxis, bits: bits)
         
