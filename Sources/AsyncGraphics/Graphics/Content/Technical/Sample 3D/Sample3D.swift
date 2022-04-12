@@ -35,4 +35,43 @@ public extension Graphic3D {
         
         return Graphic(name: "Sample", texture: texture, bits: bits, colorSpace: colorSpace)
     }
+    
+    #warning("Axis other than Z failes")
+    func samples(axis: Axis = .z) async throws -> [Graphic] {
+        
+        let count: Int = {
+            switch axis {
+            case .x:
+                return resolution.x
+            case .y:
+                return resolution.y
+            case .z:
+                return resolution.z
+            }
+        }()
+        
+        let graphics: [Graphic] = try await withThrowingTaskGroup(of: (Int, Graphic).self) { group in
+            
+            for index in 0..<count {
+                group.addTask {
+                    let graphic: Graphic = try await self.sample(index: index, axis: axis)
+                    return (index, graphic)
+                }
+            }
+            
+            var graphics: [(Int, Graphic)] = []
+            
+            for try await (index, graphic) in group {
+                graphics.append((index, graphic))
+            }
+            
+            return graphics
+                .sorted(by: { leadingPack, trailingPack in
+                    leadingPack.0 < trailingPack.0
+                })
+                .map(\.1)
+        }
+        
+        return graphics
+    }
 }

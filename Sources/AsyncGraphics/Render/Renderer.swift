@@ -29,6 +29,7 @@ struct Renderer {
         case failedToMakeSampler
         case failedToMakeUniformBuffer
         case failedToMakeComputeCommandEncoder
+//        case tooManyTextures(count: Int, maximum: Int)
         
         var errorDescription: String? {
             switch self {
@@ -50,6 +51,8 @@ struct Renderer {
                 return "Async Graphics - Renderer - Failed to Make Uniform Buffer"
             case .failedToMakeComputeCommandEncoder:
                 return "Async Graphics - Renderer - Failed to Make Compute Command Encoder"
+//            case .tooManyTextures(let count, let maximum):
+//                return "Async Graphics - Renderer - Too Many Textures (\(count) > \(maximum))"
             }
         }
     }
@@ -61,7 +64,8 @@ struct Renderer {
                                        graphics: [Graphicable] = [],
                                        resolution: MultiDimensionalResolution? = nil,
                                        colorSpace: TMColorSpace? = nil,
-                                       bits: TMBits? = nil) async throws -> G {
+                                       bits: TMBits? = nil,
+                                       isMulti: Bool = false) async throws -> G {
         
         try await render(name: name,
                          shaderName: shaderName,
@@ -69,7 +73,8 @@ struct Renderer {
                          uniforms: EmptyUniforms(),
                          resolution: resolution,
                          colorSpace: colorSpace,
-                         bits: bits)
+                         bits: bits,
+                         isMulti: isMulti)
     }
     
     static func render<U, G: Graphicable>(name: String,
@@ -78,7 +83,8 @@ struct Renderer {
                                           uniforms: U,
                                           resolution: MultiDimensionalResolution? = nil,
                                           colorSpace: TMColorSpace? = nil,
-                                          bits: TMBits? = nil) async throws -> G {
+                                          bits: TMBits? = nil,
+                                          isMulti: Bool = false) async throws -> G {
         
         guard let resolution: MultiDimensionalResolution = resolution ?? {
             if let graphic = graphics.first as? Graphic {
@@ -93,6 +99,8 @@ struct Renderer {
             throw RendererError.badMetadata
         }
         
+        let multiTexture: MTLTexture? = isMulti ? try await graphics.map(\.texture).texture(type: .typeArray) : nil
+            
         return try await withCheckedThrowingContinuation { continuation in
             
             DispatchQueue.global(qos: .userInteractive).async {
@@ -150,15 +158,34 @@ struct Renderer {
                         
                         if !graphics.isEmpty {
                             
-                            for (index, graphic) in graphics.enumerated() {
+                            if let multiTexture: MTLTexture = multiTexture {
                                 
                                 if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                                     
-                                    renderCommandEncoder.setFragmentTexture(graphic.texture, index: index)
+                                    renderCommandEncoder.setFragmentTexture(multiTexture, index: 0)
                                     
                                 } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
                                     
-                                    computeCommandEncoder.setTexture(graphic.texture, index: index)
+                                    computeCommandEncoder.setTexture(multiTexture, index: 0)
+                                }
+                                
+                            } else {
+                            
+                                for (index, graphic) in graphics.enumerated() {
+                                    
+//                                    let maximum = 128
+//                                    guard index < maximum else {
+//                                        throw RendererError.tooManyTextures(count: graphics.count, maximum: maximum)
+//                                    }
+    
+                                    if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
+                                        
+                                        renderCommandEncoder.setFragmentTexture(graphic.texture, index: index)
+                                        
+                                    } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
+                                        
+                                        computeCommandEncoder.setTexture(graphic.texture, index: index)
+                                    }
                                 }
                             }
                             

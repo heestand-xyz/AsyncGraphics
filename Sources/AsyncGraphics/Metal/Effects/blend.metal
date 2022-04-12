@@ -99,4 +99,3 @@ float4 blend(int mode, float4 ca, float4 cb) {
     return c;
     
 }
-   
