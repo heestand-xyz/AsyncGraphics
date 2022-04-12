@@ -138,6 +138,7 @@ fragment float4 rectangle(VertexOut out [[stage_in]],
             } else {
                 
                 if (cornerRadius_bottomLeft < cornerRadius || cornerRadius_topLeft < cornerRadius || cornerRadius_bottomRight < cornerRadius || cornerRadius_topRight < cornerRadius) {
+                    
                     color = foregroundColor;
                 }
             }
