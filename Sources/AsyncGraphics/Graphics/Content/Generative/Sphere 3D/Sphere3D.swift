@@ -66,7 +66,7 @@ public extension Graphic3D {
             (center.z - Double(resolution.z) / 2) / Double(resolution.y)
         )
         
-        let surfaceWidth: Double = surfaceWidth / Double(resolution.y)
+        let relativeSurfaceWidth: Double = surfaceWidth / Double(resolution.y)
         
         return try await Renderer.render(
             name: "Sphere",
@@ -76,7 +76,7 @@ public extension Graphic3D {
                 antiAlias: true,
                 radius: Float(relativeRadius),
                 position: relativeCenter.uniform,
-                edgeRadius: Float(surfaceWidth),
+                edgeRadius: Float(relativeSurfaceWidth),
                 foregroundColor: backgroundColor.uniform,
                 edgeColor: color.uniform,
                 backgroundColor: backgroundColor.uniform

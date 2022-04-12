@@ -82,4 +82,73 @@ public extension Graphic3D {
             bits: ._8
         )
     }
+    
+    static func surfaceBox(origin: SIMD3<Double>,
+                           size: SIMD3<Double>,
+                           cornerRadius: Double = 0.0,
+                           surfaceWidth: Double,
+                           color: PixelColor = .white,
+                           backgroundColor: PixelColor = .black,
+                           at resolution: SIMD3<Int>) async throws -> Graphic3D {
+        
+        let center: SIMD3<Double> = SIMD3<Double>(
+            origin.x + size.x / 2,
+            origin.y + size.y / 2,
+            origin.z + size.z / 2
+        )
+        
+        return try await surfaceBox(
+            center: center,
+            size: size,
+            cornerRadius: cornerRadius,
+            surfaceWidth: surfaceWidth,
+            color: color,
+            backgroundColor: backgroundColor,
+            at: resolution
+        )
+    }
+    
+    static func surfaceBox(center: SIMD3<Double>,
+                           size: SIMD3<Double>,
+                           cornerRadius: Double = 0.0,
+                           surfaceWidth: Double,
+                           color: PixelColor = .white,
+                           backgroundColor: PixelColor = .black,
+                           at resolution: SIMD3<Int>) async throws -> Graphic3D {
+        
+        let relativeCenter = SIMD3<Double>(
+            (center.x - Double(resolution.x) / 2) / Double(resolution.y),
+            (center.y - Double(resolution.y) / 2) / Double(resolution.y),
+            (center.z - Double(resolution.z) / 2) / Double(resolution.y)
+        )
+        
+        let relativeSize: SIMD3<Double> = SIMD3<Double>(
+            size.x / Double(resolution.y),
+            size.y / Double(resolution.y),
+            size.z / Double(resolution.y)
+        )
+        
+        let relativeCornerRadius: Double = cornerRadius / Double(resolution.y)
+        
+        let relativeSurfaceWidth: Double = surfaceWidth / Double(resolution.y)
+
+        return try await Renderer.render(
+            name: "Box",
+            shaderName: "box3d",
+            uniforms: Box3DUniforms(
+                premultiply: true,
+                antiAlias: true,
+                size: relativeSize.uniform,
+                position: relativeCenter.uniform,
+                cornerRadius: Float(relativeCornerRadius),
+                edgeRadius: Float(relativeSurfaceWidth),
+                foregroundColor: backgroundColor.uniform,
+                edgeColor: color.uniform,
+                backgroundColor: backgroundColor.uniform
+            ),
+            resolution: resolution,
+            colorSpace: .sRGB,
+            bits: ._8
+        )
+    }
 }
