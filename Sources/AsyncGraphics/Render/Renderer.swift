@@ -184,7 +184,7 @@ struct Renderer {
                                         
                                     } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
                                         
-                                        computeCommandEncoder.setTexture(graphic.texture, index: index)
+                                        computeCommandEncoder.setTexture(graphic.texture, index: index + 1)
                                     }
                                 }
                             }

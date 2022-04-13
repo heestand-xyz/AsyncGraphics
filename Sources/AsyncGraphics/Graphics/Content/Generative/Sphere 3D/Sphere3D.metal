@@ -23,17 +23,13 @@ kernel void sphere3d(const device Uniforms& uniforms [[ buffer(0) ]],
                      texture3d<float, access::write> targetTexture [[ texture(0) ]],
                      uint3 pos [[ thread_position_in_grid ]]) {
 
-    if (pos.x >= targetTexture.get_width()) {
-        return;
-    } else if (pos.y >= targetTexture.get_height()) {
-        return;
-    } else if (pos.z >= targetTexture.get_depth()) {
-        return;
-    }
-
     uint width = targetTexture.get_width();
     uint height = targetTexture.get_height();
     uint depth = targetTexture.get_depth();
+    
+    if (pos.x >= width || pos.y >= height || pos.z >= depth) {
+        return;
+    }
 
     float onePixel = 1.0 / float(max(max(width, height), depth));
 

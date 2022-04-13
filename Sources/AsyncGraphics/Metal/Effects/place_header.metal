@@ -12,6 +12,7 @@ using namespace metal;
 #ifndef PLACE
 #define PLACE
 
-float2 place(int place, float2 uv, uint aw, uint ah, uint bw, uint bh);
+float2 place(int place, float2 uv, uint leadingWidth, uint leadingHeight, uint trailingWidth, uint trailingHeight);
+float3 place3d(int place, float3 uvw, uint leadingWidth, uint leadingHeight, uint leadingDepth, uint trailingWidth, uint trailingHeight, uint trailingDepth);
 
 #endif

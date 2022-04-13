@@ -15,8 +15,8 @@ struct VertexOut {
 };
 
 struct Uniforms {
-    int mode;
-    int place;
+    int blendingMode;
+    int placement;
 };
 
 fragment float4 blend(VertexOut out [[stage_in]],
@@ -41,11 +41,11 @@ fragment float4 blend(VertexOut out [[stage_in]],
     uint ah = inTexA.get_height();
     uint bw = inTexB.get_width();
     uint bh = inTexB.get_height();
-    float2 uvp = place(uniforms.place, uv, aw, ah, bw, bh);
+    float2 uvp = place(uniforms.placement, uv, aw, ah, bw, bh);
     
     float4 cb = inTexB.sample(s, uvp);
     
-    float4 c = blend(uniforms.mode, ca, cb);
+    float4 c = blend(uniforms.blendingMode, ca, cb);
     
     return c;
 }
