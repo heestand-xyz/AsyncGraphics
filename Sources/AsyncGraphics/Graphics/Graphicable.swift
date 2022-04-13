@@ -7,6 +7,8 @@ import TextureMap
 
 protocol Graphicable {
     
+    var id: UUID { get }
+    
     var name: String { get }
 
     var texture: MTLTexture { get }
@@ -14,5 +16,5 @@ protocol Graphicable {
     var bits: TMBits { get }
     var colorSpace: TMColorSpace { get }
         
-    init(name: String, texture: MTLTexture, bits: TMBits, colorSpace: TMColorSpace)
+    init(id: UUID, name: String, texture: MTLTexture, bits: TMBits, colorSpace: TMColorSpace)
 }

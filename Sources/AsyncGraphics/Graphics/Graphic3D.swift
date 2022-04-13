@@ -11,12 +11,22 @@ import PixelColor
 
 public struct Graphic3D: Graphicable {
     
+    public let id: UUID
+    
     public let name: String
     
     public let texture: MTLTexture
     
     public let bits: TMBits
     public let colorSpace: TMColorSpace
+    
+    public init(id: UUID = UUID(), name: String, texture: MTLTexture, bits: TMBits, colorSpace: TMColorSpace) {
+        self.id = id
+        self.name = name
+        self.texture = texture
+        self.bits = bits
+        self.colorSpace = colorSpace
+    }
 }
 
 // MARK: - Resolution
@@ -152,12 +162,19 @@ extension Graphic3D {
     }
 }
 
-// MARK: - Equal
+// MARK: - Equatable
+
+extension Graphic3D: Equatable {
+    
+    public static func == (lhs: Graphic3D, rhs: Graphic3D) -> Bool {
+        lhs.id == rhs.id
+    }
+}
 
 //@available(iOS 14.0, tvOS 14, macOS 11, *)
 //extension Graphic3D {
 //
-//    public func isEqual(to graphic: Graphic3D) async throws -> Bool {
+//    public func isPixelsEqual(to graphic: Graphic3D) async throws -> Bool {
 //
 //        guard resolution == graphic.resolution else {
 //            return false

@@ -266,7 +266,8 @@ struct Renderer {
                             
                             DispatchQueue.main.async {
                                 
-                                let graphic = G(name: name,
+                                let graphic = G(id: UUID(),
+                                                name: name,
                                                 texture: targetTexture,
                                                 bits: bits,
                                                 colorSpace: colorSpace)
