@@ -11,16 +11,16 @@ import PixelColor
 
 public struct Graphic3D: Graphicable {
     
-    public let id: UUID
+    let id: UUID
     
-    public let name: String
+    let name: String
     
     public let texture: MTLTexture
     
     public let bits: TMBits
     public let colorSpace: TMColorSpace
     
-    public init(id: UUID = UUID(), name: String, texture: MTLTexture, bits: TMBits, colorSpace: TMColorSpace) {
+    init(id: UUID = UUID(), name: String, texture: MTLTexture, bits: TMBits, colorSpace: TMColorSpace) {
         self.id = id
         self.name = name
         self.texture = texture
@@ -33,18 +33,22 @@ public struct Graphic3D: Graphicable {
 
 extension Graphic3D {
     
+    /// Resolution in pixels
     public var resolution: SIMD3<Int> {
         SIMD3(width, height, depth)
     }
     
+    /// Width in pixels
     public var width: Int {
         texture.width
     }
     
+    /// Height in pixels
     public var height: Int {
         texture.height
     }
     
+    /// Depth in pixels
     public var depth: Int {
         texture.depth
     }
@@ -90,18 +94,16 @@ extension Graphic3D {
         
         get async throws {
             
-            let voxels: [PixelColor] = try await voxels.flatMap { $0.flatMap { $0 } }
+            let voxelColors: [PixelColor] = try await voxelColors.flatMap { $0.flatMap { $0 } }
             
-            let color: PixelColor = voxels.reduce(.clear, +) / CGFloat(voxels.count)
+            let color: PixelColor = voxelColors.reduce(.clear, +) / CGFloat(voxelColors.count)
             
             return color
         }
     }
     
-    /// Voxels
-    ///
     /// An array of planes of rows of colors.
-    public var voxels: [[[PixelColor]]] {
+    public var voxelColors: [[[PixelColor]]] {
         
         get async throws {
             
@@ -116,7 +118,7 @@ extension Graphic3D {
                 throw Graphic3DPixelError.badChannelCount
             }
             
-            var voxels: [[[PixelColor]]] = []
+            var voxelColors: [[[PixelColor]]] = []
             
             for z in 0..<Int(resolution.z) {
                 
@@ -146,10 +148,10 @@ extension Graphic3D {
                     planes.append(rows)
                 }
                 
-                voxels.append(planes)
+                voxelColors.append(planes)
             }
             
-            return voxels
+            return voxelColors
         }
     }
     

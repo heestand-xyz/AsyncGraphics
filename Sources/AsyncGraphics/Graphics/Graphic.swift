@@ -11,16 +11,16 @@ import CoreGraphicsExtensions
 
 public struct Graphic: Graphicable {
     
-    public let id: UUID
+    let id: UUID
     
-    public let name: String
+    let name: String
     
     public let texture: MTLTexture
     
     public let bits: TMBits
     public let colorSpace: TMColorSpace
     
-    public init(id: UUID = UUID(), name: String, texture: MTLTexture, bits: TMBits, colorSpace: TMColorSpace) {
+    init(id: UUID = UUID(), name: String, texture: MTLTexture, bits: TMBits, colorSpace: TMColorSpace) {
         self.id = id
         self.name = name
         self.texture = texture
@@ -33,18 +33,22 @@ public struct Graphic: Graphicable {
 
 extension Graphic {
     
+    /// Resolution in pixels
     public var resolution: CGSize {
         texture.size
     }
     
+    /// Size in points
     public var size: CGSize {
         resolution / CGFloat.scale
     }
     
+    /// Width in points
     public var width: CGFloat {
         size.width
     }
     
+    /// Height in points
     public var height: CGFloat {
         size.height
     }
@@ -54,6 +58,7 @@ extension Graphic {
 
 extension Graphic {
     
+    /// UIImage / NSImage
     public var image: TMImage {
         get async throws {
             try await texture.image(colorSpace: colorSpace, bits: bits)
@@ -101,18 +106,16 @@ extension Graphic {
         
         get async throws {
             
-            let pixels: [PixelColor] = try await pixels.flatMap { $0 }
+            let pixelColors: [PixelColor] = try await pixelColors.flatMap { $0 }
             
-            let color: PixelColor = pixels.reduce(.clear, +) / CGFloat(pixels.count)
+            let color: PixelColor = pixelColors.reduce(.clear, +) / CGFloat(pixelColors.count)
             
             return color
         }
     }
     
-    /// Pixels
-    ///
     /// An array of rows of colors.
-    public var pixels: [[PixelColor]] {
+    public var pixelColors: [[PixelColor]] {
         
         get async throws {
             
@@ -127,7 +130,7 @@ extension Graphic {
                 throw GraphicPixelError.badChannelCount
             }
             
-            var pixels: [[PixelColor]] = []
+            var pixelColors: [[PixelColor]] = []
             
             for y in 0..<Int(resolution.height) {
             
@@ -150,10 +153,10 @@ extension Graphic {
                     rows.append(color)
                 }
                 
-                pixels.append(rows)
+                pixelColors.append(rows)
             }
             
-            return pixels
+            return pixelColors
         }
     }
     

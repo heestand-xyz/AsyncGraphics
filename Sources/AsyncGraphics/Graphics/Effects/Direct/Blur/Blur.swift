@@ -3,6 +3,7 @@
 //
 
 import Metal
+import CoreGraphics
 
 public extension Graphic {
     

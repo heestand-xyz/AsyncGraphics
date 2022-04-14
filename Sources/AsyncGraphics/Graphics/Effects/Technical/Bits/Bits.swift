@@ -11,7 +11,7 @@ import TextureMap
 //@available(iOS 14.0, tvOS 14, macOS 11, *)
 public extension Graphic {
     
-    func with(bits: TMBits) async throws -> Graphic {
+    func bits(_ bits: TMBits) async throws -> Graphic {
         
         Graphic(name: "Bits", texture: texture, bits: bits, colorSpace: colorSpace)
     }

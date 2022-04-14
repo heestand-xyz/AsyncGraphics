@@ -5,7 +5,7 @@
 //  Created by Anton Heestand on 2022-04-11.
 //
 
-import Foundation
+import CoreGraphics
 
 public extension Graphic3D {
     

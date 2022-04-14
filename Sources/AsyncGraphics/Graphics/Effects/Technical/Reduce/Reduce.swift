@@ -8,12 +8,12 @@ import PixelColor
 
 public extension Graphic {
     
-    enum SampleAxis {
+    enum ReduceAxis {
         case x
         case y
     }
     
-    enum SampleMethod {
+    enum ReduceMethod {
         case average
         case minimum
         case maximum
@@ -24,9 +24,9 @@ public extension Graphic {
     ///
     /// Reduction to a singe pixel
 //    @available(iOS 14.0, tvOS 14, macOS 11, *)
-    func reduce(by sampleMethod: SampleMethod) async throws -> PixelColor {
+    func reduce(by sampleMethod: ReduceMethod) async throws -> PixelColor {
         
-        let highBitGraphic = try await with(bits: ._16)
+        let highBitGraphic = try await bits(._16)
         
         let rowGraphic = try await highBitGraphic.reduce(by: sampleMethod, in: .y)
                 
@@ -40,7 +40,7 @@ public extension Graphic {
     /// Reduction in sample axis x, gives you a column
     ///
     /// Reduction in sample axis y, gives you a row
-    func reduce(by sampleMethod: SampleMethod, in sampleAxis: SampleAxis) async throws -> Graphic {
+    func reduce(by sampleMethod: ReduceMethod, in sampleAxis: ReduceAxis) async throws -> Graphic {
                 
         let texture: MTLTexture = try await withCheckedThrowingContinuation { continuation in
             
@@ -78,7 +78,7 @@ public extension Graphic {
         return Graphic(name: "Reduce", texture: texture, bits: bits, colorSpace: colorSpace)
     }
     
-    private func resolution(in sampleAxis: SampleAxis) -> CGSize {
+    private func resolution(in sampleAxis: ReduceAxis) -> CGSize {
         switch sampleAxis {
         case .x:
             return CGSize(width: 1, height: resolution.height)
@@ -87,7 +87,7 @@ public extension Graphic {
         }
     }
     
-    private func kernel(by sampleMethod: SampleMethod, in sampleAxis: SampleAxis) -> MPSImageReduceUnary {
+    private func kernel(by sampleMethod: ReduceMethod, in sampleAxis: ReduceAxis) -> MPSImageReduceUnary {
         
         let device: MTLDevice = Renderer.metalDevice
         

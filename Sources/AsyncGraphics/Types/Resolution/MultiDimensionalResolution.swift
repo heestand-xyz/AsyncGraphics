@@ -5,7 +5,7 @@
 import simd
 import CoreGraphics
 
-public protocol MultiDimensionalResolution {}
+protocol MultiDimensionalResolution {}
 
 extension CGSize: MultiDimensionalResolution {}
 
