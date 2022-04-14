@@ -5,9 +5,9 @@
 import Metal
 import TextureMap
 
-public extension Graphic {
+public extension Graphic3D {
     
-    enum TextureGraphicError: LocalizedError {
+    enum TextureGraphic3DError: LocalizedError {
         
         case unsupportedType
         
@@ -19,14 +19,14 @@ public extension Graphic {
         }
     }
     
-    static func texture(_ texture: MTLTexture, colorSpace: TMColorSpace = .sRGB) throws -> Graphic {
+    static func texture(_ texture: MTLTexture, colorSpace: TMColorSpace = .sRGB) throws -> Graphic3D {
         
-        guard texture.textureType == .type2D else {
-            throw TextureGraphicError.unsupportedType
+        guard texture.textureType == .type3D else {
+            throw TextureGraphic3DError.unsupportedType
         }
         
         let bits = try TMBits(texture: texture)
         
-        return Graphic(name: "Texture", texture: texture, bits: bits, colorSpace: colorSpace)
+        return Graphic3D(name: "Texture", texture: texture, bits: bits, colorSpace: colorSpace)
     }
 }

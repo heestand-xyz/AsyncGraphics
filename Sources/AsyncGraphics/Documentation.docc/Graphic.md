@@ -38,12 +38,12 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 ### Content Shapes
 
 - ``color(_:at:)``
+- ``rectangle(size:center:cornerRadius:color:backgroundColor:at:)``
+- ``rectangle(frame:cornerRadius:color:backgroundColor:at:)``
+- ``strokedRectangle(size:center:cornerRadius:lineWidth:color:backgroundColor:at:)``
+- ``strokedRectangle(frame:cornerRadius:lineWidth:color:backgroundColor:at:)``
 - ``circle(radius:center:color:backgroundColor:at:)``
 - ``strokedCircle(radius:center:lineWidth:color:backgroundColor:at:)``
-- ``rectangle(center:size:cornerRadius:color:backgroundColor:at:)``
-- ``rectangle(frame:cornerRadius:color:backgroundColor:at:)``
-- ``strokedRectangle(center:size:cornerRadius:lineWidth:color:backgroundColor:at:)``
-- ``strokedRectangle(frame:cornerRadius:lineWidth:color:backgroundColor:at:)``
 
 ### Effects Direct
 

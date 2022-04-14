@@ -12,6 +12,7 @@ import TextureMap
 
 public extension Graphic {
     
+    /// UIImage / NSImage
     static func image(_ image: TMImage) async throws -> Graphic {
         
         let texture: MTLTexture = try await image.texture

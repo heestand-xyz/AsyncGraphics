@@ -12,7 +12,7 @@ public extension Graphic3D {
     /// Fraction 0.0 is the first plane
     ///
     /// Fraction 1.0 is the last plane
-    func sample(fraction: Double, axis: Axis) async throws -> Graphic {
+    func sample(fraction: Double, axis: Axis = .z) async throws -> Graphic {
         
         let index: Int = {
             switch axis {
