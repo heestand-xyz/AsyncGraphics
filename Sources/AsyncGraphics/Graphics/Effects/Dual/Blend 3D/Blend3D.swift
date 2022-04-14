@@ -7,8 +7,8 @@ import Metal
 public extension Graphic3D {
     
     private struct Blend3DUniforms {
-        let blendingMode: Int
-        let placement: Int
+        let blendingMode: Int32
+        let placement: Int32
     }
     
     func blended(with graphic: Graphic3D,
@@ -23,8 +23,8 @@ public extension Graphic3D {
                 graphic
             ],
             uniforms: Blend3DUniforms(
-                blendingMode: blendingMode.index,
-                placement: placement.index
+                blendingMode: Int32(blendingMode.index),
+                placement: Int32(placement.index)
             )
         )
     }

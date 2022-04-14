@@ -23,9 +23,11 @@ public extension Graphic3D {
                 premultiply: true,
                 color: color.uniform
             ),
-            resolution: resolution,
-            colorSpace: .sRGB,
-            bits: ._8
+            metadata: Metadata(
+                resolution: resolution,
+                colorSpace: .sRGB,
+                bits: ._8
+            )
         )
     }
 }

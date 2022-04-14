@@ -18,9 +18,11 @@ public extension Graphic {
             name: "Color",
             shaderName: "color",
             uniforms: ColorUniforms(color: color.uniform),
-            resolution: graphicSize.resolution,
-            colorSpace: .sRGB,
-            bits: ._8
+            metadata: Metadata(
+                resolution: graphicSize.resolution,
+                colorSpace: .sRGB,
+                bits: ._8
+            )
         )
     }
 }

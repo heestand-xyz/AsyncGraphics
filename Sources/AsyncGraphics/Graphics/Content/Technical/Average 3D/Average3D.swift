@@ -25,7 +25,11 @@ public extension Graphic3D {
             uniforms: Average3DUniforms(
                 axis: axis.index
             ),
-            resolution: resolution
+            metadata: Metadata(
+                resolution: resolution,
+                colorSpace: colorSpace,
+                bits: bits
+            )
         )
     }
 }

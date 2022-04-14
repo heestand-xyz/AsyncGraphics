@@ -6,8 +6,12 @@ import CoreGraphics
 
 extension CGPoint {
     
-    func flipY(size: CGSize) -> CGPoint {
+    func flipPositionY(size: CGSize) -> CGPoint {
         CGPoint(x: x, y: size.height - y)
+    }
+    
+    func flipTranslationY(size: CGSize) -> CGPoint {
+        CGPoint(x: x, y: -y)
     }
 }
 

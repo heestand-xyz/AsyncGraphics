@@ -62,18 +62,14 @@ struct Renderer {
     static func render<G: Graphicable>(name: String,
                                        shaderName: String,
                                        graphics: [Graphicable] = [],
-                                       resolution: MultiDimensionalResolution? = nil,
-                                       colorSpace: TMColorSpace? = nil,
-                                       bits: TMBits? = nil,
+                                       metadata: Metadata? = nil,
                                        isMulti: Bool = false) async throws -> G {
         
         try await render(name: name,
                          shaderName: shaderName,
                          graphics: graphics,
                          uniforms: EmptyUniforms(),
-                         resolution: resolution,
-                         colorSpace: colorSpace,
-                         bits: bits,
+                         metadata: metadata,
                          isMulti: isMulti)
     }
     
@@ -81,12 +77,10 @@ struct Renderer {
                                           shaderName: String,
                                           graphics: [Graphicable] = [],
                                           uniforms: U,
-                                          resolution: MultiDimensionalResolution? = nil,
-                                          colorSpace: TMColorSpace? = nil,
-                                          bits: TMBits? = nil,
+                                          metadata: Metadata? = nil,
                                           isMulti: Bool = false) async throws -> G {
         
-        guard let resolution: MultiDimensionalResolution = resolution ?? {
+        guard let resolution: MultiDimensionalResolution = metadata?.resolution ?? {
             if let graphic = graphics.first as? Graphic {
                 return graphic.resolution
             } else if let graphic3d = graphics.first as? Graphic3D {
@@ -94,10 +88,10 @@ struct Renderer {
             }
             return nil
         }(),
-              let colorSpace: TMColorSpace = colorSpace ?? graphics.first?.colorSpace,
-              let bits: TMBits = bits ?? graphics.first?.bits else {
-            throw RendererError.badMetadata
-        }
+        let colorSpace: TMColorSpace = metadata?.colorSpace ?? graphics.first?.colorSpace,
+            let bits: TMBits = metadata?.bits ?? graphics.first?.bits else {
+                throw RendererError.badMetadata
+            }
         
         let multiTexture: MTLTexture? = isMulti ? try await graphics.map(\.texture).texture(type: .typeArray) : nil
             
@@ -342,7 +336,6 @@ extension Renderer {
     
     static func sampler() throws -> MTLSamplerState {
         let samplerInfo = MTLSamplerDescriptor()
-        samplerInfo.mipFilter = .linear
         samplerInfo.minFilter = .linear
         samplerInfo.magFilter = .linear
         samplerInfo.sAddressMode = .clampToZero

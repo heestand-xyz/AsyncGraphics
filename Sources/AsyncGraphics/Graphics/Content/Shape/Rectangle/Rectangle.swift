@@ -21,13 +21,14 @@ public extension Graphic {
         let resolution: SizeUniform
     }
     
-    static func rectangle(center: CGPoint,
-                          size: CGSize,
+    static func rectangle(size: CGSize,
+                          center: CGPoint? = nil,
                           cornerRadius: CGFloat = 0.0,
                           color: PixelColor = .white,
                           backgroundColor: PixelColor = .black,
                           at graphicSize: CGSize) async throws -> Graphic {
 
+        let center: CGPoint = center ?? graphicSize.asPoint / 2
         let frame = CGRect(origin: center - size / 2, size: size)
         
         return try await rectangle(
@@ -68,20 +69,23 @@ public extension Graphic {
                 backgroundColor: backgroundColor.uniform,
                 resolution: graphicSize.resolution.uniform
             ),
-            resolution: graphicSize.resolution,
-            colorSpace: .sRGB,
-            bits: ._8
+            metadata: Metadata(
+                resolution: graphicSize.resolution,
+                colorSpace: .sRGB,
+                bits: ._8
+            )
         )
     }
     
-    static func strokedRectangle(center: CGPoint,
-                                 size: CGSize,
+    static func strokedRectangle(size: CGSize,
+                                 center: CGPoint? = nil,
                                  cornerRadius: CGFloat = 0.0,
                                  lineWidth: CGFloat,
                                  color: PixelColor = .white,
                                  backgroundColor: PixelColor = .black,
                                  at graphicSize: CGSize) async throws -> Graphic {
         
+        let center: CGPoint = center ?? graphicSize.asPoint / 2
         let frame = CGRect(origin: center - size / 2, size: size)
         
         return try await strokedRectangle(
@@ -126,9 +130,11 @@ public extension Graphic {
                 backgroundColor: backgroundColor.uniform,
                 resolution: graphicSize.resolution.uniform
             ),
-            resolution: graphicSize.resolution,
-            colorSpace: .sRGB,
-            bits: ._8
+            metadata: Metadata(
+                resolution: graphicSize.resolution,
+                colorSpace: .sRGB,
+                bits: ._8
+            )
         )
     }
 }

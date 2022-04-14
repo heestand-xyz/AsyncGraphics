@@ -42,7 +42,7 @@ kernel void blend3d(const device Uniforms& uniforms [[ buffer(0) ]],
     uint trailingDepth = trailingTexture.get_depth();
     float3 uvwp = place3d(uniforms.placement, uvw, leadingWidth, leadingHeight, leadingDepth, trailingWidth, trailingHeight, trailingDepth);
     
-    float4 leadingColor = leadingTexture.sample(sampler, uvwp);
+    float4 leadingColor = leadingTexture.sample(sampler, uvw);
     float4 trailingColor = trailingTexture.sample(sampler, uvwp);
     
     float4 color = blend(uniforms.blendingMode, leadingColor, trailingColor);

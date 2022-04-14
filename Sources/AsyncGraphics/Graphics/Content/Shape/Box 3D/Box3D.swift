@@ -19,8 +19,8 @@ public extension Graphic3D {
         let backgroundColor: ColorUniform
     }
 
-    static func box(origin: SIMD3<Double>,
-                    size: SIMD3<Double>,
+    static func box(size: SIMD3<Double>,
+                    origin: SIMD3<Double>,
                     cornerRadius: Double = 0.0,
                     color: PixelColor = .white,
                     backgroundColor: PixelColor = .black,
@@ -33,8 +33,8 @@ public extension Graphic3D {
         )
         
         return try await box(
-            center: center,
             size: size,
+            center: center,
             cornerRadius: cornerRadius,
             color: color,
             backgroundColor: backgroundColor,
@@ -42,23 +42,28 @@ public extension Graphic3D {
         )
     }
     
-    static func box(center: SIMD3<Double>,
-                    size: SIMD3<Double>,
+    static func box(size: SIMD3<Double>,
+                    center: SIMD3<Double>? = nil,
                     cornerRadius: Double = 0.0,
                     color: PixelColor = .white,
                     backgroundColor: PixelColor = .black,
                     at resolution: SIMD3<Int>) async throws -> Graphic3D {
-
-        let relativeCenter = SIMD3<Double>(
-            (center.x - Double(resolution.x) / 2) / Double(resolution.y),
-            (center.y - Double(resolution.y) / 2) / Double(resolution.y),
-            (center.z - Double(resolution.z) / 2) / Double(resolution.y)
-        )
-
+        
         let relativeSize: SIMD3<Double> = SIMD3<Double>(
             size.x / Double(resolution.y),
             size.y / Double(resolution.y),
             size.z / Double(resolution.y)
+        )
+        
+        let position: SIMD3<Double> = center ?? SIMD3<Double>(
+            Double(resolution.x) / 2,
+            Double(resolution.y) / 2,
+            Double(resolution.z) / 2
+        )
+        let relativePosition = SIMD3<Double>(
+            (position.x - Double(resolution.x) / 2) / Double(resolution.y),
+            (position.y - Double(resolution.y) / 2) / Double(resolution.y),
+            (position.z - Double(resolution.z) / 2) / Double(resolution.y)
         )
         
         let relativeCornerRadius: Double = cornerRadius / Double(resolution.y)
@@ -70,21 +75,23 @@ public extension Graphic3D {
                 premultiply: true,
                 antiAlias: true,
                 size: relativeSize.uniform,
-                position: relativeCenter.uniform,
+                position: relativePosition.uniform,
                 cornerRadius: Float(relativeCornerRadius),
                 edgeRadius: 0.0,
                 foregroundColor: color.uniform,
                 edgeColor: PixelColor.clear.uniform,
                 backgroundColor: backgroundColor.uniform
             ),
-            resolution: resolution,
-            colorSpace: .sRGB,
-            bits: ._8
+            metadata: Metadata(
+                resolution: resolution,
+                colorSpace: .sRGB,
+                bits: ._8
+            )
         )
     }
     
-    static func surfaceBox(origin: SIMD3<Double>,
-                           size: SIMD3<Double>,
+    static func surfaceBox(size: SIMD3<Double>,
+                           origin: SIMD3<Double>,
                            cornerRadius: Double = 0.0,
                            surfaceWidth: Double,
                            color: PixelColor = .white,
@@ -98,8 +105,8 @@ public extension Graphic3D {
         )
         
         return try await surfaceBox(
-            center: center,
             size: size,
+            center: center,
             cornerRadius: cornerRadius,
             surfaceWidth: surfaceWidth,
             color: color,
@@ -108,24 +115,29 @@ public extension Graphic3D {
         )
     }
     
-    static func surfaceBox(center: SIMD3<Double>,
-                           size: SIMD3<Double>,
+    static func surfaceBox(size: SIMD3<Double>,
+                           center: SIMD3<Double>? = nil,
                            cornerRadius: Double = 0.0,
                            surfaceWidth: Double,
                            color: PixelColor = .white,
                            backgroundColor: PixelColor = .black,
                            at resolution: SIMD3<Int>) async throws -> Graphic3D {
         
-        let relativeCenter = SIMD3<Double>(
-            (center.x - Double(resolution.x) / 2) / Double(resolution.y),
-            (center.y - Double(resolution.y) / 2) / Double(resolution.y),
-            (center.z - Double(resolution.z) / 2) / Double(resolution.y)
-        )
-        
         let relativeSize: SIMD3<Double> = SIMD3<Double>(
             size.x / Double(resolution.y),
             size.y / Double(resolution.y),
             size.z / Double(resolution.y)
+        )
+        
+        let position: SIMD3<Double> = center ?? SIMD3<Double>(
+            Double(resolution.x) / 2,
+            Double(resolution.y) / 2,
+            Double(resolution.z) / 2
+        )
+        let relativePosition = SIMD3<Double>(
+            (position.x - Double(resolution.x) / 2) / Double(resolution.y),
+            (position.y - Double(resolution.y) / 2) / Double(resolution.y),
+            (position.z - Double(resolution.z) / 2) / Double(resolution.y)
         )
         
         let relativeCornerRadius: Double = cornerRadius / Double(resolution.y)
@@ -139,16 +151,18 @@ public extension Graphic3D {
                 premultiply: true,
                 antiAlias: true,
                 size: relativeSize.uniform,
-                position: relativeCenter.uniform,
+                position: relativePosition.uniform,
                 cornerRadius: Float(relativeCornerRadius),
                 edgeRadius: Float(relativeSurfaceWidth),
                 foregroundColor: backgroundColor.uniform,
                 edgeColor: color.uniform,
                 backgroundColor: backgroundColor.uniform
             ),
-            resolution: resolution,
-            colorSpace: .sRGB,
-            bits: ._8
+            metadata: Metadata(
+                resolution: resolution,
+                colorSpace: .sRGB,
+                bits: ._8
+            )
         )
     }
 }

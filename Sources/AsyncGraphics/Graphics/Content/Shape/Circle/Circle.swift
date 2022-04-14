@@ -21,14 +21,14 @@ public extension Graphic {
     }
 
     static func circle(radius: CGFloat,
-                       center: CGPoint,
+                       center: CGPoint? = nil,
                        color: PixelColor = .white,
                        backgroundColor: PixelColor = .black,
                        at graphicSize: CGSize) async throws -> Graphic {
         
         let relativeRadius: CGFloat = radius / graphicSize.height
         
-        let center: CGPoint = center.flipY(size: graphicSize)
+        let center: CGPoint = center?.flipPositionY(size: graphicSize) ?? (graphicSize.asPoint / 2)
         let relativePosition: CGPoint = (center - graphicSize / 2) / graphicSize.height
         
         return try await Renderer.render(
@@ -45,23 +45,24 @@ public extension Graphic {
                 backgroundColor: backgroundColor.uniform,
                 resolution: graphicSize.resolution.uniform
             ),
-            resolution: graphicSize.resolution,
-            colorSpace: .sRGB,
-            bits: ._8
+            metadata: Metadata(
+                resolution: graphicSize.resolution,
+                colorSpace: .sRGB,
+                bits: ._8
+            )
         )
     }
     
-    static func strokedCircle(radius: CGFloat? = nil,
+    static func strokedCircle(radius: CGFloat,
                               center: CGPoint? = nil,
                               lineWidth: CGFloat,
                               color: PixelColor = .white,
                               backgroundColor: PixelColor = .black,
                               at graphicSize: CGSize) async throws -> Graphic {
         
-        let radius: CGFloat = radius ?? min(graphicSize.width, graphicSize.height) / 2
         let relativeRadius: CGFloat = radius / graphicSize.height
         
-        let center: CGPoint = center?.flipY(size: graphicSize) ?? (graphicSize / 2).asPoint
+        let center: CGPoint = center?.flipPositionY(size: graphicSize) ?? (graphicSize / 2).asPoint
         let relativePosition: CGPoint = (center - graphicSize / 2) / graphicSize.height
 
         let relativeLineWidth: CGFloat = lineWidth / graphicSize.height
@@ -80,9 +81,11 @@ public extension Graphic {
                 backgroundColor: backgroundColor.uniform,
                 resolution: graphicSize.resolution.uniform
             ),
-            resolution: graphicSize.resolution,
-            colorSpace: .sRGB,
-            bits: ._8
+            metadata: Metadata(
+                resolution: graphicSize.resolution,
+                colorSpace: .sRGB,
+                bits: ._8
+            )
         )
     }
 }
