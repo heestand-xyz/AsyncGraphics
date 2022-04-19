@@ -3,9 +3,11 @@
 //
 
 import Metal
+import MetalPerformanceShaders
 import CoreGraphics
 import CoreGraphicsExtensions
 import SwiftUI
+import TextureMap
 
 extension Graphic {
     
@@ -23,6 +25,36 @@ extension Graphic {
         case angle
         case zoom
         case random
+    }
+    
+    public func blurred(radius: CGFloat) async throws -> Graphic {
+        
+        let targetTexture: MTLTexture = try await TextureMap.emptyTexture(resolution: resolution, bits: bits, usage: .write)
+        
+        guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else {
+            throw Renderer.RendererError.failedToMakeCommandQueue
+        }
+        
+        guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {
+            throw Renderer.RendererError.failedToMakeCommandBuffer
+        }
+        
+        let gaussianBlurKernel = MPSImageGaussianBlur(device: Renderer.metalDevice, sigma: Float(radius))
+        gaussianBlurKernel.edgeMode = .clamp
+        gaussianBlurKernel.encode(commandBuffer: commandBuffer, sourceTexture: texture, destinationTexture: targetTexture)
+        
+        let _: Void = await withCheckedContinuation { continuation in
+            
+            commandBuffer.addCompletedHandler { _ in
+                
+                continuation.resume()
+            }
+            
+            commandBuffer.commit()
+        }
+        
+        return Graphic(name: "Blur (Gaussian)", texture: targetTexture, bits: bits, colorSpace: colorSpace)
+        
     }
     
     public func blurredBox(radius: CGFloat,
