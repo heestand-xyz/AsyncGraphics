@@ -58,7 +58,7 @@ extension Graphic3D {
 
 extension Graphic3D {
     
-    enum Graphic3DPixelError: LocalizedError {
+    enum VoxelError: LocalizedError {
         
         case noChannelsFound
         case badChannelCount
@@ -80,7 +80,7 @@ extension Graphic3D {
             let channels: [CGFloat] = try await channels
             
             guard !channels.isEmpty, channels.count >= 4 else {
-                throw Graphic3DPixelError.noChannelsFound
+                throw VoxelError.noChannelsFound
             }
             
             return PixelColor(red: channels[0],
@@ -110,12 +110,12 @@ extension Graphic3D {
             let channels: [CGFloat] = try await channels
             
             guard !channels.isEmpty else {
-                throw Graphic3DPixelError.noChannelsFound
+                throw VoxelError.noChannelsFound
             }
             
             let count = resolution.x * resolution.y * resolution.z * 4
             guard channels.count == count else {
-                throw Graphic3DPixelError.badChannelCount
+                throw VoxelError.badChannelCount
             }
             
             var voxelColors: [[[PixelColor]]] = []

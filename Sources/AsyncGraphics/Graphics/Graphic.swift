@@ -70,7 +70,7 @@ extension Graphic {
 
 extension Graphic {
     
-    enum GraphicPixelError: LocalizedError {
+    enum PixelError: LocalizedError {
         
         case noChannelsFound
         case badChannelCount
@@ -92,7 +92,7 @@ extension Graphic {
             let channels: [CGFloat] = try await channels
             
             guard !channels.isEmpty, channels.count >= 4 else {
-                throw GraphicPixelError.noChannelsFound
+                throw PixelError.noChannelsFound
             }
             
             return PixelColor(red: channels[0],
@@ -122,12 +122,12 @@ extension Graphic {
             let channels: [CGFloat] = try await channels
             
             guard !channels.isEmpty else {
-                throw GraphicPixelError.noChannelsFound
+                throw PixelError.noChannelsFound
             }
             
             let count = Int(resolution.width) * Int(resolution.height) * 4
             guard channels.count == count else {
-                throw GraphicPixelError.badChannelCount
+                throw PixelError.badChannelCount
             }
             
             var pixelColors: [[PixelColor]] = []
