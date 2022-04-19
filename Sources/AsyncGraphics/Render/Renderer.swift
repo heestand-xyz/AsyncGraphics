@@ -59,18 +59,23 @@ struct Renderer {
     
     struct EmptyUniforms {}
     
+    struct Options {
+        var isMulti: Bool = false
+        var addressMode: MTLSamplerAddressMode = .clampToZero
+    }
+    
     static func render<G: Graphicable>(name: String,
                                        shaderName: String,
                                        graphics: [Graphicable] = [],
                                        metadata: Metadata? = nil,
-                                       isMulti: Bool = false) async throws -> G {
+                                       options: Options = Options()) async throws -> G {
         
         try await render(name: name,
                          shaderName: shaderName,
                          graphics: graphics,
                          uniforms: EmptyUniforms(),
                          metadata: metadata,
-                         isMulti: isMulti)
+                         options: options)
     }
     
     static func render<U, G: Graphicable>(name: String,
@@ -78,7 +83,7 @@ struct Renderer {
                                           graphics: [Graphicable] = [],
                                           uniforms: U,
                                           metadata: Metadata? = nil,
-                                          isMulti: Bool = false) async throws -> G {
+                                          options: Options = Options()) async throws -> G {
         
         guard let resolution: MultiDimensionalResolution = metadata?.resolution ?? {
             if let graphic = graphics.first as? Graphic {
@@ -93,7 +98,7 @@ struct Renderer {
                 throw RendererError.badMetadata
             }
         
-        let multiTexture: MTLTexture? = isMulti ? try await graphics.map(\.texture).texture(type: .typeArray) : nil
+        let multiTexture: MTLTexture? = options.isMulti ? try await graphics.map(\.texture).texture(type: .typeArray) : nil
             
         return try await withCheckedThrowingContinuation { continuation in
             
@@ -185,7 +190,7 @@ struct Renderer {
                             
                             // MARK: Sampler
                             
-                            let sampler: MTLSamplerState = try sampler()
+                            let sampler: MTLSamplerState = try sampler(addressMode: options.addressMode)
                             
                             if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                                 
@@ -334,13 +339,13 @@ extension Renderer {
 
 extension Renderer {
     
-    static func sampler() throws -> MTLSamplerState {
+    static func sampler(addressMode: MTLSamplerAddressMode) throws -> MTLSamplerState {
         let samplerInfo = MTLSamplerDescriptor()
         samplerInfo.minFilter = .linear
         samplerInfo.magFilter = .linear
-        samplerInfo.sAddressMode = .clampToZero
-        samplerInfo.tAddressMode = .clampToZero
-        samplerInfo.rAddressMode = .clampToZero
+        samplerInfo.sAddressMode = addressMode
+        samplerInfo.tAddressMode = addressMode
+        samplerInfo.rAddressMode = addressMode
         samplerInfo.compareFunction = .never
         guard let sampler = metalDevice.makeSamplerState(descriptor: samplerInfo) else {
             throw RendererError.failedToMakeSampler

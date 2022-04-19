@@ -17,7 +17,7 @@ extension Array where Element == Graphic {
             uniforms: BlendsUniforms(
                 mode: blendingMode.index
             ),
-            isMulti: true
+            options: Renderer.Options(isMulti: true)
         )
     }
 }

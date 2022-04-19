@@ -40,7 +40,8 @@ extension Graphic {
                 count: Int32(sampleCount),
                 angle: 0.0,
                 position: CGPoint.zero.uniform
-            )
+            ),
+            options: Renderer.Options(addressMode: .mirrorRepeat)
         )
     }
     
@@ -63,7 +64,8 @@ extension Graphic {
                 count: Int32(sampleCount),
                 angle: 0.0,
                 position: relativeCenter.uniform
-            )
+            ),
+            options: Renderer.Options(addressMode: .mirrorRepeat)
         )
     }
     
@@ -83,7 +85,8 @@ extension Graphic {
                 count: Int32(sampleCount),
                 angle: angle.uniform,
                 position: CGPoint.zero.uniform
-            )
+            ),
+            options: Renderer.Options(addressMode: .mirrorRepeat)
         )
     }
     
@@ -101,7 +104,8 @@ extension Graphic {
                 count: 0,
                 angle: 0.0,
                 position: CGPoint.zero.uniform
-            )
+            ),
+            options: Renderer.Options(addressMode: .mirrorRepeat)
         )
     }
 }
