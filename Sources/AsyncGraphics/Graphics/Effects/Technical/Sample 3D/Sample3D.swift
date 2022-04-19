@@ -5,14 +5,14 @@
 import Foundation
 import TextureMap
 
-public extension Graphic3D {
+extension Graphic3D {
     
     /// Sample
     ///
     /// Fraction 0.0 is the first plane
     ///
     /// Fraction 1.0 is the last plane
-    func sample(fraction: Double, axis: Axis = .z) async throws -> Graphic {
+    public func sample(fraction: Double, axis: Axis = .z) async throws -> Graphic {
         
         let index: Int = {
             switch axis {
@@ -29,7 +29,7 @@ public extension Graphic3D {
     }
     
     #warning("Axis other than Z failes")
-    func sample(index: Int, axis: Axis = .z) async throws -> Graphic {
+    public func sample(index: Int, axis: Axis = .z) async throws -> Graphic {
         
         let texture = try await texture.sample3d(index: index, axis: axis.tmAxis, bits: bits)
         
@@ -37,7 +37,7 @@ public extension Graphic3D {
     }
     
     #warning("Axis other than Z failes")
-    func samples(axis: Axis = .z) async throws -> [Graphic] {
+    public func samples(axis: Axis = .z) async throws -> [Graphic] {
         
         let count: Int = {
             switch axis {

@@ -9,14 +9,14 @@ import Metal
 import TextureMap
 
 //@available(iOS 14.0, tvOS 14, macOS 11, *)
-public extension Graphic {
+extension Graphic {
     
-    func bits(_ bits: TMBits) async throws -> Graphic {
+    public func bits(_ bits: TMBits) async throws -> Graphic {
         
         Graphic(name: "Bits", texture: texture, bits: bits, colorSpace: colorSpace)
     }
     
-//    func with(bits: TMBits) async throws -> Graphic {
+//    public func with(bits: TMBits) async throws -> Graphic {
 //
 //        guard self.bits != bits else {
 //            return self

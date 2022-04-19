@@ -5,9 +5,9 @@
 import Metal
 import TextureMap
 
-public extension Graphic3D {
+extension Graphic3D {
     
-    enum TextureGraphic3DError: LocalizedError {
+    public enum TextureGraphic3DError: LocalizedError {
         
         case unsupportedType
         
@@ -19,7 +19,7 @@ public extension Graphic3D {
         }
     }
     
-    static func texture(_ texture: MTLTexture, colorSpace: TMColorSpace = .sRGB) throws -> Graphic3D {
+    public static func texture(_ texture: MTLTexture, colorSpace: TMColorSpace = .sRGB) throws -> Graphic3D {
         
         guard texture.textureType == .type3D else {
             throw TextureGraphic3DError.unsupportedType

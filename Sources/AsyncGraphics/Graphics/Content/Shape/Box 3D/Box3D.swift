@@ -5,8 +5,8 @@
 import simd
 import PixelColor
 
-public extension Graphic3D {
-
+extension Graphic3D {
+    
     private struct Box3DUniforms {
         let premultiply: Bool
         let antiAlias: Bool
@@ -18,13 +18,13 @@ public extension Graphic3D {
         let edgeColor: ColorUniform
         let backgroundColor: ColorUniform
     }
-
-    static func box(size: SIMD3<Double>,
-                    origin: SIMD3<Double>,
-                    cornerRadius: Double = 0.0,
-                    color: PixelColor = .white,
-                    backgroundColor: PixelColor = .black,
-                    at resolution: SIMD3<Int>) async throws -> Graphic3D {
+    
+    public static func box(size: SIMD3<Double>,
+                           origin: SIMD3<Double>,
+                           cornerRadius: Double = 0.0,
+                           color: PixelColor = .white,
+                           backgroundColor: PixelColor = .black,
+                           at resolution: SIMD3<Int>) async throws -> Graphic3D {
         
         let center: SIMD3<Double> = SIMD3<Double>(
             origin.x + size.x / 2,
@@ -42,12 +42,12 @@ public extension Graphic3D {
         )
     }
     
-    static func box(size: SIMD3<Double>,
-                    center: SIMD3<Double>? = nil,
-                    cornerRadius: Double = 0.0,
-                    color: PixelColor = .white,
-                    backgroundColor: PixelColor = .black,
-                    at resolution: SIMD3<Int>) async throws -> Graphic3D {
+    public static func box(size: SIMD3<Double>,
+                           center: SIMD3<Double>? = nil,
+                           cornerRadius: Double = 0.0,
+                           color: PixelColor = .white,
+                           backgroundColor: PixelColor = .black,
+                           at resolution: SIMD3<Int>) async throws -> Graphic3D {
         
         let relativeSize: SIMD3<Double> = SIMD3<Double>(
             size.x / Double(resolution.y),
@@ -67,7 +67,7 @@ public extension Graphic3D {
         )
         
         let relativeCornerRadius: Double = cornerRadius / Double(resolution.y)
-
+        
         return try await Renderer.render(
             name: "Box",
             shaderName: "box3d",
@@ -90,13 +90,13 @@ public extension Graphic3D {
         )
     }
     
-    static func surfaceBox(size: SIMD3<Double>,
-                           origin: SIMD3<Double>,
-                           cornerRadius: Double = 0.0,
-                           surfaceWidth: Double,
-                           color: PixelColor = .white,
-                           backgroundColor: PixelColor = .black,
-                           at resolution: SIMD3<Int>) async throws -> Graphic3D {
+    public static func surfaceBox(size: SIMD3<Double>,
+                                  origin: SIMD3<Double>,
+                                  cornerRadius: Double = 0.0,
+                                  surfaceWidth: Double,
+                                  color: PixelColor = .white,
+                                  backgroundColor: PixelColor = .black,
+                                  at resolution: SIMD3<Int>) async throws -> Graphic3D {
         
         let center: SIMD3<Double> = SIMD3<Double>(
             origin.x + size.x / 2,
@@ -115,13 +115,13 @@ public extension Graphic3D {
         )
     }
     
-    static func surfaceBox(size: SIMD3<Double>,
-                           center: SIMD3<Double>? = nil,
-                           cornerRadius: Double = 0.0,
-                           surfaceWidth: Double,
-                           color: PixelColor = .white,
-                           backgroundColor: PixelColor = .black,
-                           at resolution: SIMD3<Int>) async throws -> Graphic3D {
+    public static func surfaceBox(size: SIMD3<Double>,
+                                  center: SIMD3<Double>? = nil,
+                                  cornerRadius: Double = 0.0,
+                                  surfaceWidth: Double,
+                                  color: PixelColor = .white,
+                                  backgroundColor: PixelColor = .black,
+                                  at resolution: SIMD3<Int>) async throws -> Graphic3D {
         
         let relativeSize: SIMD3<Double> = SIMD3<Double>(
             size.x / Double(resolution.y),
@@ -143,7 +143,7 @@ public extension Graphic3D {
         let relativeCornerRadius: Double = cornerRadius / Double(resolution.y)
         
         let relativeSurfaceWidth: Double = surfaceWidth / Double(resolution.y)
-
+        
         return try await Renderer.render(
             name: "Box",
             shaderName: "box3d",

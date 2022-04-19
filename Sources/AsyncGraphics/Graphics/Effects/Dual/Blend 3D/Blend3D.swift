@@ -4,16 +4,16 @@
 
 import Metal
 
-public extension Graphic3D {
+extension Graphic3D {
     
     private struct Blend3DUniforms {
         let blendingMode: Int32
         let placement: Int32
     }
     
-    func blended(with graphic: Graphic3D,
-                 blendingMode: BlendingMode,
-                 placement: Placement = .fit) async throws -> Graphic3D {
+    public func blended(with graphic: Graphic3D,
+                        blendingMode: BlendingMode,
+                        placement: Placement = .fit) async throws -> Graphic3D {
         
         try await Renderer.render(
             name: "Blend",

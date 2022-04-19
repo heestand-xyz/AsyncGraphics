@@ -5,7 +5,7 @@
 import Metal
 import CoreGraphics
 
-public extension Graphic {
+extension Graphic {
     
     private struct BlurUniforms {
         let type: Int32
@@ -15,7 +15,7 @@ public extension Graphic {
         let position: PointUniform
     }
     
-    func blurred(radius: CGFloat) async throws -> Graphic {
+    public func blurred(radius: CGFloat) async throws -> Graphic {
         
         let relativeRadius = radius / size.height
         

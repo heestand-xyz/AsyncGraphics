@@ -5,7 +5,7 @@
 import simd
 import PixelColor
 
-public extension Graphic3D {
+extension Graphic3D {
     
     private struct Sphere3DUniforms {
         let premultiply: Bool
@@ -17,12 +17,12 @@ public extension Graphic3D {
         let edgeColor: ColorUniform
         let backgroundColor: ColorUniform
     }
-
-    static func sphere(radius: Double,
-                       center: SIMD3<Double>? = nil,
-                       color: PixelColor = .white,
-                       backgroundColor: PixelColor = .black,
-                       at resolution: SIMD3<Int>) async throws -> Graphic3D {
+    
+    public static func sphere(radius: Double,
+                              center: SIMD3<Double>? = nil,
+                              color: PixelColor = .white,
+                              backgroundColor: PixelColor = .black,
+                              at resolution: SIMD3<Int>) async throws -> Graphic3D {
         
         let relativeRadius: Double = radius / Double(resolution.y)
         
@@ -58,12 +58,12 @@ public extension Graphic3D {
         )
     }
     
-    static func surfaceSphere(radius: Double,
-                              center: SIMD3<Double>? = nil,
-                              surfaceWidth: Double,
-                              color: PixelColor = .white,
-                              backgroundColor: PixelColor = .black,
-                              at resolution: SIMD3<Int>) async throws -> Graphic3D {
+    public static func surfaceSphere(radius: Double,
+                                     center: SIMD3<Double>? = nil,
+                                     surfaceWidth: Double,
+                                     color: PixelColor = .white,
+                                     backgroundColor: PixelColor = .black,
+                                     at resolution: SIMD3<Int>) async throws -> Graphic3D {
         
         let relativeRadius: Double = radius / Double(resolution.y)
         

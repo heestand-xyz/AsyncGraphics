@@ -9,9 +9,9 @@ import Foundation
 import Metal
 import TextureMap
 
-public extension Graphic {
+extension Graphic {
     
-    func inverted() async throws -> Graphic {
+    public func inverted() async throws -> Graphic {
         
         try await Renderer.render(
             name: "Invert",

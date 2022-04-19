@@ -6,7 +6,7 @@ import CoreGraphics
 import Metal
 import PixelColor
 
-public extension Graphic {
+extension Graphic {
     
     private struct DisplaceUniforms {
         let offset: Float
@@ -14,10 +14,10 @@ public extension Graphic {
         let placement: Int
     }
     
-    func displaced(with graphic: Graphic,
-                   offset: CGFloat,
-                   origin: PixelColor = .gray,
-                   placement: Placement = .fill) async throws -> Graphic {
+    public func displaced(with graphic: Graphic,
+                          offset: CGFloat,
+                          origin: PixelColor = .gray,
+                          placement: Placement = .fill) async throws -> Graphic {
         
         let relativeOffset: CGFloat = offset / size.height
         

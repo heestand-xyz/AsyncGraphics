@@ -6,7 +6,7 @@ import SwiftUI
 import CoreGraphics
 import CoreGraphicsExtensions
 
-public extension Graphic {
+extension Graphic {
     
     private struct TransformUniforms {
         let translation: PointUniform
@@ -15,23 +15,23 @@ public extension Graphic {
         let size: SizeUniform
     }
     
-    func translated(_ translation: CGPoint) async throws -> Graphic {
+    public func translated(_ translation: CGPoint) async throws -> Graphic {
         try await transformed(translation: translation)
     }
     
-    func translated(x: CGFloat = 0.0, y: CGFloat = 0.0) async throws -> Graphic {
+    public func translated(x: CGFloat = 0.0, y: CGFloat = 0.0) async throws -> Graphic {
         try await transformed(translation: CGPoint(x: x, y: y))
     }
     
-    func rotated(_ rotation: Angle) async throws -> Graphic {
+    public func rotated(_ rotation: Angle) async throws -> Graphic {
         try await transformed(rotation: rotation)
     }
     
-    func scaled(_ scale: CGFloat) async throws -> Graphic {
+    public func scaled(_ scale: CGFloat) async throws -> Graphic {
         try await transformed(scale: scale)
     }
     
-    func scaled(x: CGFloat = 1.0, y: CGFloat = 1.0) async throws -> Graphic {
+    public func scaled(x: CGFloat = 1.0, y: CGFloat = 1.0) async throws -> Graphic {
         try await transformed(scaleSize: CGSize(width: x, height: y))
     }
     

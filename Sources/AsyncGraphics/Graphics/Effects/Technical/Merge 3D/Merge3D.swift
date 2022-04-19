@@ -17,9 +17,9 @@ enum ArrayMergeError: LocalizedError {
     }
 }
 
-public extension Array where Element == Graphic {
+extension Array where Element == Graphic {
     
-    func merge() async throws -> Graphic3D {
+    public func merge() async throws -> Graphic3D {
         
         guard !isEmpty else {
             throw ArrayMergeError.emptyArray

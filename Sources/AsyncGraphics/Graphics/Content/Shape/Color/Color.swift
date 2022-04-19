@@ -6,13 +6,13 @@ import CoreGraphics
 import CoreGraphicsExtensions
 import PixelColor
 
-public extension Graphic {
+extension Graphic {
     
     private struct ColorUniforms {
         let color: ColorUniform
     }
     
-    static func color(_ color: PixelColor, at graphicSize: CGSize) async throws -> Graphic {
+    public static func color(_ color: PixelColor, at graphicSize: CGSize) async throws -> Graphic {
                 
         try await Renderer.render(
             name: "Color",

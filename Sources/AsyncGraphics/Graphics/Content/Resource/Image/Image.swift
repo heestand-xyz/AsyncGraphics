@@ -10,10 +10,10 @@ import CoreGraphics
 import Metal
 import TextureMap
 
-public extension Graphic {
+extension Graphic {
     
     /// UIImage / NSImage
-    static func image(_ image: TMImage) async throws -> Graphic {
+    public static func image(_ image: TMImage) async throws -> Graphic {
         
         let texture: MTLTexture = try await image.texture
         
@@ -24,7 +24,7 @@ public extension Graphic {
         return Graphic(name: "Image", texture: texture, bits: bits, colorSpace: colorSpace)
     }
     
-    static func image(named name: String, in bundle: Bundle = .main) async throws -> Graphic {
+    public static func image(named name: String, in bundle: Bundle = .main) async throws -> Graphic {
         
         let image = try bundle.image(named: name)
             

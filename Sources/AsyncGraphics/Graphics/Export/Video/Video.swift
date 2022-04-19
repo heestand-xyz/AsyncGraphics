@@ -6,15 +6,15 @@ import Foundation
 import VideoFrames
 import TextureMap
 
-public extension Array where Element == Graphic {
+extension Array where Element == Graphic {
     
-    func video(fps: Int = 30, kbps: Int = 1_000, format: VideoFormat = .mov) async throws -> Data {
+    public func video(fps: Int = 30, kbps: Int = 1_000, format: VideoFormat = .mov) async throws -> Data {
         let url: URL = try await video(fps: fps, kbps: kbps, format: format)
         let data = try Data(contentsOf: url)
         return data
     }
     
-    func video(fps: Int = 30, kbps: Int = 1_000, format: VideoFormat = .mov) async throws -> URL {
+    public func video(fps: Int = 30, kbps: Int = 1_000, format: VideoFormat = .mov) async throws -> URL {
         
         let images: [TMImage] = try await withThrowingTaskGroup(of: (Int, TMImage).self) { group in
             

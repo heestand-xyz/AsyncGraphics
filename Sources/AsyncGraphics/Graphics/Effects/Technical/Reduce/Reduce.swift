@@ -6,14 +6,14 @@ import MetalPerformanceShaders
 import TextureMap
 import PixelColor
 
-public extension Graphic {
+extension Graphic {
     
-    enum ReduceAxis {
+    public enum ReduceAxis {
         case x
         case y
     }
     
-    enum ReduceMethod {
+    public enum ReduceMethod {
         case average
         case minimum
         case maximum
@@ -24,7 +24,7 @@ public extension Graphic {
     ///
     /// Reduction to a singe pixel
 //    @available(iOS 14.0, tvOS 14, macOS 11, *)
-    func reduce(by sampleMethod: ReduceMethod) async throws -> PixelColor {
+    public func reduce(by sampleMethod: ReduceMethod) async throws -> PixelColor {
         
         let highBitGraphic = try await bits(._16)
         
@@ -40,7 +40,7 @@ public extension Graphic {
     /// Reduction in sample axis x, gives you a column
     ///
     /// Reduction in sample axis y, gives you a row
-    func reduce(by sampleMethod: ReduceMethod, in sampleAxis: ReduceAxis) async throws -> Graphic {
+    public func reduce(by sampleMethod: ReduceMethod, in sampleAxis: ReduceAxis) async throws -> Graphic {
                 
         let texture: MTLTexture = try await withCheckedThrowingContinuation { continuation in
             

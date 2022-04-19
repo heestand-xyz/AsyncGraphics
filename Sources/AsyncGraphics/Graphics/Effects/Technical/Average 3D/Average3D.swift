@@ -7,13 +7,13 @@
 
 import CoreGraphics
 
-public extension Graphic3D {
+extension Graphic3D {
     
     private struct Average3DUniforms {
         let axis: Int
     }
     
-    func average(axis: Axis) async throws -> Graphic {
+    public func average(axis: Axis) async throws -> Graphic {
         
         let resolution: CGSize = CGSize(width: axis == .x ? CGFloat(resolution.z) : CGFloat(resolution.x),
                                         height: axis == .y ? CGFloat(resolution.z) : CGFloat(resolution.y))
