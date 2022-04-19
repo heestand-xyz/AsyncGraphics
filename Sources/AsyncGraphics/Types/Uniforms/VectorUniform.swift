@@ -11,6 +11,11 @@ struct VectorUniform {
     let z: Float
 }
 
+extension VectorUniform {
+    
+    static let zero = VectorUniform(x: 0.0, y: 0.0, z: 0.0)
+}
+
 extension SIMD3 where Scalar == Double {
     
     var uniform: VectorUniform {

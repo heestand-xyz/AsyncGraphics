@@ -19,7 +19,7 @@ struct Uniforms {
 };
 
 fragment float4 colorShift(VertexOut out [[stage_in]],
-                           texture2d<float>  inTex [[ texture(0) ]],
+                           texture2d<float>  texture [[ texture(0) ]],
                            const device Uniforms& uniforms [[ buffer(0) ]],
                            sampler s [[ sampler(0) ]]) {
     
@@ -27,7 +27,7 @@ fragment float4 colorShift(VertexOut out [[stage_in]],
     float v = out.texCoord[1];
     float2 uv = float2(u, v);
     
-    float4 color = inTex.sample(s, uv);
+    float4 color = texture.sample(s, uv);
     
     float4 tintColor = uniforms.tintColor;
     
