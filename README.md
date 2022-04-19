@@ -5,6 +5,8 @@
 The core value type in **AsyncGraphics** is a `Graphic`.<br>
 It's like an image, tho it can be used with various *async* methods.  
 
+[DocC Documentation](http://async.graphics/documentation/AsyncGraphics)
+
 
 ## Swift Package
 
