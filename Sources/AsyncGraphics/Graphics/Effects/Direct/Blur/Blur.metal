@@ -79,15 +79,8 @@ fragment float4 blur(VertexOut out [[stage_in]],
         for (int x = -count; x <= count; ++x) {
             if (x != 0) {
                 float amount = pow(1.0 - x / (count + 1), 0.5);
-                float xu = u;
-                float yv = v;
-                if (aspect < 1.0) {
-                    xu += ((float(x) / width) * cos(-angle) * radius) / count;
-                    yv += (((float(x) / width) * sin(-angle) * radius) / count) * aspect;
-                } else {
-                    xu += ((float(x) / height) * cos(-angle) * radius) / count;
-                    yv += (((float(x) / height) * sin(-angle) * radius) / count) * aspect;
-                }
+                float xu = u + (float(x) / count) * cos(-angle) * radius / aspect;
+                float yv = v + (float(x) / count) * sin(-angle) * radius;
                 color += texture.sample(sampler, float2(xu, yv)) * amount;
                 amounts += amount;
             }
@@ -100,43 +93,29 @@ fragment float4 blur(VertexOut out [[stage_in]],
         for (int x = -count; x <= count; ++x) {
             if (x != 0) {
                 float amount = pow(1.0 - x / (count + 1), 0.5);
-                float xu = u;
-                float yv = v;
-                if (aspect < 1.0) {
-                    xu += (((float(x) * (u - 0.5 - position.x)) / width) * radius) / count;
-                    yv += ((((float(x) * (v - 0.5 + position.y)) / width) * radius) / count);// * aspect;
-                } else {
-                    xu += (((float(x) * (u - 0.5 - position.x)) / height) * radius) / count;
-                    yv += ((((float(x) * (v - 0.5 + position.y)) / height) * radius) / count);// * aspect;
-                }
+                float xu = u + (float(x) / count) * (u - 0.5 - position.x) * radius / aspect;
+                float yv = v + (float(x) / count) * (v - 0.5 - position.y) * radius;
                 color += texture.sample(sampler, float2(xu, yv)) * amount;
                 amounts += amount;
             }
         }
         
     }
-    //    else if (type == 4) {
-    //
-    //        // Radial
-    //
-    //        for (int x = -count; x <= count; ++x) {
-    //            if (x != 0) {
-    //                float amount = pow(1.0 - x / (count + 1), 0.5);
-    //                float xu = u;
-    //                float yv = v;
-    //                if (aspect < 1.0) {
-    //                    xu += ((float(x) / width) * cos(atan2(v - 0.5 + position.y, u - 0.5 - position.x) + pi / 2) * radius) / count;
-    //                    yv += ((float(x) / width) * sin(atan2(v - 0.5 + position.y, u - 0.5 - position.x) + pi / 2) * radius) / count;
-    //                } else {
-    //                    xu += ((float(x) / height) * cos(atan2(v - 0.5 + position.y, u - 0.5 - position.x) + pi / 2) * radius) / count;
-    //                    yv += ((float(x) / height) * sin(atan2(v - 0.5 + position.y, u - 0.5 - position.x) + pi / 2) * radius) / count;
-    //                }
-    //                color += texture.sample(sampler, float2(xu, yv)) * amount;
-    //                amounts += amount;
-    //            }
-    //        }
-    //
-    //    }
+//    else if (type == 4) {
+//
+//        // Circular
+//
+//        for (int x = -count; x <= count; ++x) {
+//            if (x != 0) {
+//                float amount = pow(1.0 - x / (count + 1), 0.5);
+//                float xu = u + (float(x) / count) * cos(atan2(v - 0.5 - position.y, (u - 0.5) * aspect - position.x) + pi / 2) * radius / aspect;
+//                float yv = v + (float(x) / count) * sin(atan2(v - 0.5 - position.y, (u - 0.5) * aspect - position.x) + pi / 2) * radius;
+//                color += texture.sample(sampler, float2(xu, yv)) * amount;
+//                amounts += amount;
+//            }
+//        }
+//
+//    }
     else if (type == 4) {
         
         // Random
@@ -144,7 +123,7 @@ fragment float4 blur(VertexOut out [[stage_in]],
         float ru = loki_rnd_u.rand();
         Loki loki_rnd_v = Loki(1, u * max_count, v * max_count);
         float rv = loki_rnd_v.rand();
-        float2 ruv = uv + (float2(ru, rv) - 0.5) * radius * 0.001 * float2(1.0, aspect);
+        float2 ruv = uv + (float2(ru, rv) - 0.5) * radius * float2(1.0, aspect);
         color = texture.sample(sampler, ruv);
         
     }
