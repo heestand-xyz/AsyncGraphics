@@ -1,0 +1,28 @@
+#include <metal_stdlib>
+using namespace metal;
+
+struct VertexOut {
+    float4 position [[position]];
+    float2 texCoord;
+};
+
+struct Uniforms {
+    /*<uniforms>*/
+};
+
+fragment float4 dualMetal(VertexOut out [[stage_in]],
+                          texture2d<float> leadingTexture [[ texture(0) ]],
+                          texture2d<float> trailingTexture [[ texture(1) ]],
+                          const device Uniforms& uniforms [[ buffer(0) ]],
+                          sampler sampler [[ sampler(0) ]]) {
+
+    float u = out.texCoord[0];
+    float v = out.texCoord[1];
+    float2 uv = float2(u, v);
+
+    float4 leadingColor = leadingTexture.sample(sampler, uv);
+    float4 trailingColor = trailingTexture.sample(sampler, uv);
+    
+    /*<code>*/
+    return 0;
+}
