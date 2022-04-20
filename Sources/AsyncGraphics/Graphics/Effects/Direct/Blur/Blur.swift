@@ -137,7 +137,9 @@ extension Graphic {
                 angle: 0.0,
                 position: CGPoint.zero.uniform
             ),
-            options: Renderer.Options(addressMode: .mirrorRepeat)
+            options: Renderer.Options(
+                addressMode: .mirrorRepeat
+            )
         )
     }
 }

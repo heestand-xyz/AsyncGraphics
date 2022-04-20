@@ -30,9 +30,14 @@ extension Graphic {
             ],
             uniforms: DisplaceUniforms(
                 offset: Float(relativeOffset),
-                origin: PointUniform(x: Float(origin.red),
-                                     y: Float(origin.green)),
-                placement: placement.index)
+                origin: PointUniform(
+                    x: Float(origin.red),
+                    y: Float(origin.green)
+                ),
+                placement: placement.index),
+            options: Renderer.Options(
+                addressMode: .mirrorRepeat
+            )
         )
     }
 }

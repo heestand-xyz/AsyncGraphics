@@ -19,14 +19,12 @@ extension Graphic {
     }
     
     /// Noise octaves are between 1 and 10
-    public static func noise(
-        offset: CGPoint = .zero,
-        depth: CGFloat = 0.0,
-        scale: CGFloat = 1.0,
-        octaves: Int = 1,
-        seed: Int = 1,
-        at graphicSize: CGSize
-    ) async throws -> Graphic {
+    public static func noise(offset: CGPoint = .zero,
+                             depth: CGFloat = 0.0,
+                             scale: CGFloat = 1.0,
+                             octaves: Int = 1,
+                             seed: Int = 1,
+                             at graphicSize: CGSize) async throws -> Graphic {
         
         let offset: CGPoint = offset.flipPositionY(size: graphicSize)
         let relativeOffset: CGPoint = (offset - graphicSize / 2) / graphicSize.height
@@ -59,14 +57,12 @@ extension Graphic {
     }
     
     /// Noise octaves are between 1 and 10
-    public static func coloredNoise(
-        offset: CGPoint = .zero,
-        depth: CGFloat = 0.0,
-        scale: CGFloat = 1.0,
-        octaves: Int = 1,
-        seed: Int = 1,
-        at graphicSize: CGSize
-    ) async throws -> Graphic {
+    public static func coloredNoise(offset: CGPoint = .zero,
+                                    depth: CGFloat = 0.0,
+                                    scale: CGFloat = 1.0,
+                                    octaves: Int = 1,
+                                    seed: Int = 1,
+                                    at graphicSize: CGSize) async throws -> Graphic {
         
         let offset: CGPoint = offset.flipPositionY(size: graphicSize)
         let relativeOffset: CGPoint = (offset - graphicSize / 2) / graphicSize.height
@@ -98,10 +94,8 @@ extension Graphic {
         )
     }
     
-    public static func randomNoise(
-        seed: Int = 1,
-        at graphicSize: CGSize
-    ) async throws -> Graphic {
+    public static func randomNoise(seed: Int = 1,
+                                   at graphicSize: CGSize) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Noise (Random)",
@@ -124,10 +118,8 @@ extension Graphic {
         )
     }
     
-    public static func randomColoredNoise(
-        seed: Int = 1,
-        at graphicSize: CGSize
-    ) async throws -> Graphic {
+    public static func randomColoredNoise(seed: Int = 1,
+                                          at graphicSize: CGSize) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Noise (Random Colored)",

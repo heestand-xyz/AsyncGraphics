@@ -11,9 +11,9 @@ import PixelColor
 
 public struct Graphic3D: Graphicable {
     
-    let id: UUID
+    public let id: UUID
     
-    let name: String
+    public let name: String
     
     public let texture: MTLTexture
     

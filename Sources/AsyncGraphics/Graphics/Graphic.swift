@@ -11,9 +11,9 @@ import CoreGraphicsExtensions
 
 public struct Graphic: Graphicable {
     
-    let id: UUID
+    public let id: UUID
     
-    let name: String
+    public let name: String
     
     public let texture: MTLTexture
     
