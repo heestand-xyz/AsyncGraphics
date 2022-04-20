@@ -23,7 +23,7 @@ extension Graphic {
         
         return try await Renderer.render(
             name: "Displace",
-            shaderName: "displace",
+            shader: .name("displace"),
             graphics: [
                 self,
                 graphic

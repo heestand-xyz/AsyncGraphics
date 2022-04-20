@@ -39,7 +39,7 @@ extension Graphic3D {
         
         return try await Renderer.render(
             name: "Sphere",
-            shaderName: "sphere3d",
+            shader: .name("sphere3d"),
             uniforms: Sphere3DUniforms(
                 premultiply: true,
                 antiAlias: true,
@@ -50,7 +50,7 @@ extension Graphic3D {
                 edgeColor: PixelColor.clear.uniform,
                 backgroundColor: backgroundColor.uniform
             ),
-            metadata: Metadata(
+            metadata: Renderer.Metadata(
                 resolution: resolution,
                 colorSpace: .sRGB,
                 bits: ._8
@@ -82,7 +82,7 @@ extension Graphic3D {
         
         return try await Renderer.render(
             name: "Sphere",
-            shaderName: "sphere3d",
+            shader: .name("sphere3d"),
             uniforms: Sphere3DUniforms(
                 premultiply: true,
                 antiAlias: true,
@@ -93,7 +93,7 @@ extension Graphic3D {
                 edgeColor: color.uniform,
                 backgroundColor: backgroundColor.uniform
             ),
-            metadata: Metadata(
+            metadata: Renderer.Metadata(
                 resolution: resolution,
                 colorSpace: .sRGB,
                 bits: ._8

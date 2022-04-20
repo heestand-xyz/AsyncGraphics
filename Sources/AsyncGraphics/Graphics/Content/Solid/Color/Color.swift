@@ -16,9 +16,9 @@ extension Graphic {
                 
         try await Renderer.render(
             name: "Color",
-            shaderName: "color",
+            shader: .name("color"),
             uniforms: ColorUniforms(color: color.uniform),
-            metadata: Metadata(
+            metadata: Renderer.Metadata(
                 resolution: graphicSize.resolution,
                 colorSpace: .sRGB,
                 bits: ._8

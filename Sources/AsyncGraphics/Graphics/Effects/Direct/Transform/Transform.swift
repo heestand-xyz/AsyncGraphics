@@ -46,7 +46,7 @@ extension Graphic {
         
         return try await Renderer.render(
             name: "Transform",
-            shaderName: "transform",
+            shader: .name("transform"),
             graphics: [self],
             uniforms: TransformUniforms(
                 translation: relativeTranslation.uniform,

@@ -33,7 +33,7 @@ extension Graphic {
         
         return try await Renderer.render(
             name: "Noise",
-            shaderName: "noise",
+            shader: .name("noise"),
             uniforms: NoiseUniforms(
                 seed: Int32(seed),
                 octaves: UInt32(octaves),
@@ -48,7 +48,7 @@ extension Graphic {
                 includeAlpha: false,
                 resolution: graphicSize.resolution.uniform
             ),
-            metadata: Metadata(
+            metadata: Renderer.Metadata(
                 resolution: graphicSize.resolution,
                 colorSpace: .sRGB,
                 bits: ._8
@@ -71,7 +71,7 @@ extension Graphic {
         
         return try await Renderer.render(
             name: "Noise (Colored)",
-            shaderName: "noise",
+            shader: .name("noise"),
             uniforms: NoiseUniforms(
                 seed: Int32(seed),
                 octaves: UInt32(octaves),
@@ -86,7 +86,7 @@ extension Graphic {
                 includeAlpha: false,
                 resolution: graphicSize.resolution.uniform
             ),
-            metadata: Metadata(
+            metadata: Renderer.Metadata(
                 resolution: graphicSize.resolution,
                 colorSpace: .sRGB,
                 bits: ._8
@@ -99,7 +99,7 @@ extension Graphic {
         
         try await Renderer.render(
             name: "Noise (Random)",
-            shaderName: "noise",
+            shader: .name("noise"),
             uniforms: NoiseUniforms(
                 seed: Int32(seed),
                 octaves: 0,
@@ -110,7 +110,7 @@ extension Graphic {
                 includeAlpha: false,
                 resolution: graphicSize.resolution.uniform
             ),
-            metadata: Metadata(
+            metadata: Renderer.Metadata(
                 resolution: graphicSize.resolution,
                 colorSpace: .sRGB,
                 bits: ._8
@@ -123,7 +123,7 @@ extension Graphic {
         
         try await Renderer.render(
             name: "Noise (Random Colored)",
-            shaderName: "noise",
+            shader: .name("noise"),
             uniforms: NoiseUniforms(
                 seed: Int32(seed),
                 octaves: 0,
@@ -134,7 +134,7 @@ extension Graphic {
                 includeAlpha: false,
                 resolution: graphicSize.resolution.uniform
             ),
-            metadata: Metadata(
+            metadata: Renderer.Metadata(
                 resolution: graphicSize.resolution,
                 colorSpace: .sRGB,
                 bits: ._8

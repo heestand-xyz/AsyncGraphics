@@ -29,13 +29,13 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 - ``channels``
 - ``isPixelsEqual(to:)``
 
-### Content Resources
+### Content - Resources
 
 - ``image(_:)``
 - ``image(named:in:)``
 - ``texture(_:colorSpace:)``
 
-### Content Shapes
+### Content - Shapes
 
 - ``color(_:at:)``
 - ``rectangle(size:center:cornerRadius:color:backgroundColor:at:)``
@@ -45,17 +45,17 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 - ``circle(radius:center:color:backgroundColor:at:)``
 - ``strokedCircle(radius:center:lineWidth:color:backgroundColor:at:)``
 
-### Effects Direct
+### Effects - Direct
 
 - ``blurred(radius:)``
 - ``inverted()``
 
-### Effects Dual
+### Effects - Dual
 
 - ``blended(with:blendingMode:placement:)``
 - ``displaced(with:offset:origin:placement:)``
 
-### Effects Technical
+### Effects - Technical
 
 - ``bits(_:)``
 - ``reduce(by:)``

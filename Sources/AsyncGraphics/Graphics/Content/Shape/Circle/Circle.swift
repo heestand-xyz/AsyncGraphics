@@ -33,7 +33,7 @@ extension Graphic {
         
         return try await Renderer.render(
             name: "Circle",
-            shaderName: "circle",
+            shader: .name("circle"),
             uniforms: CircleUniforms(
                 premultiply: true,
                 antiAlias: true,
@@ -45,7 +45,7 @@ extension Graphic {
                 backgroundColor: backgroundColor.uniform,
                 resolution: graphicSize.resolution.uniform
             ),
-            metadata: Metadata(
+            metadata: Renderer.Metadata(
                 resolution: graphicSize.resolution,
                 colorSpace: .sRGB,
                 bits: ._8
@@ -69,7 +69,7 @@ extension Graphic {
         
         return try await Renderer.render(
             name: "Circle",
-            shaderName: "circle",
+            shader: .name("circle"),
             uniforms: CircleUniforms(
                 premultiply: true,
                 antiAlias: true,
@@ -81,7 +81,7 @@ extension Graphic {
                 backgroundColor: backgroundColor.uniform,
                 resolution: graphicSize.resolution.uniform
             ),
-            metadata: Metadata(
+            metadata: Renderer.Metadata(
                 resolution: graphicSize.resolution,
                 colorSpace: .sRGB,
                 bits: ._8

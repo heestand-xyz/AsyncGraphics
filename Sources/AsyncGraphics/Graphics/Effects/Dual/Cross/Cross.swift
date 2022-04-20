@@ -17,7 +17,7 @@ extension Graphic {
         
         try await Renderer.render(
             name: "Cross",
-            shaderName: "cross",
+            shader: .name("cross"),
             graphics: [
                 self,
                 graphic

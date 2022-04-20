@@ -18,12 +18,12 @@ extension Graphic3D {
                 
         try await Renderer.render(
             name: "Color",
-            shaderName: "color3d",
+            shader: .name("color3d"),
             uniforms: Color3DUniforms(
                 premultiply: true,
                 color: color.uniform
             ),
-            metadata: Metadata(
+            metadata: Renderer.Metadata(
                 resolution: resolution,
                 colorSpace: .sRGB,
                 bits: ._8

@@ -23,7 +23,13 @@ let package = Package(
     targets: [
         .target(
             name: "AsyncGraphics",
-            dependencies: ["TextureMap", "PixelColor", "CoreGraphicsExtensions", "VideoFrames"]),
+            dependencies: ["TextureMap", "PixelColor", "CoreGraphicsExtensions", "VideoFrames"],
+            resources: [
+                .process("Graphics/Content/Solid/Metal/SolidMetal.metal.txt"),
+                .process("Graphics/Effects/Direct/Metal/DirectMetal.metal.txt"),
+                .process("Graphics/Effects/Dual/Metal/DualMetal.metal.txt"),
+                .process("Graphics/Effects/Array/Metal/ArrayMetal.metal.txt"),
+            ]),
         .testTarget(
             name: "AsyncGraphicsTests",
             dependencies: ["AsyncGraphics", "TextureMap", "PixelColor"],

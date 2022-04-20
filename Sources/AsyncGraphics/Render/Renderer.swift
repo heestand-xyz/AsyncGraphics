@@ -29,7 +29,6 @@ struct Renderer {
         case failedToMakeSampler
         case failedToMakeUniformBuffer
         case failedToMakeComputeCommandEncoder
-//        case tooManyTextures(count: Int, maximum: Int)
         
         var errorDescription: String? {
             switch self {
@@ -51,27 +50,18 @@ struct Renderer {
                 return "Async Graphics - Renderer - Failed to Make Uniform Buffer"
             case .failedToMakeComputeCommandEncoder:
                 return "Async Graphics - Renderer - Failed to Make Compute Command Encoder"
-//            case .tooManyTextures(let count, let maximum):
-//                return "Async Graphics - Renderer - Too Many Textures (\(count) > \(maximum))"
             }
         }
     }
-    
-    struct EmptyUniforms {}
-    
-    struct Options {
-        var isMulti: Bool = false
-        var addressMode: MTLSamplerAddressMode = .clampToZero
-    }
-    
+        
     static func render<G: Graphicable>(name: String,
-                                       shaderName: String,
+                                       shader: Shader,
                                        graphics: [Graphicable] = [],
                                        metadata: Metadata? = nil,
                                        options: Options = Options()) async throws -> G {
         
         try await render(name: name,
-                         shaderName: shaderName,
+                         shader: shader,
                          graphics: graphics,
                          uniforms: EmptyUniforms(),
                          metadata: metadata,
@@ -79,7 +69,7 @@ struct Renderer {
     }
     
     static func render<U, G: Graphicable>(name: String,
-                                          shaderName: String,
+                                          shader: Shader,
                                           graphics: [Graphicable] = [],
                                           uniforms: U,
                                           metadata: Metadata? = nil,
@@ -98,7 +88,7 @@ struct Renderer {
                 throw RendererError.badMetadata
             }
         
-        let multiTexture: MTLTexture? = options.isMulti ? try await graphics.map(\.texture).texture(type: .typeArray) : nil
+        let arrayTexture: MTLTexture? = options.isArray ? try await graphics.map(\.texture).texture(type: .typeArray) : nil
             
         return try await withCheckedThrowingContinuation { continuation in
             
@@ -138,14 +128,23 @@ struct Renderer {
                         
                         // MARK: Pipeline
                         
+                        let function: MTLFunction = try {
+                            switch shader {
+                            case .name(let name):
+                                return try self.shader(name: name)
+                            case .code(let code, let name):
+                                return try self.shader(name: name, code: code)
+                            }
+                        }()
+                        
                         if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                             
-                            let pipeline: MTLRenderPipelineState = try pipeline(as: shaderName, bits: bits)
+                            let pipeline: MTLRenderPipelineState = try pipeline(function: function, bits: bits)
                             renderCommandEncoder.setRenderPipelineState(pipeline)
                             
                         } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
                             
-                            let pipeline3d: MTLComputePipelineState = try pipeline3d(as: shaderName)
+                            let pipeline3d: MTLComputePipelineState = try pipeline3d(function: function)
                             computeCommandEncoder.setComputePipelineState(pipeline3d)
                         }
                         
@@ -157,26 +156,21 @@ struct Renderer {
                         
                         if !graphics.isEmpty {
                             
-                            if let multiTexture: MTLTexture = multiTexture {
+                            if let arrayTexture: MTLTexture = arrayTexture {
                                 
                                 if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                                     
-                                    renderCommandEncoder.setFragmentTexture(multiTexture, index: 0)
+                                    renderCommandEncoder.setFragmentTexture(arrayTexture, index: 0)
                                     
                                 } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
                                     
-                                    computeCommandEncoder.setTexture(multiTexture, index: 0)
+                                    computeCommandEncoder.setTexture(arrayTexture, index: 0)
                                 }
                                 
                             } else {
                             
                                 for (index, graphic) in graphics.enumerated() {
                                     
-//                                    let maximum = 128
-//                                    guard index < maximum else {
-//                                        throw RendererError.tooManyTextures(count: graphics.count, maximum: maximum)
-//                                    }
-    
                                     if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                                         
                                         renderCommandEncoder.setFragmentTexture(graphic.texture, index: index)
@@ -303,19 +297,18 @@ struct Renderer {
 
 extension Renderer {
     
-    static func pipeline(as shaderName: String, bits: TMBits) throws -> MTLRenderPipelineState {
+    static func pipeline(function: MTLFunction, bits: TMBits) throws -> MTLRenderPipelineState {
         let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
         pipelineStateDescriptor.vertexFunction = try shader(name: "vertexQuad")
-        pipelineStateDescriptor.fragmentFunction = try shader(name: shaderName)
+        pipelineStateDescriptor.fragmentFunction = function
         pipelineStateDescriptor.colorAttachments[0].pixelFormat = bits.metalPixelFormat()
         pipelineStateDescriptor.colorAttachments[0].isBlendingEnabled = true
         pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = .blendAlpha
         return try metalDevice.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
     }
     
-    static func pipeline3d(as shaderName: String) throws -> MTLComputePipelineState {
-        let function = try shader(name: shaderName)
-        return try metalDevice.makeComputePipelineState(function: function)
+    static func pipeline3d(function: MTLFunction) throws -> MTLComputePipelineState {
+        try metalDevice.makeComputePipelineState(function: function)
     }
 }
 
@@ -387,6 +380,14 @@ extension Renderer {
     
     static func shader(name: String) throws -> MTLFunction {
         let metalLibrary: MTLLibrary = try metalDevice.makeDefaultLibrary(bundle: .module)
+        guard let shader = metalLibrary.makeFunction(name: name) else {
+            throw RendererError.shaderFunctionNotFound(name: name)
+        }
+        return shader
+    }
+    
+    static func shader(name: String, code: String) throws -> MTLFunction {
+        let metalLibrary: MTLLibrary = try metalDevice.makeLibrary(source: code, options: nil)
         guard let shader = metalLibrary.makeFunction(name: name) else {
             throw RendererError.shaderFunctionNotFound(name: name)
         }

@@ -24,7 +24,7 @@ extension Graphic {
         
         try await Renderer.render(
             name: "Saturation",
-            shaderName: "colorShift",
+            shader: .name("colorShift"),
             graphics: [self],
             uniforms: ColorShiftUniforms(
                 hue: 0.0,
@@ -39,7 +39,7 @@ extension Graphic {
         
         try await Renderer.render(
             name: "Hue",
-            shaderName: "colorShift",
+            shader: .name("colorShift"),
             graphics: [self],
             uniforms: ColorShiftUniforms(
                 hue: hue.uniform,
@@ -53,7 +53,7 @@ extension Graphic {
         
         try await Renderer.render(
             name: "Tint",
-            shaderName: "colorShift",
+            shader: .name("colorShift"),
             graphics: [self],
             uniforms: ColorShiftUniforms(
                 hue: 0.0,

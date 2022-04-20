@@ -1,0 +1,24 @@
+#include <metal_stdlib>
+using namespace metal;
+
+struct VertexOut {
+    float4 position [[position]];
+    float2 texCoord;
+};
+
+struct Uniforms {
+    /*<uniforms>*/
+};
+
+fragment float4 arrayMetal(VertexOut out [[stage_in]],
+                           texture2d_array<float> textures [[ texture(0) ]],
+                           const device Uniforms& uniforms [[ buffer(0) ]],
+                           sampler sampler [[ sampler(0) ]]) {
+                           
+    float u = out.texCoord[0];
+    float v = out.texCoord[1];
+    float2 uv = float2(u, v);
+        
+    /*<code>*/
+    return 0;
+}

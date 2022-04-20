@@ -70,7 +70,7 @@ extension Graphic3D {
         
         return try await Renderer.render(
             name: "Box",
-            shaderName: "box3d",
+            shader: .name("box3d"),
             uniforms: Box3DUniforms(
                 premultiply: true,
                 antiAlias: true,
@@ -82,7 +82,7 @@ extension Graphic3D {
                 edgeColor: PixelColor.clear.uniform,
                 backgroundColor: backgroundColor.uniform
             ),
-            metadata: Metadata(
+            metadata: Renderer.Metadata(
                 resolution: resolution,
                 colorSpace: .sRGB,
                 bits: ._8
@@ -146,7 +146,7 @@ extension Graphic3D {
         
         return try await Renderer.render(
             name: "Box",
-            shaderName: "box3d",
+            shader: .name("box3d"),
             uniforms: Box3DUniforms(
                 premultiply: true,
                 antiAlias: true,
@@ -158,7 +158,7 @@ extension Graphic3D {
                 edgeColor: color.uniform,
                 backgroundColor: backgroundColor.uniform
             ),
-            metadata: Metadata(
+            metadata: Renderer.Metadata(
                 resolution: resolution,
                 colorSpace: .sRGB,
                 bits: ._8

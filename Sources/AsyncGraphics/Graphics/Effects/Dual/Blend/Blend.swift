@@ -17,7 +17,7 @@ extension Graphic {
         
         try await Renderer.render(
             name: "Blend",
-            shaderName: "blend",
+            shader: .name("blend"),
             graphics: [
                 self,
                 graphic

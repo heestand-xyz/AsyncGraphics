@@ -1,7 +1,4 @@
 //
-//  File.swift
-//  
-//
 //  Created by Anton Heestand on 2022-04-11.
 //
 
@@ -20,12 +17,12 @@ extension Graphic3D {
         
         return try await Renderer.render(
             name: "Average",
-            shaderName: "average",
+            shader: .name("average"),
             graphics: [self],
             uniforms: Average3DUniforms(
                 axis: axis.index
             ),
-            metadata: Metadata(
+            metadata: Renderer.Metadata(
                 resolution: resolution,
                 colorSpace: colorSpace,
                 bits: bits

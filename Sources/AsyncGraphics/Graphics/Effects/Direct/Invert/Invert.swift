@@ -15,7 +15,7 @@ extension Graphic {
         
         try await Renderer.render(
             name: "Invert",
-            shaderName: "invert",
+            shader: .name("invert"),
             graphics: [self]
         )
     }

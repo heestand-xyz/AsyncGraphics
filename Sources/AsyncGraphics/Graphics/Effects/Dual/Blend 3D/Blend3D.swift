@@ -17,7 +17,7 @@ extension Graphic3D {
         
         try await Renderer.render(
             name: "Blend",
-            shaderName: "blend3d",
+            shader: .name("blend3d"),
             graphics: [
                 self,
                 graphic

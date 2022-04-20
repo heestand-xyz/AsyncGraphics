@@ -28,11 +28,11 @@ A Graphic3D is a volume of voxels. It's backed by a `MTLTexture`.
 - ``channels``
 <!--- ``isVoxelsEqual(to:)``-->
 
-### Content Resources
+### Content - Resources
 
 - ``texture(_:colorSpace:)``
 
-### Content Shapes
+### Content - Shapes
 
 - ``color(_:at:)``
 - ``box(size:origin:cornerRadius:color:backgroundColor:at:)``
@@ -42,17 +42,17 @@ A Graphic3D is a volume of voxels. It's backed by a `MTLTexture`.
 - ``sphere(radius:center:color:backgroundColor:at:)``
 - ``surfaceSphere(radius:center:surfaceWidth:color:backgroundColor:at:)``
 
-### Effects Direct
+### Effects - Direct
 
 - ``blurred(radius:)``
 - ``inverted()``
 
-### Effects Dual
+### Effects - Dual
 
 - ``blended(with:blendingMode:placement:)``
 - ``displaced(with:offset:origin:placement:)``
 
-### Effects Technical
+### Effects - Technical
 
 - ``bits(_:)``
 - ``average(axis:)``

@@ -64,7 +64,7 @@ extension Graphic {
         
         return try await Renderer.render(
             name: "Blur (Box)",
-            shaderName: "blur",
+            shader: .name("blur"),
             graphics: [self],
             uniforms: BlurUniforms(
                 type: BlurType.box.rawValue,
@@ -88,7 +88,7 @@ extension Graphic {
         
         return try await Renderer.render(
             name: "Blur (Zoom)",
-            shaderName: "blur",
+            shader: .name("blur"),
             graphics: [self],
             uniforms: BlurUniforms(
                 type: BlurType.zoom.rawValue,
@@ -109,7 +109,7 @@ extension Graphic {
         
         return try await Renderer.render(
             name: "Blur (Angle)",
-            shaderName: "blur",
+            shader: .name("blur"),
             graphics: [self],
             uniforms: BlurUniforms(
                 type: BlurType.angle.rawValue,
@@ -128,7 +128,7 @@ extension Graphic {
         
         return try await Renderer.render(
             name: "Blur (Random)",
-            shaderName: "blur",
+            shader: .name("blur"),
             graphics: [self],
             uniforms: BlurUniforms(
                 type: BlurType.random.rawValue,

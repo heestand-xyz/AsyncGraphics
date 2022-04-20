@@ -12,12 +12,12 @@ extension Array where Element == Graphic {
         
         try await Renderer.render(
             name: "Blends",
-            shaderName: "blends",
+            shader: .name("blends"),
             graphics: self,
             uniforms: BlendsUniforms(
                 mode: blendingMode.index
             ),
-            options: Renderer.Options(isMulti: true)
+            options: Renderer.Options(isArray: true)
         )
     }
 }
