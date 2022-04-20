@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import CoreGraphics
 import simd
 import PixelColor
 
