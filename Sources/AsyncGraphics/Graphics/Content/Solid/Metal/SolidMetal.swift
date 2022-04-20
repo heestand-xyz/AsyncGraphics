@@ -22,7 +22,7 @@ extension Graphic {
         }
     }
     
-    /// Metal
+    /// Metal Shader Code
     ///
     /// Get the resolution of the input texture.
     /// ```

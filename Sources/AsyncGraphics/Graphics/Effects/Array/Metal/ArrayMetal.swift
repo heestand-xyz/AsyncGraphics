@@ -19,7 +19,7 @@ extension Array where Element == Graphic {
         }
     }
     
-    /// Metal
+    /// Metal Shader Code
     ///
     /// Sample the first texture color.
     /// ```

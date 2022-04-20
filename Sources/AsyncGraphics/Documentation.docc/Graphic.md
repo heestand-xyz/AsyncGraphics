@@ -29,33 +29,81 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 - ``channels``
 - ``isPixelsEqual(to:)``
 
-### Content - Resources
+### Resources
 
 - ``image(_:)``
 - ``image(named:in:)``
 - ``texture(_:colorSpace:)``
 
-### Content - Shapes
+### Color
 
 - ``color(_:at:)``
+
+### Rectangle
+
 - ``rectangle(size:center:cornerRadius:color:backgroundColor:at:)``
 - ``rectangle(frame:cornerRadius:color:backgroundColor:at:)``
 - ``strokedRectangle(size:center:cornerRadius:lineWidth:color:backgroundColor:at:)``
 - ``strokedRectangle(frame:cornerRadius:lineWidth:color:backgroundColor:at:)``
+
+### Circle
+
 - ``circle(radius:center:color:backgroundColor:at:)``
 - ``strokedCircle(radius:center:lineWidth:color:backgroundColor:at:)``
 
-### Effects - Direct
+### Noise
+
+- ``noise(offset:depth:scale:octaves:seed:at:)``
+- ``coloredNoise(offset:depth:scale:octaves:seed:at:)``
+- ``randomNoise(seed:at:)``
+- ``randomColoredNoise(seed:at:)``
+
+### Transform
+
+- ``translated(_:)``
+- ``translated(x:y:)``
+- ``rotated(_:)``
+- ``scaled(_:)``
+- ``scaled(x:y:)``
+
+### Colorize
+
+- ``monochrome()``
+- ``saturated(_:)``
+- ``hue(_:)``
+- ``tinted(_:)``
+
+### Blur
 
 - ``blurred(radius:)``
-- ``inverted()``
+- ``blurredBox(radius:sampleCount:)``
+- ``blurredZoom(radius:center:sampleCount:)``
+- ``blurredAngle(radius:angle:sampleCount:)``
+- ``blurredRandom(radius:)``
 
-### Effects - Dual
+### Blend
 
 - ``blended(with:blendingMode:placement:)``
+
+### Invert
+
+- ``inverted()``
+
+### Displace
+
 - ``displaced(with:offset:origin:placement:)``
 
-### Effects - Technical
+### Cross
+
+- ``cross(with:fraction:placement:)``
+
+### Metal
+
+- ``metal(code:at:)``
+- ``metal(code:)``
+- ``metal(with:code:)``
+
+### Technical
 
 - ``bits(_:)``
 - ``reduce(by:)``
