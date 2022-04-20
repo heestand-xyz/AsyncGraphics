@@ -1,6 +1,6 @@
 # ``AsyncGraphics/Graphic3D``
 
-A Graphic3D is a volume of voxels. It's backed by a `MTLTexture`. 
+A Graphic3D is a 3d image, made up out of voxels. It's backed by a `MTLTexture`. 
 
 ## Topics
 
