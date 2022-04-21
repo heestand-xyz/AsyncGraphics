@@ -29,10 +29,13 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 - ``channels``
 - ``isPixelsEqual(to:)``
 
-### Resources
+### Image
 
 - ``image(_:)``
 - ``image(named:in:)``
+
+### Texture
+
 - ``texture(_:)``
 
 ### Color

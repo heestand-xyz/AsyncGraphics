@@ -12,7 +12,9 @@ extension Graphic3D {
     /// Fraction 0.0 is the first plane
     ///
     /// Fraction 1.0 is the last plane
-    public func sample(fraction: Double, axis: Axis = .z) async throws -> Graphic {
+    public func sample(fraction: Double/*, axis: Axis = .z*/) async throws -> Graphic {
+        
+        let axis: Axis = .z
         
         let index: Int = {
             switch axis {
@@ -25,19 +27,21 @@ extension Graphic3D {
             }
         }()
         
-        return try await sample(index: index, axis: axis)
+        return try await sample(index: index/*, axis: axis*/)
     }
     
-    #warning("Axis other than Z failes")
-    public func sample(index: Int, axis: Axis = .z) async throws -> Graphic {
+    public func sample(index: Int/*, axis: Axis = .z*/) async throws -> Graphic {
+        
+        let axis: Axis = .z
         
         let texture = try await texture.sample3d(index: index, axis: axis.tmAxis, bits: bits)
         
         return Graphic(name: "Sample", texture: texture, bits: bits, colorSpace: colorSpace)
     }
     
-    #warning("Axis other than Z failes")
-    public func samples(axis: Axis = .z) async throws -> [Graphic] {
+    public func samples(/*axis: Axis = .z*/) async throws -> [Graphic] {
+        
+        let axis: Axis = .z
         
         let count: Int = {
             switch axis {
@@ -54,7 +58,7 @@ extension Graphic3D {
             
             for index in 0..<count {
                 group.addTask {
-                    let graphic: Graphic = try await self.sample(index: index, axis: axis)
+                    let graphic: Graphic = try await self.sample(index: index/*, axis: axis*/)
                     return (index, graphic)
                 }
             }

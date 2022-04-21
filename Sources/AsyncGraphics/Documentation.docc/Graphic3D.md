@@ -26,9 +26,9 @@ A Graphic3D is a 3d image, made up out of voxels. It's backed by a `MTLTexture`.
 - ``averageVoxelColor``
 - ``voxelColors``
 - ``channels``
-<!--- ``isVoxelsEqual(to:)``-->
+- ``isVoxelsEqual(to:)``
 
-### Resources
+### Texture
 
 - ``texture(_:)``
 

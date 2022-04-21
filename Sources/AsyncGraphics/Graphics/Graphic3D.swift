@@ -173,19 +173,19 @@ extension Graphic3D: Equatable {
     }
 }
 
-//@available(iOS 14.0, tvOS 14, macOS 11, *)
-//extension Graphic3D {
-//
-//    public func isPixelsEqual(to graphic: Graphic3D) async throws -> Bool {
-//
-//        guard resolution == graphic.resolution else {
-//            return false
-//        }
-//
-//        let difference = try await blended(with: graphic, blendingMode: .difference, placement: .stretch)
-//
-//        let color = try await difference.averagePixelColor
-//
-//        return color.brightness < 0.000_1
-//    }
-//}
+@available(iOS 14.0, tvOS 14, macOS 11, *)
+extension Graphic3D {
+
+    public func isVoxelsEqual(to graphic: Graphic3D) async throws -> Bool {
+
+        guard resolution == graphic.resolution else {
+            return false
+        }
+
+        let difference = try await blended(with: graphic, blendingMode: .difference, placement: .stretch)
+
+        let color = try await difference.averageVoxelColor
+
+        return color.brightness < 0.000_1
+    }
+}

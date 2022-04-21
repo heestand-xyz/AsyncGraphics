@@ -4,13 +4,16 @@
 
 import TextureMap
 
-public enum Axis {
-    case x
-    case y
-    case z
+extension Graphic3D {
+    
+    public enum Axis {
+        case x
+        case y
+        case z
+    }
 }
 
-extension Axis {
+extension Graphic3D.Axis {
     
     var index: Int {
         switch self {
@@ -24,7 +27,7 @@ extension Axis {
     }
 }
 
-extension Axis {
+extension Graphic3D.Axis {
     
     var tmAxis: TMAxis {
         switch self {
