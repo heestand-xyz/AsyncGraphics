@@ -26,7 +26,8 @@ extension Graphic {
                                  cornerRadius: CGFloat = 0.0,
                                  color: PixelColor = .white,
                                  backgroundColor: PixelColor = .black,
-                                 at graphicSize: CGSize) async throws -> Graphic {
+                                 at graphicSize: CGSize,
+                                 options: Options = Options()) async throws -> Graphic {
         
         let center: CGPoint = center ?? graphicSize.asPoint / 2
         let frame = CGRect(origin: center - size / 2, size: size)
@@ -36,7 +37,8 @@ extension Graphic {
             cornerRadius: cornerRadius,
             color: color,
             backgroundColor: backgroundColor,    
-            at: graphicSize
+            at: graphicSize,
+            options: options
         )
     }
     
@@ -44,7 +46,8 @@ extension Graphic {
                                  cornerRadius: CGFloat = 0.0,
                                  color: PixelColor = .white,
                                  backgroundColor: PixelColor = .black,
-                                 at graphicSize: CGSize) async throws -> Graphic {
+                                 at graphicSize: CGSize,
+                                 options: Options = Options()) async throws -> Graphic {
         
         let frame = frame.flipY(size: graphicSize)
         
@@ -72,7 +75,7 @@ extension Graphic {
             metadata: Renderer.Metadata(
                 resolution: graphicSize.resolution,
                 colorSpace: .sRGB,
-                bits: ._8
+                bits: options.bits
             )
         )
     }
@@ -83,7 +86,8 @@ extension Graphic {
                                         lineWidth: CGFloat,
                                         color: PixelColor = .white,
                                         backgroundColor: PixelColor = .black,
-                                        at graphicSize: CGSize) async throws -> Graphic {
+                                        at graphicSize: CGSize,
+                                        options: Options = Options()) async throws -> Graphic {
         
         let center: CGPoint = center ?? graphicSize.asPoint / 2
         let frame = CGRect(origin: center - size / 2, size: size)
@@ -94,7 +98,8 @@ extension Graphic {
             lineWidth: lineWidth,
             color: color,
             backgroundColor: backgroundColor,
-            at: graphicSize
+            at: graphicSize,
+            options: options
         )
     }
     
@@ -103,7 +108,8 @@ extension Graphic {
                                         lineWidth: CGFloat,
                                         color: PixelColor = .white,
                                         backgroundColor: PixelColor = .black,
-                                        at graphicSize: CGSize) async throws -> Graphic {
+                                        at graphicSize: CGSize,
+                                        options: Options = Options()) async throws -> Graphic {
         
         let frame = frame.flipY(size: graphicSize)
         
@@ -133,7 +139,7 @@ extension Graphic {
             metadata: Renderer.Metadata(
                 resolution: graphicSize.resolution,
                 colorSpace: .sRGB,
-                bits: ._8
+                bits: options.bits
             )
         )
     }

@@ -24,7 +24,8 @@ extension Graphic {
                              scale: CGFloat = 1.0,
                              octaves: Int = 1,
                              seed: Int = 1,
-                             at graphicSize: CGSize) async throws -> Graphic {
+                             at graphicSize: CGSize,
+                             options: Options = Options()) async throws -> Graphic {
         
         let offset: CGPoint = offset.flipPositionY(size: graphicSize)
         let relativeOffset: CGPoint = (offset - graphicSize / 2) / graphicSize.height
@@ -51,7 +52,7 @@ extension Graphic {
             metadata: Renderer.Metadata(
                 resolution: graphicSize.resolution,
                 colorSpace: .sRGB,
-                bits: ._8
+                bits: options.bits
             )
         )
     }
@@ -62,7 +63,8 @@ extension Graphic {
                                     scale: CGFloat = 1.0,
                                     octaves: Int = 1,
                                     seed: Int = 1,
-                                    at graphicSize: CGSize) async throws -> Graphic {
+                                    at graphicSize: CGSize,
+                                    options: Options = Options()) async throws -> Graphic {
         
         let offset: CGPoint = offset.flipPositionY(size: graphicSize)
         let relativeOffset: CGPoint = (offset - graphicSize / 2) / graphicSize.height
@@ -89,13 +91,14 @@ extension Graphic {
             metadata: Renderer.Metadata(
                 resolution: graphicSize.resolution,
                 colorSpace: .sRGB,
-                bits: ._8
+                bits: options.bits
             )
         )
     }
     
     public static func randomNoise(seed: Int = 1,
-                                   at graphicSize: CGSize) async throws -> Graphic {
+                                   at graphicSize: CGSize,
+                                   options: Options = Options()) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Noise (Random)",
@@ -113,13 +116,14 @@ extension Graphic {
             metadata: Renderer.Metadata(
                 resolution: graphicSize.resolution,
                 colorSpace: .sRGB,
-                bits: ._8
+                bits: options.bits
             )
         )
     }
     
     public static func randomColoredNoise(seed: Int = 1,
-                                          at graphicSize: CGSize) async throws -> Graphic {
+                                          at graphicSize: CGSize,
+                                          options: Options = Options()) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Noise (Random Colored)",
@@ -137,7 +141,7 @@ extension Graphic {
             metadata: Renderer.Metadata(
                 resolution: graphicSize.resolution,
                 colorSpace: .sRGB,
-                bits: ._8
+                bits: options.bits
             )
         )
     }

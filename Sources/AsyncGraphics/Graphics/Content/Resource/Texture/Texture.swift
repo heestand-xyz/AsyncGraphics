@@ -19,7 +19,7 @@ extension Graphic {
         }
     }
     
-    public static func texture(_ texture: MTLTexture, colorSpace: TMColorSpace = .sRGB) throws -> Graphic {
+    public static func texture(_ texture: MTLTexture) throws -> Graphic {
         
         guard texture.textureType == .type2D else {
             throw TextureGraphicError.unsupportedType
@@ -27,6 +27,6 @@ extension Graphic {
         
         let bits = try TMBits(texture: texture)
         
-        return Graphic(name: "Texture", texture: texture, bits: bits, colorSpace: colorSpace)
+        return Graphic(name: "Texture", texture: texture, bits: bits, colorSpace: .sRGB)
     }
 }

@@ -24,7 +24,8 @@ extension Graphic {
                               center: CGPoint? = nil,
                               color: PixelColor = .white,
                               backgroundColor: PixelColor = .black,
-                              at graphicSize: CGSize) async throws -> Graphic {
+                              at graphicSize: CGSize,
+                              options: Options = Options()) async throws -> Graphic {
         
         let relativeRadius: CGFloat = radius / graphicSize.height
         
@@ -48,7 +49,7 @@ extension Graphic {
             metadata: Renderer.Metadata(
                 resolution: graphicSize.resolution,
                 colorSpace: .sRGB,
-                bits: ._8
+                bits: options.bits
             )
         )
     }
@@ -58,7 +59,8 @@ extension Graphic {
                                      lineWidth: CGFloat,
                                      color: PixelColor = .white,
                                      backgroundColor: PixelColor = .black,
-                                     at graphicSize: CGSize) async throws -> Graphic {
+                                     at graphicSize: CGSize,
+                                     options: Options = Options()) async throws -> Graphic {
         
         let relativeRadius: CGFloat = radius / graphicSize.height
         
@@ -84,7 +86,7 @@ extension Graphic {
             metadata: Renderer.Metadata(
                 resolution: graphicSize.resolution,
                 colorSpace: .sRGB,
-                bits: ._8
+                bits: options.bits
             )
         )
     }

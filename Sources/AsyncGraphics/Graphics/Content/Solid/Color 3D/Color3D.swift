@@ -14,7 +14,9 @@ extension Graphic3D {
         let color: ColorUniform
     }
     
-    public static func color(_ color: PixelColor, at resolution: SIMD3<Int>) async throws -> Graphic3D {
+    public static func color(_ color: PixelColor,
+                             resolution: SIMD3<Int>,
+                             options: Options = Options()) async throws -> Graphic3D {
                 
         try await Renderer.render(
             name: "Color",
@@ -26,7 +28,7 @@ extension Graphic3D {
             metadata: Renderer.Metadata(
                 resolution: resolution,
                 colorSpace: .sRGB,
-                bits: ._8
+                bits: options.bits
             )
         )
     }

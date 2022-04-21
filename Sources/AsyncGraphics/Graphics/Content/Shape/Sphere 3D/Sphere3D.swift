@@ -22,7 +22,8 @@ extension Graphic3D {
                               center: SIMD3<Double>? = nil,
                               color: PixelColor = .white,
                               backgroundColor: PixelColor = .black,
-                              at resolution: SIMD3<Int>) async throws -> Graphic3D {
+                              resolution: SIMD3<Int>,
+                              options: Options = Options()) async throws -> Graphic3D {
         
         let relativeRadius: Double = radius / Double(resolution.y)
         
@@ -53,7 +54,7 @@ extension Graphic3D {
             metadata: Renderer.Metadata(
                 resolution: resolution,
                 colorSpace: .sRGB,
-                bits: ._8
+                bits: options.bits
             )
         )
     }
@@ -63,7 +64,8 @@ extension Graphic3D {
                                      surfaceWidth: Double,
                                      color: PixelColor = .white,
                                      backgroundColor: PixelColor = .black,
-                                     at resolution: SIMD3<Int>) async throws -> Graphic3D {
+                                     resolution: SIMD3<Int>,
+                                     options: Options = Options()) async throws -> Graphic3D {
         
         let relativeRadius: Double = radius / Double(resolution.y)
         
@@ -96,7 +98,7 @@ extension Graphic3D {
             metadata: Renderer.Metadata(
                 resolution: resolution,
                 colorSpace: .sRGB,
-                bits: ._8
+                bits: options.bits
             )
         )
     }

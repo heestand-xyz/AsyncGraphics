@@ -24,7 +24,8 @@ extension Graphic3D {
                            cornerRadius: Double = 0.0,
                            color: PixelColor = .white,
                            backgroundColor: PixelColor = .black,
-                           at resolution: SIMD3<Int>) async throws -> Graphic3D {
+                           resolution: SIMD3<Int>,
+                           options: Options = Options()) async throws -> Graphic3D {
         
         let center: SIMD3<Double> = SIMD3<Double>(
             origin.x + size.x / 2,
@@ -38,7 +39,8 @@ extension Graphic3D {
             cornerRadius: cornerRadius,
             color: color,
             backgroundColor: backgroundColor,
-            at: resolution
+            resolution: resolution,
+            options: options
         )
     }
     
@@ -47,7 +49,8 @@ extension Graphic3D {
                            cornerRadius: Double = 0.0,
                            color: PixelColor = .white,
                            backgroundColor: PixelColor = .black,
-                           at resolution: SIMD3<Int>) async throws -> Graphic3D {
+                           resolution: SIMD3<Int>,
+                           options: Options = Options()) async throws -> Graphic3D {
         
         let relativeSize: SIMD3<Double> = SIMD3<Double>(
             size.x / Double(resolution.y),
@@ -85,7 +88,7 @@ extension Graphic3D {
             metadata: Renderer.Metadata(
                 resolution: resolution,
                 colorSpace: .sRGB,
-                bits: ._8
+                bits: options.bits
             )
         )
     }
@@ -96,7 +99,8 @@ extension Graphic3D {
                                   surfaceWidth: Double,
                                   color: PixelColor = .white,
                                   backgroundColor: PixelColor = .black,
-                                  at resolution: SIMD3<Int>) async throws -> Graphic3D {
+                                  resolution: SIMD3<Int>,
+                                  options: Options = Options()) async throws -> Graphic3D {
         
         let center: SIMD3<Double> = SIMD3<Double>(
             origin.x + size.x / 2,
@@ -111,7 +115,8 @@ extension Graphic3D {
             surfaceWidth: surfaceWidth,
             color: color,
             backgroundColor: backgroundColor,
-            at: resolution
+            resolution: resolution,
+            options: options
         )
     }
     
@@ -121,7 +126,8 @@ extension Graphic3D {
                                   surfaceWidth: Double,
                                   color: PixelColor = .white,
                                   backgroundColor: PixelColor = .black,
-                                  at resolution: SIMD3<Int>) async throws -> Graphic3D {
+                                  resolution: SIMD3<Int>,
+                                  options: Options = Options()) async throws -> Graphic3D {
         
         let relativeSize: SIMD3<Double> = SIMD3<Double>(
             size.x / Double(resolution.y),
@@ -161,7 +167,7 @@ extension Graphic3D {
             metadata: Renderer.Metadata(
                 resolution: resolution,
                 colorSpace: .sRGB,
-                bits: ._8
+                bits: options.bits
             )
         )
     }
