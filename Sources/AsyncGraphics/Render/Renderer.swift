@@ -169,7 +169,7 @@ struct Renderer {
                             
                             let vertexFunction = try self.shader(name: vertexShaderName)
                             
-                            let pipeline: MTLRenderPipelineState = try pipeline(fragmentFunction: function, vertexFunction: vertexFunction, bits: bits)
+                            let pipeline: MTLRenderPipelineState = try pipeline(fragmentFunction: function, vertexFunction: vertexFunction, additive: options.additive, bits: bits)
                             renderCommandEncoder.setRenderPipelineState(pipeline)
                             
                         } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {

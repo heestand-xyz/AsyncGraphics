@@ -78,7 +78,8 @@ extension Graphic {
             ),
             options: Renderer.Options(
                 addressMode: .clampToEdge,
-                clearColor: backgroundColor
+                clearColor: backgroundColor,
+                additive: true
             )
         )
     }

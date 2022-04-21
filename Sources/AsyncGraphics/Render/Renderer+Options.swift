@@ -12,5 +12,6 @@ extension Renderer {
         var isArray: Bool = false
         var addressMode: MTLSamplerAddressMode = .clampToZero
         var clearColor: PixelColor = .clear
+        var additive: Bool = false
     }
 }
