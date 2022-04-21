@@ -8,9 +8,30 @@ import TextureMap
 //@available(iOS 14.0, tvOS 14, macOS 11, *)
 extension Graphic {
     
-    public func bits(_ bits: TMBits) async throws -> Graphic {
+    /// 8 bits
+    public func standardBit() async throws -> Graphic {
         
-        Graphic(name: "Bits", texture: texture, bits: bits, colorSpace: colorSpace)
+        try await bits(._8)
+    }
+    
+    /// 16 bits
+    public func highBit() async throws -> Graphic {
+        
+        try await bits(._16)
+    }
+    
+    private func bits(_ bits: TMBits) async throws -> Graphic {
+        
+        try await Renderer.render(
+            name: "Bits",
+            shader: .name("bits"),
+            graphics: [self],
+            metadata: Renderer.Metadata(
+                resolution: resolution,
+                colorSpace: colorSpace,
+                bits: bits
+            )
+        )
     }
     
 //    public func with(bits: TMBits) async throws -> Graphic {

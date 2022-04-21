@@ -7,7 +7,7 @@ import TextureMap
 
 extension Graphic {
     
-    public enum TextureGraphicError: LocalizedError {
+    public enum TextureError: LocalizedError {
         
         case unsupportedType
         
@@ -22,7 +22,7 @@ extension Graphic {
     public static func texture(_ texture: MTLTexture) throws -> Graphic {
         
         guard texture.textureType == .type2D else {
-            throw TextureGraphicError.unsupportedType
+            throw TextureError.unsupportedType
         }
         
         let bits = try TMBits(texture: texture)

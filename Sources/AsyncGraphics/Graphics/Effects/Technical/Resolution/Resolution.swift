@@ -9,7 +9,7 @@ import TextureMap
 
 extension Graphic {
     
-    public struct ResolutionUniforms {
+    private struct ResolutionUniforms {
         let placement: Int32
         let outputResolution: SizeUniform
     }

@@ -21,6 +21,10 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 - ``size``
 - ``resolution``
 
+### Options
+
+- ``Options``
+
 ### Pixels
 
 - ``firstPixelColor``
@@ -37,6 +41,7 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 ### Texture
 
 - ``texture(_:)``
+- ``TextureError``
 
 ### Color
 
@@ -66,6 +71,7 @@ Create a graphic with a solid color.
 ### Particles
 
 - ``uvParticles(particleScale:particleColor:particleOptions:backgroundColor:at:options:)``
+- ``UVParticleOptions``
 
 ### Transform
 
@@ -118,6 +124,10 @@ Write metal shader code.
 - ``metal(code:)``
 - ``metal(with:code:)``
 
+### UV
+
+- ``uv(at:options:)``
+
 ### Resolution
 
 Resize a graphic.
@@ -127,7 +137,8 @@ Resize a graphic.
 
 ### Bits
 
-- ``bits(_:)``
+- ``standardBit()``
+- ``highBit()``
 
 ### Reduce
 

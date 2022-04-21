@@ -14,10 +14,10 @@ extension Graphic3D {
         public let rawValue: Int
         
         /// 16 bit rendering
-        public static let highBitMode = Options(rawValue: 1)
+        public static let highBit = Options(rawValue: 1)
         
         var bits: TMBits {
-            contains(.highBitMode) ? ._16 : ._8
+            contains(.highBit) ? ._16 : ._8
         }
         
         public init(rawValue: Int) {
