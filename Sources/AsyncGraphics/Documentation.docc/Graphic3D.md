@@ -30,23 +30,23 @@ A Graphic3D is a 3d image, made up out of voxels. It's backed by a `MTLTexture`.
 
 ### Resources
 
-- ``texture(_:colorSpace:)``
+- ``texture(_:)``
 
 ### Color
 
-- ``color(_:at:)``
+- ``color(_:resolution:options:)``
 
 ### Box
 
-- ``box(size:origin:cornerRadius:color:backgroundColor:at:)``
-- ``box(size:center:cornerRadius:color:backgroundColor:at:)``
-- ``surfaceBox(size:origin:cornerRadius:surfaceWidth:color:backgroundColor:at:)``
-- ``surfaceBox(size:center:cornerRadius:surfaceWidth:color:backgroundColor:at:)``
+- ``box(size:origin:cornerRadius:color:backgroundColor:resolution:options:)``
+- ``box(size:center:cornerRadius:color:backgroundColor:resolution:options:)``
+- ``surfaceBox(size:origin:cornerRadius:surfaceWidth:color:backgroundColor:resolution:options:)``
+- ``surfaceBox(size:center:cornerRadius:surfaceWidth:color:backgroundColor:resolution:options:)``
 
 ### Sphere
 
-- ``sphere(radius:center:color:backgroundColor:at:)``
-- ``surfaceSphere(radius:center:surfaceWidth:color:backgroundColor:at:)``
+- ``sphere(radius:center:color:backgroundColor:resolution:options:)``
+- ``surfaceSphere(radius:center:surfaceWidth:color:backgroundColor:resolution:options:)``
 
 ### Blend
 

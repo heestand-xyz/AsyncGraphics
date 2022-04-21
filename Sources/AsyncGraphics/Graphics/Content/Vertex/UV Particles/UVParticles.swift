@@ -40,7 +40,7 @@ extension Graphic {
     /// Particles **x & y** coordinate is based on the input pixel's **red & green** channels.
     ///
     /// The coordinate space is **y up**. Black is in the center, red is towards the right and green is towards the top.
-    /// To place particles in the left of bottom, you need a 16 bit graphic with negative colors.
+    /// To place particles in the left of bottom, you need a 16 bit graphic (option: `.highBitMode`) with negative colors.
     /// The height of the coordinate space is 1.0, to top is 0.5, and bottom is -0.5.
     /// The coordinate space is aspect correct, so far right will be over 0.5 in the red channel if your aspectRatio is above 1.0.
     ///
@@ -53,7 +53,8 @@ extension Graphic {
                             particleColor: PixelColor = .white,
                             particleOptions: UVParticleOptions = UVParticleOptions(),
                             backgroundColor: PixelColor = .black,
-                            at graphicSize: CGSize) async throws -> Graphic {
+                            at graphicSize: CGSize,
+                            options: Options = Options()) async throws -> Graphic {
         
         try await Renderer.render(
             name: "UV Particles",
@@ -73,9 +74,12 @@ extension Graphic {
             metadata: Renderer.Metadata(
                 resolution: graphicSize.resolution,
                 colorSpace: colorSpace,
-                bits: bits
+                bits: options.bits
             ),
-            options: Renderer.Options(clearColor: backgroundColor)
+            options: Renderer.Options(
+                addressMode: .clampToEdge,
+                clearColor: backgroundColor
+            )
         )
     }
 }

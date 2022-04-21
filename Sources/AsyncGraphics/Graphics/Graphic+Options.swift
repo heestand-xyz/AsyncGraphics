@@ -9,12 +9,19 @@ import TextureMap
 
 extension Graphic {
     
-    public struct Options {
+    public struct Options: OptionSet {
         
-        let bits: TMBits
+        public let rawValue: Int
         
-        public init(bits: TMBits = ._8) {
-            self.bits = bits
+        /// 16 bit rendering
+        public static let highBitMode = Options(rawValue: 1)
+        
+        var bits: TMBits {
+            contains(.highBitMode) ? ._16 : ._8
+        }
+        
+        public init(rawValue: Int) {
+            self.rawValue = rawValue
         }
     }
 }

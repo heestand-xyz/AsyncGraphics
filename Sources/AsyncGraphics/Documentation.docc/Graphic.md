@@ -33,32 +33,36 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 
 - ``image(_:)``
 - ``image(named:in:)``
-- ``texture(_:colorSpace:)``
+- ``texture(_:)``
 
 ### Color
 
 Create a graphic with a solid color.
 
-- ``color(_:at:)``
+- ``color(_:at:options:)``
 
 ### Rectangle
 
-- ``rectangle(size:center:cornerRadius:color:backgroundColor:at:)``
-- ``rectangle(frame:cornerRadius:color:backgroundColor:at:)``
-- ``strokedRectangle(size:center:cornerRadius:lineWidth:color:backgroundColor:at:)``
-- ``strokedRectangle(frame:cornerRadius:lineWidth:color:backgroundColor:at:)``
+- ``rectangle(size:center:cornerRadius:color:backgroundColor:at:options:)``
+- ``rectangle(frame:cornerRadius:color:backgroundColor:at:options:)``
+- ``strokedRectangle(size:center:cornerRadius:lineWidth:color:backgroundColor:at:options:)``
+- ``strokedRectangle(frame:cornerRadius:lineWidth:color:backgroundColor:at:options:)``
 
 ### Circle
 
-- ``circle(radius:center:color:backgroundColor:at:)``
-- ``strokedCircle(radius:center:lineWidth:color:backgroundColor:at:)``
+- ``circle(radius:center:color:backgroundColor:at:options:)``
+- ``strokedCircle(radius:center:lineWidth:color:backgroundColor:at:options:)``
 
 ### Noise
 
-- ``noise(offset:depth:scale:octaves:seed:at:)``
-- ``coloredNoise(offset:depth:scale:octaves:seed:at:)``
-- ``randomNoise(seed:at:)``
-- ``randomColoredNoise(seed:at:)``
+- ``noise(offset:depth:scale:octaves:seed:at:options:)``
+- ``coloredNoise(offset:depth:scale:octaves:seed:at:options:)``
+- ``randomNoise(seed:at:options:)``
+- ``randomColoredNoise(seed:at:options:)``
+
+### Particles
+
+- ``uvParticles(particleScale:particleColor:particleOptions:backgroundColor:at:options:)``
 
 ### Transform
 
@@ -107,7 +111,7 @@ Fade two graphics by crossing them with opacity.
 
 Write metal shader code.
 
-- ``metal(code:at:)``
+- ``metal(code:at:options:)``
 - ``metal(code:)``
 - ``metal(with:code:)``
 
