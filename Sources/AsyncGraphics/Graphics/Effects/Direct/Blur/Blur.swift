@@ -54,7 +54,6 @@ extension Graphic {
         }
         
         return Graphic(name: "Blur (Gaussian)", texture: targetTexture, bits: bits, colorSpace: colorSpace)
-        
     }
     
     public func blurredBox(radius: CGFloat,

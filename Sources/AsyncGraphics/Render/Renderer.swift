@@ -64,14 +64,32 @@ struct Renderer {
                          shader: shader,
                          graphics: graphics,
                          uniforms: EmptyUniforms(),
+                         vertexUniforms: EmptyUniforms(),
                          metadata: metadata,
                          options: options)
     }
     
     static func render<U, G: Graphicable>(name: String,
+                                              shader: Shader,
+                                              graphics: [Graphicable] = [],
+                                              uniforms: U,
+                                              metadata: Metadata? = nil,
+                                              options: Options = Options()) async throws -> G {
+        
+        try await render(name: name,
+                         shader: shader,
+                         graphics: graphics,
+                         uniforms: uniforms,
+                         vertexUniforms: EmptyUniforms(),
+                         metadata: metadata,
+                         options: options)
+    }
+    
+    static func render<U, VU, G: Graphicable>(name: String,
                                           shader: Shader,
                                           graphics: [Graphicable] = [],
                                           uniforms: U,
+                                          vertexUniforms: VU,
                                           metadata: Metadata? = nil,
                                           options: Options = Options()) async throws -> G {
         
@@ -120,17 +138,17 @@ struct Renderer {
                         }
                         commandEncoder = computeCommandEncoder
                     } else {
-                        let renderCommandEncoder: MTLRenderCommandEncoder = try self.commandEncoder(texture: targetTexture, commandBuffer: commandBuffer)
+                        let renderCommandEncoder: MTLRenderCommandEncoder = try self.commandEncoder(texture: targetTexture, clearColor: options.clearColor, commandBuffer: commandBuffer)
                         commandEncoder = renderCommandEncoder
                     }
                     
                     do {
                         
                         // MARK: Pipeline
-                        
+                         
                         let function: MTLFunction = try {
                             switch shader {
-                            case .name(let name):
+                            case .name(let name), .custom(let name, _):
                                 return try self.shader(name: name)
                             case .code(let code, let name):
                                 return try self.shader(name: name, code: code)
@@ -138,8 +156,19 @@ struct Renderer {
                         }()
                         
                         if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
+                        
+                            let vertexShaderName: String = {
+                                switch shader {
+                                case .custom(_, let vertex):
+                                    return vertex
+                                default:
+                                    return "vertexQuad"
+                                }
+                            }()
                             
-                            let pipeline: MTLRenderPipelineState = try pipeline(function: function, bits: bits)
+                            let vertexFunction = try self.shader(name: vertexShaderName)
+                            
+                            let pipeline: MTLRenderPipelineState = try pipeline(fragmentFunction: function, vertexFunction: vertexFunction, bits: bits)
                             renderCommandEncoder.setRenderPipelineState(pipeline)
                             
                         } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
@@ -190,6 +219,10 @@ struct Renderer {
                                 
                                 renderCommandEncoder.setFragmentSamplerState(sampler, index: 0)
                                 
+                                if case .custom = shader {
+                                    renderCommandEncoder.setVertexSamplerState(sampler, index: 0)
+                                }
+                                
                             } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
                                 
                                 computeCommandEncoder.setSamplerState(sampler, index: 0)
@@ -215,6 +248,23 @@ struct Renderer {
                             } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
                                 
                                 computeCommandEncoder.setBuffer(uniformsBuffer, offset: 0, index: 0)
+                            }
+                        }
+                        
+                        if vertexUniforms is EmptyUniforms == false {
+                            
+                            var uniforms: VU = vertexUniforms
+                            
+                            let size = MemoryLayout<VU>.size
+                            
+                            guard let uniformsBuffer = metalDevice.makeBuffer(bytes: &uniforms, length: size) else {
+                                throw RendererError.failedToMakeUniformBuffer
+                            }
+                            
+                            if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
+                                
+                                renderCommandEncoder.setVertexBuffer(uniformsBuffer, offset: 0, index: 0)
+                                
                             }
                         }
                         
@@ -290,41 +340,6 @@ struct Renderer {
                 }
             }
         }
-    }
-}
-
-// MARK: - Pipeline
-
-extension Renderer {
-    
-    static func pipeline(function: MTLFunction, bits: TMBits) throws -> MTLRenderPipelineState {
-        let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
-        pipelineStateDescriptor.vertexFunction = try shader(name: "vertexQuad")
-        pipelineStateDescriptor.fragmentFunction = function
-        pipelineStateDescriptor.colorAttachments[0].pixelFormat = bits.metalPixelFormat()
-        pipelineStateDescriptor.colorAttachments[0].isBlendingEnabled = true
-        pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = .blendAlpha
-        return try metalDevice.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
-    }
-    
-    static func pipeline3d(function: MTLFunction) throws -> MTLComputePipelineState {
-        try metalDevice.makeComputePipelineState(function: function)
-    }
-}
-
-// MARK: - Command Encoder
-
-extension Renderer {
-    
-    static func commandEncoder(texture: MTLTexture, commandBuffer: MTLCommandBuffer) throws -> MTLRenderCommandEncoder {
-        let renderPassDescriptor = MTLRenderPassDescriptor()
-        renderPassDescriptor.colorAttachments[0].texture = texture
-        renderPassDescriptor.colorAttachments[0].loadAction = .clear
-        renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 0)
-        guard let commandEncoder: MTLRenderCommandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor) else {
-            throw RendererError.failedToMakeCommandEncoder
-        }
-        return commandEncoder
     }
 }
 

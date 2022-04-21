@@ -76,4 +76,9 @@ extension Graphic {
             )
         )
     }
+    
+    public static func uv(at graphicSize: CGSize) async throws -> Graphic {
+        
+        try await metal(code: "return float4(uv, 0.0, 1.0);", at: graphicSize)
+    }
 }

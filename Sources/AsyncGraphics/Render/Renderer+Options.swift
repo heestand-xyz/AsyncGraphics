@@ -4,11 +4,13 @@
 
 import Foundation
 import Metal
+import PixelColor
 
 extension Renderer {
     
     struct Options {
         var isArray: Bool = false
         var addressMode: MTLSamplerAddressMode = .clampToZero
+        var clearColor: PixelColor = .clear
     }
 }

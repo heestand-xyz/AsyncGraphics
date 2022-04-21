@@ -36,7 +36,7 @@ extension Graphic {
                 ),
                 placement: placement.index),
             options: Renderer.Options(
-                addressMode: .mirrorRepeat
+                addressMode: .clampToEdge
             )
         )
     }

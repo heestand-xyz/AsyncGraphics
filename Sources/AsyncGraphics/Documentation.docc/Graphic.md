@@ -37,6 +37,8 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 
 ### Color
 
+Create a graphic with a solid color.
+
 - ``color(_:at:)``
 
 ### Rectangle
@@ -83,6 +85,8 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 
 ### Blend
 
+Use blending modes to combine two graphics.
+
 - ``blended(with:blendingMode:placement:)``
 
 ### Invert
@@ -95,17 +99,31 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 
 ### Cross
 
+Fade two graphics by crossing them with opacity.
+
 - ``cross(with:fraction:placement:)``
 
 ### Metal
+
+Write metal shader code.
 
 - ``metal(code:at:)``
 - ``metal(code:)``
 - ``metal(with:code:)``
 
-### Technical
+### Resolution
+
+Resize a graphic.
+
+- ``resized(to:placement:)``
+- ``resizedStretched(to:method:)``
+
+### Bits
 
 - ``bits(_:)``
+
+### Reduce
+
 - ``reduce(by:)``
 - ``reduce(by:in:)``
 - ``ReduceMethod``

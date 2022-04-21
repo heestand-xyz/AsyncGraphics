@@ -8,6 +8,7 @@ extension Renderer {
     
     enum Shader {
         case name(String)
+        case custom(fragment: String, vertex: String)
         case code(String, name: String)
     }
 }
