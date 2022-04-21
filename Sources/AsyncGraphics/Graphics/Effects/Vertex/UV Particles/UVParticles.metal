@@ -18,11 +18,11 @@ struct VertexOut {
 };
 
 struct Uniforms {
-    float particleScale;
-    packed_float2 resolution;
     bool multiplyParticleSize;
     bool multiplyParticleAlpha;
     bool clipParticleAlpha;
+    float particleScale;
+    packed_float2 resolution;
 };
 
 vertex VertexOut uvParticles(unsigned int vid [[ vertex_id ]],

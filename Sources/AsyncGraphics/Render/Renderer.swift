@@ -86,12 +86,13 @@ struct Renderer {
     }
     
     static func render<U, VU, G: Graphicable>(name: String,
-                                          shader: Shader,
-                                          graphics: [Graphicable] = [],
-                                          uniforms: U,
-                                          vertexUniforms: VU,
-                                          metadata: Metadata? = nil,
-                                          options: Options = Options()) async throws -> G {
+                                              shader: Shader,
+                                              graphics: [Graphicable] = [],
+                                              uniforms: U,
+                                              vertexUniforms: VU,
+                                              vertexCount: Int? = nil,
+                                              metadata: Metadata? = nil,
+                                              options: Options = Options()) async throws -> G {
         
         guard let resolution: MultiDimensionalResolution = metadata?.resolution ?? {
             if let graphic = graphics.first as? Graphic {
@@ -202,7 +203,11 @@ struct Renderer {
                                     
                                     if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                                         
-                                        renderCommandEncoder.setFragmentTexture(graphic.texture, index: index)
+                                        if case .custom = shader {
+                                            renderCommandEncoder.setVertexTexture(graphic.texture, index: index)
+                                        } else {
+                                            renderCommandEncoder.setFragmentTexture(graphic.texture, index: index)
+                                        }
                                         
                                     } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
                                         
@@ -217,10 +222,10 @@ struct Renderer {
                             
                             if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                                 
-                                renderCommandEncoder.setFragmentSamplerState(sampler, index: 0)
-                                
                                 if case .custom = shader {
                                     renderCommandEncoder.setVertexSamplerState(sampler, index: 0)
+                                } else {
+                                    renderCommandEncoder.setFragmentSamplerState(sampler, index: 0)
                                 }
                                 
                             } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
@@ -264,7 +269,6 @@ struct Renderer {
                             if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                                 
                                 renderCommandEncoder.setVertexBuffer(uniformsBuffer, offset: 0, index: 0)
-                                
                             }
                         }
                         
@@ -272,16 +276,20 @@ struct Renderer {
                         
                         if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                             
-                            let vertexBuffer: MTLBuffer = try vertexQuadBuffer()
-                            
-                            renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+                            if vertexCount == nil {
+                                let vertexBuffer: MTLBuffer = try vertexQuadBuffer()
+                                renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+                            }
                         }
                         
                         // MARK: Draw
                         
                         if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                          
-                            renderCommandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 6, instanceCount: 1)
+                            renderCommandEncoder.drawPrimitives(type: vertexCount != nil ? .point : .triangle,
+                                                                vertexStart: 0,
+                                                                vertexCount: vertexCount ?? 6,
+                                                                instanceCount: 1)
                             
                         } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
                             
@@ -359,33 +367,6 @@ extension Renderer {
             throw RendererError.failedToMakeSampler
         }
         return sampler
-    }
-}
-
-// MARK: - Vertex Quad
-
-extension Renderer {
-    
-    struct Vertex {
-        let x, y: CGFloat
-        let s, t: CGFloat
-        var buffer: [Float] {
-            [x, y, s, t].map(Float.init)
-        }
-    }
-    
-    static func vertexQuadBuffer() throws -> MTLBuffer {
-        let a = Vertex(x: -1.0, y: -1.0, s: 0.0, t: 1.0)
-        let b = Vertex(x: 1.0, y: -1.0, s: 1.0, t: 1.0)
-        let c = Vertex(x: -1.0, y: 1.0, s: 0.0, t: 0.0)
-        let d = Vertex(x: 1.0, y: 1.0, s: 1.0, t: 0.0)
-        let vertices: [Vertex] = [a, b, c, b, c, d]
-        let vertexBuffer: [Float] = vertices.flatMap(\.buffer)
-        let dataSize = vertexBuffer.count * MemoryLayout.size(ofValue: vertexBuffer[0])
-        guard let buffer = metalDevice.makeBuffer(bytes: vertexBuffer, length: dataSize, options: []) else {
-            throw RendererError.failedToMakeVertexQuadBuffer
-        }
-        return buffer
     }
 }
 

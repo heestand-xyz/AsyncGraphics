@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import CoreGraphics
 import PixelColor
 
 extension Graphic {
@@ -12,11 +13,11 @@ extension Graphic {
     }
     
     private struct UVParticlesVertexUniform {
-        let particleScale: Float
-        let resolution: SizeUniform
         let multiplyParticleSize: Bool
         let multiplyParticleAlpha: Bool
         let clipParticleAlpha: Bool
+        let particleScale: Float
+        let resolution: SizeUniform
     }
     
     public struct UVParticleOptions {
@@ -40,6 +41,8 @@ extension Graphic {
     ///
     /// The coordinate space is **y up**. Black is in the center, red is towards the right and green is towards the top.
     /// To place particles in the left of bottom, you need a 16 bit graphic with negative colors.
+    /// The height of the coordinate space is 1.0, to top is 0.5, and bottom is -0.5.
+    /// The coordinate space is aspect correct, so far right will be over 0.5 in the red channel if your aspectRatio is above 1.0.
     ///
     /// Particles **size** is based on `particleScale` multiplied by the input pixel's **blue** channel, if `particleOptions.channelScaleEnabled` is `true`.
     ///
@@ -60,12 +63,13 @@ extension Graphic {
                 color: particleColor.uniform
             ),
             vertexUniforms: UVParticlesVertexUniform(
-                particleScale: Float(particleScale),
-                resolution: graphicSize.resolution.uniform,
                 multiplyParticleSize: particleOptions.channelScaleEnabled,
                 multiplyParticleAlpha: particleOptions.channelAlphaEnabled,
-                clipParticleAlpha: particleOptions.clipChannelAlpha
+                clipParticleAlpha: particleOptions.clipChannelAlpha,
+                particleScale: Float(particleScale),
+                resolution: resolution.uniform
             ),
+            vertexCount: resolution.count,
             metadata: Renderer.Metadata(
                 resolution: graphicSize.resolution,
                 colorSpace: colorSpace,
