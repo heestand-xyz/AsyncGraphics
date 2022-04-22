@@ -22,6 +22,7 @@ fragment float4 transform(VertexOut out [[stage_in]],
                           texture2d<float> texture [[ texture(0) ]],
                           const device Uniforms& uniforms [[ buffer(0) ]],
                           sampler sampler [[ sampler(0) ]]) {
+    
     float pi = M_PI_F;
     
     float u = out.texCoord[0];
