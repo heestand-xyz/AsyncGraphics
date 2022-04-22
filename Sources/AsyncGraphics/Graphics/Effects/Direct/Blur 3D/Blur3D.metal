@@ -83,7 +83,7 @@ kernel void blur3d(const device Uniforms& uniforms [[ buffer(0) ]],
             if (x != 0) {
                 float amount = pow(1.0 - x / (count + 1), 0.5);
                 float xu = u + (float(x) / count) * uniforms.direction.x * radius / aspect;
-                float yv = v + (float(x) / count) * uniforms.direction.x * radius;
+                float yv = v + (float(x) / count) * uniforms.direction.y * radius;
                 float zw = w + (float(x) / count) * uniforms.direction.z * radius / depthAspect;
                 color += texture.sample(sampler, float3(xu, yv, zw)) * amount;
                 amounts += amount;
@@ -99,7 +99,7 @@ kernel void blur3d(const device Uniforms& uniforms [[ buffer(0) ]],
                 float amount = pow(1.0 - x / (count + 1), 0.5);
                 float xu = u + (float(x) / count) * (u - 0.5 - position.x) * radius / aspect;
                 float yv = v + (float(x) / count) * (v - 0.5 - position.y) * radius;
-                float zw = w + (float(x) / count) * (w - 0.5 - position.x) * radius / depthAspect;
+                float zw = w + (float(x) / count) * (w - 0.5 - position.z) * radius / depthAspect;
                 color += texture.sample(sampler, float3(xu, yv, zw)) * amount;
                 amounts += amount;
             }
@@ -109,13 +109,14 @@ kernel void blur3d(const device Uniforms& uniforms [[ buffer(0) ]],
         
         // Random
         
-        Loki loki_rnd_u = Loki(u * max_count / 3, v * max_count / 3, w * max_count / 3);
+        int offset = max_count / 3;
+        Loki loki_rnd_u = Loki(u * offset, v * offset, w * offset);
         float ru = loki_rnd_u.rand();
-        Loki loki_rnd_v = Loki(u * max_count / 3, v * max_count / 3, w * max_count / 3 + max_count / 3);
+        Loki loki_rnd_v = Loki(u * offset + offset, v * offset + offset, w * offset + offset);
         float rv = loki_rnd_v.rand();
-        Loki loki_rnd_w = Loki(u * max_count / 3, v * max_count / 3, w * max_count / 3 + max_count * (2 / 3));
+        Loki loki_rnd_w = Loki(u * offset + offset * 2, v * offset + offset * 2, w * offset + offset * 2);
         float rw = loki_rnd_w.rand();
-        float3 ruvw = uvw + (float3(ru, rv, rw) - 0.5) * radius * float3(1.0, aspect, depthAspect);
+        float3 ruvw = uvw + (float3(ru, rv, rw) - 0.5) * radius / float3(aspect, 1.0, depthAspect);
         color = texture.sample(sampler, ruvw);
     }
     

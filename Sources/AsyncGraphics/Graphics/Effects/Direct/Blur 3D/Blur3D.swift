@@ -42,7 +42,7 @@ extension Graphic3D {
                 direction: VectorUniform.zero,
                 position: VectorUniform.zero
             ),
-            options: Renderer.Options(addressMode: .mirrorRepeat)
+            options: Renderer.Options(addressMode: .clampToEdge)
         )
     }
     
@@ -66,7 +66,7 @@ extension Graphic3D {
                 direction: VectorUniform.zero,
                 position: relativeCenter.uniform
             ),
-            options: Renderer.Options(addressMode: .mirrorRepeat)
+            options: Renderer.Options(addressMode: .clampToEdge)
         )
     }
     
@@ -87,7 +87,7 @@ extension Graphic3D {
                 direction: direction.uniform,
                 position: VectorUniform.zero
             ),
-            options: Renderer.Options(addressMode: .mirrorRepeat)
+            options: Renderer.Options(addressMode: .clampToEdge)
         )
     }
     
@@ -107,7 +107,7 @@ extension Graphic3D {
                 position: VectorUniform.zero
             ),
             options: Renderer.Options(
-                addressMode: .mirrorRepeat
+                addressMode: .clampToEdge
             )
         )
     }
