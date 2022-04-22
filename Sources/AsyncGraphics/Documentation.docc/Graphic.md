@@ -73,6 +73,12 @@ Create a graphic with a solid color.
 - ``uvParticles(particleScale:particleColor:particleOptions:backgroundColor:at:options:)``
 - ``UVParticleOptions``
 
+### Blend
+
+Use blending modes to combine two graphics.
+
+- ``blended(with:blendingMode:placement:)``
+
 ### Transform
 
 - ``translated(_:)``
@@ -106,12 +112,6 @@ Create a graphic with a solid color.
 - ``blurredZoom(radius:center:sampleCount:)``
 - ``blurredAngle(radius:angle:sampleCount:)``
 - ``blurredRandom(radius:)``
-
-### Blend
-
-Use blending modes to combine two graphics.
-
-- ``blended(with:blendingMode:placement:)``
 
 ### Invert
 

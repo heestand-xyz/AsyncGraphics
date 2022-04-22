@@ -20,6 +20,11 @@ A Graphic3D is a 3d image, made up out of voxels. It's backed by a `MTLTexture`.
 - ``depth``
 - ``resolution``
 
+### Options
+
+- ``Options``
+
+
 ### Voxels
 
 - ``firstVoxelColor``
@@ -31,6 +36,7 @@ A Graphic3D is a 3d image, made up out of voxels. It's backed by a `MTLTexture`.
 ### Texture
 
 - ``texture(_:)``
+- ``Texture3DError``
 
 ### Color
 
@@ -50,7 +56,27 @@ A Graphic3D is a 3d image, made up out of voxels. It's backed by a `MTLTexture`.
 
 ### Blend
 
+Use blending modes to combine two 3d graphics.
+
 - ``blended(with:blendingMode:placement:)``
+
+### Levels
+
+- ``brightness(_:)``
+- ``darkness(_:)``
+- ``contrast(_:)``
+- ``gamma(_:)``
+- ``inverted()``
+- ``smoothed()``
+- ``opacity(_:)``
+- ``exposureOffset(_:)``
+
+### Blur
+
+- ``blurredBox(radius:sampleCount:)``
+- ``blurredZoom(radius:center:sampleCount:)``
+- ``blurredDirection(radius:direction:sampleCount:)``
+- ``blurredRandom(radius:)``
 
 ### Technical
 

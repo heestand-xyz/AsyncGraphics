@@ -7,14 +7,14 @@ import TextureMap
 
 extension Graphic3D {
     
-    public enum TextureGraphic3DError: LocalizedError {
+    public enum Texture3DError: LocalizedError {
         
         case unsupportedType
         
         public var errorDescription: String? {
             switch self {
             case .unsupportedType:
-                return "AsyncGraphics - Graphic - Texture - Unsupported Type"
+                return "AsyncGraphics - Graphic3D - Texture - Unsupported Type"
             }
         }
     }
@@ -22,7 +22,7 @@ extension Graphic3D {
     public static func texture(_ texture: MTLTexture) throws -> Graphic3D {
         
         guard texture.textureType == .type3D else {
-            throw TextureGraphic3DError.unsupportedType
+            throw Texture3DError.unsupportedType
         }
         
         let bits = try TMBits(texture: texture)
