@@ -1,7 +1,4 @@
 //
-//  EffectSingleBlurPIX.metal
-//  PixelKit Shaders
-//
 //  Created by Anton Heestand on 2017-11-14.
 //  Copyright © 2017 Anton Heestand. All rights reserved.
 //
@@ -21,7 +18,7 @@ struct Uniforms {
     float radius;
     int count;
     float angle;
-    float2 position;
+    packed_float2 position;
 };
 
 fragment float4 blur(VertexOut out [[stage_in]],
@@ -45,7 +42,7 @@ fragment float4 blur(VertexOut out [[stage_in]],
     int count = uniforms.count;
     
     float angle = uniforms.angle * pi * 2;
-    float2 position = float2(uniforms.position.x, uniforms.position.y);
+    float2 position = uniforms.position;
     
     float radius = uniforms.radius;
 
@@ -119,13 +116,13 @@ fragment float4 blur(VertexOut out [[stage_in]],
     else if (type == 4) {
         
         // Random
+        
         Loki loki_rnd_u = Loki(0, u * max_count, v * max_count);
         float ru = loki_rnd_u.rand();
         Loki loki_rnd_v = Loki(1, u * max_count, v * max_count);
         float rv = loki_rnd_v.rand();
         float2 ruv = uv + (float2(ru, rv) - 0.5) * radius * float2(1.0, aspect);
         color = texture.sample(sampler, ruv);
-        
     }
     
     color /= amounts;
