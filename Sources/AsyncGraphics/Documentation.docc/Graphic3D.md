@@ -60,6 +60,16 @@ Use blending modes to combine two 3d graphics.
 
 - ``blended(with:blendingMode:placement:)``
 
+### Transform
+
+- ``translated(_:)``
+- ``translated(x:y:z:)``
+- ``rotated(_:)``
+- ``rotated(x:y:z:)``
+- ``scaled(_:)-8ks7s``
+- ``scaled(_:)-9vc86``
+- ``scaled(x:y:z:)``
+
 ### Levels
 
 - ``brightness(_:)``
