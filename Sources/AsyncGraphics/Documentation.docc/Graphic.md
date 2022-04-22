@@ -81,7 +81,18 @@ Create a graphic with a solid color.
 - ``scaled(_:)``
 - ``scaled(x:y:)``
 
-### Colorize
+### Levels
+
+- ``brightness(_:)``
+- ``darkness(_:)``
+- ``contrast(_:)``
+- ``gamma(_:)``
+- ``inverted()``
+- ``smoothed()``
+- ``opacity(_:)``
+- ``exposureOffset(_:)``
+
+### Colors
 
 - ``monochrome()``
 - ``saturated(_:)``
@@ -123,6 +134,9 @@ Write metal shader code.
 - ``metal(code:at:options:)``
 - ``metal(code:)``
 - ``metal(with:code:)``
+- ``SolidMetalError``
+- ``DirectMetalError``
+- ``DualMetalError``
 
 ### UV
 
@@ -134,6 +148,7 @@ Resize a graphic.
 
 - ``resized(to:placement:)``
 - ``resizedStretched(to:method:)``
+- ``ResizeMethod``
 
 ### Bits
 
