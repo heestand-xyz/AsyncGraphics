@@ -19,6 +19,37 @@ import AsyncGraphics
 ```
 
 
+## Example
+
+```swift
+import SwiftUI
+import AsyncGraphics
+
+struct ContentView: View {
+    
+    @State private var graphic: Graphic?
+    
+    var body: some View {
+        ZStack {
+            if let graphic = graphic {
+                GraphicView(graphic: graphic)
+            } else {
+                ProgressView()
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .task {
+            do {
+                graphic = try await .circle(radius: 250, at: CGSize(width: 1000, height: 1000))
+            } catch {
+                fatalError()
+            }
+        }
+    }
+}
+```
+
+
 ## Graphic - Content
 
 A `Graphic` can be created with static funcs e.g. `Graphic.image(named:)` or `Graphic.circle(size:radius:center:)`.
