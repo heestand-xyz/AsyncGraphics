@@ -6,7 +6,7 @@ import MetalKit
 import MetalPerformanceShaders
 import QuartzCore.CoreAnimation
 
-public final class GraphicMetalView: MTKView {
+final class GraphicMetalView: MTKView {
     
     private var graphic: Graphic?
  
@@ -51,9 +51,9 @@ extension GraphicMetalView {
 
 extension GraphicMetalView: MTKViewDelegate {
     
-    public func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
+    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
     
-    public func draw(in view: MTKView) {
+    func draw(in view: MTKView) {
         
         guard let graphic: Graphic = graphic else { return }
         let texture: MTLTexture = graphic.texture

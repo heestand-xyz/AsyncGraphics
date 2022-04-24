@@ -4,6 +4,7 @@
 
 import SwiftUI
 
+/// SwiftUI view for displaying graphics.
 public struct GraphicView: View {
     
     private let graphic: Graphic
