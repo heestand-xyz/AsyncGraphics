@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import CoreGraphics
 import PixelColor
 
 extension Graphic {
@@ -21,12 +22,14 @@ extension Graphic {
         case vertical = 1
     }
     
+    /// Vertical Stack Alignment
     public enum VStackAlignment: Int {
         case leading = -1
         case center = 0
         case trailing = 1
     }
     
+    /// Horizontal Stack Alignment
     public enum HStackAlignment: Int {
         case bottom = -1
         case center = 0
@@ -39,6 +42,7 @@ extension Graphic {
         case rightTop = 1
     }
     
+    /// Vertical Stack
     public static func vStack(with graphics: [Graphic],
                               alignment: VStackAlignment = .center,
                               spacing: CGFloat = 0.0,
@@ -55,6 +59,7 @@ extension Graphic {
                         at: graphicSize)
     }
     
+    /// Horizontal Stack
     public static func hStack(with graphics: [Graphic],
                               alignment: HStackAlignment = .center,
                               spacing: CGFloat = 0.0,
@@ -89,7 +94,7 @@ extension Graphic {
                     return size.height
                 }
             }()
-            let width: CGFloat = {
+            let adjacentLength: CGFloat = {
                 switch axis {
                 case .horizontal:
                     return size.height
@@ -98,9 +103,9 @@ extension Graphic {
                 }
             }()
             let totalLength: CGFloat = length * CGFloat(graphics.count) + spacing * CGFloat(graphics.count - 1) + padding * 2
-            let totalWidth: CGFloat = width + padding * 2
-            return CGSize(width: axis == .horizontal ? totalLength : totalWidth,
-                          height: axis == .vertical ? totalLength : totalWidth)
+            let totalAdjacentLength: CGFloat = adjacentLength + padding * 2
+            return CGSize(width: axis == .horizontal ? totalLength : totalAdjacentLength,
+                          height: axis == .vertical ? totalLength : totalAdjacentLength)
         }()
         
         let length: CGFloat = {
@@ -143,6 +148,7 @@ extension Graphic {
 
 extension Array where Element == Graphic {
     
+    /// Vertical Stackb
     public func vStack(alignment: Graphic.VStackAlignment = .center,
                        spacing: CGFloat = 0.0,
                        padding: CGFloat = 0.0,
@@ -157,6 +163,7 @@ extension Array where Element == Graphic {
                                  at: graphicSize)
     }
     
+    /// Horizontal Stackb
     public func hStack(alignment: Graphic.HStackAlignment = .center,
                        spacing: CGFloat = 0.0,
                        padding: CGFloat = 0.0,

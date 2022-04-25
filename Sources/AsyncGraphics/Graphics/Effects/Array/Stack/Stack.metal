@@ -43,6 +43,7 @@ fragment float4 stack(VertexOut out [[stage_in]],
     sizeFraction -= padding * 2;
     sizeFraction /= float(count);
 
+    bool isHorizontal = axis == 0;
     bool isVertical = axis == 1;
 
     float fullAspect = uniforms.resolution.x / uniforms.resolution.y;
@@ -65,7 +66,7 @@ fragment float4 stack(VertexOut out [[stage_in]],
 
         float fullTangentCoordinate = isVertical ? u : v;
         float tangentCoordinate = 0.0;
-        switch (isVertical ? alignment : -alignment) {
+        switch (alignment) {
             case -1: // leading: left or bottom
                 tangentCoordinate = fullTangentCoordinate / tangentSizeFraction;
                 break;
@@ -78,7 +79,7 @@ fragment float4 stack(VertexOut out [[stage_in]],
         }
         if (tangentCoordinate < 0.0 || tangentCoordinate > 1.0) { continue; }
 
-        float iu = isVertical ? tangentCoordinate : coordinate;
+        float iu = isHorizontal ? coordinate : tangentCoordinate;
         float iv = isVertical ? coordinate : tangentCoordinate;
         float2 iuv = float2(iu, iv);
 

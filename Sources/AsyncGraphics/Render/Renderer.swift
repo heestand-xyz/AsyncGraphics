@@ -191,10 +191,6 @@ struct Renderer {
                                 if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                                     
                                     renderCommandEncoder.setFragmentTexture(arrayTexture, index: 0)
-                                    
-                                } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
-                                    
-                                    computeCommandEncoder.setTexture(arrayTexture, index: 0)
                                 }
                                 
                             } else {
