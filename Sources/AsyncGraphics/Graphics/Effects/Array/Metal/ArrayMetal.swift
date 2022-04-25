@@ -5,7 +5,7 @@
 import Foundation
 import CoreGraphics
 
-extension Array where Element == Graphic {
+extension Graphic {
     
     public enum ArrayMetalError: LocalizedError {
         
@@ -43,7 +43,7 @@ extension Array where Element == Graphic {
     /// ```
     ///
     /// Available variables are:  `sampler`, `textures`, `textureCount`, `u`, `v`, `uv`.
-    public func metal(code: String) async throws -> Graphic {
+    public static func metal(with graphics: [Graphic], code: String) async throws -> Graphic {
         
         guard let metalBaseURL = Bundle.module.url(forResource: "ArrayMetal.metal", withExtension: "txt") else {
             throw ArrayMetalError.metalFileNotFound
@@ -58,8 +58,16 @@ extension Array where Element == Graphic {
         return try await Renderer.render(
             name: "Metal",
             shader: .code(metalCode, name: "arrayMetal"),
-            graphics: self,
+            graphics: graphics,
             options: Renderer.Options(isArray: true)
         )
+    }
+}
+
+extension Array where Element == Graphic {
+    
+    public func metal(code: String) async throws -> Graphic {
+        
+        try await Graphic.metal(with: self, code: code)
     }
 }

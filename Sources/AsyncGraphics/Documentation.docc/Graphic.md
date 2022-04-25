@@ -75,9 +75,10 @@ Create a graphic with a solid color.
 
 ### Blend
 
-Use blending modes to combine two graphics.
+Use blending modes to combine two or more graphics.
 
 - ``blended(with:blendingMode:placement:)``
+- ``blend(with:blendingMode:)``
 
 ### Transform
 
@@ -86,6 +87,13 @@ Use blending modes to combine two graphics.
 - ``rotated(_:)``
 - ``scaled(_:)``
 - ``scaled(x:y:)``
+
+### Stack
+
+- ``vStack(with:alignment:spacing:padding:backgroundColor:at:)``
+- ``hStack(with:alignment:spacing:padding:backgroundColor:at:)``
+- ``VStackAlignment``
+- ``HStackAlignment``
 
 ### Levels
 
@@ -133,10 +141,12 @@ Write metal shader code.
 
 - ``metal(code:at:options:)``
 - ``metal(code:)``
-- ``metal(with:code:)``
+- ``metal(with:code:)-swift.method``
+- ``metal(with:code:)-swift.type.method``
 - ``SolidMetalError``
 - ``DirectMetalError``
 - ``DualMetalError``
+- ``ArrayMetalError``
 
 ### UV
 
