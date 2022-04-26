@@ -37,8 +37,6 @@ kernel void stack3d(const device Uniforms& uniforms [[ buffer(0) ]],
     float u = float(pos.x + 0.5) / float(width);
     float v = float(pos.y + 0.5) / float(height);
     float w = float(pos.z + 0.5) / float(depth);
-    targetTexture.write(float4(u, v, w, 1.0), pos);
-    return;
 
     int axis = uniforms.axis;
     int3 alignment = uniforms.alignment;

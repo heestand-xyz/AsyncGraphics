@@ -17,7 +17,7 @@ extension Graphic3D {
         
         return try await Renderer.render(
             name: "Average",
-            shader: .name("average"),
+            shader: .name("average3d"),
             graphics: [self],
             uniforms: Average3DUniforms(
                 axis: axis.index

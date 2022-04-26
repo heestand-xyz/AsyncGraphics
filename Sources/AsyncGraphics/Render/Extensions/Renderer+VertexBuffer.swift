@@ -24,13 +24,6 @@ extension Renderer {
         return try buffer(vertices: vertices)
     }
     
-//    static func vertexBuffer(vertices: [CGPoint]) throws -> MTLBuffer {
-//        let vertices: [Vertex] = vertices.map { point in
-//            Vertex(x: point.x, y: point.y, s: 0.0, t: 0.0)
-//        }
-//        return try buffer(vertices: vertices)
-//    }
-    
     private static func buffer(vertices: [Vertex]) throws -> MTLBuffer {
         let vertexBuffer: [Float] = vertices.flatMap(\.buffer)
         let dataSize = vertexBuffer.count * MemoryLayout.size(ofValue: vertexBuffer[0])

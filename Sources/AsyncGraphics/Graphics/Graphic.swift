@@ -61,6 +61,7 @@ extension Graphic {
     /// UIImage / NSImage
     public var image: TMImage {
         get async throws {
+            #warning("Flip Y")
             try await texture.image(colorSpace: colorSpace, bits: bits)
         }
     }
