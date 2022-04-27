@@ -57,7 +57,8 @@ extension Graphic {
     }
     
     public func blurredBox(radius: CGFloat,
-                           sampleCount: Int = 100) async throws -> Graphic {
+                           sampleCount: Int = 100,
+                           options: EffectOptions = EffectOptions()) async throws -> Graphic {
         
         let relativeRadius: CGFloat = radius / height
         
@@ -72,13 +73,16 @@ extension Graphic {
                 angle: 0.0,
                 position: CGPoint.zero.uniform
             ),
-            options: Renderer.Options(addressMode: .clampToEdge)
+            options: Renderer.Options(
+                addressMode: options.addressMode
+            )
         )
     }
     
     public func blurredZoom(radius: CGFloat,
                             center: CGPoint? = nil,
-                            sampleCount: Int = 100) async throws -> Graphic {
+                            sampleCount: Int = 100,
+                            options: EffectOptions = EffectOptions()) async throws -> Graphic {
         
         let center: CGPoint = center ?? resolution.asPoint / 2
         let relativeCenter: CGPoint = (center - resolution / 2) / height
@@ -96,13 +100,16 @@ extension Graphic {
                 angle: 0.0,
                 position: relativeCenter.uniform
             ),
-            options: Renderer.Options(addressMode: .clampToEdge)
+            options: Renderer.Options(
+                addressMode: options.addressMode
+            )
         )
     }
     
     public func blurredAngle(radius: CGFloat,
                              angle: Angle,
-                             sampleCount: Int = 100) async throws -> Graphic {
+                             sampleCount: Int = 100,
+                             options: EffectOptions = EffectOptions()) async throws -> Graphic {
         
         let relativeRadius: CGFloat = radius / height
         
@@ -117,11 +124,14 @@ extension Graphic {
                 angle: angle.uniform,
                 position: CGPoint.zero.uniform
             ),
-            options: Renderer.Options(addressMode: .clampToEdge)
+            options: Renderer.Options(
+                addressMode: options.addressMode
+            )
         )
     }
     
-    public func blurredRandom(radius: CGFloat) async throws -> Graphic {
+    public func blurredRandom(radius: CGFloat,
+                              options: EffectOptions = EffectOptions()) async throws -> Graphic {
         
         let relativeRadius: CGFloat = radius / height
         
@@ -137,7 +147,7 @@ extension Graphic {
                 position: CGPoint.zero.uniform
             ),
             options: Renderer.Options(
-                addressMode: .clampToEdge
+                addressMode: options.addressMode
             )
         )
     }

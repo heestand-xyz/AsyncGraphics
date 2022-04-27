@@ -8,7 +8,9 @@ extension Graphic {
         let mode: Int
     }
     
-    public static func blend(with graphics: [Graphic], blendingMode: ArrayBlendingMode) async throws -> Graphic {
+    public static func blend(with graphics: [Graphic],
+                             blendingMode: ArrayBlendingMode,
+                             options: EffectOptions = EffectOptions()) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Blends",
@@ -17,7 +19,10 @@ extension Graphic {
             uniforms: BlendsUniforms(
                 mode: blendingMode.index
             ),
-            options: Renderer.Options(isArray: true)
+            options: Renderer.Options(
+                isArray: true,
+                addressMode: options.addressMode
+            )
         )
     }
 }
@@ -25,8 +30,11 @@ extension Graphic {
 
 extension Array where Element == Graphic {
     
-    public func blended(blendingMode: ArrayBlendingMode) async throws -> Graphic {
+    public func blended(blendingMode: ArrayBlendingMode,
+                        options: Graphic.EffectOptions = Graphic.EffectOptions()) async throws -> Graphic {
         
-        try await Graphic.blend(with: self, blendingMode: blendingMode)
+        try await Graphic.blend(with: self,
+                                blendingMode: blendingMode,
+                                options: options)
     }
 }

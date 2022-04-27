@@ -17,7 +17,8 @@ extension Graphic {
     public func displaced(with graphic: Graphic,
                           offset: CGFloat,
                           origin: PixelColor = .gray,
-                          placement: Placement = .fill) async throws -> Graphic {
+                          placement: Placement = .fill,
+                          options: EffectOptions = EffectOptions()) async throws -> Graphic {
         
         let relativeOffset: CGFloat = offset / resolution.height
         
@@ -36,7 +37,7 @@ extension Graphic {
                 ),
                 placement: placement.index),
             options: Renderer.Options(
-                addressMode: .clampToEdge
+                addressMode: options.addressMode
             )
         )
     }

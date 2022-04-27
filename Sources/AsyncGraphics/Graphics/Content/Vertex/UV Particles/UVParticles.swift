@@ -54,7 +54,7 @@ extension Graphic {
                             particleOptions: UVParticleOptions = UVParticleOptions(),
                             backgroundColor: PixelColor = .black,
                             at graphicSize: CGSize,
-                            options: Options = Options()) async throws -> Graphic {
+                            options: ContentOptions = ContentOptions()) async throws -> Graphic {
         
         try await Renderer.render(
             name: "UV Particles",

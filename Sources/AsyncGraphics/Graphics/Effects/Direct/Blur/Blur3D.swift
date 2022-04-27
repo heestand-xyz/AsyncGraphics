@@ -27,7 +27,8 @@ extension Graphic3D {
     }
     
     public func blurredBox(radius: CGFloat,
-                           sampleCount: Int = 10) async throws -> Graphic3D {
+                           sampleCount: Int = 10,
+                           options: EffectOptions = EffectOptions()) async throws -> Graphic3D {
         
         let relativeRadius: CGFloat = radius / CGFloat(height)
         
@@ -42,13 +43,16 @@ extension Graphic3D {
                 direction: VectorUniform.zero,
                 position: VectorUniform.zero
             ),
-            options: Renderer.Options(addressMode: .clampToEdge)
+            options: Renderer.Options(
+                addressMode: options.addressMode
+            )
         )
     }
     
     public func blurredZoom(radius: CGFloat,
                             center: SIMD3<Double>? = nil,
-                            sampleCount: Int = 100) async throws -> Graphic3D {
+                            sampleCount: Int = 100,
+                            options: EffectOptions = EffectOptions()) async throws -> Graphic3D {
         
         let center: SIMD3<Double> = center ?? resolution.asDouble / 2
         let relativeCenter: SIMD3<Double> = (center - resolution.asDouble / 2) / Double(height)
@@ -66,13 +70,16 @@ extension Graphic3D {
                 direction: VectorUniform.zero,
                 position: relativeCenter.uniform
             ),
-            options: Renderer.Options(addressMode: .clampToEdge)
+            options: Renderer.Options(
+                addressMode: options.addressMode
+            )
         )
     }
     
     public func blurredDirection(radius: CGFloat,
                                  direction: SIMD3<Double>,
-                                 sampleCount: Int = 100) async throws -> Graphic3D {
+                                 sampleCount: Int = 100,
+                                 options: EffectOptions = EffectOptions()) async throws -> Graphic3D {
         
         let relativeRadius: CGFloat = radius / CGFloat(height)
         
@@ -87,11 +94,14 @@ extension Graphic3D {
                 direction: direction.uniform,
                 position: VectorUniform.zero
             ),
-            options: Renderer.Options(addressMode: .clampToEdge)
+            options: Renderer.Options(
+                addressMode: options.addressMode
+            )
         )
     }
     
-    public func blurredRandom(radius: CGFloat) async throws -> Graphic3D {
+    public func blurredRandom(radius: CGFloat,
+                              options: EffectOptions = EffectOptions()) async throws -> Graphic3D {
         
         let relativeRadius: CGFloat = radius / CGFloat(height)
         
@@ -107,7 +117,7 @@ extension Graphic3D {
                 position: VectorUniform.zero
             ),
             options: Renderer.Options(
-                addressMode: .clampToEdge
+                addressMode: options.addressMode
             )
         )
     }

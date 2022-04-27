@@ -25,7 +25,7 @@ extension Graphic {
                               color: PixelColor = .white,
                               backgroundColor: PixelColor = .black,
                               resolution: CGSize,
-                              options: Options = Options()) async throws -> Graphic {
+                              options: ContentOptions = ContentOptions()) async throws -> Graphic {
         
         let relativeRadius: CGFloat = radius / resolution.height
         
@@ -60,7 +60,7 @@ extension Graphic {
                                      color: PixelColor = .white,
                                      backgroundColor: PixelColor = .black,
                                      resolution: CGSize,
-                                     options: Options = Options()) async throws -> Graphic {
+                                     options: ContentOptions = ContentOptions()) async throws -> Graphic {
         
         let relativeRadius: CGFloat = radius / resolution.height
         

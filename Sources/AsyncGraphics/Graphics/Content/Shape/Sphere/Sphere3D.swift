@@ -23,7 +23,7 @@ extension Graphic3D {
                               color: PixelColor = .white,
                               backgroundColor: PixelColor = .black,
                               resolution: SIMD3<Int>,
-                              options: Options = Options()) async throws -> Graphic3D {
+                              options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
         
         let relativeRadius: Double = radius / Double(resolution.y)
         
@@ -65,7 +65,7 @@ extension Graphic3D {
                                      color: PixelColor = .white,
                                      backgroundColor: PixelColor = .black,
                                      resolution: SIMD3<Int>,
-                                     options: Options = Options()) async throws -> Graphic3D {
+                                     options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
         
         let relativeRadius: Double = radius / Double(resolution.y)
         

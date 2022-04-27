@@ -35,7 +35,9 @@ extension Graphic {
     /// ```
     ///
     /// Available variables are:  `sampler`, `leadingTexture`, `trailingTexture`, `u`, `v`, `uv`, `leadingColor`, `trailingColor`.
-    public func metal(with graphic: Graphic, code: String) async throws -> Graphic {
+    public func metal(with graphic: Graphic,
+                      code: String,
+                      options: EffectOptions = EffectOptions()) async throws -> Graphic {
         
         guard let metalBaseURL = Bundle.module.url(forResource: "DualMetal.metal", withExtension: "txt") else {
             throw DualMetalError.metalFileNotFound
@@ -50,7 +52,10 @@ extension Graphic {
         return try await Renderer.render(
             name: "Metal",
             shader: .code(metalCode, name: "dualMetal"),
-            graphics: [self, graphic]
+            graphics: [self, graphic],
+            options: Renderer.Options(
+                addressMode: options.addressMode
+            )
         )
     }
 }

@@ -39,7 +39,7 @@ extension Graphic {
     public static func metal(code: String,
 //                             uniforms: [String: MetalUniform] = [:],
                              at graphicSize: CGSize,
-                             options: Options = Options()) async throws -> Graphic {
+                             options: ContentOptions = ContentOptions()) async throws -> Graphic {
         
         guard let metalBaseURL = Bundle.module.url(forResource: "SolidMetal.metal", withExtension: "txt") else {
             throw SolidMetalError.metalFileNotFound
@@ -79,7 +79,7 @@ extension Graphic {
     }
     
     public static func uv(at graphicSize: CGSize,
-                          options: Options = Options()) async throws -> Graphic {
+                          options: ContentOptions = ContentOptions()) async throws -> Graphic {
         
         try await metal(code: "return float4(uv, 0.0, 1.0);",
                         at: graphicSize,

@@ -15,32 +15,36 @@ extension Graphic {
         let size: SizeUniform
     }
     
-    public func translated(_ translation: CGPoint) async throws -> Graphic {
-        try await transformed(translation: translation)
+    public func translated(_ translation: CGPoint,
+                           options: EffectOptions = EffectOptions()) async throws -> Graphic {
+        try await transformed(translation: translation, options: options)
     }
     
-    public func translated(x: CGFloat = 0.0, y: CGFloat = 0.0) async throws -> Graphic {
-        try await transformed(translation: CGPoint(x: x, y: y))
+    public func translated(x: CGFloat = 0.0, y: CGFloat = 0.0,
+                           options: EffectOptions = EffectOptions()) async throws -> Graphic {
+        try await transformed(translation: CGPoint(x: x, y: y), options: options)
     }
     
-    public func rotated(_ rotation: Angle) async throws -> Graphic {
-        try await transformed(rotation: rotation)
+    public func rotated(_ rotation: Angle,
+                        options: EffectOptions = EffectOptions()) async throws -> Graphic {
+        try await transformed(rotation: rotation, options: options)
     }
     
-    public func scaled(_ scale: CGFloat) async throws -> Graphic {
-        try await transformed(scale: scale)
+    public func scaled(_ scale: CGFloat,
+                       options: EffectOptions = EffectOptions()) async throws -> Graphic {
+        try await transformed(scale: scale, options: options)
     }
     
-    public func scaled(x: CGFloat = 1.0, y: CGFloat = 1.0) async throws -> Graphic {
-        try await transformed(scaleSize: CGSize(width: x, height: y))
+    public func scaled(x: CGFloat = 1.0, y: CGFloat = 1.0,
+                       options: EffectOptions = EffectOptions()) async throws -> Graphic {
+        try await transformed(scaleSize: CGSize(width: x, height: y), options: options)
     }
     
-    private func transformed(
-        translation: CGPoint = .zero,
-        rotation: Angle = .zero,
-        scale: CGFloat = 1.0,
-        scaleSize: CGSize = CGSize(width: 1.0, height: 1.0)
-    ) async throws -> Graphic {
+    private func transformed(translation: CGPoint = .zero,
+                             rotation: Angle = .zero,
+                             scale: CGFloat = 1.0,
+                             scaleSize: CGSize = CGSize(width: 1.0, height: 1.0),
+                             options: EffectOptions = EffectOptions()) async throws -> Graphic {
         
         let relativeTranslation: CGPoint = translation / resolution.height
         
@@ -53,6 +57,9 @@ extension Graphic {
                 rotation: rotation.uniform,
                 scale: Float(scale),
                 size: scaleSize.uniform
+            ),
+            options: Renderer.Options(
+                addressMode: options.addressMode
             )
         )
     }

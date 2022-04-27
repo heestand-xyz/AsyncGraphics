@@ -27,7 +27,7 @@ extension Graphic {
                                  color: PixelColor = .white,
                                  backgroundColor: PixelColor = .black,
                                  resolution: CGSize,
-                                 options: Options = Options()) async throws -> Graphic {
+                                 options: ContentOptions = ContentOptions()) async throws -> Graphic {
         
         let center: CGPoint = center ?? resolution.asPoint / 2
         let frame = CGRect(origin: center - size / 2, size: size)
@@ -47,7 +47,7 @@ extension Graphic {
                                  color: PixelColor = .white,
                                  backgroundColor: PixelColor = .black,
                                  resolution: CGSize,
-                                 options: Options = Options()) async throws -> Graphic {
+                                 options: ContentOptions = ContentOptions()) async throws -> Graphic {
         
         let relativeSize: CGSize = frame.size / resolution.height
         
@@ -85,7 +85,7 @@ extension Graphic {
                                         color: PixelColor = .white,
                                         backgroundColor: PixelColor = .black,
                                         resolution: CGSize,
-                                        options: Options = Options()) async throws -> Graphic {
+                                        options: ContentOptions = ContentOptions()) async throws -> Graphic {
         
         let center: CGPoint = center ?? resolution.asPoint / 2
         let frame = CGRect(origin: center - size / 2, size: size)
@@ -107,7 +107,7 @@ extension Graphic {
                                         color: PixelColor = .white,
                                         backgroundColor: PixelColor = .black,
                                         resolution: CGSize,
-                                        options: Options = Options()) async throws -> Graphic {
+                                        options: ContentOptions = ContentOptions()) async throws -> Graphic {
         
         let relativeSize: CGSize = frame.size / resolution.height
         

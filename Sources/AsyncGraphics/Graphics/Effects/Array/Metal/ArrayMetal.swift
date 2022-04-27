@@ -43,7 +43,9 @@ extension Graphic {
     /// ```
     ///
     /// Available variables are:  `sampler`, `textures`, `textureCount`, `u`, `v`, `uv`.
-    public static func metal(with graphics: [Graphic], code: String) async throws -> Graphic {
+    public static func metal(with graphics: [Graphic],
+                             code: String,
+                             options: EffectOptions = EffectOptions()) async throws -> Graphic {
         
         guard let metalBaseURL = Bundle.module.url(forResource: "ArrayMetal.metal", withExtension: "txt") else {
             throw ArrayMetalError.metalFileNotFound
@@ -59,15 +61,19 @@ extension Graphic {
             name: "Metal",
             shader: .code(metalCode, name: "arrayMetal"),
             graphics: graphics,
-            options: Renderer.Options(isArray: true)
+            options: Renderer.Options(
+                isArray: true,
+                addressMode: options.addressMode
+            )
         )
     }
 }
 
 extension Array where Element == Graphic {
     
-    public func metal(code: String) async throws -> Graphic {
+    public func metal(code: String,
+                      options: Graphic.EffectOptions = Graphic.EffectOptions()) async throws -> Graphic {
         
-        try await Graphic.metal(with: self, code: code)
+        try await Graphic.metal(with: self, code: code, options: options)
     }
 }
