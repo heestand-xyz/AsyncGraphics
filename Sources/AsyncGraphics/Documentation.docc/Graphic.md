@@ -132,10 +132,6 @@ Use blending modes to combine two or more graphics.
 - ``blurredAngle(radius:angle:sampleCount:options:)``
 - ``blurredRandom(radius:options:)``
 
-### Invert
-
-- ``inverted()``
-
 ### Displace
 
 - ``displaced(with:offset:origin:placement:options:)``
@@ -171,14 +167,14 @@ Resize a graphic.
 - ``resizedStretched(to:method:)``
 - ``ResizeMethod``
 
-### Bits
-
-- ``standardBit()``
-- ``highBit()``
-
 ### Reduce
 
 - ``reduce(by:)``
 - ``reduce(by:in:)``
 - ``ReduceMethod``
 - ``ReduceAxis``
+
+### Bits
+
+- ``standardBit()``
+- ``highBit()``

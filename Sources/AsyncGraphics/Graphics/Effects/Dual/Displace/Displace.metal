@@ -15,7 +15,7 @@ struct VertexOut {
 
 struct Uniforms {
     float offset;
-    float2 origin;
+    packed_float2 origin;
     int placement;
 };
 
@@ -36,7 +36,7 @@ fragment float4 displace(VertexOut out [[stage_in]],
     float2 uvPlacement = place(int(uniforms.placement), uv, leadingWidth, leadingHeight, trailingWidth, trailingHeight);
     
     float4 sampleColor = trailingTexture.sample(sampler, uvPlacement);
-    float2 sampleUV = float2(u + (-(sampleColor.r - 0.5) + 0.5 - uniforms.origin.x) * uniforms.offset,
+    float2 sampleUV = float2(u + (sampleColor.r - uniforms.origin.x) * uniforms.offset,
                              v + (sampleColor.g - uniforms.origin.y) * uniforms.offset);
     
     float4 color = leadingTexture.sample(sampler, sampleUV);

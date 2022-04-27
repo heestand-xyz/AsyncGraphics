@@ -103,9 +103,21 @@ Use blending modes to combine two 3d graphics.
 - ``blurredDirection(radius:direction:sampleCount:options:)``
 - ``blurredRandom(radius:options:)``
 
-### Technical
+### Displace
 
+- ``displaced(with:offset:origin:placement:options:)``
+
+### Sample
+
+Sample a ``Graphic`` from a Graphic3D.
+
+- ``add(axis:)``
 - ``average(axis:)``
 - ``sample(fraction:)``
 - ``sample(index:)``
 - ``samples()``
+
+### Bits
+
+- ``standardBit()``
+- ``highBit()``

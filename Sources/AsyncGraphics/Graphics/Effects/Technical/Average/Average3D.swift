@@ -10,22 +10,22 @@ extension Graphic3D {
         let axis: Int
     }
     
-    public func average(axis: Axis) async throws -> Graphic {
+    public func average(axis: Axis = .z) async throws -> Graphic {
         
         let resolution: CGSize = CGSize(width: axis == .x ? CGFloat(resolution.z) : CGFloat(resolution.x),
                                         height: axis == .y ? CGFloat(resolution.z) : CGFloat(resolution.y))
         
         return try await Renderer.render(
             name: "Average",
-            shader: .name("average3d"),
-            graphics: [self],
+            shader: .name("average"),
+            graphics: [standardBit()],
             uniforms: Average3DUniforms(
                 axis: axis.index
             ),
             metadata: Renderer.Metadata(
                 resolution: resolution,
                 colorSpace: colorSpace,
-                bits: bits
+                bits: ._8
             )
         )
     }

@@ -30,6 +30,7 @@ fragment float4 average(VertexOut out [[stage_in]],
     }
     
     float4 color = 0.0;
+    
     for (int i = 0; i < res; ++i) {
         
         float fraction = (float(i) + 0.5) / float(res);
@@ -42,8 +43,8 @@ fragment float4 average(VertexOut out [[stage_in]],
         }
         
         color += texture.sample(sampler, crd);
-        
     }
+    
     color /= float(res);
     
     return color;
