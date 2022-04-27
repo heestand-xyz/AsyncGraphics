@@ -148,7 +148,7 @@ extension Graphic {
 
 extension Array where Element == Graphic {
     
-    /// Vertical Stackb
+    /// Vertical Stack
     public func vStack(alignment: Graphic.VStackAlignment = .center,
                        spacing: CGFloat = 0.0,
                        padding: CGFloat = 0.0,
@@ -163,7 +163,7 @@ extension Array where Element == Graphic {
                                  at: graphicSize)
     }
     
-    /// Horizontal Stackb
+    /// Horizontal Stack
     public func hStack(alignment: Graphic.HStackAlignment = .center,
                        spacing: CGFloat = 0.0,
                        padding: CGFloat = 0.0,

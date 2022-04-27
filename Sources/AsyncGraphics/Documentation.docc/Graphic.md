@@ -43,6 +43,10 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 - ``texture(_:)``
 - ``TextureError``
 
+### Camera
+
+- ``camera(_:device:preset:)``
+
 ### Color
 
 Create a graphic with a solid color.
@@ -88,12 +92,19 @@ Use blending modes to combine two or more graphics.
 - ``scaled(_:)``
 - ``scaled(x:y:)``
 
+### Transpose
+
+- ``mirroredHorizontally()``
+- ``mirroredVertically()``
+- ``rotatedLeft()``
+- ``rotatedRight()``
+
 ### Stack
 
-- ``vStack(with:alignment:spacing:padding:backgroundColor:at:)``
 - ``hStack(with:alignment:spacing:padding:backgroundColor:at:)``
-- ``VStackAlignment``
+- ``vStack(with:alignment:spacing:padding:backgroundColor:at:)``
 - ``HStackAlignment``
+- ``VStackAlignment``
 
 ### Levels
 

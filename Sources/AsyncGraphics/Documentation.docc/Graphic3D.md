@@ -70,6 +70,15 @@ Use blending modes to combine two 3d graphics.
 - ``scaled(_:)-9vc86``
 - ``scaled(x:y:z:)``
 
+### Stack
+
+- ``hStack(with:alignment:spacing:padding:backgroundColor:resolution:)``
+- ``vStack(with:alignment:spacing:padding:backgroundColor:resolution:)``
+- ``dStack(with:alignment:spacing:padding:backgroundColor:resolution:)``
+- ``HStackAlignment``
+- ``VStackAlignment``
+- ``DStackAlignment``
+
 ### Levels
 
 - ``brightness(_:)``
