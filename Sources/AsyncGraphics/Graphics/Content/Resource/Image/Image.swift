@@ -15,11 +15,14 @@ extension Graphic {
     /// UIImage / NSImage
     public static func image(_ image: TMImage) async throws -> Graphic {
         
-        let texture: MTLTexture = try await image.texture
-        
         let bits: TMBits = try image.bits
         
         let colorSpace: TMColorSpace = try image.colorSpace
+        
+        var texture: MTLTexture = try await image.texture
+        
+        texture = try await texture.convertColorSpace(from: CGColorSpace(name: CGColorSpace.linearSRGB)!,
+                                                      to: colorSpace.cgColorSpace)
         
         return Graphic(name: "Image", texture: texture, bits: bits, colorSpace: colorSpace)
     }

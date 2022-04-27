@@ -40,7 +40,9 @@ struct ContentView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .task {
             do {
-                graphic = try await .circle(radius: 250, at: CGSize(width: 1000, height: 1000))
+                for await cameraGraphic in try Graphic.camera(.front) {
+                    graphic = cameraGraphic
+                }
             } catch {
                 fatalError()
             }
