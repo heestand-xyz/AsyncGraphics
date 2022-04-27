@@ -23,7 +23,8 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 
 ### Options
 
-- ``Options``
+- ``ContentOptions``
+- ``EffectOptions``
 
 ### Pixels
 
