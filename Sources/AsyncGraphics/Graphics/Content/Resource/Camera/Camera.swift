@@ -7,6 +7,7 @@ import AVKit
 
 extension Graphic {
     
+    /// Async stream of a live camera feed
     public static func camera(_ position: AVCaptureDevice.Position,
                               device: AVCaptureDevice.DeviceType = .builtInWideAngleCamera,
                               preset: AVCaptureSession.Preset = .high) throws -> AsyncStream<Graphic> {
