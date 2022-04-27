@@ -53,7 +53,7 @@ extension Graphic {
                             particleColor: PixelColor = .white,
                             particleOptions: UVParticleOptions = UVParticleOptions(),
                             backgroundColor: PixelColor = .black,
-                            at graphicSize: CGSize,
+                            resolution: CGSize,
                             options: ContentOptions = ContentOptions()) async throws -> Graphic {
         
         try await Renderer.render(
@@ -68,11 +68,11 @@ extension Graphic {
                 multiplyParticleAlpha: particleOptions.channelAlphaEnabled,
                 clipParticleAlpha: particleOptions.clipChannelAlpha,
                 particleScale: Float(particleScale),
-                resolution: resolution.uniform
+                resolution: self.resolution.uniform
             ),
             vertexCount: resolution.count,
             metadata: Renderer.Metadata(
-                resolution: graphicSize.resolution,
+                resolution: resolution,
                 colorSpace: colorSpace,
                 bits: options.bits
             ),

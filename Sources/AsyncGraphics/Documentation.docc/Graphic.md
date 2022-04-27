@@ -16,10 +16,9 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 
 ### Resolution
 
+- ``resolution``
 - ``width``
 - ``height``
-- ``size``
-- ``resolution``
 
 ### Options
 
@@ -56,26 +55,26 @@ Create a graphic with a solid color.
 
 ### Rectangle
 
-- ``rectangle(size:center:cornerRadius:color:backgroundColor:at:options:)``
-- ``rectangle(frame:cornerRadius:color:backgroundColor:at:options:)``
-- ``strokedRectangle(size:center:cornerRadius:lineWidth:color:backgroundColor:at:options:)``
-- ``strokedRectangle(frame:cornerRadius:lineWidth:color:backgroundColor:at:options:)``
+- ``rectangle(size:center:cornerRadius:color:backgroundColor:resolution:options:)``
+- ``rectangle(frame:cornerRadius:color:backgroundColor:resolution:options:)``
+- ``strokedRectangle(size:center:cornerRadius:lineWidth:color:backgroundColor:resolution:options:)``
+- ``strokedRectangle(frame:cornerRadius:lineWidth:color:backgroundColor:resolution:options:)``
 
 ### Circle
 
-- ``circle(radius:center:color:backgroundColor:at:options:)``
-- ``strokedCircle(radius:center:lineWidth:color:backgroundColor:at:options:)``
+- ``circle(radius:center:color:backgroundColor:resolution:options:)``
+- ``strokedCircle(radius:center:lineWidth:color:backgroundColor:resolution:options:)``
 
 ### Noise
 
-- ``noise(offset:depth:scale:octaves:seed:at:options:)``
-- ``coloredNoise(offset:depth:scale:octaves:seed:at:options:)``
-- ``randomNoise(seed:at:options:)``
-- ``randomColoredNoise(seed:at:options:)``
+- ``noise(offset:depth:scale:octaves:seed:resolution:options:)``
+- ``coloredNoise(offset:depth:scale:octaves:seed:resolution:options:)``
+- ``randomNoise(seed:resolution:options:)``
+- ``randomColoredNoise(seed:resolution:options:)``
 
 ### Particles
 
-- ``uvParticles(particleScale:particleColor:particleOptions:backgroundColor:at:options:)``
+- ``uvParticles(particleScale:particleColor:particleOptions:backgroundColor:resolution:options:)``
 - ``UVParticleOptions``
 
 ### Blend
@@ -87,11 +86,11 @@ Use blending modes to combine two or more graphics.
 
 ### Transform
 
-- ``translated(_:)``
-- ``translated(x:y:)``
-- ``rotated(_:)``
-- ``scaled(_:)``
-- ``scaled(x:y:)``
+- ``translated(_:options:)``
+- ``translated(x:y:options:)``
+- ``rotated(_:options:)``
+- ``scaled(_:options:)``
+- ``scaled(x:y:options:)``
 
 ### Transpose
 
@@ -102,8 +101,8 @@ Use blending modes to combine two or more graphics.
 
 ### Stack
 
-- ``hStack(with:alignment:spacing:padding:backgroundColor:at:)``
-- ``vStack(with:alignment:spacing:padding:backgroundColor:at:)``
+- ``hStack(with:alignment:spacing:padding:backgroundColor:resolution:)``
+- ``vStack(with:alignment:spacing:padding:backgroundColor:resolution:)``
 - ``HStackAlignment``
 - ``VStackAlignment``
 
@@ -128,10 +127,10 @@ Use blending modes to combine two or more graphics.
 ### Blur
 
 - ``blurred(radius:)``
-- ``blurredBox(radius:sampleCount:)``
-- ``blurredZoom(radius:center:sampleCount:)``
-- ``blurredAngle(radius:angle:sampleCount:)``
-- ``blurredRandom(radius:)``
+- ``blurredBox(radius:sampleCount:options:)``
+- ``blurredZoom(radius:center:sampleCount:options:)``
+- ``blurredAngle(radius:angle:sampleCount:options:)``
+- ``blurredRandom(radius:options:)``
 
 ### Invert
 
@@ -139,7 +138,7 @@ Use blending modes to combine two or more graphics.
 
 ### Displace
 
-- ``displaced(with:offset:origin:placement:)``
+- ``displaced(with:offset:origin:placement:options:)``
 
 ### Cross
 
@@ -152,9 +151,9 @@ Fade two graphics by crossing them with opacity.
 Write metal shader code.
 
 - ``metal(code:at:options:)``
-- ``metal(code:)``
-- ``metal(with:code:)-swift.method``
-- ``metal(with:code:)-swift.type.method``
+- ``metal(code:options:)``
+- ``metal(with:code:options:)-swift.method``
+- ``metal(with:code:options:)-swift.type.method``
 - ``SolidMetalError``
 - ``DirectMetalError``
 - ``DualMetalError``

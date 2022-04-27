@@ -98,10 +98,10 @@ Use blending modes to combine two 3d graphics.
 
 ### Blur
 
-- ``blurredBox(radius:sampleCount:)``
-- ``blurredZoom(radius:center:sampleCount:)``
-- ``blurredDirection(radius:direction:sampleCount:)``
-- ``blurredRandom(radius:)``
+- ``blurredBox(radius:sampleCount:options:)``
+- ``blurredZoom(radius:center:sampleCount:options:)``
+- ``blurredDirection(radius:direction:sampleCount:options:)``
+- ``blurredRandom(radius:options:)``
 
 ### Technical
 
