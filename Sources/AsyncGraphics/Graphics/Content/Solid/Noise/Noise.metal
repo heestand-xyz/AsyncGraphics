@@ -20,7 +20,8 @@ struct VertexOut {
 struct Uniforms {
     int seed;
     uint octaves;
-    packed_float3 position;
+    packed_float2 position;
+    float depth;
     float zoom;
     bool colored;
     bool random;
@@ -47,7 +48,7 @@ fragment float4 noise(VertexOut out [[stage_in]],
         Loki loki_rnd = Loki(float(uniforms.seed), u * max_res, v * max_res);
         noise = loki_rnd.rand();
     } else {
-        noise = octave_noise_3d(float(uniforms.octaves), 0.5, 1.0, ux, vy, uniforms.position.z + float(uniforms.seed) * 100);
+        noise = octave_noise_3d(float(uniforms.octaves), 0.5, 1.0, ux, vy, uniforms.depth + float(uniforms.seed) * 100);
         noise = noise * 0.5 + 0.5;
     }
     
@@ -60,9 +61,9 @@ fragment float4 noise(VertexOut out [[stage_in]],
             Loki loki_rnd_b = Loki(float(uniforms.seed) + 200, u * max_res, v * max_res);
             noiseBlue = loki_rnd_b.rand();
         } else {
-            noiseGreen = octave_noise_3d(float(uniforms.octaves), 0.5, 1.0, ux, vy, uniforms.position.z + 10 + float(uniforms.seed));
+            noiseGreen = octave_noise_3d(float(uniforms.octaves), 0.5, 1.0, ux, vy, uniforms.depth + 10 + float(uniforms.seed));
             noiseGreen = noiseGreen * 0.5 + 0.5;
-            noiseBlue = octave_noise_3d(float(uniforms.octaves), 0.5, 1.0, ux, vy, uniforms.position.z + 20 + float(uniforms.seed));
+            noiseBlue = octave_noise_3d(float(uniforms.octaves), 0.5, 1.0, ux, vy, uniforms.depth + 20 + float(uniforms.seed));
             noiseBlue = noiseBlue * 0.5 + 0.5;
         }
     }
@@ -73,7 +74,7 @@ fragment float4 noise(VertexOut out [[stage_in]],
             Loki loki_rnd_g = Loki(float(uniforms.seed) + 300, u * max_res, v * max_res);
             noiseAlpha = loki_rnd_g.rand();
         } else {
-            noiseAlpha = octave_noise_3d(float(uniforms.octaves), 0.5, 1.0, ux, vy, uniforms.position.z + 30 + float(uniforms.seed));
+            noiseAlpha = octave_noise_3d(float(uniforms.octaves), 0.5, 1.0, ux, vy, uniforms.depth + 30 + float(uniforms.seed));
             noiseAlpha = noiseAlpha * 0.5 + 0.5;
         }
     }

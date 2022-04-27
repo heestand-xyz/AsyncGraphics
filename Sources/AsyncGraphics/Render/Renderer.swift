@@ -29,6 +29,7 @@ struct Renderer {
         case failedToMakeSampler
         case failedToMakeUniformBuffer
         case failedToMakeComputeCommandEncoder
+        case graphic3dIsCurrentlyOnlySupportedOnMacOS
         
         var errorDescription: String? {
             switch self {
@@ -50,6 +51,8 @@ struct Renderer {
                 return "Async Graphics - Renderer - Failed to Make Uniform Buffer"
             case .failedToMakeComputeCommandEncoder:
                 return "Async Graphics - Renderer - Failed to Make Compute Command Encoder"
+            case .graphic3dIsCurrentlyOnlySupportedOnMacOS:
+                return "Async Graphics - Renderer - Graphic3D is Currently Only Supported on macOS"
             }
         }
     }
@@ -289,6 +292,8 @@ struct Renderer {
                             
                         } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
                             
+                            #if os(macOS)
+                            
                             let threadsPerThreadGroup = MTLSize(width: 8, height: 8, depth: 8)
                             
                             let threadsPerGrid: MTLSize
@@ -298,11 +303,13 @@ struct Renderer {
                                 fatalError("3D resolution not found")
                             }
                             
-//                            #if !os(tvOS)
                             computeCommandEncoder.dispatchThreads(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadGroup)
-//                            #else
-//                            fatalError("3D graphics rendering on tvOS is not supported")
-//                            #endif
+
+                            #else
+                            // Dispatch Threads with Non-Uniform Threadgroup Size is not supported on this device
+                            throw RendererError.graphic3dIsCurrentlyOnlySupportedOnMacOS
+                            #endif
+                            
                         }
                         
                         // MARK: Render

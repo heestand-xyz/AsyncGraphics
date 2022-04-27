@@ -14,10 +14,6 @@ It's like an image, tho it can be used with various *async* methods.
 .package(url: "https://github.com/heestand-xyz/AsyncGraphics", from: "0.4.1")
 ```
 
-```swift
-import AsyncGraphics
-```
-
 
 ## Example
 
