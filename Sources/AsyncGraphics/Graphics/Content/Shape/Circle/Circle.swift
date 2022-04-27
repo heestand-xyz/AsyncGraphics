@@ -24,13 +24,13 @@ extension Graphic {
                               center: CGPoint? = nil,
                               color: PixelColor = .white,
                               backgroundColor: PixelColor = .black,
-                              at graphicSize: CGSize,
+                              resolution: CGSize,
                               options: Options = Options()) async throws -> Graphic {
         
-        let relativeRadius: CGFloat = radius / graphicSize.height
+        let relativeRadius: CGFloat = radius / resolution.height
         
-        let center: CGPoint = center?.flipPositionY(size: graphicSize) ?? (graphicSize.asPoint / 2)
-        let relativePosition: CGPoint = (center - graphicSize / 2) / graphicSize.height
+        let center: CGPoint = center ?? (resolution.asPoint / 2)
+        let relativePosition: CGPoint = (center - resolution / 2) / resolution.height
         
         return try await Renderer.render(
             name: "Circle",
@@ -44,10 +44,10 @@ extension Graphic {
                 foregroundColor: color.uniform,
                 edgeColor: PixelColor.clear.uniform,
                 backgroundColor: backgroundColor.uniform,
-                resolution: graphicSize.resolution.uniform
+                resolution: resolution.uniform
             ),
             metadata: Renderer.Metadata(
-                resolution: graphicSize.resolution,
+                resolution: resolution,
                 colorSpace: .sRGB,
                 bits: options.bits
             )
@@ -59,15 +59,15 @@ extension Graphic {
                                      lineWidth: CGFloat,
                                      color: PixelColor = .white,
                                      backgroundColor: PixelColor = .black,
-                                     at graphicSize: CGSize,
+                                     resolution: CGSize,
                                      options: Options = Options()) async throws -> Graphic {
         
-        let relativeRadius: CGFloat = radius / graphicSize.height
+        let relativeRadius: CGFloat = radius / resolution.height
         
-        let center: CGPoint = center?.flipPositionY(size: graphicSize) ?? (graphicSize / 2).asPoint
-        let relativePosition: CGPoint = (center - graphicSize / 2) / graphicSize.height
+        let center: CGPoint = center ?? (resolution / 2).asPoint
+        let relativePosition: CGPoint = (center - resolution / 2) / resolution.height
         
-        let relativeLineWidth: CGFloat = lineWidth / graphicSize.height
+        let relativeLineWidth: CGFloat = lineWidth / resolution.height
         
         return try await Renderer.render(
             name: "Circle",
@@ -81,10 +81,10 @@ extension Graphic {
                 foregroundColor: backgroundColor.uniform,
                 edgeColor: color.uniform,
                 backgroundColor: backgroundColor.uniform,
-                resolution: graphicSize.resolution.uniform
+                resolution: resolution.uniform
             ),
             metadata: Renderer.Metadata(
-                resolution: graphicSize.resolution,
+                resolution: resolution,
                 colorSpace: .sRGB,
                 bits: options.bits
             )

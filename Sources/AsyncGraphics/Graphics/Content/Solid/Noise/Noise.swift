@@ -24,13 +24,12 @@ extension Graphic {
                              scale: CGFloat = 1.0,
                              octaves: Int = 1,
                              seed: Int = 1,
-                             at graphicSize: CGSize,
+                             resolution: CGSize,
                              options: Options = Options()) async throws -> Graphic {
         
-        let offset: CGPoint = offset.flipPositionY(size: graphicSize)
-        let relativeOffset: CGPoint = (offset - graphicSize / 2) / graphicSize.height
+        let relativeOffset: CGPoint = (offset - resolution / 2) / resolution.height
         
-        let relativeDepth: CGFloat = depth / graphicSize.height
+        let relativeDepth: CGFloat = depth / resolution.height
         
         return try await Renderer.render(
             name: "Noise",
@@ -47,10 +46,10 @@ extension Graphic {
                 colored: false,
                 random: false,
                 includeAlpha: false,
-                resolution: graphicSize.resolution.uniform
+                resolution: resolution.uniform
             ),
             metadata: Renderer.Metadata(
-                resolution: graphicSize.resolution,
+                resolution: resolution,
                 colorSpace: .sRGB,
                 bits: options.bits
             )
@@ -63,13 +62,12 @@ extension Graphic {
                                     scale: CGFloat = 1.0,
                                     octaves: Int = 1,
                                     seed: Int = 1,
-                                    at graphicSize: CGSize,
+                                    resolution: CGSize,
                                     options: Options = Options()) async throws -> Graphic {
         
-        let offset: CGPoint = offset.flipPositionY(size: graphicSize)
-        let relativeOffset: CGPoint = (offset - graphicSize / 2) / graphicSize.height
+        let relativeOffset: CGPoint = (offset - resolution / 2) / resolution.height
         
-        let relativeDepth: CGFloat = depth / graphicSize.height
+        let relativeDepth: CGFloat = depth / resolution.height
         
         return try await Renderer.render(
             name: "Noise (Colored)",
@@ -86,10 +84,10 @@ extension Graphic {
                 colored: true,
                 random: false,
                 includeAlpha: false,
-                resolution: graphicSize.resolution.uniform
+                resolution: resolution.uniform
             ),
             metadata: Renderer.Metadata(
-                resolution: graphicSize.resolution,
+                resolution: resolution,
                 colorSpace: .sRGB,
                 bits: options.bits
             )
@@ -97,7 +95,7 @@ extension Graphic {
     }
     
     public static func randomNoise(seed: Int = 1,
-                                   at graphicSize: CGSize,
+                                   resolution: CGSize,
                                    options: Options = Options()) async throws -> Graphic {
         
         try await Renderer.render(
@@ -111,10 +109,10 @@ extension Graphic {
                 colored: false,
                 random: true,
                 includeAlpha: false,
-                resolution: graphicSize.resolution.uniform
+                resolution: resolution.uniform
             ),
             metadata: Renderer.Metadata(
-                resolution: graphicSize.resolution,
+                resolution: resolution,
                 colorSpace: .sRGB,
                 bits: options.bits
             )
@@ -122,7 +120,7 @@ extension Graphic {
     }
     
     public static func randomColoredNoise(seed: Int = 1,
-                                          at graphicSize: CGSize,
+                                          resolution: CGSize,
                                           options: Options = Options()) async throws -> Graphic {
         
         try await Renderer.render(
@@ -136,10 +134,10 @@ extension Graphic {
                 colored: true,
                 random: true,
                 includeAlpha: false,
-                resolution: graphicSize.resolution.uniform
+                resolution: resolution.uniform
             ),
             metadata: Renderer.Metadata(
-                resolution: graphicSize.resolution,
+                resolution: resolution,
                 colorSpace: .sRGB,
                 bits: options.bits
             )

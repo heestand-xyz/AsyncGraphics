@@ -6,7 +6,9 @@ Edit images and video with async / await in Swift, powered by Metal.
 
 The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image.
 
-**AsyncGraphics** also has another value type called ``Graphic3D``. It's a 3d image, a volume of voxels. 
+**AsyncGraphics** also has another value type called ``Graphic3D``. It's a 3d image, a volume of voxels.
+
+[AsyncGraphics on GitHub](https://github.com/heestand-xyz/AsyncGraphics)
 
 ## Topics
 

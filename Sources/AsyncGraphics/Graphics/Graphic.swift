@@ -33,24 +33,16 @@ public struct Graphic: Graphicable {
 
 extension Graphic {
     
-    /// Resolution in pixels
     public var resolution: CGSize {
         texture.size
     }
     
-    /// Size in points
-    public var size: CGSize {
-        resolution / CGFloat.scale
-    }
-    
-    /// Width in points
     public var width: CGFloat {
-        size.width
+        resolution.width
     }
     
-    /// Height in points
     public var height: CGFloat {
-        size.height
+        resolution.height
     }
 }
 

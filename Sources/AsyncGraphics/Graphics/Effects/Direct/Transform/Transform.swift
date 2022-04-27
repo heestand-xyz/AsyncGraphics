@@ -42,7 +42,7 @@ extension Graphic {
         scaleSize: CGSize = CGSize(width: 1.0, height: 1.0)
     ) async throws -> Graphic {
         
-        let relativeTranslation: CGPoint = translation.flipTranslationY(size: size) / size.height
+        let relativeTranslation: CGPoint = translation / resolution.height
         
         return try await Renderer.render(
             name: "Transform",

@@ -19,7 +19,7 @@ extension Graphic {
                           origin: PixelColor = .gray,
                           placement: Placement = .fill) async throws -> Graphic {
         
-        let relativeOffset: CGFloat = offset / size.height
+        let relativeOffset: CGFloat = offset / resolution.height
         
         return try await Renderer.render(
             name: "Displace",

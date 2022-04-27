@@ -26,10 +26,10 @@ extension Graphic {
                                  cornerRadius: CGFloat = 0.0,
                                  color: PixelColor = .white,
                                  backgroundColor: PixelColor = .black,
-                                 at graphicSize: CGSize,
+                                 resolution: CGSize,
                                  options: Options = Options()) async throws -> Graphic {
         
-        let center: CGPoint = center ?? graphicSize.asPoint / 2
+        let center: CGPoint = center ?? resolution.asPoint / 2
         let frame = CGRect(origin: center - size / 2, size: size)
         
         return try await rectangle(
@@ -37,7 +37,7 @@ extension Graphic {
             cornerRadius: cornerRadius,
             color: color,
             backgroundColor: backgroundColor,    
-            at: graphicSize,
+            resolution: resolution,
             options: options
         )
     }
@@ -46,16 +46,14 @@ extension Graphic {
                                  cornerRadius: CGFloat = 0.0,
                                  color: PixelColor = .white,
                                  backgroundColor: PixelColor = .black,
-                                 at graphicSize: CGSize,
+                                 resolution: CGSize,
                                  options: Options = Options()) async throws -> Graphic {
         
-        let frame = frame.flipY(size: graphicSize)
+        let relativeSize: CGSize = frame.size / resolution.height
         
-        let relativeSize: CGSize = frame.size / graphicSize.height
+        let relativePosition: CGPoint = (frame.center - resolution / 2) / resolution.height
         
-        let relativePosition: CGPoint = (frame.center - graphicSize / 2) / graphicSize.height
-        
-        let relativeCornerRadius: CGFloat = cornerRadius / graphicSize.height
+        let relativeCornerRadius: CGFloat = cornerRadius / resolution.height
         
         return try await Renderer.render(
             name: "Rectangle",
@@ -70,10 +68,10 @@ extension Graphic {
                 foregroundColor: color.uniform,
                 edgeColor: PixelColor.clear.uniform,
                 backgroundColor: backgroundColor.uniform,
-                resolution: graphicSize.resolution.uniform
+                resolution: resolution.uniform
             ),
             metadata: Renderer.Metadata(
-                resolution: graphicSize.resolution,
+                resolution: resolution,
                 colorSpace: .sRGB,
                 bits: options.bits
             )
@@ -86,10 +84,10 @@ extension Graphic {
                                         lineWidth: CGFloat,
                                         color: PixelColor = .white,
                                         backgroundColor: PixelColor = .black,
-                                        at graphicSize: CGSize,
+                                        resolution: CGSize,
                                         options: Options = Options()) async throws -> Graphic {
         
-        let center: CGPoint = center ?? graphicSize.asPoint / 2
+        let center: CGPoint = center ?? resolution.asPoint / 2
         let frame = CGRect(origin: center - size / 2, size: size)
         
         return try await strokedRectangle(
@@ -98,7 +96,7 @@ extension Graphic {
             lineWidth: lineWidth,
             color: color,
             backgroundColor: backgroundColor,
-            at: graphicSize,
+            resolution: resolution,
             options: options
         )
     }
@@ -108,18 +106,16 @@ extension Graphic {
                                         lineWidth: CGFloat,
                                         color: PixelColor = .white,
                                         backgroundColor: PixelColor = .black,
-                                        at graphicSize: CGSize,
+                                        resolution: CGSize,
                                         options: Options = Options()) async throws -> Graphic {
         
-        let frame = frame.flipY(size: graphicSize)
+        let relativeSize: CGSize = frame.size / resolution.height
         
-        let relativeSize: CGSize = frame.size / graphicSize.height
+        let relativePosition: CGPoint = (frame.center - resolution / 2) / resolution.height
         
-        let relativePosition: CGPoint = (frame.center - graphicSize / 2) / graphicSize.height
+        let relativeCornerRadius: CGFloat = cornerRadius / resolution.height
         
-        let relativeCornerRadius: CGFloat = cornerRadius / graphicSize.height
-        
-        let relativeLineWidth: CGFloat = lineWidth / graphicSize.height
+        let relativeLineWidth: CGFloat = lineWidth / resolution.height
         
         return try await Renderer.render(
             name: "Rectangle",
@@ -134,10 +130,10 @@ extension Graphic {
                 foregroundColor: backgroundColor.uniform,
                 edgeColor: color.uniform,
                 backgroundColor: backgroundColor.uniform,
-                resolution: graphicSize.resolution.uniform
+                resolution: resolution.uniform
             ),
             metadata: Renderer.Metadata(
-                resolution: graphicSize.resolution,
+                resolution: resolution,
                 colorSpace: .sRGB,
                 bits: options.bits
             )

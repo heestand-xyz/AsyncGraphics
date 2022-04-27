@@ -80,8 +80,8 @@ extension Graphic {
                             center: CGPoint? = nil,
                             sampleCount: Int = 100) async throws -> Graphic {
         
-        let center: CGPoint = center?.flipPositionY(size: size) ?? size.asPoint / 2
-        let relativeCenter: CGPoint = (center - size / 2) / height
+        let center: CGPoint = center ?? resolution.asPoint / 2
+        let relativeCenter: CGPoint = (center - resolution / 2) / height
         
         let relativeRadius: CGFloat = radius / height
         

@@ -48,7 +48,7 @@ extension Graphic {
                               spacing: CGFloat = 0.0,
                               padding: CGFloat = 0.0,
                               backgroundColor: PixelColor = .black,
-                              at graphicSize: CGSize? = nil) async throws -> Graphic {
+                              resolution: CGSize? = nil) async throws -> Graphic {
         
         try await stack(with: graphics,
                         axis: .vertical,
@@ -56,7 +56,7 @@ extension Graphic {
                         spacing: spacing,
                         padding: padding,
                         backgroundColor: backgroundColor,
-                        at: graphicSize)
+                        resolution: resolution)
     }
     
     /// Horizontal Stack
@@ -65,7 +65,7 @@ extension Graphic {
                               spacing: CGFloat = 0.0,
                               padding: CGFloat = 0.0,
                               backgroundColor: PixelColor = .black,
-                              at graphicSize: CGSize? = nil) async throws -> Graphic {
+                              resolution: CGSize? = nil) async throws -> Graphic {
         
         try await stack(with: graphics,
                         axis: .horizontal,
@@ -73,7 +73,7 @@ extension Graphic {
                         spacing: spacing,
                         padding: padding,
                         backgroundColor: backgroundColor,
-                        at: graphicSize)
+                        resolution: resolution)
     }
     
     private static func stack(with graphics: [Graphic],
@@ -82,24 +82,24 @@ extension Graphic {
                               spacing: CGFloat = 0.0,
                               padding: CGFloat = 0.0,
                               backgroundColor: PixelColor = .black,
-                              at graphicSize: CGSize? = nil) async throws -> Graphic {
+                              resolution: CGSize? = nil) async throws -> Graphic {
         
-        let graphicSize: CGSize = graphicSize ?? {
-            guard let size: CGSize = graphics.first?.size else { return .zero }
+        let resolution: CGSize = resolution ?? {
+            guard let resolution: CGSize = graphics.first?.resolution else { return .zero }
             let length: CGFloat = {
                 switch axis {
                 case .horizontal:
-                    return size.width
+                    return resolution.width
                 case .vertical:
-                    return size.height
+                    return resolution.height
                 }
             }()
             let adjacentLength: CGFloat = {
                 switch axis {
                 case .horizontal:
-                    return size.height
+                    return resolution.height
                 case .vertical:
-                    return size.width
+                    return resolution.width
                 }
             }()
             let totalLength: CGFloat = length * CGFloat(graphics.count) + spacing * CGFloat(graphics.count - 1) + padding * 2
@@ -111,9 +111,9 @@ extension Graphic {
         let length: CGFloat = {
             switch axis {
             case .horizontal:
-                return graphicSize.width
+                return resolution.width
             case .vertical:
-                return graphicSize.height
+                return resolution.height
             }
         }()
         
@@ -133,10 +133,10 @@ extension Graphic {
                 spacing: Float(relativeSpacing),
                 padding: Float(relativePadding),
                 backgroundColor: backgroundColor.uniform,
-                resolution: graphicSize.resolution.uniform
+                resolution: resolution.uniform
             ),
             metadata: Renderer.Metadata(
-                resolution: graphicSize.resolution,
+                resolution: resolution,
                 colorSpace: graphics.first?.colorSpace ?? .sRGB,
                 bits: graphics.first?.bits ?? ._8
             ),
@@ -153,14 +153,14 @@ extension Array where Element == Graphic {
                        spacing: CGFloat = 0.0,
                        padding: CGFloat = 0.0,
                        backgroundColor: PixelColor = .black,
-                       at graphicSize: CGSize? = nil) async throws -> Graphic {
+                       resolution: CGSize? = nil) async throws -> Graphic {
         
         try await Graphic.vStack(with: self,
                                  alignment: alignment,
                                  spacing: spacing,
                                  padding: padding,
                                  backgroundColor: backgroundColor,
-                                 at: graphicSize)
+                                 resolution: resolution)
     }
     
     /// Horizontal Stack
@@ -168,13 +168,13 @@ extension Array where Element == Graphic {
                        spacing: CGFloat = 0.0,
                        padding: CGFloat = 0.0,
                        backgroundColor: PixelColor = .black,
-                       at graphicSize: CGSize? = nil) async throws -> Graphic {
+                       resolution: CGSize? = nil) async throws -> Graphic {
         
         try await Graphic.hStack(with: self,
                                  alignment: alignment,
                                  spacing: spacing,
                                  padding: padding,
                                  backgroundColor: backgroundColor,
-                                 at: graphicSize)
+                                 resolution: resolution)
     }
 }
