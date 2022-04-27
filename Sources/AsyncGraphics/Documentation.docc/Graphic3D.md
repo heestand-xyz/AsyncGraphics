@@ -107,6 +107,11 @@ Use blending modes to combine two 3d graphics.
 
 - ``displaced(with:offset:origin:placement:options:)``
 
+### Edge
+
+- ``edge(amplitude:distance:options:)``
+- ``coloredEdge(amplitude:distance:options:)``
+
 ### Sample
 
 Sample a ``Graphic`` from a Graphic3D.
