@@ -83,6 +83,8 @@ Use blending modes to combine two or more graphics.
 
 - ``blended(with:blendingMode:placement:)``
 - ``blend(with:blendingMode:)``
+- ``add(with:)``
+- ``average(with:)``
 
 ### Transform
 
@@ -135,6 +137,11 @@ Use blending modes to combine two or more graphics.
 ### Displace
 
 - ``displaced(with:offset:origin:placement:options:)``
+
+### Edge
+
+- ``edge(amplitude:distance:options:)``
+- ``coloredEdge(amplitude:distance:options:)``
 
 ### Cross
 

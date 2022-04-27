@@ -8,6 +8,16 @@ extension Graphic {
         let mode: Int
     }
     
+    public static func add(with graphics: [Graphic]) async throws -> Graphic {
+        
+        try await blend(with: graphics, blendingMode: .add)
+    }
+    
+    public static func average(with graphics: [Graphic]) async throws -> Graphic {
+        
+        try await blend(with: graphics, blendingMode: .average)
+    }
+    
     public static func blend(with graphics: [Graphic],
                              blendingMode: ArrayBlendingMode) async throws -> Graphic {
         
@@ -27,6 +37,16 @@ extension Graphic {
 
 
 extension Array where Element == Graphic {
+    
+    public func add() async throws -> Graphic {
+        
+        try await Graphic.blend(with: self, blendingMode: .add)
+    }
+    
+    public func average() async throws -> Graphic {
+        
+        try await Graphic.blend(with: self, blendingMode: .average)
+    }
     
     public func blended(blendingMode: ArrayBlendingMode) async throws -> Graphic {
         
