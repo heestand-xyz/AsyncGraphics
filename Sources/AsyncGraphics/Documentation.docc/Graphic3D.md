@@ -54,6 +54,12 @@ A Graphic3D is a 3d image, made up out of voxels. It's backed by a `MTLTexture`.
 - ``sphere(radius:center:color:backgroundColor:resolution:options:)``
 - ``surfaceSphere(radius:center:surfaceWidth:color:backgroundColor:resolution:options:)``
 
+### Noise
+- ``noise(offset:depth:scale:octaves:seed:resolution:options:)``
+- ``coloredNoise(offset:depth:scale:octaves:seed:resolution:options:)``
+- ``randomNoise(seed:resolution:options:)``
+- ``randomColoredNoise(seed:resolution:options:)``
+
 ### Blend
 
 Use blending modes to combine two 3d graphics.
