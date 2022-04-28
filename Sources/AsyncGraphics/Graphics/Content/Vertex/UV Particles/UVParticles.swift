@@ -73,7 +73,7 @@ extension Graphic {
             vertexCount: resolution.count,
             metadata: Renderer.Metadata(
                 resolution: resolution,
-                colorSpace: colorSpace,
+                colorSpace: options.colorSpace,
                 bits: options.bits
             ),
             options: Renderer.Options(

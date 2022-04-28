@@ -27,7 +27,7 @@ extension Graphic3D {
             ),
             metadata: Renderer.Metadata(
                 resolution: resolution,
-                colorSpace: .sRGB,
+                colorSpace: options.colorSpace,
                 bits: options.bits
             )
         )

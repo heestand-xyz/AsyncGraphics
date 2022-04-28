@@ -72,7 +72,7 @@ extension Graphic {
             uniforms: graphicSize.resolution.uniform,
             metadata: Renderer.Metadata(
                 resolution: graphicSize.resolution,
-                colorSpace: .sRGB,
+                colorSpace: options.colorSpace,
                 bits: options.bits
             )
         )

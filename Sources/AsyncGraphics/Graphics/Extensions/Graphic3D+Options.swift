@@ -18,6 +18,13 @@ extension Graphic3D {
             contains(.highBit) ? ._16 : ._8
         }
         
+        /// Display P3 Color Space
+        public static let displayP3 = ContentOptions(rawValue: 1 << 1)
+        
+        var colorSpace: TMColorSpace {
+            contains(.displayP3) ? .displayP3 : .sRGB
+        }
+        
         public init(rawValue: Int) {
             self.rawValue = rawValue
         }

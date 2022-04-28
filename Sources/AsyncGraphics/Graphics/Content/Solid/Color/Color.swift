@@ -22,7 +22,7 @@ extension Graphic {
             uniforms: ColorUniforms(color: color.uniform),
             metadata: Renderer.Metadata(
                 resolution: graphicSize.resolution,
-                colorSpace: .sRGB,
+                colorSpace: options.colorSpace,
                 bits: options.bits
             )
         )
