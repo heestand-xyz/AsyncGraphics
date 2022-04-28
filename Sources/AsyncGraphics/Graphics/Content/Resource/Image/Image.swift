@@ -9,6 +9,9 @@ import Foundation
 import CoreGraphics
 import Metal
 import TextureMap
+#if os(macOS)
+import AppKit
+#endif
 
 extension Graphic {
     
@@ -18,7 +21,6 @@ extension Graphic {
         let bits: TMBits = try image.bits
         
         let colorSpace: TMColorSpace = try image.colorSpace
-        print("IMAGE COLOR SPACE", colorSpace)
         
         var texture: MTLTexture = try await image.texture
         
