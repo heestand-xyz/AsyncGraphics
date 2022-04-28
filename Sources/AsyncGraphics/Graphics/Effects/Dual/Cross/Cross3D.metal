@@ -1,20 +1,19 @@
 //
-//  Created by Anton Heestand on 2017-11-10.
+//  Created by Anton Heestand on 2017-11-12.
 //  Copyright © 2017 Anton Heestand. All rights reserved.
 //
 
 #include <metal_stdlib>
 using namespace metal;
 
-#import "../../../../Metal/Effects/blend_header.metal"
 #import "../../../../Metal/Effects/place_header.metal"
 
 struct Uniforms {
-    int blendingMode;
+    float fraction;
     int placement;
 };
 
-kernel void blend3d(const device Uniforms& uniforms [[ buffer(0) ]],
+kernel void cross3d(const device Uniforms& uniforms [[ buffer(0) ]],
                     texture3d<float, access::write>  targetTexture [[ texture(0) ]],
                     texture3d<float, access::sample> leadingTexture [[ texture(1) ]],
                     texture3d<float, access::sample> trailingTexture [[ texture(2) ]],
@@ -28,7 +27,7 @@ kernel void blend3d(const device Uniforms& uniforms [[ buffer(0) ]],
     if (pos.x >= width || pos.y >= height || pos.z >= depth) {
         return;
     }
-
+    
     float u = float(pos.x + 0.5) / float(width);
     float v = float(pos.y + 0.5) / float(height);
     float w = float(pos.z + 0.5) / float(depth);
@@ -45,7 +44,9 @@ kernel void blend3d(const device Uniforms& uniforms [[ buffer(0) ]],
     float4 leadingColor = leadingTexture.sample(sampler, uvw);
     float4 trailingColor = trailingTexture.sample(sampler, uvwPlacement);
     
-    float4 color = blend(uniforms.blendingMode, leadingColor, trailingColor);
+    float4 color = mix(leadingColor, trailingColor, uniforms.fraction);
     
     targetTexture.write(color, pos);
 }
+
+

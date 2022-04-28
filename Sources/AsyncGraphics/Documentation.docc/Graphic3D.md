@@ -112,6 +112,12 @@ Use blending modes to combine two 3d graphics.
 - ``edge(amplitude:distance:options:)``
 - ``coloredEdge(amplitude:distance:options:)``
 
+### Cross
+
+Fade two graphics by crossing them with opacity.
+
+- ``cross(with:fraction:placement:)``
+
 ### Sample
 
 Sample a ``Graphic`` from a Graphic3D.
