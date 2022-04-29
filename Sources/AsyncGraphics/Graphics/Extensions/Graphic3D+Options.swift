@@ -19,10 +19,10 @@ extension Graphic3D {
         }
         
         /// Display P3 Color Space
-        public static let displayP3 = ContentOptions(rawValue: 1 << 1)
+//        public static let displayP3 = ContentOptions(rawValue: 1 << 1)
         
         var colorSpace: TMColorSpace {
-            contains(.displayP3) ? .displayP3 : .sRGB
+            .sRGB //contains(.displayP3) ? .displayP3 : .sRGB
         }
         
         public init(rawValue: Int) {
@@ -34,7 +34,14 @@ extension Graphic3D {
         
         public let rawValue: Int
         
+        /// Edge sampling method of mirror
+        ///
+        /// Pixels sampled outside of uv coordinates 0.0 and 1.0 will be mirrored
         public static let edgeMirror = EffectOptions(rawValue: 1 << 0)
+        
+        /// Edge sampling method of stretch
+        ///
+        /// Pixels sampled outside of uv coordinates 0.0 and 1.0 will be stretched
         public static let edgeStretch = EffectOptions(rawValue: 1 << 1)
         
         var addressMode: MTLSamplerAddressMode {

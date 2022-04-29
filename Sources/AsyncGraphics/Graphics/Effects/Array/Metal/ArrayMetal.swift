@@ -19,7 +19,7 @@ extension Graphic {
         }
     }
     
-    /// Metal Shader Code
+    /// Metal Shader Code with multiple inputs
     ///
     /// Sample the first texture color.
     /// ```

@@ -4,6 +4,11 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 
 ## Topics
 
+### Information
+
+- ``id``
+- ``name``
+
 ### Data
 
 - ``image``
@@ -37,6 +42,12 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 
 - ``image(_:)``
 - ``image(named:in:)``
+
+### Video
+
+- ``videoFrames(url:)``
+- ``videoData(with:fps:kbps:format:)``
+- ``videoURL(with:fps:kbps:format:)``
 
 ### Texture
 

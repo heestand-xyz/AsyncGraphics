@@ -5,6 +5,7 @@
 import MetalKit
 import MetalPerformanceShaders
 import QuartzCore.CoreAnimation
+import TextureMap
 
 final class GraphicMetalView: MTKView {
     
@@ -56,7 +57,9 @@ extension GraphicMetalView: MTKViewDelegate {
     func draw(in view: MTKView) {
         
         guard let graphic: Graphic = graphic else { return }
-        let texture: MTLTexture = graphic.texture
+        var texture: MTLTexture = graphic.texture
+        
+//        texture = texture.convertColorSpace(from: CGColorSpace(name: CGColorSpace.linearSRGB)!, to: graphic.colorSpace.cgColorSpace)
         
         guard let drawable: CAMetalDrawable = currentDrawable else { return }
         let targetTexture: MTLTexture = drawable.texture

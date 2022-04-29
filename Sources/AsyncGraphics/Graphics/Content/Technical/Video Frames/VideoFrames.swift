@@ -6,8 +6,9 @@ import Foundation
 import VideoFrames
 import TextureMap
 
-extension Array where Element == Graphic {
+extension Graphic {
     
+    /// Import a video from a URL
     public static func videoFrames(url: URL) async throws -> [Graphic] {
         
         let images: [TMImage] = try await convertVideoToFrames(from: url)
@@ -35,5 +36,15 @@ extension Array where Element == Graphic {
         }
         
         return graphics
+    }
+}
+
+
+extension Array where Element == Graphic {
+    
+    /// Import a video from a URL
+    public static func videoFrames(url: URL) async throws -> [Graphic] {
+        
+        try await Graphic.videoFrames(url: url)
     }
 }

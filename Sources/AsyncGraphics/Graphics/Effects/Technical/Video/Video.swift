@@ -6,19 +6,32 @@ import Foundation
 import VideoFrames
 import TextureMap
 
-extension Array where Element == Graphic {
+extension Graphic {
     
-    public func video(fps: Int = 30, kbps: Int = 1_000, format: VideoFormat = .mov) async throws -> Data {
-        let url: URL = try await video(fps: fps, kbps: kbps, format: format)
+    /// Export a video to Data
+    public static func videoData(with graphics: [Graphic],
+                                 fps: Int = 30,
+                                 kbps: Int = 1_000, format: VideoFormat = .mov) async throws -> Data {
+        
+        let url: URL = try await videoURL(with: graphics,
+                                          fps: fps,
+                                          kbps: kbps,
+                                          format: format)
+        
         let data = try Data(contentsOf: url)
+        
         return data
     }
     
-    public func video(fps: Int = 30, kbps: Int = 1_000, format: VideoFormat = .mov) async throws -> URL {
+    /// Export a video to a URL
+    public static func videoURL(with graphics: [Graphic],
+                                fps: Int = 30,
+                                kbps: Int = 1_000,
+                                format: VideoFormat = .mov) async throws -> URL {
         
         let images: [TMImage] = try await withThrowingTaskGroup(of: (Int, TMImage).self) { group in
             
-            for (index, graphic) in enumerated() {
+            for (index, graphic) in graphics.enumerated() {
                 group.addTask {
                     let image: TMImage = try await graphic.image
                     return (index, image)
@@ -50,5 +63,20 @@ extension Array where Element == Graphic {
         try await convertFramesToVideo(images: images, fps: fps, kbps: kbps, as: format, url: url)
         
         return url
+    }
+}
+
+extension Array where Element == Graphic {
+    
+    /// Export a video to Data
+    public func videoData(fps: Int = 30, kbps: Int = 1_000, format: VideoFormat = .mov) async throws -> Data {
+        
+        try await Graphic.videoData(with: self, fps: fps, kbps: kbps, format: format)
+    }
+    
+    /// Export a video to a URL
+    public func videoURL(fps: Int = 30, kbps: Int = 1_000, format: VideoFormat = .mov) async throws -> URL {
+        
+        try await Graphic.videoURL(with: self, fps: fps, kbps: kbps, format: format)
     }
 }
