@@ -14,6 +14,8 @@ extension Graphic {
         let outputResolution: SizeUniform
     }
     
+    #warning("Switch Size to Resolution")
+    
     public func resized(to size: CGSize, placement: Placement = .fit) async throws -> Graphic {
         
         try await Renderer.render(

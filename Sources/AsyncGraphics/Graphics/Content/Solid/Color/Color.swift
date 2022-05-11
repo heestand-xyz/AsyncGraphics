@@ -13,7 +13,7 @@ extension Graphic {
     }
     
     public static func color(_ color: PixelColor,
-                             at graphicSize: CGSize,
+                             resolution: CGSize,
                              options: ContentOptions = ContentOptions()) async throws -> Graphic {
                 
         try await Renderer.render(
@@ -21,7 +21,7 @@ extension Graphic {
             shader: .name("color"),
             uniforms: ColorUniforms(color: color.uniform),
             metadata: Renderer.Metadata(
-                resolution: graphicSize.resolution,
+                resolution: resolution,
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )

@@ -20,16 +20,16 @@ extension Graphic {
         let resolution: SizeUniform
     }
     
-    public struct UVParticleOptions {
-        let channelScaleEnabled: Bool
-        let channelAlphaEnabled: Bool
-        let clipChannelAlpha: Bool
-        public init(channelScaleEnabled: Bool = false,
-                    channelAlphaEnabled: Bool = false,
-                    clipChannelAlpha: Bool = false) {
-            self.channelScaleEnabled = channelScaleEnabled
-            self.channelAlphaEnabled = channelAlphaEnabled
-            self.clipChannelAlpha = clipChannelAlpha
+    public struct UVParticleOptions: OptionSet {
+        
+        public let rawValue: Int
+        
+        public static let channelScale = UVParticleOptions(rawValue: 1 << 0)
+        public static let channelAlpha = UVParticleOptions(rawValue: 1 << 1)
+        public static let clipChannelAlpha = UVParticleOptions(rawValue: 1 << 2)
+
+        public init(rawValue: Int) {
+            self.rawValue = rawValue
         }
     }
     
@@ -44,16 +44,16 @@ extension Graphic {
     /// The height of the coordinate space is 1.0, to top is 0.5, and bottom is -0.5.
     /// The coordinate space is aspect correct, so far right will be over 0.5 in the red channel if your aspectRatio is above 1.0.
     ///
-    /// Particles **size** is based on `particleScale` multiplied by the input pixel's **blue** channel, if `particleOptions.channelScaleEnabled` is `true`.
+    /// Particles **size** is based on `particleScale` multiplied by the input pixel's **blue** channel, if `particleOptions` `channelScale` is selected.
     ///
-    /// Particles **alpha** is based on `color` multiplied by the input pixel's **alpha** channel, if `particleOptions.channelAlphaEnabled` is `true`.
+    /// Particles **alpha** is based on `color` multiplied by the input pixel's **alpha** channel, if `particleOptions` `channelAlphaEnabled` is selected.
     ///
-    /// If `particleOptions.clipChannelAlpha` is `true`, (`particleOptions.channelAlphaEnabled` required), then particles with alpha less than `1.0` will be hidden.
+    /// If `particleOptions` `clipChannelAlpha` is selected,  then particles with alpha less than `1.0` will be hidden.
     public func uvParticles(particleScale: CGFloat = 1.0,
                             particleColor: PixelColor = .white,
-                            particleOptions: UVParticleOptions = UVParticleOptions(),
                             backgroundColor: PixelColor = .black,
                             resolution: CGSize,
+                            particleOptions: UVParticleOptions = UVParticleOptions(),
                             options: ContentOptions = ContentOptions()) async throws -> Graphic {
         
         try await Renderer.render(
@@ -64,9 +64,9 @@ extension Graphic {
                 color: particleColor.uniform
             ),
             vertexUniforms: UVParticlesVertexUniform(
-                multiplyParticleSize: particleOptions.channelScaleEnabled,
-                multiplyParticleAlpha: particleOptions.channelAlphaEnabled,
-                clipParticleAlpha: particleOptions.clipChannelAlpha,
+                multiplyParticleSize: particleOptions.contains(.channelScale),
+                multiplyParticleAlpha: particleOptions.contains(.channelAlpha) || particleOptions.contains(.clipChannelAlpha),
+                clipParticleAlpha: particleOptions.contains(.clipChannelAlpha),
                 particleScale: Float(particleScale),
                 resolution: self.resolution.uniform
             ),

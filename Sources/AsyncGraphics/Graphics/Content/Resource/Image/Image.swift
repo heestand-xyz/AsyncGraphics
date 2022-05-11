@@ -15,6 +15,18 @@ import AppKit
 
 extension Graphic {
     
+    enum ImageError: LocalizedError {
+        
+        case imageNotFound
+        
+        var errorDescription: String? {
+            switch self {
+            case .imageNotFound:
+                return "AsyncGraphics - Image - Not Found"
+            }
+        }
+    }
+    
     /// UIImage / NSImage
     public static func image(_ image: TMImage) async throws -> Graphic {
         
@@ -33,7 +45,18 @@ extension Graphic {
     public static func image(named name: String, in bundle: Bundle = .main) async throws -> Graphic {
         
         let image = try bundle.image(named: name)
-            
+        
+        return try await .image(image)
+    }
+    
+    public static func image(url: URL) async throws -> Graphic {
+        
+        let data = try Data(contentsOf: url)
+        
+        guard let image = TMImage(data: data) else {
+            throw ImageError.imageNotFound
+        }
+        
         return try await .image(image)
     }
 }

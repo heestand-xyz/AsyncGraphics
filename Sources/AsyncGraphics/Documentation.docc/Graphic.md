@@ -42,6 +42,7 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 
 - ``image(_:)``
 - ``image(named:in:)``
+- ``image(url:)``
 
 ### Video
 
@@ -136,6 +137,11 @@ Use blending modes to combine two or more graphics.
 - ``saturated(_:)``
 - ``hue(_:)``
 - ``tinted(_:)``
+
+### Channels
+
+- ``channelMix(red:green:blue:alpha:)``
+- ``ColorChannel``
 
 ### Blur
 

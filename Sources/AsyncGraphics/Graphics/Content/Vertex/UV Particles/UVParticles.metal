@@ -42,7 +42,7 @@ vertex VertexOut uvParticles(unsigned int vid [[ vertex_id ]],
     
     float4 uvColor = texture.sample(sampler, uv);
     float x = (uvColor.r / aspectRatio) * 2;
-    float y = uvColor.g * 2;
+    float y = uvColor.g * -2;
     float z = 0.0;
     
     VertexOut vtxOut;

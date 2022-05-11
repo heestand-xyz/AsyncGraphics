@@ -20,6 +20,8 @@ extension Graphic {
         
         let data = try Data(contentsOf: url)
         
+        try FileManager.default.removeItem(at: url)
+        
         return data
     }
     
