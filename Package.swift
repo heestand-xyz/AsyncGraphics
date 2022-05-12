@@ -19,11 +19,12 @@ let package = Package(
         .package(url: "https://github.com/heestand-xyz/PixelColor", .exact("1.3.4")),
         .package(url: "https://github.com/heestand-xyz/CoreGraphicsExtensions", .exact("1.3.1")),
         .package(url: "https://github.com/heestand-xyz/VideoFrames", .exact("0.2.1")),
+        .package(path: "../VoxelView"),
     ],
     targets: [
         .target(
             name: "AsyncGraphics",
-            dependencies: ["TextureMap", "PixelColor", "CoreGraphicsExtensions", "VideoFrames"],
+            dependencies: ["TextureMap", "PixelColor", "CoreGraphicsExtensions", "VideoFrames", "VoxelView"],
             resources: [
                 .process("Graphics/Content/Solid/Metal/SolidMetal.metal.txt"),
                 .process("Graphics/Effects/Direct/Metal/DirectMetal.metal.txt"),

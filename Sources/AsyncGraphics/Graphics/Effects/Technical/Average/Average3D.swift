@@ -25,7 +25,7 @@ extension Graphic3D {
             metadata: Renderer.Metadata(
                 resolution: resolution,
                 colorSpace: colorSpace,
-                bits: ._8
+                bits: bits
             )
         )
     }

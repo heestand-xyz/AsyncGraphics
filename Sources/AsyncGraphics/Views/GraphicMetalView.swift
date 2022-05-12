@@ -57,7 +57,7 @@ extension GraphicMetalView: MTKViewDelegate {
     func draw(in view: MTKView) {
         
         guard let graphic: Graphic = graphic else { return }
-        var texture: MTLTexture = graphic.texture
+        let texture: MTLTexture = graphic.texture
         
 //        texture = texture.convertColorSpace(from: CGColorSpace(name: CGColorSpace.linearSRGB)!, to: graphic.colorSpace.cgColorSpace)
         

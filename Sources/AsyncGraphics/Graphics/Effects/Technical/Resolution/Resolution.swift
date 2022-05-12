@@ -13,10 +13,8 @@ extension Graphic {
         let placement: Int32
         let outputResolution: SizeUniform
     }
-    
-    #warning("Switch Size to Resolution")
-    
-    public func resized(to size: CGSize, placement: Placement = .fit) async throws -> Graphic {
+        
+    public func resized(to resolution: CGSize, placement: Placement = .fit) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Resolution",
@@ -24,10 +22,10 @@ extension Graphic {
             graphics: [self],
             uniforms: ResolutionUniforms(
                 placement: Int32(placement.index),
-                outputResolution: size.resolution.uniform
+                outputResolution: resolution.uniform
             ),
             metadata: Renderer.Metadata(
-                resolution: size.resolution,
+                resolution: resolution,
                 colorSpace: colorSpace,
                 bits: bits
             )
@@ -39,10 +37,8 @@ extension Graphic {
         case bilinear
     }
     
-    public func resizedStretched(to size: CGSize, method: ResizeMethod = .lanczos) async throws -> Graphic {
+    public func resizedStretched(to resolution: CGSize, method: ResizeMethod = .lanczos) async throws -> Graphic {
         
-        let resolution: CGSize = size.resolution
-
         let targetTexture: MTLTexture = try await TextureMap.emptyTexture(resolution: resolution, bits: bits, usage: .write)
         
         guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else {
