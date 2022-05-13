@@ -120,9 +120,9 @@ struct Renderer {
                     
                     let targetTexture: MTLTexture = try {
                         if let resolution: CGSize = resolution as? CGSize {
-                            return try TextureMap.emptyTexture(resolution: resolution, bits: bits)
+                            return try .empty(resolution: resolution, bits: bits)
                         } else if let resolution: SIMD3<Int> = resolution as? SIMD3<Int> {
-                            return try TextureMap.emptyTexture3d(resolution: resolution, bits: bits, usage: .write)
+                            return try .empty3d(resolution: resolution, bits: bits, usage: .write)
                         }
                         fatalError("Unknown Graphicable")
                     }()

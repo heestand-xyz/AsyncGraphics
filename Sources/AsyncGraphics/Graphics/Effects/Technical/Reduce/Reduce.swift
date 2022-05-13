@@ -56,7 +56,7 @@ extension Graphic {
                         throw Renderer.RendererError.failedToMakeCommandBuffer
                     }
          
-                    let texture: MTLTexture = try TextureMap.emptyTexture(resolution: resolution(in: sampleAxis), bits: bits, usage: .write)
+                    let texture: MTLTexture = try .empty(resolution: resolution(in: sampleAxis), bits: bits, usage: .write)
                     
                     let kernel: MPSImageReduceUnary = kernel(by: sampleMethod, in: sampleAxis)
 
