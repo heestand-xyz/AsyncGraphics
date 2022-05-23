@@ -15,18 +15,18 @@ FractionAndZero fractionAndZero(float fraction, int extend) {
    
     bool zero = false;
     switch (extend) {
-        case 0: // Hold
-            if (fraction < 0.0001) {
-                fraction = 0.0001;
-            } else if (fraction > 0.9999) {
-                fraction = 0.9999;
-            }
-            break;
-        case 1: // Zero
+        case 0: // Zero
             if (fraction < 0) {
                 zero = true;
             } else if (fraction > 1) {
                 zero = true;
+            }
+            break;
+        case 1: // Hold
+            if (fraction < 0.0001) {
+                fraction = 0.0001;
+            } else if (fraction > 0.9999) {
+                fraction = 0.9999;
             }
             break;
         case 2: // Repeat
@@ -59,7 +59,7 @@ float4 gradient(float fraction, array<ColorStopArray, ARRMAX> inArr, array<bool,
         ColorStop color_stop = ColorStop();
         color_stop.enabled = inArrActive[i];
         color_stop.position = inArr[i].fraction;
-        color_stop.color = float4(inArr[i].cr, inArr[i].cg, inArr[i].cb, inArr[i].ca);
+        color_stop.color = inArr[i].color;
         color_stops[i] = color_stop;
     }
 

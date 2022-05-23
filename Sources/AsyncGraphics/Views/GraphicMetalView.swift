@@ -66,11 +66,15 @@ extension GraphicMetalView: MTKViewDelegate {
 
         guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else { return }
         guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else { return }
-        
+
         let scaleKernel: MPSImageScale = MPSImageBilinearScale(device: Renderer.metalDevice) // MPSImageLanczosScale
         scaleKernel.encode(commandBuffer: commandBuffer, sourceTexture: texture, destinationTexture: targetTexture)
-        
+
         commandBuffer.present(drawable)
         commandBuffer.commit()
+        
+//        Task {
+//            try await texture.copy(to: targetTexture)
+//        }
     }
 }

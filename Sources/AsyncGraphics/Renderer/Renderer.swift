@@ -11,6 +11,9 @@ import TextureMap
 
 struct Renderer {
     
+    /// Hardcoded. Defined as ARRMAX in shaders.
+    private static let uniformArrayMaxLimit: Int = 128
+    
     static let metalDevice: MTLDevice = {
         guard let device = MTLCreateSystemDefaultDevice() else {
             fatalError("Device Not Supported")
@@ -28,6 +31,8 @@ struct Renderer {
         case failedToMakeCommandQueue
         case failedToMakeSampler
         case failedToMakeUniformBuffer
+        case failedToMakeArrayUniformBuffer
+        case failedToMakeVertexUniformBuffer
         case failedToMakeComputeCommandEncoder
         case graphic3dIsCurrentlyOnlySupportedOnMacOS
         
@@ -49,6 +54,10 @@ struct Renderer {
                 return "Async Graphics - Renderer - Failed to Make Sampler"
             case .failedToMakeUniformBuffer:
                 return "Async Graphics - Renderer - Failed to Make Uniform Buffer"
+            case .failedToMakeArrayUniformBuffer:
+                return "Async Graphics - Renderer - Failed to Make Array Uniform Buffer"
+            case .failedToMakeVertexUniformBuffer:
+                return "Async Graphics - Renderer - Failed to Make Vertex Uniform Buffer"
             case .failedToMakeComputeCommandEncoder:
                 return "Async Graphics - Renderer - Failed to Make Compute Command Encoder"
             case .graphic3dIsCurrentlyOnlySupportedOnMacOS:
@@ -56,46 +65,116 @@ struct Renderer {
             }
         }
     }
+    
+    /// Simple
+    static func render<G: Graphicable>(
+        name: String,
+        shader: Shader,
+        graphics: [Graphicable] = [],
+        metadata: Metadata? = nil,
+        options: Options = Options()
+    ) async throws -> G {
         
-    static func render<G: Graphicable>(name: String,
-                                       shader: Shader,
-                                       graphics: [Graphicable] = [],
-                                       metadata: Metadata? = nil,
-                                       options: Options = Options()) async throws -> G {
-        
-        try await render(name: name,
-                         shader: shader,
-                         graphics: graphics,
-                         uniforms: EmptyUniforms(),
-                         vertexUniforms: EmptyUniforms(),
-                         metadata: metadata,
-                         options: options)
+        try await render(
+            name: name,
+            shader: shader,
+            graphics: graphics,
+            uniforms: EmptyUniforms(),
+            arrayUniforms: [],
+            emptyArrayUniform: EmptyUniforms(),
+            vertexUniforms: EmptyUniforms(),
+            metadata: metadata,
+            options: options
+        )
     }
     
-    static func render<U, G: Graphicable>(name: String,
-                                              shader: Shader,
-                                              graphics: [Graphicable] = [],
-                                              uniforms: U,
-                                              metadata: Metadata? = nil,
-                                              options: Options = Options()) async throws -> G {
+    /// Basic
+    static func render<U, G: Graphicable>(
+        name: String,
+        shader: Shader,
+        graphics: [Graphicable] = [],
+        uniforms: U,
+        metadata: Metadata? = nil,
+        options: Options = Options()
+    ) async throws -> G {
         
-        try await render(name: name,
-                         shader: shader,
-                         graphics: graphics,
-                         uniforms: uniforms,
-                         vertexUniforms: EmptyUniforms(),
-                         metadata: metadata,
-                         options: options)
+        try await render(
+            name: name,
+            shader: shader,
+            graphics: graphics,
+            uniforms: uniforms,
+            arrayUniforms: [],
+            emptyArrayUniform: EmptyUniforms(),
+            vertexUniforms: EmptyUniforms(),
+            metadata: metadata,
+            options: options
+        )
     }
     
-    static func render<U, VU, G: Graphicable>(name: String,
-                                              shader: Shader,
-                                              graphics: [Graphicable] = [],
-                                              uniforms: U,
-                                              vertexUniforms: VU,
-                                              vertexCount: Int? = nil,
-                                              metadata: Metadata? = nil,
-                                              options: Options = Options()) async throws -> G {
+    /// Array
+    static func render<U, AU, G: Graphicable>(
+        name: String,
+        shader: Shader,
+        graphics: [Graphicable] = [],
+        uniforms: U,
+        arrayUniforms: [AU],
+        emptyArrayUniform: AU,
+        metadata: Metadata? = nil,
+        options: Options = Options()
+    ) async throws -> G {
+        
+        try await render(
+            name: name,
+            shader: shader,
+            graphics: graphics,
+            uniforms: uniforms,
+            arrayUniforms: arrayUniforms,
+            emptyArrayUniform: emptyArrayUniform,
+            vertexUniforms: EmptyUniforms(),
+            metadata: metadata,
+            options: options
+        )
+    }
+    
+    /// Vertex
+    static func render<U, VU, G: Graphicable>(
+        name: String,
+        shader: Shader,
+        graphics: [Graphicable] = [],
+        uniforms: U,
+        vertexUniforms: VU,
+        vertexCount: Int? = nil,
+        metadata: Metadata? = nil,
+        options: Options = Options()
+    ) async throws -> G {
+        
+        try await render(
+            name: name,
+            shader: shader,
+            graphics: graphics,
+            uniforms: uniforms,
+            arrayUniforms: [],
+            emptyArrayUniform: EmptyUniforms(),
+            vertexUniforms: vertexUniforms,
+            vertexCount: vertexCount,
+            metadata: metadata,
+            options: options
+        )
+    }
+    
+    /// Main
+    private static func render<U, AU, VU, G: Graphicable>(
+        name: String,
+        shader: Shader,
+        graphics: [Graphicable] = [],
+        uniforms: U,
+        arrayUniforms: [AU],
+        emptyArrayUniform: AU,
+        vertexUniforms: VU,
+        vertexCount: Int? = nil,
+        metadata: Metadata? = nil,
+        options: Options = Options()
+    ) async throws -> G {
         
         guard let resolution: MultiDimensionalResolution = metadata?.resolution ?? {
             if let graphic = graphics.first as? Graphic {
@@ -255,6 +334,51 @@ struct Renderer {
                             }
                         }
                         
+                        // MARK: Array Uniforms
+                        
+                        if !arrayUniforms.isEmpty {
+                        
+                            var fixedArrayUniforms: [AU] = arrayUniforms
+                            var fixedActiveArrayUniforms: [Bool] = Array(repeating: true, count: arrayUniforms.count)
+                            
+                            if arrayUniforms.count <= Self.uniformArrayMaxLimit {
+                                for _ in arrayUniforms.count..<Self.uniformArrayMaxLimit {
+                                    var emptyArray: [Float] = []
+                                    fixedArrayUniforms.append(emptyArrayUniform)
+                                    fixedActiveArrayUniforms.append(false)
+                                }
+                            } else {
+                                let originalCount = arrayUniforms.count
+                                let overflow = originalCount - Self.uniformArrayMaxLimit
+                                for _ in 0..<overflow {
+                                    fixedArrayUniforms.removeLast()
+                                    fixedActiveArrayUniforms.removeLast()
+                                }
+                                print("AsyncGraphics - Renderer - Max limit of uniform arrays exceeded. Trailing values will be truncated. \(originalCount) / \(Self.uniformArrayMaxLimit)")
+                            }
+                                                        
+                            let size: Int = MemoryLayout<AU>.size * Self.uniformArrayMaxLimit
+                            let activeSize: Int = MemoryLayout<Bool>.size * Self.uniformArrayMaxLimit
+                            
+                            guard let arrayUniformsBuffer = metalDevice.makeBuffer(bytes: &fixedArrayUniforms, length: size),
+                                  let activeArrayUniformsBuffer = metalDevice.makeBuffer(bytes: &fixedActiveArrayUniforms, length: activeSize) else {
+                                throw RendererError.failedToMakeArrayUniformBuffer
+                            }
+                            
+                            if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
+                                
+                                renderCommandEncoder.setFragmentBuffer(arrayUniformsBuffer, offset: 0, index: 1)
+                                renderCommandEncoder.setFragmentBuffer(activeArrayUniformsBuffer, offset: 0, index: 2)
+                                
+                            } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
+                                
+                                computeCommandEncoder.setBuffer(arrayUniformsBuffer, offset: 0, index: 1)
+                                computeCommandEncoder.setBuffer(activeArrayUniformsBuffer, offset: 0, index: 2)
+                            }
+                        }
+                        
+                        // MARK: Vertex Uniforms
+                        
                         if vertexUniforms is EmptyUniforms == false {
                             
                             var uniforms: VU = vertexUniforms
@@ -262,7 +386,7 @@ struct Renderer {
                             let size = MemoryLayout<VU>.size
                             
                             guard let uniformsBuffer = metalDevice.makeBuffer(bytes: &uniforms, length: size) else {
-                                throw RendererError.failedToMakeUniformBuffer
+                                throw RendererError.failedToMakeVertexUniformBuffer
                             }
                             
                             if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {

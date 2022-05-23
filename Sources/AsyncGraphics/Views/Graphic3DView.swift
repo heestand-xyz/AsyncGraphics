@@ -3,10 +3,10 @@
 //
 
 import SwiftUI
-import VoxelView
+//import VoxelView
 
 /// SwiftUI view for displaying 3D graphics.
-public struct Graphic3DView: View {
+/*public*/ struct Graphic3DView: View {
     
     private let graphic3D: Graphic3D
     private let scale: CGFloat
@@ -24,10 +24,11 @@ public struct Graphic3DView: View {
     }
     
     public var body: some View {
-        VoxelView(texture: graphic3D.texture,
-                  textureID: graphic3D.id,
-                  scale: scale,
-                  rotationX: rotationX,
-                  rotationY: rotationY)
+        EmptyView()
+//        VoxelView(texture: graphic3D.texture,
+//                  textureID: graphic3D.id,
+//                  scale: scale,
+//                  rotationX: rotationX,
+//                  rotationY: rotationY)
     }
 }

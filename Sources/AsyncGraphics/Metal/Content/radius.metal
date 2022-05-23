@@ -43,6 +43,10 @@ float4 radiusColor(float radius,
                 float fraction = (radius - (targetRadius + edgeRadius / 2 - onePixel / 2)) / onePixel;
 
                 return edgeColor * (1.0 - fraction) + backgroundColor * fraction;
+                
+            } else {
+                
+                return backgroundColor;
             }
 
         } else {
@@ -56,6 +60,9 @@ float4 radiusColor(float radius,
                 float fraction = (radius - (targetRadius - onePixel / 2)) / onePixel;
 
                 return foregroundColor * (1.0 - fraction) + backgroundColor * fraction;
+            } else {
+                
+                return backgroundColor;
             }
         }
 
@@ -68,6 +75,10 @@ float4 radiusColor(float radius,
         } else if (radius < targetRadius + edgeRadius / 2) {
 
             return edgeColor;
+            
+        } else {
+            
+            return backgroundColor;
         }
     }
 }

@@ -12,8 +12,7 @@ using namespace metal;
 #ifndef GRADIENT
 #define GRADIENT
 
-// Hardcoded at 128
-// Defined as uniformArrayMaxLimit in source
+// Hardcoded. Defined as uniformArrayMaxLimit in source.
 constant int ARRMAX = 128;
 
 struct FractionAndZero {
@@ -29,10 +28,7 @@ struct ColorStop {
 
 struct ColorStopArray {
     float fraction;
-    float cr;
-    float cg;
-    float cb;
-    float ca;
+    packed_float4 color;
 };
 
 FractionAndZero fractionAndZero(float fraction, int extend);
