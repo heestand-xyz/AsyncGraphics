@@ -63,7 +63,7 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 
 Create a graphic with a solid color.
 
-- ``color(_:at:options:)``
+- ``color(_:resolution:options:)``
 
 ### Rectangle
 
@@ -77,6 +77,13 @@ Create a graphic with a solid color.
 - ``circle(radius:center:color:backgroundColor:resolution:options:)``
 - ``strokedCircle(radius:center:lineWidth:color:backgroundColor:resolution:options:)``
 
+### Gradient
+
+- ``gradient(direction:stops:position:scale:offset:extend:gamma:resolution:options:)``
+- ``GradientDirection``
+- ``GradientStop``
+- ``GradientExtend``
+
 ### Noise
 
 - ``noise(offset:depth:scale:octaves:seed:resolution:options:)``
@@ -86,8 +93,10 @@ Create a graphic with a solid color.
 
 ### Particles
 
-- ``uvParticles(particleScale:particleColor:particleOptions:backgroundColor:resolution:options:)``
+- ``uvParticles(particleScale:particleColor:backgroundColor:resolution:particleOptions:options:)``
+- ``uvColorParticles(with:particleScale:backgroundColor:resolution:particleOptions:options:)``
 - ``UVParticleOptions``
+- ``UVColorParticleOptions``
 
 ### Blend
 

@@ -44,6 +44,8 @@ struct ContentView: View {
 }
 ```
 
+> If you want to record live ``Graphic``s, use the ``GraphicRecorder``.
+
 ## Topics
 
 ### Camera

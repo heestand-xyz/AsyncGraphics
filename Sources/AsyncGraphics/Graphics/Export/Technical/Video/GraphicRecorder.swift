@@ -8,8 +8,12 @@ import TextureMap
 /// Record graphics to a video over time
 ///
 /// First call ``start()``.
+///
 /// Call ``append(graphic:)`` over time.
+///
 /// When done, call ``stop()-4i1ev``.
+///
+/// > All appended ``Graphic``s need to have the same resolution.
 public class GraphicRecorder {
     
     struct AV {

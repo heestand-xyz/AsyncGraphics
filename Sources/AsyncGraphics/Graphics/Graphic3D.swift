@@ -13,7 +13,7 @@ public struct Graphic3D: Graphicable {
     
     public let id: UUID
     
-    public let name: String
+    let name: String
     
     public let texture: MTLTexture
     

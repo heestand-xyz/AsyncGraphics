@@ -23,13 +23,13 @@ extension Graphic {
         let color: ColorUniform
     }
     
-    /// Gradient Stop is a value between 0.0 and 1.0 with a color
+    /// Gradient Stop is a color with a location between 0.0 and 1.0
     public struct GradientStop {
-        /// A value between 0.0 and 1.0
-        let fraction: CGFloat
-        let color: PixelColor
-        public init(at fraction: CGFloat, color: PixelColor) {
-            self.fraction = fraction
+        /// A location between 0.0 and 1.0
+        public var location: CGFloat
+        public var color: PixelColor
+        public init(at location: CGFloat, color: PixelColor) {
+            self.location = location
             self.color = color
         }
     }
@@ -48,18 +48,18 @@ extension Graphic {
         case mirror
     }
     
-    static func gradient(direction: GradientDirection,
-                         stops: [GradientStop] = [
-                            GradientStop(at: 0.0, color: .black),
-                            GradientStop(at: 1.0, color: .white)
-                         ],
-                         position: CGPoint = .zero,
-                         scale: CGFloat = 1.0,
-                         offset: CGFloat = 0.0,
-                         extend: GradientExtend = .zero,
-                         gamma: CGFloat = 1.0,
-                         resolution: CGSize,
-                         options: ContentOptions = ContentOptions()) async throws -> Graphic {
+    public static func gradient(direction: GradientDirection,
+                                stops: [GradientStop] = [
+                                    GradientStop(at: 0.0, color: .black),
+                                    GradientStop(at: 1.0, color: .white)
+                                ],
+                                position: CGPoint = .zero,
+                                scale: CGFloat = 1.0,
+                                offset: CGFloat = 0.0,
+                                extend: GradientExtend = .zero,
+                                gamma: CGFloat = 1.0,
+                                resolution: CGSize,
+                                options: ContentOptions = ContentOptions()) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Gradient",
@@ -76,7 +76,7 @@ extension Graphic {
             ),
             arrayUniforms: stops.map { stop in
                 GradientColorStopUniforms(
-                    fraction: Float(stop.fraction),
+                    fraction: Float(stop.location),
                     color: stop.color.uniform
                 )
             },

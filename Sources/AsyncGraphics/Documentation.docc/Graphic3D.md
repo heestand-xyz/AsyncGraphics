@@ -73,13 +73,13 @@ Use blending modes to combine two 3d graphics.
 
 ### Transform
 
-- ``translated(_:)``
-- ``translated(x:y:z:)``
-- ``rotated(_:)``
-- ``rotated(x:y:z:)``
-- ``scaled(_:)-8ks7s``
-- ``scaled(_:)-9vc86``
-- ``scaled(x:y:z:)``
+- ``translated(_:options:)``
+- ``translated(x:y:z:options:)``
+- ``rotated(_:options:)``
+- ``rotated(x:y:z:options:)``
+- ``scaled(_:options:)-87l2t``
+- ``scaled(_:options:)-7kcho``
+- ``scaled(x:y:z:options:)``
 
 ### Stack
 
