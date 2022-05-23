@@ -343,7 +343,6 @@ struct Renderer {
                             
                             if arrayUniforms.count <= Self.uniformArrayMaxLimit {
                                 for _ in arrayUniforms.count..<Self.uniformArrayMaxLimit {
-                                    var emptyArray: [Float] = []
                                     fixedArrayUniforms.append(emptyArrayUniform)
                                     fixedActiveArrayUniforms.append(false)
                                 }
