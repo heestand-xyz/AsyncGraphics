@@ -43,6 +43,8 @@ public class GraphicRecorder {
     
     private var frameIndex: Int = 0
     
+    public var recording: Bool = false
+    
     enum RecordError: LocalizedError {
         
         case alreadyStarted
@@ -121,6 +123,8 @@ public class GraphicRecorder {
         writer.startSession(atSourceTime: .zero)
         
         av = AV(writer: writer, input: input, adaptor: adaptor, url: url)
+        
+        recording = true
     }
     
     public func append(graphic: Graphic) async throws {
@@ -203,5 +207,6 @@ public class GraphicRecorder {
     private func cleanup() {
         frameIndex = 0
         av = nil
+        recording = false
     }
 }

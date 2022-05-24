@@ -34,7 +34,7 @@ struct Main {
                 .brightness(2.0)
         }
 
-        let data: Data = try await graphics.video(fps: 30)
+        let data: Data = try await graphics.videoData(fps: 30)
         let outputURL = URL(fileURLWithPath: "/Users/username/Desktop/OutputVideo.mov")
 
         try data.write(to: outputURL)
