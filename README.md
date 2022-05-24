@@ -17,6 +17,8 @@ It's like an image, tho it can be used with various *async* methods.
 
 ## Example
 
+A live camera feed.
+
 ```swift
 import SwiftUI
 import AsyncGraphics
@@ -56,10 +58,6 @@ A `Graphic` can be created with static funcs e.g. `Graphic.image(named:)` or `Gr
 
 Colors are represented with the `PixelColor` type.<br>
 `import PixelColor` to create custom colors with hex values.
-
-```swift
-static func color(_ color: PixelColor, size: CGSize) async throws -> Graphic
-```
 
 ```swift
 static func color(_ color: PixelColor, size: CGSize) async throws -> Graphic
