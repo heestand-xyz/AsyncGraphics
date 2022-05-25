@@ -34,7 +34,6 @@ extension Graphic {
         let images: [TMImage] = try await withThrowingTaskGroup(of: (Int, TMImage).self) { group in
             
             for (index, graphic) in graphics.enumerated() {
-                print("-----------> A:", index)
                 group.addTask {
                     let image: TMImage = try await graphic.image
                     return (index, image)
@@ -44,7 +43,6 @@ extension Graphic {
             var images: [(Int, TMImage)] = []
             
             for try await (index, image) in group {
-                print("-----------> B:", index)
                 images.append((index, image))
             }
             
