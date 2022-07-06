@@ -81,6 +81,10 @@ class CameraController: NSObject {
         print("AsyncGraphics - CameraController - Deinit")
         captureSession.stopRunning()
     }
+    
+    func cancel() {
+        captureSession.stopRunning()
+    }
 }
 
 extension CameraController: AVCaptureVideoDataOutputSampleBufferDelegate {

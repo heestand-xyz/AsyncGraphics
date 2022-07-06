@@ -29,6 +29,8 @@ extension Graphic {
                     }
                 }
             }
+        }, onCancel: {
+            cameraController.cancel()
         })
     }
 }
