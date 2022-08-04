@@ -77,7 +77,7 @@ extension Graphic {
                 bits: options.bits
             ),
             options: Renderer.Options(
-                addressMode: .clampToEdge,
+                addressMode: .clampToZero,
                 clearColor: backgroundColor,
                 additive: true
             )

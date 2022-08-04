@@ -36,13 +36,13 @@ vertex VertexOut uvParticles(unsigned int vid [[ vertex_id ]],
     
     int ux = vid % int(width);
     int vy = int(float(vid) / width);
-    float u = float(ux) / width;
-    float v = float(vy) / height;
+    float u = (float(ux) + 0.5) / width;
+    float v = (float(vy) + 0.5) / height;
     float2 uv = float2(u, v);
     
     float4 uvColor = texture.sample(sampler, uv);
-    float x = (uvColor.r / aspectRatio) * 2;
-    float y = uvColor.g * -2;
+    float x = (uvColor.x / aspectRatio) * 2;
+    float y = uvColor.y * -2;
     float z = 0.0;
     
     VertexOut vtxOut;

@@ -29,6 +29,12 @@ extension Graphic {
     /// uint trailingHeight = trailingTexture.get_height();
     /// ```
     ///
+    /// Sample the next pixel.
+    /// ```
+    /// float2 coord = uv + float2(1.0 / float(leadingWidth), 0.0);
+    /// float4 nextColor = leadingTexture.sample(sampler, coord);
+    /// ```
+    ///
     /// Return a `float4` color.
     /// ```
     /// return leadingColor + trailingColor;

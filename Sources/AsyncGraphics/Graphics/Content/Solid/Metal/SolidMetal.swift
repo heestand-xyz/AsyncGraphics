@@ -38,7 +38,7 @@ extension Graphic {
     /// Available variables are:  `u`, `v`, `uv`.
     public static func metal(code: String,
 //                             uniforms: [String: MetalUniform] = [:],
-                             at graphicSize: CGSize,
+                             resolution: CGSize,
                              options: ContentOptions = ContentOptions()) async throws -> Graphic {
         
         guard let metalBaseURL = Bundle.module.url(forResource: "SolidMetal.metal", withExtension: "txt") else {
@@ -64,14 +64,14 @@ extension Graphic {
             .replacingOccurrences(of: "return 0;", with: "")
         
 //        var rawUniforms: [RawMetalUniform] = [uniforms.map(\.value.raw)
-//        rawUniforms.append(SIMD2<Float>(Float(graphicSize.resolution.width),
+//        rawUniforms.append(SIMD2<Float>(Float(resolution.width),
         
         return try await Renderer.render(
             name: "Metal",
             shader: .code(metalCode, name: "solidMetal"),
-            uniforms: graphicSize.resolution.uniform,
+            uniforms: resolution.uniform,
             metadata: Renderer.Metadata(
-                resolution: graphicSize.resolution,
+                resolution: resolution,
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )
@@ -82,7 +82,7 @@ extension Graphic {
                           options: ContentOptions = ContentOptions()) async throws -> Graphic {
         
         try await metal(code: "return float4(uv, 0.0, 1.0);",
-                        at: graphicSize,
+                        resolution: graphicSize,
                         options: options)
     }
 }
