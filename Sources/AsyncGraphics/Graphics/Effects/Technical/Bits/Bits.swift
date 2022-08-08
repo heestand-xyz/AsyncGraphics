@@ -8,18 +8,20 @@ import TextureMap
 extension Graphic {
     
     /// 8 bits
+    @available(*, deprecated, renamed: "bits(_:)")
     public func standardBit() async throws -> Graphic {
         
         try await bits(._8)
     }
     
     /// 16 bits
+    @available(*, deprecated, renamed: "bits(_:)")
     public func highBit() async throws -> Graphic {
         
         try await bits(._16)
     }
     
-    private func bits(_ bits: TMBits) async throws -> Graphic {
+    public func bits(_ bits: TMBits) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Bits",
