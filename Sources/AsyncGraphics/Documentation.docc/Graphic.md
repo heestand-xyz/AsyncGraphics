@@ -4,10 +4,9 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 
 ## Topics
 
-### Information
+### ID
 
 - ``id``
-- ``name``
 
 ### Data
 
@@ -65,6 +64,13 @@ Create a graphic with a solid color.
 
 - ``color(_:resolution:options:)``
 
+### Text
+
+- ``text(_:font:center:horizontalAlignment:verticalAlignment:color:backgroundColor:resolution:options:)``
+- ``TextFont``
+- ``TextHorizontalAlignment``
+- ``TextVerticalAlignment``
+
 ### Rectangle
 
 - ``rectangle(size:center:cornerRadius:color:backgroundColor:resolution:options:)``
@@ -93,8 +99,9 @@ Create a graphic with a solid color.
 
 ### Particles
 
-- ``uvParticles(particleScale:particleColor:backgroundColor:resolution:particleOptions:options:)``
-- ``uvColorParticles(with:particleScale:backgroundColor:resolution:particleOptions:options:)``
+- ``uvParticles(particleScale:particleColor:backgroundColor:resolution:sampleCount:particleOptions:options:)``
+- ``uvColorParticles(with:particleScale:backgroundColor:resolution:sampleCount:particleOptions:options:)``
+- ``UVParticleSampleCount``
 - ``UVParticleOptions``
 - ``UVColorParticleOptions``
 
@@ -179,7 +186,7 @@ Fade two graphics by crossing them with opacity.
 
 Write metal shader code.
 
-- ``metal(code:at:options:)``
+- ``metal(code:resolution:options:)``
 - ``metal(code:options:)``
 - ``metal(with:code:options:)-swift.method``
 - ``metal(with:code:options:)-swift.type.method``
@@ -209,5 +216,6 @@ Resize a graphic.
 
 ### Bits
 
+- ``bits(_:)``
 - ``standardBit()``
 - ``highBit()``

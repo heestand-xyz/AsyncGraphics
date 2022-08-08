@@ -46,6 +46,7 @@ extension Graphic {
                                  particleScale: CGFloat = 1.0,
                                  backgroundColor: PixelColor = .black,
                                  resolution: CGSize,
+                                 sampleCount: UVParticleSampleCount = .one,
                                  particleOptions: UVColorParticleOptions = UVColorParticleOptions(),
                                  options: ContentOptions = ContentOptions()) async throws -> Graphic {
         
@@ -70,7 +71,8 @@ extension Graphic {
             options: Renderer.Options(
                 addressMode: .clampToEdge,
                 clearColor: backgroundColor,
-                additive: true
+                additive: true,
+                sampleCount: sampleCount.rawValue
             )
         )
     }

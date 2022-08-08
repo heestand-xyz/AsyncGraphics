@@ -11,9 +11,9 @@ import SpriteKit
 extension Graphic {
     
     #if os(macOS)
-    public typealias Font = NSFont
+    public typealias TextFont = NSFont
     #else
-    public typealias Font = UIFont
+    public typealias TextFont = UIFont
     #endif
     
     public enum TextHorizontalAlignment {
@@ -65,7 +65,7 @@ extension Graphic {
     }
     
     public static func text(_ text: String,
-                            font: Font,
+                            font: TextFont,
                             center: CGPoint? = nil,
                             horizontalAlignment: TextHorizontalAlignment = .center,
                             verticalAlignment: TextVerticalAlignment = .center,
