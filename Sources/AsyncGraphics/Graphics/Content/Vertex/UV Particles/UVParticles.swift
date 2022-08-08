@@ -33,6 +33,12 @@ extension Graphic {
         }
     }
     
+    public enum UVParticleSampleCount: Int {
+        case one = 1
+        case two = 2
+        case four = 4
+    }
+    
     /// UV Particles
     ///
     /// The number of particles is based on the number of input pixels (`count == width * height`).
@@ -53,6 +59,7 @@ extension Graphic {
                             particleColor: PixelColor = .white,
                             backgroundColor: PixelColor = .black,
                             resolution: CGSize,
+                            sampleCount: UVParticleSampleCount = .one,
                             particleOptions: UVParticleOptions = UVParticleOptions(),
                             options: ContentOptions = ContentOptions()) async throws -> Graphic {
         
@@ -79,7 +86,8 @@ extension Graphic {
             options: Renderer.Options(
                 addressMode: .clampToZero,
                 clearColor: backgroundColor,
-                additive: true
+                additive: true,
+                sampleCount: sampleCount.rawValue
             )
         )
     }

@@ -7,10 +7,11 @@ import TextureMap
 
 extension Renderer {
         
-    static func pipeline(fragmentFunction: MTLFunction, vertexFunction: MTLFunction, additive: Bool, bits: TMBits) throws -> MTLRenderPipelineState {
+    static func pipeline(fragmentFunction: MTLFunction, vertexFunction: MTLFunction, additive: Bool, bits: TMBits, sampleCount: Int = 1) throws -> MTLRenderPipelineState {
         let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
         pipelineStateDescriptor.vertexFunction = vertexFunction
         pipelineStateDescriptor.fragmentFunction = fragmentFunction
+        pipelineStateDescriptor.rasterSampleCount = sampleCount
         pipelineStateDescriptor.colorAttachments[0].pixelFormat = bits.metalPixelFormat()
         pipelineStateDescriptor.colorAttachments[0].isBlendingEnabled = true
         if additive {

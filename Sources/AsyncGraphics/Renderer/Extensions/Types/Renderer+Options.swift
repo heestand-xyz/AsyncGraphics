@@ -13,5 +13,6 @@ extension Renderer {
         var addressMode: MTLSamplerAddressMode = .clampToZero
         var clearColor: PixelColor = .clear
         var additive: Bool = false
+        var sampleCount: Int = 1
     }
 }

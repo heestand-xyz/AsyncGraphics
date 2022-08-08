@@ -190,8 +190,12 @@ struct Renderer {
             }
         
         let arrayTexture: MTLTexture? = options.isArray ? try await graphics.map(\.texture).texture(type: .typeArray) : nil
+        
+        let hasVertices: Bool = vertexUniforms is EmptyUniforms == false
+        
+        let sampleCount: Int = options.sampleCount
             
-        return try await withCheckedThrowingContinuation { continuation in
+        var graphic = try await withCheckedThrowingContinuation { continuation in
             
             DispatchQueue.global(qos: .userInteractive).async {
                 
@@ -199,7 +203,7 @@ struct Renderer {
                     
                     let targetTexture: MTLTexture = try {
                         if let resolution: CGSize = resolution as? CGSize {
-                            return try .empty(resolution: resolution, bits: bits)
+                            return try .empty(resolution: resolution, bits: bits, sampleCount: sampleCount)
                         } else if let resolution: SIMD3<Int> = resolution as? SIMD3<Int> {
                             return try .empty3d(resolution: resolution, bits: bits, usage: .write)
                         }
@@ -251,7 +255,7 @@ struct Renderer {
                             
                             let vertexFunction = try self.shader(name: vertexShaderName)
                             
-                            let pipeline: MTLRenderPipelineState = try pipeline(fragmentFunction: function, vertexFunction: vertexFunction, additive: options.additive, bits: bits)
+                            let pipeline: MTLRenderPipelineState = try pipeline(fragmentFunction: function, vertexFunction: vertexFunction, additive: options.additive, bits: bits, sampleCount: sampleCount)
                             renderCommandEncoder.setRenderPipelineState(pipeline)
                             
                         } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
@@ -378,7 +382,7 @@ struct Renderer {
                         
                         // MARK: Vertex Uniforms
                         
-                        if vertexUniforms is EmptyUniforms == false {
+                        if hasVertices {
                             
                             var uniforms: VU = vertexUniforms
                             
@@ -474,5 +478,21 @@ struct Renderer {
                 }
             }
         }
+        
+        if sampleCount > 1 {
+            
+            let graphic2d = graphic as! Graphic
+            graphic = try await graphic2d.downSample() as! G
+            
+//            let texture = try await graphic.texture.convertFromMultiSampled()
+//
+//            graphic = G(id: graphic.id,
+//                        name: name,
+//                        texture: texture,
+//                        bits: bits,
+//                        colorSpace: colorSpace)
+        }
+        
+        return graphic
     }
 }
