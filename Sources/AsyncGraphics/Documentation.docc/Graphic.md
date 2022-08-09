@@ -173,7 +173,7 @@ Use blending modes to combine two or more graphics.
 
 ### Slope
 
-- ``slope(amplitude:options:)``
+- ``slope(amplitude:origin:options:)``
 
 ### Edge
 

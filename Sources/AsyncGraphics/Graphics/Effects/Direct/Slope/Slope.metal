@@ -14,6 +14,7 @@ struct VertexOut{
 
 struct Uniforms {
     float amplitude;
+    packed_float4 origin;
 };
 
 fragment float4 slope(VertexOut out [[stage_in]],
@@ -43,8 +44,8 @@ fragment float4 slope(VertexOut out [[stage_in]],
     float cu_avg = (cu.r + cu.g + cu.b) / 3.0;
     float cv_avg = (cv.r + cv.g + cv.b) / 3.0;
     
-    float slope_u = 0.5 + (c_avg - cu_avg) * uniforms.amplitude * 0.5;
-    float slope_v = 0.5 - (c_avg - cv_avg) * uniforms.amplitude * 0.5;
+    float slope_u = uniforms.origin.x + (c_avg - cu_avg) * uniforms.amplitude * 0.5;
+    float slope_v = uniforms.origin.y + (c_avg - cv_avg) * uniforms.amplitude * 0.5;
     
-    return float4(slope_u, slope_v, 0.5, 1.0);
+    return float4(slope_u, slope_v, uniforms.origin.z, 1.0);
 }
