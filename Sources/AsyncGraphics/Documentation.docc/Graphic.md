@@ -171,6 +171,10 @@ Use blending modes to combine two or more graphics.
 
 - ``displaced(with:offset:origin:placement:options:)``
 
+### Slope
+
+- ``slope(amplitude:options:)``
+
 ### Edge
 
 - ``edge(amplitude:distance:options:)``
