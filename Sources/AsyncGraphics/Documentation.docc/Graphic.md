@@ -161,6 +161,7 @@ Use blending modes to combine two or more graphics.
 ### Channels
 
 - ``channelMix(red:green:blue:alpha:)``
+- ``alphaToLuminance()``
 - ``ColorChannel``
 
 ### Blur

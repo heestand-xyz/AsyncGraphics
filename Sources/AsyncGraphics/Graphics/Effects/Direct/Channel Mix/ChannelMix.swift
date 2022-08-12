@@ -11,6 +11,7 @@ extension Graphic {
         let green: ColorUniform
         let blue: ColorUniform
         let alpha: ColorUniform
+        let white: ColorUniform
     }
     
     public enum ColorChannel {
@@ -20,6 +21,7 @@ extension Graphic {
         case blue
         case alpha
         case clear
+        case white
         
         var color: PixelColor {
             switch self {
@@ -33,6 +35,8 @@ extension Graphic {
                 return PixelColor(channel: .alpha)
             case .clear:
                 return .clear
+            case .white:
+                return .white
             }
         }
     }
@@ -50,8 +54,21 @@ extension Graphic {
                 red: red.color.uniform,
                 green: green.color.uniform,
                 blue: blue.color.uniform,
-                alpha: alpha.color.uniform
+                alpha: alpha.color.uniform,
+                white: ColorUniform(
+                    red: red == .white ? 1.0 : 0.0,
+                    green: green == .white ? 1.0 : 0.0,
+                    blue: blue == .white ? 1.0 : 0.0,
+                    alpha: alpha == .white ? 1.0 : 0.0
+                )
             )
         )
+    }
+}
+
+extension Graphic {
+    
+    public func alphaToLuminance() async throws -> Graphic {
+        try await channelMix(red: .alpha, green: .alpha, blue: .alpha, alpha: .white)
     }
 }

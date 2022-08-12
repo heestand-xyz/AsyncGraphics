@@ -16,6 +16,7 @@ struct Uniforms {
     packed_float4 green;
     packed_float4 blue;
     packed_float4 alpha;
+    packed_float4 white;
 };
 
 fragment float4 channelMix(VertexOut out [[stage_in]],
@@ -33,11 +34,12 @@ fragment float4 channelMix(VertexOut out [[stage_in]],
     float4 green = uniforms.green;
     float4 blue = uniforms.blue;
     float4 alpha = uniforms.alpha;
+    float4 white = uniforms.white;
     
-    color = float4(color.r * red.r + color.g * red.g + color.b * red.b + color.a * red.a,
-                   color.r * green.r + color.g * green.g + color.b * green.b + color.a * green.a,
-                   color.r * blue.r + color.g * blue.g + color.b * blue.b + color.a * blue.a,
-                   color.r * alpha.r + color.g * alpha.g + color.b * alpha.b + color.a * alpha.a);
+    color = float4(white.r ? 1.0 : color.r * red.r + color.g * red.g + color.b * red.b + color.a * red.a,
+                   white.g ? 1.0 : color.r * green.r + color.g * green.g + color.b * green.b + color.a * green.a,
+                   white.b ? 1.0 : color.r * blue.r + color.g * blue.g + color.b * blue.b + color.a * blue.a,
+                   white.a ? 1.0 : color.r * alpha.r + color.g * alpha.g + color.b * alpha.b + color.a * alpha.a);
     
     return color;
 }
