@@ -62,6 +62,26 @@ extension Graphic {
         try await levels(offset: offset)
     }
     
+    public func add(_ value: CGFloat) async throws -> Graphic {
+        
+        try await levels(offset: value)
+    }
+    
+    public func subtract(_ value: CGFloat) async throws -> Graphic {
+        
+        try await levels(offset: -value)
+    }
+    
+    public func multiply(_ value: CGFloat) async throws -> Graphic {
+        
+        try await levels(brightness: value)
+    }
+    
+    public func divide(_ value: CGFloat) async throws -> Graphic {
+        
+        try await levels(brightness: 1.0 / value)
+    }
+    
     private func levels(brightness: CGFloat = 1.0,
                         darkness: CGFloat = 0.0,
                         contrast: CGFloat = 0.0,

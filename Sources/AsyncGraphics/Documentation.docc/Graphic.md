@@ -146,6 +146,10 @@ Use blending modes to combine two or more graphics.
 - ``smoothed()``
 - ``opacity(_:)``
 - ``exposureOffset(_:)``
+- ``add(_:)``
+- ``subtract(_:)``
+- ``multiply(_:)``
+- ``divide(_:)``
 
 ### Colors
 
