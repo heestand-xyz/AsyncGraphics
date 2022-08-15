@@ -37,6 +37,7 @@ extension Graphic {
         let bits: TMBits = try image.bits
         
         let colorSpace: TMColorSpace = try image.colorSpace
+        let isMonochrome = image.cgImage?.colorSpace?.model == .monochrome
         
         var texture: MTLTexture = try await image.texture
         
@@ -44,6 +45,10 @@ extension Graphic {
 //                                                      to: colorSpace.cgColorSpace)
         
         var graphic = Graphic(name: "Image", texture: texture, bits: bits, colorSpace: colorSpace)
+        
+        if isMonochrome {
+            graphic = try await graphic.monochrome()
+        }
         
         #if os(iOS)
         graphic = try await graphic.rotate(to: image.imageOrientation)
