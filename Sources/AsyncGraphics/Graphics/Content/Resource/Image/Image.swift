@@ -11,6 +11,8 @@ import Metal
 import TextureMap
 #if os(macOS)
 import AppKit
+#elseif os(iOS)
+import UIKit
 #endif
 
 extension Graphic {
@@ -30,16 +32,24 @@ extension Graphic {
     /// UIImage / NSImage
     public static func image(_ image: TMImage) async throws -> Graphic {
         
+        
+        
         let bits: TMBits = try image.bits
         
         let colorSpace: TMColorSpace = try image.colorSpace
         
         var texture: MTLTexture = try await image.texture
         
-        texture = try await texture.convertColorSpace(from: CGColorSpace(name: CGColorSpace.linearSRGB)!,
-                                                      to: colorSpace.cgColorSpace)
+//        texture = try await texture.convertColorSpace(from: CGColorSpace(name: CGColorSpace.linearSRGB)!,
+//                                                      to: colorSpace.cgColorSpace)
         
-        return Graphic(name: "Image", texture: texture, bits: bits, colorSpace: colorSpace)
+        var graphic = Graphic(name: "Image", texture: texture, bits: bits, colorSpace: colorSpace)
+        
+        #if os(iOS)
+        graphic = try await graphic.rotate(to: image.imageOrientation)
+        #endif
+        
+        return graphic
     }
     
     public static func image(named name: String, in bundle: Bundle = .main) async throws -> Graphic {
@@ -59,4 +69,24 @@ extension Graphic {
         
         return try await .image(image)
     }
+}
+
+extension Graphic {
+    
+    #if os(iOS)
+    private func rotate(to orientation: UIImage.Orientation) async throws -> Graphic {
+        switch orientation {
+        case .down, .downMirrored:
+            return try await rotatedLeft().rotatedLeft()
+        case .left, .leftMirrored:
+            return try await rotatedLeft()
+        case .right, .rightMirrored:
+            return try await rotatedRight()
+        case .up, .upMirrored:
+            return self
+        @unknown default:
+            return self
+        }
+    }
+    #endif
 }
