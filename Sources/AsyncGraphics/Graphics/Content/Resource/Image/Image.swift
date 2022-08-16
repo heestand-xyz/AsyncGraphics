@@ -48,6 +48,9 @@ extension Graphic {
         
         if isMonochrome {
             graphic = try await graphic.monochrome()
+        } else {
+            // Fix for different texture pixel formats
+            graphic = try await graphic.brightness(1.0)
         }
         
         #if os(iOS)
