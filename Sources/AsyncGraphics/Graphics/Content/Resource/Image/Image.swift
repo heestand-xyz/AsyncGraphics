@@ -37,19 +37,21 @@ extension Graphic {
         let bits: TMBits = try image.bits
         
         let colorSpace: TMColorSpace = try image.colorSpace
-        let isMonochrome = image.cgImage?.colorSpace?.model == .monochrome
+        let isMonochrome = colorSpace.isMonochrome
         
-        var texture: MTLTexture = try await image.texture
-        
-//        texture = try await texture.convertColorSpace(from: CGColorSpace(name: CGColorSpace.linearSRGB)!,
-//                                                      to: colorSpace.cgColorSpace)
+        let texture: MTLTexture = try await image.texture
         
         var graphic = Graphic(name: "Image", texture: texture, bits: bits, colorSpace: colorSpace)
         
+        if colorSpace == .sRGB {
+            let linearSRGB = CGColorSpace(name: CGColorSpace.linearSRGB)!
+            graphic = try await graphic.convertColorSpace(from: .custom(linearSRGB), to: .sRGB)
+        }
+        
         if isMonochrome {
-            graphic = try await graphic.monochrome()
+            graphic = try await graphic.monochrome().assignColorSpace(.sRGB)
         } else {
-            // Fix for different texture pixel formats
+            /// Fix for different texture pixel formats
             graphic = try await graphic.brightness(1.0)
         }
         
