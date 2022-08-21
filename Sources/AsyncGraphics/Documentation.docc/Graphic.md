@@ -45,6 +45,7 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 
 ### Video
 
+- ``video(url:loop:volume:)``
 - ``videoFrames(url:)``
 - ``videoData(with:fps:kbps:format:)``
 - ``videoURL(with:fps:kbps:format:)``
@@ -57,6 +58,10 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 ### Camera
 
 - ``camera(_:device:preset:)``
+
+### Screen
+
+- ``screen(at:)``
 
 ### Color
 

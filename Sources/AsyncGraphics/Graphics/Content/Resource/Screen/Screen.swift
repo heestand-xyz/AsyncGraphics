@@ -16,9 +16,9 @@ extension Graphic {
             
             await withCheckedContinuation { continuation in
                 
-                screenController.cameraFrameHandler = { graphic in
+                screenController.graphicsHandler = { graphic in
                     
-                    screenController.cameraFrameHandler = nil
+                    screenController.graphicsHandler = nil
                     
                     continuation.resume(returning: graphic)
                 }

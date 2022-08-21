@@ -18,9 +18,9 @@ extension Graphic {
             
             await withCheckedContinuation { continuation in
                 
-                cameraController.cameraFrameHandler = { graphic in
+                cameraController.graphicsHandler = { graphic in
                     
-                    cameraController.cameraFrameHandler = nil
+                    cameraController.graphicsHandler = nil
                     
                     Task {
                         guard let graphic: Graphic = position == .front ? try? await graphic.mirroredHorizontally() : graphic else { return }

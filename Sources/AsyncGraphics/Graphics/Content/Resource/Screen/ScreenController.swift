@@ -31,7 +31,7 @@ class ScreenController: NSObject {
         }
     }
     
-    var cameraFrameHandler: ((Graphic) -> ())?
+    var graphicsHandler: ((Graphic) -> ())?
         
     private let captureSession: AVCaptureSession
     private let videoOutput: AVCaptureVideoDataOutput
@@ -94,6 +94,6 @@ extension ScreenController: AVCaptureVideoDataOutputSampleBufferDelegate {
               let graphic: Graphic = try? .texture(texture)
         else { return }
     
-        cameraFrameHandler?(graphic)
+        graphicsHandler?(graphic)
     }
 }
