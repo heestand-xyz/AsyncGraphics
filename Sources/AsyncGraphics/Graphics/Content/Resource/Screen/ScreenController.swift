@@ -5,52 +5,55 @@
 import Metal
 import AVKit
 
-class CameraController: NSObject {
+class ScreenController: NSObject {
     
-    enum CameraError: LocalizedError {
+    enum ScreenError: LocalizedError {
         
-        case captureDeviceNotSupported
+        case indexOutOfBounds
+        case inputCanNotBeCreated
         case inputCanNotBeAdded
         case outputCanNotBeAdded
         case sessionPresetCanNotBeSet
         
         var errorDescription: String? {
             switch self {
-            case .captureDeviceNotSupported:
-                return "AsyncGraphics - Camera - Capture Device Not Supported"
+            case .indexOutOfBounds:
+                return "AsyncGraphics - Screen - Index Out of Bounds"
+            case .inputCanNotBeCreated:
+                return "AsyncGraphics - Screen - Input Can Not be Created"
             case .inputCanNotBeAdded:
-                return "AsyncGraphics - Camera - Input Can Not be Added"
+                return "AsyncGraphics - Screen - Input Can Not be Added"
             case .outputCanNotBeAdded:
-                return "AsyncGraphics - Camera - Output Can Not be Added"
+                return "AsyncGraphics - Screen - Output Can Not be Added"
             case .sessionPresetCanNotBeSet:
-                return "AsyncGraphics - Camera - Session Preset Can Not be Added"
+                return "AsyncGraphics - Screen - Session Preset Can Not be Added"
             }
         }
     }
     
     var cameraFrameHandler: ((Graphic) -> ())?
-    
+        
     private let captureSession: AVCaptureSession
     private let videoOutput: AVCaptureVideoDataOutput
     
-    init(deviceType: AVCaptureDevice.DeviceType,
-         position: AVCaptureDevice.Position,
-         preset: AVCaptureSession.Preset) throws {
+    init(index: Int) throws {
         
-        guard let device = AVCaptureDevice.default(deviceType, for: .video, position: position) else {
-            throw CameraError.captureDeviceNotSupported
+        guard NSScreen.screens.indices.contains(index) else {
+            throw ScreenError.indexOutOfBounds
         }
-
+        let screen = NSScreen.screens[index]
+        
+        let screenNumberKey = NSDeviceDescriptionKey(rawValue: "NSScreenNumber")
+        let id = screen.deviceDescription[screenNumberKey] as! CGDirectDisplayID
+        
+        guard let input = AVCaptureScreenInput(displayID: id) else {
+            throw ScreenError.inputCanNotBeCreated
+        }
+        
         captureSession = AVCaptureSession()
         
-        guard captureSession.canSetSessionPreset(preset) else {
-            throw CameraError.sessionPresetCanNotBeSet
-        }
-        captureSession.sessionPreset = preset
-        
-        let input = try AVCaptureDeviceInput(device: device)
         guard captureSession.canAddInput(input) else {
-            throw CameraError.inputCanNotBeAdded
+            throw ScreenError.inputCanNotBeAdded
         }
         captureSession.addInput(input)
         
@@ -59,10 +62,10 @@ class CameraController: NSObject {
         videoOutput.videoSettings = [
             kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA
         ]
-        let queue = DispatchQueue(label: "async-graphics.camera")
+        let queue = DispatchQueue(label: "async-graphics.screen")
         
         guard captureSession.canAddOutput(videoOutput) else {
-            throw CameraError.outputCanNotBeAdded
+            throw ScreenError.outputCanNotBeAdded
         }
         captureSession.addOutput(videoOutput)
 
@@ -82,7 +85,7 @@ class CameraController: NSObject {
     }
 }
 
-extension CameraController: AVCaptureVideoDataOutputSampleBufferDelegate {
+extension ScreenController: AVCaptureVideoDataOutputSampleBufferDelegate {
  
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         

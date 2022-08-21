@@ -4,10 +4,9 @@ A Graphic3D is a 3d image, made up out of voxels. It's backed by a `MTLTexture`.
 
 ## Topics
 
-### Information
+### ID
 
 - ``id``
-- ``name``
 
 ### Data
 
@@ -135,5 +134,6 @@ Sample a ``Graphic`` from a Graphic3D.
 
 ### Bits
 
+- ``bits(_:)``
 - ``standardBit()``
 - ``highBit()``

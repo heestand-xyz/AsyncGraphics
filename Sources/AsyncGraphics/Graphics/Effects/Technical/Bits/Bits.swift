@@ -21,6 +21,13 @@ extension Graphic {
         try await bits(._16)
     }
     
+    /// 8, 16 or 32 bits
+    ///
+    /// **8 bits** is default when working with images.
+    ///
+    /// **16 bits** has colors beyond black and white with more precision.
+    ///
+    /// **32 bits** has the most amount of precision.
     public func bits(_ bits: TMBits) async throws -> Graphic {
         
         try await Renderer.render(

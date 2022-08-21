@@ -53,10 +53,10 @@ float2 place(int place, float2 uv, uint leadingWidth, uint leadingHeight, uint t
 
 float3 place3d(int place, float3 uvw, uint leadingWidth, uint leadingHeight, uint leadingDepth, uint trailingWidth, uint trailingHeight, uint trailingDepth) {
 
-    float aspect_a = float(leadingWidth) / float(leadingHeight);
-    float depthAspect_a = float(leadingDepth) / float(leadingHeight);
-    float aspect_b = float(trailingWidth) / float(trailingHeight);
-    float depthAspect_b = float(trailingDepth) / float(trailingHeight);
+//    float aspect_a = float(leadingWidth) / float(leadingHeight);
+//    float depthAspect_a = float(leadingDepth) / float(leadingHeight);
+//    float aspect_b = float(trailingWidth) / float(trailingHeight);
+//    float depthAspect_b = float(trailingDepth) / float(trailingHeight);
 
     float u = uvw.x;
     float v = uvw.y;

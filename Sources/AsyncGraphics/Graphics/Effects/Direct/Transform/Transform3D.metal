@@ -37,9 +37,6 @@ kernel void transform3d(const device Uniforms& uniforms [[ buffer(0) ]],
     float u = float(pos.x + 0.5) / float(width);
     float v = float(pos.y + 0.5) / float(height);
     float w = float(pos.z + 0.5) / float(depth);
-        
-    float aspectRatio = float(width) / float(height);
-    float depthAspectRatio = float(width) / float(height);
     
     float3 size = float3(uniforms.size.x * uniforms.scale,
                          uniforms.size.y * uniforms.scale,

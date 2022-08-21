@@ -44,7 +44,7 @@ kernel void stack3d(const device Uniforms& uniforms [[ buffer(0) ]],
     float padding = min(max(uniforms.padding, 0.0), 1.0);
     float4 backgroundColor = float4(uniforms.backgroundColor.rgb * uniforms.backgroundColor.a, uniforms.backgroundColor.a);
     
-    int count = 2;
+    uint count = 2;
     
     float sizeFraction = 1.0;
     sizeFraction -= float(count - 1) * spacing;

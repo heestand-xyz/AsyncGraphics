@@ -22,7 +22,6 @@ kernel void blur3d(const device Uniforms& uniforms [[ buffer(0) ]],
                    uint3 pos [[ thread_position_in_grid ]],
                    sampler sampler [[ sampler(0) ]]) {
     
-    float pi = M_PI_F;
     int max_count = 16384 - 1;
         
     uint width = targetTexture.get_width();

@@ -7,14 +7,14 @@ import AVKit
 
 extension Graphic {
     
-    /// Async stream of a live camera feed
+    /// Async live stream from the camera
     public static func camera(_ position: AVCaptureDevice.Position,
                               device: AVCaptureDevice.DeviceType = .builtInWideAngleCamera,
                               preset: AVCaptureSession.Preset = .high) throws -> AsyncStream<Graphic> {
         
         let cameraController = try CameraController(deviceType: device, position: position, preset: preset)
         
-        return AsyncStream<Graphic>.init(unfolding: {
+        return AsyncStream<Graphic>(unfolding: {
             
             await withCheckedContinuation { continuation in
                 
