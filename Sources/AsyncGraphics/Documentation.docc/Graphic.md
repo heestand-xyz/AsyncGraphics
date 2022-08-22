@@ -101,6 +101,7 @@ Create a graphic with a solid color.
 - ``coloredNoise(offset:depth:scale:octaves:seed:resolution:options:)``
 - ``randomNoise(seed:resolution:options:)``
 - ``randomColoredNoise(seed:resolution:options:)``
+- ``transparantNoise(offset:depth:scale:octaves:seed:resolution:options:)``
 
 ### Particles
 

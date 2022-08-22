@@ -52,6 +52,40 @@ extension Graphic3D {
     }
     
     /// Noise octaves are between 1 and 10
+    public static func transparantNoise(offset: SIMD3<Double> = .zero,
+                                        depth: Double = 0.0,
+                                        scale: Double = 1.0,
+                                        octaves: Int = 1,
+                                        seed: Int = 1,
+                                        resolution: SIMD3<Int>,
+                                        options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
+        
+        let relativeOffset: SIMD3<Double> = (offset - resolution.asDouble / 2) / Double(resolution.y)
+        
+        let relativeDepth: Double = depth / Double(resolution.y)
+        
+        return try await Renderer.render(
+            name: "Noise",
+            shader: .name("noise3d"),
+            uniforms: Noise3DUniforms(
+                colored: false,
+                random: false,
+                includeAlpha: true,
+                seed: Int32(seed),
+                octaves: UInt32(octaves),
+                position: relativeOffset.uniform,
+                depth: Float(relativeDepth),
+                zoom: Float(scale)
+            ),
+            metadata: Renderer.Metadata(
+                resolution: resolution,
+                colorSpace: options.colorSpace,
+                bits: options.bits
+            )
+        )
+    }
+    
+    /// Noise octaves are between 1 and 10
     public static func coloredNoise(offset: SIMD3<Double> = .zero,
                                     depth: Double = 0.0,
                                     scale: Double = 1.0,
