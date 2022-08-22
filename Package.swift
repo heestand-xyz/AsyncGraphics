@@ -19,7 +19,7 @@ let package = Package(
         .package(url: "https://github.com/heestand-xyz/PixelColor", .exact("1.3.4")),
         .package(url: "https://github.com/heestand-xyz/CoreGraphicsExtensions", .exact("1.3.1")),
         .package(url: "https://github.com/heestand-xyz/VideoFrames", .exact("0.2.3")),
-        .package(path: "../VoxelView"),
+        .package(url: "https://github.com/heestand-xyz/VoxelView", .exact("0.0.1")),
     ],
     targets: [
         .target(

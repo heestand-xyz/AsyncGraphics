@@ -15,6 +15,7 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 ### View
 
 - ``GraphicView``
+- ``Graphic3DView``
 
 ### Graphics
 
