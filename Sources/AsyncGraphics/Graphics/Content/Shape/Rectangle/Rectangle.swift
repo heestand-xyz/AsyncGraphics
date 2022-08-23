@@ -59,7 +59,7 @@ extension Graphic {
             name: "Rectangle",
             shader: .name("rectangle"),
             uniforms: RectangleUniforms(
-                premultiply: true,
+                premultiply: !options.contains(.pureAlpha),
                 antiAlias: true,
                 size: relativeSize.uniform,
                 position: relativePosition.uniform,
@@ -121,7 +121,7 @@ extension Graphic {
             name: "Rectangle",
             shader: .name("rectangle"),
             uniforms: RectangleUniforms(
-                premultiply: true,
+                premultiply: !options.contains(.pureAlpha),
                 antiAlias: true,
                 size: relativeSize.uniform,
                 position: relativePosition.uniform,

@@ -45,7 +45,7 @@ fragment float4 circle(VertexOut out [[stage_in]],
     float yRadius = (v - 0.5) - uniforms.position.y;
     float radius = sqrt(pow(xRadius, 2) + pow(yRadius, 2));
     
-    float4 color = radiusColor(radius, uniforms.radius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+    float4 color = radiusColor(radius, uniforms.radius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
     
     if (uniforms.premultiply) {
         color = float4(color.rgb * color.a, color.a);

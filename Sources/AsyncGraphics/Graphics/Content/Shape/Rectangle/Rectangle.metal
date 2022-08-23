@@ -120,19 +120,19 @@ fragment float4 rectangle(VertexOut out [[stage_in]],
                 
                 if (x < position.x && y < position.y) {
                     
-                    color = radiusColor(cornerRadius_bottomLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                    color = radiusColor(cornerRadius_bottomLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
                     
                 } else if (x < position.x && y > position.y) {
 
-                    color = radiusColor(cornerRadius_topLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                    color = radiusColor(cornerRadius_topLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
 
                 } else if (x > position.x && y < position.y) {
 
-                    color = radiusColor(cornerRadius_bottomRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                    color = radiusColor(cornerRadius_bottomRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
 
                 } else if (x > position.x && y > position.y) {
 
-                    color = radiusColor(cornerRadius_topRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                    color = radiusColor(cornerRadius_topRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
                 }
                 
             } else {

@@ -28,6 +28,8 @@ extension Renderer {
     }
     
     static func pipeline3d(function: MTLFunction) throws -> MTLComputePipelineState {
-        try metalDevice.makeComputePipelineState(function: function)
+        let pipelineStateDescriptor = MTLComputePipelineDescriptor()
+        pipelineStateDescriptor.computeFunction = function
+        return try metalDevice.makeComputePipelineState(descriptor: pipelineStateDescriptor, options: [], reflection: nil)
     }
 }

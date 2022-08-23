@@ -5,52 +5,45 @@
 import Foundation
 import CoreGraphics
 
-extension Graphic {
+extension Graphic3D {
     
-    public enum SolidMetalError: LocalizedError {
+    public enum SolidMetal3DError: LocalizedError {
         
         case metalFileNotFound
         
         public var errorDescription: String? {
             switch self {
             case .metalFileNotFound:
-                return "AsyncGraphics - Graphic - Metal - Metal File Not Found"
+                return "AsyncGraphics - Graphic3D - Metal - Metal File Not Found"
             }
         }
     }
     
     /// Metal Shader Code
     ///
-    /// Get the resolution of the input texture.
-    /// ```
-    /// float width = uniforms.resolution.x;
-    /// float height = uniforms.resolution.y;
-    /// ```
-    ///
     /// Return a `float4` color.
     /// ```
-    /// return float4(u, v, 1.0, 1.0);
+    /// return float4(u, v, w, 1.0);
     /// ```
     ///
-    /// Available variables are:  `u`, `v`, `uv`.
+    /// Available variables are:  `u`, `v`, `w`, `uvw`, `width`, `height`, `depth`.
     public static func metal(code: String,
-                             resolution: CGSize,
-                             options: ContentOptions = ContentOptions()) async throws -> Graphic {
+                             resolution: SIMD3<Int>,
+                             options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
         
-        guard let metalBaseURL = Bundle.module.url(forResource: "SolidMetal.metal", withExtension: "txt") else {
-            throw SolidMetalError.metalFileNotFound
+        guard let metalBaseURL = Bundle.module.url(forResource: "SolidMetal3D.metal", withExtension: "txt") else {
+            throw SolidMetal3DError.metalFileNotFound
         }
         
         let metalBaseCode = try String(contentsOf: metalBaseURL)
-                
+        
         let metalCode = metalBaseCode
             .replacingOccurrences(of: "/*<code>*/", with: code)
             .replacingOccurrences(of: "return 0;", with: "")
         
         return try await Renderer.render(
             name: "Metal",
-            shader: .code(metalCode, name: "solidMetal"),
-            uniforms: resolution.uniform,
+            shader: .code(metalCode, name: "solidMetal3d"),
             metadata: Renderer.Metadata(
                 resolution: resolution,
                 colorSpace: options.colorSpace,
@@ -59,10 +52,10 @@ extension Graphic {
         )
     }
     
-    public static func uv(resolution: CGSize,
-                          options: ContentOptions = ContentOptions()) async throws -> Graphic {
+    public static func uvw(resolution: SIMD3<Int>,
+                           options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
         
-        try await metal(code: "return float4(uv, 0.0, 1.0);",
+        try await metal(code: "return float4(uvw, 1.0);",
                         resolution: resolution,
                         options: options)
     }

@@ -21,6 +21,8 @@ extension Graphic3D {
         /// Display P3 Color Space
 //        public static let displayP3 = ContentOptions(rawValue: 1 << 1)
         
+        public static let pureAlpha = ContentOptions(rawValue: 1 << 1)
+        
         var colorSpace: TMColorSpace {
             .sRGB //contains(.displayP3) ? .displayP3 : .sRGB
         }

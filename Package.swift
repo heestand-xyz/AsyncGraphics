@@ -27,6 +27,7 @@ let package = Package(
             dependencies: ["TextureMap", "PixelColor", "CoreGraphicsExtensions", "VideoFrames", "VoxelView"],
             resources: [
                 .process("Graphics/Content/Solid/Metal/SolidMetal.metal.txt"),
+                .process("Graphics/Content/Solid/Metal/SolidMetal3D.metal.txt"),
                 .process("Graphics/Effects/Direct/Metal/DirectMetal.metal.txt"),
                 .process("Graphics/Effects/Dual/Metal/DualMetal.metal.txt"),
                 .process("Graphics/Effects/Array/Metal/ArrayMetal.metal.txt"),

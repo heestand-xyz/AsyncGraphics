@@ -121,19 +121,19 @@ kernel void box3d(const device Uniforms& uniforms [[ buffer(0) ]],
                     
                     if (z < position.z && y < position.y) {
                         
-                        color = radiusColor(cornerRadius_nearBottom, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                        color = radiusColor(cornerRadius_nearBottom, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
                         
                     } else if (z < position.z && y > position.y) {
                         
-                        color = radiusColor(cornerRadius_nearTop, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                        color = radiusColor(cornerRadius_nearTop, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
                         
                     } else if (z > position.z && y < position.y) {
                         
-                        color = radiusColor(cornerRadius_farBottom, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                        color = radiusColor(cornerRadius_farBottom, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
                         
                     } else if (z > position.z && y > position.y) {
                         
-                        color = radiusColor(cornerRadius_farTop, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                        color = radiusColor(cornerRadius_farTop, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
                     }
                     
                 } else {
@@ -160,19 +160,19 @@ kernel void box3d(const device Uniforms& uniforms [[ buffer(0) ]],
                     
                     if (x < position.x && z < position.z) {
                         
-                        color = radiusColor(cornerRadius_nearLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                        color = radiusColor(cornerRadius_nearLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
                         
                     } else if (x < position.x && z > position.z) {
                         
-                        color = radiusColor(cornerRadius_farLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                        color = radiusColor(cornerRadius_farLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
                         
                     } else if (x > position.x && z < position.z) {
                         
-                        color = radiusColor(cornerRadius_nearRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                        color = radiusColor(cornerRadius_nearRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
                         
                     } else if (x > position.x && z > position.z) {
                         
-                        color = radiusColor(cornerRadius_farRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                        color = radiusColor(cornerRadius_farRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
                     }
                     
                 } else {
@@ -199,19 +199,19 @@ kernel void box3d(const device Uniforms& uniforms [[ buffer(0) ]],
                     
                     if (x < position.x && y < position.y) {
                         
-                        color = radiusColor(cornerRadius_bottomLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                        color = radiusColor(cornerRadius_bottomLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
                         
                     } else if (x < position.x && y > position.y) {
                         
-                        color = radiusColor(cornerRadius_topLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                        color = radiusColor(cornerRadius_topLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
                         
                     } else if (x > position.x && y < position.y) {
                         
-                        color = radiusColor(cornerRadius_bottomRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                        color = radiusColor(cornerRadius_bottomRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
                         
                     } else if (x > position.x && y > position.y) {
                         
-                        color = radiusColor(cornerRadius_topRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                        color = radiusColor(cornerRadius_topRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
                     }
                     
                 } else {
@@ -264,35 +264,35 @@ kernel void box3d(const device Uniforms& uniforms [[ buffer(0) ]],
 
                 if (x < position.x && y < position.y && z < position.z) {
 
-                    color = radiusColor(cornerRadius_nearBottomLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                    color = radiusColor(cornerRadius_nearBottomLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
 
                 } else if (x < position.x && y > position.y && z < position.z) {
 
-                    color = radiusColor(cornerRadius_nearTopLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                    color = radiusColor(cornerRadius_nearTopLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
 
                 } else if (x > position.x && y < position.y && z < position.z) {
 
-                    color = radiusColor(cornerRadius_nearBottomRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                    color = radiusColor(cornerRadius_nearBottomRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
 
                 } else if (x > position.x && y > position.y && z < position.z) {
 
-                    color = radiusColor(cornerRadius_nearTopRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                    color = radiusColor(cornerRadius_nearTopRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
                     
                 } else if (x < position.x && y < position.y && z > position.z) {
                     
-                    color = radiusColor(cornerRadius_farBottomLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                    color = radiusColor(cornerRadius_farBottomLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
                     
                 } else if (x < position.x && y > position.y && z > position.z) {
                     
-                    color = radiusColor(cornerRadius_farTopLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                    color = radiusColor(cornerRadius_farTopLeft, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
                     
                 } else if (x > position.x && y < position.y && z > position.z) {
                     
-                    color = radiusColor(cornerRadius_farBottomRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                    color = radiusColor(cornerRadius_farBottomRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
                     
                 } else if (x > position.x && y > position.y && z > position.z) {
                     
-                    color = radiusColor(cornerRadius_farTopRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, onePixel);
+                    color = radiusColor(cornerRadius_farTopRight, cornerRadius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
                 }
 
             } else {

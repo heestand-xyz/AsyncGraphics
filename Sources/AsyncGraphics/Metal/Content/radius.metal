@@ -18,6 +18,7 @@ float4 radiusColor(float radius,
                    float4 edgeColor,
                    float4 backgroundColor,
                    bool antiAlias,
+                   bool premultiply,
                    float onePixel) {
     
     if (antiAlias) {
@@ -59,10 +60,18 @@ float4 radiusColor(float radius,
 
                 float fraction = (radius - (targetRadius - onePixel / 2)) / onePixel;
 
-                return foregroundColor * (1.0 - fraction) + backgroundColor * fraction;
+                if (premultiply) {
+                    return foregroundColor * (1.0 - fraction) + backgroundColor * fraction;
+                } else {
+                    return float4(foregroundColor.rgb, backgroundColor.a);
+                }
             } else {
                 
-                return backgroundColor;
+                if (premultiply) {
+                    return backgroundColor;
+                } else {
+                    return float4(foregroundColor.rgb, backgroundColor.a);
+                }
             }
         }
 

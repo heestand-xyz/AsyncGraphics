@@ -36,7 +36,7 @@ extension Graphic {
             name: "Circle",
             shader: .name("circle"),
             uniforms: CircleUniforms(
-                premultiply: true,
+                premultiply: !options.contains(.pureAlpha),
                 antiAlias: true,
                 radius: Float(relativeRadius),
                 position: relativePosition.uniform,
@@ -73,7 +73,7 @@ extension Graphic {
             name: "Circle",
             shader: .name("circle"),
             uniforms: CircleUniforms(
-                premultiply: true,
+                premultiply: !options.contains(.pureAlpha),
                 antiAlias: true,
                 radius: Float(relativeRadius),
                 position: relativePosition.uniform,

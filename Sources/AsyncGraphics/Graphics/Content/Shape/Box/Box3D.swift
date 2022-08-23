@@ -75,7 +75,7 @@ extension Graphic3D {
             name: "Box",
             shader: .name("box3d"),
             uniforms: Box3DUniforms(
-                premultiply: true,
+                premultiply: !options.contains(.pureAlpha),
                 antiAlias: true,
                 size: relativeSize.uniform,
                 position: relativePosition.uniform,
@@ -154,7 +154,7 @@ extension Graphic3D {
             name: "Box",
             shader: .name("box3d"),
             uniforms: Box3DUniforms(
-                premultiply: true,
+                premultiply: !options.contains(.pureAlpha),
                 antiAlias: true,
                 size: relativeSize.uniform,
                 position: relativePosition.uniform,

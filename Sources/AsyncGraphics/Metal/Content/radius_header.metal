@@ -12,6 +12,6 @@ using namespace metal;
 #ifndef RADIUS
 #define RADIUS
 
-float4 radiusColor(float radius, float targetRadius, float edgeRadius, float4 foregroundColor, float4 edgeColor, float4 backgroundColor, bool antiAlias, float onePixel);
+float4 radiusColor(float radius, float targetRadius, float edgeRadius, float4 foregroundColor, float4 edgeColor, float4 backgroundColor, bool antiAlias, bool premultiply, float onePixel);
 
 #endif
