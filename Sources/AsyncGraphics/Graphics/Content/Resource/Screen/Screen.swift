@@ -2,6 +2,8 @@
 //  Created by Anton Heestand on 2022-04-27.
 //
 
+#if os(macOS)
+
 import CoreGraphics
 import AVKit
 
@@ -28,3 +30,5 @@ extension Graphic {
         })
     }
 }
+
+#endif
