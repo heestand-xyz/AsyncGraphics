@@ -6,6 +6,7 @@ import Metal
 import MetalPerformanceShaders
 import CoreGraphics
 import TextureMap
+import CoreGraphicsExtensions
 
 extension Graphic {
     
@@ -70,5 +71,13 @@ extension Graphic {
         
         return Graphic(name: "Resolution", texture: targetTexture, bits: bits, colorSpace: colorSpace)
         
+    }
+}
+
+extension Graphic {
+    
+    public func resized(by multiplier: CGFloat) async throws -> Graphic {
+
+        try await resized(to: resolution * multiplier)
     }
 }

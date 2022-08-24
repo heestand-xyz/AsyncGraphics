@@ -9,7 +9,7 @@ import TextureMap
 import PixelColor
 import CoreGraphicsExtensions
 
-public struct Graphic: Graphicable {
+public struct Graphic: Graphicable, Identifiable {
     
     public let id: UUID
     

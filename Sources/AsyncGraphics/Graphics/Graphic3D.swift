@@ -9,7 +9,7 @@ import Metal
 import TextureMap
 import PixelColor
 
-public struct Graphic3D: Graphicable {
+public struct Graphic3D: Graphicable, Identifiable {
     
     public let id: UUID
     
