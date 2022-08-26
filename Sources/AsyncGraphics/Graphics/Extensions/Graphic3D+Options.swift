@@ -23,6 +23,10 @@ extension Graphic3D {
         
         public static let pureAlpha = ContentOptions(rawValue: 1 << 1)
         
+        var premultiply: Bool {
+            !contains(.pureAlpha)
+        }
+        
         var colorSpace: TMColorSpace {
             .sRGB //contains(.displayP3) ? .displayP3 : .sRGB
         }

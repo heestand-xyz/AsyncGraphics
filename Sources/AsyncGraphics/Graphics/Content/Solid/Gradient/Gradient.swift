@@ -71,7 +71,7 @@ extension Graphic {
                 offset: Float(offset),
                 position: position.uniform,
                 gamma: Float(gamma),
-                premultiply: !options.contains(.pureAlpha),
+                premultiply: options.premultiply,
                 resolution: resolution.uniform
             ),
             arrayUniforms: stops.map { stop in

@@ -12,12 +12,12 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 
 ## Topics
 
-### View
-
-- ``GraphicView``
-- ``Graphic3DView``
-
 ### Graphics
 
 - ``Graphic``
 - ``Graphic3D``
+
+### View
+
+- ``GraphicView``
+- ``Graphic3DView``

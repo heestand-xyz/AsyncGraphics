@@ -22,7 +22,7 @@ extension Graphic3D {
             name: "Color",
             shader: .name("color3d"),
             uniforms: Color3DUniforms(
-                premultiply: !options.contains(.pureAlpha),
+                premultiply: options.premultiply,
                 color: color.uniform
             ),
             metadata: Renderer.Metadata(

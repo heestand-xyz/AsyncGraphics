@@ -88,6 +88,10 @@ Create a graphic with a solid color.
 - ``circle(radius:center:color:backgroundColor:resolution:options:)``
 - ``strokedCircle(radius:center:lineWidth:color:backgroundColor:resolution:options:)``
 
+### Polygon
+
+- ``polygon(count:radius:center:rotation:cornerRadius:color:backgroundColor:resolution:options:)``
+
 ### Gradient
 
 - ``gradient(direction:stops:position:scale:offset:extend:gamma:resolution:options:)``
@@ -101,7 +105,6 @@ Create a graphic with a solid color.
 - ``coloredNoise(offset:depth:scale:octaves:seed:resolution:options:)``
 - ``randomNoise(seed:resolution:options:)``
 - ``randomColoredNoise(seed:resolution:options:)``
-- ``transparantNoise(offset:depth:scale:octaves:seed:resolution:options:)``
 
 ### Particles
 
@@ -168,6 +171,7 @@ Use blending modes to combine two or more graphics.
 
 - ``channelMix(red:green:blue:alpha:)``
 - ``alphaToLuminance()``
+- ``luminanceToAlpha()``
 - ``ColorChannel``
 
 ### Blur
@@ -212,7 +216,7 @@ Write metal shader code.
 
 ### UV
 
-- ``uv(at:options:)``
+- ``uv(resolution:options:)``
 
 ### Resolution
 
@@ -220,6 +224,7 @@ Resize a graphic.
 
 - ``resized(to:placement:)``
 - ``resizedStretched(to:method:)``
+- ``resized(by:)``
 - ``ResizeMethod``
 
 ### Reduce
@@ -234,3 +239,9 @@ Resize a graphic.
 - ``bits(_:)``
 - ``standardBit()``
 - ``highBit()``
+
+### Color Space
+
+- ``applyColorSpace(_:)``
+- ``assignColorSpace(_:)``
+- ``convertColorSpace(from:to:)``

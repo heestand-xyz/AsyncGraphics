@@ -36,7 +36,7 @@
 //            name: "Circle",
 //            shader: .name("circle"),
 //            uniforms: CircleUniforms(
-//                premultiply: !options.contains(.pureAlpha),
+//                premultiply: options.premultiply,
 //                antiAlias: true,
 //                radius: Float(relativeRadius),
 //                position: relativePosition.uniform,
@@ -73,7 +73,7 @@
 //            name: "Circle",
 //            shader: .name("circle"),
 //            uniforms: CircleUniforms(
-//                premultiply: !options.contains(.pureAlpha),
+//                premultiply: options.premultiply,
 //                antiAlias: true,
 //                radius: Float(relativeRadius),
 //                position: relativePosition.uniform,

@@ -29,6 +29,10 @@ extension Graphic {
         
         public static let pureAlpha = ContentOptions(rawValue: 1 << 2)
         
+        var premultiply: Bool {
+            !contains(.pureAlpha)
+        }
+        
         var colorSpace: TMColorSpace {
             .sRGB //contains(.displayP3) ? .displayP3 : .sRGB
         }
