@@ -167,6 +167,14 @@ Use blending modes to combine two or more graphics.
 - ``hue(_:)``
 - ``tinted(_:)``
 
+### Threshold
+
+- ``threshold(_:options:)``
+
+### Quantize
+
+- ``quantize(_:options:)``
+
 ### Channels
 
 - ``channelMix(red:green:blue:alpha:)``
