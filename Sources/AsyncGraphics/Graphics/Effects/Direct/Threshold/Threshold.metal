@@ -27,10 +27,10 @@ fragment float4 threshold(VertexOut out [[stage_in]],
     float4 inputColor = texture.sample(sampler, uv);
     float monochrome = (inputColor.r + inputColor.g + inputColor.b) / 3;
     
-    float light = 0.0;
+    float value = 0.0;
     if (monochrome > uniforms.fraction) {
-        light = 1.0;
+        value = 1.0;
     }
     
-    return float4(float3(light), 1.0);
+    return float4(float3(value), 1.0);
 }
