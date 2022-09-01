@@ -45,10 +45,11 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 
 ### Video
 
-- ``video(url:loop:volume:)``
-- ``videoFrames(url:)``
-- ``videoData(with:fps:kbps:format:)``
-- ``videoURL(with:fps:kbps:format:)``
+- ``playVideo(url:loop:volume:)``
+- ``importVideo(url:progress:)``
+- ``exportVideoToData(with:fps:kbps:format:)``
+- ``exportVideoToURL(with:fps:kbps:format:)``
+- ``ImportVideoFrameProgress``
 
 ### Texture
 

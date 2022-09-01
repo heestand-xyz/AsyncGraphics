@@ -8,10 +8,23 @@ import TextureMap
 
 extension Graphic {
     
+    public struct ImportVideoFrameProgress {
+        public let index: Int
+        public let fraction: CGFloat
+    }
+    
     /// Import a video from a URL
-    public static func videoFrames(url: URL) async throws -> [Graphic] {
+    public static func importVideo(url: URL, progress: ((ImportVideoFrameProgress) -> ())? = nil) async throws -> [Graphic] {
         
-        let images: [TMImage] = try await convertVideoToFrames(from: url)
+        var frameCount: Int?
+        let images: [TMImage] = try await convertVideoToFrames(from: url) { count in
+            frameCount = count
+        } progress: { index in
+            guard let frameCount
+            else { return }
+            let fraction = CGFloat(index) / CGFloat(frameCount)
+            progress?(ImportVideoFrameProgress(stage: .videoToImage, index: index, fraction: fraction))
+        }
                 
         let graphics: [Graphic] = try await withThrowingTaskGroup(of: (Int, Graphic).self) { group in
         
@@ -43,8 +56,8 @@ extension Graphic {
 extension Array where Element == Graphic {
     
     /// Import a video from a URL
-    public static func videoFrames(url: URL) async throws -> [Graphic] {
+    public static func importVideo(url: URL, progress: ((Graphic.ImportVideoFrameProgress) -> ())? = nil) async throws -> [Graphic] {
         
-        try await Graphic.videoFrames(url: url)
+        try await Graphic.importVideo(url: url, progress: progress)
     }
 }
