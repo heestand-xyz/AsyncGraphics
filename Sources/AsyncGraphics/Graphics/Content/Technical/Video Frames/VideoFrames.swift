@@ -68,7 +68,7 @@ extension Graphic {
         return graphics
     }
     
-    /// Import a video from a URL via a steam
+    /// Import a video from a URL via a stream
     public static func importVideoStream(url: URL) -> AsyncThrowingStream<Graphic, Error> {
         AsyncThrowingStream { stream in
             Task {
