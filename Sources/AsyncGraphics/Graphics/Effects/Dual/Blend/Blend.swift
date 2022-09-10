@@ -11,9 +11,12 @@ extension Graphic {
         let placement: Int32
     }
     
-    public func blended(with graphic: Graphic,
-                        blendingMode: BlendingMode,
-                        placement: Placement = .fit) async throws -> Graphic {
+    public func blended(
+        with graphic: Graphic,
+        blendingMode: BlendingMode,
+        placement: Placement = .fit,
+        options: EffectOptions = EffectOptions()
+    ) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Blend",
@@ -25,6 +28,9 @@ extension Graphic {
             uniforms: BlendUniforms(
                 blendingMode: Int32(blendingMode.index),
                 placement: Int32(placement.index)
+            ),
+            options: Renderer.Options(
+                addressMode: options.addressMode
             )
         )
     }
