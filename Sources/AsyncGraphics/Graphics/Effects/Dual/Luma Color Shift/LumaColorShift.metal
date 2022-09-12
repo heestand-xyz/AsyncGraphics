@@ -18,7 +18,7 @@ struct Uniforms {
     float hue;
     float saturation;
     packed_float4 tintColor;
-    float gamma;
+    float lumaGamma;
 };
 
 fragment float4 lumaColorShift(VertexOut out [[stage_in]],
@@ -41,7 +41,7 @@ fragment float4 lumaColorShift(VertexOut out [[stage_in]],
     
     float4 cb = trailingTexture.sample(sampler, uvPlacement);
     float lum = (cb.r + cb.g + cb.b) / 3;
-    lum = pow(lum, 1 / max(0.001, uniforms.gamma));
+    lum = pow(lum, 1 / max(0.001, uniforms.lumaGamma));
     
     c *= float4(1.0 - ((1.0 - uniforms.tintColor.r) * lum),
                 1.0 - ((1.0 - uniforms.tintColor.g) * lum),

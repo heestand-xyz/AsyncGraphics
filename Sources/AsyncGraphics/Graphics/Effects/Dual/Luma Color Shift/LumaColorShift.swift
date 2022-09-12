@@ -13,25 +13,25 @@ extension Graphic {
         let hue: Float
         let saturation: Float
         let tintColor: ColorUniform
-        let gamma: Float
+        let lumaGamma: Float
     }
     
-    public func lumaMonochrome(with graphic: Graphic) async throws -> Graphic {
-        try await lumaColorShifted(with: graphic, saturation: 0.0)
+    public func lumaMonochrome(with graphic: Graphic, lumaGamma: CGFloat = 1.0) async throws -> Graphic {
+        try await lumaColorShifted(with: graphic, saturation: 0.0, lumaGamma: lumaGamma)
     }
     
     /// `1.0` is *default*
-    public func lumaSaturated(with graphic: Graphic, saturation: CGFloat) async throws -> Graphic {
-        try await lumaColorShifted(with: graphic, saturation: saturation)
+    public func lumaSaturated(with graphic: Graphic, saturation: CGFloat, lumaGamma: CGFloat = 1.0) async throws -> Graphic {
+        try await lumaColorShifted(with: graphic, saturation: saturation, lumaGamma: lumaGamma)
     }
     
     /// `0.0` is *default*, `0.5` is `180` degrees of hue shift
-    public func lumaHue(with graphic: Graphic, hue: Angle) async throws -> Graphic {
-        try await lumaColorShifted(with: graphic, hue: hue)
+    public func lumaHue(with graphic: Graphic, hue: Angle, lumaGamma: CGFloat = 1.0) async throws -> Graphic {
+        try await lumaColorShifted(with: graphic, hue: hue, lumaGamma: lumaGamma)
     }
     
-    public func lumaTinted(with graphic: Graphic, color: PixelColor) async throws -> Graphic {
-        try await lumaColorShifted(with: graphic, tintColor: color)
+    public func lumaTinted(with graphic: Graphic, color: PixelColor, lumaGamma: CGFloat = 1.0) async throws -> Graphic {
+        try await lumaColorShifted(with: graphic, tintColor: color, lumaGamma: lumaGamma)
     }
     
     private func lumaColorShifted(
@@ -39,7 +39,7 @@ extension Graphic {
         hue: Angle = .zero,
         saturation: CGFloat = 1.0,
         tintColor: PixelColor = .white,
-        gamma: CGFloat = 1.0,
+        lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
         options: EffectOptions = EffectOptions()
     ) async throws -> Graphic {
@@ -56,7 +56,7 @@ extension Graphic {
                 hue: hue.uniform,
                 saturation: Float(saturation),
                 tintColor: tintColor.uniform,
-                gamma: Float(gamma)
+                lumaGamma: Float(lumaGamma)
             ),
             options: Renderer.Options(
                 addressMode: options.addressMode

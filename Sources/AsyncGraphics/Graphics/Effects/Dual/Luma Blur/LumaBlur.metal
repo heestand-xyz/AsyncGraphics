@@ -21,7 +21,7 @@ struct Uniforms {
     float radius;
     packed_float2 position;
     float angle;
-    float gamma;
+    float lumaGamma;
 };
 
 fragment float4 lumaBlur(VertexOut out [[stage_in]],
@@ -48,7 +48,7 @@ fragment float4 lumaBlur(VertexOut out [[stage_in]],
     float4 cb = trailingTexture.sample(sampler, uvPlacement);
     
     float lum = (cb.r + cb.g + cb.b) / 3;
-    lum = pow(lum, 1 / max(0.001, uniforms.gamma));
+    lum = pow(lum, 1 / max(0.001, uniforms.lumaGamma));
     
     uint w = leadingWidth;
     uint h = leadingHeight;

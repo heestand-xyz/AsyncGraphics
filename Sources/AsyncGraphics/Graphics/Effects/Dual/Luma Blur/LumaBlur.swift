@@ -15,7 +15,7 @@ extension Graphic {
         let radius: Float
         let position: PointUniform
         let angle: Float
-        let gamma: Float
+        let lumaGamma: Float
     }
    
     private enum LumaBlurType: UInt32 {
@@ -28,7 +28,7 @@ extension Graphic {
     public func lumaBlurredBox(
         with graphic: Graphic,
         radius: CGFloat,
-        gamma: CGFloat = 1.0,
+        lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
         options: EffectOptions = EffectOptions()
@@ -38,7 +38,7 @@ extension Graphic {
             type: .box,
             with: graphic,
             radius: radius,
-            gamma: gamma,
+            lumaGamma: lumaGamma,
             sampleCount: sampleCount,
             placement: placement,
             options: options
@@ -49,7 +49,7 @@ extension Graphic {
         with graphic: Graphic,
         radius: CGFloat,
         center: CGPoint? = nil,
-        gamma: CGFloat = 1.0,
+        lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
         options: EffectOptions = EffectOptions()
@@ -60,7 +60,7 @@ extension Graphic {
             with: graphic,
             radius: radius,
             center: center,
-            gamma: gamma,
+            lumaGamma: lumaGamma,
             sampleCount: sampleCount,
             placement: placement,
             options: options
@@ -71,7 +71,7 @@ extension Graphic {
         with graphic: Graphic,
         radius: CGFloat,
         angle: Angle,
-        gamma: CGFloat = 1.0,
+        lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
         options: EffectOptions = EffectOptions()
@@ -82,7 +82,7 @@ extension Graphic {
             with: graphic,
             radius: radius,
             angle: angle,
-            gamma: gamma,
+            lumaGamma: lumaGamma,
             sampleCount: sampleCount,
             placement: placement,
             options: options
@@ -92,7 +92,7 @@ extension Graphic {
     public func lumaBlurredRandom(
         with graphic: Graphic,
         radius: CGFloat,
-        gamma: CGFloat = 1.0,
+        lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
         options: EffectOptions = EffectOptions()
     ) async throws -> Graphic {
@@ -111,7 +111,7 @@ extension Graphic {
         radius: CGFloat,
         center: CGPoint? = nil,
         angle: Angle = .zero,
-        gamma: CGFloat = 1.0,
+        lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
         options: EffectOptions = EffectOptions()
@@ -136,7 +136,7 @@ extension Graphic {
                 radius: Float(relativeRadius),
                 position: relativeCenter.uniform,
                 angle: angle.uniform,
-                gamma: Float(gamma)
+                lumaGamma: Float(lumaGamma)
             ),
             options: Renderer.Options(
                 addressMode: options.addressMode
