@@ -21,79 +21,12 @@ struct Renderer {
         return device
     }()
     
-    enum RendererError: LocalizedError {
-        
-        case badMetadata
-        case failedToMakeVertexQuadBuffer
-        case shaderFunctionNotFound(name: String)
-        case failedToMakeCommandBuffer
-        case failedToMakeCommandEncoder
-        case failedToMakeCommandQueue
-        case failedToMakeSampler
-        case failedToMakeUniformBuffer
-        case failedToMakeArrayUniformBuffer
-        case failedToMakeVertexUniformBuffer
-        case failedToMakeComputeCommandEncoder
-        case graphic3dIsCurrentlyOnlySupportedOnMacOS
-        
-        var errorDescription: String? {
-            switch self {
-            case .badMetadata:
-                return "Async Graphics - Renderer - Bad Metadata"
-            case .failedToMakeVertexQuadBuffer:
-                return "Async Graphics - Renderer - Failed to Make Vertex Quad Buffer"
-            case .shaderFunctionNotFound(let name):
-                return "Async Graphics - Renderer - Shader Function Not Found (\"\(name)\")"
-            case .failedToMakeCommandBuffer:
-                return "Async Graphics - Renderer - Failed to Make Command Buffer"
-            case .failedToMakeCommandEncoder:
-                return "Async Graphics - Renderer - Failed to Make Command Encoder"
-            case .failedToMakeCommandQueue:
-                return "Async Graphics - Renderer - Failed to Make Command Queue"
-            case .failedToMakeSampler:
-                return "Async Graphics - Renderer - Failed to Make Sampler"
-            case .failedToMakeUniformBuffer:
-                return "Async Graphics - Renderer - Failed to Make Uniform Buffer"
-            case .failedToMakeArrayUniformBuffer:
-                return "Async Graphics - Renderer - Failed to Make Array Uniform Buffer"
-            case .failedToMakeVertexUniformBuffer:
-                return "Async Graphics - Renderer - Failed to Make Vertex Uniform Buffer"
-            case .failedToMakeComputeCommandEncoder:
-                return "Async Graphics - Renderer - Failed to Make Compute Command Encoder"
-            case .graphic3dIsCurrentlyOnlySupportedOnMacOS:
-                return "Async Graphics - Renderer - Graphic3D is Currently Only Supported on macOS"
-            }
-        }
-    }
-    
-    /// Simple
-    static func render<G: Graphicable>(
-        name: String,
-        shader: Shader,
-        graphics: [Graphicable] = [],
-        metadata: Metadata? = nil,
-        options: Options = Options()
-    ) async throws -> G {
-        
-        try await render(
-            name: name,
-            shader: shader,
-            graphics: graphics,
-            uniforms: EmptyUniforms(),
-            arrayUniforms: [],
-            emptyArrayUniform: EmptyUniforms(),
-            vertexUniforms: EmptyUniforms(),
-            metadata: metadata,
-            options: options
-        )
-    }
-    
     /// Basic
     static func render<U, G: Graphicable>(
         name: String,
         shader: Shader,
         graphics: [Graphicable] = [],
-        uniforms: U,
+        uniforms: U = EmptyUniforms(),
         metadata: Metadata? = nil,
         options: Options = Options()
     ) async throws -> G {
@@ -116,7 +49,7 @@ struct Renderer {
         name: String,
         shader: Shader,
         graphics: [Graphicable] = [],
-        uniforms: U,
+        uniforms: U = EmptyUniforms(),
         arrayUniforms: [AU],
         emptyArrayUniform: AU,
         metadata: Metadata? = nil,
@@ -141,9 +74,9 @@ struct Renderer {
         name: String,
         shader: Shader,
         graphics: [Graphicable] = [],
-        uniforms: U,
-        vertexUniforms: VU,
-        vertexCount: Int? = nil,
+        uniforms: U = EmptyUniforms(),
+        vertexUniforms: VU = EmptyUniforms(),
+        vertices: Vertices,
         metadata: Metadata? = nil,
         options: Options = Options()
     ) async throws -> G {
@@ -156,7 +89,7 @@ struct Renderer {
             arrayUniforms: [],
             emptyArrayUniform: EmptyUniforms(),
             vertexUniforms: vertexUniforms,
-            vertexCount: vertexCount,
+            vertices: vertices,
             metadata: metadata,
             options: options
         )
@@ -171,7 +104,7 @@ struct Renderer {
         arrayUniforms: [AU],
         emptyArrayUniform: AU,
         vertexUniforms: VU,
-        vertexCount: Int? = nil,
+        vertices: Vertices? = nil,
         metadata: Metadata? = nil,
         options: Options = Options()
     ) async throws -> G {
@@ -235,10 +168,10 @@ struct Renderer {
                          
                         let function: MTLFunction = try {
                             switch shader {
-                            case .name(let name), .custom(let name, _):
-                                return try self.shader(name: name)
                             case .code(let code, let name):
                                 return try self.shader(name: name, code: code)
+                            default:
+                                return try self.shader(name: shader.fragmentName)
                             }
                         }()
                         
@@ -249,7 +182,7 @@ struct Renderer {
                                 case .custom(_, let vertex):
                                     return vertex
                                 default:
-                                    return "vertexQuad"
+                                    return "vertexPassthrough"
                                 }
                             }()
                             
@@ -359,7 +292,7 @@ struct Renderer {
                                 }
                                 print("AsyncGraphics - Renderer - Max limit of uniform arrays exceeded. Trailing values will be truncated. \(originalCount) / \(Self.uniformArrayMaxLimit)")
                             }
-                                                        
+                            
                             let size: Int = MemoryLayout<AU>.size * Self.uniformArrayMaxLimit
                             let activeSize: Int = MemoryLayout<Bool>.size * Self.uniformArrayMaxLimit
                             
@@ -402,19 +335,23 @@ struct Renderer {
                         
                         if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                             
-                            if vertexCount == nil {
-                                let vertexBuffer: MTLBuffer = try vertexQuadBuffer()
-                                renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+                            let vertexBuffer: MTLBuffer
+                            if case .direct(let vertices, _) = vertices {
+                                vertexBuffer = try buffer(vertices: vertices)
+                            } else {
+                                vertexBuffer = try vertexQuadBuffer()
                             }
+                            
+                            renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
                         }
                         
                         // MARK: Draw
                         
                         if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                          
-                            renderCommandEncoder.drawPrimitives(type: vertexCount != nil ? .point : .triangle,
+                            renderCommandEncoder.drawPrimitives(type: vertices?.type ?? .triangle,
                                                                 vertexStart: 0,
-                                                                vertexCount: vertexCount ?? 6,
+                                                                vertexCount: vertices?.count ?? 6,
                                                                 instanceCount: 1)
                             
                         } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {

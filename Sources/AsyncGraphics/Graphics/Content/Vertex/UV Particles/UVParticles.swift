@@ -65,7 +65,7 @@ extension Graphic {
         
         try await Renderer.render(
             name: "UV Particles",
-            shader: .custom(fragment: "vertexColor", vertex: "uvParticles"),
+            shader: .custom(fragment: "fragmentColor", vertex: "uvParticles"),
             graphics: [self],
             uniforms: UVParticlesColorUniform(
                 color: particleColor.uniform
@@ -77,7 +77,7 @@ extension Graphic {
                 particleScale: Float(particleScale),
                 resolution: self.resolution.uniform
             ),
-            vertexCount: resolution.count,
+            vertices: .indirect(count: resolution.count, type: .point),
             metadata: Renderer.Metadata(
                 resolution: resolution,
                 colorSpace: options.colorSpace,

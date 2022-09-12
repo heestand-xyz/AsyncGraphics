@@ -49,8 +49,8 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 - ``VideoDetails``
 - ``playVideo(url:loop:volume:)``
 - ``importVideo(url:progress:)``
-- ``importVideoStream(url:)``
 - ``ImportVideoFrameProgress``
+- ``importVideoStream(url:)``
 - ``exportVideoToData(with:fps:kbps:format:)``
 - ``exportVideoToURL(with:fps:kbps:format:)``
 
@@ -122,7 +122,7 @@ Create a graphic with a solid color.
 
 Use blending modes to combine two or more graphics.
 
-- ``blended(with:blendingMode:placement:)``
+- ``blended(with:blendingMode:placement:options:)``
 - ``blend(with:blendingMode:)``
 - ``add(with:)``
 - ``average(with:)``
@@ -196,10 +196,11 @@ Use blending modes to combine two or more graphics.
 
 ### Luma Colors
 
-- ``lumaMonochrome(with:)``
-- ``lumaSaturated(with:saturation:)``
-- ``lumaHue(with:hue:)``
-- ``lumaTinted(with:color:)``
+- ``lumaMonochrome(with:lumaGamma:)``
+- ``lumaMonochrome(with:lumaGamma:)``
+- ``lumaSaturated(with:saturation:lumaGamma:)``
+- ``lumaHue(with:hue:lumaGamma:)``
+- ``lumaTinted(with:color:lumaGamma:)``
 
 ### Threshold
 
@@ -226,10 +227,10 @@ Use blending modes to combine two or more graphics.
 
 ### Luma Blur
 
-- ``lumaBlurredBox(with:radius:gamma:sampleCount:placement:options:)``
-- ``lumaBlurredZoom(with:radius:center:gamma:sampleCount:placement:options:)``
-- ``rainbowBlurredAngle(radius:angle:light:sampleCount:options:)``
-- ``lumaBlurredRandom(with:radius:gamma:placement:options:)``
+- ``lumaBlurredBox(with:radius:lumaGamma:sampleCount:placement:options:)``
+- ``lumaBlurredZoom(with:radius:center:lumaGamma:sampleCount:placement:options:)``
+-  ``lumaBlurredAngle(with:radius:angle:lumaGamma:sampleCount:placement:options:)``
+- ``lumaBlurredRandom(with:radius:lumaGamma:placement:options:)``
 
 ### Rainbow Blur
 
@@ -260,7 +261,15 @@ Use blending modes to combine two or more graphics.
 
 Fade two graphics by crossing them with opacity.
 
-- ``cross(with:fraction:placement:)``
+- ``cross(with:fraction:placement:options:)``
+
+### Corner Pin
+
+- ``cornerPinned(topLeft:topRight:bottomLeft:bottomRight:perspective:subdivisions:backgroundColor:)``
+
+### Polar
+
+- ``polar(radius:width:leadingAngle:trailingAngle:resolution:options:)``
 
 ### Metal
 

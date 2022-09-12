@@ -8,10 +8,36 @@ import CoreGraphics
 extension Renderer {
     
     struct Vertex {
+        
         let x, y: CGFloat
         let s, t: CGFloat
+        
         var buffer: [Float] {
             [x, y, s, t].map(Float.init)
+        }
+    }
+    
+    enum Vertices {
+        
+        case indirect(count: Int, type: MTLPrimitiveType)
+        case direct([Vertex], type: MTLPrimitiveType)
+        
+        var type: MTLPrimitiveType {
+            switch self {
+            case .indirect(_, let type):
+                return type
+            case .direct(_, let type):
+                return type
+            }
+        }
+        
+        var count: Int {
+            switch self {
+            case .indirect(let count, _):
+                return count
+            case .direct(let vertices, _):
+                return vertices.count
+            }
         }
     }
 
@@ -24,7 +50,8 @@ extension Renderer {
         return try buffer(vertices: vertices)
     }
     
-    private static func buffer(vertices: [Vertex]) throws -> MTLBuffer {
+    static func buffer(vertices: [Vertex]) throws -> MTLBuffer {
+        precondition(!vertices.isEmpty)
         let vertexBuffer: [Float] = vertices.flatMap(\.buffer)
         let dataSize = vertexBuffer.count * MemoryLayout.size(ofValue: vertexBuffer[0])
         guard let buffer = metalDevice.makeBuffer(bytes: vertexBuffer, length: dataSize, options: []) else {

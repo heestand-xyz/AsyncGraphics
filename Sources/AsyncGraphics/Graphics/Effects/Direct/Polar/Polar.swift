@@ -7,7 +7,7 @@ import SwiftUI
 
 extension Graphic {
     
-    private struct EdgeUniforms {
+    private struct PolarUniforms {
         let radius: Float
         let width: Float
         let leadingAngle: Float
@@ -16,19 +16,19 @@ extension Graphic {
     
     public func polar(radius: CGFloat? = nil,
                       width: CGFloat? = nil,
-                      leadingAngle: Angle = .degrees(90),
-                      trailingAngle: Angle = .degrees(450),
+                      leadingAngle: Angle,
+                      trailingAngle: Angle,
                       resolution: CGSize,
                       options: EffectOptions = EffectOptions()) async throws -> Graphic {
         
-        let relativeRadius: CGFloat = (radius ?? resolution.height / 2) / resolution.height
-        let relativeWidth: CGFloat = (width ?? resolution.height / 4) / resolution.height
+        let relativeRadius: CGFloat = (radius ?? height / 2) / height
+        let relativeWidth: CGFloat = (width ?? height / 4) / height
         
         return try await Renderer.render(
             name: "Polar",
             shader: .name("polar"),
             graphics: [self],
-            uniforms: EdgeUniforms(
+            uniforms: PolarUniforms(
                 radius: Float(relativeRadius),
                 width: Float(relativeWidth),
                 leadingAngle: leadingAngle.uniform,

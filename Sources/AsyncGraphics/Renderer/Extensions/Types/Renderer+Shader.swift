@@ -10,5 +10,31 @@ extension Renderer {
         case name(String)
         case custom(fragment: String, vertex: String)
         case code(String, name: String)
+        case passthrough
+    }
+}
+
+extension Renderer.Shader {
+    
+    var fragmentName: String {
+        switch self {
+        case .name(let name):
+            return name
+        case .custom(let name, _):
+            return name
+        case .code(_, let name):
+            return name
+        case .passthrough:
+            return "fragmentPassthrough"
+        }
+    }
+    
+    var vertexName: String {
+        switch self {
+        case .custom(_, let vertex):
+            return vertex
+        default:
+            return "vertexPassthrough"
+        }
     }
 }

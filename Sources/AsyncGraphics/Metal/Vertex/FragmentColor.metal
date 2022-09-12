@@ -16,8 +16,8 @@ struct Uniforms {
     packed_float4 color;
 };
 
-fragment float4 vertexColor(VertexOut out [[stage_in]],
-                            const device Uniforms& uniforms [[ buffer(0) ]]) {
+fragment float4 fragmentColor(VertexOut out [[stage_in]],
+                              const device Uniforms& uniforms [[ buffer(0) ]]) {
     
     return float4(uniforms.color * out.color);
 }
