@@ -16,7 +16,7 @@ struct VertexOut {
 struct Uniforms {
     float offset;
     packed_float3 origin;
-    int placement;
+    uint placement;
 };
 
 kernel void displace3d(const device Uniforms& uniforms [[ buffer(0) ]],
@@ -45,7 +45,7 @@ kernel void displace3d(const device Uniforms& uniforms [[ buffer(0) ]],
     uint trailingWidth = trailingTexture.get_width();
     uint trailingHeight = trailingTexture.get_height();
     uint trailingDepth = trailingTexture.get_depth();
-    float3 uvwPlacement = place3d(int(uniforms.placement), uvw, leadingWidth, leadingHeight, leadingDepth, trailingWidth, trailingHeight, trailingDepth);
+    float3 uvwPlacement = place3d(uniforms.placement, uvw, leadingWidth, leadingHeight, leadingDepth, trailingWidth, trailingHeight, trailingDepth);
     
     float4 sampleColor = trailingTexture.sample(sampler, uvwPlacement);
     float3 sampleUVW = float3(u + (sampleColor.r - uniforms.origin.x) * uniforms.offset,

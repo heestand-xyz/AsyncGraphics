@@ -171,6 +171,13 @@ Use blending modes to combine two or more graphics.
 - ``hue(_:)``
 - ``tinted(_:)``
 
+### Luma Colors
+
+- ``lumaMonochrome(with:)``
+- ``lumaSaturated(with:saturation:)``
+- ``lumaHue(with:hue:)``
+- ``lumaTinted(with:color:)``
+
 ### Threshold
 
 - ``threshold(_:options:)``
@@ -193,6 +200,13 @@ Use blending modes to combine two or more graphics.
 - ``blurredZoom(radius:center:sampleCount:options:)``
 - ``blurredAngle(radius:angle:sampleCount:options:)``
 - ``blurredRandom(radius:options:)``
+
+### Luma Blur
+
+- ``lumaBlurredBox(with:radius:gamma:sampleCount:placement:options:)``
+- ``lumaBlurredZoom(with:radius:center:gamma:sampleCount:placement:options:)``
+- ``rainbowBlurredAngle(radius:angle:light:sampleCount:options:)``
+- ``lumaBlurredRandom(with:radius:gamma:placement:options:)``
 
 ### Displace
 

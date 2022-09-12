@@ -9,7 +9,7 @@ public enum Placement {
     case center
     case stretch
     
-    var index: Int {
+    var index: UInt32 {
         switch self {
         case .stretch: return 0
         case .fit: return 1

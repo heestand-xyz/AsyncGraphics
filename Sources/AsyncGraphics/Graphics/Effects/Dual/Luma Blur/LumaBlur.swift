@@ -131,7 +131,7 @@ extension Graphic {
             ],
             uniforms: LumaBlurUniforms(
                 type: type.rawValue,
-                placement: UInt32(placement.index),
+                placement: placement.index,
                 count: UInt32(sampleCount),
                 radius: Float(relativeRadius),
                 position: relativeCenter.uniform,

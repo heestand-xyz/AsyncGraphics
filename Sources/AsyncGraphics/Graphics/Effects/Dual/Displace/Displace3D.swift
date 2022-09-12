@@ -10,7 +10,7 @@ extension Graphic3D {
     private struct Displace3DUniforms {
         let offset: Float
         let origin: VectorUniform
-        let placement: Int
+        let placement: UInt32
     }
     
     public func displaced(with graphic: Graphic3D,
@@ -35,7 +35,8 @@ extension Graphic3D {
                     y: Float(origin.green),
                     z: Float(origin.blue)
                 ),
-                placement: placement.index),
+                placement: placement.index
+            ),
             options: Renderer.Options(
                 addressMode: options.addressMode
             )

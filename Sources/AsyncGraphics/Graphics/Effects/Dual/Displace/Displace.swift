@@ -11,7 +11,7 @@ extension Graphic {
     private struct DisplaceUniforms {
         let offset: Float
         let origin: PointUniform
-        let placement: Int
+        let placement: UInt32
     }
     
     public func displaced(with graphic: Graphic,
@@ -35,7 +35,8 @@ extension Graphic {
                     x: Float(origin.red),
                     y: Float(origin.green)
                 ),
-                placement: placement.index),
+                placement: placement.index
+            ),
             options: Renderer.Options(
                 addressMode: options.addressMode
             )
