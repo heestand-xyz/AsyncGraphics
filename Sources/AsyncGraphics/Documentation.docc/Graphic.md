@@ -164,6 +164,21 @@ Use blending modes to combine two or more graphics.
 - ``multiply(_:)``
 - ``divide(_:)``
 
+### Luma Levels
+
+- ``lumaBrightness(with:brightness:lumaGamma:placement:)``
+- ``lumaDarkness(with:darkness:lumaGamma:placement:)``
+- ``lumaContrast(with:contrast:lumaGamma:placement:)``
+- ``lumaGamma(with:gamma:lumaGamma:placement:)``
+- ``lumaInverted(with:lumaGamma:placement:)``
+- ``lumaSmoothed(with:lumaGamma:placement:)``
+- ``lumaOpacity(with:opacity:lumaGamma:placement:)``
+- ``lumaExposureOffset(with:offset:lumaGamma:placement:)``
+- ``lumaAdd(with:value:lumaGamma:placement:)``
+- ``lumaSubtract(with:value:lumaGamma:placement:)``
+- ``lumaMultiply(with:value:lumaGamma:placement:)``
+- ``lumaDivide(with:value:lumaGamma:placement:)``
+
 ### Colors
 
 - ``monochrome()``
@@ -207,6 +222,18 @@ Use blending modes to combine two or more graphics.
 - ``lumaBlurredZoom(with:radius:center:gamma:sampleCount:placement:options:)``
 - ``rainbowBlurredAngle(radius:angle:light:sampleCount:options:)``
 - ``lumaBlurredRandom(with:radius:gamma:placement:options:)``
+
+### Rainbow Blur
+
+- ``rainbowBlurredCircle(radius:angle:light:sampleCount:options:)``
+- ``rainbowBlurredAngle(radius:angle:light:sampleCount:options:)``
+- ``rainbowBlurredZoom(radius:center:light:sampleCount:options:)``
+
+### Luma Rainbow Blur
+
+- ``lumaRainbowBlurredCircle(with:radius:angle:light:lumaGamma:sampleCount:placement:options:)``
+- ``lumaRainbowBlurredAngle(with:radius:angle:light:lumaGamma:sampleCount:placement:options:)``
+- ``lumaRainbowBlurredZoom(with:radius:center:light:lumaGamma:sampleCount:placement:options:)``
 
 ### Displace
 
