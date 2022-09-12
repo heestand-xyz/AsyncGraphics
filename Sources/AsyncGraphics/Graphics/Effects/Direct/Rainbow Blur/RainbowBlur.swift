@@ -27,28 +27,12 @@ extension Graphic {
     }
     
     public func rainbowBlurredCircle(radius: CGFloat,
+                                     angle: Angle = .zero,
                                      light: CGFloat = 1.0,
                                      sampleCount: Int = 100,
                                      options: EffectOptions = EffectOptions()) async throws -> Graphic {
         
-        let relativeRadius: CGFloat = radius / height
-        
-        return try await Renderer.render(
-            name: "Rainbow Blur (Circle)",
-            shader: .name("rainbowBlur"),
-            graphics: [self],
-            uniforms: RainbowBlurUniforms(
-                type: RainbowBlurType.circle.rawValue,
-                count: UInt32(sampleCount),
-                radius: Float(relativeRadius),
-                angle: 0.0,
-                light: Float(light),
-                position: CGPoint.zero.uniform
-            ),
-            options: Renderer.Options(
-                addressMode: options.addressMode
-            )
-        )
+        try await rainbowBlurred(type: .circle, radius: radius, angle: angle, light: light, sampleCount: sampleCount, options: options)
     }
     
     public func rainbowBlurredZoom(radius: CGFloat,
@@ -57,27 +41,7 @@ extension Graphic {
                                    sampleCount: Int = 100,
                                    options: EffectOptions = EffectOptions()) async throws -> Graphic {
         
-        let center: CGPoint = center ?? resolution.asPoint / 2
-        let relativeCenter: CGPoint = (center - resolution / 2) / height
-        
-        let relativeRadius: CGFloat = radius / height
-        
-        return try await Renderer.render(
-            name: "Rainbow Blur (Zoom)",
-            shader: .name("rainbowBlur"),
-            graphics: [self],
-            uniforms: RainbowBlurUniforms(
-                type: RainbowBlurType.zoom.rawValue,
-                count: UInt32(sampleCount),
-                radius: Float(relativeRadius),
-                angle: 0.0,
-                light: Float(light),
-                position: relativeCenter.uniform
-            ),
-            options: Renderer.Options(
-                addressMode: options.addressMode
-            )
-        )
+        try await rainbowBlurred(type: .zoom, radius: radius, center: center, light: light, sampleCount: sampleCount, options: options)
     }
     
     public func rainbowBlurredAngle(radius: CGFloat,
@@ -86,19 +50,33 @@ extension Graphic {
                                     sampleCount: Int = 100,
                                     options: EffectOptions = EffectOptions()) async throws -> Graphic {
         
+        try await rainbowBlurred(type: .angle, radius: radius, angle: angle, light: light, sampleCount: sampleCount, options: options)
+    }
+    
+    private func rainbowBlurred(type: RainbowBlurType,
+                                radius: CGFloat,
+                                center: CGPoint? = nil,
+                                angle: Angle = .zero,
+                                light: CGFloat = 1.0,
+                                sampleCount: Int = 100,
+                                options: EffectOptions = EffectOptions()) async throws -> Graphic {
+        
+        let center: CGPoint = center ?? resolution.asPoint / 2
+        let relativeCenter: CGPoint = (center - resolution / 2) / height
+        
         let relativeRadius: CGFloat = radius / height
         
         return try await Renderer.render(
-            name: "Rainbow Blur (Angle)",
+            name: "Rainbow Blur",
             shader: .name("rainbowBlur"),
             graphics: [self],
             uniforms: RainbowBlurUniforms(
-                type: RainbowBlurType.angle.rawValue,
+                type: type.rawValue,
                 count: UInt32(sampleCount),
                 radius: Float(relativeRadius),
                 angle: angle.uniform,
                 light: Float(light),
-                position: CGPoint.zero.uniform
+                position: relativeCenter.uniform
             ),
             options: Renderer.Options(
                 addressMode: options.addressMode

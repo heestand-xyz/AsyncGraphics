@@ -102,7 +102,7 @@ fragment float4 lumaBlur(VertexOut out [[stage_in]],
             if (x != 0) {
                 float amount = pow(1.0 - x / (res + 1), 0.5);
                 float xu = u + ((float(x) * (u - 0.5 - pos.x)) * uniforms.radius * lum / aspectRatio) / res;
-                float yv = v + ((float(x) * (v - 0.5 + pos.y)) * uniforms.radius * lum) / res;
+                float yv = v + ((float(x) * (v - 0.5 - pos.y)) * uniforms.radius * lum) / res;
                 ca += leadingTexture.sample(sampler, float2(xu, yv)) * amount;
                 amounts += amount;
             }
