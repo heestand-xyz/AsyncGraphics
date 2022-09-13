@@ -4,10 +4,6 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 
 ## Topics
 
-### ID
-
-- ``id``
-
 ### Data
 
 - ``image``
@@ -256,6 +252,11 @@ Use blending modes to combine two or more graphics.
 
 - ``edge(amplitude:distance:options:)``
 - ``coloredEdge(amplitude:distance:options:)``
+
+### Clamp
+
+- ``clamp(_:low:high:includeAlpha:options:)``
+- ``ClampType``
 
 ### Cross
 
