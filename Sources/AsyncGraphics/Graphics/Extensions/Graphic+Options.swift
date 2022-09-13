@@ -24,14 +24,14 @@ extension Graphic {
             contains(.bit32) ? ._32 : contains(.bit16) ? ._16 : ._8
         }
         
-        /// Display P3 Color Space
-//        public static let displayP3 = ContentOptions(rawValue: 1 << 2)
-        
         public static let pureAlpha = ContentOptions(rawValue: 1 << 2)
         
         var premultiply: Bool {
             !contains(.pureAlpha)
         }
+       
+        /// Display P3 Color Space
+//        public static let displayP3 = ContentOptions(rawValue: 1 << 3)
         
         var colorSpace: TMColorSpace {
             .sRGB //contains(.displayP3) ? .displayP3 : .sRGB
@@ -58,6 +58,12 @@ extension Graphic {
 
         var addressMode: MTLSamplerAddressMode {
             contains(.edgeMirror) ? .mirrorRepeat : contains(.edgeStretch) ? .clampToEdge : .clampToZero
+        }
+        
+        public static let pureAlpha = EffectOptions(rawValue: 1 << 2)
+        
+        var premultiply: Bool {
+            !contains(.pureAlpha)
         }
         
         public init(rawValue: Int) {

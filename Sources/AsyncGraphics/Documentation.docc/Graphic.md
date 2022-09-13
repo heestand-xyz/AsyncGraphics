@@ -267,6 +267,11 @@ Fade two graphics by crossing them with opacity.
 
 - ``cornerPinned(topLeft:topRight:bottomLeft:bottomRight:perspective:subdivisions:backgroundColor:)``
 
+### Chroma Key
+
+- ``chromaKey(color:parameters:options:)``
+- ``ChromaKeyParameters``
+
 ### Polar
 
 - ``polar(radius:width:leadingAngle:trailingAngle:resolution:options:)``
