@@ -271,6 +271,11 @@ Fade two graphics by crossing them with opacity.
 
 - ``polar(radius:width:leadingAngle:trailingAngle:resolution:options:)``
 
+### Morph
+
+- ``morphedMinimum(size:)``
+- ``morphedMaximum(size:)``
+
 ### Metal
 
 Write metal shader code.
