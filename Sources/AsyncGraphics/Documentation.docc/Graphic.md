@@ -198,6 +198,12 @@ Use blending modes to combine two or more graphics.
 - ``lumaHue(with:hue:lumaGamma:)``
 - ``lumaTinted(with:color:lumaGamma:)``
 
+### Color Convert
+
+- ``colorConvert(_:channel:)``
+- ``ColorConversion``
+- ``ColorConvertChannel``
+
 ### Threshold
 
 - ``threshold(_:options:)``
