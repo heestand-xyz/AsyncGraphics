@@ -64,7 +64,6 @@ class VideoController: NSObject {
     private func readBuffer() {
         
         let currentTime = player.currentItem!.currentTime()
-        print("----------->", currentTime)
 //        let duration = player!.currentItem!.duration.seconds
 //        let fraction = currentTime.seconds / duration
         

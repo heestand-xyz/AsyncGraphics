@@ -14,6 +14,19 @@ extension Graphic {
         let placement: Int32
         let outputResolution: SizeUniform
     }
+    
+    public func resized(in resolution: CGSize) async throws -> Graphic {
+        
+        let relativeWidth: CGFloat = width / resolution.width
+        let relativeHeight: CGFloat = height / resolution.height
+        
+        let derivedResolution = CGSize(
+            width: relativeWidth > relativeHeight ? resolution.width : width * (resolution.height / height),
+            height: relativeWidth < relativeHeight ? resolution.height : height * (resolution.width / width)
+        )
+        
+        return try await self.resized(to: derivedResolution, placement: .stretch)
+    }
         
     public func resized(to resolution: CGSize, placement: Placement = .fit) async throws -> Graphic {
         

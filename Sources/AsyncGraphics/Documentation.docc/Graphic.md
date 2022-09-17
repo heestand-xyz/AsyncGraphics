@@ -310,6 +310,7 @@ Write metal shader code.
 Resize a graphic.
 
 - ``resized(to:placement:)``
+- ``resized(in:)``
 - ``resizedStretched(to:method:)``
 - ``resized(by:)``
 - ``ResizeMethod``
