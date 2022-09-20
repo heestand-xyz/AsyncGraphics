@@ -63,6 +63,12 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 
 - ``screen(at:)``
 
+### Maps
+
+- ``maps(_:latitude:longitude:span:resolution:mapOptions:options:)``
+- ``MapType``
+- ``MapOptions``
+
 ### Color
 
 Create a graphic with a solid color.
