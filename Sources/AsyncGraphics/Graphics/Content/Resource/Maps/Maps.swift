@@ -67,7 +67,7 @@ extension Graphic {
     }
     
     static public func maps(
-        _ type: MapType = .standard,
+        type: MapType = .standard,
         latitude: Angle,
         longitude: Angle,
         span: Angle,
@@ -93,14 +93,7 @@ extension Graphic {
         
         mapSnapshotOptions.region = region
         
-        #if os(macOS)
-        let scale: CGFloat = 2.0
-        #else
-        let scale: CGFloat = await UIScreen.main.scale
-        #endif
-        
-        mapSnapshotOptions.size = CGSize(width: resolution.width / scale,
-                                         height: resolution.height / scale)
+        mapSnapshotOptions.size = resolution
         
         mapSnapshotOptions.showsBuildings = mapOptions.contains(.showBuildings)
         
@@ -120,11 +113,11 @@ extension Graphic {
 #endif
         }
         
-        let snapShotter = MKMapSnapshotter(options: mapSnapshotOptions)
+        let snapshotter = MKMapSnapshotter(options: mapSnapshotOptions)
         
         let image: TMImage = try await withCheckedThrowingContinuation { continuation in
             
-            snapShotter.start() { snapshot, error in
+            snapshotter.start() { snapshot, error in
                 
                 if let error = error {
                     continuation.resume(throwing: error)
@@ -137,7 +130,6 @@ extension Graphic {
                 }
                 
                 var image: TMImage = snapshot.image
-                
 #if os(macOS)
                 guard let data: Data = image.pngData(),
                       let dataImage = NSImage(data: data)
@@ -147,7 +139,6 @@ extension Graphic {
                 }
                 image = dataImage
 #endif
-                
                 continuation.resume(returning: image)
             }
         }
