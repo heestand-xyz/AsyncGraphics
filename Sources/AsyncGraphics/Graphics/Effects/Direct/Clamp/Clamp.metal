@@ -45,9 +45,9 @@ float clampValue(float value, float low, float high, int type) {
             }
         case 2: // relativeMirror
             if (rel > 0.0) {
-                return int(rel) % 2 == 0 ? 1.0 - vala : vala;
+                return int(rel) % 2 == 0 ? vala : 1.0 - vala;
             } else {
-                return int(1.0 - rel) % 2 == 0 ? 1.0 - valb : valb;
+                return int(1.0 - rel) % 2 == 0 ? valb : 1.0 - valb;
             }
         case 3: // zero
             if (value < low || value > high) {
