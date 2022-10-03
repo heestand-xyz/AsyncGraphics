@@ -84,6 +84,11 @@ extension Graphic {
             }
         }
     }
+    
+    public static func importVideoFrame(at frameIndex: Int, url: URL) async throws -> Graphic {
+        let image: TMImage = try videoFrame(at: frameIndex, from: url)
+        return try await .image(image)
+    }
 }
 
 

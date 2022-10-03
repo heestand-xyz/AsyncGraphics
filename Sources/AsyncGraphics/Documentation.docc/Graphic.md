@@ -47,6 +47,7 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 - ``importVideo(url:progress:)``
 - ``ImportVideoFrameProgress``
 - ``importVideoStream(url:)``
+- ``importVideoFrame(at:url:)``
 - ``exportVideoToData(with:fps:kbps:format:)``
 - ``exportVideoToURL(with:fps:kbps:format:)``
 
