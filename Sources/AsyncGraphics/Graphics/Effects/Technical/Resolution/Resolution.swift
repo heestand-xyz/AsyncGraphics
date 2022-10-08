@@ -51,8 +51,14 @@ extension Graphic {
         case bilinear
     }
     
-    public func resizedStretched(to resolution: CGSize, method: ResizeMethod = .lanczos) async throws -> Graphic {
-        
+    public func resized(to resolution: CGSize, placement: Placement = .fit, method: ResizeMethod) async throws -> Graphic {
+        let placeResolution = self.resolution.place(in: resolution, placement: placement)
+        return try await resizedStretched(to: placeResolution, method: method)
+            .resized(to: resolution, placement: placement)
+    }
+    
+    public func resizedStretched(to resolution: CGSize, method: ResizeMethod) async throws -> Graphic {
+
         let targetTexture: MTLTexture = try await .empty(resolution: resolution, bits: bits, usage: .write)
         
         guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else {
