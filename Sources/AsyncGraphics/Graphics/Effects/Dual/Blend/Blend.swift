@@ -34,4 +34,16 @@ extension Graphic {
             )
         )
     }
+    
+    public static func mask(
+        foreground foregroundGraphic: Graphic,
+        background backgroundGraphic: Graphic,
+        mask maskGraphic: Graphic,
+        placement: Placement = .fit,
+        options: EffectOptions = EffectOptions()
+    ) async throws -> Graphic {
+        let alphaGraphic = try await maskGraphic.luminanceToAlpha()
+        let graphic = try await foregroundGraphic.blended(with: alphaGraphic, blendingMode: .multiply, placement: placement)
+        return try await backgroundGraphic.blended(with: graphic, blendingMode: .over, placement: placement)
+    }
 }
