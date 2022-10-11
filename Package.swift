@@ -15,10 +15,10 @@ let package = Package(
             targets: ["AsyncGraphics"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/heestand-xyz/TextureMap", .upToNextMinor(from: "0.6.1")),
+        .package(url: "https://github.com/heestand-xyz/TextureMap", .upToNextMinor(from: "0.6.2")),
         .package(url: "https://github.com/heestand-xyz/PixelColor", .upToNextMinor(from: "1.3.4")),
         .package(url: "https://github.com/heestand-xyz/CoreGraphicsExtensions", .upToNextMinor(from: "1.3.2")),
-        .package(url: "https://github.com/heestand-xyz/VideoFrames", .upToNextMinor(from: "0.3.0")),
+        .package(url: "https://github.com/heestand-xyz/VideoFrames", .upToNextMinor(from: "0.3.2")),
         .package(url: "https://github.com/heestand-xyz/VoxelView", .upToNextMinor(from: "0.0.1")),
     ],
     targets: [
