@@ -2,19 +2,21 @@
 
 # AsyncGraphics
 
-AsyncGraphics is a Swift package for working with images and video with async / await. The core type is simply just called [`Graphic`](http://async.graphics/documentation/asyncgraphics/graphic) and it's like an image, tho backed by a [`MTLTexture`](https://developer.apple.com/documentation/metal/mtltexture) and comes with a lot of effects and static methods for creating content.
+AsyncGraphics is a Swift package for working with images and video with async / await. The core type is simply just called [`Graphic`](http://async.graphics/documentation/asyncgraphics/graphic) and it's like an image, tho backed by a [`MTLTexture`](https://developer.apple.com/documentation/metal/mtltexture) and comes with a lot of content and effects.
 
-AsyncGraphics is a work in progress project and there is more features to come!
+AsyncGraphics is a work in progress project, there is more features to come!
 
 ## Documentation
 
-[DocC **Documentation**](http://async.graphics/documentation/AsyncGraphics)
+[**Documentation**](http://async.graphics/documentation/AsyncGraphics) (DocC)
 
 The documentation contains a list of all content and effects that can be created with the [Graphic](http://async.graphics/documentation/asyncgraphics/graphic) type. It also contains articles about setting up a [live camera feed](http://async.graphics/documentation/asyncgraphics/livecamera) and [editing video](http://async.graphics/documentation/asyncgraphics/videoediting).
 
 ## Content
 
-In AsyncGraphics you can create [gradients](http://async.graphics/documentation/asyncgraphics/graphic/gradient(direction:stops:position:scale:offset:extend:gamma:resolution:options:)), [noise](http://async.graphics/documentation/asyncgraphics/graphic/noise(offset:depth:scale:octaves:seed:resolution:options:)), and more content.
+Import an [image](http://async.graphics/documentation/asyncgraphics/graphic/camera(_:device:preset:)), [video](http://async.graphics/documentation/asyncgraphics/graphic/importvideo(url:progress:)) or live stream a [camera](http://async.graphics/documentation/asyncgraphics/graphic/camera(_:device:preset:)) feed.
+
+Create [text](http://async.graphics/documentation/asyncgraphics/graphic/text(_:font:center:horizontalalignment:verticalalignment:color:backgroundcolor:resolution:options:)), a [circle](http://async.graphics/documentation/asyncgraphics/graphic/circle(radius:center:color:backgroundcolor:resolution:options:)), a [polygon](http://async.graphics/documentation/asyncgraphics/graphic/polygon(count:radius:center:rotation:cornerradius:color:backgroundcolor:resolution:options:)) a [gradient](http://async.graphics/documentation/asyncgraphics/graphic/gradient(direction:stops:position:scale:offset:extend:gamma:resolution:options:)), [noise](http://async.graphics/documentation/asyncgraphics/graphic/noise(offset:depth:scale:octaves:seed:resolution:options:)), and more.
 
 ## Effects
 
@@ -24,12 +26,11 @@ In AsyncGraphics you can [blend](http://async.graphics/documentation/asyncgraphi
 
 There is also the option to write high level [metal](http://async.graphics/documentation/asyncgraphics/graphic/metal(code:resolution:options:)) code in AsyncGraphics. No need to setup a pipeline.
 
-## Swift Package
+## Install
 
 ```swift
 .package(url: "https://github.com/heestand-xyz/AsyncGraphics", from: "0.8.0")
 ```
-
 
 ## Example
 
