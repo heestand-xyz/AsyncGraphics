@@ -62,11 +62,15 @@ struct ContentView: View {
 Colors are represented with the `PixelColor` type.<br>
 `import PixelColor` to create custom colors with hex values.
 
+[PixelColor](https://github.com/heestand-xyz/PixelColor) on GitHub.
+
 ### Image
 
 Images are represented with `TMImage`.<br> 
 This is a multi platform type alias to `UIImage` and `NSImage`.<br>
 `import TextureMap` for extra multi platform methods like `.pngData()` for macOS. 
+
+[TextureMap](https://github.com/heestand-xyz/TextureMap) on GitHub.
 
 ### About
 
