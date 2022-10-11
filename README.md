@@ -2,11 +2,27 @@
 
 # AsyncGraphics
 
-The core value type in **AsyncGraphics** is a `Graphic`.<br>
-It's like an image, tho it can be used with various *async* methods.  
+AsyncGraphics is a Swift package for working with images and video with async / await. The core type is simply just called [`Graphic`](http://async.graphics/documentation/asyncgraphics/graphic) and it's like an image, tho backed by a [`MTLTexture`](https://developer.apple.com/documentation/metal/mtltexture) and comes with a lot of effects and static methods for creating content.
 
-[Documentation](http://async.graphics/documentation/AsyncGraphics)
+AsyncGraphics is a work in progress project and there is more features to come!
 
+## Documentation
+
+[DocC **Documentation**](http://async.graphics/documentation/AsyncGraphics)
+
+The documentation contains a list of all content and effects that can be created with the [Graphic](http://async.graphics/documentation/asyncgraphics/graphic) type. It also contains articles about setting up a [live camera feed](http://async.graphics/documentation/asyncgraphics/livecamera) and [editing video](http://async.graphics/documentation/asyncgraphics/videoediting).
+
+## Content
+
+In AsyncGraphics you can create [gradients](http://async.graphics/documentation/asyncgraphics/graphic/gradient(direction:stops:position:scale:offset:extend:gamma:resolution:options:)), [noise](http://async.graphics/documentation/asyncgraphics/graphic/noise(offset:depth:scale:octaves:seed:resolution:options:)), and more content.
+
+## Effects
+
+In AsyncGraphics you can [blend](http://async.graphics/documentation/asyncgraphics/graphic/blended(with:blendingmode:placement:options:)) with various [blending modes](http://async.graphics/documentation/asyncgraphics/blendingmode), make an graphic [monochrome](http://async.graphics/documentation/asyncgraphics/graphic/monochrome()), [blur](http://async.graphics/documentation/asyncgraphics/graphic/blurred(radius:)) a graphic and even [chroma key](http://async.graphics/documentation/asyncgraphics/graphic/chromakey(color:parameters:options:)) out a green screen.
+
+## Metal
+
+There is also the option to write high level [metal](http://async.graphics/documentation/asyncgraphics/graphic/metal(code:resolution:options:)) code in AsyncGraphics. No need to setup a pipeline.
 
 ## Swift Package
 
