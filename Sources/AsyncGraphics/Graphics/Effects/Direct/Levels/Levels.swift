@@ -82,14 +82,14 @@ extension Graphic {
         try await levels(brightness: 1.0 / value)
     }
     
-    private func levels(brightness: CGFloat = 1.0,
-                        darkness: CGFloat = 0.0,
-                        contrast: CGFloat = 0.0,
-                        gamma: CGFloat = 1.0,
-                        invert: Bool = false,
-                        smooth: Bool = false,
-                        opacity: CGFloat = 1.0,
-                        offset: CGFloat = 0.0) async throws -> Graphic {
+    public func levels(brightness: CGFloat = 1.0,
+                       darkness: CGFloat = 0.0,
+                       contrast: CGFloat = 0.0,
+                       gamma: CGFloat = 1.0,
+                       invert: Bool = false,
+                       smooth: Bool = false,
+                       opacity: CGFloat = 1.0,
+                       offset: CGFloat = 0.0) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Levels",
