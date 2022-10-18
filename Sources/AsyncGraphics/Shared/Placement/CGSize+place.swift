@@ -6,7 +6,7 @@ import CoreGraphics
 
 extension CGSize {
     
-    func place(in size: CGSize, placement: Placement) -> CGSize {
+    public func place(in size: CGSize, placement: Placement) -> CGSize {
        
         switch placement {
         case .fit:
