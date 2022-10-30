@@ -44,9 +44,15 @@ extension GraphicMetalView {
                 
         self.graphic = graphic
         
-        DispatchQueue.main.async { [weak self] in
-            self?.draw()
-        }
+//        DispatchQueue.main.async { [weak self] in
+            /*self?.*/draw()
+//        }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        draw()
     }
 }
 
