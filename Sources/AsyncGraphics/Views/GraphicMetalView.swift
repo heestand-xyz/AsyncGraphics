@@ -48,12 +48,14 @@ extension GraphicMetalView {
             /*self?.*/draw()
 //        }
     }
-    
+   
+    #if !os(macOS)
     override func layoutSubviews() {
         super.layoutSubviews()
         
         draw()
     }
+    #endif
 }
 
 extension GraphicMetalView: MTKViewDelegate {
