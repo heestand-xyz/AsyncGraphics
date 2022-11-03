@@ -13,6 +13,7 @@ using namespace metal;
 #define PLACE
 
 float2 place(int place, float2 uv, uint leadingWidth, uint leadingHeight, uint trailingWidth, uint trailingHeight);
+float unitPlace(int place, uint leadingWidth, uint leadingHeight, uint trailingWidth, uint trailingHeight);
 float3 place3d(int place, float3 uvw, uint leadingWidth, uint leadingHeight, uint leadingDepth, uint trailingWidth, uint trailingHeight, uint trailingDepth);
 
 #endif

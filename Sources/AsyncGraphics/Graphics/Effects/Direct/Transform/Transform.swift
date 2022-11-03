@@ -35,19 +35,26 @@ extension Graphic {
         try await transformed(scale: scale, options: options)
     }
     
-    public func scaled(x: CGFloat = 1.0, y: CGFloat = 1.0,
+    public func sized(width: CGFloat? = nil, height: CGFloat? = nil,
                        options: EffectOptions = EffectOptions()) async throws -> Graphic {
-        try await transformed(scaleSize: CGSize(width: x, height: y), options: options)
+        try await transformed(size: CGSize(width: width ?? resolution.width,
+                                           height: height ?? resolution.height), options: options)
+    }
+    
+    public func sized(_ size: CGSize,
+                      options: EffectOptions = EffectOptions()) async throws -> Graphic {
+        try await transformed(size: size, options: options)
     }
     
     public func transformed(translation: CGPoint = .zero,
                             rotation: Angle = .zero,
                             scale: CGFloat = 1.0,
-                            scaleSize: CGSize = CGSize(width: 1.0, height: 1.0),
+                            size: CGSize? = nil,
                             options: EffectOptions = EffectOptions()) async throws -> Graphic {
         
         let relativeTranslation: CGPoint = translation / resolution.height
-        
+        let relativeSize: CGSize = (size ?? resolution) / resolution
+
         return try await Renderer.render(
             name: "Transform",
             shader: .name("transform"),
@@ -56,7 +63,7 @@ extension Graphic {
                 translation: relativeTranslation.uniform,
                 rotation: rotation.uniform,
                 scale: Float(scale),
-                size: scaleSize.uniform
+                size: relativeSize.uniform
             ),
             options: Renderer.Options(
                 addressMode: options.addressMode
