@@ -50,10 +50,43 @@ extension Graphic {
 
 extension Graphic {
     
+    enum ImageDataError: LocalizedError {
+        
+        case pngDataNotFound
+        case mappingFailed
+        
+        var errorDescription: String? {
+            switch self {
+            case .pngDataNotFound:
+                return "Async Graphics - Image - PNG Data Not Found"
+            case .mappingFailed:
+                return "Async Graphics - Image - Mapping Failed"
+            }
+        }
+    }
+    
     /// UIImage / NSImage
     public var image: TMImage {
         get async throws {
             try await mirroredVertically().texture.image(colorSpace: colorSpace, bits: bits)
+        }
+    }
+    
+    /// UIImage / NSImage
+    public var pngData: Data {
+        get async throws {
+            guard let pngData =  try await image.pngData()
+            else { throw ImageDataError.pngDataNotFound }
+            return pngData
+        }
+    }
+    
+    /// UIImage / NSImage
+    public var imageWithTransparency: TMImage {
+        get async throws {
+            guard let image = TMImage(data: try await pngData)
+            else { throw ImageDataError.mappingFailed }
+            return image
         }
     }
 }
@@ -70,9 +103,9 @@ extension Graphic {
         var errorDescription: String? {
             switch self {
             case .noChannelsFound:
-                return "Async Graphics - Texture - Pixels - No Channels Found"
+                return "Async Graphics - Pixels - No Channels Found"
             case .badChannelCount:
-                return "Async Graphics - Texture - Pixels - Bad Channel Count"
+                return "Async Graphics - Pixels - Bad Channel Count"
             }
         }
     }
