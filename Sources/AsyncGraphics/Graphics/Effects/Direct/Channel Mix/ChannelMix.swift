@@ -72,7 +72,8 @@ extension Graphic {
         try await channelMix(red: .alpha, green: .alpha, blue: .alpha, alpha: .white)
     }
     
+    #warning("Red Channel is Source of Luminance to Alpha")
     public func luminanceToAlpha() async throws -> Graphic {
-        try await monochrome().channelMix(red: .white, green: .white, blue: .white, alpha: .red)
+        try await monochrome().channelMix(red: .red, green: .red, blue: .red, alpha: .red)
     }
 }
