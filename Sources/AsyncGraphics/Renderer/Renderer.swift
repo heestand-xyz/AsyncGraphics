@@ -430,6 +430,8 @@ struct Renderer {
 //                        colorSpace: colorSpace)
         }
         
+        try Task.checkCancellation()
+        
         return graphic
     }
 }
