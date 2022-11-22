@@ -24,7 +24,7 @@ public class GraphicRecorder {
     }
     var av: AV?
     
-    private let fps: Int
+    private let fps: Double
     private let kbps: Int
     
     public enum VideoFormat: String, CaseIterable {
@@ -75,7 +75,7 @@ public class GraphicRecorder {
         }
     }
 
-    public init(fps: Int = 30, kbps: Int = 1_000, format: VideoFormat = .mov, resolution: CGSize) {
+    public init(fps: Double = 30.0, kbps: Int = 1_000, format: VideoFormat = .mov, resolution: CGSize) {
         self.fps = fps
         self.kbps = kbps
         self.format = format
@@ -143,7 +143,7 @@ public class GraphicRecorder {
 
         let pixelBuffer: CVPixelBuffer = try TextureMap.pixelBuffer(texture: graphic.texture, colorSpace: graphic.colorSpace)
         
-        let time: CMTime = CMTimeMake(value: Int64(frameIndex), timescale: Int32(fps))
+        let time: CMTime = CMTimeMake(value: Int64(frameIndex * 1_000), timescale: Int32(fps * 1_000.0))
 
         guard av.adaptor.append(pixelBuffer, withPresentationTime: time) else {
             throw RecordError.appendFailed
