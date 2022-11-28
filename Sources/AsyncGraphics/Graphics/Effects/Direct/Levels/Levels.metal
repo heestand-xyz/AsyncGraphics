@@ -37,8 +37,8 @@ fragment float4 levels(VertexOut out [[stage_in]],
     
     float alpha = color.a * uniforms.opacity;
     
-    color *= 1 / (1.0 - uniforms.darkness);
-    color -= 1.0 / (1.0 - uniforms.darkness) - 1;
+    color *= 1.0 / (1.0 - uniforms.darkness);
+    color -= 1.0 / (1.0 - uniforms.darkness) - 1.0;
     
     color *= uniforms.brightness;
     
