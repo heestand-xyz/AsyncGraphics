@@ -3,6 +3,7 @@
 //
 
 import CoreGraphics
+import CoreGraphicsExtensions
 import PixelColor
 
 extension Graphic {
@@ -53,7 +54,7 @@ extension Graphic {
                                     GradientStop(at: 0.0, color: .black),
                                     GradientStop(at: 1.0, color: .white)
                                 ],
-                                position: CGPoint = .zero,
+                                center: CGPoint? = nil,
                                 scale: CGFloat = 1.0,
                                 offset: CGFloat = 0.0,
                                 extend: GradientExtend = .zero,
@@ -61,7 +62,10 @@ extension Graphic {
                                 resolution: CGSize,
                                 options: ContentOptions = ContentOptions()) async throws -> Graphic {
         
-        try await Renderer.render(
+        let center: CGPoint = center ?? (resolution.asPoint / 2)
+        let relativePosition: CGPoint = (center - resolution / 2) / resolution.height
+        
+        return try await Renderer.render(
             name: "Gradient",
             shader: .name("gradient"),
             uniforms: GradientUniforms(
@@ -69,7 +73,7 @@ extension Graphic {
                 extend: extend.rawValue,
                 scale: Float(scale),
                 offset: Float(offset),
-                position: position.uniform,
+                position: relativePosition.uniform,
                 gamma: Float(gamma),
                 premultiply: options.premultiply,
                 resolution: resolution.uniform
