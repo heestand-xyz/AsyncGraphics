@@ -101,7 +101,9 @@ fragment float4 rectangle(VertexOut out [[stage_in]],
                 
             } else {
                 
-                color = foregroundColor;
+                if (in_x && in_y) {
+                    color = foregroundColor;
+                }
             }
         
         } else {
