@@ -6,7 +6,7 @@ import simd
 import PixelColor
 
 extension Graphic3D {
-    
+    //struct to hold the uniforms required for box3d
     private struct Box3DUniforms {
         let premultiply: Bool
         let antiAlias: Bool
@@ -18,7 +18,8 @@ extension Graphic3D {
         let edgeColor: ColorUniform
         let backgroundColor: ColorUniform
     }
-    
+
+    //function to create 3D box
     public static func box(size: SIMD3<Double>,
                            origin: SIMD3<Double>,
                            cornerRadius: Double = 0.0,
@@ -26,13 +27,15 @@ extension Graphic3D {
                            backgroundColor: PixelColor = .black,
                            resolution: SIMD3<Int>,
                            options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
-        
+
+        //calculate center of box
         let center: SIMD3<Double> = SIMD3<Double>(
             origin.x + size.x / 2,
             origin.y + size.y / 2,
             origin.z + size.z / 2
         )
-        
+
+        //call box function with center as input
         return try await box(
             size: size,
             center: center,
@@ -43,7 +46,8 @@ extension Graphic3D {
             options: options
         )
     }
-    
+
+    //function to create 3D box
     public static func box(size: SIMD3<Double>,
                            center: SIMD3<Double>? = nil,
                            cornerRadius: Double = 0.0,
@@ -51,13 +55,15 @@ extension Graphic3D {
                            backgroundColor: PixelColor = .black,
                            resolution: SIMD3<Int>,
                            options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
-        
+
+        //calculate relative size
         let relativeSize: SIMD3<Double> = SIMD3<Double>(
             size.x / Double(resolution.y),
             size.y / Double(resolution.y),
             size.z / Double(resolution.y)
         )
-        
+
+        //calculate position
         let position: SIMD3<Double> = center ?? SIMD3<Double>(
             Double(resolution.x) / 2,
             Double(resolution.y) / 2,
@@ -68,9 +74,11 @@ extension Graphic3D {
             (position.y - Double(resolution.y) / 2) / Double(resolution.y),
             (position.z - Double(resolution.z) / 2) / Double(resolution.y)
         )
-        
+
+        //calculate relative corner radius
         let relativeCornerRadius: Double = cornerRadius / Double(resolution.y)
-        
+
+        //render 3D box
         return try await Renderer.render(
             name: "Box",
             shader: .name("box3d"),
@@ -92,7 +100,8 @@ extension Graphic3D {
             )
         )
     }
-    
+
+    //function to create surface box
     public static func surfaceBox(size: SIMD3<Double>,
                                   origin: SIMD3<Double>,
                                   cornerRadius: Double = 0.0,
@@ -101,13 +110,14 @@ extension Graphic3D {
                                   backgroundColor: PixelColor = .black,
                                   resolution: SIMD3<Int>,
                                   options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
-        
+        //calculate center of box
         let center: SIMD3<Double> = SIMD3<Double>(
             origin.x + size.x / 2,
             origin.y + size.y / 2,
             origin.z + size.z / 2
         )
-        
+
+        //call surface box function with center as input
         return try await surfaceBox(
             size: size,
             center: center,
@@ -119,7 +129,8 @@ extension Graphic3D {
             options: options
         )
     }
-    
+
+    //function to create surface box
     public static func surfaceBox(size: SIMD3<Double>,
                                   center: SIMD3<Double>? = nil,
                                   cornerRadius: Double = 0.0,
@@ -128,13 +139,15 @@ extension Graphic3D {
                                   backgroundColor: PixelColor = .black,
                                   resolution: SIMD3<Int>,
                                   options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
-        
+
+        //calculate relative size
         let relativeSize: SIMD3<Double> = SIMD3<Double>(
             size.x / Double(resolution.y),
             size.y / Double(resolution.y),
             size.z / Double(resolution.y)
         )
-        
+
+        //calculate position
         let position: SIMD3<Double> = center ?? SIMD3<Double>(
             Double(resolution.x) / 2,
             Double(resolution.y) / 2,
@@ -145,11 +158,15 @@ extension Graphic3D {
             (position.y - Double(resolution.y) / 2) / Double(resolution.y),
             (position.z - Double(resolution.z) / 2) / Double(resolution.y)
         )
-        
+
+        //calculate relative corner radius
         let relativeCornerRadius: Double = cornerRadius / Double(resolution.y)
-        
+
+        //calculate relative surface width
         let relativeSurfaceWidth: Double = surfaceWidth / Double(resolution.y)
+
         
+                //render surface box
         return try await Renderer.render(
             name: "Box",
             shader: .name("box3d"),
@@ -172,3 +189,11 @@ extension Graphic3D {
         )
     }
 }
+/* 
+The above code is creating two functions to create 3D box and surface box using the Renderer class.
+The box(size:origin:cornerRadius:color:backgroundColor:resolution:options:) function creates a 3D box with given
+size, origin, corner radius, color, background color, resolution, and options.
+The surfaceBox(size:origin:cornerRadius:surfaceWidth:color:backgroundColor:resolution:options:) function creates
+a surface box with given size, origin, corner radius, surface width, color, background color, resolution, and options.
+Both functions are using the Renderer class to render the 3D box or surface box.
+*/
