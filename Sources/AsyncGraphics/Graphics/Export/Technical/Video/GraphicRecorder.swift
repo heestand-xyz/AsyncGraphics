@@ -75,7 +75,7 @@ public class GraphicRecorder {
         }
     }
 
-    public init(fps: Double = 30.0, kbps: Int = 1_000, format: VideoFormat = .mov, resolution: CGSize) {
+    public init(fps: Double = 30.0, kbps: Int = 10_000, format: VideoFormat = .mov, resolution: CGSize) {
         self.fps = fps
         self.kbps = kbps
         self.format = format
@@ -99,7 +99,7 @@ public class GraphicRecorder {
         
         let writer = try AVAssetWriter(outputURL: url, fileType: format.fileType)
 
-        let bps: Int = kbps * 1_000 * 8
+        let bps: Int = kbps * 1_000
         
         let input = AVAssetWriterInput(mediaType: .video, outputSettings: [
             AVVideoCodecKey: AVVideoCodecType.h264,
