@@ -66,7 +66,7 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 
 ### Maps
 
-- ``maps(_:latitude:longitude:span:resolution:mapOptions:options:)``
+- ``maps(type:latitude:longitude:span:resolution:mapOptions:options:)``
 - ``MapType``
 - ``MapOptions``
 
@@ -101,7 +101,7 @@ Create a graphic with a solid color.
 
 ### Gradient
 
-- ``gradient(direction:stops:position:scale:offset:extend:gamma:resolution:options:)``
+- ``gradient(direction:stops:center:scale:offset:extend:gamma:resolution:options:)``
 - ``GradientDirection``
 - ``GradientStop``
 - ``GradientExtend``
@@ -136,7 +136,8 @@ Use blending modes to combine two or more graphics.
 - ``translated(x:y:options:)``
 - ``rotated(_:options:)``
 - ``scaled(_:options:)``
-- ``scaled(x:y:options:)``
+- ``sized(width:height:options:)``
+- ``sized(_:options:)``
 
 ### Luma Transform
 
