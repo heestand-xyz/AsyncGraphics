@@ -81,7 +81,7 @@ extension Graphic {
         }
     }
     
-    /// UIImage / NSImage
+    /// UIImage / NSImage with better support for saving as a transparent png file.
     public var imageWithTransparency: TMImage {
         get async throws {
             guard let image = TMImage(data: try await pngData)
