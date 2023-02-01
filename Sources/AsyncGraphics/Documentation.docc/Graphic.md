@@ -4,21 +4,29 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 
 ## Topics
 
-### Data
-
-- ``image``
-- ``texture``
-
-### Metadata
-
-- ``bits``
-- ``colorSpace``
-
 ### Resolution
 
 - ``resolution``
 - ``width``
 - ``height``
+
+### Image
+
+- ``image``
+- ``imageWithTransparency``
+
+### Texture
+
+- ``texture``
+
+### Data
+
+- ``pngData``
+
+### Metadata
+
+- ``bits``
+- ``colorSpace``
 
 ### Options
 
@@ -57,6 +65,12 @@ To edit colors `import PixelColor`, a swift package (a dependency of AsyncGraphi
 
 - ``texture(_:)``
 - ``TextureError``
+
+### Buffer
+
+- ``pixelBuffer(_:)``
+- ``sampleBuffer(_:)``
+- ``BufferError``
 
 ### Camera
 
@@ -131,6 +145,7 @@ Use blending modes to combine two or more graphics.
 - ``blend(with:blendingMode:)``
 - ``add(with:)``
 - ``average(with:)``
+- ``mask(foreground:background:mask:placement:options:)``
 
 ### Transform
 
@@ -149,6 +164,10 @@ Use blending modes to combine two or more graphics.
 - ``lumaRotated(with:rotation:lumaGamma:placement:options:)``
 - ``lumaScaled(with:scale:lumaGamma:placement:options:)``
 - ``lumaScaled(with:x:y:lumaGamma:placement:options:)``
+
+### Transform with Blend
+
+- ``transformBlended(with:blendingMode:placement:translation:rotation:scale:size:options:)``
 
 ### Mirror
 
@@ -181,6 +200,7 @@ Use blending modes to combine two or more graphics.
 - ``subtract(_:)``
 - ``multiply(_:)``
 - ``divide(_:)``
+- ``levels(brightness:darkness:contrast:gamma:invert:smooth:opacity:offset:)``
 
 ### Luma Levels
 
@@ -324,6 +344,7 @@ Write metal shader code.
 Resize a graphic.
 
 - ``resized(to:placement:)``
+- ``resized(to:placement:method:)``
 - ``resized(in:)``
 - ``resizedStretched(to:method:)``
 - ``resized(by:)``

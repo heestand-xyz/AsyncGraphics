@@ -16,6 +16,7 @@ Use blending modes to combine two or more graphics.
 - ``Graphic/blend(with:blendingMode:)``
 - ``Graphic/add(with:)``
 - ``Graphic/average(with:)``
+- ``Graphic/mask(foreground:background:mask:placement:options:)``
 
 ### Transform
 
@@ -34,6 +35,10 @@ Use blending modes to combine two or more graphics.
 - ``Graphic/lumaRotated(with:rotation:lumaGamma:placement:options:)``
 - ``Graphic/lumaScaled(with:scale:lumaGamma:placement:options:)``
 - ``Graphic/lumaScaled(with:x:y:lumaGamma:placement:options:)``
+
+### Transform with Blend
+
+- ``Graphic/transformBlended(with:blendingMode:placement:translation:rotation:scale:size:options:)``
 
 ### Mirror
 
@@ -66,6 +71,7 @@ Use blending modes to combine two or more graphics.
 - ``Graphic/subtract(_:)``
 - ``Graphic/multiply(_:)``
 - ``Graphic/divide(_:)``
+- ``Graphic/levels(brightness:darkness:contrast:gamma:invert:smooth:opacity:offset:)``
 
 ### Luma Levels
 

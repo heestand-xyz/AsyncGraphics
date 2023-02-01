@@ -59,6 +59,13 @@ extension Graphic {
         )
     }
     
+    /// A convenience graphic for creating a UV image
+    ///
+    /// A UV image is tow gradients added together:
+    ///
+    /// U: Black to Red Horizontally
+    ///
+    /// V: Black to Green Vertically
     public static func uv(resolution: CGSize,
                           options: ContentOptions = ContentOptions()) async throws -> Graphic {
         
