@@ -25,6 +25,7 @@ Use blending modes to combine two or more graphics.
 - ``Graphic/scaled(_:options:)``
 - ``Graphic/sized(width:height:options:)``
 - ``Graphic/sized(_:options:)``
+- ``Graphic/transformed(translation:rotation:scale:size:options:)``
 
 ### Luma Transform
 
@@ -34,10 +35,13 @@ Use blending modes to combine two or more graphics.
 - ``Graphic/lumaScaled(with:scale:lumaGamma:placement:options:)``
 - ``Graphic/lumaScaled(with:x:y:lumaGamma:placement:options:)``
 
-### Transpose
+### Mirror
 
 - ``Graphic/mirroredHorizontally()``
 - ``Graphic/mirroredVertically()``
+
+### Rotate
+
 - ``Graphic/rotatedLeft()``
 - ``Graphic/rotatedRight()``
 
