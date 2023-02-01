@@ -27,6 +27,8 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 
 ### Pixels
 
+To edit colors `import PixelColor`, a swift package (a dependency of AsyncGraphics).
+
 - ``firstPixelColor``
 - ``averagePixelColor``
 - ``pixelColors``
@@ -239,7 +241,7 @@ Use blending modes to combine two or more graphics.
 
 - ``lumaBlurredBox(with:radius:lumaGamma:sampleCount:placement:options:)``
 - ``lumaBlurredZoom(with:radius:center:lumaGamma:sampleCount:placement:options:)``
--  ``lumaBlurredAngle(with:radius:angle:lumaGamma:sampleCount:placement:options:)``
+- ``lumaBlurredAngle(with:radius:angle:lumaGamma:sampleCount:placement:options:)``
 - ``lumaBlurredRandom(with:radius:lumaGamma:placement:options:)``
 
 ### Rainbow Blur

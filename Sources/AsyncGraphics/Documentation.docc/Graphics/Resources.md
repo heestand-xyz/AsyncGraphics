@@ -35,6 +35,10 @@ Live screen or camera footage can also be converted into a stream of ``Graphic``
 - ``Graphic/pixelBuffer(_:)``
 - ``Graphic/sampleBuffer(_:)``
 
+### Import a Texture
+
+- ``Graphic/texture(_:)``
+
 ### Export an Image
 
 - ``Graphic/image``
@@ -46,10 +50,8 @@ Live screen or camera footage can also be converted into a stream of ``Graphic``
 - ``Graphic/exportVideoToData(with:fps:kbps:format:)``
 - ``Graphic/exportVideoToURL(with:fps:kbps:format:)``
 
-### Export Pixel Colors
+### Apple Maps
 
-To edit colors `import PixelColor`, a swift package (a dependency of AsyncGraphics).
-
-- ``Graphic/pixelColors``
-- ``Graphic/firstPixelColor``
-- ``Graphic/averagePixelColor``
+- ``Graphic/maps(type:latitude:longitude:span:resolution:mapOptions:options:)``
+- ``Graphic/MapType``
+- ``Graphic/MapOptions``

@@ -10,4 +10,4 @@ Example with 1 octave:
 
 Example with 10 octaves:
 
-![Noise 10 Octaves](http://async.graphics/Images/Visuals/Noise-Octaves-10.png)
+![Noise with 10 Octaves](http://async.graphics/Images/Visuals/Noise-Octaves-10.png)
