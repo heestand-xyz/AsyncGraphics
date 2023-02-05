@@ -85,8 +85,13 @@ extension Graphic {
         }
     }
     
-    public static func importVideoFrame(at frameIndex: Int, url: URL) async throws -> Graphic {
-        let image: TMImage = try videoFrame(at: frameIndex, from: url)
+    /// Import Video Frame
+    ///
+    /// Pass video info to override frame count, frame rate and size.
+    ///
+    /// `Import VideoFrames` to access `VideoInfo`
+    public static func importVideoFrame(at frameIndex: Int, url: URL, info: VideoInfo? = nil) async throws -> Graphic {
+        let image: TMImage = try videoFrame(at: frameIndex, from: url, info: info)
         return try await .image(image)
     }
 }
