@@ -87,7 +87,9 @@ extension Graphic {
     
     /// Import Video Frame
     ///
-    /// Pass video info to override frame count, frame rate and size.
+    /// If info is `nil` (default), frame count, frame rate and resolution will be automatically calculate based on the video at the url.
+    ///
+    /// Pass info to override frame count, frame rate and resolution.
     ///
     /// `Import VideoFrames` to access `VideoInfo`
     public static func importVideoFrame(at frameIndex: Int, url: URL, info: VideoInfo? = nil) async throws -> Graphic {
