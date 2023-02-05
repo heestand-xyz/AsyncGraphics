@@ -48,7 +48,7 @@ struct Main {
 
 ### Video
 
-- ``Graphic/importVideoFrame(at:url:)``
+- ``Graphic/importVideoFrame(at:url:info:)``
 - ``Graphic/importVideo(url:progress:)``
 - ``Graphic/importVideoStream(url:)``
 - ``Graphic/exportVideoToData(with:fps:kbps:format:)``

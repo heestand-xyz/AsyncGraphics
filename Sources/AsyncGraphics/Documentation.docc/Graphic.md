@@ -57,7 +57,7 @@ To edit colors `import PixelColor`, a swift package (a dependency of AsyncGraphi
 - ``importVideo(url:progress:)``
 - ``ImportVideoFrameProgress``
 - ``importVideoStream(url:)``
-- ``importVideoFrame(at:url:)``
+- ``importVideoFrame(at:url:info:)``
 - ``exportVideoToData(with:fps:kbps:format:)``
 - ``exportVideoToURL(with:fps:kbps:format:)``
 

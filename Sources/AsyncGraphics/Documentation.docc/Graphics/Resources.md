@@ -26,7 +26,7 @@ Live screen or camera footage can also be converted into a stream of ``Graphic``
 
 ### Import a Video
 
-- ``Graphic/importVideoFrame(at:url:)``
+- ``Graphic/importVideoFrame(at:url:info:)``
 - ``Graphic/importVideo(url:progress:)``
 - ``Graphic/importVideoStream(url:)``
 
