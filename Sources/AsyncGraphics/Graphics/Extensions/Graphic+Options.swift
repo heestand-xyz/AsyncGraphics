@@ -7,7 +7,7 @@ import Metal
 
 extension Graphic {
     
-    public struct ContentOptions: OptionSet {
+    public struct ContentOptions: OptionSet, Hashable {
         
         public let rawValue: Int
         
@@ -42,7 +42,7 @@ extension Graphic {
         }
     }
     
-    public struct EffectOptions: OptionSet {
+    public struct EffectOptions: OptionSet, Hashable {
         
         public let rawValue: Int
         
