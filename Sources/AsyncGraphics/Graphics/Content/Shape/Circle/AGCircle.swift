@@ -1,27 +1,23 @@
-//
-//  Created by Heestand, Anton Norman | Anton | GSSD on 2023/02/06.
-//
-
 import CoreGraphics
 import PixelColor
 
-public struct GCircle: G {
+public struct AGCircle: AGGraph {
     
-    let radius: CGFloat
+    public let width: CGFloat? = nil
+    public let height: CGFloat? = nil
+    
+    let radius: CGFloat?
     let center: CGPoint?
     let color: PixelColor
-    let backgroundColor: PixelColor
     let options: Graphic.ContentOptions
     
-    public init(radius: CGFloat,
+    public init(radius: CGFloat? = nil,
                 center: CGPoint? = nil,
                 color: PixelColor = .white,
-                backgroundColor: PixelColor = .black,
                 options: Graphic.ContentOptions = .init()) {
         self.radius = radius
         self.center = center
         self.color = color
-        self.backgroundColor = backgroundColor
         self.options = options
     }
     
@@ -29,7 +25,7 @@ public struct GCircle: G {
         try await .circle(radius: radius,
                           center: center,
                           color: color,
-                          backgroundColor: backgroundColor,
+                          backgroundColor: .clear,
                           resolution: resolution,
                           options: options)
     }

@@ -20,12 +20,14 @@ extension Graphic {
         let resolution: SizeUniform
     }
     
-    public static func circle(radius: CGFloat,
+    public static func circle(radius: CGFloat? = nil,
                               center: CGPoint? = nil,
                               color: PixelColor = .white,
                               backgroundColor: PixelColor = .black,
                               resolution: CGSize,
                               options: ContentOptions = ContentOptions()) async throws -> Graphic {
+        
+        let radius: CGFloat = radius ?? min(resolution.width, resolution.height) / 2
         
         let relativeRadius: CGFloat = radius / resolution.height
         
@@ -54,13 +56,15 @@ extension Graphic {
         )
     }
     
-    public static func strokedCircle(radius: CGFloat,
+    public static func strokedCircle(radius: CGFloat? = nil,
                                      center: CGPoint? = nil,
                                      lineWidth: CGFloat,
                                      color: PixelColor = .white,
                                      backgroundColor: PixelColor = .black,
                                      resolution: CGSize,
                                      options: ContentOptions = ContentOptions()) async throws -> Graphic {
+        
+        let radius: CGFloat = radius ?? min(resolution.width, resolution.height) / 2
         
         let relativeRadius: CGFloat = radius / resolution.height
         

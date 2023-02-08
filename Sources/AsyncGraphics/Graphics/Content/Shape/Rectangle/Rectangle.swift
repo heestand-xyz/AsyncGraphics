@@ -21,13 +21,15 @@ extension Graphic {
         let resolution: SizeUniform
     }
     
-    public static func rectangle(size: CGSize,
+    public static func rectangle(size: CGSize? = nil,
                                  center: CGPoint? = nil,
                                  cornerRadius: CGFloat = 0.0,
                                  color: PixelColor = .white,
                                  backgroundColor: PixelColor = .black,
                                  resolution: CGSize,
                                  options: ContentOptions = ContentOptions()) async throws -> Graphic {
+        
+        let size: CGSize = size ?? resolution
         
         let center: CGPoint = center ?? resolution.asPoint / 2
         let frame = CGRect(origin: center - size / 2, size: size)

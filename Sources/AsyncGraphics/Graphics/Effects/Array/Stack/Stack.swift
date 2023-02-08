@@ -8,6 +8,16 @@ import PixelColor
 
 extension Graphic {
     
+    enum StackError: LocalizedError {
+        case noGraphicsProvided
+        var errorDescription: String? {
+            switch self {
+            case .noGraphicsProvided:
+                return "Async Graphics - Stack - No Graphics Provided"
+            }
+        }
+    }
+    
     private struct StackUniforms {
         let axis: Int32
         let alignment: Int32
@@ -17,7 +27,7 @@ extension Graphic {
         let resolution: SizeUniform
     }
     
-    private enum StackAxis: Int {
+    enum StackAxis: Int {
         case horizontal = 0
         case vertical = 1
     }
@@ -42,7 +52,26 @@ extension Graphic {
         case rightTop = 1
     }
     
+    // MARK: VStack
+    
     /// Vertical Stack
+    public static func vStacked(with graphics: [Graphic],
+                                alignment: VStackAlignment = .center) async throws -> Graphic {
+        
+        guard !graphics.isEmpty else {
+            throw StackError.noGraphicsProvided
+        }
+        
+        var stackGraphic: Graphic = graphics.first!
+        
+        for graphic in graphics.dropFirst() {
+            stackGraphic = try await stackGraphic.vStacked(with: graphic, alignment: alignment)
+        }
+        
+        return stackGraphic
+    }
+    
+    @available(*, deprecated, renamed: "vStackedFixed")
     public static func vStack(with graphics: [Graphic],
                               alignment: VStackAlignment = .center,
                               spacing: CGFloat = 0.0,
@@ -50,16 +79,53 @@ extension Graphic {
                               backgroundColor: PixelColor = .black,
                               resolution: CGSize? = nil) async throws -> Graphic {
         
-        try await stack(with: graphics,
-                        axis: .vertical,
-                        alignment: StackAlignment(rawValue: alignment.rawValue)!,
-                        spacing: spacing,
-                        padding: padding,
-                        backgroundColor: backgroundColor,
-                        resolution: resolution)
+        try await vStackedFixed(with: graphics,
+                                alignment: alignment,
+                                spacing: spacing,
+                                padding: padding,
+                                backgroundColor: backgroundColor,
+                                resolution: resolution)
+    }
+    
+    /// Vertical Stack Fixed
+    ///
+    /// This stack requires all graphics to have the same resolution.
+    public static func vStackedFixed(with graphics: [Graphic],
+                                     alignment: VStackAlignment = .center,
+                                     spacing: CGFloat = 0.0,
+                                     padding: CGFloat = 0.0,
+                                     backgroundColor: PixelColor = .black,
+                                     resolution: CGSize? = nil) async throws -> Graphic {
+        
+        try await stackedFixed(with: graphics,
+                               axis: .vertical,
+                               alignment: StackAlignment(rawValue: alignment.rawValue)!,
+                               spacing: spacing,
+                               padding: padding,
+                               backgroundColor: backgroundColor,
+                               resolution: resolution)
     }
     
     /// Horizontal Stack
+    public static func hStacked(with graphics: [Graphic],
+                                alignment: HStackAlignment = .center) async throws -> Graphic {
+        
+        guard !graphics.isEmpty else {
+            throw StackError.noGraphicsProvided
+        }
+        
+        var stackGraphic: Graphic = graphics.first!
+        
+        for graphic in graphics.dropFirst() {
+            stackGraphic = try await stackGraphic.hStacked(with: graphic, alignment: alignment)
+        }
+        
+        return stackGraphic
+    }
+    
+    // MARK: HStack
+    
+    @available(*, deprecated, renamed: "hStackedFixed")
     public static func hStack(with graphics: [Graphic],
                               alignment: HStackAlignment = .center,
                               spacing: CGFloat = 0.0,
@@ -67,22 +133,42 @@ extension Graphic {
                               backgroundColor: PixelColor = .black,
                               resolution: CGSize? = nil) async throws -> Graphic {
         
-        try await stack(with: graphics,
-                        axis: .horizontal,
-                        alignment: StackAlignment(rawValue: alignment.rawValue)!,
-                        spacing: spacing,
-                        padding: padding,
-                        backgroundColor: backgroundColor,
-                        resolution: resolution)
+        try await hStackedFixed(with: graphics,
+                                alignment: alignment,
+                                spacing: spacing,
+                                padding: padding,
+                                backgroundColor: backgroundColor,
+                                resolution: resolution)
     }
     
-    private static func stack(with graphics: [Graphic],
-                              axis: StackAxis,
-                              alignment: StackAlignment = .center,
-                              spacing: CGFloat = 0.0,
-                              padding: CGFloat = 0.0,
-                              backgroundColor: PixelColor = .black,
-                              resolution: CGSize? = nil) async throws -> Graphic {
+    /// Horizontal Stack Fixed
+    ///
+    /// This stack requires all graphics to have the same resolution.
+    public static func hStackedFixed(with graphics: [Graphic],
+                                     alignment: HStackAlignment = .center,
+                                     spacing: CGFloat = 0.0,
+                                     padding: CGFloat = 0.0,
+                                     backgroundColor: PixelColor = .black,
+                                     resolution: CGSize? = nil) async throws -> Graphic {
+        
+        try await stackedFixed(with: graphics,
+                               axis: .horizontal,
+                               alignment: StackAlignment(rawValue: alignment.rawValue)!,
+                               spacing: spacing,
+                               padding: padding,
+                               backgroundColor: backgroundColor,
+                               resolution: resolution)
+    }
+    
+    // MARK: Stack
+    
+    private static func stackedFixed(with graphics: [Graphic],
+                                     axis: StackAxis,
+                                     alignment: StackAlignment = .center,
+                                     spacing: CGFloat = 0.0,
+                                     padding: CGFloat = 0.0,
+                                     backgroundColor: PixelColor = .black,
+                                     resolution: CGSize? = nil) async throws -> Graphic {
         
         let resolution: CGSize = resolution ?? {
             guard let resolution: CGSize = graphics.first?.resolution else { return .zero }

@@ -1,30 +1,37 @@
-//
-//  Created by Heestand, Anton Norman | Anton | GSSD on 2023/02/06.
-//
-
 import CoreGraphics
 import PixelColor
 
-public struct GRectangle: G {
+public struct AGRectangle: AGGraph {
     
-    let size: CGSize
+    public let width: CGFloat? = nil
+    public let height: CGFloat? = nil
+    
+    let size: CGSize?
     let center: CGPoint?
     let cornerRadius: CGFloat
     let color: PixelColor
-    let backgroundColor: PixelColor
     let options: Graphic.ContentOptions
     
-    public init(size: CGSize,
+    public init(size: CGSize? = nil,
                 center: CGPoint? = nil,
                 cornerRadius: CGFloat = 0.0,
                 color: PixelColor = .white,
-                backgroundColor: PixelColor = .black,
                 options: Graphic.ContentOptions = .init()) {
         self.size = size
         self.center = center
         self.cornerRadius = cornerRadius
         self.color = color
-        self.backgroundColor = backgroundColor
+        self.options = options
+    }
+    
+    public init(frame: CGRect,
+                cornerRadius: CGFloat = 0.0,
+                color: PixelColor = .white,
+                options: Graphic.ContentOptions = .init()) {
+        self.size = frame.size
+        self.center = frame.center
+        self.cornerRadius = cornerRadius
+        self.color = color
         self.options = options
     }
     
@@ -33,7 +40,7 @@ public struct GRectangle: G {
                              center: center,
                              cornerRadius: cornerRadius,
                              color: color,
-                             backgroundColor: backgroundColor,
+                             backgroundColor: .clear,
                              resolution: resolution,
                              options: options)
     }
