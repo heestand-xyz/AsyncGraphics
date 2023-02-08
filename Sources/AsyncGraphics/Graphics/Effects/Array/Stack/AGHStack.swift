@@ -1,15 +1,15 @@
 import CoreGraphics
 
-public struct AGVStack: AGGraph {
+public struct AGHStack: AGGraph {
     
     public let width: CGFloat? = nil
     public let height: CGFloat? = nil
     
     let graphs: [any AGGraph]
     
-    let alignment: Graphic.VStackAlignment
+    let alignment: Graphic.HStackAlignment
     
-    public init(alignment: Graphic.VStackAlignment = .center,
+    public init(alignment: Graphic.HStackAlignment = .center,
                 @AGResultBuilder with graphs: @escaping () -> [any AGGraph]) {
         self.alignment = alignment
         self.graphs = graphs()
@@ -22,32 +22,32 @@ public struct AGVStack: AGGraph {
         var graphics: [Graphic] = []
         for (index, graph) in graphs.enumerated() {
             let resolution: CGSize = {
-                let width: CGFloat = graph.width ?? resolution.width
-                var height: CGFloat = graph.height ?? resolution.height
-                if graph.height == nil {
+                var width: CGFloat = graph.width ?? resolution.width
+                let height: CGFloat = graph.height ?? resolution.height
+                if graph.width == nil {
                     var autoCount: Int = 1
                     for (otherIndex, otherGraph) in graphs.enumerated() {
                         guard otherIndex != index else { continue }
-                        if let otherHeight = otherGraph.height {
-                            height -= otherHeight
+                        if let otherWidth = otherGraph.width {
+                            width -= otherWidth
                         } else {
                             autoCount += 1
                         }
                     }
-                    height /= CGFloat(autoCount)
+                    width /= CGFloat(autoCount)
                 }
                 return CGSize(width: width, height: height)
             }()
             let graphic: Graphic = try await graph.render(at: resolution)
             graphics.append(graphic)
         }
-        return try await Graphic.vStacked(with: graphics, alignment: alignment)
+        return try await Graphic.hStacked(with: graphics, alignment: alignment)
     }
 }
 
-extension AGVStack: Equatable {
+extension AGHStack: Equatable {
 
-    public static func == (lhs: AGVStack, rhs: AGVStack) -> Bool {
+    public static func == (lhs: AGHStack, rhs: AGHStack) -> Bool {
         guard lhs.width == rhs.width else { return false }
         guard lhs.height == rhs.height else { return false }
         guard lhs.graphs.count == rhs.graphs.count else { return false }
@@ -58,7 +58,7 @@ extension AGVStack: Equatable {
     }
 }
 
-extension AGVStack: Hashable {
+extension AGHStack: Hashable {
     
     public func hash(into hasher: inout Hasher) {
         hasher.combine(width)

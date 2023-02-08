@@ -3,20 +3,23 @@ import CoreGraphics
 extension AGGraph {
     
     public func frame(width: CGFloat? = nil, height: CGFloat? = nil) -> any AGGraph {
-        AGFrame(graph: self, width: width, height: height)
+        AGFrame(graph: self, fixedWidth: width, fixedHeight: height)
     }
 }
 
-public struct AGFrame: AGGraph {
+public struct AGFrame: AGGraphDirectEffect {
     
     let graph: any AGGraph
     
-    public let width: CGFloat?
-    public let height: CGFloat?
+    let fixedWidth: CGFloat?
+    let fixedHeight: CGFloat?
     
-    public func render(at resolution: CGSize) async throws -> Graphic {
-        let resolution = CGSize(width: width ?? resolution.width,
-                                height: height ?? resolution.height)
+    public var width: CGFloat? { fixedWidth ?? graph.width }
+    public var height: CGFloat? { fixedHeight ?? graph.height }
+    
+    public func renderDirectEffect(at resolution: CGSize) async throws -> Graphic {
+        let resolution = CGSize(width: fixedWidth ?? resolution.width,
+                                height: fixedHeight ?? resolution.height)
         return try await graph.render(at: resolution)
     }
 }
@@ -34,6 +37,8 @@ extension AGFrame: Equatable {
 extension AGFrame: Hashable {
     
     public func hash(into hasher: inout Hasher) {
+        hasher.combine(fixedWidth)
+        hasher.combine(fixedHeight)
         hasher.combine(width)
         hasher.combine(height)
         hasher.combine(graph)

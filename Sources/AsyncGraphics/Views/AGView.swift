@@ -22,6 +22,8 @@ public struct AGView: View {
             Color.clear
             if let graphic {
                 GraphicView(graphic: graphic)
+                    .frame(width: graphic.width / .pixelsPerPoint,
+                           height: graphic.height / .pixelsPerPoint)
             }
         }
         .background {
@@ -50,6 +52,7 @@ public struct AGView: View {
             do {
                 graphic = try await graph().render(at: resolution)
             } catch {
+                if error is CancellationError { return }
                 print("Async Graphics - AGView - Failed to render:", error)
             }
         }

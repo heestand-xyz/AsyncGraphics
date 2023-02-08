@@ -7,7 +7,7 @@ extension AGGraph {
     }
 }
 
-public struct AGBlur: AGGraph {
+public struct AGBlur: AGGraphDirectEffect {
     
     public var width: CGFloat? {
         graph.width
@@ -20,7 +20,7 @@ public struct AGBlur: AGGraph {
     
     let radius: CGFloat
     
-    public func render(at resolution: CGSize) async throws -> Graphic {
+    public func renderDirectEffect(at resolution: CGSize) async throws -> Graphic {
         try await graph.render(at: resolution).blurred(radius: radius)
     }
 }
