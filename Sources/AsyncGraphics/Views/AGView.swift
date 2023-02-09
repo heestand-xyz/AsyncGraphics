@@ -22,12 +22,14 @@ public struct AGView: View {
     public var body: some View {
         ZStack {
             Color.clear
+                .fixedSize(horizontal: false,
+                           vertical: false)
             if let graphic {
                 GraphicView(graphic: graphic)
-                    .frame(width: graph().width != nil ? graph().width! / .pixelsPerPoint : nil,
-                           height: graph().height != nil ? graph().height! / .pixelsPerPoint : nil)
             }
         }
+        .frame(width: graph().width != nil ? graph().width! / .pixelsPerPoint : nil,
+               height: graph().height != nil ? graph().height! / .pixelsPerPoint : nil)
         .background {
             GeometryReader { proxy in
                 Color.clear

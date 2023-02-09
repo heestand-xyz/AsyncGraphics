@@ -53,7 +53,7 @@ extension Graphic {
         placement: Placement = .fit,
         translation: CGPoint = .zero,
         rotation: Angle = .zero,
-        scale: CGFloat = 0.0,
+        scale: CGFloat = 1.0,
         size: CGSize? = nil,
         options: EffectOptions = EffectOptions()
     ) async throws -> Graphic {

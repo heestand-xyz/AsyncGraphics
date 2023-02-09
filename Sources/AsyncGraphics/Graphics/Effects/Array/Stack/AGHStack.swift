@@ -2,8 +2,28 @@ import CoreGraphics
 
 public struct AGHStack: AGGraph {
     
-    public let width: CGFloat? = nil
-    public let height: CGFloat? = nil
+    public var width: CGFloat? {
+        var totalWidth: CGFloat = 0.0
+        for graph in graphs.allGraphs {
+            if let width = graph.width {
+                totalWidth = totalWidth + width
+            } else {
+                return nil
+            }
+        }
+        return totalWidth
+    }
+    public var height: CGFloat? {
+        var totalHeight: CGFloat = 0.0
+        for graph in graphs.allGraphs {
+            if let height = graph.height {
+                totalHeight = max(totalHeight, height)
+            } else {
+                return nil
+            }
+        }
+        return totalHeight
+    }
     
     let graphs: [any AGGraph]
     

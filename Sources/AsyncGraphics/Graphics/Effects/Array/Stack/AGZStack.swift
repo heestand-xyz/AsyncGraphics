@@ -1,6 +1,6 @@
 import CoreGraphics
 
-public struct AGVStack: AGGraph {
+public struct AGZStack: AGGraph {
     
     public var width: CGFloat? {
         var totalWidth: CGFloat = 0.0
@@ -17,7 +17,7 @@ public struct AGVStack: AGGraph {
         var totalHeight: CGFloat = 0.0
         for graph in graphs.allGraphs {
             if let height = graph.height {
-                totalHeight = totalHeight + height
+                totalHeight = max(totalHeight, height)
             } else {
                 return nil
             }
@@ -27,9 +27,9 @@ public struct AGVStack: AGGraph {
     
     let graphs: [any AGGraph]
     
-    let alignment: Graphic.VStackAlignment
+    let alignment: Graphic.ZStackAlignment
     
-    public init(alignment: Graphic.VStackAlignment = .center,
+    public init(alignment: Graphic.ZStackAlignment = .center,
                 @AGGraphBuilder with graphs: @escaping () -> [any AGGraph]) {
         self.alignment = alignment
         self.graphs = graphs()
@@ -40,34 +40,19 @@ public struct AGVStack: AGGraph {
             return try await .color(.clear, resolution: resolution)
         }
         var graphics: [Graphic] = []
-        for (index, graph) in graphs.allGraphs.enumerated() {
-            let resolution: CGSize = {
-                let width: CGFloat = graph.width ?? resolution.width
-                var height: CGFloat = graph.height ?? resolution.height
-                if graph.height == nil {
-                    var autoCount: Int = 1
-                    for (otherIndex, otherGraph) in graphs.allGraphs.enumerated() {
-                        guard otherIndex != index else { continue }
-                        if let otherHeight = otherGraph.height {
-                            height -= otherHeight
-                        } else {
-                            autoCount += 1
-                        }
-                    }
-                    height /= CGFloat(autoCount)
-                }
-                return CGSize(width: width, height: height)
-            }()
+        for graph in graphs.allGraphs {
+            let resolution = CGSize(width: graph.width ?? resolution.width,
+                                    height: graph.height ?? resolution.height)
             let graphic: Graphic = try await graph.render(at: resolution)
             graphics.append(graphic)
         }
-        return try await Graphic.vStacked(with: graphics, alignment: alignment)
+        return try await Graphic.zStacked(with: graphics, alignment: alignment)
     }
 }
 
-extension AGVStack: Equatable {
+extension AGZStack: Equatable {
 
-    public static func == (lhs: AGVStack, rhs: AGVStack) -> Bool {
+    public static func == (lhs: AGZStack, rhs: AGZStack) -> Bool {
         guard lhs.width == rhs.width else { return false }
         guard lhs.height == rhs.height else { return false }
         guard lhs.graphs.count == rhs.graphs.count else { return false }
@@ -78,7 +63,7 @@ extension AGVStack: Equatable {
     }
 }
 
-extension AGVStack: Hashable {
+extension AGZStack: Hashable {
     
     public func hash(into hasher: inout Hasher) {
         hasher.combine(width)

@@ -74,7 +74,7 @@ float unitPlace(int place, uint leadingWidth, uint leadingHeight, uint trailingW
             }
             break;
         case 3: // Center
-            unit = leadingHeight / trailingHeight;
+            unit = float(leadingHeight) / float(trailingHeight);
             break;
     }
     

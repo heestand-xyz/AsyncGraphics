@@ -32,6 +32,39 @@ extension Graphic {
         case vertical = 1
     }
     
+    /// Depth Stack Alignment
+    public enum ZStackAlignment: Int {
+        case center
+        case leading
+        case trailing
+        case top
+        case topLeading
+        case topTrailing
+        case bottom
+        case bottomLeading
+        case bottomTrailing
+        var horizontal: VStackAlignment {
+            switch self {
+            case .leading, .topLeading, .bottomLeading:
+                return .leading
+            case .center, .top, .bottom:
+                return .center
+            case .trailing, .topTrailing, .bottomTrailing:
+                return .trailing
+            }
+        }
+        var vertical: HStackAlignment {
+            switch self {
+            case .top, .topLeading, .topTrailing:
+                return .top
+            case .center, .leading, .trailing:
+                return .center
+            case .bottom, .bottomLeading, .bottomTrailing:
+                return .bottom
+            }
+        }
+    }
+    
     /// Vertical Stack Alignment
     public enum VStackAlignment: Int {
         case leading = -1
@@ -50,6 +83,30 @@ extension Graphic {
         case leftBottom = -1
         case center = 0
         case rightTop = 1
+    }
+    
+    // MARK: ZStack
+    
+    /// Depth Stack
+    public static func zStacked(with graphics: [Graphic],
+                                alignment: ZStackAlignment = .center) async throws -> Graphic {
+        
+        guard !graphics.isEmpty else {
+            throw StackError.noGraphicsProvided
+        }
+        
+        let resolution = CGSize(width: graphics.map(\.resolution.width).max()!,
+                                height: graphics.map(\.resolution.height).max()!)
+        
+        var stackGraphic: Graphic = try await .color(.clear, resolution: resolution)
+        
+        for (i, graphic) in graphics.enumerated() {
+            let offset = CGPoint(x: CGFloat(alignment.horizontal.rawValue) * (resolution.width - graphic.width) / 2,
+                                 y: CGFloat(-alignment.vertical.rawValue) * (resolution.height - graphic.height) / 2)
+            stackGraphic = try await stackGraphic.transformBlended(with: graphic, blendingMode: .over, placement: .center, translation: offset)
+        }
+        
+        return stackGraphic
     }
     
     // MARK: VStack
