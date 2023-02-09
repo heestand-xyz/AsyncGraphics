@@ -74,8 +74,8 @@ extension Graphic {
     @available(*, deprecated, renamed: "vStackedFixed")
     public static func vStack(with graphics: [Graphic],
                               alignment: VStackAlignment = .center,
-                              spacing: CGFloat = 0.0,
-                              padding: CGFloat = 0.0,
+                              spacing: CGFloat,
+                              padding: CGFloat,
                               backgroundColor: PixelColor = .black,
                               resolution: CGSize? = nil) async throws -> Graphic {
         
@@ -128,8 +128,8 @@ extension Graphic {
     @available(*, deprecated, renamed: "hStackedFixed")
     public static func hStack(with graphics: [Graphic],
                               alignment: HStackAlignment = .center,
-                              spacing: CGFloat = 0.0,
-                              padding: CGFloat = 0.0,
+                              spacing: CGFloat,
+                              padding: CGFloat,
                               backgroundColor: PixelColor = .black,
                               resolution: CGSize? = nil) async throws -> Graphic {
         
@@ -235,6 +235,14 @@ extension Graphic {
 extension Array where Element == Graphic {
     
     /// Vertical Stack
+    public func vStacked(alignment: Graphic.VStackAlignment = .center) async throws -> Graphic {
+        
+        try await Graphic.vStacked(with: self,
+                                   alignment: alignment)
+    }
+    
+    /// Vertical Stack
+    @available(*, deprecated, renamed: "vStackedFixed")
     public func vStack(alignment: Graphic.VStackAlignment = .center,
                        spacing: CGFloat = 0.0,
                        padding: CGFloat = 0.0,
@@ -250,6 +258,14 @@ extension Array where Element == Graphic {
     }
     
     /// Horizontal Stack
+    public func hStacked(alignment: Graphic.HStackAlignment = .center) async throws -> Graphic {
+        
+        try await Graphic.hStacked(with: self,
+                                   alignment: alignment)
+    }
+    
+    /// Horizontal Stack
+    @available(*, deprecated, renamed: "hStackedFixed")
     public func hStack(alignment: Graphic.HStackAlignment = .center,
                        spacing: CGFloat = 0.0,
                        padding: CGFloat = 0.0,

@@ -7,7 +7,7 @@ extension AGGraph {
     }
 }
 
-public struct AGFrame: AGGraphDirectEffect {
+public struct AGFrame: AGGraph {
     
     let graph: any AGGraph
     
@@ -17,7 +17,7 @@ public struct AGFrame: AGGraphDirectEffect {
     public var width: CGFloat? { fixedWidth ?? graph.width }
     public var height: CGFloat? { fixedHeight ?? graph.height }
     
-    public func renderDirectEffect(at resolution: CGSize) async throws -> Graphic {
+    public func render(at resolution: CGSize) async throws -> Graphic {
         let resolution = CGSize(width: fixedWidth ?? resolution.width,
                                 height: fixedHeight ?? resolution.height)
         return try await graph.render(at: resolution)

@@ -10,7 +10,7 @@ public struct AGVStack: AGGraph {
     let alignment: Graphic.VStackAlignment
     
     public init(alignment: Graphic.VStackAlignment = .center,
-                @AGResultBuilder with graphs: @escaping () -> [any AGGraph]) {
+                @AGGraphBuilder with graphs: @escaping () -> [any AGGraph]) {
         self.alignment = alignment
         self.graphs = graphs()
     }
@@ -20,13 +20,13 @@ public struct AGVStack: AGGraph {
             return try await .color(.clear, resolution: resolution)
         }
         var graphics: [Graphic] = []
-        for (index, graph) in graphs.enumerated() {
+        for (index, graph) in graphs.allGraphs.enumerated() {
             let resolution: CGSize = {
                 let width: CGFloat = graph.width ?? resolution.width
                 var height: CGFloat = graph.height ?? resolution.height
                 if graph.height == nil {
                     var autoCount: Int = 1
-                    for (otherIndex, otherGraph) in graphs.enumerated() {
+                    for (otherIndex, otherGraph) in graphs.allGraphs.enumerated() {
                         guard otherIndex != index else { continue }
                         if let otherHeight = otherGraph.height {
                             height -= otherHeight

@@ -4,6 +4,8 @@ import CoreGraphicsExtensions
 /// SwiftUI view for displaying a ``AGGraphic``.
 @available(iOS 15.0, tvOS 15.0, macOS 12.0, *)
 public struct AGView: View {
+   
+    @Environment(\.colorScheme) private var colorScheme: ColorScheme
     
     private let graph: () -> any AGGraph
     
@@ -22,8 +24,8 @@ public struct AGView: View {
             Color.clear
             if let graphic {
                 GraphicView(graphic: graphic)
-                    .frame(width: graphic.width / .pixelsPerPoint,
-                           height: graphic.height / .pixelsPerPoint)
+                    .frame(width: graph().width != nil ? graph().width! / .pixelsPerPoint : nil,
+                           height: graph().height != nil ? graph().height! / .pixelsPerPoint : nil)
             }
         }
         .background {
@@ -36,6 +38,9 @@ public struct AGView: View {
                         resolution = proxy.size * .pixelsPerPoint
                     }
             }
+        }
+        .onChange(of: colorScheme) { _ in
+            render()
         }
         .onChange(of: resolution) { resolution in
             render(at: resolution)

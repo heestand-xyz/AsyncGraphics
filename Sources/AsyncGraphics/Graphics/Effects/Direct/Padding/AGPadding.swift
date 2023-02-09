@@ -7,7 +7,7 @@ extension AGGraph {
     }
 }
 
-public struct AGPadding: AGGraphDirectEffect {
+public struct AGPadding: AGGraph {
     
     let graph: any AGGraph
     
@@ -25,7 +25,7 @@ public struct AGPadding: AGGraphDirectEffect {
     let edgeInsets: Graphic.EdgeInsets
     let padding: CGFloat
     
-    public func renderDirectEffect(at resolution: CGSize) async throws -> Graphic {
+    public func render(at resolution: CGSize) async throws -> Graphic {
         var width: CGFloat = graph.width ?? resolution.width
         var height: CGFloat = graph.height ?? resolution.height
         if edgeInsets.onLeading {
@@ -40,8 +40,11 @@ public struct AGPadding: AGGraphDirectEffect {
         if edgeInsets.onBottom {
             height -= padding
         }
-        let resolution = CGSize(width: width, height: height)
-        let graphic: Graphic = try await graph.render(at: resolution)
+        let innerResolution = CGSize(width: width, height: height)
+        guard innerResolution.width > 0 && innerResolution.height > 0 else {
+            return try await .color(.clear, resolution: resolution)
+        }
+        let graphic: Graphic = try await graph.render(at: innerResolution)
         return try await graphic.padding(on: edgeInsets, padding)
     }
 }

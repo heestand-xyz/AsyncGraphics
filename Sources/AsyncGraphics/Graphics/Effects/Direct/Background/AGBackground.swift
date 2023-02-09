@@ -12,7 +12,7 @@ extension AGGraph {
     }
 }
 
-public struct AGBackground: AGGraphDirectEffect {
+public struct AGBackground: AGGraph {
     
     let graph: any AGGraph
     
@@ -51,7 +51,7 @@ public struct AGBackground: AGGraphDirectEffect {
     }
     let background: Background
     
-    public func renderDirectEffect(at resolution: CGSize) async throws -> Graphic {
+    public func render(at resolution: CGSize) async throws -> Graphic {
         let graphic: Graphic = try await graph.render(at: resolution)
         let backgroundGraphic: Graphic = try await {
             switch background {

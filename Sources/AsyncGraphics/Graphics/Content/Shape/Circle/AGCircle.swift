@@ -13,7 +13,7 @@ public struct AGCircle: AGGraph {
     
     public init(radius: CGFloat? = nil,
                 center: CGPoint? = nil,
-                color: PixelColor = .white,
+                color: PixelColor = .primary,
                 options: Graphic.ContentOptions = .init()) {
         self.radius = radius
         self.center = center
