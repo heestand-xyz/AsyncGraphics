@@ -19,10 +19,11 @@ public struct AGBlend: AGGraph {
         leadingGraph.contentResolution(in: containerResolution)
     }
     
-    public func render(in containerResolution: CGSize) async throws -> Graphic {
-        let resolution: CGSize = contentResolution(in: containerResolution).fallback(to: containerResolution)
-        let leadingGraphic: Graphic = try await leadingGraph.render(in: resolution)
-        let trailingGraphic: Graphic = try await trailingGraph.render(in: resolution)
+    public func render(with details: AGRenderDetails) async throws -> Graphic {
+        let resolution: CGSize = contentResolution(in: details.resolution)
+            .fallback(to: details.resolution)
+        let leadingGraphic: Graphic = try await leadingGraph.render(with: details.with(resolution: resolution))
+        let trailingGraphic: Graphic = try await trailingGraph.render(with: details.with(resolution: resolution))
         return try await leadingGraphic.blended(with: trailingGraphic, blendingMode: blendingMode)
     }
 }

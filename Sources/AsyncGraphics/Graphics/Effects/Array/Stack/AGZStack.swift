@@ -38,13 +38,13 @@ public struct AGZStack: AGGraph {
         return AGResolution(width: width, height: height)
     }
     
-    public func render(in containerResolution: CGSize) async throws -> Graphic {
+    public func render(with details: AGRenderDetails) async throws -> Graphic {
         guard !graphs.isEmpty else {
-            return try await .color(.clear, resolution: containerResolution)
+            return try await .color(.clear, resolution: details.resolution)
         }
         var graphics: [Graphic] = []
         for graph in graphs.all {
-            let graphic: Graphic = try await graph.render(in: containerResolution)
+            let graphic: Graphic = try await graph.render(with: details)
             graphics.append(graphic)
         }
         return try await Graphic.zStacked(with: graphics, alignment: alignment)

@@ -5,16 +5,13 @@ public struct AGCircle: AGGraph {
     
     let radius: CGFloat?
     let center: CGPoint?
-    let color: PixelColor
     let options: Graphic.ContentOptions
     
     public init(radius: CGFloat? = nil,
                 center: CGPoint? = nil,
-                color: PixelColor = .primary,
                 options: Graphic.ContentOptions = .init()) {
         self.radius = radius
         self.center = center
-        self.color = color
         self.options = options
     }
     
@@ -22,12 +19,12 @@ public struct AGCircle: AGGraph {
         .auto
     }
     
-    public func render(in containerResolution: CGSize) async throws -> Graphic {
+    public func render(with details: AGRenderDetails) async throws -> Graphic {
         try await .circle(radius: radius,
                           center: center,
-                          color: color,
+                          color: details.color,
                           backgroundColor: .clear,
-                          resolution: containerResolution,
+                          resolution: details.resolution,
                           options: options)
     }
 }

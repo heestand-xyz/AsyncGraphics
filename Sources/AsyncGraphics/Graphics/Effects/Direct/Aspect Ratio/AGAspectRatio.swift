@@ -20,15 +20,21 @@ public struct AGAspectRatio: AGGraph {
     
     public func contentResolution(in containerResolution: CGSize) -> AGResolution {
         let resolution: AGResolution = graph.contentResolution(in: containerResolution)
+        let placement: Placement = {
+            switch contentMode {
+            case .fit:
+                return .fit
+            case .fill:
+                return .fill
+            }
+        }()
+        if let aspectRatio {
+            return AGResolution(
+                CGSize(width: aspectRatio, height: 1.0)
+                    .place(in: containerResolution, placement: placement)
+            )
+        }
         if let size = resolution.size {
-            let placement: Placement = {
-                switch contentMode {
-                case .fit:
-                    return .fit
-                case .fill:
-                    return .fill
-                }
-            }()
             return AGResolution(size.place(in: containerResolution, placement: placement))
         } else if let width = resolution.width {
             return AGResolution(width: width)
@@ -39,9 +45,15 @@ public struct AGAspectRatio: AGGraph {
         }
     }
     
-    public func render(in containerResolution: CGSize) async throws -> Graphic {
-        let resolution: CGSize = contentResolution(in: containerResolution).fallback(to: containerResolution)
-        return try await graph.render(in: resolution)
+    public func render(with details: AGRenderDetails) async throws -> Graphic {
+        let resolution: CGSize = contentResolution(in: details.resolution).fallback(to: details.resolution)
+        let graphic: Graphic = try await graph.render(with: details.with(resolution: resolution))
+        if aspectRatio != nil {
+            let backgroundGraphic: Graphic = try await .color(.clear, resolution: resolution)
+            return try await backgroundGraphic.blended(with: graphic, blendingMode: .over, placement: .center)
+        } else {
+            return graphic
+        }
     }
 }
 

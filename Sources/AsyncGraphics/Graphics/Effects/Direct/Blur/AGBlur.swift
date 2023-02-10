@@ -17,9 +17,10 @@ public struct AGBlur: AGGraph {
         graph.contentResolution(in: containerResolution)
     }
     
-    public func render(in containerResolution: CGSize) async throws -> Graphic {
-        let resolution: CGSize = contentResolution(in: containerResolution).fallback(to: containerResolution)
-        return try await graph.render(in: resolution).blurred(radius: radius)
+    public func render(with details: AGRenderDetails) async throws -> Graphic {
+        let resolution: CGSize = contentResolution(in: details.resolution).fallback(to: details.resolution)
+        return try await graph.render(with: details.with(resolution: resolution))
+            .blurred(radius: radius)
     }
 }
 

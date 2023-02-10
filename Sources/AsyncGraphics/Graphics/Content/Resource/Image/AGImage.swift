@@ -39,13 +39,13 @@ public struct AGImage: AGGraph {
         }
     }
     
-    public func render(in containerResolution: CGSize) async throws -> Graphic {
+    public func render(with details: AGRenderDetails) async throws -> Graphic {
         guard let image: TMImage else {
-            return try await .color(.clear, resolution: containerResolution)
+            return try await .color(.clear, resolution: details.resolution)
         }
         let imageGraphic: Graphic = try await .image(image)
-        let contentResolution: AGResolution = contentResolution(in: containerResolution)
-        let resolution: CGSize = contentResolution.fallback(to: containerResolution)
+        let contentResolution: AGResolution = contentResolution(in: details.resolution)
+        let resolution: CGSize = contentResolution.fallback(to: details.resolution)
         return try await imageGraphic.resized(to: resolution, method: .lanczos)
     }
 }

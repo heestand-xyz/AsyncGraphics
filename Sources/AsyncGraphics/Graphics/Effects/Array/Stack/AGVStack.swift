@@ -38,21 +38,21 @@ public struct AGVStack: AGGraph {
         return AGResolution(width: width, height: height)
     }
     
-    public func render(in containerResolution: CGSize) async throws -> Graphic {
+    public func render(with details: AGRenderDetails) async throws -> Graphic {
         guard !graphs.isEmpty else {
-            return try await .color(.clear, resolution: containerResolution)
+            return try await .color(.clear, resolution: details.resolution)
         }
         var graphics: [Graphic] = []
         for (index, graph) in graphs.all.enumerated() {
             let resolution: CGSize = {
-                let contentResolution: AGResolution = graph.contentResolution(in: containerResolution)
-                let width: CGFloat = contentResolution.width ?? containerResolution.width
-                var height: CGFloat = contentResolution.height ?? containerResolution.height
+                let contentResolution: AGResolution = graph.contentResolution(in: details.resolution)
+                let width: CGFloat = contentResolution.width ?? details.resolution.width
+                var height: CGFloat = contentResolution.height ?? details.resolution.height
                 if contentResolution.height == nil {
                     var autoCount: Int = 1
                     for (otherIndex, otherGraph) in graphs.all.enumerated() {
                         guard otherIndex != index else { continue }
-                        if let otherHeight: CGFloat = otherGraph.contentResolution(in: containerResolution).height {
+                        if let otherHeight: CGFloat = otherGraph.contentResolution(in: details.resolution).height {
                             height -= otherHeight
                         } else {
                             autoCount += 1
@@ -62,7 +62,7 @@ public struct AGVStack: AGGraph {
                 }
                 return CGSize(width: width, height: height)
             }()
-            let graphic: Graphic = try await graph.render(in: resolution)
+            let graphic: Graphic = try await graph.render(with: details.with(resolution: resolution))
             graphics.append(graphic)
         }
         return try await Graphic.vStacked(with: graphics, alignment: alignment)

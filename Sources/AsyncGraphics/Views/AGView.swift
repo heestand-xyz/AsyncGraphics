@@ -64,8 +64,9 @@ public struct AGView: View {
         renderTask?.cancel()
         renderTask = Task {
             let resolution: CGSize = resolution ?? self.resolution
+            let details = AGRenderDetails(resolution: resolution, color: .primary)
             do {
-                graphic = try await graph().render(in: resolution)
+                graphic = try await graph().render(with: details)
             } catch {
                 if error is CancellationError { return }
                 print("Async Graphics - AGView - Failed to render:", error)

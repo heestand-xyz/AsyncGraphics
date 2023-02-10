@@ -27,8 +27,8 @@ public struct AGPadding: AGGraph {
         )
     }
     
-    public func render(in containerResolution: CGSize) async throws -> Graphic {
-        let outerResolution: CGSize = contentResolution(in: containerResolution).fallback(to: containerResolution)
+    public func render(with details: AGRenderDetails) async throws -> Graphic {
+        let outerResolution: CGSize = contentResolution(in: details.resolution).fallback(to: details.resolution)
         var width: CGFloat = outerResolution.width
         var height: CGFloat = outerResolution.height
         if edgeInsets.onLeading {
@@ -45,9 +45,9 @@ public struct AGPadding: AGGraph {
         }
         let innerResolution = CGSize(width: width, height: height)
         guard innerResolution.width > 0 && innerResolution.height > 0 else {
-            return try await .color(.clear, resolution: containerResolution)
+            return try await .color(.clear, resolution: details.resolution)
         }
-        let graphic: Graphic = try await graph.render(in: innerResolution)
+        let graphic: Graphic = try await graph.render(with: details.with(resolution: innerResolution))
         return try await graphic.padding(on: edgeInsets, padding)
     }
 }

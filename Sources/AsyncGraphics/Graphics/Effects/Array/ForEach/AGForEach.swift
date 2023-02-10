@@ -18,8 +18,8 @@ public struct AGForEach: AGGraph {
         .auto
     }
     
-    public func render(in containerResolution: CGSize) async throws -> Graphic {
-        try await .color(.clear, resolution: containerResolution)
+    public func render(with details: AGRenderDetails) async throws -> Graphic {
+        try await .color(.clear, resolution: details.resolution)
     }
 }
 

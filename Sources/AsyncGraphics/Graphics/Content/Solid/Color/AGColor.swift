@@ -16,7 +16,7 @@ public struct AGColor: AGGraph {
         .auto
     }
     
-    public func render(in containerResolution: CGSize) async throws -> Graphic {
-        try await .color(color, resolution: containerResolution, options: options)
+    public func render(with details: AGRenderDetails) async throws -> Graphic {
+        try await .color(color, resolution: details.resolution, options: options)
     }
 }
