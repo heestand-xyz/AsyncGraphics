@@ -5,60 +5,96 @@ import CoreGraphicsExtensions
 public struct AGImage: AGGraph {
     
     public var width: CGFloat? {
-        guard placement == .center,
-              let image else { return nil }
-        return image.size.width * image.scale
+        guard let imageResolution: CGSize
+        else { return nil }
+        switch placement {
+        case .fit:
+            return nil
+        case .fill:
+            return nil
+        case .center:
+            return imageResolution.width
+        case .stretch:
+            return nil
+        }
     }
     public var height: CGFloat? {
-        guard placement == .center,
-              let image else { return nil }
-        return image.size.height * image.scale
+        guard let imageResolution: CGSize
+        else { return nil }
+        switch placement {
+        case .fit:
+            return nil
+        case .fill:
+            return nil
+        case .center:
+            return imageResolution.height
+        case .stretch:
+            return nil
+        }
+    }
+    
+    private var imageResolution: CGSize? {
+        guard let image
+        else { return nil }
+        return image.size * image.scale
     }
     
     var image: TMImage?
     
-    let placement: Placement
+    var placement: Placement = .center
     
-    public init(named name: String, placement: Placement = .center) {
+    public init(named name: String) {
         if let image = TMImage(named: name) {
             self.image = image
         }
-        self.placement = placement
     }
     
-    public init(_ image: TMImage, placement: Placement = .center) {
+    public init(_ image: TMImage) {
         self.image = image
-        self.placement = placement
     }
     
     public func render(at resolution: CGSize) async throws -> Graphic {
-        guard let image: TMImage else {
+        guard let image: TMImage,
+              let imageResolution: CGSize else {
             return try await .color(.clear, resolution: resolution)
         }
-        return try await .image(image).resized(to: resolution, placement: placement, method: .lanczos)
+        let imageGraphic: Graphic = try await .image(image)
+        switch placement {
+        case .fit, .fill:
+            let resolution: CGSize = imageResolution.place(in: resolution, placement: placement)
+            return try await imageGraphic.resized(to: resolution, method: .lanczos)
+        case .center:
+            return imageGraphic
+        case .stretch:
+            return try await imageGraphic.resized(to: resolution, placement: .stretch, method: .lanczos)
+        }
     }
 }
 
-//extension AGImage {
-//
-//    static func lowResHash(image: TMImage) -> Int {
-//        let dispatchGroup = DispatchGroup()
-//        dispatchGroup.enter()
-//        var hash: Int = 0
-//        Task {
-//            defer {
-//                dispatchGroup.leave()
-//            }
-//            guard let graphic: Graphic = try? await .image(image).resized(to: CGSize(width: 10, height: 10), method: .lanczos),
-//                  let allPixels: [[PixelColor]] = graphic.pixelColors
-//            else { return }
-//            let hasher = Hasher()
-//            for pixels in allPixels {
-//                for pixel in pixels {
-//                    hasher.combine(pixel)
-//                }
-//            }
-//            hash =
-//        }
-//    }
-//}
+extension AGImage {
+    
+    public func resizable() -> AGImage {
+        var image: AGImage = self
+        image.placement = .stretch
+        return image
+    }
+}
+
+extension AGImage {
+    
+    public enum ContentMode {
+        case fit
+        case fill
+    }
+    
+    public func aspectRatio(contentMode: ContentMode) -> AGImage {
+        var image: AGImage = self
+        switch contentMode {
+        case .fit:
+            image.placement = .fit
+        case .fill:
+            image.placement = .fill
+        }
+        return image
+    }
+}

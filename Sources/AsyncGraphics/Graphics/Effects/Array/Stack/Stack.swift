@@ -100,7 +100,7 @@ extension Graphic {
         
         var stackGraphic: Graphic = try await .color(.clear, resolution: resolution)
         
-        for (i, graphic) in graphics.enumerated() {
+        for graphic in graphics {
             let offset = CGPoint(x: CGFloat(alignment.horizontal.rawValue) * (resolution.width - graphic.width) / 2,
                                  y: CGFloat(-alignment.vertical.rawValue) * (resolution.height - graphic.height) / 2)
             stackGraphic = try await stackGraphic.transformBlended(with: graphic, blendingMode: .over, placement: .center, translation: offset)
