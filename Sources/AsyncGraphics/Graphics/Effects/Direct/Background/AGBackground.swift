@@ -16,8 +16,9 @@ public struct AGBackground: AGGraph {
     
     let graph: any AGGraph
     
-    public var width: CGFloat? { graph.width }
-    public var height: CGFloat? { graph.height }
+    public var resolution: AGResolution {
+        graph.resolution
+    }
     
     enum Background: Hashable {
         case color(PixelColor)
@@ -68,8 +69,7 @@ public struct AGBackground: AGGraph {
 extension AGBackground: Equatable {
 
     public static func == (lhs: AGBackground, rhs: AGBackground) -> Bool {
-        guard lhs.width == rhs.width else { return false }
-        guard lhs.height == rhs.height else { return false }
+        guard lhs.resolution == rhs.resolution else { return false }
         guard lhs.graph.isEqual(to: rhs.graph) else { return false }
         guard lhs.background == rhs.background else { return false }
         return true
@@ -79,8 +79,7 @@ extension AGBackground: Equatable {
 extension AGBackground: Hashable {
     
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(width)
-        hasher.combine(height)
+        hasher.combine(resolution)
         hasher.combine(graph)
         hasher.combine(background)
     }

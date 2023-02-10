@@ -2,8 +2,9 @@ import CoreGraphics
 
 public struct AGBlend: AGGraph {
     
-    public let width: CGFloat? = nil
-    public let height: CGFloat? = nil
+    public var resolution: AGResolution {
+        leadingGraph.resolution
+    }
     
     let leadingGraph: any AGGraph
     let trailingGraph: any AGGraph
@@ -28,8 +29,7 @@ public struct AGBlend: AGGraph {
 extension AGBlend: Equatable {
 
     public static func == (lhs: AGBlend, rhs: AGBlend) -> Bool {
-        guard lhs.width == rhs.width else { return false }
-        guard lhs.height == rhs.height else { return false }
+        guard lhs.resolution == rhs.resolution else { return false }
         guard lhs.blendingMode == rhs.blendingMode else { return false }
         guard lhs.leadingGraph.isEqual(to: rhs.leadingGraph) else { return false }
         guard lhs.trailingGraph.isEqual(to: rhs.trailingGraph) else { return false }
@@ -40,8 +40,7 @@ extension AGBlend: Equatable {
 extension AGBlend: Hashable {
     
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(width)
-        hasher.combine(height)
+        hasher.combine(resolution)
         hasher.combine(blendingMode)
         hasher.combine(leadingGraph)
         hasher.combine(trailingGraph)

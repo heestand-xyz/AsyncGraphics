@@ -2,9 +2,8 @@ import CoreGraphics
 import PixelColor
 
 public struct AGRectangle: AGGraph {
-    
-    public let width: CGFloat? = nil
-    public let height: CGFloat? = nil
+   
+    public let resolution: AGResolution = .auto
     
     let size: CGSize?
     let center: CGPoint?

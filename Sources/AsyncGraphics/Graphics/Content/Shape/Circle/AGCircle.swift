@@ -3,8 +3,7 @@ import PixelColor
 
 public struct AGCircle: AGGraph {
     
-    public let width: CGFloat? = nil
-    public let height: CGFloat? = nil
+    public let resolution: AGResolution = .auto
     
     let radius: CGFloat?
     let center: CGPoint?

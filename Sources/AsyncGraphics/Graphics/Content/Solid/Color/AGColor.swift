@@ -3,8 +3,7 @@ import PixelColor
 
 public struct AGColor: AGGraph {
     
-    public let width: CGFloat? = nil
-    public let height: CGFloat? = nil
+    public let resolution: AGResolution = .auto
     
     let color: PixelColor
     let options: Graphic.ContentOptions

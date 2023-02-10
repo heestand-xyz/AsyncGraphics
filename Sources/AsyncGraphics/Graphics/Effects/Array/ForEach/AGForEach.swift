@@ -3,8 +3,7 @@ import CoreGraphics
 
 public struct AGForEach: AGGraph {
     
-    public var width: CGFloat? { nil }
-    public var height: CGFloat? { nil }
+    public let resolution: AGResolution = .auto
     
     var graphs: [any AGGraph]
     

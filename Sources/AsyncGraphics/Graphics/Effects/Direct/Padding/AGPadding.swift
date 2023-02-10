@@ -10,16 +10,18 @@ extension AGGraph {
 public struct AGPadding: AGGraph {
     
     let graph: any AGGraph
-    
-    public var width: CGFloat? {
-        guard let width = graph.width
-        else { return nil }
-        return width + (edgeInsets.onLeading ? padding : 0) + (edgeInsets.onTrailing ? padding : 0)
-    }
-    public var height: CGFloat? {
-        guard let height = graph.height
-        else { return nil }
-        return height + (edgeInsets.onTop ? padding : 0) + (edgeInsets.onBottom ? padding : 0)
+   
+    public var resolution: AGResolution {
+        AGResolution(
+            width: {
+                guard let width = graph.resolution.width else { return nil }
+                return width + (edgeInsets.onLeading ? padding : 0) + (edgeInsets.onTrailing ? padding : 0)
+            }(),
+            height: {
+                guard let height = graph.resolution.height else { return nil }
+                return height + (edgeInsets.onTop ? padding : 0) + (edgeInsets.onBottom ? padding : 0)
+            }()
+        )
     }
     
     let edgeInsets: Graphic.EdgeInsets
@@ -52,8 +54,7 @@ public struct AGPadding: AGGraph {
 extension AGPadding: Equatable {
 
     public static func == (lhs: AGPadding, rhs: AGPadding) -> Bool {
-        guard lhs.width == rhs.width else { return false }
-        guard lhs.height == rhs.height else { return false }
+        guard lhs.resolution == rhs.resolution else { return false }
         guard lhs.graph.isEqual(to: rhs.graph) else { return false }
         return true
     }
@@ -64,8 +65,7 @@ extension AGPadding: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(edgeInsets.rawValue)
         hasher.combine(padding)
-        hasher.combine(width)
-        hasher.combine(height)
+        hasher.combine(resolution)
         hasher.combine(graph)
     }
 }

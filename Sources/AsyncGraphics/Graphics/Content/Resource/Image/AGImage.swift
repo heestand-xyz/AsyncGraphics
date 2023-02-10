@@ -4,32 +4,18 @@ import CoreGraphicsExtensions
 
 public struct AGImage: AGGraph {
     
-    public var width: CGFloat? {
+    public var resolution: AGResolution {
         guard let imageResolution: CGSize
-        else { return nil }
+        else { return .auto }
         switch placement {
         case .fit:
-            return nil
+            return .auto
         case .fill:
-            return nil
+            return .auto
         case .center:
-            return imageResolution.width
+            return AGResolution(imageResolution)
         case .stretch:
-            return nil
-        }
-    }
-    public var height: CGFloat? {
-        guard let imageResolution: CGSize
-        else { return nil }
-        switch placement {
-        case .fit:
-            return nil
-        case .fill:
-            return nil
-        case .center:
-            return imageResolution.height
-        case .stretch:
-            return nil
+            return .auto
         }
     }
     
@@ -76,25 +62,6 @@ extension AGImage {
     public func resizable() -> AGImage {
         var image: AGImage = self
         image.placement = .stretch
-        return image
-    }
-}
-
-extension AGImage {
-    
-    public enum ContentMode {
-        case fit
-        case fill
-    }
-    
-    public func aspectRatio(contentMode: ContentMode) -> AGImage {
-        var image: AGImage = self
-        switch contentMode {
-        case .fit:
-            image.placement = .fit
-        case .fill:
-            image.placement = .fill
-        }
         return image
     }
 }

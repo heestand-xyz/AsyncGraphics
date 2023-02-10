@@ -9,11 +9,8 @@ extension AGGraph {
 
 public struct AGBlur: AGGraph {
     
-    public var width: CGFloat? {
-        graph.width
-    }
-    public var height: CGFloat? {
-        graph.height
+    public var resolution: AGResolution {
+        graph.resolution
     }
     
     let graph: any AGGraph
@@ -28,8 +25,7 @@ public struct AGBlur: AGGraph {
 extension AGBlur: Equatable {
 
     public static func == (lhs: AGBlur, rhs: AGBlur) -> Bool {
-        guard lhs.width == rhs.width else { return false }
-        guard lhs.height == rhs.height else { return false }
+        guard lhs.resolution == rhs.resolution else { return false }
         guard lhs.graph.isEqual(to: rhs.graph) else { return false }
         return true
     }
@@ -38,8 +34,7 @@ extension AGBlur: Equatable {
 extension AGBlur: Hashable {
     
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(width)
-        hasher.combine(height)
+        hasher.combine(resolution)
         hasher.combine(graph)
     }
 }
