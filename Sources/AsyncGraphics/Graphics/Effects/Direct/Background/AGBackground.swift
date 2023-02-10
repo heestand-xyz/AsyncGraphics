@@ -16,10 +16,6 @@ public struct AGBackground: AGGraph {
     
     let graph: any AGGraph
     
-    public var resolution: AGResolution {
-        graph.resolution
-    }
-    
     enum Background: Hashable {
         case color(PixelColor)
         case graph(any AGGraph)
@@ -52,14 +48,19 @@ public struct AGBackground: AGGraph {
     }
     let background: Background
     
-    public func render(at resolution: CGSize) async throws -> Graphic {
-        let graphic: Graphic = try await graph.render(at: resolution)
+    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
+        graph.contentResolution(in: containerResolution)
+    }
+    
+    public func render(in containerResolution: CGSize) async throws -> Graphic {
+        let resolution: CGSize = contentResolution(in: containerResolution).fallback(to: containerResolution)
+        let graphic: Graphic = try await graph.render(in: resolution)
         let backgroundGraphic: Graphic = try await {
             switch background {
             case .color(let color):
                 return try await .color(color, resolution: resolution)
             case .graph(let graph):
-                return try await graph.render(at: resolution)
+                return try await graph.render(in: resolution)
             }
         }()
         return try await backgroundGraphic.blended(with: graphic, blendingMode: .over)
@@ -69,7 +70,6 @@ public struct AGBackground: AGGraph {
 extension AGBackground: Equatable {
 
     public static func == (lhs: AGBackground, rhs: AGBackground) -> Bool {
-        guard lhs.resolution == rhs.resolution else { return false }
         guard lhs.graph.isEqual(to: rhs.graph) else { return false }
         guard lhs.background == rhs.background else { return false }
         return true
@@ -79,7 +79,6 @@ extension AGBackground: Equatable {
 extension AGBackground: Hashable {
     
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(resolution)
         hasher.combine(graph)
         hasher.combine(background)
     }

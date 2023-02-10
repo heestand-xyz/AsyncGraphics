@@ -10,26 +10,27 @@ extension AGGraph {
 public struct AGPadding: AGGraph {
     
     let graph: any AGGraph
-   
-    public var resolution: AGResolution {
+    
+    let edgeInsets: Graphic.EdgeInsets
+    let padding: CGFloat
+    
+    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
         AGResolution(
             width: {
-                guard let width = graph.resolution.width else { return nil }
+                guard let width = graph.contentResolution(in: containerResolution).width else { return nil }
                 return width + (edgeInsets.onLeading ? padding : 0) + (edgeInsets.onTrailing ? padding : 0)
             }(),
             height: {
-                guard let height = graph.resolution.height else { return nil }
+                guard let height = graph.contentResolution(in: containerResolution).height else { return nil }
                 return height + (edgeInsets.onTop ? padding : 0) + (edgeInsets.onBottom ? padding : 0)
             }()
         )
     }
     
-    let edgeInsets: Graphic.EdgeInsets
-    let padding: CGFloat
-    
-    public func render(at resolution: CGSize) async throws -> Graphic {
-        var width: CGFloat = graph.width ?? resolution.width
-        var height: CGFloat = graph.height ?? resolution.height
+    public func render(in containerResolution: CGSize) async throws -> Graphic {
+        let outerResolution: CGSize = contentResolution(in: containerResolution).fallback(to: containerResolution)
+        var width: CGFloat = outerResolution.width
+        var height: CGFloat = outerResolution.height
         if edgeInsets.onLeading {
             width -= padding
         }
@@ -44,9 +45,9 @@ public struct AGPadding: AGGraph {
         }
         let innerResolution = CGSize(width: width, height: height)
         guard innerResolution.width > 0 && innerResolution.height > 0 else {
-            return try await .color(.clear, resolution: resolution)
+            return try await .color(.clear, resolution: containerResolution)
         }
-        let graphic: Graphic = try await graph.render(at: innerResolution)
+        let graphic: Graphic = try await graph.render(in: innerResolution)
         return try await graphic.padding(on: edgeInsets, padding)
     }
 }
@@ -54,7 +55,8 @@ public struct AGPadding: AGGraph {
 extension AGPadding: Equatable {
 
     public static func == (lhs: AGPadding, rhs: AGPadding) -> Bool {
-        guard lhs.resolution == rhs.resolution else { return false }
+        guard lhs.edgeInsets == rhs.edgeInsets else { return false }
+        guard lhs.padding == rhs.padding else { return false }
         guard lhs.graph.isEqual(to: rhs.graph) else { return false }
         return true
     }
@@ -65,7 +67,6 @@ extension AGPadding: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(edgeInsets.rawValue)
         hasher.combine(padding)
-        hasher.combine(resolution)
         hasher.combine(graph)
     }
 }

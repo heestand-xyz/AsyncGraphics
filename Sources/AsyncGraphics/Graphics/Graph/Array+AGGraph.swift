@@ -1,15 +1,15 @@
 
 extension [AGGraph] {
     
-    var allGraphs: [any AGGraph] {
-        var allGraphs: [any AGGraph] = []
+    var all: [any AGGraph] {
+        var all: [any AGGraph] = []
         for graph in self {
             if let forEach = graph as? AGForEach {
-                allGraphs.append(contentsOf: forEach.graphs.allGraphs)
+                all.append(contentsOf: forEach.graphs.all)
             } else {
-                allGraphs.append(graph)
+                all.append(graph)
             }
         }
-        return allGraphs
+        return all
     }
 }

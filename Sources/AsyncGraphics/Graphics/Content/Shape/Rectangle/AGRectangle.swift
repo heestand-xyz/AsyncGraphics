@@ -3,8 +3,6 @@ import PixelColor
 
 public struct AGRectangle: AGGraph {
    
-    public let resolution: AGResolution = .auto
-    
     let size: CGSize?
     let center: CGPoint?
     let cornerRadius: CGFloat
@@ -34,13 +32,17 @@ public struct AGRectangle: AGGraph {
         self.options = options
     }
     
-    public func render(at resolution: CGSize) async throws -> Graphic {
+    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
+        .auto
+    }
+    
+    public func render(in containerResolution: CGSize) async throws -> Graphic {
         try await .rectangle(size: size,
                              center: center,
                              cornerRadius: cornerRadius,
                              color: color,
                              backgroundColor: .clear,
-                             resolution: resolution,
+                             resolution: containerResolution,
                              options: options)
     }
 }

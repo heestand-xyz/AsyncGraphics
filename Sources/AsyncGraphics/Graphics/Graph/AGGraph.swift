@@ -2,20 +2,9 @@ import CoreGraphics
 
 public protocol AGGraph: Hashable {
     
-    var resolution: AGResolution { get }
+    func contentResolution(in containerResolution: CGSize) -> AGResolution
     
-    func render(at resolution: CGSize) async throws -> Graphic
-}
-
-extension AGGraph {
-    
-    var width: CGFloat? {
-        resolution.width
-    }
-    
-    var height: CGFloat? {
-        resolution.height
-    }
+    func render(in containerResolution: CGSize) async throws -> Graphic
 }
 
 extension AGGraph {

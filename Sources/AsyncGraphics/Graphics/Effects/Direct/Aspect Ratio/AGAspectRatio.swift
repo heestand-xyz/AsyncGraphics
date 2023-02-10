@@ -13,41 +13,41 @@ extension AGGraph {
 
 public struct AGAspectRatio: AGGraph {
     
-    public let resolution: AGResolution = .auto
-    
     let graph: any AGGraph
     
     let aspectRatio: CGFloat?
     let contentMode: AGContentMode
     
-    public func render(at resolution: CGSize) async throws -> Graphic {
-        let placementResolution: CGSize = {
-            if let graphResolution = graph.resolution.size {
-                let placement: Placement = {
-                    switch contentMode {
-                    case .fit:
-                        return .fit
-                    case .fill:
-                        return .fill
-                    }
-                }()
-                return graphResolution.place(in: resolution, placement: placement)
-            } else if let graphWidth = graph.resolution.width {
-                return CGSize(width: graphWidth, height: resolution.height)
-            } else if let graphHeight = graph.resolution.height {
-                return CGSize(width: resolution.width, height: graphHeight)
-            } else {
-                return resolution
-            }
-        }()
-        return try await graph.render(at: placementResolution)
+    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
+        let resolution: AGResolution = graph.contentResolution(in: containerResolution)
+        if let size = resolution.size {
+            let placement: Placement = {
+                switch contentMode {
+                case .fit:
+                    return .fit
+                case .fill:
+                    return .fill
+                }
+            }()
+            return AGResolution(size.place(in: containerResolution, placement: placement))
+        } else if let width = resolution.width {
+            return AGResolution(width: width)
+        } else if let height = resolution.height {
+            return AGResolution(height: height)
+        } else {
+            return .auto
+        }
+    }
+    
+    public func render(in containerResolution: CGSize) async throws -> Graphic {
+        let resolution: CGSize = contentResolution(in: containerResolution).fallback(to: containerResolution)
+        return try await graph.render(in: resolution)
     }
 }
 
 extension AGAspectRatio: Equatable {
 
     public static func == (lhs: AGAspectRatio, rhs: AGAspectRatio) -> Bool {
-        guard lhs.resolution == rhs.resolution else { return false }
         guard lhs.aspectRatio == rhs.aspectRatio else { return false }
         guard lhs.contentMode == rhs.contentMode else { return false }
         guard lhs.graph.isEqual(to: rhs.graph) else { return false }
@@ -58,7 +58,6 @@ extension AGAspectRatio: Equatable {
 extension AGAspectRatio: Hashable {
     
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(resolution)
         hasher.combine(aspectRatio)
         hasher.combine(contentMode)
         hasher.combine(graph)

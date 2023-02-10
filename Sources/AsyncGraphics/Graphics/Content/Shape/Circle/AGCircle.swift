@@ -3,8 +3,6 @@ import PixelColor
 
 public struct AGCircle: AGGraph {
     
-    public let resolution: AGResolution = .auto
-    
     let radius: CGFloat?
     let center: CGPoint?
     let color: PixelColor
@@ -20,12 +18,16 @@ public struct AGCircle: AGGraph {
         self.options = options
     }
     
-    public func render(at resolution: CGSize) async throws -> Graphic {
+    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
+        .auto
+    }
+    
+    public func render(in containerResolution: CGSize) async throws -> Graphic {
         try await .circle(radius: radius,
                           center: center,
                           color: color,
                           backgroundColor: .clear,
-                          resolution: resolution,
+                          resolution: containerResolution,
                           options: options)
     }
 }

@@ -9,23 +9,23 @@ extension AGGraph {
 
 public struct AGBlur: AGGraph {
     
-    public var resolution: AGResolution {
-        graph.resolution
-    }
-    
     let graph: any AGGraph
     
     let radius: CGFloat
     
-    public func render(at resolution: CGSize) async throws -> Graphic {
-        try await graph.render(at: resolution).blurred(radius: radius)
+    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
+        graph.contentResolution(in: containerResolution)
+    }
+    
+    public func render(in containerResolution: CGSize) async throws -> Graphic {
+        let resolution: CGSize = contentResolution(in: containerResolution).fallback(to: containerResolution)
+        return try await graph.render(in: resolution).blurred(radius: radius)
     }
 }
 
 extension AGBlur: Equatable {
 
     public static func == (lhs: AGBlur, rhs: AGBlur) -> Bool {
-        guard lhs.resolution == rhs.resolution else { return false }
         guard lhs.graph.isEqual(to: rhs.graph) else { return false }
         return true
     }
@@ -34,7 +34,6 @@ extension AGBlur: Equatable {
 extension AGBlur: Hashable {
     
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(resolution)
         hasher.combine(graph)
     }
 }

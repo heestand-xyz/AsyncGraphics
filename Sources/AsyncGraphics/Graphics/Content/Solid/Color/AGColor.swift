@@ -3,8 +3,6 @@ import PixelColor
 
 public struct AGColor: AGGraph {
     
-    public let resolution: AGResolution = .auto
-    
     let color: PixelColor
     let options: Graphic.ContentOptions
     
@@ -14,7 +12,11 @@ public struct AGColor: AGGraph {
         self.options = options
     }
     
-    public func render(at resolution: CGSize) async throws -> Graphic {
-        try await .color(color, resolution: resolution, options: options)
+    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
+        .auto
+    }
+    
+    public func render(in containerResolution: CGSize) async throws -> Graphic {
+        try await .color(color, resolution: containerResolution, options: options)
     }
 }

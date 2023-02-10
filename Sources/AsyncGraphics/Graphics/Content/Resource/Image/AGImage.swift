@@ -4,21 +4,6 @@ import CoreGraphicsExtensions
 
 public struct AGImage: AGGraph {
     
-    public var resolution: AGResolution {
-        guard let imageResolution: CGSize
-        else { return .auto }
-        switch placement {
-        case .fit:
-            return .auto
-        case .fill:
-            return .auto
-        case .center:
-            return AGResolution(imageResolution)
-        case .stretch:
-            return .auto
-        }
-    }
-    
     private var imageResolution: CGSize? {
         guard let image
         else { return nil }
@@ -39,21 +24,29 @@ public struct AGImage: AGGraph {
         self.image = image
     }
     
-    public func render(at resolution: CGSize) async throws -> Graphic {
-        guard let image: TMImage,
-              let imageResolution: CGSize else {
-            return try await .color(.clear, resolution: resolution)
+    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
+        guard let imageResolution: CGSize
+        else { return .auto }
+        switch placement {
+        case .fit:
+            return AGResolution(imageResolution.place(in: containerResolution, placement: .fit))
+        case .fill:
+            return AGResolution(imageResolution.place(in: containerResolution, placement: .fill))
+        case .center:
+            return AGResolution(imageResolution)
+        case .stretch:
+            return .auto
+        }
+    }
+    
+    public func render(in containerResolution: CGSize) async throws -> Graphic {
+        guard let image: TMImage else {
+            return try await .color(.clear, resolution: containerResolution)
         }
         let imageGraphic: Graphic = try await .image(image)
-        switch placement {
-        case .fit, .fill:
-            let resolution: CGSize = imageResolution.place(in: resolution, placement: placement)
-            return try await imageGraphic.resized(to: resolution, method: .lanczos)
-        case .center:
-            return imageGraphic
-        case .stretch:
-            return try await imageGraphic.resized(to: resolution, placement: .stretch, method: .lanczos)
-        }
+        let contentResolution: AGResolution = contentResolution(in: containerResolution)
+        let resolution: CGSize = contentResolution.fallback(to: containerResolution)
+        return try await imageGraphic.resized(to: resolution, method: .lanczos)
     }
 }
 

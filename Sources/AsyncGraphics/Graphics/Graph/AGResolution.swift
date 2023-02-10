@@ -12,12 +12,20 @@ public struct AGResolution: Hashable {
         return CGSize(width: width, height: height)
     }
     
-    init(width: CGFloat?, height: CGFloat?) {
+    init(width: CGFloat? = nil, height: CGFloat? = nil) {
         self.width = width
         self.height = height
     }
     init(_ size: CGSize) {
         width = size.width
         height = size.height
+    }
+}
+
+extension AGResolution {
+    
+    func fallback(to resolution: CGSize) -> CGSize {
+        CGSize(width: width ?? resolution.width,
+               height: height ?? resolution.height)
     }
 }

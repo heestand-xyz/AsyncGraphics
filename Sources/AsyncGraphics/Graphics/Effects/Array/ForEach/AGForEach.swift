@@ -3,8 +3,6 @@ import CoreGraphics
 
 public struct AGForEach: AGGraph {
     
-    public let resolution: AGResolution = .auto
-    
     var graphs: [any AGGraph]
     
     public init(_ range: Range<Int>, graph: (Int) -> any AGGraph) {
@@ -15,8 +13,13 @@ public struct AGForEach: AGGraph {
         self.graphs = range.map { graph($0) }
     }
     
-    public func render(at resolution: CGSize) async throws -> Graphic {
-        try await .color(.clear, resolution: resolution)
+    
+    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
+        .auto
+    }
+    
+    public func render(in containerResolution: CGSize) async throws -> Graphic {
+        try await .color(.clear, resolution: containerResolution)
     }
 }
 

@@ -28,8 +28,16 @@ public struct AGView: View {
                 GraphicView(graphic: graphic)
             }
         }
-        .frame(width: graph().width != nil ? graph().width! / .pixelsPerPoint : nil,
-               height: graph().height != nil ? graph().height! / .pixelsPerPoint : nil)
+        .frame(
+            width: {
+                guard let width: CGFloat = graph().contentResolution(in: resolution).width else { return nil }
+                return width
+            }(),
+            height: {
+                guard let height: CGFloat = graph().contentResolution(in: resolution).height else { return nil }
+                return height
+            }()
+        )
         .background {
             GeometryReader { proxy in
                 Color.clear
@@ -57,7 +65,7 @@ public struct AGView: View {
         renderTask = Task {
             let resolution: CGSize = resolution ?? self.resolution
             do {
-                graphic = try await graph().render(at: resolution)
+                graphic = try await graph().render(in: resolution)
             } catch {
                 if error is CancellationError { return }
                 print("Async Graphics - AGView - Failed to render:", error)

@@ -9,27 +9,27 @@ extension AGGraph {
 
 public struct AGFrame: AGGraph {
     
-    public var resolution: AGResolution {
-        AGResolution(width: fixedWidth ?? graph.width,
-                     height: fixedHeight ?? graph.height)
-    }
-    
     let graph: any AGGraph
     
     let fixedWidth: CGFloat?
     let fixedHeight: CGFloat?
     
-    public func render(at resolution: CGSize) async throws -> Graphic {
-        let resolution = CGSize(width: fixedWidth ?? resolution.width,
-                                height: fixedHeight ?? resolution.height)
-        return try await graph.render(at: resolution)
+    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
+        AGResolution(width: fixedWidth ?? graph.contentResolution(in: containerResolution).width,
+                     height: fixedHeight ?? graph.contentResolution(in: containerResolution).height)
+    }
+    
+    public func render(in containerResolution: CGSize) async throws -> Graphic {
+        let resolution: CGSize = contentResolution(in: containerResolution).fallback(to: containerResolution)
+        return try await graph.render(in: resolution)
     }
 }
 
 extension AGFrame: Equatable {
 
     public static func == (lhs: AGFrame, rhs: AGFrame) -> Bool {
-        guard lhs.resolution == rhs.resolution else { return false }
+        guard lhs.fixedWidth == rhs.fixedWidth else { return false }
+        guard lhs.fixedHeight == rhs.fixedHeight else { return false }
         guard lhs.graph.isEqual(to: rhs.graph) else { return false }
         return true
     }
@@ -40,7 +40,6 @@ extension AGFrame: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(fixedWidth)
         hasher.combine(fixedHeight)
-        hasher.combine(resolution)
         hasher.combine(graph)
     }
 }
