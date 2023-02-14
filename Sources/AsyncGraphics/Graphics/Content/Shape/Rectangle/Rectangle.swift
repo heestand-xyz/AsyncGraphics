@@ -80,7 +80,7 @@ extension Graphic {
         )
     }
     
-    public static func strokedRectangle(size: CGSize,
+    public static func strokedRectangle(size: CGSize? = nil,
                                         center: CGPoint? = nil,
                                         cornerRadius: CGFloat = 0.0,
                                         lineWidth: CGFloat,
@@ -88,6 +88,8 @@ extension Graphic {
                                         backgroundColor: PixelColor = .black,
                                         resolution: CGSize,
                                         options: ContentOptions = ContentOptions()) async throws -> Graphic {
+        
+        let size: CGSize = size ?? resolution
         
         let center: CGPoint = center ?? resolution.asPoint / 2
         let frame = CGRect(origin: center - size / 2, size: size)

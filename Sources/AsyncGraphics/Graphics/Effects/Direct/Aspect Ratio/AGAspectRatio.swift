@@ -75,17 +75,3 @@ extension AGAspectRatio: Hashable {
         hasher.combine(graph)
     }
 }
-
-extension AGImage {
-    
-    public func aspectRatio(contentMode: AGContentMode) -> AGImage {
-        var image: AGImage = self
-        switch contentMode {
-        case .fit:
-            image.placement = .fit
-        case .fill:
-            image.placement = .fill
-        }
-        return image
-    }
-}

@@ -3,28 +3,36 @@ import PixelColor
 
 public struct AGCircle: AGGraph {
     
-    let radius: CGFloat?
-    let center: CGPoint?
-    let options: Graphic.ContentOptions
+    var lineWidth: CGFloat?
     
-    public init(radius: CGFloat? = nil,
-                center: CGPoint? = nil,
-                options: Graphic.ContentOptions = .init()) {
-        self.radius = radius
-        self.center = center
-        self.options = options
-    }
+    public init() { }
     
     public func contentResolution(in containerResolution: CGSize) -> AGResolution {
-        .auto
+        AGResolution(CGSize(width: 1.0, height: 1.0).place(in: containerResolution, placement: .fit))
     }
     
     public func render(with details: AGRenderDetails) async throws -> Graphic {
-        try await .circle(radius: radius,
-                          center: center,
-                          color: details.color,
-                          backgroundColor: .clear,
-                          resolution: details.resolution,
-                          options: options)
+        if let lineWidth {
+            var radius: CGFloat = min(details.resolution.width, details.resolution.height) / 2
+            radius -= lineWidth / 2
+            return try await .strokedCircle(radius: radius,
+                                            lineWidth: lineWidth,
+                                            color: details.color,
+                                            backgroundColor: .clear,
+                                            resolution: details.resolution)
+        } else {
+            return try await .circle(color: details.color,
+                                     backgroundColor: .clear,
+                                     resolution: details.resolution)
+        }
+    }
+}
+
+extension AGCircle {
+    
+    public func strokeBorder(lineWidth: CGFloat = 1.0) -> AGCircle {
+        var circle: AGCircle = self
+        circle.lineWidth = lineWidth * .pixelsPerPoint
+        return circle
     }
 }
