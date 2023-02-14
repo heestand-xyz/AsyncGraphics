@@ -3,7 +3,9 @@ import CoreGraphics
 extension AGGraph {
     
     public func frame(width: CGFloat? = nil, height: CGFloat? = nil) -> any AGGraph {
-        AGFrame(graph: self, fixedWidth: width, fixedHeight: height)
+        AGFrame(graph: self,
+                fixedWidth: width != nil ? width! * .pixelsPerPoint : nil,
+                fixedHeight: height != nil ? height! * .pixelsPerPoint : nil)
     }
 }
 

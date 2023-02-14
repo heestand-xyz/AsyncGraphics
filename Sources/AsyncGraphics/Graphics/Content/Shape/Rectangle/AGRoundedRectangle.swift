@@ -2,11 +2,15 @@ import CoreGraphics
 import CoreGraphicsExtensions
 import PixelColor
 
-public struct AGRectangle: AGGraph {
+public struct AGRoundedRectangle: AGGraph {
     
     var lineWidth: CGFloat?
    
-    public init() {}
+    let cornerRadius: CGFloat
+    
+    public init(cornerRadius: CGFloat) {
+        self.cornerRadius = cornerRadius * .pixelsPerPoint
+    }
     
     public func contentResolution(in containerResolution: CGSize) -> AGResolution {
         .auto
@@ -21,17 +25,18 @@ public struct AGRectangle: AGGraph {
                                                backgroundColor: .clear,
                                                resolution: details.resolution)
         } else {
-            return try await .rectangle(color: details.color,
+            return try await .rectangle(cornerRadius: cornerRadius,
+                                        color: details.color,
                                         backgroundColor: .clear,
                                         resolution: details.resolution)
         }
     }
 }
 
-extension AGRectangle {
+extension AGRoundedRectangle {
     
-    public func strokeBorder(lineWidth: CGFloat = 1.0) -> AGRectangle {
-        var circle: AGRectangle = self
+    public func strokeBorder(lineWidth: CGFloat = 1.0) -> AGRoundedRectangle {
+        var circle: AGRoundedRectangle = self
         circle.lineWidth = lineWidth * .pixelsPerPoint
         return circle
     }

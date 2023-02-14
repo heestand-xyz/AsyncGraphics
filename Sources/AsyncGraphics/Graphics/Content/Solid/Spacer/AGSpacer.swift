@@ -1,19 +1,14 @@
 import CoreGraphics
-import PixelColor
 
-public struct AGColor: AGGraph {
+public struct AGSpacer: AGGraph {
     
-    let color: PixelColor
-    
-    public init(_ color: PixelColor) {
-        self.color = color
-    }
+    public init() {}
     
     public func contentResolution(in containerResolution: CGSize) -> AGResolution {
         .auto
     }
     
     public func render(with details: AGRenderDetails) async throws -> Graphic {
-        try await .color(color, resolution: details.resolution)
+        try await .color(.clear, resolution: details.resolution)
     }
 }
