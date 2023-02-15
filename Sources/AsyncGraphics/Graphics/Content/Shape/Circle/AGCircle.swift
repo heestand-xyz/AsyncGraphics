@@ -1,4 +1,5 @@
 import CoreGraphics
+import CoreGraphicsExtensions
 import PixelColor
 
 public struct AGCircle: AGGraph {
@@ -8,10 +9,13 @@ public struct AGCircle: AGGraph {
     public init() { }
     
     public func contentResolution(in containerResolution: CGSize) -> AGResolution {
-        AGResolution(CGSize(width: 1.0, height: 1.0).place(in: containerResolution, placement: .fit))
+        AGResolution(CGSize.one.place(in: containerResolution, placement: .fit))
     }
     
     public func render(with details: AGRenderDetails) async throws -> Graphic {
+        let resolution: CGSize = contentResolution(in: details.resolution)
+            .fallback(to: details.resolution)
+        print("--------->", details.resolution, resolution)
         if let lineWidth {
             var radius: CGFloat = min(details.resolution.width, details.resolution.height) / 2
             radius -= lineWidth / 2
@@ -19,11 +23,11 @@ public struct AGCircle: AGGraph {
                                             lineWidth: lineWidth,
                                             color: details.color,
                                             backgroundColor: .clear,
-                                            resolution: details.resolution)
+                                            resolution: resolution)
         } else {
             return try await .circle(color: details.color,
                                      backgroundColor: .clear,
-                                     resolution: details.resolution)
+                                     resolution: resolution)
         }
     }
 }

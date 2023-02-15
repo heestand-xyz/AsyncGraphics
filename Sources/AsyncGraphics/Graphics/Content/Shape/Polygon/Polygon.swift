@@ -22,7 +22,7 @@ extension Graphic {
     }
     
     public static func polygon(count: Int,
-                               radius: CGFloat,
+                               radius: CGFloat? = nil,
                                center: CGPoint? = nil,
                                rotation: Angle = .zero,
                                cornerRadius: CGFloat = 0.0,
@@ -30,6 +30,8 @@ extension Graphic {
                                backgroundColor: PixelColor = .black,
                                resolution: CGSize,
                                options: ContentOptions = ContentOptions()) async throws -> Graphic {
+        
+        let radius: CGFloat = radius ?? min(resolution.width, resolution.height) / 2
         
         let relativeRadius: CGFloat = radius / resolution.height
         

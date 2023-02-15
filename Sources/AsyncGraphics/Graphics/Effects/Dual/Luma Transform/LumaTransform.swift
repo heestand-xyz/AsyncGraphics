@@ -109,7 +109,7 @@ extension Graphic {
         translation: CGPoint = .zero,
         rotation: Angle = .zero,
         scale: CGFloat = 1.0,
-        scaleSize: CGSize = CGSize(width: 1.0, height: 1.0),
+        scaleSize: CGSize = .one,
         lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
         options: EffectOptions = EffectOptions()

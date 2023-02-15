@@ -30,18 +30,20 @@ public struct AGView: View {
         }
         .frame(
             width: {
+                guard resolution != .zero else { return nil }
                 guard let width: CGFloat = graph().contentResolution(in: resolution).width else { return nil }
-                return width
+                return width / .pixelsPerPoint
             }(),
             height: {
+                guard resolution != .zero else { return nil }
                 guard let height: CGFloat = graph().contentResolution(in: resolution).height else { return nil }
-                return height
+                return height / .pixelsPerPoint
             }()
         )
         .background {
             GeometryReader { proxy in
                 Color.clear
-                    .task {
+                    .onAppear {
                         resolution = proxy.size * .pixelsPerPoint
                     }
                     .onChange(of: proxy.size) { newValue in
