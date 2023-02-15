@@ -15,7 +15,6 @@ public struct AGCircle: AGGraph {
     public func render(with details: AGRenderDetails) async throws -> Graphic {
         let resolution: CGSize = contentResolution(in: details.resolution)
             .fallback(to: details.resolution)
-        print("--------->", details.resolution, resolution)
         if let lineWidth {
             var radius: CGFloat = min(details.resolution.width, details.resolution.height) / 2
             radius -= lineWidth / 2

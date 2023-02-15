@@ -16,18 +16,20 @@ public struct AGBorder: AGGraph {
     let color: PixelColor
     
     public func contentResolution(in containerResolution: CGSize) -> AGResolution {
-        .auto
+        graph.contentResolution(in: containerResolution)
     }
     
     public func render(with details: AGRenderDetails) async throws -> Graphic {
+        let resolution: CGSize = contentResolution(in: details.resolution)
+            .fallback(to: details.resolution)
         let graphic: Graphic = try await graph.render(
-            with: details.with(resolution: details.resolution))
+            with: details.with(resolution: resolution))
         let borderGraphic: Graphic = try await .strokedRectangle(
-            size: details.resolution - .pixelsPerPoint,
+            size: resolution - .pixelsPerPoint,
             lineWidth: .pixelsPerPoint,
             color: color,
             backgroundColor: .clear,
-            resolution: details.resolution)
+            resolution: resolution)
         return try await graphic.blended(with: borderGraphic, blendingMode: .over)
     }
 }

@@ -3,7 +3,7 @@ import CoreGraphics
 extension AGGraph {
     
     public func padding(on edgeInsets: Graphic.EdgeInsets = .all, _ length: CGFloat) -> any AGGraph {
-        AGPadding(graph: self, edgeInsets: edgeInsets, padding: length)
+        AGPadding(graph: self, edgeInsets: edgeInsets, padding: length * .pixelsPerPoint)
     }
 }
 

@@ -15,31 +15,35 @@ public struct AGView: View {
     
     @State private var graphic: Graphic?
     
-    @State private var resolution: CGSize = .zero
+    @State private var resolution: CGSize?
+    private var width: CGFloat? {
+        guard let resolution else { return nil }
+        return graph().contentResolution(in: resolution).width
+    }
+    private var height: CGFloat? {
+        guard let resolution else { return nil }
+        return graph().contentResolution(in: resolution).height
+    }
     
     @State private var renderTask: Task<Void, Never>?
     
     public var body: some View {
         ZStack {
             Color.clear
-                .fixedSize(horizontal: false,
-                           vertical: false)
             if let graphic {
                 GraphicView(graphic: graphic)
+                    .frame(
+                        maxWidth: {
+                            guard let width: CGFloat else { return nil }
+                            return width / .pixelsPerPoint
+                        }(),
+                        maxHeight: {
+                            guard let height: CGFloat else { return nil }
+                            return height / .pixelsPerPoint
+                        }()
+                    )
             }
         }
-        .frame(
-            width: {
-                guard resolution != .zero else { return nil }
-                guard let width: CGFloat = graph().contentResolution(in: resolution).width else { return nil }
-                return width / .pixelsPerPoint
-            }(),
-            height: {
-                guard resolution != .zero else { return nil }
-                guard let height: CGFloat = graph().contentResolution(in: resolution).height else { return nil }
-                return height / .pixelsPerPoint
-            }()
-        )
         .background {
             GeometryReader { proxy in
                 Color.clear
@@ -55,6 +59,7 @@ public struct AGView: View {
             render()
         }
         .onChange(of: resolution) { resolution in
+            print("-------->", resolution)
             render(at: resolution)
         }
         .onChange(of: graph().hashValue) { _ in
@@ -63,10 +68,10 @@ public struct AGView: View {
     }
     
     private func render(at resolution: CGSize? = nil) {
+        guard let resolution: CGSize = resolution ?? self.resolution else { return }
+        let details = AGRenderDetails(resolution: resolution, color: .primary)
         renderTask?.cancel()
         renderTask = Task {
-            let resolution: CGSize = resolution ?? self.resolution
-            let details = AGRenderDetails(resolution: resolution, color: .primary)
             do {
                 graphic = try await graph().render(with: details)
             } catch {
