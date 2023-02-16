@@ -7,28 +7,31 @@ extension AGGraph {
     }
 }
 
-public struct AGPadding: AGGraph {
+public struct AGPadding: AGParentGraph {
+    
+    public var children: [any AGGraph] { [graph] }
     
     let graph: any AGGraph
     
     let edgeInsets: Graphic.EdgeInsets
     let padding: CGFloat
     
-    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
+    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
         AGResolution(
             width: {
-                guard let width = graph.contentResolution(in: containerResolution).width else { return nil }
+                guard let width = graph.contentResolution(with: details).width else { return nil }
                 return width + (edgeInsets.onLeading ? padding : 0) + (edgeInsets.onTrailing ? padding : 0)
             }(),
             height: {
-                guard let height = graph.contentResolution(in: containerResolution).height else { return nil }
+                guard let height = graph.contentResolution(with: details).height else { return nil }
                 return height + (edgeInsets.onTop ? padding : 0) + (edgeInsets.onBottom ? padding : 0)
             }()
         )
     }
     
     public func render(with details: AGRenderDetails) async throws -> Graphic {
-        let outerResolution: CGSize = contentResolution(in: details.resolution).fallback(to: details.resolution)
+        let outerResolution: CGSize = contentResolution(with: details.resolutionDetails)
+            .fallback(to: details.resolution)
         var width: CGFloat = outerResolution.width
         var height: CGFloat = outerResolution.height
         if edgeInsets.onLeading {

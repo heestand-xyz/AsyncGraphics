@@ -1,6 +1,8 @@
 import CoreGraphics
 
-public struct AGHStack: AGGraph {
+public struct AGHStack: AGParentGraph {
+    
+    public var children: [any AGGraph] { graphs }
     
     let graphs: [any AGGraph]
     
@@ -12,11 +14,11 @@ public struct AGHStack: AGGraph {
         self.graphs = graphs()
     }
     
-    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
+    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
         let width: CGFloat? = {
             var totalWidth: CGFloat = 0.0
             for graph in graphs.all {
-                if let width = graph.contentResolution(in: containerResolution).width {
+                if let width = graph.contentResolution(with: details).width {
                     totalWidth = totalWidth + width
                 } else {
                     return nil
@@ -27,7 +29,7 @@ public struct AGHStack: AGGraph {
         let height: CGFloat? = {
             var totalHeight: CGFloat = 0.0
             for graph in graphs.all {
-                if let height = graph.contentResolution(in: containerResolution).height {
+                if let height = graph.contentResolution(with: details).height {
                     totalHeight = max(totalHeight, height)
                 } else {
                     return nil
@@ -38,31 +40,36 @@ public struct AGHStack: AGGraph {
         return AGResolution(width: width, height: height)
     }
     
+    func childResolution(for childGraph: any AGGraph, at index: Int,
+                         with resolutionDetails: AGResolutionDetails) -> CGSize {
+        let contentResolution: AGResolution = childGraph.contentResolution(with: resolutionDetails)
+        var width: CGFloat = contentResolution.width ?? resolutionDetails.resolution.width
+        let height: CGFloat = contentResolution.height ?? resolutionDetails.resolution.height
+        if contentResolution.width == nil {
+            var autoCount: Int = 1
+            for (otherIndex, otherGraph) in graphs.all.enumerated() {
+                guard otherIndex != index else { continue }
+                if let otherWidth: CGFloat = otherGraph.contentResolution(with: resolutionDetails).width {
+                    width -= otherWidth
+                } else {
+                    autoCount += 1
+                }
+            }
+            width /= CGFloat(autoCount)
+        }
+        return CGSize(width: width, height: height)
+    }
+    
     public func render(with details: AGRenderDetails) async throws -> Graphic {
         guard !graphs.isEmpty else {
             return try await .color(.clear, resolution: details.resolution)
         }
         var graphics: [Graphic] = []
         for (index, graph) in graphs.all.enumerated() {
-            let resolution: CGSize = {
-                let contentResolution: AGResolution = graph.contentResolution(in: details.resolution)
-                var width: CGFloat = contentResolution.width ?? details.resolution.width
-                let height: CGFloat = contentResolution.height ?? details.resolution.height
-                if contentResolution.width == nil {
-                    var autoCount: Int = 1
-                    for (otherIndex, otherGraph) in graphs.all.enumerated() {
-                        guard otherIndex != index else { continue }
-                        if let otherWidth: CGFloat = otherGraph.contentResolution(in: details.resolution).width {
-                            width -= otherWidth
-                        } else {
-                            autoCount += 1
-                        }
-                    }
-                    width /= CGFloat(autoCount)
-                }
-                return CGSize(width: width, height: height)
-            }()
-            let graphic: Graphic = try await graph.render(with: details.with(resolution: resolution))
+            let resolution: CGSize = childResolution(for: graph, at: index,
+                                                     with: details.resolutionDetails)
+            let details: AGRenderDetails = details.with(resolution: resolution)
+            let graphic: Graphic = try await graph.render(with: details)
             graphics.append(graphic)
         }
         return try await Graphic.hStacked(with: graphics, alignment: alignment)

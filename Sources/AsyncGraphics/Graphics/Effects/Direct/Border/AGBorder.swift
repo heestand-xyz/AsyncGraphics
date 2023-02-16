@@ -9,18 +9,20 @@ extension AGGraph {
     }
 }
 
-public struct AGBorder: AGGraph {
+public struct AGBorder: AGParentGraph {
+    
+    public var children: [any AGGraph] { [graph] }
     
     let graph: any AGGraph
     
     let color: PixelColor
     
-    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
-        graph.contentResolution(in: containerResolution)
+    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
+        graph.contentResolution(with: details)
     }
     
     public func render(with details: AGRenderDetails) async throws -> Graphic {
-        let resolution: CGSize = contentResolution(in: details.resolution)
+        let resolution: CGSize = contentResolution(with: details.resolutionDetails)
             .fallback(to: details.resolution)
         let graphic: Graphic = try await graph.render(
             with: details.with(resolution: resolution))

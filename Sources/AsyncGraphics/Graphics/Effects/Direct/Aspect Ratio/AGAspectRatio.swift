@@ -11,15 +11,17 @@ extension AGGraph {
     }
 }
 
-public struct AGAspectRatio: AGGraph {
+public struct AGAspectRatio: AGParentGraph {
+   
+    public var children: [any AGGraph] { [graph] }
     
     let graph: any AGGraph
     
     let aspectRatio: CGFloat?
     let contentMode: AGContentMode
     
-    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
-        let resolution: AGResolution = graph.contentResolution(in: containerResolution)
+    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
+        let resolution: AGResolution = graph.contentResolution(with: details)
         let placement: Placement = {
             switch contentMode {
             case .fit:
@@ -31,11 +33,11 @@ public struct AGAspectRatio: AGGraph {
         if let aspectRatio {
             return AGResolution(
                 CGSize(width: aspectRatio, height: 1.0)
-                    .place(in: containerResolution, placement: placement)
+                    .place(in: details.resolution, placement: placement)
             )
         }
         if let size = resolution.size {
-            return AGResolution(size.place(in: containerResolution, placement: placement))
+            return AGResolution(size.place(in: details.resolution, placement: placement))
         } else if let width = resolution.width {
             return AGResolution(width: width)
         } else if let height = resolution.height {
@@ -45,12 +47,20 @@ public struct AGAspectRatio: AGGraph {
         }
     }
     
+    func childResolution(for childGraph: any AGGraph, at index: Int = 0,
+                         with resolutionDetails: AGResolutionDetails) -> CGSize {
+        contentResolution(with: resolutionDetails)
+            .fallback(to: resolutionDetails.resolution)
+    }
+    
     public func render(with details: AGRenderDetails) async throws -> Graphic {
-        let resolution: CGSize = contentResolution(in: details.resolution).fallback(to: details.resolution)
-        let graphic: Graphic = try await graph.render(with: details.with(resolution: resolution))
+        let childResolution: CGSize = childResolution(for: graph, with: details.resolutionDetails)
+        let graphic: Graphic = try await graph.render(with: details.with(resolution: childResolution))
         if aspectRatio != nil {
-            let backgroundGraphic: Graphic = try await .color(.clear, resolution: resolution)
-            return try await backgroundGraphic.blended(with: graphic, blendingMode: .over, placement: .center)
+            let backgroundGraphic: Graphic = try await .color(.clear, resolution: childResolution)
+            return try await backgroundGraphic.blended(with: graphic,
+                                                       blendingMode: .over,
+                                                       placement: .center)
         } else {
             return graphic
         }

@@ -9,20 +9,23 @@ extension AGGraph {
     }
 }
 
-public struct AGFrame: AGGraph {
+public struct AGFrame: AGParentGraph {
+    
+    public var children: [any AGGraph] { [graph] }
     
     let graph: any AGGraph
     
     let fixedWidth: CGFloat?
     let fixedHeight: CGFloat?
     
-    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
-        AGResolution(width: fixedWidth ?? graph.contentResolution(in: containerResolution).width,
-                     height: fixedHeight ?? graph.contentResolution(in: containerResolution).height)
+    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
+        AGResolution(width: fixedWidth ?? graph.contentResolution(with: details).width,
+                     height: fixedHeight ?? graph.contentResolution(with: details).height)
     }
     
     public func render(with details: AGRenderDetails) async throws -> Graphic {
-        let resolution: CGSize = contentResolution(in: details.resolution).fallback(to: details.resolution)
+        let resolution: CGSize = contentResolution(with: details.resolutionDetails)
+            .fallback(to: details.resolution)
         return try await graph.render(with: details.with(resolution: resolution))
     }
 }

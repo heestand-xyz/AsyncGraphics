@@ -10,12 +10,12 @@ public struct AGPolygon: AGGraph {
         self.count = count
     }
     
-    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
-        AGResolution(CGSize.one.place(in: containerResolution, placement: .fit))
+    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
+        AGResolution(CGSize.one.place(in: details.resolution, placement: .fit))
     }
     
     public func render(with details: AGRenderDetails) async throws -> Graphic {
-        let resolution: CGSize = contentResolution(in: details.resolution)
+        let resolution: CGSize = contentResolution(with: details.resolutionDetails)
             .fallback(to: details.resolution)
         return try await .polygon(count: count,
                                   color: details.color,

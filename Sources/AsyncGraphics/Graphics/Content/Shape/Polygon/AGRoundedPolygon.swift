@@ -3,7 +3,9 @@ import CoreGraphicsExtensions
 import PixelColor
 
 public struct AGRoundedPolygon: AGGraph {
-   
+    
+    public var children: [any AGGraph] { [] }
+    
     let count: Int
     let cornerRadius: CGFloat
     
@@ -12,12 +14,12 @@ public struct AGRoundedPolygon: AGGraph {
         self.cornerRadius = cornerRadius * .pixelsPerPoint
     }
     
-    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
-        AGResolution(CGSize.one.place(in: containerResolution, placement: .fit))
+    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
+        AGResolution(CGSize.one.place(in: details.resolution, placement: .fit))
     }
     
     public func render(with details: AGRenderDetails) async throws -> Graphic {
-        let resolution: CGSize = contentResolution(in: details.resolution)
+        let resolution: CGSize = contentResolution(with: details.resolutionDetails)
             .fallback(to: details.resolution)
         return try await .polygon(count: count,
                                   cornerRadius: cornerRadius,

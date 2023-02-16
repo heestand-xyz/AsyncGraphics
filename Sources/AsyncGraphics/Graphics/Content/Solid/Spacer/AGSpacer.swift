@@ -4,7 +4,7 @@ public struct AGSpacer: AGGraph {
     
     public init() {}
     
-    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
+    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
         .auto
     }
     

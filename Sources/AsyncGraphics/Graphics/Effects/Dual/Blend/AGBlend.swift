@@ -1,6 +1,8 @@
 import CoreGraphics
 
-public struct AGBlend: AGGraph {
+public struct AGBlend: AGParentGraph {
+    
+    public var children: [any AGGraph] { [leadingGraph, trailingGraph] }
     
     let leadingGraph: any AGGraph
     let trailingGraph: any AGGraph
@@ -15,12 +17,12 @@ public struct AGBlend: AGGraph {
         self.trailingGraph = trailingGraph()
     }
     
-    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
-        leadingGraph.contentResolution(in: containerResolution)
+    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
+        leadingGraph.contentResolution(with: details)
     }
     
     public func render(with details: AGRenderDetails) async throws -> Graphic {
-        let resolution: CGSize = contentResolution(in: details.resolution)
+        let resolution: CGSize = contentResolution(with: details.resolutionDetails)
             .fallback(to: details.resolution)
         let leadingGraphic: Graphic = try await leadingGraph.render(with: details.with(resolution: resolution))
         let trailingGraphic: Graphic = try await trailingGraph.render(with: details.with(resolution: resolution))

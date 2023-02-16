@@ -9,7 +9,7 @@ public struct AGColor: AGGraph {
         self.color = color
     }
     
-    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
+    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
         .auto
     }
     

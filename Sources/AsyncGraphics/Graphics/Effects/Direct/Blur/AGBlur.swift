@@ -7,18 +7,20 @@ extension AGGraph {
     }
 }
 
-public struct AGBlur: AGGraph {
+public struct AGBlur: AGParentGraph {
+    
+    public var children: [any AGGraph] { [graph] }
     
     let graph: any AGGraph
     
     let radius: CGFloat
     
-    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
-        graph.contentResolution(in: containerResolution)
+    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
+        graph.contentResolution(with: details)
     }
     
     public func render(with details: AGRenderDetails) async throws -> Graphic {
-        let resolution: CGSize = contentResolution(in: details.resolution).fallback(to: details.resolution)
+        let resolution: CGSize = contentResolution(with: details.resolutionDetails).fallback(to: details.resolution)
         return try await graph.render(with: details.with(resolution: resolution))
             .blurred(radius: radius)
     }

@@ -12,8 +12,10 @@ extension AGGraph {
     }
 }
 
-public struct AGBackground: AGGraph {
+public struct AGBackground: AGParentGraph {
     
+    public var children: [any AGGraph] { [graph] }
+     
     let graph: any AGGraph
     
     enum Background: Hashable {
@@ -48,12 +50,13 @@ public struct AGBackground: AGGraph {
     }
     let background: Background
     
-    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
-        graph.contentResolution(in: containerResolution)
+    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
+        graph.contentResolution(with: details)
     }
     
     public func render(with details: AGRenderDetails) async throws -> Graphic {
-        let resolution: CGSize = contentResolution(in: details.resolution).fallback(to: details.resolution)
+        let resolution: CGSize = contentResolution(with: details.resolutionDetails)
+            .fallback(to: details.resolution)
         let graphic: Graphic = try await graph.render(with: details.with(resolution: resolution))
         let backgroundGraphic: Graphic = try await {
             switch background {

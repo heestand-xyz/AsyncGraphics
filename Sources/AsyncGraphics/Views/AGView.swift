@@ -7,6 +7,8 @@ public struct AGView: View {
    
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     
+    @StateObject private var renderer = AGGraphRenderer()
+    
     private let graph: () -> any AGGraph
     
     public init(_ graph: @escaping () -> any AGGraph) {
@@ -18,11 +20,13 @@ public struct AGView: View {
     @State private var resolution: CGSize?
     private var width: CGFloat? {
         guard let resolution else { return nil }
-        return graph().contentResolution(in: resolution).width
+        let resolutionDetails: AGResolutionDetails = renderer.resolutionDetails(for: graph(), at: resolution)
+        return graph().contentResolution(with: resolutionDetails).width
     }
     private var height: CGFloat? {
         guard let resolution else { return nil }
-        return graph().contentResolution(in: resolution).height
+        let resolutionDetails: AGResolutionDetails = renderer.resolutionDetails(for: graph(), at: resolution)
+        return graph().contentResolution(with: resolutionDetails).height
     }
     
     @State private var renderTask: Task<Void, Never>?
@@ -59,21 +63,25 @@ public struct AGView: View {
             render()
         }
         .onChange(of: resolution) { resolution in
-            print("-------->", resolution)
             render(at: resolution)
         }
         .onChange(of: graph().hashValue) { _ in
             render()
         }
+        .onChange(of: renderer.details(for: graph(), at: resolution ?? .one)) { details in
+            render(details: details)
+        }
     }
     
-    private func render(at resolution: CGSize? = nil) {
+    private func render(at resolution: CGSize? = nil,
+                        details: AGRenderDetails? = nil) {
         guard let resolution: CGSize = resolution ?? self.resolution else { return }
-        let details = AGRenderDetails(resolution: resolution, color: .primary)
+        let graph: any AGGraph = graph()
+        let details: AGRenderDetails = details ?? renderer.details(for: graph, at: resolution)
         renderTask?.cancel()
         renderTask = Task {
             do {
-                graphic = try await graph().render(with: details)
+                graphic = try await graph.render(with: details)
             } catch {
                 if error is CancellationError { return }
                 print("Async Graphics - AGView - Failed to render:", error)

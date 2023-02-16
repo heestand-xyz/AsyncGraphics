@@ -4,6 +4,8 @@ import PixelColor
 
 public struct AGRoundedRectangle: AGGraph {
     
+    public var children: [any AGGraph] { [] }
+    
     var lineWidth: CGFloat?
    
     let cornerRadius: CGFloat
@@ -12,7 +14,7 @@ public struct AGRoundedRectangle: AGGraph {
         self.cornerRadius = cornerRadius * .pixelsPerPoint
     }
     
-    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
+    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
         .auto
     }
     

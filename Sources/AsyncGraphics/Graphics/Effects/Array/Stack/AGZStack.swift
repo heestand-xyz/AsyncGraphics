@@ -1,6 +1,8 @@
 import CoreGraphics
 
-public struct AGZStack: AGGraph {
+public struct AGZStack: AGParentGraph {
+    
+    public var children: [any AGGraph] { graphs }
     
     let graphs: [any AGGraph]
     
@@ -12,11 +14,11 @@ public struct AGZStack: AGGraph {
         self.graphs = graphs()
     }
     
-    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
+    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
         let width: CGFloat? = {
             var totalWidth: CGFloat = 0.0
             for graph in graphs.all {
-                if let width = graph.contentResolution(in: containerResolution).width {
+                if let width = graph.contentResolution(with: details).width {
                     totalWidth = max(totalWidth, width)
                 } else {
                     return nil
@@ -27,7 +29,7 @@ public struct AGZStack: AGGraph {
         let height: CGFloat? = {
             var totalHeight: CGFloat = 0.0
             for graph in graphs.all {
-                if let height = graph.contentResolution(in: containerResolution).height {
+                if let height = graph.contentResolution(with: details).height {
                     totalHeight = max(totalHeight, height)
                 } else {
                     return nil
@@ -37,7 +39,7 @@ public struct AGZStack: AGGraph {
         }()
         return AGResolution(width: width, height: height)
     }
-    
+   
     public func render(with details: AGRenderDetails) async throws -> Graphic {
         guard !graphs.isEmpty else {
             return try await .color(.clear, resolution: details.resolution)

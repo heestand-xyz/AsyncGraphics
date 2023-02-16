@@ -1,7 +1,9 @@
 
 import CoreGraphics
 
-public struct AGForEach: AGGraph {
+public struct AGForEach: AGParentGraph {
+    
+    public var children: [any AGGraph] { graphs }
     
     var graphs: [any AGGraph]
     
@@ -14,7 +16,7 @@ public struct AGForEach: AGGraph {
     }
     
     
-    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
+    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
         .auto
     }
     

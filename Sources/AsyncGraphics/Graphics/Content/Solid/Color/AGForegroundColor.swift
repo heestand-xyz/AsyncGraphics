@@ -10,12 +10,14 @@ extension AGGraph {
 }
 
 public struct AGForegroundColor: AGGraph {
+   
+    public var children: [any AGGraph] { [graph] }
     
     let graph: any AGGraph
     let color: PixelColor
     
-    public func contentResolution(in containerResolution: CGSize) -> AGResolution {
-        graph.contentResolution(in: containerResolution)
+    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
+        graph.contentResolution(with: details)
     }
     
     public func render(with details: AGRenderDetails) async throws -> Graphic {
