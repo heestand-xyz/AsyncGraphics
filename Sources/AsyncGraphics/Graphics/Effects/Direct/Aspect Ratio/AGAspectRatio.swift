@@ -20,8 +20,8 @@ public struct AGAspectRatio: AGParentGraph {
     let aspectRatio: CGFloat?
     let contentMode: AGContentMode
     
-    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
-        let resolution: AGResolution = graph.contentResolution(with: details)
+    public func contentResolution(with specification: AGSpecification) -> AGResolution {
+        let resolution: AGResolution = graph.contentResolution(with: specification)
         let placement: Placement = {
             switch contentMode {
             case .fit:
@@ -33,11 +33,11 @@ public struct AGAspectRatio: AGParentGraph {
         if let aspectRatio {
             return AGResolution(
                 CGSize(width: aspectRatio, height: 1.0)
-                    .place(in: details.resolution, placement: placement)
+                    .place(in: specification.resolution, placement: placement)
             )
         }
         if let size = resolution.size {
-            return AGResolution(size.place(in: details.resolution, placement: placement))
+            return AGResolution(size.place(in: specification.resolution, placement: placement))
         } else if let width = resolution.width {
             return AGResolution(width: width)
         } else if let height = resolution.height {
@@ -48,13 +48,13 @@ public struct AGAspectRatio: AGParentGraph {
     }
     
     func childResolution(for childGraph: any AGGraph, at index: Int = 0,
-                         with resolutionDetails: AGResolutionDetails) -> CGSize {
-        contentResolution(with: resolutionDetails)
-            .fallback(to: resolutionDetails.resolution)
+                         with specification: AGSpecification) -> CGSize {
+        contentResolution(with: specification)
+            .fallback(to: specification.resolution)
     }
     
     public func render(with details: AGRenderDetails) async throws -> Graphic {
-        let childResolution: CGSize = childResolution(for: graph, with: details.resolutionDetails)
+        let childResolution: CGSize = childResolution(for: graph, with: details.specification)
         let graphic: Graphic = try await graph.render(with: details.with(resolution: childResolution))
         if aspectRatio != nil {
             let backgroundGraphic: Graphic = try await .color(.clear, resolution: childResolution)

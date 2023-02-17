@@ -2,21 +2,18 @@ import CoreGraphics
 import PixelColor
 
 public struct AGRenderDetails: Equatable {
-    var resolution: CGSize {
-        resolutionDetails.resolution
-    }
     var color: PixelColor = .primary
     let resources: AGResources
-    let resolutionDetails: AGResolutionDetails
+    let specification: AGSpecification
 }
 
 extension AGRenderDetails {
     
     func with(resolution: CGSize) -> AGRenderDetails {
-        AGRenderDetails(color: color, resources: resources, resolutionDetails: resolutionDetails.with(resolution: resolution))
+        AGRenderDetails(color: color, resources: resources, specification: specification.with(resolution: resolution))
     }
     
     func with(color: PixelColor) -> AGRenderDetails {
-        AGRenderDetails(color: color, resources: resources, resolutionDetails: resolutionDetails)
+        AGRenderDetails(color: color, resources: resources, specification: specification)
     }
 }

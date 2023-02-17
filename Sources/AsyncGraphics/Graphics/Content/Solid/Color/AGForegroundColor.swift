@@ -16,8 +16,8 @@ public struct AGForegroundColor: AGGraph {
     let graph: any AGGraph
     let color: PixelColor
     
-    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
-        graph.contentResolution(with: details)
+    public func contentResolution(with specification: AGSpecification) -> AGResolution {
+        graph.contentResolution(with: specification)
     }
     
     public func render(with details: AGRenderDetails) async throws -> Graphic {

@@ -8,22 +8,22 @@ public struct AGRectangle: AGGraph {
    
     public init() {}
     
-    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
+    public func contentResolution(with specification: AGSpecification) -> AGResolution {
         .auto
     }
     
     public func render(with details: AGRenderDetails) async throws -> Graphic {
         if let lineWidth: CGFloat {
-            let size: CGSize = details.resolution - lineWidth / 2
+            let size: CGSize = details.specification.resolution - lineWidth / 2
             return try await .strokedRectangle(size: size,
                                                lineWidth: lineWidth,
                                                color: details.color,
                                                backgroundColor: .clear,
-                                               resolution: details.resolution)
+                                               resolution: details.specification.resolution)
         } else {
             return try await .rectangle(color: details.color,
                                         backgroundColor: .clear,
-                                        resolution: details.resolution)
+                                        resolution: details.specification.resolution)
         }
     }
 }

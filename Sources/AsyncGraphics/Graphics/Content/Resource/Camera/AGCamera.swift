@@ -12,14 +12,14 @@ public struct AGCamera: AGGraph {
         self.position = position
     }
     
-    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
-        guard let cameraResolution: CGSize = details.resources.cameraResolutions[position]
+    public func contentResolution(with specification: AGSpecification) -> AGResolution {
+        guard let cameraResolution: CGSize = specification.resourceResolutions.camera[position]
         else { return .auto }
         switch placement {
         case .fit:
-            return AGResolution(cameraResolution.place(in: details.resolution, placement: .fit))
+            return AGResolution(cameraResolution.place(in: specification.resolution, placement: .fit))
         case .fill:
-            return AGResolution(cameraResolution.place(in: details.resolution, placement: .fill))
+            return AGResolution(cameraResolution.place(in: specification.resolution, placement: .fill))
         case .center:
             return AGResolution(cameraResolution)
         case .stretch:
@@ -33,10 +33,10 @@ public struct AGCamera: AGGraph {
     
     public func render(with details: AGRenderDetails) async throws -> Graphic {
         guard let cameraGraphic: Graphic = details.resources.cameraGraphics[position] else {
-            return try await .color(.black, resolution: details.resolution)
+            return try await .color(.black, resolution: details.specification.resolution)
         }
-        let resolution: CGSize = contentResolution(with: details.resolutionDetails)
-            .fallback(to: details.resolution)
+        let resolution: CGSize = contentResolution(with: details.specification)
+            .fallback(to: details.specification.resolution)
         return try await cameraGraphic.resized(to: resolution, placement: .stretch, method: .lanczos)
     }
 }

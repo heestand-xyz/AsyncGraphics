@@ -16,22 +16,22 @@ public struct AGPadding: AGParentGraph {
     let edgeInsets: Graphic.EdgeInsets
     let padding: CGFloat
     
-    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
+    public func contentResolution(with specification: AGSpecification) -> AGResolution {
         AGResolution(
             width: {
-                guard let width = graph.contentResolution(with: details).width else { return nil }
+                guard let width = graph.contentResolution(with: specification).width else { return nil }
                 return width + (edgeInsets.onLeading ? padding : 0) + (edgeInsets.onTrailing ? padding : 0)
             }(),
             height: {
-                guard let height = graph.contentResolution(with: details).height else { return nil }
+                guard let height = graph.contentResolution(with: specification).height else { return nil }
                 return height + (edgeInsets.onTop ? padding : 0) + (edgeInsets.onBottom ? padding : 0)
             }()
         )
     }
     
     public func render(with details: AGRenderDetails) async throws -> Graphic {
-        let outerResolution: CGSize = contentResolution(with: details.resolutionDetails)
-            .fallback(to: details.resolution)
+        let outerResolution: CGSize = contentResolution(with: details.specification)
+            .fallback(to: details.specification.resolution)
         var width: CGFloat = outerResolution.width
         var height: CGFloat = outerResolution.height
         if edgeInsets.onLeading {
@@ -48,7 +48,7 @@ public struct AGPadding: AGParentGraph {
         }
         let innerResolution = CGSize(width: width, height: height)
         guard innerResolution.width > 0 && innerResolution.height > 0 else {
-            return try await .color(.clear, resolution: details.resolution)
+            return try await .color(.clear, resolution: details.specification.resolution)
         }
         let graphic: Graphic = try await graph.render(with: details.with(resolution: innerResolution))
         return try await graphic.padding(on: edgeInsets, padding)

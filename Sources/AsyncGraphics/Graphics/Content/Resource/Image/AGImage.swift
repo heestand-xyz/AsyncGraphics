@@ -24,14 +24,14 @@ public struct AGImage: AGGraph {
         self.image = image
     }
     
-    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
+    public func contentResolution(with specification: AGSpecification) -> AGResolution {
         guard let imageResolution: CGSize
         else { return .auto }
         switch placement {
         case .fit:
-            return AGResolution(imageResolution.place(in: details.resolution, placement: .fit))
+            return AGResolution(imageResolution.place(in: specification.resolution, placement: .fit))
         case .fill:
-            return AGResolution(imageResolution.place(in: details.resolution, placement: .fill))
+            return AGResolution(imageResolution.place(in: specification.resolution, placement: .fill))
         case .center:
             return AGResolution(imageResolution)
         case .stretch:
@@ -41,11 +41,11 @@ public struct AGImage: AGGraph {
     
     public func render(with details: AGRenderDetails) async throws -> Graphic {
         guard let image: TMImage else {
-            return try await .color(.clear, resolution: details.resolution)
+            return try await .color(.clear, resolution: details.specification.resolution)
         }
         let imageGraphic: Graphic = try await .image(image)
-        let resolution: CGSize = contentResolution(with: details.resolutionDetails)
-            .fallback(to: details.resolution)
+        let resolution: CGSize = contentResolution(with: details.specification)
+            .fallback(to: details.specification.resolution)
         return try await imageGraphic.resized(to: resolution, placement: .stretch, method: .lanczos)
     }
 }

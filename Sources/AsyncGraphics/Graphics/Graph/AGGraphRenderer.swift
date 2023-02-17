@@ -12,20 +12,19 @@ final class AGGraphRenderer: ObservableObject {
 extension AGGraphRenderer {
     
     func details(for graph: any AGGraph, at resolution: CGSize) -> AGRenderDetails {
-        print("------------------------------------>", resolution)
-        return AGRenderDetails(resources: resources(for: graph, at: resolution),
-                        resolutionDetails: resolutionDetails(for: graph, at: resolution))
+        AGRenderDetails(resources: resources(for: graph, at: resolution),
+                        specification: specification(for: graph, at: resolution))
     }
     
-    func resolutionDetails(for graph: any AGGraph, at resolution: CGSize) -> AGResolutionDetails {
-        AGResolutionDetails(resolution: resolution,
-                            resources: resolutionResources(for: graph, at: resolution))
+    func specification(for graph: any AGGraph, at resolution: CGSize) -> AGSpecification {
+        AGSpecification(resolution: resolution,
+                        resourceResolutions: resourceResolutions(for: graph, at: resolution))
     }
 }
 
 extension AGGraphRenderer {
     
-    private func resolutionResources(for graph: any AGGraph, at resolution: CGSize) -> AGResolutionResources {
+    private func resourceResolutions(for graph: any AGGraph, at resolution: CGSize) -> AGResourceResolutions {
         
         checkResources(for: graph, at: resolution)
         
@@ -35,7 +34,7 @@ extension AGGraphRenderer {
             cameraResolutions[cameraPosition] = resolution
         }
         
-        return AGResolutionResources(cameraResolutions: cameraResolutions)
+        return AGResourceResolutions(camera: cameraResolutions)
     }
     
     private func resources(for graph: any AGGraph, at resolution: CGSize) -> AGResources {
@@ -62,8 +61,10 @@ extension AGGraphRenderer {
         
         let cameraPositions = cameraPositions(for: graph)
         
-        let emptyResources = AGResolutionResources(cameraResolutions: [:])
-        activeCameraMaximumResolutions = cameraMaximumResolutions(for: graph, with: AGResolutionDetails(resolution: resolution, resources: emptyResources))
+        let emptyResourceResolutions = AGResourceResolutions(camera: [:])
+        let specification = AGSpecification(resolution: resolution,
+                                            resourceResolutions: emptyResourceResolutions)
+        activeCameraMaximumResolutions = cameraMaximumResolutions(for: graph, with: specification)
         
         for cameraPosition in cameraPositions {
             if !activeCameraPositions.contains(where: { $0 == cameraPosition }) {
@@ -84,19 +85,17 @@ extension AGGraphRenderer {
 extension AGGraphRenderer {
     
     private func startCamera(position: Graphic.CameraPosition) {
-        print("Async Graphics - Graph - Camera - Start")
+//        print("Async Graphics - Graph - Camera - Start")
         let task = Task {
             for await graphic in try Graphic.camera(position) {
-                print("Async Graphics - Graph - Camera", "position:", position, graphic.resolution)
+//                print("Async Graphics - Graph - Camera", "position:", position, graphic.resolution)
                 let resizedGraphic: Graphic
                 if let maximumResolution: CGSize = activeCameraMaximumResolutions[position],
                    graphic.width > maximumResolution.width,
                    graphic.height > maximumResolution.height {
                     let targetResolution: CGSize = graphic.resolution.place(in: maximumResolution, placement: .fill)
                     resizedGraphic = try await graphic.resized(to: targetResolution, method: .lanczos)
-                    print("-------->", "YYEEEAH")
                 } else {
-                    print("-------->", activeCameraMaximumResolutions[position] as Any)
                     resizedGraphic = graphic
                 }
                 await MainActor.run {
@@ -109,7 +108,7 @@ extension AGGraphRenderer {
     }
     
     private func stopCamera(position: Graphic.CameraPosition) {
-        print("Async Graphics - Graph - Camera - Stop")
+//        print("Async Graphics - Graph - Camera - Stop")
         guard let task = activeCameraTasks[position] else { return }
         task.cancel()
         activeCameraTasks.removeValue(forKey: position)
@@ -133,20 +132,20 @@ extension AGGraphRenderer {
         return cameraPositions
     }
     
-    private func cameraMaximumResolutions(for graph: any AGGraph, with resolutionDetails: AGResolutionDetails) -> [Graphic.CameraPosition: CGSize] {
-        print("---> cameraMaximumResolutions:", type(of: graph), resolutionDetails.resolution)
+    private func cameraMaximumResolutions(for graph: any AGGraph, with specification: AGSpecification) -> [Graphic.CameraPosition: CGSize] {
+//        print("---> cameraMaximumResolutions:", type(of: graph), resolutionDetails.resolution)
         var maximumResolutions: [Graphic.CameraPosition: CGSize] = [:]
         if let camera = graph as? AGCamera {
-            maximumResolutions[camera.position] = camera.contentResolution(with: resolutionDetails)
-                .fallback(to: resolutionDetails.resolution)
+            maximumResolutions[camera.position] = camera.contentResolution(with: specification)
+                .fallback(to: specification.resolution)
         }
-        let resolutionDetails: AGResolutionDetails = resolutionDetails
+        let specification: AGSpecification = specification
             .with(resolution: graph
-                .contentResolution(with: resolutionDetails)
-                .fallback(to: resolutionDetails.resolution))
+                .contentResolution(with: specification)
+                .fallback(to: specification.resolution))
         if let parentGraph = graph as? any AGParentGraph {
             for child in parentGraph.children {
-                for (cameraPosition, maximumResolution) in cameraMaximumResolutions(for: child, with: resolutionDetails) {
+                for (cameraPosition, maximumResolution) in cameraMaximumResolutions(for: child, with: specification) {
                     if let currentMaximumResolution: CGSize = maximumResolutions[cameraPosition] {
                         maximumResolutions[cameraPosition] = CGSize(
                             width: max(currentMaximumResolution.width, maximumResolution.width),

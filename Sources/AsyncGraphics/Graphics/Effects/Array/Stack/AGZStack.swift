@@ -14,11 +14,11 @@ public struct AGZStack: AGParentGraph {
         self.graphs = graphs()
     }
     
-    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
+    public func contentResolution(with specification: AGSpecification) -> AGResolution {
         let width: CGFloat? = {
             var totalWidth: CGFloat = 0.0
             for graph in graphs.all {
-                if let width = graph.contentResolution(with: details).width {
+                if let width = graph.contentResolution(with: specification).width {
                     totalWidth = max(totalWidth, width)
                 } else {
                     return nil
@@ -29,7 +29,7 @@ public struct AGZStack: AGParentGraph {
         let height: CGFloat? = {
             var totalHeight: CGFloat = 0.0
             for graph in graphs.all {
-                if let height = graph.contentResolution(with: details).height {
+                if let height = graph.contentResolution(with: specification).height {
                     totalHeight = max(totalHeight, height)
                 } else {
                     return nil
@@ -42,7 +42,7 @@ public struct AGZStack: AGParentGraph {
    
     public func render(with details: AGRenderDetails) async throws -> Graphic {
         guard !graphs.isEmpty else {
-            return try await .color(.clear, resolution: details.resolution)
+            return try await .color(.clear, resolution: details.specification.resolution)
         }
         var graphics: [Graphic] = []
         for graph in graphs.all {

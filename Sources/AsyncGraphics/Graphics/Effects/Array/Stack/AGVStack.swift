@@ -14,11 +14,11 @@ public struct AGVStack: AGParentGraph {
         self.graphs = graphs()
     }
     
-    public func contentResolution(with details: AGResolutionDetails) -> AGResolution {
+    public func contentResolution(with specification: AGSpecification) -> AGResolution {
         let width: CGFloat? = {
             var totalWidth: CGFloat = 0.0
             for graph in graphs.all {
-                if let width = graph.contentResolution(with: details).width {
+                if let width = graph.contentResolution(with: specification).width {
                     totalWidth = max(totalWidth, width)
                 } else {
                     return nil
@@ -29,7 +29,7 @@ public struct AGVStack: AGParentGraph {
         let height: CGFloat? = {
             var totalHeight: CGFloat = 0.0
             for graph in graphs.all {
-                if let height = graph.contentResolution(with: details).height {
+                if let height = graph.contentResolution(with: specification).height {
                     totalHeight = totalHeight + height
                 } else {
                     return nil
@@ -41,15 +41,15 @@ public struct AGVStack: AGParentGraph {
     }
     
     func childResolution(for childGraph: any AGGraph, at index: Int,
-                         with resolutionDetails: AGResolutionDetails) -> CGSize {
-        let contentResolution: AGResolution = childGraph.contentResolution(with: resolutionDetails)
-        let width: CGFloat = contentResolution.width ?? resolutionDetails.resolution.width
-        var height: CGFloat = contentResolution.height ?? resolutionDetails.resolution.height
+                         with specification: AGSpecification) -> CGSize {
+        let contentResolution: AGResolution = childGraph.contentResolution(with: specification)
+        let width: CGFloat = contentResolution.width ?? specification.resolution.width
+        var height: CGFloat = contentResolution.height ?? specification.resolution.height
         if contentResolution.height == nil {
             var autoCount: Int = 1
             for (otherIndex, otherGraph) in graphs.all.enumerated() {
                 guard otherIndex != index else { continue }
-                if let otherHeight: CGFloat = otherGraph.contentResolution(with: resolutionDetails).height {
+                if let otherHeight: CGFloat = otherGraph.contentResolution(with: specification).height {
                     height -= otherHeight
                 } else {
                     autoCount += 1
@@ -62,12 +62,12 @@ public struct AGVStack: AGParentGraph {
     
     public func render(with details: AGRenderDetails) async throws -> Graphic {
         guard !graphs.isEmpty else {
-            return try await .color(.clear, resolution: details.resolution)
+            return try await .color(.clear, resolution: details.specification.resolution)
         }
         var graphics: [Graphic] = []
         for (index, graph) in graphs.all.enumerated() {
             let resolution: CGSize = childResolution(for: graph, at: index,
-                                                     with: details.resolutionDetails)
+                                                     with: details.specification)
             let details: AGRenderDetails = details.with(resolution: resolution)
             let graphic: Graphic = try await graph.render(with: details)
             graphics.append(graphic)

@@ -6,5 +6,5 @@ protocol AGParentGraph: AGGraph {
     
 //    func childResolution(for childGraph: any AGGraph,
 //                         at index: Int,
-//                         with resolutionDetails: AGResolutionDetails) -> CGSize
+//                         with specification: AGSpecification) -> CGSize
 }

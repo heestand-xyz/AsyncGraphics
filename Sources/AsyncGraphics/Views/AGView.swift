@@ -20,13 +20,13 @@ public struct AGView: View {
     @State private var resolution: CGSize?
     private var width: CGFloat? {
         guard let resolution else { return nil }
-        let resolutionDetails: AGResolutionDetails = renderer.resolutionDetails(for: graph(), at: resolution)
-        return graph().contentResolution(with: resolutionDetails).width
+        let specification: AGSpecification = renderer.specification(for: graph(), at: resolution)
+        return graph().contentResolution(with: specification).width
     }
     private var height: CGFloat? {
         guard let resolution else { return nil }
-        let resolutionDetails: AGResolutionDetails = renderer.resolutionDetails(for: graph(), at: resolution)
-        return graph().contentResolution(with: resolutionDetails).height
+        let specification: AGSpecification = renderer.specification(for: graph(), at: resolution)
+        return graph().contentResolution(with: specification).height
     }
     
     @State private var renderTask: Task<Void, Never>?
