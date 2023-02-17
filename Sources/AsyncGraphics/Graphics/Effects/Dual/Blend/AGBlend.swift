@@ -22,8 +22,7 @@ public struct AGBlend: AGParentGraph {
     }
     
     public func render(with details: AGDetails) async throws -> Graphic {
-        let resolution: CGSize = contentResolution(with: details.specification)
-            .fallback(to: details.specification.resolution)
+        let resolution: CGSize = childResolution(with: details.specification)
         let leadingGraphic: Graphic = try await leadingGraph.render(with: details.with(resolution: resolution))
         let trailingGraphic: Graphic = try await trailingGraph.render(with: details.with(resolution: resolution))
         return try await leadingGraphic.blended(with: trailingGraphic, blendingMode: blendingMode)

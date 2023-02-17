@@ -30,8 +30,7 @@ public struct AGPadding: AGParentGraph {
     }
     
     public func render(with details: AGDetails) async throws -> Graphic {
-        let outerResolution: CGSize = contentResolution(with: details.specification)
-            .fallback(to: details.specification.resolution)
+        let outerResolution: CGSize = childResolution(with: details.specification)
         var width: CGFloat = outerResolution.width
         var height: CGFloat = outerResolution.height
         if edgeInsets.onLeading {

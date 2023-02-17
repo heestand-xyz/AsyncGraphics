@@ -22,8 +22,7 @@ public struct AGBorder: AGParentGraph {
     }
     
     public func render(with details: AGDetails) async throws -> Graphic {
-        let resolution: CGSize = contentResolution(with: details.specification)
-            .fallback(to: details.specification.resolution)
+        let resolution: CGSize = childResolution(with: details.specification)
         let graphic: Graphic = try await graph.render(
             with: details.with(resolution: resolution))
         let borderGraphic: Graphic = try await .strokedRectangle(

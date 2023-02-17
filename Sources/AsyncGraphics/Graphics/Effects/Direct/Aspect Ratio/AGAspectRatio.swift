@@ -47,14 +47,8 @@ public struct AGAspectRatio: AGParentGraph {
         }
     }
     
-    func childResolution(for childGraph: any AGGraph, at index: Int = 0,
-                         with specification: AGSpecification) -> CGSize {
-        contentResolution(with: specification)
-            .fallback(to: specification.resolution)
-    }
-    
     public func render(with details: AGDetails) async throws -> Graphic {
-        let childResolution: CGSize = childResolution(for: graph, with: details.specification)
+        let childResolution: CGSize = childResolution(with: details.specification)
         let graphic: Graphic = try await graph.render(with: details.with(resolution: childResolution))
         if aspectRatio != nil {
             let backgroundGraphic: Graphic = try await .color(.clear, resolution: childResolution)
