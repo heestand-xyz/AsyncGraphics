@@ -53,7 +53,7 @@ public struct AGAspectRatio: AGParentGraph {
             .fallback(to: specification.resolution)
     }
     
-    public func render(with details: AGRenderDetails) async throws -> Graphic {
+    public func render(with details: AGDetails) async throws -> Graphic {
         let childResolution: CGSize = childResolution(for: graph, with: details.specification)
         let graphic: Graphic = try await graph.render(with: details.with(resolution: childResolution))
         if aspectRatio != nil {

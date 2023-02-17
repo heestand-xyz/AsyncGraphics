@@ -4,7 +4,7 @@ public protocol AGGraph: Hashable {
     
     func contentResolution(with specification: AGSpecification) -> AGResolution
     
-    func render(with details: AGRenderDetails) async throws -> Graphic
+    func render(with details: AGDetails) async throws -> Graphic
 }
 
 extension AGGraph {

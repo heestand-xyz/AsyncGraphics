@@ -31,7 +31,7 @@ public struct AGCamera: AGGraph {
 //        
 //    }
     
-    public func render(with details: AGRenderDetails) async throws -> Graphic {
+    public func render(with details: AGDetails) async throws -> Graphic {
         guard let cameraGraphic: Graphic = details.resources.cameraGraphics[position] else {
             return try await .color(.black, resolution: details.specification.resolution)
         }

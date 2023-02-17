@@ -40,7 +40,7 @@ public struct AGZStack: AGParentGraph {
         return AGResolution(width: width, height: height)
     }
    
-    public func render(with details: AGRenderDetails) async throws -> Graphic {
+    public func render(with details: AGDetails) async throws -> Graphic {
         guard !graphs.isEmpty else {
             return try await .color(.clear, resolution: details.specification.resolution)
         }

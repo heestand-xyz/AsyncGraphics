@@ -12,7 +12,7 @@ public struct AGRectangle: AGGraph {
         .auto
     }
     
-    public func render(with details: AGRenderDetails) async throws -> Graphic {
+    public func render(with details: AGDetails) async throws -> Graphic {
         if let lineWidth: CGFloat {
             let size: CGSize = details.specification.resolution - lineWidth / 2
             return try await .strokedRectangle(size: size,

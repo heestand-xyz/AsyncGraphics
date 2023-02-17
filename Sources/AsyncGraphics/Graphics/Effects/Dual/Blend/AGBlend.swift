@@ -21,7 +21,7 @@ public struct AGBlend: AGParentGraph {
         leadingGraph.contentResolution(with: specification)
     }
     
-    public func render(with details: AGRenderDetails) async throws -> Graphic {
+    public func render(with details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = contentResolution(with: details.specification)
             .fallback(to: details.specification.resolution)
         let leadingGraphic: Graphic = try await leadingGraph.render(with: details.with(resolution: resolution))

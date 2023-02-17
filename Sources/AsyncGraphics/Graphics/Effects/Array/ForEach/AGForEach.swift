@@ -20,7 +20,7 @@ public struct AGForEach: AGParentGraph {
         .auto
     }
     
-    public func render(with details: AGRenderDetails) async throws -> Graphic {
+    public func render(with details: AGDetails) async throws -> Graphic {
         try await .color(.clear, resolution: details.specification.resolution)
     }
 }

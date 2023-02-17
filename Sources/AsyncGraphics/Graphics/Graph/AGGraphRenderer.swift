@@ -11,8 +11,8 @@ final class AGGraphRenderer: ObservableObject {
 
 extension AGGraphRenderer {
     
-    func details(for graph: any AGGraph, at resolution: CGSize) -> AGRenderDetails {
-        AGRenderDetails(resources: resources(for: graph, at: resolution),
+    func details(for graph: any AGGraph, at resolution: CGSize) -> AGDetails {
+        AGDetails(resources: resources(for: graph, at: resolution),
                         specification: specification(for: graph, at: resolution))
     }
     

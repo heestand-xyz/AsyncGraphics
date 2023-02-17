@@ -20,7 +20,7 @@ public struct AGForegroundColor: AGGraph {
         graph.contentResolution(with: specification)
     }
     
-    public func render(with details: AGRenderDetails) async throws -> Graphic {
+    public func render(with details: AGDetails) async throws -> Graphic {
         try await graph.render(with: details.with(color: color))
     }
 }

@@ -14,7 +14,7 @@ public struct AGPolygon: AGGraph {
         AGResolution(CGSize.one.place(in: specification.resolution, placement: .fit))
     }
     
-    public func render(with details: AGRenderDetails) async throws -> Graphic {
+    public func render(with details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = contentResolution(with: details.specification)
             .fallback(to: details.specification.resolution)
         return try await .polygon(count: count,

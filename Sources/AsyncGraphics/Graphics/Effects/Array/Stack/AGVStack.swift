@@ -60,7 +60,7 @@ public struct AGVStack: AGParentGraph {
         return CGSize(width: width, height: height)
     }
     
-    public func render(with details: AGRenderDetails) async throws -> Graphic {
+    public func render(with details: AGDetails) async throws -> Graphic {
         guard !graphs.isEmpty else {
             return try await .color(.clear, resolution: details.specification.resolution)
         }
@@ -68,7 +68,7 @@ public struct AGVStack: AGParentGraph {
         for (index, graph) in graphs.all.enumerated() {
             let resolution: CGSize = childResolution(for: graph, at: index,
                                                      with: details.specification)
-            let details: AGRenderDetails = details.with(resolution: resolution)
+            let details: AGDetails = details.with(resolution: resolution)
             let graphic: Graphic = try await graph.render(with: details)
             graphics.append(graphic)
         }

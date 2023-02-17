@@ -54,7 +54,7 @@ public struct AGBackground: AGParentGraph {
         graph.contentResolution(with: specification)
     }
     
-    public func render(with details: AGRenderDetails) async throws -> Graphic {
+    public func render(with details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = contentResolution(with: details.specification)
             .fallback(to: details.specification.resolution)
         let graphic: Graphic = try await graph.render(with: details.with(resolution: resolution))

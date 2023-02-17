@@ -39,7 +39,7 @@ public struct AGImage: AGGraph {
         }
     }
     
-    public func render(with details: AGRenderDetails) async throws -> Graphic {
+    public func render(with details: AGDetails) async throws -> Graphic {
         guard let image: TMImage else {
             return try await .color(.clear, resolution: details.specification.resolution)
         }

@@ -74,10 +74,10 @@ public struct AGView: View {
     }
     
     private func render(at resolution: CGSize? = nil,
-                        details: AGRenderDetails? = nil) {
+                        details: AGDetails? = nil) {
         guard let resolution: CGSize = resolution ?? self.resolution else { return }
         let graph: any AGGraph = graph()
-        let details: AGRenderDetails = details ?? renderer.details(for: graph, at: resolution)
+        let details: AGDetails = details ?? renderer.details(for: graph, at: resolution)
         renderTask?.cancel()
         renderTask = Task {
             do {
