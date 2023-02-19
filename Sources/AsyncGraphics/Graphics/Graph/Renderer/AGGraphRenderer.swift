@@ -85,10 +85,9 @@ extension AGGraphRenderer {
 extension AGGraphRenderer {
     
     private func startCamera(position: Graphic.CameraPosition) {
-//        print("Async Graphics - Graph - Camera - Start")
+        print("Async Graphics - Graph - Camera - Start")
         let task = Task {
             for await graphic in try Graphic.camera(position) {
-//                print("Async Graphics - Graph - Camera", "position:", position, graphic.resolution)
                 let resizedGraphic: Graphic
                 if let maximumResolution: CGSize = activeCameraMaximumResolutions[position],
                    graphic.width > maximumResolution.width,
@@ -108,7 +107,7 @@ extension AGGraphRenderer {
     }
     
     private func stopCamera(position: Graphic.CameraPosition) {
-//        print("Async Graphics - Graph - Camera - Stop")
+        print("Async Graphics - Graph - Camera - Stop")
         guard let task = activeCameraTasks[position] else { return }
         task.cancel()
         activeCameraTasks.removeValue(forKey: position)
@@ -133,7 +132,6 @@ extension AGGraphRenderer {
     }
     
     private func cameraMaximumResolutions(for graph: any AGGraph, for specification: AGSpecification) -> [Graphic.CameraPosition: CGSize] {
-//        print("---> cameraMaximumResolutions:", type(of: graph), resolutionDetails.resolution)
         var maximumResolutions: [Graphic.CameraPosition: CGSize] = [:]
         if let camera = graph as? AGCamera {
             maximumResolutions[camera.position] = camera.fallbackResolution(for: specification)

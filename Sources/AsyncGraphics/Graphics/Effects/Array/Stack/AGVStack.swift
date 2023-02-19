@@ -14,11 +14,17 @@ public struct AGVStack: AGParentGraph {
         self.graphs = graphs()
     }
     
+    private func autoSpecification(for specification: AGSpecification) -> AGSpecification {
+        let autoResolution = CGSize(width: specification.resolution.width,
+                                    height: specification.resolution.height / CGFloat(children.all.count))
+        return specification.with(resolution: autoResolution)
+    }
+    
     public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
         let width: CGFloat? = {
             var width: CGFloat = 0.0
             for childGraph in children.all {
-                let dynamicChildResolution: AGDynamicResolution = childGraph.resolution(for: specification)
+                let dynamicChildResolution: AGDynamicResolution = childGraph.resolution(for: autoSpecification(for: specification))
                 if let childWidth: CGFloat = dynamicChildResolution.width {
                     width = max(width, childWidth)
                 } else {
@@ -30,7 +36,7 @@ public struct AGVStack: AGParentGraph {
         let height: CGFloat? = {
             var height: CGFloat = 0.0
             for childGraph in children.all {
-                let dynamicChildResolution: AGDynamicResolution = childGraph.resolution(for: specification)
+                let dynamicChildResolution: AGDynamicResolution = childGraph.resolution(for: autoSpecification(for: specification))
                 if let childHeight: CGFloat = dynamicChildResolution.height {
                     height += childHeight
                 } else {
@@ -44,14 +50,14 @@ public struct AGVStack: AGParentGraph {
     
     func childResolution(_ childGraph: any AGGraph, at index: Int,
                          for specification: AGSpecification) -> CGSize {
-        let dynamicResolution: AGDynamicResolution = childGraph.resolution(for: specification)
+        let dynamicResolution: AGDynamicResolution = childGraph.resolution(for: autoSpecification(for: specification))
         let width: CGFloat = dynamicResolution.width ?? specification.resolution.width
         var height: CGFloat = dynamicResolution.height ?? specification.resolution.height
         if dynamicResolution.height == nil {
             var autoCount: Int = 1
             for (otherIndex, otherGraph) in graphs.all.enumerated() {
                 guard otherIndex != index else { continue }
-                let otherDynamicResolution: AGDynamicResolution = otherGraph.resolution(for: specification)
+                let otherDynamicResolution: AGDynamicResolution = otherGraph.resolution(for: autoSpecification(for: specification))
                 if let otherHeight = otherDynamicResolution.height {
                     height -= otherHeight
                 } else {

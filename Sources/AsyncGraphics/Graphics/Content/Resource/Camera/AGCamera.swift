@@ -13,18 +13,19 @@ public struct AGCamera: AGGraph {
     }
     
     public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
-        guard let cameraResolution: CGSize = specification.resourceResolutions.camera[position]
-        else { return .auto }
-        switch placement {
-        case .fit:
-            return .fixed(cameraResolution.place(in: specification.resolution, placement: .fit))
-        case .fill:
-            return .fixed(cameraResolution.place(in: specification.resolution, placement: .fill))
-        case .center:
-            return .fixed(cameraResolution)
-        case .stretch:
-            return .auto
-        }
+        return .auto
+//        guard let cameraResolution: CGSize = specification.resourceResolutions.camera[position]
+//        else { return .auto }
+//        switch placement {
+//        case .fit:
+//            return .fixed(cameraResolution.place(in: specification.resolution, placement: .fit))
+//        case .fill:
+//            return .fixed(cameraResolution.place(in: specification.resolution, placement: .fill))
+//        case .center:
+//            return .fixed(cameraResolution)
+//        case .stretch:
+//            return .auto
+//        }
     }
     
     public func render(with details: AGDetails) async throws -> Graphic {
@@ -32,7 +33,7 @@ public struct AGCamera: AGGraph {
             return try await .color(.black, resolution: details.specification.resolution)
         }
         let resolution: CGSize = fallbackResolution(for: details.specification)
-        return try await cameraGraphic.resized(to: resolution, placement: .stretch, method: .lanczos)
+        return try await cameraGraphic.resized(to: resolution, placement: placement, method: .lanczos)
     }
 }
 
