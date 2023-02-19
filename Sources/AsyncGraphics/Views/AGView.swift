@@ -37,11 +37,11 @@ public struct AGView: View {
             if let graphic {
                 GraphicView(graphic: graphic)
                     .frame(
-                        maxWidth: {
+                        width: {
                             guard let width: CGFloat else { return nil }
                             return width / .pixelsPerPoint
                         }(),
-                        maxHeight: {
+                        height: {
                             guard let height: CGFloat else { return nil }
                             return height / .pixelsPerPoint
                         }()

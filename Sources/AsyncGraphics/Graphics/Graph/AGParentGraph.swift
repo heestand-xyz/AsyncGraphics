@@ -21,6 +21,7 @@ extension AGParentGraph {
     func childResolution(_ childGraph: any AGGraph,
                          at index: Int = 0,
                          for specification: AGSpecification) -> CGSize {
-        .zero
+        childGraph.resolution(for: specification)
+            .fallback(to: specification.resolution)
     }
 }

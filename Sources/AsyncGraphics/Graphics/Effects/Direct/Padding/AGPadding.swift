@@ -16,9 +16,12 @@ public struct AGPadding: AGParentGraph {
     let edgeInsets: Graphic.EdgeInsets
     let padding: CGFloat
     
-    #warning("Check Outer Padding")
     public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
-        let childDynamicResolution: AGDynamicResolution = graph.resolution(for: specification)
+        let outerResolution: CGSize = specification.resolution
+        let innerWidth: CGFloat = outerResolution.width - (edgeInsets.onLeading ? padding : 0) - (edgeInsets.onTrailing ? padding : 0)
+        let innerHeight: CGFloat = outerResolution.height - (edgeInsets.onTop ? padding : 0) - (edgeInsets.onBottom ? padding : 0)
+        let innerResolution = CGSize(width: innerWidth, height: innerHeight)
+        let childDynamicResolution: AGDynamicResolution = graph.resolution(for: specification.with(resolution: innerResolution))
         return .semiAuto(
             fixedWidth: {
                 guard let width: CGFloat = childDynamicResolution.width else { return nil }
@@ -31,14 +34,13 @@ public struct AGPadding: AGParentGraph {
         )
     }
     
-    #warning("Check Inner Padding")
     func childResolution(_ childGraph: any AGGraph,
                          at index: Int = 0,
                          for specification: AGSpecification) -> CGSize {
-        let resolution: CGSize = childGraph.fallbackResolution(for: specification)
-        let width: CGFloat = resolution.width - (edgeInsets.onLeading ? padding : 0) - (edgeInsets.onTrailing ? padding : 0)
-        let height: CGFloat = resolution.height - (edgeInsets.onTop ? padding : 0) - (edgeInsets.onBottom ? padding : 0)
-        return CGSize(width: width, height: height)
+        let outerResolution: CGSize = fallbackResolution(for: specification)
+        let innerWidth: CGFloat = outerResolution.width - (edgeInsets.onLeading ? padding : 0) - (edgeInsets.onTrailing ? padding : 0)
+        let innerHeight: CGFloat = outerResolution.height - (edgeInsets.onTop ? padding : 0) - (edgeInsets.onBottom ? padding : 0)
+        return CGSize(width: innerWidth, height: innerHeight)
     }
     
     public func render(with details: AGDetails) async throws -> Graphic {

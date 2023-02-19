@@ -25,7 +25,9 @@ public struct AGFrame: AGParentGraph {
     
     public func render(with details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = fallbackResolution(for: details.specification)
-        return try await graph.render(with: details.with(resolution: resolution))
+        let backgroundGraphic: Graphic = try await .color(.clear, resolution: resolution)
+        let graphic: Graphic = try await graph.render(with: details.with(resolution: resolution))
+        return try await backgroundGraphic.blended(with: graphic, blendingMode: .over, placement: .center)
     }
 }
 
