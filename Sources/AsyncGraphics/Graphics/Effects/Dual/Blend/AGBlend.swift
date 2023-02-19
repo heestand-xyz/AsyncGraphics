@@ -17,14 +17,11 @@ public struct AGBlend: AGParentGraph {
         self.trailingGraph = trailingGraph()
     }
     
-    public func contentResolution(with specification: AGSpecification) -> AGResolution {
-        leadingGraph.contentResolution(with: specification)
-    }
-    
     public func render(with details: AGDetails) async throws -> Graphic {
-        let resolution: CGSize = childResolution(with: details.specification)
-        let leadingGraphic: Graphic = try await leadingGraph.render(with: details.with(resolution: resolution))
-        let trailingGraphic: Graphic = try await trailingGraph.render(with: details.with(resolution: resolution))
+        let resolution: CGSize = fallbackResolution(for: details.specification)
+        let newDetails: AGDetails = details.with(resolution: resolution)
+        let leadingGraphic: Graphic = try await leadingGraph.render(with: newDetails)
+        let trailingGraphic: Graphic = try await trailingGraph.render(with: newDetails)
         return try await leadingGraphic.blended(with: trailingGraphic, blendingMode: blendingMode)
     }
 }

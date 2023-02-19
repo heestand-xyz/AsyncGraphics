@@ -15,13 +15,8 @@ public struct AGBlur: AGParentGraph {
     
     let radius: CGFloat
     
-    public func contentResolution(with specification: AGSpecification) -> AGResolution {
-        graph.contentResolution(with: specification)
-    }
-    
     public func render(with details: AGDetails) async throws -> Graphic {
-        let resolution: CGSize = contentResolution(with: details.specification)
-            .fallback(to: details.specification.resolution)
+        let resolution: CGSize = fallbackResolution(for: details.specification)
         return try await graph.render(with: details.with(resolution: resolution))
             .blurred(radius: radius)
     }

@@ -9,11 +9,8 @@ public struct AGColor: AGGraph {
         self.color = color
     }
     
-    public func contentResolution(with specification: AGSpecification) -> AGResolution {
-        .auto
-    }
-    
     public func render(with details: AGDetails) async throws -> Graphic {
-        try await .color(color, resolution: details.specification.resolution)
+        let resolution: CGSize = fallbackResolution(for: details.specification)
+        return try await .color(color, resolution: resolution)
     }
 }

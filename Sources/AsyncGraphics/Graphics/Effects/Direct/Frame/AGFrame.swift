@@ -18,13 +18,13 @@ public struct AGFrame: AGParentGraph {
     let fixedWidth: CGFloat?
     let fixedHeight: CGFloat?
     
-    public func contentResolution(with specification: AGSpecification) -> AGResolution {
-        AGResolution(width: fixedWidth ?? graph.contentResolution(with: specification).width,
-                     height: fixedHeight ?? graph.contentResolution(with: specification).height)
+    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
+        .semiAuto(fixedWidth: fixedWidth ?? graph.resolution(for: specification).width,
+                  fixedHeight: fixedHeight ?? graph.resolution(for: specification).height)
     }
     
     public func render(with details: AGDetails) async throws -> Graphic {
-        let resolution: CGSize = childResolution(with: details.specification)
+        let resolution: CGSize = fallbackResolution(for: details.specification)
         return try await graph.render(with: details.with(resolution: resolution))
     }
 }

@@ -8,16 +8,15 @@ public struct AGCircle: AGGraph {
     
     public init() { }
     
-    public func contentResolution(with specification: AGSpecification) -> AGResolution {
-        AGResolution(CGSize.one.place(in: specification.resolution, placement: .fit))
+    #warning("Aspect ratio resolution")
+    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
+        .fixed(CGSize.one.place(in: specification.resolution, placement: .fit))
     }
     
     public func render(with details: AGDetails) async throws -> Graphic {
-        let resolution: CGSize = contentResolution(with: details.specification)
-            .fallback(to: details.specification.resolution)
+        let resolution: CGSize = fallbackResolution(for: details.specification)
         if let lineWidth {
-            var radius: CGFloat = min(details.specification.resolution.width,
-                                      details.specification.resolution.height) / 2
+            var radius: CGFloat = min(resolution.width, resolution.height) / 2
             radius -= lineWidth / 2
             return try await .strokedCircle(radius: radius,
                                             lineWidth: lineWidth,

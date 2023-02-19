@@ -2,9 +2,21 @@ import CoreGraphics
 
 public protocol AGGraph: Hashable {
     
-    func contentResolution(with specification: AGSpecification) -> AGResolution
+    func resolution(for specification: AGSpecification) -> AGDynamicResolution
     
     func render(with details: AGDetails) async throws -> Graphic
+}
+
+extension AGGraph {
+    
+    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
+        .auto
+    }
+    
+    public func fallbackResolution(for specification: AGSpecification) -> CGSize {
+        resolution(for: specification)
+            .fallback(to: specification.resolution)
+    }
 }
 
 extension AGGraph {

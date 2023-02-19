@@ -14,42 +14,46 @@ public struct AGVStack: AGParentGraph {
         self.graphs = graphs()
     }
     
-    public func contentResolution(with specification: AGSpecification) -> AGResolution {
-        let width: CGFloat? = {
-            var totalWidth: CGFloat = 0.0
-            for graph in graphs.all {
-                if let width = graph.contentResolution(with: specification).width {
-                    totalWidth = max(totalWidth, width)
-                } else {
-                    return nil
-                }
-            }
-            return totalWidth
-        }()
-        let height: CGFloat? = {
-            var totalHeight: CGFloat = 0.0
-            for graph in graphs.all {
-                if let height = graph.contentResolution(with: specification).height {
-                    totalHeight = totalHeight + height
-                } else {
-                    return nil
-                }
-            }
-            return totalHeight
-        }()
-        return AGResolution(width: width, height: height)
+    #warning("auto divide is off")
+    func autoChildResolution(_ childGraph: any AGGraph, at index: Int,
+                                for specification: AGSpecification) -> CGSize {
+        CGSize(width: specification.resolution.width,
+               height: specification.resolution.height / CGFloat(children.all.count))
     }
     
-    func childResolution(for childGraph: any AGGraph, at index: Int,
-                         with specification: AGSpecification) -> CGSize {
-        let contentResolution: AGResolution = childGraph.contentResolution(with: specification)
-        let width: CGFloat = contentResolution.width ?? specification.resolution.width
-        var height: CGFloat = contentResolution.height ?? specification.resolution.height
-        if contentResolution.height == nil {
+    func dynamicChildResolution(_ childGraph: any AGGraph, at index: Int,
+                                for specification: AGSpecification) -> AGDynamicResolution {
+        let autoResolution: CGSize = autoChildResolution(childGraph, at: index, for: specification)
+        let autoSpecification: AGSpecification = specification.with(resolution: autoResolution)
+        return childGraph.resolution(for: autoSpecification)
+    }
+    
+    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
+        if children.all.isEmpty {
+            return .auto
+        }
+        var dynamicResolution: AGDynamicResolution = .auto
+        for (index, childGraph) in children.all.enumerated() {
+            let dynamicChildResolution: AGDynamicResolution = dynamicChildResolution(
+                childGraph, at: index, for: specification)
+            dynamicResolution.max(width: dynamicChildResolution.width)
+            dynamicResolution.add(height: dynamicChildResolution.height)
+        }
+        return dynamicResolution
+    }
+    
+    func childResolution(_ childGraph: any AGGraph, at index: Int,
+                         for specification: AGSpecification) -> CGSize {
+        let dynamicResolution: AGDynamicResolution = resolution(for: specification)
+        let width: CGFloat = dynamicResolution.width ?? specification.resolution.height
+        var height: CGFloat = dynamicResolution.height ?? specification.resolution.height
+        if dynamicResolution.height == nil {
             var autoCount: Int = 1
             for (otherIndex, otherGraph) in graphs.all.enumerated() {
                 guard otherIndex != index else { continue }
-                if let otherHeight: CGFloat = otherGraph.contentResolution(with: specification).height {
+                let otherDynamicResolution: AGDynamicResolution = dynamicChildResolution(
+                    otherGraph, at: otherIndex, for: specification)
+                if let otherHeight = otherDynamicResolution.height {
                     height -= otherHeight
                 } else {
                     autoCount += 1
@@ -66,8 +70,8 @@ public struct AGVStack: AGParentGraph {
         }
         var graphics: [Graphic] = []
         for (index, graph) in graphs.all.enumerated() {
-            let resolution: CGSize = childResolution(for: graph, at: index,
-                                                     with: details.specification)
+            let resolution: CGSize = childResolution(
+                graph, at: index, for: details.specification)
             let details: AGDetails = details.with(resolution: resolution)
             let graphic: Graphic = try await graph.render(with: details)
             graphics.append(graphic)

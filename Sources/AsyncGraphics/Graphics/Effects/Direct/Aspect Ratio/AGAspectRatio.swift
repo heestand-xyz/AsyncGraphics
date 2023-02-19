@@ -20,8 +20,7 @@ public struct AGAspectRatio: AGParentGraph {
     let aspectRatio: CGFloat?
     let contentMode: AGContentMode
     
-    public func contentResolution(with specification: AGSpecification) -> AGResolution {
-        let resolution: AGResolution = graph.contentResolution(with: specification)
+    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
         let placement: Placement = {
             switch contentMode {
             case .fit:
@@ -31,27 +30,21 @@ public struct AGAspectRatio: AGParentGraph {
             }
         }()
         if let aspectRatio {
-            return AGResolution(
-                CGSize(width: aspectRatio, height: 1.0)
-                    .place(in: specification.resolution, placement: placement)
-            )
+            return .fixed(CGSize(width: aspectRatio, height: 1.0)
+                .place(in: specification.resolution, placement: placement))
         }
-        if let size = resolution.size {
-            return AGResolution(size.place(in: specification.resolution, placement: placement))
-        } else if let width = resolution.width {
-            return AGResolution(width: width)
-        } else if let height = resolution.height {
-            return AGResolution(height: height)
-        } else {
-            return .auto
+        let dynamicResolution: AGDynamicResolution = graph.resolution(for: specification)
+        if let size: CGSize = dynamicResolution.size {
+            return .fixed(size.place(in: specification.resolution, placement: placement))
         }
+        return dynamicResolution
     }
     
     public func render(with details: AGDetails) async throws -> Graphic {
-        let childResolution: CGSize = childResolution(with: details.specification)
-        let graphic: Graphic = try await graph.render(with: details.with(resolution: childResolution))
+        let resolution: CGSize = fallbackResolution(for: details.specification)
+        let graphic: Graphic = try await graph.render(with: details.with(resolution: resolution))
         if aspectRatio != nil {
-            let backgroundGraphic: Graphic = try await .color(.clear, resolution: childResolution)
+            let backgroundGraphic: Graphic = try await .color(.clear, resolution: resolution)
             return try await backgroundGraphic.blended(with: graphic,
                                                        blendingMode: .over,
                                                        placement: .center)

@@ -21,12 +21,12 @@ public struct AGView: View {
     private var width: CGFloat? {
         guard let resolution else { return nil }
         let specification: AGSpecification = renderer.specification(for: graph(), at: resolution)
-        return graph().contentResolution(with: specification).width
+        return graph().resolution(for: specification).width
     }
     private var height: CGFloat? {
         guard let resolution else { return nil }
         let specification: AGSpecification = renderer.specification(for: graph(), at: resolution)
-        return graph().contentResolution(with: specification).height
+        return graph().resolution(for: specification).height
     }
     
     @State private var renderTask: Task<Void, Never>?

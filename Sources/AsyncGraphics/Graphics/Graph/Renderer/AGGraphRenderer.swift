@@ -64,7 +64,7 @@ extension AGGraphRenderer {
         let emptyResourceResolutions = AGResourceResolutions(camera: [:])
         let specification = AGSpecification(resolution: resolution,
                                             resourceResolutions: emptyResourceResolutions)
-        activeCameraMaximumResolutions = cameraMaximumResolutions(for: graph, with: specification)
+        activeCameraMaximumResolutions = cameraMaximumResolutions(for: graph, for: specification)
         
         for cameraPosition in cameraPositions {
             if !activeCameraPositions.contains(where: { $0 == cameraPosition }) {
@@ -125,27 +125,25 @@ extension AGGraphRenderer {
             cameraPositions.insert(camera.position)
         }
         if let parentGraph = graph as? any AGParentGraph {
-            for child in parentGraph.children {
+            for child in parentGraph.children.all {
                 cameraPositions.formUnion(self.cameraPositions(for: child))
             }
         }
         return cameraPositions
     }
     
-    private func cameraMaximumResolutions(for graph: any AGGraph, with specification: AGSpecification) -> [Graphic.CameraPosition: CGSize] {
+    private func cameraMaximumResolutions(for graph: any AGGraph, for specification: AGSpecification) -> [Graphic.CameraPosition: CGSize] {
 //        print("---> cameraMaximumResolutions:", type(of: graph), resolutionDetails.resolution)
         var maximumResolutions: [Graphic.CameraPosition: CGSize] = [:]
         if let camera = graph as? AGCamera {
-            maximumResolutions[camera.position] = camera.contentResolution(with: specification)
-                .fallback(to: specification.resolution)
+            maximumResolutions[camera.position] = camera.fallbackResolution(for: specification)
         }
-        let specification: AGSpecification = specification
-            .with(resolution: graph
-                .contentResolution(with: specification)
-                .fallback(to: specification.resolution))
         if let parentGraph = graph as? any AGParentGraph {
-            for child in parentGraph.children {
-                for (cameraPosition, maximumResolution) in cameraMaximumResolutions(for: child, with: specification) {
+            for (index, child) in parentGraph.children.all.enumerated() {
+                let childResolution: CGSize = parentGraph.childResolution(child, at: index, for: specification)
+                let specification: AGSpecification = specification
+                    .with(resolution: childResolution)
+                for (cameraPosition, maximumResolution) in cameraMaximumResolutions(for: child, for: specification) {
                     if let currentMaximumResolution: CGSize = maximumResolutions[cameraPosition] {
                         maximumResolutions[cameraPosition] = CGSize(
                             width: max(currentMaximumResolution.width, maximumResolution.width),

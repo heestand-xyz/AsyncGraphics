@@ -4,17 +4,23 @@ protocol AGParentGraph: AGGraph {
     
     var children: [any AGGraph] { get }
     
-    func childResolution(for childGraph: any AGGraph,
+    func childResolution(_ childGraph: any AGGraph,
                          at index: Int,
-                         with specification: AGSpecification) -> CGSize
+                         for specification: AGSpecification) -> CGSize
 }
 
 extension AGParentGraph {
     
-    func childResolution(for childGraph: any AGGraph = AGSpacer(),
+    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
+        guard let graph: any AGGraph = children.all.first else {
+            return .auto
+        }
+        return graph.resolution(for: specification)
+    }
+    
+    func childResolution(_ childGraph: any AGGraph,
                          at index: Int = 0,
-                         with specification: AGSpecification) -> CGSize {
-        contentResolution(with: specification)
-            .fallback(to: specification.resolution)
+                         for specification: AGSpecification) -> CGSize {
+        .zero
     }
 }

@@ -16,40 +16,37 @@ public struct AGPadding: AGParentGraph {
     let edgeInsets: Graphic.EdgeInsets
     let padding: CGFloat
     
-    public func contentResolution(with specification: AGSpecification) -> AGResolution {
-        AGResolution(
-            width: {
-                guard let width = graph.contentResolution(with: specification).width else { return nil }
+    #warning("Check Outer Padding")
+    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
+        let childDynamicResolution: AGDynamicResolution = graph.resolution(for: specification)
+        return .semiAuto(
+            fixedWidth: {
+                guard let width: CGFloat = childDynamicResolution.width else { return nil }
                 return width + (edgeInsets.onLeading ? padding : 0) + (edgeInsets.onTrailing ? padding : 0)
             }(),
-            height: {
-                guard let height = graph.contentResolution(with: specification).height else { return nil }
+            fixedHeight: {
+                guard let height: CGFloat = childDynamicResolution.height else { return nil }
                 return height + (edgeInsets.onTop ? padding : 0) + (edgeInsets.onBottom ? padding : 0)
             }()
         )
     }
     
+    #warning("Check Inner Padding")
+    func childResolution(_ childGraph: any AGGraph,
+                         at index: Int = 0,
+                         for specification: AGSpecification) -> CGSize {
+        let resolution: CGSize = childGraph.fallbackResolution(for: specification)
+        let width: CGFloat = resolution.width - (edgeInsets.onLeading ? padding : 0) - (edgeInsets.onTrailing ? padding : 0)
+        let height: CGFloat = resolution.height - (edgeInsets.onTop ? padding : 0) - (edgeInsets.onBottom ? padding : 0)
+        return CGSize(width: width, height: height)
+    }
+    
     public func render(with details: AGDetails) async throws -> Graphic {
-        let outerResolution: CGSize = childResolution(with: details.specification)
-        var width: CGFloat = outerResolution.width
-        var height: CGFloat = outerResolution.height
-        if edgeInsets.onLeading {
-            width -= padding
-        }
-        if edgeInsets.onTrailing {
-            width -= padding
-        }
-        if edgeInsets.onTop {
-            height -= padding
-        }
-        if edgeInsets.onBottom {
-            height -= padding
-        }
-        let innerResolution = CGSize(width: width, height: height)
-        guard innerResolution.width > 0 && innerResolution.height > 0 else {
+        let childResolution: CGSize = childResolution(graph, for: details.specification)
+        guard childResolution.width > 0 && childResolution.height > 0 else {
             return try await .color(.clear, resolution: details.specification.resolution)
         }
-        let graphic: Graphic = try await graph.render(with: details.with(resolution: innerResolution))
+        let graphic: Graphic = try await graph.render(with: details.with(resolution: childResolution))
         return try await graphic.padding(on: edgeInsets, padding)
     }
 }
