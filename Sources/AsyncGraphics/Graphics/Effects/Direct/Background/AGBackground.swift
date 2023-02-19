@@ -1,10 +1,12 @@
 import CoreGraphics
+import SwiftUI
 import PixelColor
 
 extension AGGraph {
     
-    public func background(color: PixelColor) -> any AGGraph {
-        AGBackground(graph: self, background: .color(color))
+    @available(iOS 14, macOS 11, *)
+    public func background(_ color: Color) -> any AGGraph {
+        AGBackground(graph: self, background: .color(PixelColor(color)))
     }
     
     public func background(_ graph: () -> (any AGGraph)) -> any AGGraph {

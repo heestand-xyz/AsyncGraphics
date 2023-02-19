@@ -9,7 +9,7 @@ extension AGGraph {
     }
 }
 
-public struct AGForegroundColor: AGGraph {
+public struct AGForegroundColor: AGParentGraph {
    
     public var children: [any AGGraph] { [graph] }
     
