@@ -23,12 +23,12 @@ public struct AGPadding: AGParentGraph {
         let innerResolution = CGSize(width: innerWidth, height: innerHeight)
         let childDynamicResolution: AGDynamicResolution = graph.resolution(for: specification.with(resolution: innerResolution))
         return .semiAuto(
-            fixedWidth: {
-                guard let width: CGFloat = childDynamicResolution.width else { return nil }
+            width: {
+                guard let width: CGFloat = childDynamicResolution.fixedWidth else { return nil }
                 return width + (edgeInsets.onLeading ? padding : 0) + (edgeInsets.onTrailing ? padding : 0)
             }(),
-            fixedHeight: {
-                guard let height: CGFloat = childDynamicResolution.height else { return nil }
+            height: {
+                guard let height: CGFloat = childDynamicResolution.fixedHeight else { return nil }
                 return height + (edgeInsets.onTop ? padding : 0) + (edgeInsets.onBottom ? padding : 0)
             }()
         )

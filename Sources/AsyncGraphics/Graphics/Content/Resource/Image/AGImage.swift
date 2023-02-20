@@ -29,11 +29,11 @@ public struct AGImage: AGGraph {
         else { return .auto }
         switch placement {
         case .fit:
-            return .fixed(imageResolution.place(in: specification.resolution, placement: .fit))
+            return .size(imageResolution.place(in: specification.resolution, placement: .fit))
         case .fill:
-            return .fixed(imageResolution.place(in: specification.resolution, placement: .fill))
+            return .size(imageResolution.place(in: specification.resolution, placement: .fill))
         case .center:
-            return .fixed(imageResolution)
+            return .size(imageResolution)
         case .stretch:
             return .auto
         }

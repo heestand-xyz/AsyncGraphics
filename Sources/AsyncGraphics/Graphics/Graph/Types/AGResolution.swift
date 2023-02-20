@@ -1,82 +1,108 @@
 import CoreGraphics
 
-public struct AGDynamicResolution: Hashable {
+public enum AGDynamicResolution: Hashable {
     
-    var width: CGFloat?
-    var height: CGFloat?
+    case size(CGSize)
+    case width(CGFloat)
+    case height(CGFloat)
+    case aspectRatio(CGFloat)
+    case auto
+}
+
+extension AGDynamicResolution {
     
-    static let auto = AGDynamicResolution(width: nil, height: nil)
-    
-    var size: CGSize? {
-        guard let width, let height else { return nil }
-        return CGSize(width: width, height: height)
+    var fixedWidth: CGFloat? {
+        switch self {
+        case .size(let size):
+            return size.width
+        case .width(let width):
+            return width
+        case .height:
+            return nil
+        case .aspectRatio:
+            return nil
+        case .auto:
+            return nil
+        }
     }
     
-    static func fixed(width: CGFloat,
-                      height: CGFloat) -> AGDynamicResolution {
-        AGDynamicResolution(width: width, height: height)
+    var fixedHeight: CGFloat? {
+        switch self {
+        case .size(let size):
+            return size.height
+        case .width:
+            return nil
+        case .height(let height):
+            return height
+        case .aspectRatio:
+            return nil
+        case .auto:
+            return nil
+        }
+    }
+}
+
+extension AGDynamicResolution {
+    
+    func width(forHeight height: CGFloat) -> CGFloat? {
+        switch self {
+        case .size(let size):
+            return size.width
+        case .width(let width):
+            return width
+        case .height:
+            return nil
+        case .aspectRatio(let aspectRatio):
+            return height * aspectRatio
+        case .auto:
+            return nil
+        }
     }
     
-    static func fixed(_ size: CGSize) -> AGDynamicResolution {
-        AGDynamicResolution(width: size.width, height: size.height)
+    func height(forWidth width: CGFloat) -> CGFloat? {
+        switch self {
+        case .size(let size):
+            return size.height
+        case .width:
+            return nil
+        case .height(let height):
+            return height
+        case .aspectRatio(let aspectRatio):
+            return width / aspectRatio
+        case .auto:
+            return nil
+        }
     }
+}
+
+extension AGDynamicResolution {
     
-    static func semiAuto(fixedWidth: CGFloat? = nil,
-                         fixedHeight: CGFloat? = nil) -> AGDynamicResolution {
-        AGDynamicResolution(width: fixedWidth, height: fixedHeight)
+    static func semiAuto(width: CGFloat?, height: CGFloat?) -> AGDynamicResolution {
+        if let width, let height {
+            return .size(CGSize(width: width, height: height))
+        } else if let width {
+            return .width(width)
+        } else if let height {
+            return .height(height)
+        }
+        return .auto
     }
 }
 
 extension AGDynamicResolution {
     
     func fallback(to resolution: CGSize) -> CGSize {
-        CGSize(width: width ?? resolution.width,
-               height: height ?? resolution.height)
+        switch self {
+        case .size(let size):
+            return size
+        case .width(let width):
+            return CGSize(width: width, height: resolution.height)
+        case .height(let height):
+            return CGSize(width: resolution.width, height: height)
+        case .aspectRatio(let aspectRatio):
+            return CGSize(width: aspectRatio, height: 1.0).place(in: resolution, placement: .fit)
+        case .auto:
+            return resolution
+        }
     }
 }
-//
-//extension AGDynamicResolution {
-//    
-//    mutating func add(width: CGFloat?) {
-//        if let width {
-//            if let currentWidth = self.width {
-//                self.width = currentWidth + width
-//            } else {
-//                self.width = width
-//            }
-//        }
-//    }
-//    
-//    mutating func add(height: CGFloat?) {
-//        if let height {
-//            if let currentHeight = self.height {
-//                self.height = currentHeight + height
-//            } else {
-//                self.height = height
-//            }
-//        }
-//    }
-//}
-//
-//extension AGDynamicResolution {
-//    
-//    mutating func max(width: CGFloat?) {
-//        if let width {
-//            if let currentWidth = self.width {
-//                self.width = Swift.max(currentWidth, width)
-//            } else {
-//                self.width = width
-//            }
-//        }
-//    }
-//    
-//    mutating func max(height: CGFloat?) {
-//        if let height {
-//            if let currentHeight = self.height {
-//                self.height = Swift.max(currentHeight, height)
-//            } else {
-//                self.height = height
-//            }
-//        }
-//    }
-//}

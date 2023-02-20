@@ -8,9 +8,8 @@ public struct AGCircle: AGGraph {
     
     public init() { }
     
-    #warning("Aspect ratio resolution")
     public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
-        .fixed(CGSize.one.place(in: specification.resolution, placement: .fit))
+        .aspectRatio(1.0)
     }
     
     public func render(with details: AGDetails) async throws -> Graphic {

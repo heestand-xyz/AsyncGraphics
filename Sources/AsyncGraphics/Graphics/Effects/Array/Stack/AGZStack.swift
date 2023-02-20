@@ -19,7 +19,7 @@ public struct AGZStack: AGParentGraph {
             var width: CGFloat = 0.0
             for childGraph in children.all {
                 let dynamicChildResolution: AGDynamicResolution = childGraph.resolution(for: specification)
-                if let childWidth: CGFloat = dynamicChildResolution.width {
+                if let childWidth: CGFloat = dynamicChildResolution.fixedWidth {
                     width = max(width, childWidth)
                 } else {
                     return nil
@@ -31,7 +31,7 @@ public struct AGZStack: AGParentGraph {
             var height: CGFloat = 0.0
             for childGraph in children.all {
                 let dynamicChildResolution: AGDynamicResolution = childGraph.resolution(for: specification)
-                if let childHeight: CGFloat = dynamicChildResolution.height {
+                if let childHeight: CGFloat = dynamicChildResolution.fixedHeight {
                     height = max(height, childHeight)
                 } else {
                     return nil
@@ -39,14 +39,14 @@ public struct AGZStack: AGParentGraph {
             }
             return height
         }()
-        return .semiAuto(fixedWidth: width, fixedHeight: height)
+        return .semiAuto(width: width, height: height)
     }
     
     func childResolution(_ childGraph: any AGGraph, at index: Int,
                          for specification: AGSpecification) -> CGSize {
         let dynamicResolution: AGDynamicResolution = childGraph.resolution(for: specification)
-        var width: CGFloat = dynamicResolution.width ?? specification.resolution.width
-        let height: CGFloat = dynamicResolution.height ?? specification.resolution.height
+        var width: CGFloat = dynamicResolution.fixedWidth ?? specification.resolution.width
+        let height: CGFloat = dynamicResolution.fixedHeight ?? specification.resolution.height
         return CGSize(width: width, height: height)
     }
    
