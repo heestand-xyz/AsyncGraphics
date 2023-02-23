@@ -34,6 +34,14 @@ extension Graphic {
         let center: CGPoint = center ?? resolution.asPoint / 2
         let frame = CGRect(origin: center - size / 2, size: size)
         
+        var cornerRadius: CGFloat = cornerRadius
+        if cornerRadius > 0.0 {
+            let minimum = min(size.width, size.height)
+            if cornerRadius > minimum / 2 {
+                cornerRadius = minimum / 2
+            }
+        }
+        
         return try await rectangle(
             frame: frame,
             cornerRadius: cornerRadius,

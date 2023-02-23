@@ -21,17 +21,22 @@ public struct AGPadding: AGParentGraph {
         let innerWidth: CGFloat = outerResolution.width - (edgeInsets.onLeading ? padding : 0) - (edgeInsets.onTrailing ? padding : 0)
         let innerHeight: CGFloat = outerResolution.height - (edgeInsets.onTop ? padding : 0) - (edgeInsets.onBottom ? padding : 0)
         let innerResolution = CGSize(width: innerWidth, height: innerHeight)
+        let hPadding = (edgeInsets.onLeading ? padding : 0) + (edgeInsets.onTrailing ? padding : 0)
+        let vPadding = (edgeInsets.onTop ? padding : 0) + (edgeInsets.onBottom ? padding : 0)
         let childDynamicResolution: AGDynamicResolution = graph.resolution(for: specification.with(resolution: innerResolution))
-        return .semiAuto(
-            width: {
-                guard let width: CGFloat = childDynamicResolution.fixedWidth else { return nil }
-                return width + (edgeInsets.onLeading ? padding : 0) + (edgeInsets.onTrailing ? padding : 0)
-            }(),
-            height: {
-                guard let height: CGFloat = childDynamicResolution.fixedHeight else { return nil }
-                return height + (edgeInsets.onTop ? padding : 0) + (edgeInsets.onBottom ? padding : 0)
-            }()
-        )
+        switch childDynamicResolution {
+        case .size(let size):
+            return .size(CGSize(width: size.width + hPadding,
+                                height: size.height + vPadding))
+        case .width(let width):
+            return .width(width + hPadding)
+        case .height(let height):
+            return .height(height + vPadding)
+        case .aspectRatio(let aspectRatio):
+            return .aspectRatio(aspectRatio)
+        case .auto:
+            return .auto
+        }
     }
     
     func childResolution(_ childGraph: any AGGraph,

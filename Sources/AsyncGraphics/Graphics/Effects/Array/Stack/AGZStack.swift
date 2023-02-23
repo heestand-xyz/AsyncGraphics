@@ -15,31 +15,12 @@ public struct AGZStack: AGParentGraph {
     }
     
     public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
-        let width: CGFloat? = {
-            var width: CGFloat = 0.0
-            for childGraph in children.all {
-                let dynamicChildResolution: AGDynamicResolution = childGraph.resolution(for: specification)
-                if let childWidth: CGFloat = dynamicChildResolution.fixedWidth {
-                    width = max(width, childWidth)
-                } else {
-                    return nil
-                }
-            }
-            return width
-        }()
-        let height: CGFloat? = {
-            var height: CGFloat = 0.0
-            for childGraph in children.all {
-                let dynamicChildResolution: AGDynamicResolution = childGraph.resolution(for: specification)
-                if let childHeight: CGFloat = dynamicChildResolution.fixedHeight {
-                    height = max(height, childHeight)
-                } else {
-                    return nil
-                }
-            }
-            return height
-        }()
-        return .semiAuto(width: width, height: height)
+        var dynamicResolution: AGDynamicResolution = .zero
+        for child in children.all {
+            let childDynamicResolution = child.resolution(for: specification)
+            dynamicResolution = dynamicResolution.zMerge(with: childDynamicResolution)
+        }
+        return dynamicResolution
     }
     
     func childResolution(_ childGraph: any AGGraph, at index: Int,
