@@ -1,31 +1,33 @@
 import TextureMap
 import CoreGraphics
 import CoreGraphicsExtensions
+#if os(macOS)
+import AppKit
+#else
+import UIKit
+#endif
 
 public struct AGImage: AGGraph {
     
-    private var imageResolution: CGSize? {
-        guard let image
-        else { return nil }
-        return image.size * image.scale
+    enum Source: Hashable {
+        case name(String)
+        case raw(TMImage)
     }
     
-    var image: TMImage?
+    let source: Source
     
     var placement: Placement = .center
     
     public init(named name: String) {
-        if let image = TMImage(named: name) {
-            self.image = image
-        }
+        source = .name(name)
     }
     
     public init(_ image: TMImage) {
-        self.image = image
+        source = .raw(image)
     }
     
     public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
-        guard let imageResolution: CGSize
+        guard let imageResolution: CGSize = specification.resourceResolutions.image[source]
         else { return .auto }
         switch placement {
         case .fit:
@@ -40,10 +42,9 @@ public struct AGImage: AGGraph {
     }
     
     public func render(with details: AGDetails) async throws -> Graphic {
-        guard let image: TMImage else {
+        guard let imageGraphic: Graphic = details.resources.imageGraphics[source] else {
             return try await .color(.clear, resolution: details.specification.resolution)
         }
-        let imageGraphic: Graphic = try await .image(image)
         let resolution: CGSize = fallbackResolution(for: details.specification)
         return try await imageGraphic.resized(to: resolution, placement: .stretch, method: .lanczos)
     }
