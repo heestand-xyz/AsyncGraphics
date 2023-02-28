@@ -24,12 +24,12 @@ import AsyncGraphics
 
 struct ContentView: View {
    
-    @StateObject private var videoPlayer: Graphic.VideoPlayer = {
+    @StateObject private var videoPlayer: GraphicVideoPlayer = {
         let url = Bundle.main.url(forResource: "Video", withExtension: "mov")!
-        var options = Graphic.VideoPlayer.Options()
+        var options = GraphicVideoPlayer.Options()
         options.loop = true
         options.volume = 0.0
-        return Graphic.VideoPlayer(url: url, options: options)
+        return GraphicVideoPlayer(url: url, options: options)
     }()
     
     @State private var graphic: Graphic?
@@ -63,12 +63,8 @@ struct ContentView: View {
         }
         .padding()
         .task {
-            do {
-                for try await videoGraphic in try Graphic.playVideo(with: videoPlayer) {
-                    self.graphic = videoGraphic
-                }
-            } catch {
-                print(error)
+            for await videoGraphic in Graphic.playVideo(with: videoPlayer) {
+                self.graphic = videoGraphic
             }
         }
     }

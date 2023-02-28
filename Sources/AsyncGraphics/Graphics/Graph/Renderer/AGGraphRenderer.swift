@@ -7,6 +7,11 @@ final class AGGraphRenderer: ObservableObject {
     var activeCameraMaximumResolutions: [Graphic.CameraPosition: CGSize] = [:]
     @Published var activeCameraGraphics: [Graphic.CameraPosition: Graphic] = [:]
     @Published var activeCameraResolutions: [Graphic.CameraPosition: CGSize] = [:]
+    
+    var activeVideoPlayers: Set<GraphicVideoPlayer> = []
+    var activeVideoTasks: [GraphicVideoPlayer: Task<Void, Error>] = [:]
+    var activeVideoMaximumResolutions: [GraphicVideoPlayer: CGSize] = [:]
+    @Published var activeVideoGraphics: [GraphicVideoPlayer: Graphic] = [:]
 }
 
 extension AGGraphRenderer {
@@ -47,7 +52,13 @@ extension AGGraphRenderer {
             cameraGraphics[cameraPosition] = graphic
         }
         
-        return AGResources(cameraGraphics: cameraGraphics)
+        var videoGraphics: [GraphicVideoPlayer: Graphic] = [:]
+        for videoPlayer in activeVideoPlayers {
+            guard let graphic: Graphic = activeVideoGraphics[videoPlayer] else { continue }
+            videoGraphics[videoPlayer] = graphic
+        }
+        
+        return AGResources(cameraGraphics: cameraGraphics, videoGraphics: videoGraphics)
     }
 }
 
@@ -55,6 +66,7 @@ extension AGGraphRenderer {
     
     private func checkResources(for graph: any AGGraph, at resolution: CGSize) {
         checkCamera(for: graph, at: resolution)
+        checkVideo(for: graph, at: resolution)
     }
     
     private func checkCamera(for graph: any AGGraph, at resolution: CGSize) {
@@ -77,6 +89,30 @@ extension AGGraphRenderer {
             if !cameraPositions.contains(cameraPosition) {
                 activeCameraPositions.remove(cameraPosition)
                 stopCamera(position: cameraPosition)
+            }
+        }
+    }
+    
+    private func checkVideo(for graph: any AGGraph, at resolution: CGSize) {
+        
+        let videoPlayers = videoPlayers(for: graph)
+        
+        let emptyResourceResolutions = AGResourceResolutions(camera: [:])
+        let specification = AGSpecification(resolution: resolution,
+                                            resourceResolutions: emptyResourceResolutions)
+        activeVideoMaximumResolutions = videoMaximumResolutions(for: graph, for: specification)
+        
+        for videoPlayer in videoPlayers {
+            if !activeVideoPlayers.contains(where: { $0 == videoPlayer }) {
+                activeVideoPlayers.insert(videoPlayer)
+                startVideo(with: videoPlayer)
+            }
+        }
+        
+        for videoPlayer in activeVideoPlayers {
+            if !videoPlayers.contains(videoPlayer) {
+                activeVideoPlayers.remove(videoPlayer)
+                stopVideo(with: videoPlayer)
             }
         }
     }
@@ -118,6 +154,38 @@ extension AGGraphRenderer {
 
 extension AGGraphRenderer {
     
+    private func startVideo(with videoPlayer: GraphicVideoPlayer) {
+        print("Async Graphics - Graph - Video - Start")
+        let task = Task {
+            for await graphic in Graphic.playVideo(with: videoPlayer) {
+                let resizedGraphic: Graphic
+                if let maximumResolution: CGSize = activeVideoMaximumResolutions[videoPlayer],
+                   graphic.width > maximumResolution.width,
+                   graphic.height > maximumResolution.height {
+                    let targetResolution: CGSize = graphic.resolution.place(in: maximumResolution, placement: .fill)
+                    resizedGraphic = try await graphic.resized(to: targetResolution, method: .lanczos)
+                } else {
+                    resizedGraphic = graphic
+                }
+                await MainActor.run {
+                    activeVideoGraphics[videoPlayer] = resizedGraphic
+                }
+            }
+        }
+        activeVideoTasks[videoPlayer] = task
+    }
+    
+    private func stopVideo(with videoPlayer: GraphicVideoPlayer) {
+        print("Async Graphics - Graph - Video - Stop")
+        guard let task = activeVideoTasks[videoPlayer] else { return }
+        task.cancel()
+        activeVideoTasks.removeValue(forKey: videoPlayer)
+        activeVideoGraphics.removeValue(forKey: videoPlayer)
+    }
+}
+
+extension AGGraphRenderer {
+    
     private func cameraPositions(for graph: any AGGraph) -> Set<Graphic.CameraPosition> {
         var cameraPositions: Set<Graphic.CameraPosition> = []
         if let camera = graph as? AGCamera {
@@ -130,6 +198,22 @@ extension AGGraphRenderer {
         }
         return cameraPositions
     }
+    
+    private func videoPlayers(for graph: any AGGraph) -> Set<GraphicVideoPlayer> {
+        var videoPlayers: Set<GraphicVideoPlayer> = []
+        if let video = graph as? AGVideo {
+            videoPlayers.insert(video.videoPlayer)
+        }
+        if let parentGraph = graph as? any AGParentGraph {
+            for child in parentGraph.children.all {
+                videoPlayers.formUnion(self.videoPlayers(for: child))
+            }
+        }
+        return videoPlayers
+    }
+}
+
+extension AGGraphRenderer {
     
     private func cameraMaximumResolutions(for graph: any AGGraph, for specification: AGSpecification) -> [Graphic.CameraPosition: CGSize] {
         var maximumResolutions: [Graphic.CameraPosition: CGSize] = [:]
@@ -148,6 +232,30 @@ extension AGGraphRenderer {
                             height: max(currentMaximumResolution.height, maximumResolution.height))
                     } else {
                         maximumResolutions[cameraPosition] = maximumResolution
+                    }
+                }
+            }
+        }
+        return maximumResolutions
+    }
+    
+    private func videoMaximumResolutions(for graph: any AGGraph, for specification: AGSpecification) -> [GraphicVideoPlayer: CGSize] {
+        var maximumResolutions: [GraphicVideoPlayer: CGSize] = [:]
+        if let video = graph as? AGVideo {
+            maximumResolutions[video.videoPlayer] = video.fallbackResolution(for: specification)
+        }
+        if let parentGraph = graph as? any AGParentGraph {
+            for (index, child) in parentGraph.children.all.enumerated() {
+                let childResolution: CGSize = parentGraph.childResolution(child, at: index, for: specification)
+                let specification: AGSpecification = specification
+                    .with(resolution: childResolution)
+                for (videoPlayer, maximumResolution) in videoMaximumResolutions(for: child, for: specification) {
+                    if let currentMaximumResolution: CGSize = maximumResolutions[videoPlayer] {
+                        maximumResolutions[videoPlayer] = CGSize(
+                            width: max(currentMaximumResolution.width, maximumResolution.width),
+                            height: max(currentMaximumResolution.height, maximumResolution.height))
+                    } else {
+                        maximumResolutions[videoPlayer] = maximumResolution
                     }
                 }
             }

@@ -1,7 +1,7 @@
 import SwiftUI
 import CoreGraphicsExtensions
 
-/// SwiftUI view for displaying a ``AGGraphic``.
+/// SwiftUI view for displaying an ``AGGraph``.
 @available(iOS 15.0, tvOS 15.0, macOS 12.0, *)
 public struct AGView: View {
    
