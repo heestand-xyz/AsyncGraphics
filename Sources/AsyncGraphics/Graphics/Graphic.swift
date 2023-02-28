@@ -58,9 +58,9 @@ extension Graphic {
         var errorDescription: String? {
             switch self {
             case .pngDataNotFound:
-                return "Async Graphics - Image - PNG Data Not Found"
+                return "AsyncGraphics - Image - PNG Data Not Found"
             case .mappingFailed:
-                return "Async Graphics - Image - Mapping Failed"
+                return "AsyncGraphics - Image - Mapping Failed"
             }
         }
     }
@@ -103,9 +103,9 @@ extension Graphic {
         var errorDescription: String? {
             switch self {
             case .noChannelsFound:
-                return "Async Graphics - Pixels - No Channels Found"
+                return "AsyncGraphics - Pixels - No Channels Found"
             case .badChannelCount:
-                return "Async Graphics - Pixels - Bad Channel Count"
+                return "AsyncGraphics - Pixels - Bad Channel Count"
             }
         }
     }

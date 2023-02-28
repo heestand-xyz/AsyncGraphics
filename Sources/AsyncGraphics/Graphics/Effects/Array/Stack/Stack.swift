@@ -13,7 +13,7 @@ extension Graphic {
         var errorDescription: String? {
             switch self {
             case .noGraphicsProvided:
-                return "Async Graphics - Stack - No Graphics Provided"
+                return "AsyncGraphics - Stack - No Graphics Provided"
             }
         }
     }

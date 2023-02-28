@@ -189,7 +189,7 @@ public class GraphicVideoPlayer: ObservableObject {
     }
     
     public func seek(to seconds: Double) {
-        seek(to: CMTime(seconds: seconds, preferredTimescale: CMTimeScale(info.frameRate)))
+        seek(to: CMTime(seconds: seconds, preferredTimescale: CMTimeScale(info.frameRate * 1_000)))
     }
     
     public func startSeek() {

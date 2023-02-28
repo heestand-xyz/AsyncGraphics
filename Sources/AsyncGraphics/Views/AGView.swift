@@ -84,7 +84,7 @@ public struct AGView: View {
                 graphic = try await graph.render(with: details)
             } catch {
                 if error is CancellationError { return }
-                print("Async Graphics - AGView - Failed to render:", error)
+                print("AsyncGraphics - AGView - Failed to render:", error)
             }
         }
     }

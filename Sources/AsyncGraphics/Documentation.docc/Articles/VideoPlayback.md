@@ -71,8 +71,12 @@ struct ContentView: View {
 }
 ```
 
-## Topics
+> You can also use the ``AGVideo`` then you don't need the graphic State or the task with the for loop.
 
-### Video Playback
-
-- ``Graphic.playVideo``
+```swift
+AGView {
+    AGVideo(with: videoPlayer)
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+}
+```

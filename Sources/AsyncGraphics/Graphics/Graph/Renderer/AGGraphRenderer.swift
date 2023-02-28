@@ -121,7 +121,7 @@ extension AGGraphRenderer {
 extension AGGraphRenderer {
     
     private func startCamera(position: Graphic.CameraPosition) {
-        print("Async Graphics - Graph - Camera - Start")
+        print("AsyncGraphics - Graph - Camera - Start")
         let task = Task {
             for await graphic in try Graphic.camera(position) {
                 let resizedGraphic: Graphic
@@ -143,7 +143,7 @@ extension AGGraphRenderer {
     }
     
     private func stopCamera(position: Graphic.CameraPosition) {
-        print("Async Graphics - Graph - Camera - Stop")
+        print("AsyncGraphics - Graph - Camera - Stop")
         guard let task = activeCameraTasks[position] else { return }
         task.cancel()
         activeCameraTasks.removeValue(forKey: position)
@@ -155,7 +155,7 @@ extension AGGraphRenderer {
 extension AGGraphRenderer {
     
     private func startVideo(with videoPlayer: GraphicVideoPlayer) {
-        print("Async Graphics - Graph - Video - Start")
+        print("AsyncGraphics - Graph - Video - Start")
         let task = Task {
             for await graphic in Graphic.playVideo(with: videoPlayer) {
                 let resizedGraphic: Graphic
@@ -176,7 +176,7 @@ extension AGGraphRenderer {
     }
     
     private func stopVideo(with videoPlayer: GraphicVideoPlayer) {
-        print("Async Graphics - Graph - Video - Stop")
+        print("AsyncGraphics - Graph - Video - Stop")
         guard let task = activeVideoTasks[videoPlayer] else { return }
         task.cancel()
         activeVideoTasks.removeValue(forKey: videoPlayer)

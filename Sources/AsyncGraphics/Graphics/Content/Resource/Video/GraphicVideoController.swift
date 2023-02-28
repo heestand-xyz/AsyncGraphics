@@ -63,7 +63,7 @@ class GraphicVideoController: NSObject, GraphicVideoPlayerDelegate {
         do {
             try goTo(time: time)
         } catch {
-            print("AsyncGraphics - Video Controller - Render Failed:", error)
+            print("AsyncGraphics - Video Controller - Render (at second \(time.seconds)) Failed:", error)
         }
     }
     
