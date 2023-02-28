@@ -26,7 +26,7 @@ public struct AGZStack: AGParentGraph {
     func childResolution(_ childGraph: any AGGraph, at index: Int,
                          for specification: AGSpecification) -> CGSize {
         let dynamicResolution: AGDynamicResolution = childGraph.resolution(for: specification)
-        var width: CGFloat = dynamicResolution.fixedWidth ?? specification.resolution.width
+        let width: CGFloat = dynamicResolution.fixedWidth ?? specification.resolution.width
         let height: CGFloat = dynamicResolution.fixedHeight ?? specification.resolution.height
         return CGSize(width: width, height: height)
     }

@@ -45,7 +45,7 @@ public struct AGAspectRatio: AGParentGraph {
             return .height(height)
         case .aspectRatio(let aspectRatio):
             return .aspectRatio(aspectRatio)
-        case .auto:
+        case .auto, .spacer:
             if let aspectRatio {
                 return .aspectRatio(aspectRatio)
             }

@@ -7,6 +7,7 @@ public enum AGDynamicResolution: Hashable {
     case height(CGFloat)
     case aspectRatio(CGFloat)
     case auto
+    case spacer(minLength: CGFloat)
 }
 
 extension AGDynamicResolution {
@@ -26,7 +27,7 @@ extension AGDynamicResolution {
             return nil
         case .aspectRatio:
             return nil
-        case .auto:
+        case .auto, .spacer:
             return nil
         }
     }
@@ -41,7 +42,7 @@ extension AGDynamicResolution {
             return height
         case .aspectRatio:
             return nil
-        case .auto:
+        case .auto, .spacer:
             return nil
         }
     }
@@ -59,7 +60,7 @@ extension AGDynamicResolution {
             return nil
         case .aspectRatio(let aspectRatio):
             return height * aspectRatio
-        case .auto:
+        case .auto, .spacer:
             return nil
         }
     }
@@ -74,7 +75,7 @@ extension AGDynamicResolution {
             return height
         case .aspectRatio(let aspectRatio):
             return width / aspectRatio
-        case .auto:
+        case .auto, .spacer:
             return nil
         }
     }
@@ -92,7 +93,7 @@ extension AGDynamicResolution {
             return nil
         case .aspectRatio(let aspectRatio):
             return aspectRatio
-        case .auto:
+        case .auto, .spacer:
             return nil
         }
     }
@@ -124,7 +125,7 @@ extension AGDynamicResolution {
             return CGSize(width: resolution.width, height: height)
         case .aspectRatio(let aspectRatio):
             return CGSize(width: aspectRatio, height: 1.0).place(in: resolution, placement: .fit)
-        case .auto:
+        case .auto, .spacer:
             return resolution
         }
     }
@@ -142,7 +143,7 @@ extension AGDynamicResolution {
             return .size(CGSize(width: fixedWidth, height: height))
         case .aspectRatio:
             return .width(fixedWidth)
-        case .auto:
+        case .auto, .spacer:
             return .width(fixedWidth)
         }
     }
@@ -157,7 +158,7 @@ extension AGDynamicResolution {
             return .height(fixedHeight)
         case .aspectRatio:
             return .height(fixedHeight)
-        case .auto:
+        case .auto, .spacer:
             return .height(fixedHeight)
         }
     }
@@ -271,6 +272,47 @@ extension AGDynamicResolution {
                 return .aspectRatio(1.0 / (1.0 / aspectRatioA + 1.0 / aspectRatioB))
             }
         }
+        func combineSpacer(minLength: CGFloat, size: CGSize) -> AGDynamicResolution {
+            switch axis {
+            case .depth:
+                return .auto
+            case .horizontal:
+                return .height(size.height)
+            case .vertical:
+                return .width(size.width)
+            }
+        }
+        func combineSpacer(minLength: CGFloat, width: CGFloat) -> AGDynamicResolution {
+            switch axis {
+            case .depth:
+                return .auto
+            case .horizontal:
+                return .auto
+            case .vertical:
+                return .width(width)
+            }
+        }
+        func combineSpacer(minLength: CGFloat, height: CGFloat) -> AGDynamicResolution {
+            switch axis {
+            case .depth:
+                return .auto
+            case .horizontal:
+                return .height(height)
+            case .vertical:
+                return .auto
+            }
+        }
+        func combineSpacer(minLength: CGFloat, aspectRatio: CGFloat) -> AGDynamicResolution {
+            .auto
+        }
+        func combineSpacer(minLengthA: CGFloat, minLengthB: CGFloat) -> AGDynamicResolution {
+            switch axis {
+            case .depth:
+                return .auto
+            default:
+                return .spacer(minLength: minLengthA + minLengthB)
+            }
+        }
         
         var resolution: AGDynamicResolution = {
             switch self {
@@ -286,6 +328,8 @@ extension AGDynamicResolution {
                     return combine(size: size1, aspectRatio: aspectRatio2)
                 case .auto:
                     return .auto
+                case .spacer(let minLength2):
+                    return combineSpacer(minLength: minLength2, size: size1)
                 }
             case .width(let width1):
                 switch resolution {
@@ -299,6 +343,8 @@ extension AGDynamicResolution {
                     return combine(width: width1, aspectRatio: aspectRatio2)
                 case .auto:
                     return .auto
+                case .spacer(let minLength2):
+                    return combineSpacer(minLength: minLength2, width: width1)
                 }
             case .height(let height1):
                 switch resolution {
@@ -312,6 +358,8 @@ extension AGDynamicResolution {
                     return combine(height: height1, aspectRatio: aspectRatio2)
                 case .auto:
                     return .auto
+                case .spacer(let minLength2):
+                    return combineSpacer(minLength: minLength2, height: height1)
                 }
             case .aspectRatio(let aspectRatio1):
                 switch resolution {
@@ -325,9 +373,26 @@ extension AGDynamicResolution {
                     return combine(aspectRatioA: aspectRatio1, aspectRatioB: aspectRatio2)
                 case .auto:
                     return .auto
+                case .spacer(let minLength2):
+                    return combineSpacer(minLength: minLength2, aspectRatio: aspectRatio1)
                 }
             case .auto:
                 return .auto
+            case .spacer(let minLength1):
+                switch resolution {
+                case .size(let size2):
+                    return combineSpacer(minLength: minLength1, size: size2)
+                case .width(let width2):
+                    return combineSpacer(minLength: minLength1, width: width2)
+                case .height(let height2):
+                    return combineSpacer(minLength: minLength1, height: height2)
+                case .aspectRatio(let aspectRatio2):
+                    return combineSpacer(minLength: minLength1, aspectRatio: aspectRatio2)
+                case .auto:
+                    return .auto
+                case .spacer(let minLength2):
+                    return combineSpacer(minLengthA: minLength1, minLengthB: minLength2)
+                }
             }
         }()
         

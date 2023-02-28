@@ -34,7 +34,7 @@ public struct AGPadding: AGParentGraph {
             return .height(height + vPadding)
         case .aspectRatio(let aspectRatio):
             return .aspectRatio(aspectRatio)
-        case .auto:
+        case .auto, .spacer:
             return .auto
         }
     }
