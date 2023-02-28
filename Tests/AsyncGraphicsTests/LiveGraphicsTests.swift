@@ -46,7 +46,7 @@ final class LiveGraphicsTests: XCTestCase {
         
         XCTAssertEqual(imageTexture.bits, ._8)
         
-        let bitTexture: Graphic = try await imageTexture.with(bits: ._16)
+        let bitTexture: Graphic = try await imageTexture.bits(._16)
         
         XCTAssertEqual(bitTexture.bits, ._16)
     }
@@ -56,11 +56,11 @@ final class LiveGraphicsTests: XCTestCase {
         let image: Graphic = try await .image(named: "Kite", in: .module)
         
         let inverted: Graphic = try await image.inverted()
-        let invertedIsEqual: Bool = try await inverted.isEqual(to: image)
+        let invertedIsEqual: Bool = try await inverted.isPixelsEqual(to: image)
         XCTAssertFalse(invertedIsEqual)
         
         let invertedBack: Graphic = try await inverted.inverted()
-        let invertedBackIsEqual: Bool = try await invertedBack.isEqual(to: image)
+        let invertedBackIsEqual: Bool = try await invertedBack.isPixelsEqual(to: image)
         XCTAssertTrue(invertedBackIsEqual)
     }
     
@@ -69,11 +69,16 @@ final class LiveGraphicsTests: XCTestCase {
         let image1: Graphic = try await .image(named: "Kite", in: .module)
         let image2: Graphic = try await .image(named: "City", in: .module)
         
-        _ = try await image1.blended(graphic: image2, blendingMode: .add, placement: .fill)
+        _ = try await image1.blended(with: image2, blendingMode: .add, placement: .fill)
     }
     
-    func testCircle() async throws {
+    func testTriangle() async throws {
         
-        _ = try await Graphic.circle(size: CGSize(width: 1920, height: 1080))
+        for length in 1...1000 {
+            guard length % 100 == 0 else { continue }
+            let triangle: Graphic = try await .polygon(count: 3, resolution: CGSize(width: length, height: length))
+            let color = try await triangle.averagePixelColor
+            XCTAssertNotEqual(color.alpha, 0.0)
+        }
     }
 }
