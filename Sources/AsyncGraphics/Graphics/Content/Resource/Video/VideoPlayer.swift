@@ -88,10 +88,10 @@ extension Graphic {
             guard let url: URL = bundle.url(forResource: name, withExtension: fileExtension) else {
                 throw VideoPlayerError.videoNotFound(name: "\(name).\(fileExtension)")
             }
-            try self.init(url: url, options: options)
+            self.init(url: url, options: options)
         }
         
-        public init(url: URL, options: Options = .init()) throws {
+        public init(url: URL, options: Options = .init()) {
             
             let asset = AVURLAsset(url: url)
             let item = AVPlayerItem(asset: asset)
@@ -103,7 +103,7 @@ extension Graphic {
             self.options = options
             
             guard let frameRate: Float = asset.tracks(withMediaType: .video).first?.nominalFrameRate else {
-                throw VideoPlayerError.frameRateNotFound
+                fatalError(VideoPlayerError.frameRateNotFound.localizedDescription)
             }
             let duration: Double = asset.duration.seconds
             self.info =  Info(frameRate: Double(frameRate),
