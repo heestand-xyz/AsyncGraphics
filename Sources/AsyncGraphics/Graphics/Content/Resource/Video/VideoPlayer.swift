@@ -15,10 +15,13 @@ extension Graphic {
         
         enum VideoPlayerError: LocalizedError {
             case frameRateNotFound
+            case videoNotFound(name: String)
             var errorDescription: String? {
                 switch self {
                 case .frameRateNotFound:
                     return "AsyncGraphics - Graphic - VideoPlayer - Frame Rate Not Found"
+                case .videoNotFound(let name):
+                    return "AsyncGraphics - Graphic - VideoPlayer - Video Not Found \"\(name)\""
                 }
             }
         }
@@ -54,7 +57,17 @@ extension Graphic {
         
         private var timer: Timer?
         
-        private var playing: Bool = false
+        @Published private var _playing: Bool = false
+        public var playing: Bool {
+            get { _playing }
+            set {
+                if newValue {
+                    play()
+                } else {
+                    pause()
+                }
+            }
+        }
         
         private var seeking: Bool = false
         private var wasPlaying: Bool = false
@@ -65,16 +78,17 @@ extension Graphic {
             player.currentTime()
         }
         
-        @Published private var _seconds: Double = 0.0
-        public var seconds: Double {
-            get { _seconds }
-            set { seek(to: newValue) }
-        }
+        @Published public private(set) var seconds: Double = 0.0
+        @Published public private(set) var frameIndex: Int = 0
         
-        @Published private var _frameIndex: Int = 0
-        public var frameIndex: Int {
-            get { _frameIndex }
-            set { seek(to: newValue) }
+        public convenience init(named name: String,
+                                fileExtension: String = "mov",
+                                in bundle: Bundle = .main,
+                                options: Options = .init()) throws {
+            guard let url: URL = bundle.url(forResource: name, withExtension: fileExtension) else {
+                throw VideoPlayerError.videoNotFound(name: "\(name).\(fileExtension)")
+            }
+            try self.init(url: url, options: options)
         }
         
         public init(url: URL, options: Options = .init()) throws {
@@ -103,17 +117,17 @@ extension Graphic {
             stop()
         }
         
+        private func playFrame() {
+            delegate?.play(time: time)
+            seconds = time.seconds
+            frameIndex = Int(time.seconds * info.frameRate)
+        }
+        
         private func startTimer() {
             playFrame()
             timer = .scheduledTimer(withTimeInterval: 1.0 / Double(info.frameRate), repeats: true) { [weak self] _ in
                 self?.playFrame()
             }
-        }
-        
-        private func playFrame() {
-            delegate?.play(time: time)
-            _seconds = time.seconds
-            _frameIndex = Int(_seconds * info.frameRate)
         }
         
         private func stopTimer() {
@@ -133,13 +147,13 @@ extension Graphic {
         public func play() {
             player.play()
             startTimer()
-            playing = true
+            _playing = true
         }
         
         public func pause() {
             player.pause()
             stopTimer()
-            playing = false
+            _playing = false
         }
         
         public func stop() {

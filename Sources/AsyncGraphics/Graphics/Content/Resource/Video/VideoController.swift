@@ -9,14 +9,30 @@ extension Graphic {
 
     class VideoController: NSObject, GraphicVideoPlayerDelegate {
         
+        enum VideoControllerError: LocalizedError {
+            case hasNoNewPixelBuffer
+            case copyPixelBufferFailed
+            var errorDescription: String? {
+                switch self {
+                case .hasNoNewPixelBuffer:
+                    return "AsyncGraphics - Graphic - VideoController - Has No New Pixel Buffer"
+                case .copyPixelBufferFailed:
+                    return "AsyncGraphics - Graphic - VideoController - Copy Pixel Buffer Failed"
+                }
+            }
+        }
+        
         private let videoPlayer: VideoPlayer
         
         private var timer: Timer?
         
         private let videoOutput: AVPlayerItemVideoOutput
             
-        var graphicsHandler: ((Graphic) -> ())?
-        var endedHandler: (() -> ())?
+        var graphicsHandler: ((Graphic) -> ())? {
+            didSet {
+                forceGoTo(time: videoPlayer.time)
+            }
+        }
 
         // MARK: Life Cycle
         
@@ -46,16 +62,37 @@ extension Graphic {
         
         
         func play(time: CMTime) {
+            do {
+                try goTo(time: time)
+            } catch {
+                print("AsyncGraphics - Video Controller - Render Failed:", error)
+            }
+        }
+        
+        private func goTo(time: CMTime) throws {
             
-            guard videoOutput.hasNewPixelBuffer(forItemTime: time),
-                  let pixelBuffer = videoOutput.copyPixelBuffer(forItemTime: time, itemTimeForDisplay: nil)
-            else { return }
+            guard videoOutput.hasNewPixelBuffer(forItemTime: time) else {
+                throw VideoControllerError.hasNoNewPixelBuffer
+            }
+            guard let pixelBuffer = videoOutput.copyPixelBuffer(forItemTime: time, itemTimeForDisplay: nil) else {
+                throw VideoControllerError.copyPixelBufferFailed
+            }
             
-            guard let texture: MTLTexture = try? pixelBuffer.texture(),
-                  let graphic: Graphic = try? .texture(texture)
-            else { return }
+            let texture: MTLTexture = try pixelBuffer.texture()
+            let graphic: Graphic = try .texture(texture)
 
             graphicsHandler?(graphic)
+        }
+        
+        private func forceGoTo(time: CMTime, attemptCount: Int = 10, attemptDelay: Double = 0.1) {
+            do {
+                try goTo(time: time)
+            } catch {
+                guard attemptCount > 0 else { return }
+                DispatchQueue.main.asyncAfter(deadline: .now() + attemptDelay) {
+                    self.forceGoTo(time: time, attemptCount: attemptCount - 1, attemptDelay: attemptDelay)
+                }
+            }
         }
     }
 }

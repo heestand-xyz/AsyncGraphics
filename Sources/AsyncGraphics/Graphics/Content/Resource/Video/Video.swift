@@ -31,10 +31,6 @@ extension Graphic {
             videoController.graphicsHandler = { graphic in
                 stream.yield(graphic)
             }
-            
-            videoController.endedHandler = {
-                stream.finish()
-            }
         }
     }
 }
