@@ -5,88 +5,57 @@
 import CoreGraphics
 import AVFoundation
 
-class VideoController: NSObject {
-    
-    private let player: AVPlayer
-    
-    private var timer: Timer?
-    
-    private let videoOutput: AVPlayerItemVideoOutput
-        
-    private let loop: Bool
-    private let volume: Float
-    
-    var graphicsHandler: ((Graphic) -> ())?
-    var endedHandler: (() -> ())?
+extension Graphic {
 
-    // MARK: Life Cycle
-    
-    init(url: URL, loop: Bool = false, volume: Float = 1.0) {
+    class VideoController: NSObject, GraphicVideoPlayerDelegate {
         
-        self.loop = loop
-        self.volume = volume
+        private let videoPlayer: VideoPlayer
         
-        let attributes = [
-            kCVPixelBufferPixelFormatTypeKey as String : Int(kCVPixelFormatType_32BGRA)
-        ]
-        videoOutput = AVPlayerItemVideoOutput(pixelBufferAttributes: attributes)
+        private var timer: Timer?
         
-        let asset = AVURLAsset(url: url)
+        private let videoOutput: AVPlayerItemVideoOutput
+            
+        var graphicsHandler: ((Graphic) -> ())?
+        var endedHandler: (() -> ())?
+
+        // MARK: Life Cycle
         
-        let item = AVPlayerItem(asset: asset)
-        item.add(videoOutput)
-        
-        player = AVPlayer(playerItem: item)
-        
-        super.init()
-        
-        player.volume = volume
-        player.actionAtItemEnd = .none
-        player.play()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: item)
-        
-        let fps: Float = asset.tracks(withMediaType: .video).first?.nominalFrameRate ?? 30
-        
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0 / Double(fps), repeats: true, block: { [weak self] _ in
-            self?.readBuffer()
-        })
-    }
-    
-    func cancel() {
-        graphicsHandler = nil
-        player.pause()
-        timer?.invalidate()
-    }
-    
-    // MARK: Read Buffer
-    
-    private func readBuffer() {
-        
-        let currentTime = player.currentItem!.currentTime()
-//        let duration = player!.currentItem!.duration.seconds
-//        let fraction = currentTime.seconds / duration
-        
-        guard videoOutput.hasNewPixelBuffer(forItemTime: currentTime),
-              let pixelBuffer = videoOutput.copyPixelBuffer(forItemTime: currentTime, itemTimeForDisplay: nil) else {
-            return
+        init(videoPlayer: VideoPlayer) {
+            
+            self.videoPlayer = videoPlayer
+            
+            let attributes = [
+                kCVPixelBufferPixelFormatTypeKey as String : Int(kCVPixelFormatType_32BGRA)
+            ]
+            videoOutput = AVPlayerItemVideoOutput(pixelBufferAttributes: attributes)
+            
+            videoPlayer.item.add(videoOutput)
+                        
+            super.init()
+            
+            videoPlayer.delegate = self
         }
         
-        guard let texture: MTLTexture = try? pixelBuffer.texture(),
-              let graphic: Graphic = try? .texture(texture)
-        else { return }
-
-        graphicsHandler?(graphic)
-    }
-    
-    // MARK: Loop
-    
-    @objc private func playerItemDidReachEnd() {
-        guard loop else {
-            endedHandler?()
-            cancel()
-            return
+        func cancel() {
+            graphicsHandler = nil
+            videoPlayer.pause()
+            timer?.invalidate()
         }
-        player.seek(to: .zero)
+        
+        // MARK: Read Buffer
+        
+        
+        func play(time: CMTime) {
+            
+            guard videoOutput.hasNewPixelBuffer(forItemTime: time),
+                  let pixelBuffer = videoOutput.copyPixelBuffer(forItemTime: time, itemTimeForDisplay: nil)
+            else { return }
+            
+            guard let texture: MTLTexture = try? pixelBuffer.texture(),
+                  let graphic: Graphic = try? .texture(texture)
+            else { return }
+
+            graphicsHandler?(graphic)
+        }
     }
 }

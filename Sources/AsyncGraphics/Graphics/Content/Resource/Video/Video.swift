@@ -7,9 +7,20 @@ import Foundation
 extension Graphic {
     
     /// Async live stream of a video
-    public static func playVideo(url: URL, loop: Bool = false, volume: CGFloat = 1.0) -> AsyncStream<Graphic> {
+    public static func playVideo(url: URL, loop: Bool = false, volume: Double = 1.0) throws -> AsyncStream<Graphic> {
         
-        let videoController = VideoController(url: url, loop: loop, volume: Float(volume))
+        var options = VideoPlayer.Options()
+        options.loop = loop
+        options.volume = volume
+        let videoPlayer = try VideoPlayer(url: url, options: options)
+        
+        return try playVideo(with: videoPlayer)
+    }
+    
+    /// Async live stream of a videos
+    public static func playVideo(with videoPlayer: VideoPlayer) throws -> AsyncStream<Graphic> {
+        
+        let videoController = VideoController(videoPlayer: videoPlayer)
         
         return AsyncStream<Graphic> { stream in
             
