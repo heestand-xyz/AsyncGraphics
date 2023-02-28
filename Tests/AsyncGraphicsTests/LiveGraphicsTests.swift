@@ -78,6 +78,7 @@ final class LiveGraphicsTests: XCTestCase {
             guard length % 100 == 0 else { continue }
             let triangle: Graphic = try await .polygon(count: 3, resolution: CGSize(width: length, height: length))
             let color = try await triangle.averagePixelColor
+            print("Triangle Test at \(length)", "alpha:", color.alpha, "brightness:", color.brightness)
             XCTAssertNotEqual(color.alpha, 0.0)
         }
     }
