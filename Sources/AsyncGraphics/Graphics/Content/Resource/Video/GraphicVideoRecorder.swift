@@ -5,6 +5,9 @@
 import AVFoundation
 import TextureMap
 
+@available(*, deprecated, renamed: "GraphicVideoRecorder")
+public typealias GraphicRecorder = GraphicVideoRecorder
+
 /// Record graphics to a video over time
 ///
 /// First call ``start()``.
@@ -14,7 +17,7 @@ import TextureMap
 /// When done, call ``stop()-4i1ev``.
 ///
 /// > All appended ``Graphic``s need to have the same resolution.
-public class GraphicRecorder {
+public class GraphicVideoRecorder {
     
     struct AV {
         let writer: AVAssetWriter
@@ -58,19 +61,19 @@ public class GraphicRecorder {
         var errorDescription: String? {
             switch self {
             case .alreadyStarted:
-                return "AsyncGraphics - GraphicRecorder - Already Started"
+                return "AsyncGraphics - GraphicVideoRecorder - Already Started"
             case .startNotCalled:
-                return "AsyncGraphics - GraphicRecorder - Start Not Called"
+                return "AsyncGraphics - GraphicVideoRecorder - Start Not Called"
             case .noFramesRecorded:
-                return "AsyncGraphics - GraphicRecorder - No Frames Recorded"
+                return "AsyncGraphics - GraphicVideoRecorder - No Frames Recorded"
             case .mismatchResolution:
-                return "AsyncGraphics - GraphicRecorder - Mismatch Resolution"
+                return "AsyncGraphics - GraphicVideoRecorder - Mismatch Resolution"
             case .isNotReadyForMoreMediaData:
-                return "AsyncGraphics - GraphicRecorder - Is Not Ready For More Media Data"
+                return "AsyncGraphics - GraphicVideoRecorder - Is Not Ready For More Media Data"
             case .writerFailed:
-                return "AsyncGraphics - GraphicRecorder - Writer Failed"
+                return "AsyncGraphics - GraphicVideoRecorder - Writer Failed"
             case .appendFailed:
-                return "AsyncGraphics - GraphicRecorder - Append Failed"
+                return "AsyncGraphics - GraphicVideoRecorder - Append Failed"
             }
         }
     }

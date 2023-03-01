@@ -72,6 +72,10 @@ extension Graphic {
         try await channelMix(red: .alpha, green: .alpha, blue: .alpha, alpha: .white)
     }
     
+    public func alphaOnly() async throws -> Graphic {
+        try await channelMix(red: .alpha, green: .alpha, blue: .alpha, alpha: .alpha)
+    }
+    
     // FIXME: Red Channel is Source of Luminance to Alpha
     public func luminanceToAlpha() async throws -> Graphic {
         try await monochrome().channelMix(red: .red, green: .red, blue: .red, alpha: .red)

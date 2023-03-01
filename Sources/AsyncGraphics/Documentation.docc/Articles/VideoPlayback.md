@@ -80,3 +80,12 @@ AGView {
         .aspectRatio(contentMode: .fit)
 }
 ```
+
+## Topics
+
+### Video
+
+- ``AGVideo``
+- ``GraphicVideoPlayer``
+- ``Graphic/playVideo(with:)``
+- ``Graphic/playVideo(url:loop:volume:)``
