@@ -7,10 +7,13 @@ public struct AGHStack: AGParentGraph {
     let graphs: [any AGGraph]
     
     let alignment: Graphic.HStackAlignment
+    let spacing: CGFloat
     
     public init(alignment: Graphic.HStackAlignment = .center,
+                spacing: CGFloat = 8,
                 @AGGraphBuilder with graphs: @escaping () -> [any AGGraph]) {
         self.alignment = alignment
+        self.spacing = spacing * .pixelsPerPoint
         self.graphs = graphs()
     }
     
@@ -38,6 +41,7 @@ public struct AGHStack: AGParentGraph {
             let childDynamicResolution = child.resolution(for: specification)
             dynamicResolution = dynamicResolution.hMerge(maxHeight: maxHeight,
                                                          totalWidth: specification.resolution.width,
+                                                         spacing: spacing,
                                                          with: childDynamicResolution)
         }
         return dynamicResolution
@@ -75,6 +79,10 @@ public struct AGHStack: AGParentGraph {
                 continue
             }
             list.append(.auto)
+        }
+        
+        for _ in 0..<list.count {
+            width -= spacing
         }
         
         for item in list {
@@ -146,7 +154,7 @@ public struct AGHStack: AGParentGraph {
             let graphic: Graphic = try await graph.render(with: details)
             graphics.append(graphic)
         }
-        return try await Graphic.hStacked(with: graphics, alignment: alignment)
+        return try await Graphic.hStacked(with: graphics, alignment: alignment, spacing: spacing)
     }
 }
 

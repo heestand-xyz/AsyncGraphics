@@ -5,12 +5,15 @@ extension Graphic {
     private struct ABStackUniforms {
         let axis: Int32
         let alignment: Int32
+        let spacing: Float
     }
     
-    func vStacked(with graphic: Graphic, alignment: VStackAlignment) async throws -> Graphic {
+    func vStacked(with graphic: Graphic,
+                  alignment: VStackAlignment = .center,
+                  spacing: CGFloat = 0.0) async throws -> Graphic {
         
         let resolution = CGSize(width: max(resolution.width, graphic.resolution.width),
-                                height: resolution.height + graphic.resolution.height)
+                                height: resolution.height + spacing + graphic.resolution.height)
         
         return  try await Renderer.render(
             name: "ABStack",
@@ -21,7 +24,8 @@ extension Graphic {
             ],
             uniforms: ABStackUniforms(
                 axis: Int32(StackAxis.vertical.rawValue),
-                alignment: Int32(alignment.rawValue)
+                alignment: Int32(alignment.rawValue),
+                spacing: Float(spacing)
             ),
             metadata: Renderer.Metadata(
                 resolution: resolution,
@@ -31,9 +35,11 @@ extension Graphic {
         )
     }
     
-    func hStacked(with graphic: Graphic, alignment: HStackAlignment) async throws -> Graphic {
+    func hStacked(with graphic: Graphic,
+                  alignment: HStackAlignment = .center,
+                  spacing: CGFloat = 0.0) async throws -> Graphic {
         
-        let resolution = CGSize(width: resolution.width + graphic.resolution.width,
+        let resolution = CGSize(width: resolution.width + spacing + graphic.resolution.width,
                                 height: max(resolution.height, graphic.resolution.height))
         
         return try await Renderer.render(
@@ -45,7 +51,8 @@ extension Graphic {
             ],
             uniforms: ABStackUniforms(
                 axis: Int32(StackAxis.horizontal.rawValue),
-                alignment: Int32(-alignment.rawValue)
+                alignment: Int32(-alignment.rawValue),
+                spacing: Float(spacing)
             ),
             metadata: Renderer.Metadata(
                 resolution: resolution,

@@ -7,10 +7,13 @@ public struct AGVStack: AGParentGraph {
     let graphs: [any AGGraph]
     
     let alignment: Graphic.VStackAlignment
+    let spacing: CGFloat
     
     public init(alignment: Graphic.VStackAlignment = .center,
+                spacing: CGFloat = 8,
                 @AGGraphBuilder with graphs: @escaping () -> [any AGGraph]) {
         self.alignment = alignment
+        self.spacing = spacing * .pixelsPerPoint
         self.graphs = graphs()
     }
     
@@ -38,6 +41,7 @@ public struct AGVStack: AGParentGraph {
             let childDynamicResolution = child.resolution(for: specification)
             dynamicResolution = dynamicResolution.vMerge(maxWidth: maxWidth,
                                                          totalHeight: specification.resolution.height,
+                                                         spacing: spacing,
                                                          with: childDynamicResolution)
         }
         return dynamicResolution
@@ -77,10 +81,15 @@ public struct AGVStack: AGParentGraph {
             list.append(.auto)
         }
         
+        for _ in 0..<list.count {
+            height -= spacing
+        }
+        
         for item in list {
             if case .fixed(let length) = item {
                 height -= length
             }
+            
         }
         
         let autoCount: Int = list.filter({ item in
@@ -164,7 +173,7 @@ public struct AGVStack: AGParentGraph {
             let graphic: Graphic = try await graph.render(with: details)
             graphics.append(graphic)
         }
-        return try await Graphic.vStacked(with: graphics, alignment: alignment)
+        return try await Graphic.vStacked(with: graphics, alignment: alignment, spacing: spacing)
     }
 }
 

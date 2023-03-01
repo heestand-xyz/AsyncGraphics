@@ -172,24 +172,24 @@ extension AGDynamicResolution {
         case vertical
     }
     
-    func vMerge(maxWidth: CGFloat, totalHeight: CGFloat, with resolution: AGDynamicResolution) -> AGDynamicResolution {
-        merge(on: .vertical, maxLength: maxWidth, totalLength: totalHeight, with: resolution)
+    func vMerge(maxWidth: CGFloat, totalHeight: CGFloat, spacing: CGFloat, with resolution: AGDynamicResolution) -> AGDynamicResolution {
+        merge(on: .vertical, maxLength: maxWidth, totalLength: totalHeight, spacing: spacing, with: resolution)
     }
     
-    func hMerge(maxHeight: CGFloat, totalWidth: CGFloat, with resolution: AGDynamicResolution) -> AGDynamicResolution {
-        merge(on: .horizontal, maxLength: maxHeight, totalLength: totalWidth, with: resolution)
+    func hMerge(maxHeight: CGFloat, totalWidth: CGFloat, spacing: CGFloat, with resolution: AGDynamicResolution) -> AGDynamicResolution {
+        merge(on: .horizontal, maxLength: maxHeight, totalLength: totalWidth, spacing: spacing, with: resolution)
     }
     
     func zMerge(with resolution: AGDynamicResolution) -> AGDynamicResolution {
-        merge(on: .depth, maxLength: 0.0, totalLength: 0.0, with: resolution)
+        merge(on: .depth, maxLength: 0.0, totalLength: 0.0, spacing: 0.0, with: resolution)
     }
     
-    private func merge(on axis: Axis, maxLength: CGFloat, totalLength: CGFloat, with resolution: AGDynamicResolution) -> AGDynamicResolution {
+    private func merge(on axis: Axis, maxLength: CGFloat, totalLength: CGFloat, spacing: CGFloat, with resolution: AGDynamicResolution) -> AGDynamicResolution {
         
         func addWidth(_ widthA: CGFloat, _ widthB: CGFloat) -> CGFloat {
             switch axis {
             case .horizontal:
-                return widthA + widthB
+                return widthA + spacing + widthB
             case .vertical, .depth:
                 return max(widthA, widthB)
             }
@@ -199,7 +199,7 @@ extension AGDynamicResolution {
             case .horizontal, .depth:
                 return max(heightA, heightB)
             case .vertical:
-                return heightA + heightB
+                return heightA + spacing + heightB
             }
         }
         
@@ -238,15 +238,24 @@ extension AGDynamicResolution {
             if size == .zero {
                 return .aspectRatio(aspectRatio)
             }
-            let w = size.width
-            let h = size.height + w / aspectRatio
-            return .aspectRatio(w / h)
+            switch axis {
+            case .horizontal:
+                let h = size.height
+                let w = size.width + h * aspectRatio + spacing
+                return .aspectRatio(w / h)
+            case .vertical:
+                let w = size.width
+                let h = size.height + w / aspectRatio + spacing
+                return .aspectRatio(w / h)
+            case .depth:
+                return .aspectRatio(aspectRatio)
+            }
         }
         func combine(width: CGFloat, aspectRatio: CGFloat) -> AGDynamicResolution {
             switch axis {
             case .horizontal:
                 let h = maxLength
-                let w = width + h * aspectRatio
+                let w = width + h * aspectRatio + spacing
                 return .aspectRatio(w / h)
             case .vertical, .depth:
                 return .auto
@@ -258,7 +267,7 @@ extension AGDynamicResolution {
                 return .auto
             case .vertical:
                 let w = maxLength
-                let h = height + w / aspectRatio
+                let h = height + w / aspectRatio + spacing
                 return .aspectRatio(w / h)
             }
         }
@@ -267,9 +276,15 @@ extension AGDynamicResolution {
             case .depth:
                 return .auto
             case .horizontal:
-                return .aspectRatio(aspectRatioA + aspectRatioB)
+                let aspectRatio: CGFloat = aspectRatioA + aspectRatioB
+                let h = maxLength
+                let w = h * aspectRatio + spacing
+                return .aspectRatio(w / h)
             case .vertical:
-                return .aspectRatio(1.0 / (1.0 / aspectRatioA + 1.0 / aspectRatioB))
+                let aspectRatio: CGFloat = 1.0 / (1.0 / aspectRatioA + 1.0 / aspectRatioB)
+                let w = maxLength
+                let h = w / aspectRatio + spacing
+                return .aspectRatio(w / h)
             }
         }
         func combineSpacer(minLength: CGFloat, size: CGSize) -> AGDynamicResolution {
@@ -310,7 +325,7 @@ extension AGDynamicResolution {
             case .depth:
                 return .auto
             default:
-                return .spacer(minLength: minLengthA + minLengthB)
+                return .spacer(minLength: minLengthA + spacing + minLengthB)
             }
         }
         

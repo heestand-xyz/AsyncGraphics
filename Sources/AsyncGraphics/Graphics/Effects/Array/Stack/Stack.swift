@@ -113,7 +113,8 @@ extension Graphic {
     
     /// Vertical Stack
     public static func vStacked(with graphics: [Graphic],
-                                alignment: VStackAlignment = .center) async throws -> Graphic {
+                                alignment: VStackAlignment = .center,
+                                spacing: CGFloat = 0.0) async throws -> Graphic {
         
         guard !graphics.isEmpty else {
             throw StackError.noGraphicsProvided
@@ -122,7 +123,7 @@ extension Graphic {
         var stackGraphic: Graphic = graphics.first!
         
         for graphic in graphics.dropFirst() {
-            stackGraphic = try await stackGraphic.vStacked(with: graphic, alignment: alignment)
+            stackGraphic = try await stackGraphic.vStacked(with: graphic, alignment: alignment, spacing: spacing)
         }
         
         return stackGraphic
@@ -165,7 +166,8 @@ extension Graphic {
     
     /// Horizontal Stack
     public static func hStacked(with graphics: [Graphic],
-                                alignment: HStackAlignment = .center) async throws -> Graphic {
+                                alignment: HStackAlignment = .center,
+                                spacing: CGFloat = 0.0) async throws -> Graphic {
         
         guard !graphics.isEmpty else {
             throw StackError.noGraphicsProvided
@@ -174,7 +176,7 @@ extension Graphic {
         var stackGraphic: Graphic = graphics.first!
         
         for graphic in graphics.dropFirst() {
-            stackGraphic = try await stackGraphic.hStacked(with: graphic, alignment: alignment)
+            stackGraphic = try await stackGraphic.hStacked(with: graphic, alignment: alignment, spacing: spacing)
         }
         
         return stackGraphic

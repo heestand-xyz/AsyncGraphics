@@ -2,7 +2,7 @@ import CoreGraphics
 
 extension AGGraph {
     
-    public func mask(_ graph: () -> any AGGraph) -> AGMask {
+    public func mask(_ graph: () -> any AGGraph) -> any AGGraph {
         AGMask(leadingGraph: self, trailingGraph: graph())
     }
 }
@@ -19,7 +19,7 @@ public struct AGMask: AGParentGraph {
         let newDetails: AGDetails = details.with(resolution: resolution)
         let leadingGraphic: Graphic = try await leadingGraph.render(with: newDetails)
         let trailingGraphic: Graphic = try await trailingGraph.render(with: newDetails)
-            .alphaOnly()
+            .alphaToLuminanceWithAlpha()
         return try await leadingGraphic.blended(with: trailingGraphic, blendingMode: .multiply)
     }
 }
