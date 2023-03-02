@@ -16,6 +16,20 @@ extension AGDynamicResolution {
 }
 
 extension AGDynamicResolution {
+    
+    private enum Axis2D {
+        case horizontal
+        case vertical
+    }
+    
+    private enum Axis3D {
+        case depth
+        case horizontal
+        case vertical
+    }
+}
+
+extension AGDynamicResolution {
 
     var fixedWidth: CGFloat? {
         switch self {
@@ -44,6 +58,15 @@ extension AGDynamicResolution {
             return nil
         case .auto, .spacer:
             return nil
+        }
+    }
+    
+    private func fixedLength(on axis: Axis2D) -> CGFloat? {
+        switch axis {
+        case .horizontal:
+            return fixedWidth
+        case .vertical:
+            return fixedHeight
         }
     }
 }
@@ -77,6 +100,15 @@ extension AGDynamicResolution {
             return width / aspectRatio
         case .auto, .spacer:
             return nil
+        }
+    }
+    
+    private func length(on axis: Axis2D, for length: CGFloat) -> CGFloat? {
+        switch axis {
+        case .horizontal:
+            return width(forHeight: length)
+        case .vertical:
+            return height(forWidth: length)
         }
     }
 }
@@ -166,12 +198,6 @@ extension AGDynamicResolution {
 
 extension AGDynamicResolution {
     
-    private enum Axis {
-        case depth
-        case horizontal
-        case vertical
-    }
-    
     func vMerge(maxWidth: CGFloat, totalHeight: CGFloat, spacing: CGFloat, with resolution: AGDynamicResolution) -> AGDynamicResolution {
         merge(on: .vertical, maxLength: maxWidth, totalLength: totalHeight, spacing: spacing, with: resolution)
     }
@@ -184,7 +210,7 @@ extension AGDynamicResolution {
         merge(on: .depth, maxLength: 0.0, totalLength: 0.0, spacing: 0.0, with: resolution)
     }
     
-    private func merge(on axis: Axis, maxLength: CGFloat, totalLength: CGFloat, spacing: CGFloat, with resolution: AGDynamicResolution) -> AGDynamicResolution {
+    private func merge(on axis: Axis3D, maxLength: CGFloat, totalLength: CGFloat, spacing: CGFloat, with resolution: AGDynamicResolution) -> AGDynamicResolution {
         
         func addWidth(_ widthA: CGFloat, _ widthB: CGFloat) -> CGFloat {
             switch axis {
@@ -427,5 +453,66 @@ extension AGDynamicResolution {
         }
         
         return resolution
+    }
+}
+
+extension AGDynamicResolution {
+    
+    func hLength(totalWidth: CGFloat, maxHeight: CGFloat, spacing: CGFloat, with otherDynamicResolutions: [AGDynamicResolution]) -> CGFloat {
+        length(on: .horizontal, totalLength: totalWidth, maxLength: maxHeight, spacing: spacing, with: otherDynamicResolutions)
+    }
+    
+    func vLength(totalHeight: CGFloat, maxWidth: CGFloat, spacing: CGFloat, with otherDynamicResolutions: [AGDynamicResolution]) -> CGFloat {
+        length(on: .vertical, totalLength: totalHeight, maxLength: maxWidth, spacing: spacing, with: otherDynamicResolutions)
+    }
+    
+    private func length(on axis: Axis2D, totalLength: CGFloat, maxLength: CGFloat, spacing: CGFloat, with otherDynamicResolutions: [AGDynamicResolution]) -> CGFloat {
+        
+        if let length: CGFloat = fixedLength(on: axis) {
+            return length
+        }
+        
+        var length: CGFloat = totalLength
+        
+        length -= spacing * CGFloat(otherDynamicResolutions.count)
+        
+        for otherDynamicResolution in otherDynamicResolutions {
+            if case .spacer(let minLength) = otherDynamicResolution {
+                length -= minLength
+            }
+        }
+        
+        for otherDynamicResolution in otherDynamicResolutions {
+            if let fixedLength: CGFloat = otherDynamicResolution.fixedLength(on: axis) {
+                length -= fixedLength
+            }
+        }
+        
+        enum Auto {
+            case autoOnly
+            case autoOrAspect
+        }
+        var autos: [Auto] = []
+        for otherDynamicResolution in otherDynamicResolutions {
+            if case .spacer = otherDynamicResolution { continue }
+            if otherDynamicResolution.length(on: axis, for: maxLength) == nil {
+                autos.append(.autoOnly)
+            } else if otherDynamicResolution.fixedLength(on: axis) == nil {
+                autos.append(.autoOrAspect)
+            }
+        }
+        length /= CGFloat(1 + autos.filter({ $0 == .autoOnly }).count)
+        
+        if autos.filter({ $0 == .autoOnly }).count > 0 {
+            if case .spacer(let minLength) = self {
+                return minLength
+            }
+        }
+        
+        if let dynamicLength: CGFloat = self.length(on: axis, for: maxLength) {
+            return min(dynamicLength, length)
+        }
+        
+        return length
     }
 }

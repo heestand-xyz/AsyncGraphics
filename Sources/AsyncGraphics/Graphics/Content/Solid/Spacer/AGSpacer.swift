@@ -4,8 +4,8 @@ public struct AGSpacer: AGGraph {
     
     let minLength: CGFloat
     
-    public init(minLength: CGFloat = 16) {
-        self.minLength = minLength
+    public init(minLength: CGFloat = 8) {
+        self.minLength = minLength * .pixelsPerPoint
     }
     
     public func resolution(for specification: AGSpecification) -> AGDynamicResolution {

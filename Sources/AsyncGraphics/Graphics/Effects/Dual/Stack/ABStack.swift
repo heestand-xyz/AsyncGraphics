@@ -41,7 +41,6 @@ extension Graphic {
         
         let resolution = CGSize(width: resolution.width + spacing + graphic.resolution.width,
                                 height: max(resolution.height, graphic.resolution.height))
-        
         return try await Renderer.render(
             name: "ABStack",
             shader: .name("abStack"),

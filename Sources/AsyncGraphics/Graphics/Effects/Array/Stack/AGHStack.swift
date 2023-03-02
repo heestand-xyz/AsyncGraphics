@@ -47,97 +47,100 @@ public struct AGHStack: AGParentGraph {
         return dynamicResolution
     }
     
-    private func width(_ childGraph: any AGGraph, at index: Int,
-                       maxHeight: CGFloat, isFixed: Bool,
-                       for specification: AGSpecification) -> CGFloat {
-        
-        var width: CGFloat = specification.resolution.width
-        
-        enum Item {
-            case fixed(CGFloat)
-            case auto
-            case spacer(minLength: CGFloat)
-        }
-        var list: [Item] = []
-        
-        for (otherIndex, otherGraph) in children.all.enumerated() {
-            guard otherIndex != index else { continue }
-            let otherChildDynamicResolution: AGDynamicResolution = otherGraph.resolution(for: specification)
-            if isFixed {
-                if let otherWidth = otherChildDynamicResolution.fixedWidth {
-                    list.append(.fixed(otherWidth))
-                    continue
-                }
-            } else {
-                if let otherWidth = otherChildDynamicResolution.width(forHeight: maxHeight) {
-                    list.append(.fixed(otherWidth))
-                    continue
-                }
-            }
-            if case .spacer(minLength: let minLength) = otherChildDynamicResolution {
-                list.append(.spacer(minLength: minLength))
-                continue
-            }
-            list.append(.auto)
-        }
-        
-        for _ in 0..<list.count {
-            width -= spacing
-        }
-        
-        for item in list {
-            if case .fixed(let length) = item {
-                width -= length
-            }
-        }
-        
-        let autoCount: Int = list.filter({ item in
-            if case .auto = item {
-                return true
-            }
-            return false
-        }).count
-        
-        let spacerCount: Int = list.filter({ item in
-            if case .spacer = item {
-                return true
-            }
-            return false
-        }).count
-        
-//        let dividedWidth: CGFloat = width / CGFloat(autoCount + 1)
-//        
-//        if spacerCount > 0,
-//           let dynamicWidth: CGFloat = childGraph.resolution(for: specification).width(forHeight: maxHeight) {
-//            width = max(dynamicWidth, dividedWidth)
-//        } else {
-//            width = dividedWidth
+//    private func autoWidth(_ childGraph: any AGGraph, at index: Int,
+//                           maxHeight: CGFloat, isFixed: Bool,
+//                           for specification: AGSpecification) -> CGFloat {
+//
+//        var width: CGFloat = specification.resolution.width
+//
+//        enum Item {
+//            case fixed(CGFloat)
+//            case auto
+//            case spacer(minLength: CGFloat)
 //        }
-        width /= CGFloat(autoCount + 1)
-        
-        let minLength: CGFloat = list.compactMap({ item in
-            switch item {
-            case .spacer(let minLength):
-                return minLength
-            default:
-                return nil
-            }
-        }).reduce(0.0, +)
-        
-        width = max(width, minLength)
-        
-        return width
-    }
+//        var list: [Item] = []
+//
+//        for (otherIndex, otherGraph) in children.all.enumerated() {
+//            guard otherIndex != index else { continue }
+//            let otherChildDynamicResolution: AGDynamicResolution = otherGraph.resolution(for: specification)
+//            if isFixed {
+//                if let otherWidth = otherChildDynamicResolution.fixedWidth {
+//                    list.append(.fixed(otherWidth))
+//                    continue
+//                }
+//            } else {
+//                if let otherWidth = otherChildDynamicResolution.width(forHeight: maxHeight) {
+//                    list.append(.fixed(otherWidth))
+//                    continue
+//                }
+//            }
+//            if case .spacer(minLength: let minLength) = otherChildDynamicResolution {
+//                list.append(.spacer(minLength: minLength))
+//                continue
+//            }
+//            list.append(.auto)
+//        }
+//
+//        for _ in 0..<list.count {
+//            width -= spacing
+//        }
+//
+//        for item in list {
+//            if case .fixed(let length) = item {
+//                width -= length
+//            }
+//        }
+//
+//        let autoCount: Int = list.filter({ item in
+//            if case .auto = item {
+//                return true
+//            }
+//            return false
+//        }).count
+//
+//        let spacerCount: Int = list.filter({ item in
+//            if case .spacer = item {
+//                return true
+//            }
+//            return false
+//        }).count
+//
+////        var isAspectRatio: Bool = false
+////        if case .aspectRatio = childGraph.resolution(for: specification) {
+////            isAspectRatio = true
+////        }
+//
+//        width /= CGFloat(autoCount + spacerCount + 1)
+//
+//        let minLengths: CGFloat = list.compactMap({ item in
+//            switch item {
+//            case .spacer(let minLength):
+//                return minLength
+//            default:
+//                return nil
+//            }
+//        }).reduce(0.0, +)
+//
+//        width = max(width, minLengths)
+//
+//        return width
+//    }
     
     func childResolution(_ childGraph: any AGGraph, at index: Int,
                          for specification: AGSpecification) -> CGSize {
         let maxHeight: CGFloat = maxHeight(for: specification)
         let childDynamicResolution: AGDynamicResolution = childGraph.resolution(for: specification)
         let height: CGFloat = childDynamicResolution.fixedHeight ?? maxHeight
+//        let width: CGFloat = childDynamicResolution.fixedWidth ?? {
+//            let flexWidth: CGFloat = autoWidth(childGraph, at: index, maxHeight: maxHeight, isFixed: false, for: specification)
+//            let fixedWidth: CGFloat = autoWidth(childGraph, at: index, maxHeight: maxHeight, isFixed: true, for: specification)
+//            return max(flexWidth, fixedWidth)
+//        }()
         let width: CGFloat = childDynamicResolution.fixedWidth ?? {
-            let widthA: CGFloat = self.width(childGraph, at: index, maxHeight: maxHeight, isFixed: true, for: specification)
-            let widthB: CGFloat = self.width(childGraph, at: index, maxHeight: maxHeight, isFixed: false, for: specification)
-            return max(widthA, widthB)
+            var otherChildren: [any AGGraph] = children.all
+            otherChildren.remove(at: index)
+            let otherChildDynamicResolutions: [AGDynamicResolution] = otherChildren.map { $0.resolution(for: specification) }
+            return childDynamicResolution.hLength(totalWidth: specification.resolution.width, maxHeight: maxHeight, spacing: spacing, with: otherChildDynamicResolutions)
         }()
         return CGSize(width: width, height: height)
     }
@@ -154,7 +157,9 @@ public struct AGHStack: AGParentGraph {
             let graphic: Graphic = try await graph.render(with: details)
             graphics.append(graphic)
         }
-        return try await Graphic.hStacked(with: graphics, alignment: alignment, spacing: spacing)
+        let g = try await Graphic.hStacked(with: graphics, alignment: alignment, spacing: spacing)
+        print("---------->", g.resolution == details.specification.resolution ? "Same" : "Different", g.resolution, details.specification.resolution)
+        return g
     }
 }
 
