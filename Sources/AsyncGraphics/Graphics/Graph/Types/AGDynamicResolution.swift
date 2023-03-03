@@ -363,104 +363,85 @@ extension AGDynamicResolution {
             }
         }
         
-        var resolution: AGDynamicResolution = {
-            switch self {
-            case .size(let size1):
-                switch resolution {
-                case .size(let size2):
-                    return combine(sizeA: size1, sizeB: size2)
-                case .width(let width2):
-                    return combine(size: size1, width: width2)
-                case .height(let height2):
-                    return combine(size: size1, height: height2)
-                case .aspectRatio(let aspectRatio2):
-                    return combine(size: size1, aspectRatio: aspectRatio2)
-                case .auto:
-                    return .auto
-                case .spacer(let minLength2):
-                    return combineSpacer(minLength: minLength2, size: size1)
-                }
-            case .width(let width1):
-                switch resolution {
-                case .size(let size2):
-                    return combine(size: size2, width: width1)
-                case .width(let width2):
-                    return combine(widthA: width1, widthB: width2)
-                case .height(let height2):
-                    return combine(width: width1, height: height2)
-                case .aspectRatio(let aspectRatio2):
-                    return combine(width: width1, aspectRatio: aspectRatio2)
-                case .auto:
-                    return .auto
-                case .spacer(let minLength2):
-                    return combineSpacer(minLength: minLength2, width: width1)
-                }
-            case .height(let height1):
-                switch resolution {
-                case .size(let size2):
-                    return combine(size: size2, height: height1)
-                case .width(let width2):
-                    return combine(width: width2, height: height1)
-                case .height(let height2):
-                    return combine(heightA: height1, heightB: height2)
-                case .aspectRatio(let aspectRatio2):
-                    return combine(height: height1, aspectRatio: aspectRatio2)
-                case .auto:
-                    return .auto
-                case .spacer(let minLength2):
-                    return combineSpacer(minLength: minLength2, height: height1)
-                }
-            case .aspectRatio(let aspectRatio1):
-                switch resolution {
-                case .size(let size2):
-                    return combine(size: size2, aspectRatio: aspectRatio1)
-                case .width(let width2):
-                    return combine(width: width2, aspectRatio: aspectRatio1)
-                case .height(let height2):
-                    return combine(height: height2, aspectRatio: aspectRatio1)
-                case .aspectRatio(let aspectRatio2):
-                    return combine(aspectRatioA: aspectRatio1, aspectRatioB: aspectRatio2)
-                case .auto:
-                    return .auto
-                case .spacer(let minLength2):
-                    return combineSpacer(minLength: minLength2, aspectRatio: aspectRatio1)
-                }
+        switch self {
+        case .size(let size1):
+            switch resolution {
+            case .size(let size2):
+                return combine(sizeA: size1, sizeB: size2)
+            case .width(let width2):
+                return combine(size: size1, width: width2)
+            case .height(let height2):
+                return combine(size: size1, height: height2)
+            case .aspectRatio(let aspectRatio2):
+                return combine(size: size1, aspectRatio: aspectRatio2)
             case .auto:
                 return .auto
-            case .spacer(let minLength1):
-                switch resolution {
-                case .size(let size2):
-                    return combineSpacer(minLength: minLength1, size: size2)
-                case .width(let width2):
-                    return combineSpacer(minLength: minLength1, width: width2)
-                case .height(let height2):
-                    return combineSpacer(minLength: minLength1, height: height2)
-                case .aspectRatio(let aspectRatio2):
-                    return combineSpacer(minLength: minLength1, aspectRatio: aspectRatio2)
-                case .auto:
-                    return .auto
-                case .spacer(let minLength2):
-                    return combineSpacer(minLengthA: minLength1, minLengthB: minLength2)
-                }
+            case .spacer(let minLength2):
+                return combineSpacer(minLength: minLength2, size: size1)
             }
-        }()
-        
-//        switch axis {
-//        case .horizontal:
-//            if let width = resolution.width(forHeight: maxLength),
-//               width > totalLength {
-//                resolution = .auto
-//            }
-//        case .vertical:
-//            if let height = resolution.height(forWidth: maxLength),
-//               height > totalLength {
-//                resolution = .auto
-//            }
-//        case .depth:
-//            break
-//        }
-        
-        return resolution
+        case .width(let width1):
+            switch resolution {
+            case .size(let size2):
+                return combine(size: size2, width: width1)
+            case .width(let width2):
+                return combine(widthA: width1, widthB: width2)
+            case .height(let height2):
+                return combine(width: width1, height: height2)
+            case .aspectRatio(let aspectRatio2):
+                return combine(width: width1, aspectRatio: aspectRatio2)
+            case .auto:
+                return .auto
+            case .spacer(let minLength2):
+                return combineSpacer(minLength: minLength2, width: width1)
+            }
+        case .height(let height1):
+            switch resolution {
+            case .size(let size2):
+                return combine(size: size2, height: height1)
+            case .width(let width2):
+                return combine(width: width2, height: height1)
+            case .height(let height2):
+                return combine(heightA: height1, heightB: height2)
+            case .aspectRatio(let aspectRatio2):
+                return combine(height: height1, aspectRatio: aspectRatio2)
+            case .auto:
+                return .auto
+            case .spacer(let minLength2):
+                return combineSpacer(minLength: minLength2, height: height1)
+            }
+        case .aspectRatio(let aspectRatio1):
+            switch resolution {
+            case .size(let size2):
+                return combine(size: size2, aspectRatio: aspectRatio1)
+            case .width(let width2):
+                return combine(width: width2, aspectRatio: aspectRatio1)
+            case .height(let height2):
+                return combine(height: height2, aspectRatio: aspectRatio1)
+            case .aspectRatio(let aspectRatio2):
+                return combine(aspectRatioA: aspectRatio1, aspectRatioB: aspectRatio2)
+            case .auto:
+                return .auto
+            case .spacer(let minLength2):
+                return combineSpacer(minLength: minLength2, aspectRatio: aspectRatio1)
+            }
+        case .auto:
+            return .auto
+        case .spacer(let minLength1):
+            switch resolution {
+            case .size(let size2):
+                return combineSpacer(minLength: minLength1, size: size2)
+            case .width(let width2):
+                return combineSpacer(minLength: minLength1, width: width2)
+            case .height(let height2):
+                return combineSpacer(minLength: minLength1, height: height2)
+            case .aspectRatio(let aspectRatio2):
+                return combineSpacer(minLength: minLength1, aspectRatio: aspectRatio2)
+            case .auto:
+                return .auto
+            case .spacer(let minLength2):
+                return combineSpacer(minLengthA: minLength1, minLengthB: minLength2)
+            }
+        }
     }
 }
 
