@@ -18,15 +18,11 @@ public struct AGView: View {
     @State private var graphic: Graphic?
     
     @State private var resolution: CGSize?
-    private var width: CGFloat? {
+    
+    private var dynamicResolution: AGDynamicResolution? {
         guard let resolution else { return nil }
         let specification: AGSpecification = renderer.specification(for: graph(), at: resolution)
-        return graph().resolution(for: specification).fixedWidth
-    }
-    private var height: CGFloat? {
-        guard let resolution else { return nil }
-        let specification: AGSpecification = renderer.specification(for: graph(), at: resolution)
-        return graph().resolution(for: specification).fixedHeight
+        return graph().resolution(for: specification)
     }
     
     @State private var renderTask: Task<Void, Never>?
@@ -35,17 +31,24 @@ public struct AGView: View {
         ZStack {
             Color.clear
             if let graphic {
-                GraphicView(graphic: graphic)
-                    .frame(
-                        width: {
-                            guard let width: CGFloat else { return nil }
-                            return width / .pixelsPerPoint
-                        }(),
-                        height: {
-                            guard let height: CGFloat else { return nil }
-                            return height / .pixelsPerPoint
-                        }()
-                    )
+                if case .aspectRatio(let aspectRatio) = dynamicResolution {
+                    GraphicView(graphic: graphic)
+                        .aspectRatio(aspectRatio, contentMode: .fit)
+                } else {
+                    GraphicView(graphic: graphic)
+                        .frame(
+                            width: {
+                                guard let width: CGFloat = dynamicResolution?.fixedWidth
+                                else { return nil }
+                                return width / .pixelsPerPoint
+                            }(),
+                            height: {
+                                guard let height: CGFloat = dynamicResolution?.fixedHeight
+                                else { return nil }
+                                return height / .pixelsPerPoint
+                            }()
+                        )
+                }
             }
         }
         .background {

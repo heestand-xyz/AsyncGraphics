@@ -17,12 +17,12 @@ extension AGDynamicResolution {
 
 extension AGDynamicResolution {
     
-    private enum Axis2D {
+    enum Axis2D {
         case horizontal
         case vertical
     }
     
-    private enum Axis3D {
+    enum Axis3D {
         case depth
         case horizontal
         case vertical
@@ -303,13 +303,21 @@ extension AGDynamicResolution {
                 return .auto
             case .horizontal:
                 let aspectRatio: CGFloat = aspectRatioA + aspectRatioB
-                let h = maxLength
-                let w = h * aspectRatio + spacing
+                var h = maxLength
+                var w = h * aspectRatio + spacing
+                if w > totalLength {
+                    h *= totalLength / w
+                    w = totalLength
+                }
                 return .aspectRatio(w / h)
             case .vertical:
                 let aspectRatio: CGFloat = 1.0 / (1.0 / aspectRatioA + 1.0 / aspectRatioB)
-                let w = maxLength
-                let h = w / aspectRatio + spacing
+                var w = maxLength
+                var h = w / aspectRatio + spacing
+                if h > totalLength {
+                    w *= totalLength / h
+                    h = totalLength
+                }
                 return .aspectRatio(w / h)
             }
         }
@@ -437,20 +445,20 @@ extension AGDynamicResolution {
             }
         }()
         
-        switch axis {
-        case .horizontal:
-            if let width = resolution.width(forHeight: maxLength),
-               width > totalLength {
-                resolution = .auto
-            }
-        case .vertical:
-            if let height = resolution.height(forWidth: maxLength),
-               height > totalLength {
-                resolution = .auto
-            }
-        case .depth:
-            break
-        }
+//        switch axis {
+//        case .horizontal:
+//            if let width = resolution.width(forHeight: maxLength),
+//               width > totalLength {
+//                resolution = .auto
+//            }
+//        case .vertical:
+//            if let height = resolution.height(forWidth: maxLength),
+//               height > totalLength {
+//                resolution = .auto
+//            }
+//        case .depth:
+//            break
+//        }
         
         return resolution
     }
@@ -488,30 +496,30 @@ extension AGDynamicResolution {
             }
         }
         
-        enum Auto {
-            case autoOnly
-            case autoOrAspect
+        enum Flex {
+            case auto
+            case aspect
         }
-        var autos: [Auto] = []
+        var flexList: [Flex] = []
         for otherDynamicResolution in otherDynamicResolutions {
             if case .spacer = otherDynamicResolution { continue }
             if otherDynamicResolution.length(on: axis, for: maxLength) == nil {
-                autos.append(.autoOnly)
+                flexList.append(.auto)
             } else if otherDynamicResolution.fixedLength(on: axis) == nil {
-                autos.append(.autoOrAspect)
+                flexList.append(.aspect)
             }
         }
-        length /= CGFloat(1 + autos.filter({ $0 == .autoOnly }).count)
+        length /= CGFloat(1 + flexList/*.filter({ $0 == .autoOnly })*/.count)
         
-        if autos.filter({ $0 == .autoOnly }).count > 0 {
+        if flexList/*.filter({ $0 == .autoOnly })*/.count > 0 {
             if case .spacer(let minLength) = self {
                 return minLength
             }
         }
         
-        if let dynamicLength: CGFloat = self.length(on: axis, for: maxLength) {
-            return min(dynamicLength, length)
-        }
+//        if let aspectLength: CGFloat = self.length(on: axis, for: maxLength) {
+//            return min(aspectLength, length)
+//        }
         
         return length
     }

@@ -157,9 +157,7 @@ public struct AGHStack: AGParentGraph {
             let graphic: Graphic = try await graph.render(with: details)
             graphics.append(graphic)
         }
-        let g = try await Graphic.hStacked(with: graphics, alignment: alignment, spacing: spacing)
-        print("---------->", g.resolution == details.specification.resolution ? "Same" : "Different", g.resolution, details.specification.resolution)
-        return g
+        return try await Graphic.hStacked(with: graphics, alignment: alignment, spacing: spacing)
     }
 }
 
