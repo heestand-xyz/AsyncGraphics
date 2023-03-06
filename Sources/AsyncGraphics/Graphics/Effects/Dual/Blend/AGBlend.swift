@@ -1,5 +1,12 @@
 import CoreGraphics
 
+extension AGGraph {
+    
+    public func overlay(content: @escaping () -> any AGGraph) -> any AGGraph {
+        AGBlend(mode: .over, { self }, with: content)
+    }
+}
+
 public struct AGBlend: AGParentGraph {
     
     public var children: [any AGGraph] { [leadingGraph, trailingGraph] }

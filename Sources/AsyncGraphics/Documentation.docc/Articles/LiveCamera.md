@@ -1,6 +1,6 @@
 # Live Camera
 
-In this example we capture live footage from the camera.
+Capture live footage from the camera.
 
 ## Overview
 

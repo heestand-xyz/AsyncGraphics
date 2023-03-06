@@ -1,6 +1,6 @@
 # Video Editing
 
-In this example we will edit a video by applying various effects.
+Edit a video by applying various effects.
 
 ## Overview
 

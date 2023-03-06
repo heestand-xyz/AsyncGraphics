@@ -1,6 +1,6 @@
 # Video Playback
 
-In this example we create a video player UI with a play / pause button and a slider as a time seeker. 
+Create a video player UI with a play / pause button and a slider as a time seeker. 
 
 ## Overview
 

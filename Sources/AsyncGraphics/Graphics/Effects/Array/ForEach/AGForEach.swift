@@ -7,8 +7,8 @@ public struct AGForEach: AGParentGraph {
     
     var graphs: [any AGGraph]
     
-    public init(_ range: Range<Int>, graph: (Int) -> any AGGraph) {
-        self.graphs = range.map { graph($0) }
+    public init(_ range: Range<Int>, @AGGraphBuilder graphs: (Int) -> [any AGGraph]) {
+        self.graphs = range.flatMap { graphs($0) }
     }
     
     public init(_ range: ClosedRange<Int>, graph: (Int) -> any AGGraph) {

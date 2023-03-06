@@ -4,8 +4,9 @@ import SwiftUI
 
 extension AGGraph {
     
-    public func foregroundColor(_ color: PixelColor) -> AGForegroundColor {
-        AGForegroundColor(graph: self, color: color)
+    @available(iOS 14, macOS 11, *)
+    public func foregroundColor(_ color: Color) -> AGForegroundColor {
+        AGForegroundColor(graph: self, color: PixelColor(color))
     }
 }
 
