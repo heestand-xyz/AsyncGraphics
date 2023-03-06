@@ -12,6 +12,13 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 
 ## Topics
 
+### Articles
+
+- <doc:Layout>
+- <doc:LiveCamera>
+- <doc:VideoEditing>
+- <doc:VideoPlayback>
+
 ### Graphics
 
 - ``AGGraph``
@@ -29,6 +36,23 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 - ``GraphicVideoPlayer``
 - ``GraphicVideoRecorder``
 
+### Lists
+
+- <doc:Resources>
+- <doc:Visuals>
+- <doc:Effects>
+- <doc:Metal>
+
+### Layout
+
+- ``AGFrame``
+- ``AGZStack``
+- ``AGVStack``
+- ``AGHStack``
+- ``AGSpacer``
+- ``AGPadding``
+- ``AGAspectRatio``
+
 ### Resources
 
 - ``AGImage``
@@ -36,15 +60,38 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 - ``AGCamera``
 
 ### Shapes
-- ``AGRectangle``
-- ``AGCircle``
-- ``AGPolygon``
 
-### Solids
+- ``AGCircle``
+- ``AGRectangle``
+- ``AGRoundedRectangle``
+- ``AGPolygon``
+- ``AGRoundedPolygon``
+
+### Color
 
 - ``AGColor``
-- ``AGNoise``
+- ``AGForegroundColor``
+- ``AGBorder``
 
-### Modifiers
+### Effects
 
 - ``AGBlur``
+- ``AGChannelMix``
+- ``AGNoise``
+
+### Blending
+
+- ``AGBlend``
+- ``AGMask``
+- ``AGBackground``
+- ``AGOpacity``
+
+### Loop
+
+- ``AGForEach``
+
+### Other
+
+- ``AGGraphBuilder``
+- ``AGSpecification``
+- ``AGDetails``
