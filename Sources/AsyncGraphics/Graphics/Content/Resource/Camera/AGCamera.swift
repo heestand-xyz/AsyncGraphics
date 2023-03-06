@@ -28,22 +28,6 @@ public struct AGCamera: AGGraph {
         }
     }
     
-//    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
-//        return .auto
-////        guard let cameraResolution: CGSize = specification.resourceResolutions.camera[position]
-////        else { return .auto }
-////        switch placement {
-////        case .fit:
-////            return .fixed(cameraResolution.place(in: specification.resolution, placement: .fit))
-////        case .fill:
-////            return .fixed(cameraResolution.place(in: specification.resolution, placement: .fill))
-////        case .center:
-////            return .fixed(cameraResolution)
-////        case .stretch:
-////            return .auto
-////        }
-//    }
-    
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)

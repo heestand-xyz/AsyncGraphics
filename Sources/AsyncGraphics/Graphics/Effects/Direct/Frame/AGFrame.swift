@@ -30,18 +30,6 @@ public struct AGFrame: AGParentGraph {
                                 for: specification)
     }
     
-//    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
-//        let dynamicResolution = graph.resolution(for: specification)
-//        if let fixedWidth, let fixedHeight {
-//            return .size(CGSize(width: fixedWidth, height: fixedHeight))
-//        } else if let fixedWidth {
-//            return dynamicResolution.with(fixedWidth: fixedWidth)
-//        } else if let fixedHeight {
-//            return dynamicResolution.with(fixedHeight: fixedHeight)
-//        }
-//        return dynamicResolution
-//    }
-    
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)

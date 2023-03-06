@@ -39,30 +39,6 @@ public struct AGAspectRatio: AGParentGraph {
             .place(in: proposedResolution, placement: placement)
     }
     
-//    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
-//        switch graph.resolution(for: specification) {
-//        case .size(let size):
-//            return .size(size)
-//        case .width(let width):
-//            if let aspectRatio {
-//                return .size(CGSize(width: width, height: width / aspectRatio))
-//            }
-//            return .width(width)
-//        case .height(let height):
-//            if let aspectRatio {
-//                return .size(CGSize(width: height * aspectRatio, height: height))
-//            }
-//            return .height(height)
-//        case .aspectRatio(let aspectRatio):
-//            return .aspectRatio(aspectRatio)
-//        case .auto, .spacer:
-//            if let aspectRatio {
-//                return .aspectRatio(aspectRatio)
-//            }
-//            return .auto
-//        }
-//    }
-    
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)

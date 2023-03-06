@@ -9,10 +9,6 @@ public struct AGDetails: Equatable {
 
 extension AGDetails {
     
-//    func with(resolution: CGSize) -> AGDetails {
-//        AGDetails(color: color, resources: resources, specification: specification.with(resolution: resolution))
-//    }
-    
     func with(color: PixelColor) -> AGDetails {
         AGDetails(color: color, resources: resources, specification: specification)
     }

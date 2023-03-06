@@ -25,20 +25,6 @@ public struct AGVideo: AGGraph {
         }
     }
     
-//    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
-//        let videoResolution = videoPlayer.info.resolution
-//        switch placement {
-//        case .fit:
-//            return .size(videoResolution.place(in: specification.resolution, placement: .fit))
-//        case .fill:
-//            return .size(videoResolution.place(in: specification.resolution, placement: .fill))
-//        case .center:
-//            return .size(videoResolution)
-//        case .stretch:
-//            return .auto
-//        }
-//    }
-    
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)

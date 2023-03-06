@@ -42,21 +42,6 @@ public struct AGImage: AGGraph {
         }
     }
     
-//    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
-//        guard let imageResolution: CGSize = specification.resourceResolutions.image[source]
-//        else { return .auto }
-//        switch placement {
-//        case .fit:
-//            return .size(imageResolution.place(in: specification.resolution, placement: .fit))
-//        case .fill:
-//            return .size(imageResolution.place(in: specification.resolution, placement: .fill))
-//        case .center:
-//            return .size(imageResolution)
-//        case .stretch:
-//            return .auto
-//        }
-//    }
-    
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)

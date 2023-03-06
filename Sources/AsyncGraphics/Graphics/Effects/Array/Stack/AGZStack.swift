@@ -27,21 +27,6 @@ public struct AGZStack: AGParentGraph {
         return CGSize(width: width, height: height)
     }
     
-//    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
-//        var dynamicResolution: AGDynamicResolution = .zero
-//        for child in children.all {
-//            let childDynamicResolution = child.resolution(for: specification)
-//            dynamicResolution = dynamicResolution.zMerge(with: childDynamicResolution)
-//        }
-//        return dynamicResolution
-//    }
-//
-//    func childResolution(_ childGraph: any AGGraph, at index: Int,
-//                         for specification: AGSpecification) -> CGSize {
-//        childGraph.resolution(for: specification)
-//            .fallback(to: specification.resolution)
-//    }
-   
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         guard !graphs.isEmpty else {

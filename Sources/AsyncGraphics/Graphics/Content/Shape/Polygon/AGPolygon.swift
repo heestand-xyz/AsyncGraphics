@@ -15,10 +15,6 @@ public struct AGPolygon: AGGraph {
         .one.place(in: proposedResolution, placement: .fit)
     }
     
-//    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
-//        .aspectRatio(1.0)
-//    }
-    
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)
