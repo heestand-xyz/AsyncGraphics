@@ -16,8 +16,10 @@ public struct AGForegroundColor: AGParentGraph {
     let graph: any AGGraph
     let color: PixelColor
     
-    public func render(with details: AGDetails) async throws -> Graphic {
-        try await graph.render(with: details.with(color: color))
+    public func render(at proposedResolution: CGSize,
+                       details: AGDetails) async throws -> Graphic {
+        let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)
+        return try await graph.render(at: resolution, details: details.with(color: color))
     }
 }
 

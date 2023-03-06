@@ -10,22 +10,38 @@ public struct AGVideo: AGGraph {
         self.videoPlayer = videoPlayer
     }
     
-    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
-        let videoResolution = videoPlayer.info.resolution
+    public func resolution(at proposedResolution: CGSize,
+                           for specification: AGSpecification) -> CGSize {
+        let videoResolution: CGSize = videoPlayer.info.resolution
         switch placement {
         case .fit:
-            return .size(videoResolution.place(in: specification.resolution, placement: .fit))
+            return videoResolution.place(in: proposedResolution, placement: .fit)
         case .fill:
-            return .size(videoResolution.place(in: specification.resolution, placement: .fill))
+            return videoResolution.place(in: proposedResolution, placement: .fill)
         case .center:
-            return .size(videoResolution)
+            return videoResolution
         case .stretch:
-            return .auto
+            return proposedResolution
         }
     }
     
-    public func render(with details: AGDetails) async throws -> Graphic {
-        let resolution: CGSize = fallbackResolution(for: details.specification)
+//    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
+//        let videoResolution = videoPlayer.info.resolution
+//        switch placement {
+//        case .fit:
+//            return .size(videoResolution.place(in: specification.resolution, placement: .fit))
+//        case .fill:
+//            return .size(videoResolution.place(in: specification.resolution, placement: .fill))
+//        case .center:
+//            return .size(videoResolution)
+//        case .stretch:
+//            return .auto
+//        }
+//    }
+    
+    public func render(at proposedResolution: CGSize,
+                       details: AGDetails) async throws -> Graphic {
+        let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)
         guard let videoGraphic: Graphic = details.resources.videoGraphics[videoPlayer] else {
             return try await .color(.clear, resolution: resolution)
         }

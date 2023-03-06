@@ -17,17 +17,17 @@ public struct AGBorder: AGParentGraph {
     
     let color: PixelColor
     
-    public func render(with details: AGDetails) async throws -> Graphic {
-        let resolution: CGSize = fallbackResolution(for: details.specification)
-        let graphic: Graphic = try await graph.render(
-            with: details.with(resolution: resolution))
+    public func render(at proposedResolution: CGSize,
+                       details: AGDetails) async throws -> Graphic {
+        let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)
+        let graphic: Graphic = try await graph.render(at: resolution, details: details)
         let borderGraphic: Graphic = try await .strokedRectangle(
             size: resolution - .pixelsPerPoint,
             lineWidth: .pixelsPerPoint,
             color: color,
             backgroundColor: .clear,
             resolution: resolution)
-        return try await graphic.blended(with: borderGraphic, blendingMode: .over)
+        return try await borderGraphic.blended(with: graphic, blendingMode: .under, placement: .center)
     }
 }
 

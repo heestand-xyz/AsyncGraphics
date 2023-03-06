@@ -14,8 +14,9 @@ public struct AGRoundedRectangle: AGGraph {
         self.cornerRadius = cornerRadius * .pixelsPerPoint
     }
     
-    public func render(with details: AGDetails) async throws -> Graphic {
-        let resolution: CGSize = fallbackResolution(for: details.specification)
+    public func render(at proposedResolution: CGSize,
+                       details: AGDetails) async throws -> Graphic {
+        let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)
         if let lineWidth: CGFloat {
             let size: CGSize = resolution - lineWidth / 2
             return try await .strokedRectangle(size: size,

@@ -15,8 +15,9 @@ public struct AGForEach: AGParentGraph {
         self.graphs = range.map { graph($0) }
     }
     
-    public func render(with details: AGDetails) async throws -> Graphic {
-        let resolution: CGSize = fallbackResolution(for: details.specification)
+    public func render(at proposedResolution: CGSize,
+                       details: AGDetails) async throws -> Graphic {
+        let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)
         return try await .color(.clear, resolution: resolution)
     }
 }

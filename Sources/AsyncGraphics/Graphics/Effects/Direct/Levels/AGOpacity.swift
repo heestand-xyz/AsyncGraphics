@@ -15,9 +15,10 @@ public struct AGOpacity: AGParentGraph {
     
     let opacity: CGFloat
     
-    public func render(with details: AGDetails) async throws -> Graphic {
-        let resolution: CGSize = fallbackResolution(for: details.specification)
-        return try await graph.render(with: details.with(resolution: resolution))
+    public func render(at proposedResolution: CGSize,
+                       details: AGDetails) async throws -> Graphic {
+        let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)
+        return try await graph.render(at: resolution, details: details)
             .opacity(opacity)
     }
 }

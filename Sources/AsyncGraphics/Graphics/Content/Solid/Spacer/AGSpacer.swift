@@ -8,12 +8,17 @@ public struct AGSpacer: AGGraph {
         self.minLength = minLength * .pixelsPerPoint
     }
     
-    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
-        .spacer(minLength: minLength)
-    }
+//    public func resolution(at proposedResolution: CGSize, for specification: AGSpecification) -> CGSize {
+//        CGSize(width: minLength, height: minLength)
+//    }
     
-    public func render(with details: AGDetails) async throws -> Graphic {
-        let resolution: CGSize = fallbackResolution(for: details.specification)
+//    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
+//        .spacer(minLength: minLength)
+//    }
+    
+    public func render(at proposedResolution: CGSize,
+                       details: AGDetails) async throws -> Graphic {
+        let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)
         return try await .color(.clear, resolution: resolution)
     }
 }

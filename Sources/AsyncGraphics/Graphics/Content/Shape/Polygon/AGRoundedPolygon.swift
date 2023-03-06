@@ -14,12 +14,18 @@ public struct AGRoundedPolygon: AGGraph {
         self.cornerRadius = cornerRadius * .pixelsPerPoint
     }
     
-    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
-        .aspectRatio(1.0)
+    public func resolution(at proposedResolution: CGSize,
+                           for specification: AGSpecification) -> CGSize {
+        .one.place(in: proposedResolution, placement: .fit)
     }
     
-    public func render(with details: AGDetails) async throws -> Graphic {
-        let resolution: CGSize = fallbackResolution(for: details.specification)
+//    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
+//        .aspectRatio(1.0)
+//    }
+    
+    public func render(at proposedResolution: CGSize,
+                       details: AGDetails) async throws -> Graphic {
+        let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)
         return try await .polygon(count: count,
                                   cornerRadius: cornerRadius,
                                   color: details.color,

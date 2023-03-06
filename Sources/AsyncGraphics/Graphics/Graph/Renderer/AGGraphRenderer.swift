@@ -27,8 +27,7 @@ extension AGGraphRenderer {
     }
     
     func specification(for graph: any AGGraph, at resolution: CGSize) -> AGSpecification {
-        AGSpecification(resolution: resolution,
-                        resourceResolutions: resourceResolutions(for: graph, at: resolution))
+        AGSpecification(resourceResolutions: resourceResolutions(for: graph, at: resolution))
     }
 }
 
@@ -92,9 +91,8 @@ extension AGGraphRenderer {
         let cameraPositions = cameraPositions(for: graph)
         
         let emptyResourceResolutions = AGResourceResolutions(camera: [:], image: [:])
-        let specification = AGSpecification(resolution: resolution,
-                                            resourceResolutions: emptyResourceResolutions)
-        activeCameraMaximumResolutions = cameraMaximumResolutions(for: graph, for: specification)
+        let specification = AGSpecification(resourceResolutions: emptyResourceResolutions)
+        activeCameraMaximumResolutions = cameraMaximumResolutions(for: graph, at: resolution, for: specification)
         
         for cameraPosition in cameraPositions {
             if !activeCameraPositions.contains(where: { $0 == cameraPosition }) {
@@ -116,9 +114,8 @@ extension AGGraphRenderer {
         let videoPlayers = videoPlayers(for: graph)
         
         let emptyResourceResolutions = AGResourceResolutions(camera: [:], image: [:])
-        let specification = AGSpecification(resolution: resolution,
-                                            resourceResolutions: emptyResourceResolutions)
-        activeVideoMaximumResolutions = videoMaximumResolutions(for: graph, for: specification)
+        let specification = AGSpecification(resourceResolutions: emptyResourceResolutions)
+        activeVideoMaximumResolutions = videoMaximumResolutions(for: graph, at: resolution, for: specification)
         
         for videoPlayer in videoPlayers {
             if !activeVideoPlayers.contains(where: { $0 == videoPlayer }) {
@@ -140,9 +137,8 @@ extension AGGraphRenderer {
         let imageSources = imageSources(for: graph)
         
         let emptyResourceResolutions = AGResourceResolutions(camera: [:], image: [:])
-        let specification = AGSpecification(resolution: resolution,
-                                            resourceResolutions: emptyResourceResolutions)
-        activeVideoMaximumResolutions = videoMaximumResolutions(for: graph, for: specification)
+        let specification = AGSpecification(resourceResolutions: emptyResourceResolutions)
+        activeVideoMaximumResolutions = videoMaximumResolutions(for: graph, at: resolution, for: specification)
         
         for imageSource in imageSources {
             if !activeImageSources.contains(where: { $0 == imageSource }) {
@@ -305,17 +301,15 @@ extension AGGraphRenderer {
 
 extension AGGraphRenderer {
     
-    private func cameraMaximumResolutions(for graph: any AGGraph, for specification: AGSpecification) -> [Graphic.CameraPosition: CGSize] {
+    private func cameraMaximumResolutions(for graph: any AGGraph, at proposedResolution: CGSize, for specification: AGSpecification) -> [Graphic.CameraPosition: CGSize] {
         var maximumResolutions: [Graphic.CameraPosition: CGSize] = [:]
         if let camera = graph as? AGCamera {
-            maximumResolutions[camera.position] = camera.fallbackResolution(for: specification)
+            maximumResolutions[camera.position] = camera.resolution(at: proposedResolution, for: specification)
         }
         if let parentGraph = graph as? any AGParentGraph {
-            for (index, child) in parentGraph.children.all.enumerated() {
-                let childResolution: CGSize = parentGraph.childResolution(child, at: index, for: specification)
-                let specification: AGSpecification = specification
-                    .with(resolution: childResolution)
-                for (cameraPosition, maximumResolution) in cameraMaximumResolutions(for: child, for: specification) {
+            let parentProposedResolution: CGSize = parentGraph.resolution(at: proposedResolution, for: specification)
+            for child in parentGraph.children.all {
+                for (cameraPosition, maximumResolution) in cameraMaximumResolutions(for: child, at: parentProposedResolution, for: specification) {
                     if let currentMaximumResolution: CGSize = maximumResolutions[cameraPosition] {
                         maximumResolutions[cameraPosition] = CGSize(
                             width: max(currentMaximumResolution.width, maximumResolution.width),
@@ -329,17 +323,15 @@ extension AGGraphRenderer {
         return maximumResolutions
     }
     
-    private func videoMaximumResolutions(for graph: any AGGraph, for specification: AGSpecification) -> [GraphicVideoPlayer: CGSize] {
+    private func videoMaximumResolutions(for graph: any AGGraph, at proposedResolution: CGSize, for specification: AGSpecification) -> [GraphicVideoPlayer: CGSize] {
         var maximumResolutions: [GraphicVideoPlayer: CGSize] = [:]
         if let video = graph as? AGVideo {
-            maximumResolutions[video.videoPlayer] = video.fallbackResolution(for: specification)
+            maximumResolutions[video.videoPlayer] = video.resolution(at: proposedResolution, for: specification)
         }
         if let parentGraph = graph as? any AGParentGraph {
-            for (index, child) in parentGraph.children.all.enumerated() {
-                let childResolution: CGSize = parentGraph.childResolution(child, at: index, for: specification)
-                let specification: AGSpecification = specification
-                    .with(resolution: childResolution)
-                for (videoPlayer, maximumResolution) in videoMaximumResolutions(for: child, for: specification) {
+            let parentProposedResolution: CGSize = parentGraph.resolution(at: proposedResolution, for: specification)
+            for child in parentGraph.children.all {
+                for (videoPlayer, maximumResolution) in videoMaximumResolutions(for: child, at: parentProposedResolution, for: specification) {
                     if let currentMaximumResolution: CGSize = maximumResolutions[videoPlayer] {
                         maximumResolutions[videoPlayer] = CGSize(
                             width: max(currentMaximumResolution.width, maximumResolution.width),
@@ -353,17 +345,15 @@ extension AGGraphRenderer {
         return maximumResolutions
     }
     
-    private func imageMaximumResolutions(for graph: any AGGraph, for specification: AGSpecification) -> [AGImage.Source: CGSize] {
+    private func imageMaximumResolutions(for graph: any AGGraph, at proposedResolution: CGSize, for specification: AGSpecification) -> [AGImage.Source: CGSize] {
         var maximumResolutions: [AGImage.Source: CGSize] = [:]
         if let image = graph as? AGImage {
-            maximumResolutions[image.source] = image.fallbackResolution(for: specification)
+            maximumResolutions[image.source] = image.resolution(at: proposedResolution, for: specification)
         }
         if let parentGraph = graph as? any AGParentGraph {
-            for (index, child) in parentGraph.children.all.enumerated() {
-                let childResolution: CGSize = parentGraph.childResolution(child, at: index, for: specification)
-                let specification: AGSpecification = specification
-                    .with(resolution: childResolution)
-                for (videoPlayer, maximumResolution) in imageMaximumResolutions(for: child, for: specification) {
+            let parentProposedResolution: CGSize = parentGraph.resolution(at: proposedResolution, for: specification)
+            for child in parentGraph.children.all {
+                for (videoPlayer, maximumResolution) in imageMaximumResolutions(for: child, at: parentProposedResolution, for: specification) {
                     if let currentMaximumResolution: CGSize = maximumResolutions[videoPlayer] {
                         maximumResolutions[videoPlayer] = CGSize(
                             width: max(currentMaximumResolution.width, maximumResolution.width),

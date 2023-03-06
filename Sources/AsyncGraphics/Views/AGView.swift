@@ -19,10 +19,10 @@ public struct AGView: View {
     
     @State private var resolution: CGSize?
     
-    private var dynamicResolution: AGDynamicResolution? {
+    private var finalResolution: CGSize? {
         guard let resolution else { return nil }
         let specification: AGSpecification = renderer.specification(for: graph(), at: resolution)
-        return graph().resolution(for: specification)
+        return graph().resolution(at: resolution, for: specification)
     }
     
     @State private var renderTask: Task<Void, Never>?
@@ -31,24 +31,19 @@ public struct AGView: View {
         ZStack {
             Color.clear
             if let graphic {
-                if case .aspectRatio(let aspectRatio) = dynamicResolution {
-                    GraphicView(graphic: graphic)
-                        .aspectRatio(aspectRatio, contentMode: .fit)
-                } else {
-                    GraphicView(graphic: graphic)
-                        .frame(
-                            width: {
-                                guard let width: CGFloat = dynamicResolution?.fixedWidth
-                                else { return nil }
-                                return width / .pixelsPerPoint
-                            }(),
-                            height: {
-                                guard let height: CGFloat = dynamicResolution?.fixedHeight
-                                else { return nil }
-                                return height / .pixelsPerPoint
-                            }()
-                        )
-                }
+                GraphicView(graphic: graphic)
+                    .frame(
+                        maxWidth: {
+                            guard let width: CGFloat = finalResolution?.width
+                            else { return nil }
+                            return width / .pixelsPerPoint
+                        }(),
+                        maxHeight: {
+                            guard let height: CGFloat = finalResolution?.height
+                            else { return nil }
+                            return height / .pixelsPerPoint
+                        }()
+                    )
             }
         }
         .background {
@@ -84,7 +79,7 @@ public struct AGView: View {
         renderTask?.cancel()
         renderTask = Task {
             do {
-                graphic = try await graph.render(with: details)
+                graphic = try await graph.render(at: resolution, details: details)
             } catch {
                 if error is CancellationError { return }
                 print("AsyncGraphics - AGView - Failed to render:", error)

@@ -27,8 +27,9 @@ public struct AGNoise: AGGraph {
         self.random = random
     }
     
-    public func render(with details: AGDetails) async throws -> Graphic {
-        let resolution: CGSize = fallbackResolution(for: details.specification)
+    public func render(at proposedResolution: CGSize,
+                       details: AGDetails) async throws -> Graphic {
+        let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)
         if !random {
             if colored {
                 return try await .coloredNoise(offset: offset,

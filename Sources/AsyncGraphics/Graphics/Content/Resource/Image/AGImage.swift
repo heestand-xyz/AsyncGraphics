@@ -26,26 +26,43 @@ public struct AGImage: AGGraph {
         source = .raw(image)
     }
     
-    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
+    public func resolution(at proposedResolution: CGSize,
+                           for specification: AGSpecification) -> CGSize {
         guard let imageResolution: CGSize = specification.resourceResolutions.image[source]
-        else { return .auto }
+        else { return proposedResolution }
         switch placement {
         case .fit:
-            return .size(imageResolution.place(in: specification.resolution, placement: .fit))
+            return imageResolution.place(in: proposedResolution, placement: .fit)
         case .fill:
-            return .size(imageResolution.place(in: specification.resolution, placement: .fill))
+            return imageResolution.place(in: proposedResolution, placement: .fill)
         case .center:
-            return .size(imageResolution)
+            return imageResolution
         case .stretch:
-            return .auto
+            return proposedResolution
         }
     }
     
-    public func render(with details: AGDetails) async throws -> Graphic {
+//    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
+//        guard let imageResolution: CGSize = specification.resourceResolutions.image[source]
+//        else { return .auto }
+//        switch placement {
+//        case .fit:
+//            return .size(imageResolution.place(in: specification.resolution, placement: .fit))
+//        case .fill:
+//            return .size(imageResolution.place(in: specification.resolution, placement: .fill))
+//        case .center:
+//            return .size(imageResolution)
+//        case .stretch:
+//            return .auto
+//        }
+//    }
+    
+    public func render(at proposedResolution: CGSize,
+                       details: AGDetails) async throws -> Graphic {
+        let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)
         guard let imageGraphic: Graphic = details.resources.imageGraphics[source] else {
-            return try await .color(.clear, resolution: details.specification.resolution)
+            return try await .color(.clear, resolution: resolution)
         }
-        let resolution: CGSize = fallbackResolution(for: details.specification)
         return try await imageGraphic.resized(to: resolution, placement: .stretch, method: .lanczos)
     }
 }

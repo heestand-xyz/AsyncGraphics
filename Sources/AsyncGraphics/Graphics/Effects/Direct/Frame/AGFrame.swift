@@ -7,6 +7,10 @@ extension AGGraph {
                 fixedWidth: width != nil ? width! * .pixelsPerPoint : nil,
                 fixedHeight: height != nil ? height! * .pixelsPerPoint : nil)
     }
+    
+//    public func frame(maxWidth: CGFloat? = nil, maxHeight: CGFloat? = nil) -> any AGGraph {
+//        // ...
+//    }
 }
 
 public struct AGFrame: AGParentGraph {
@@ -18,22 +22,31 @@ public struct AGFrame: AGParentGraph {
     let fixedWidth: CGFloat?
     let fixedHeight: CGFloat?
     
-    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
-        let dynamicResolution = graph.resolution(for: specification)
-        if let fixedWidth, let fixedHeight {
-            return .size(CGSize(width: fixedWidth, height: fixedHeight))
-        } else if let fixedWidth {
-            return dynamicResolution.with(fixedWidth: fixedWidth)
-        } else if let fixedHeight {
-            return dynamicResolution.with(fixedHeight: fixedHeight)
-        }
-        return dynamicResolution
+    public func resolution(at proposedResolution: CGSize,
+                           for specification: AGSpecification) -> CGSize {
+        let proposedGraphResolution: CGSize = CGSize(width: fixedWidth ?? proposedResolution.width,
+                                                     height: fixedHeight ?? proposedResolution.height)
+        return graph.resolution(at: proposedGraphResolution,
+                                for: specification)
     }
     
-    public func render(with details: AGDetails) async throws -> Graphic {
-        let resolution: CGSize = fallbackResolution(for: details.specification)
+//    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
+//        let dynamicResolution = graph.resolution(for: specification)
+//        if let fixedWidth, let fixedHeight {
+//            return .size(CGSize(width: fixedWidth, height: fixedHeight))
+//        } else if let fixedWidth {
+//            return dynamicResolution.with(fixedWidth: fixedWidth)
+//        } else if let fixedHeight {
+//            return dynamicResolution.with(fixedHeight: fixedHeight)
+//        }
+//        return dynamicResolution
+//    }
+    
+    public func render(at proposedResolution: CGSize,
+                       details: AGDetails) async throws -> Graphic {
+        let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)
         let backgroundGraphic: Graphic = try await .color(.clear, resolution: resolution)
-        let graphic: Graphic = try await graph.render(with: details.with(resolution: resolution))
+        let graphic: Graphic = try await graph.render(at: resolution, details: details)
         return try await backgroundGraphic.blended(with: graphic, blendingMode: .over, placement: .center)
     }
 }

@@ -12,27 +12,44 @@ public struct AGCamera: AGGraph {
         self.position = position
     }
     
-    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
-        return .auto
-//        guard let cameraResolution: CGSize = specification.resourceResolutions.camera[position]
-//        else { return .auto }
-//        switch placement {
-//        case .fit:
-//            return .fixed(cameraResolution.place(in: specification.resolution, placement: .fit))
-//        case .fill:
-//            return .fixed(cameraResolution.place(in: specification.resolution, placement: .fill))
-//        case .center:
-//            return .fixed(cameraResolution)
-//        case .stretch:
-//            return .auto
-//        }
+    public func resolution(at proposedResolution: CGSize,
+                           for specification: AGSpecification) -> CGSize {
+        guard let cameraResolution: CGSize = specification.resourceResolutions.camera[position]
+        else { return proposedResolution }
+        switch placement {
+        case .fit:
+            return cameraResolution.place(in: proposedResolution, placement: .fit)
+        case .fill:
+            return cameraResolution.place(in: proposedResolution, placement: .fill)
+        case .center:
+            return cameraResolution
+        case .stretch:
+            return proposedResolution
+        }
     }
     
-    public func render(with details: AGDetails) async throws -> Graphic {
+//    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
+//        return .auto
+////        guard let cameraResolution: CGSize = specification.resourceResolutions.camera[position]
+////        else { return .auto }
+////        switch placement {
+////        case .fit:
+////            return .fixed(cameraResolution.place(in: specification.resolution, placement: .fit))
+////        case .fill:
+////            return .fixed(cameraResolution.place(in: specification.resolution, placement: .fill))
+////        case .center:
+////            return .fixed(cameraResolution)
+////        case .stretch:
+////            return .auto
+////        }
+//    }
+    
+    public func render(at proposedResolution: CGSize,
+                       details: AGDetails) async throws -> Graphic {
+        let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)
         guard let cameraGraphic: Graphic = details.resources.cameraGraphics[position] else {
-            return try await .color(.black, resolution: details.specification.resolution)
+            return try await .color(.black, resolution: resolution)
         }
-        let resolution: CGSize = fallbackResolution(for: details.specification)
         return try await cameraGraphic.resized(to: resolution, placement: placement, method: .lanczos)
     }
 }

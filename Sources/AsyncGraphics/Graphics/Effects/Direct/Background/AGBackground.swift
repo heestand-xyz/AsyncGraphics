@@ -52,15 +52,16 @@ public struct AGBackground: AGParentGraph {
     }
     let background: Background
     
-    public func render(with details: AGDetails) async throws -> Graphic {
-        let resolution: CGSize = fallbackResolution(for: details.specification)
-        let graphic: Graphic = try await graph.render(with: details.with(resolution: resolution))
+    public func render(at proposedResolution: CGSize,
+                       details: AGDetails) async throws -> Graphic {
+        let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)
+        let graphic: Graphic = try await graph.render(at: resolution, details: details)
         let backgroundGraphic: Graphic = try await {
             switch background {
             case .color(let backgroundColor):
                 return try await .color(backgroundColor, resolution: resolution)
             case .graph(let backgroundGraph):
-                return try await backgroundGraph.render(with: details.with(resolution: resolution))
+                return try await backgroundGraph.render(at: resolution, details: details)
             }
         }()
         return try await backgroundGraphic.blended(with: graphic, blendingMode: .over)

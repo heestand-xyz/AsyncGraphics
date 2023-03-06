@@ -29,33 +29,44 @@ public struct AGAspectRatio: AGParentGraph {
         }
     }
     
-    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
-        switch graph.resolution(for: specification) {
-        case .size(let size):
-            return .size(size)
-        case .width(let width):
-            if let aspectRatio {
-                return .size(CGSize(width: width, height: width / aspectRatio))
-            }
-            return .width(width)
-        case .height(let height):
-            if let aspectRatio {
-                return .size(CGSize(width: height * aspectRatio, height: height))
-            }
-            return .height(height)
-        case .aspectRatio(let aspectRatio):
-            return .aspectRatio(aspectRatio)
-        case .auto, .spacer:
-            if let aspectRatio {
-                return .aspectRatio(aspectRatio)
-            }
-            return .auto
+    public func resolution(at proposedResolution: CGSize,
+                           for specification: AGSpecification) -> CGSize {
+        if let aspectRatio {
+            return CGSize(width: aspectRatio, height: 1.0)
+                .place(in: proposedResolution, placement: placement)
         }
+        return graph.resolution(at: proposedResolution, for: specification)
+            .place(in: proposedResolution, placement: placement)
     }
     
-    public func render(with details: AGDetails) async throws -> Graphic {
-        let resolution: CGSize = fallbackResolution(for: details.specification)
-        let graphic: Graphic = try await graph.render(with: details.with(resolution: resolution))
+//    public func resolution(for specification: AGSpecification) -> AGDynamicResolution {
+//        switch graph.resolution(for: specification) {
+//        case .size(let size):
+//            return .size(size)
+//        case .width(let width):
+//            if let aspectRatio {
+//                return .size(CGSize(width: width, height: width / aspectRatio))
+//            }
+//            return .width(width)
+//        case .height(let height):
+//            if let aspectRatio {
+//                return .size(CGSize(width: height * aspectRatio, height: height))
+//            }
+//            return .height(height)
+//        case .aspectRatio(let aspectRatio):
+//            return .aspectRatio(aspectRatio)
+//        case .auto, .spacer:
+//            if let aspectRatio {
+//                return .aspectRatio(aspectRatio)
+//            }
+//            return .auto
+//        }
+//    }
+    
+    public func render(at proposedResolution: CGSize,
+                       details: AGDetails) async throws -> Graphic {
+        let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)
+        let graphic: Graphic = try await graph.render(at: resolution, details: details)
         let backgroundGraphic: Graphic = try await .color(.clear, resolution: resolution)
         return try await backgroundGraphic.blended(with: graphic,
                                                    blendingMode: .over,
