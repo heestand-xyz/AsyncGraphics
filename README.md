@@ -27,7 +27,7 @@ There is also the option to write high level [metal](http://async.graphics/docum
 ## Install
 
 ```swift
-.package(url: "https://github.com/heestand-xyz/AsyncGraphics", from: "0.9.3")
+.package(url: "https://github.com/heestand-xyz/AsyncGraphics", from: "0.9.4")
 ```
 
 ## Example
