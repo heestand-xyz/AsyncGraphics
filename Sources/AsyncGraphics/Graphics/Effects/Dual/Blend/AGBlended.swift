@@ -17,7 +17,7 @@ public struct AGBlended: AGParentGraph {
     
     public var components: AGComponents {
         var components: AGComponents = graph.components
-        if components.blendMode == nil {
+        if graph is AGZStack || components.blendMode == nil {
             components.blendMode = blendMode
         }
         return components
