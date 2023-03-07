@@ -12,9 +12,12 @@ public enum AGBlendMode {
     case screen
     case lighten
     case darken
+    case darkenWithoutAlpha
     case add
     case addWithAlpha
     case multiply
+    case multiplyWithAlpha
+    case multiplyWithoutAlpha
     case difference
     case subtract
     case subtractWithAlpha
@@ -36,9 +39,12 @@ public enum AGBlendMode {
         case .screen: return 18
         case .lighten: return 19
         case .darken: return 20
+        case .darkenWithoutAlpha: return 21
         case .add: return 2
         case .addWithAlpha: return 3
         case .multiply: return 4
+        case .multiplyWithAlpha: return 22
+        case .multiplyWithoutAlpha: return 23
         case .difference: return 5
         case .subtract: return 6
         case .subtractWithAlpha: return 7

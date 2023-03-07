@@ -56,25 +56,36 @@ float4 blend(int mode, float4 ca, float4 cb) {
             c = float4(max(rgb_a, rgb_b), aa);
             break;
         case 20: // Darken
+            c = float4(min(rgb_a, rgb_b), aa);
+            break;
+        case 21: // Darken without Alpha
             c = float4(lerpColor(ia, max(rgb_a, rgb_b),
                                      min(rgb_a, rgb_b)), aa);
             break;
-        case 2: // Add Color
+        case 2: // Add
             c = float4(rgb_a + rgb_b, aa);
             break;
-        case 3: // Add
+        case 3: // Add with Alpha
             c = ca + cb;
             break;
-        case 4: // Mult
+        case 4: // Multiply
             c = ca * cb;
+            break;
+        case 22: // Multiply with Alpha
+            c = float4(lerpColor(ia, max(rgb_a, rgb_b),
+                                     rgb_a * rgb_b), aa);
+            break;
+        case 23: // Multiply without Alpha
+            c = float4(lerpColor(ia, max(rgb_a, rgb_b),
+                                 rgb_a * rgb_b), aa);
             break;
         case 5: // Diff
             c = float4(abs(rgb_a - rgb_b), aa);
             break;
-        case 6: // Sub Color
+        case 6: // Sub
             c = float4(rgb_a - rgb_b, aa);
             break;
-        case 7: // Sub
+        case 7: // Sub with Alpha
             c = ca - cb;
             break;
         case 8: // Max
