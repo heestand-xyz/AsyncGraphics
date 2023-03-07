@@ -11,8 +11,20 @@ using namespace metal;
 
 #include "blend_header.metal"
 
+float3 lerpColor(float3 fraction, float3 from, float3 to) {
+    return from * (1.0 - fraction) + to * fraction;
+}
+
 float4 lerpColor(float4 fraction, float4 from, float4 to) {
     return from * (1.0 - fraction) + to * fraction;
+}
+
+float3 avg(float3 a, float3 b) {
+    return a * 0.5 + b * 0.5;
+}
+
+float4 avg(float4 a, float4 b) {
+    return a * 0.5 + b * 0.5;
 }
 
 float4 blendOver(float4 ca, float4 cb) {
@@ -24,8 +36,8 @@ float4 blend(int mode, float4 ca, float4 cb) {
     float pi = 3.14159265359;
 
     float4 c;
-    float3 rgb_a = float3(ca);
-    float3 rgb_b = float3(cb);
+    float3 rgb_a = ca.rgb;
+    float3 rgb_b = cb.rgb;
     float aa = max(ca.a, cb.a);
     float ia = min(ca.a, cb.a);
     float oa = ca.a - cb.a;
@@ -39,6 +51,13 @@ float4 blend(int mode, float4 ca, float4 cb) {
             break;
         case 18: // Screen
             c = float4(1.0 - (1.0 - rgb_a) * (1.0 - rgb_b), aa);
+            break;
+        case 19: // Lighten
+            c = float4(max(rgb_a, rgb_b), aa);
+            break;
+        case 20: // Darken
+            c = float4(lerpColor(ia, max(rgb_a, rgb_b),
+                                     min(rgb_a, rgb_b)), aa);
             break;
         case 2: // Add Color
             c = float4(rgb_a + rgb_b, aa);
