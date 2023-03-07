@@ -4,9 +4,9 @@ Layout graphics with stacks, frames and padding.
 
 ## Overview
 
-First we create an ``AGView``, this is the container for all ``AGGraph``'s.
-
 ![Layout](http://async.graphics/Images/Articles/async-graphics-layout.png)
+
+First we create an ``AGView``, this is the container for all ``AGGraph``'s.
 
 In this example we create an ``AGHStack`` to contain out boxes, then we loop 3 times with an ``AGForEach``, calculate the width and create ``AGRoundedRectangle``s. After that we set the frame to get a fixed size and apply a color. After the stack we apply some padding and finally add a background.
 

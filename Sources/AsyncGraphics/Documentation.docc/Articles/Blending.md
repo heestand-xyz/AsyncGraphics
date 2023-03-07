@@ -6,6 +6,10 @@ Blend graphics with the z stacks and blending modes.
 
 ![Blending](http://async.graphics/Images/Articles/async-graphics-blending.png)
 
+First we create an ``AGView``, this is the container for all ``AGGraph``'s.
+
+In this example we have a ``AGZStack`` with 3 ``AGHStack``s. Each graph has a blend mode (``AGBlendMode``), in this case `.screen`.
+
 ```swift
 import SwiftUI
 import AsyncGraphics
