@@ -19,7 +19,7 @@ extension Graphic {
     }
     
     public static func blend(with graphics: [Graphic],
-                             blendingMode: ArrayBlendingMode) async throws -> Graphic {
+                             blendingMode: AGArrayBlendMode) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Blends",
@@ -48,7 +48,7 @@ extension Array where Element == Graphic {
         try await Graphic.blend(with: self, blendingMode: .average)
     }
     
-    public func blended(blendingMode: ArrayBlendingMode) async throws -> Graphic {
+    public func blended(blendingMode: AGArrayBlendMode) async throws -> Graphic {
         
         try await Graphic.blend(with: self, blendingMode: blendingMode)
     }

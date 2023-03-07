@@ -12,7 +12,7 @@ extension Graphic3D {
     }
     
     public func blended(with graphic: Graphic3D,
-                        blendingMode: BlendingMode,
+                        blendingMode: AGBlendMode,
                         placement: Placement = .fit) async throws -> Graphic3D {
         
         try await Renderer.render(

@@ -85,25 +85,46 @@ extension Graphic {
         case rightTop = 1
     }
     
+    public struct BlendedGraphic {
+        let graphic: Graphic
+        let blendMode: AGBlendMode
+        public init(graphic: Graphic, blendMode: AGBlendMode) {
+            self.graphic = graphic
+            self.blendMode = blendMode
+        }
+    }
+    
     // MARK: ZStack
     
     /// Depth Stack
     public static func zStacked(with graphics: [Graphic],
                                 alignment: ZStackAlignment = .center) async throws -> Graphic {
+        try await zBlendStacked(with: graphics.map({ graphic in
+            BlendedGraphic(graphic: graphic, blendMode: .over)
+        }))
+    }
+    
+    /// Depth Blend Stack
+    ///
+    /// The blending mode of the first graphic will be ignored
+    public static func zBlendStacked(with blendedGraphics: [BlendedGraphic],
+                                alignment: ZStackAlignment = .center) async throws -> Graphic {
         
-        guard !graphics.isEmpty else {
+        guard !blendedGraphics.isEmpty else {
             throw StackError.noGraphicsProvided
         }
         
-        let resolution = CGSize(width: graphics.map(\.resolution.width).max()!,
-                                height: graphics.map(\.resolution.height).max()!)
+        let resolution = CGSize(width: blendedGraphics.map(\.graphic.resolution.width).max()!,
+                                height: blendedGraphics.map(\.graphic.resolution.height).max()!)
         
         var stackGraphic: Graphic = try await .color(.clear, resolution: resolution)
         
-        for graphic in graphics {
+        for (index, blendedGraphic) in blendedGraphics.enumerated() {
+            let graphic: Graphic = blendedGraphic.graphic
+            let blendMode: AGBlendMode = index == 0 ? .over : blendedGraphic.blendMode
             let offset = CGPoint(x: CGFloat(alignment.horizontal.rawValue) * (resolution.width - graphic.width) / 2,
                                  y: CGFloat(-alignment.vertical.rawValue) * (resolution.height - graphic.height) / 2)
-            stackGraphic = try await stackGraphic.transformBlended(with: graphic, blendingMode: .over, placement: .center, translation: offset)
+            stackGraphic = try await stackGraphic.transformBlended(with: graphic, blendingMode: blendMode, placement: .center, translation: offset)
         }
         
         return stackGraphic

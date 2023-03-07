@@ -2,10 +2,14 @@
 //  Created by Anton Heestand on 2022-04-03.
 //
 
-public enum ArrayBlendingMode {
+@available(*, deprecated, renamed: "AGBlendMode")
+typealias BlendingMode = AGBlendMode
+
+public enum AGBlendMode {
     
     case over
     case under
+    case screen
     case add
     case addWithAlpha
     case multiply
@@ -18,11 +22,16 @@ public enum ArrayBlendingMode {
     case power
     case divide
     case average
+    case cosine
+    case inside
+    case outside
+    case exclusiveOr
     
     var index: Int {
         switch self {
         case .over: return 0
         case .under: return 1
+        case .screen: return 18
         case .add: return 2
         case .addWithAlpha: return 3
         case .multiply: return 4
@@ -35,6 +44,10 @@ public enum ArrayBlendingMode {
         case .power: return 11
         case .divide: return 12
         case .average: return 13
+        case .cosine: return 14
+        case .inside: return 15
+        case .outside: return 16
+        case .exclusiveOr: return 17
         }
     }
 }

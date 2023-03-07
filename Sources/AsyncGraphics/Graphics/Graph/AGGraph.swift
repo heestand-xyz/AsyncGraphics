@@ -2,11 +2,20 @@ import CoreGraphics
 
 public protocol AGGraph: Hashable {
     
+    var components: AGComponents { get }
+    
     func resolution(at proposedResolution: CGSize,
                     for specification: AGSpecification) -> CGSize
     
     func render(at proposedResolution: CGSize,
                 details: AGDetails) async throws -> Graphic
+}
+
+extension AGGraph {
+    
+    public var components: AGComponents {
+        .default
+    }
 }
 
 extension AGGraph {

@@ -37,7 +37,10 @@ public struct AGZStack: AGParentGraph {
             let graphic: Graphic = try await graph.render(at: proposedResolution, details: details)
             graphics.append(graphic)
         }
-        return try await Graphic.zStacked(with: graphics, alignment: alignment)
+        let blendGraphics: [Graphic.BlendedGraphic] = zip(graphs.all, graphics).map { graph, graphic in
+            Graphic.BlendedGraphic(graphic: graphic, blendMode: graph.components.blendMode ?? .over)
+        }
+        return try await Graphic.zBlendStacked(with: blendGraphics, alignment: alignment)
     }
 }
 

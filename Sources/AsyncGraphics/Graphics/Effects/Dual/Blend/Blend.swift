@@ -20,7 +20,7 @@ extension Graphic {
     
     public func blended(
         with graphic: Graphic,
-        blendingMode: BlendingMode,
+        blendingMode: AGBlendMode,
         placement: Placement = .fit,
         options: EffectOptions = EffectOptions()
     ) async throws -> Graphic {
@@ -49,7 +49,7 @@ extension Graphic {
     
     public func transformBlended(
         with graphic: Graphic,
-        blendingMode: BlendingMode,
+        blendingMode: AGBlendMode,
         placement: Placement = .fit,
         translation: CGPoint = .zero,
         rotation: Angle = .zero,

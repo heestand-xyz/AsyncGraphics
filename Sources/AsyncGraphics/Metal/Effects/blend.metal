@@ -37,6 +37,9 @@ float4 blend(int mode, float4 ca, float4 cb) {
         case 1: // Under
             c = float4(rgb_a * ca.a + rgb_b * (1.0 - ca.a), aa);
             break;
+        case 18: // Screen
+            c = float4(1.0 - (1.0 - rgb_a) * (1.0 - rgb_b), aa);
+            break;
         case 2: // Add Color
             c = float4(rgb_a + rgb_b, aa);
             break;

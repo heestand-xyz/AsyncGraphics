@@ -2,7 +2,10 @@
 //  Created by Anton Heestand on 2022-04-03.
 //
 
-public enum BlendingMode {
+@available(*, deprecated, renamed: "AGArrayBlendMode")
+typealias ArrayBlendingMode = AGArrayBlendMode
+
+public enum AGArrayBlendMode {
     
     case over
     case under
@@ -18,10 +21,6 @@ public enum BlendingMode {
     case power
     case divide
     case average
-    case cosine
-    case inside
-    case outside
-    case exclusiveOr
     
     var index: Int {
         switch self {
@@ -39,10 +38,6 @@ public enum BlendingMode {
         case .power: return 11
         case .divide: return 12
         case .average: return 13
-        case .cosine: return 14
-        case .inside: return 15
-        case .outside: return 16
-        case .exclusiveOr: return 17
         }
     }
 }
