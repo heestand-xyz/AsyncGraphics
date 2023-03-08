@@ -6,7 +6,7 @@ AsyncGraphics is a Swift package for working with images and video with async / 
 
 ## Documentation
 
-[**Documentation**](http://async.graphics/documentation/AsyncGraphics) (DocC)
+[**Documentation**](http://async.graphics/) (DocC)
 
 The documentation contains a list of all content and effects that can be created with the [Graphic](http://async.graphics/documentation/asyncgraphics/graphic) type. It also contains articles about setting up a [live camera feed](http://async.graphics/documentation/asyncgraphics/livecamera) and [editing video](http://async.graphics/documentation/asyncgraphics/videoediting).
 
