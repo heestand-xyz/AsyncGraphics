@@ -33,6 +33,8 @@ class CameraController: NSObject {
     private let captureSession: AVCaptureSession
     private let videoOutput: AVCaptureVideoDataOutput
     
+    var currentOrientation = UIDevice.current.orientation
+    
     init(deviceType: AVCaptureDevice.DeviceType,
          position: AVCaptureDevice.Position,
          preset: AVCaptureSession.Preset) throws {
@@ -70,7 +72,9 @@ class CameraController: NSObject {
         
         videoOutput.setSampleBufferDelegate(self, queue: queue)
 
-        captureSession.startRunning()
+        DispatchQueue.global().async {
+            self.captureSession.startRunning()
+        }
     }
     
     deinit {
