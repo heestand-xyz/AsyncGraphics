@@ -3,22 +3,20 @@ import CoreGraphics
 extension AGGraph {
     
     public func opacity(_ opacity: CGFloat) -> any AGGraph {
-        AGOpacity(graph: self, opacity: opacity)
+        AGOpacity(child: self, opacity: opacity)
     }
 }
 
-public struct AGOpacity: AGParentGraph {
+public struct AGOpacity: AGSingleParentGraph {
     
-    public var children: [any AGGraph] { [graph] }
-    
-    let graph: any AGGraph
+    var child: any AGGraph
     
     let opacity: CGFloat
     
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)
-        return try await graph.render(at: resolution, details: details)
+        return try await child.render(at: resolution, details: details)
             .opacity(opacity)
     }
 }
@@ -26,7 +24,7 @@ public struct AGOpacity: AGParentGraph {
 extension AGOpacity: Equatable {
 
     public static func == (lhs: AGOpacity, rhs: AGOpacity) -> Bool {
-        guard lhs.graph.isEqual(to: rhs.graph) else { return false }
+        guard lhs.child.isEqual(to: rhs.child) else { return false }
         return true
     }
 }
@@ -34,6 +32,6 @@ extension AGOpacity: Equatable {
 extension AGOpacity: Hashable {
     
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(graph)
+        hasher.combine(child)
     }
 }

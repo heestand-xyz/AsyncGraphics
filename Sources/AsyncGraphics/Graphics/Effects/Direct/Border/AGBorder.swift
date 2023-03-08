@@ -5,22 +5,20 @@ import PixelColor
 extension AGGraph {
     
     public func border(_ color: PixelColor) -> any AGGraph {
-        AGBorder(graph: self, color: color)
+        AGBorder(child: self, color: color)
     }
 }
 
-public struct AGBorder: AGParentGraph {
+public struct AGBorder: AGSingleParentGraph {
     
-    public var children: [any AGGraph] { [graph] }
-    
-    let graph: any AGGraph
+    var child: any AGGraph
     
     let color: PixelColor
     
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)
-        let graphic: Graphic = try await graph.render(at: resolution, details: details)
+        let graphic: Graphic = try await child.render(at: resolution, details: details)
         let borderGraphic: Graphic = try await .strokedRectangle(
             size: resolution - .pixelsPerPoint,
             lineWidth: .pixelsPerPoint,
@@ -35,7 +33,7 @@ extension AGBorder: Equatable {
 
     public static func == (lhs: AGBorder, rhs: AGBorder) -> Bool {
         guard lhs.color == rhs.color else { return false }
-        guard lhs.graph.isEqual(to: rhs.graph) else { return false }
+        guard lhs.child.isEqual(to: rhs.child) else { return false }
         return true
     }
 }
@@ -44,6 +42,6 @@ extension AGBorder: Hashable {
     
     public func hash(into hasher: inout Hasher) {
         hasher.combine(color)
-        hasher.combine(graph)
+        hasher.combine(child)
     }
 }

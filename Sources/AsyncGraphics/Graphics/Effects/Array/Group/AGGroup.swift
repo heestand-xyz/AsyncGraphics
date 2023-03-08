@@ -1,17 +1,13 @@
 import CoreGraphics
 
-public struct AGForEach: AGParentGraph {
+public struct AGGroup: AGParentGraph {
     
     public var children: [any AGGraph] { graphs }
     
     var graphs: [any AGGraph]
     
-    public init(_ range: Range<Int>, @AGGraphBuilder graphs: (Int) -> [any AGGraph]) {
-        self.graphs = range.flatMap { graphs($0) }
-    }
-    
-    public init(_ range: ClosedRange<Int>, graph: (Int) -> any AGGraph) {
-        self.graphs = range.map { graph($0) }
+    public init(@AGGraphBuilder graphs: () -> [any AGGraph]) {
+        self.graphs = graphs()
     }
     
     public func render(at proposedResolution: CGSize,
@@ -21,9 +17,9 @@ public struct AGForEach: AGParentGraph {
     }
 }
 
-extension AGForEach: Equatable {
+extension AGGroup: Equatable {
     
-    public static func == (lhs: AGForEach, rhs: AGForEach) -> Bool {
+    public static func == (lhs: AGGroup, rhs: AGGroup) -> Bool {
         guard lhs.graphs.count == rhs.graphs.count else { return false }
         for (lhsGraph, rhsGraph) in zip(lhs.graphs, rhs.graphs) {
             guard lhsGraph.isEqual(to: rhsGraph) else { return false }
@@ -32,7 +28,7 @@ extension AGForEach: Equatable {
     }
 }
 
-extension AGForEach: Hashable {
+extension AGGroup: Hashable {
     
     public func hash(into hasher: inout Hasher) {
         for graph in graphs {

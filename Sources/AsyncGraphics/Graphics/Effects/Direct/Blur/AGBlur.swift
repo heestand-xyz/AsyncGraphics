@@ -3,22 +3,20 @@ import CoreGraphics
 extension AGGraph {
     
     public func blur(radius: CGFloat) -> any AGGraph {
-        AGBlur(graph: self, radius: radius * .pixelsPerPoint)
+        AGBlur(child: self, radius: radius * .pixelsPerPoint)
     }
 }
 
-public struct AGBlur: AGParentGraph {
+public struct AGBlur: AGSingleParentGraph {
     
-    public var children: [any AGGraph] { [graph] }
-    
-    let graph: any AGGraph
+    var child: any AGGraph
     
     let radius: CGFloat
     
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)
-        return try await graph.render(at: resolution, details: details)
+        return try await child.render(at: resolution, details: details)
             .blurred(radius: radius)
     }
 }
@@ -26,7 +24,7 @@ public struct AGBlur: AGParentGraph {
 extension AGBlur: Equatable {
 
     public static func == (lhs: AGBlur, rhs: AGBlur) -> Bool {
-        guard lhs.graph.isEqual(to: rhs.graph) else { return false }
+        guard lhs.child.isEqual(to: rhs.child) else { return false }
         guard lhs.radius == rhs.radius else { return false }
         return true
     }
@@ -35,7 +33,7 @@ extension AGBlur: Equatable {
 extension AGBlur: Hashable {
     
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(graph)
+        hasher.combine(child)
         hasher.combine(radius)
     }
 }

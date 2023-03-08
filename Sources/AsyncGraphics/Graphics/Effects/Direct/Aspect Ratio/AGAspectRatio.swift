@@ -3,19 +3,17 @@ import CoreGraphics
 extension AGGraph {
     
     public func aspectRatio(_ aspectRatio: CGFloat? = nil, contentMode: AGContentMode) -> any AGGraph {
-        AGAspectRatio(graph: self, aspectRatio: aspectRatio, contentMode: contentMode)
+        AGAspectRatio(child: self, aspectRatio: aspectRatio, contentMode: contentMode)
     }
     
     public func aspectRatio(_ aspectRatio: CGSize, contentMode: AGContentMode) -> any AGGraph {
-        AGAspectRatio(graph: self, aspectRatio: aspectRatio.width / aspectRatio.height, contentMode: contentMode)
+        AGAspectRatio(child: self, aspectRatio: aspectRatio.width / aspectRatio.height, contentMode: contentMode)
     }
 }
 
-public struct AGAspectRatio: AGParentGraph {
+public struct AGAspectRatio: AGSingleParentGraph {
    
-    public var children: [any AGGraph] { [graph] }
-    
-    let graph: any AGGraph
+    public var child: any AGGraph
     
     let aspectRatio: CGFloat?
     let contentMode: AGContentMode
@@ -35,14 +33,14 @@ public struct AGAspectRatio: AGParentGraph {
             return CGSize(width: aspectRatio, height: 1.0)
                 .place(in: proposedResolution, placement: placement)
         }
-        return graph.resolution(at: proposedResolution, for: specification)
+        return child.resolution(at: proposedResolution, for: specification)
             .place(in: proposedResolution, placement: placement)
     }
     
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)
-        let graphic: Graphic = try await graph.render(at: resolution, details: details)
+        let graphic: Graphic = try await child.render(at: resolution, details: details)
         let backgroundGraphic: Graphic = try await .color(.clear, resolution: resolution)
         return try await backgroundGraphic.blended(with: graphic,
                                                    blendingMode: .over,
@@ -55,7 +53,7 @@ extension AGAspectRatio: Equatable {
     public static func == (lhs: AGAspectRatio, rhs: AGAspectRatio) -> Bool {
         guard lhs.aspectRatio == rhs.aspectRatio else { return false }
         guard lhs.contentMode == rhs.contentMode else { return false }
-        guard lhs.graph.isEqual(to: rhs.graph) else { return false }
+        guard lhs.child.isEqual(to: rhs.child) else { return false }
         return true
     }
 }
@@ -65,6 +63,6 @@ extension AGAspectRatio: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(aspectRatio)
         hasher.combine(contentMode)
-        hasher.combine(graph)
+        hasher.combine(child)
     }
 }
