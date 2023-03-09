@@ -1,6 +1,7 @@
 import Foundation
+import Combine
 
-final class AGGraphRenderer: ObservableObject {
+public final class AGGraphRenderer: ObservableObject {
     
     var activeCameraPositions: Set<Graphic.CameraPosition> = []
     var activeCameraTasks: [Graphic.CameraPosition: Task<Void, Error>] = [:]
@@ -17,6 +18,8 @@ final class AGGraphRenderer: ObservableObject {
     var activeImageMaximumResolutions: [AGImage.Source: CGSize] = [:]
     @Published var activeImageGraphics: [AGImage.Source: Graphic] = [:]
     @Published var activeImageResolutions: [AGImage.Source: CGSize] = [:]
+    
+    public init() { }
 }
 
 extension AGGraphRenderer {
