@@ -33,10 +33,6 @@ class CameraController: NSObject {
     private let captureSession: AVCaptureSession
     private let videoOutput: AVCaptureVideoDataOutput
    
-    #if os(iOS)
-    var currentOrientation = UIDevice.current.orientation
-    #endif
-    
     init(deviceType: AVCaptureDevice.DeviceType,
          position: AVCaptureDevice.Position,
          preset: AVCaptureSession.Preset) throws {

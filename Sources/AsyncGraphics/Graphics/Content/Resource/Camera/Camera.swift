@@ -47,29 +47,25 @@ extension Graphic {
                         }
                         func rotated(graphic: Graphic) async -> Graphic? {
                             #if os(iOS)
-                            let newOrientation = await UIDevice.current.orientation
-                            if newOrientation != cameraController.currentOrientation {
-                                var verticalOrientations: [UIDeviceOrientation] = [
-                                    .portrait, .landscapeLeft, .landscapeRight
-                                ]
-                                if await UIDevice.current.userInterfaceIdiom == .pad {
-                                    verticalOrientations.append(.portraitUpsideDown)
-                                }
-                                if verticalOrientations.contains(newOrientation) {
-                                    cameraController.currentOrientation = newOrientation
+                            var keyWindow: UIWindow?
+                            for window in await UIApplication.shared.windows {
+                                if await window.isKeyWindow {
+                                    keyWindow = window
                                 }
                             }
-                            switch cameraController.currentOrientation {
+                            guard let windowScene = await keyWindow?.windowScene
+                            else { return graphic }
+                            switch await windowScene.interfaceOrientation {
                             case .portrait:
                                 return try? await graphic.rotatedLeft()
                             case .portraitUpsideDown:
                                 return try? await graphic.rotatedRight()
                             case .landscapeLeft:
-                                return try? await graphic.rotated(.degrees(180))
-                            case .landscapeRight:
                                 return graphic
+                            case .landscapeRight:
+                                return try? await graphic.rotated(.degrees(180))
                             default:
-                                return try? await graphic.rotatedLeft()
+                                return graphic
                             }
                             #else
                             return graphic
