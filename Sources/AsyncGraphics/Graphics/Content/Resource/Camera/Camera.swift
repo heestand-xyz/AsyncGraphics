@@ -61,14 +61,14 @@ extension Graphic {
                             case .portraitUpsideDown:
                                 return try? await graphic.rotatedRight()
                             case .landscapeLeft:
-                                return graphic
+                                return nil
                             case .landscapeRight:
                                 return try? await graphic.rotated(.degrees(180))
                             default:
-                                return graphic
+                                return nil
                             }
                             #else
-                            return graphic
+                            return nil
                             #endif
                         }
                         let graphic: Graphic = await rotated(graphic: mirrored(graphic: graphic) ?? graphic) ?? graphic
