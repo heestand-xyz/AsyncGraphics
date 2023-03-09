@@ -2,38 +2,39 @@ import CoreGraphics
 
 extension AGGraph {
     
-    public func opacity(_ opacity: CGFloat) -> any AGGraph {
-        AGOpacity(child: self, opacity: opacity)
+    public func offset(x: CGFloat = 0.0, y: CGFloat = 0.0) -> any AGGraph {
+        AGOffset(child: self, offset: CGPoint(x: x * .pixelsPerPoint,
+                                              y: y * .pixelsPerPoint))
     }
 }
 
-public struct AGOpacity: AGSingleParentGraph {
+public struct AGOffset: AGSingleParentGraph {
     
     var child: any AGGraph
     
-    let opacity: CGFloat
+    let offset: CGPoint
     
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)
         return try await child.render(at: resolution, details: details)
-            .opacity(opacity)
+            .offset(offset)
     }
 }
 
-extension AGOpacity: Equatable {
+extension AGOffset: Equatable {
 
-    public static func == (lhs: AGOpacity, rhs: AGOpacity) -> Bool {
+    public static func == (lhs: AGOffset, rhs: AGOffset) -> Bool {
         guard lhs.child.isEqual(to: rhs.child) else { return false }
-        guard lhs.opacity == rhs.opacity else { return false }
+        guard lhs.offset == rhs.offset else { return false }
         return true
     }
 }
 
-extension AGOpacity: Hashable {
+extension AGOffset: Hashable {
     
     public func hash(into hasher: inout Hasher) {
         hasher.combine(child)
-        hasher.combine(opacity)
+        hasher.combine(offset)
     }
 }
