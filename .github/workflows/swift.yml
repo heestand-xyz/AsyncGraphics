@@ -14,19 +14,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    #- name: Build
-    #  run: swift build -v
-    - name: PWD
-      run: ls
-    - name: LS
-      run: ls
     - name: Checkout Docs Repo
       uses: actions/checkout@v2
       with:
         repository: heestand-xyz/AsyncGraphics-Docs
         ref: main
         path: AsyncGraphics-Docs
-    - name: LS
-      run: ls
-    - name: LS Docs
-      run: ls AsyncGraphics-Docs
+    - name: Pre Cat Test
+      run: cat AsyncGraphics-Docs/test.txt
+    - name: Echo Test
+      run: echo 1 >> AsyncGraphics-Docs/test.txt
+    - name: Post Cat Test
+      run: cat AsyncGraphics-Docs/test.txt
+      
