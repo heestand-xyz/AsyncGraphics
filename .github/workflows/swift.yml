@@ -26,14 +26,14 @@ jobs:
         path: AsyncGraphics-Docs
         
     - name: Test 1 2 3
-      run: 
+      run: |
         cd AsyncGraphics-Docs        
         cat test.txt
         echo 123 >> test.txt
         cat test.txt
 
     - name: Configure Git
-      run:
+      run: |
         git config --global user.email "actions@github.com"
         git config --global user.name "GitHub Actions"
 
