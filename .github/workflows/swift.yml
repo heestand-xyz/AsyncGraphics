@@ -41,13 +41,10 @@ jobs:
     - name: Commit to Docs Repo
       run: |
         cd AsyncGraphics-Docs        
-        echo here...
-        pwd
         git add .
         git commit -m "Test 1 2 3"
 
     - name: Push to Docs Repo
       run: |
         cd AsyncGraphics-Docs        
-        git log
-        #git push origin main
+        git push origin main
