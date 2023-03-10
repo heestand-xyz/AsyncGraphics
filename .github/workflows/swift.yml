@@ -17,16 +17,33 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    
     - name: Checkout Docs Repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: heestand-xyz/AsyncGraphics-Docs
         ref: main
         path: AsyncGraphics-Docs
-    - name: Test
+        
+    - name: Test 1 2 3
       run: 
         cd AsyncGraphics-Docs        
         cat test.txt
-        echo 12 >> test.txt
+        echo 123 >> test.txt
         cat test.txt
-        echo yeah
+
+    - name: Configure Git
+      run:
+        git config --global user.email "actions@github.com"
+        git config --global user.name "GitHub Actions"
+
+    - name: Commit to Docs Repo
+      run: |
+        echo here...
+        pwd
+        git add .
+        git commit -m "Test 1 2 3"
+
+    - name: Push to Docs Repo
+      run: |
+        git push origin main
