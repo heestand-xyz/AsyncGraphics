@@ -16,7 +16,7 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 
 - <doc:Blending>
 - <doc:Layout>
-- <doc:LiveCamera>
+- <doc:Camera>
 - <doc:VideoEditing>
 - <doc:VideoPlayback>
 

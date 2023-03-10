@@ -2,27 +2,17 @@
 
 # AsyncGraphics
 
-AsyncGraphics is a Swift package for working with images and video with async / await. The core type is simply just called [`Graphic`](http://async.graphics/documentation/asyncgraphics/graphic) and it's like an image, tho backed by a [`MTLTexture`](https://developer.apple.com/documentation/metal/mtltexture) and comes with a lot of content and effects.
+AsyncGraphics is a Swift package for working with images and video with async / await. The core type is simply just called [`Graphic`](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic) and it's like an image. A `Graphic` is a reference type backed by a [`MTLTexture`](https://developer.apple.com/documentation/metal/mtltexture).
 
 ## Documentation
 
-[**Documentation**](http://async.graphics/) (DocC)
+[**Documentation**](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/) (DocC)
 
-The documentation contains a list of all content and effects that can be created with the [Graphic](http://async.graphics/documentation/asyncgraphics/graphic) type. It also contains articles about setting up a [live camera feed](http://async.graphics/documentation/asyncgraphics/livecamera) and [editing video](http://async.graphics/documentation/asyncgraphics/videoediting).
-
-## Content
-
-Import an [image](http://async.graphics/documentation/asyncgraphics/graphic/camera(_:device:preset:)), [video](http://async.graphics/documentation/asyncgraphics/graphic/importvideo(url:progress:)) or live stream a [camera](http://async.graphics/documentation/asyncgraphics/graphic/camera(_:device:preset:)) feed.
-
-Create [color](http://async.graphics/documentation/asyncgraphics/graphic/color(_:resolution:options:)), [text](http://async.graphics/documentation/asyncgraphics/graphic/text(_:font:center:horizontalalignment:verticalalignment:color:backgroundcolor:resolution:options:)), [rectangle](http://async.graphics/documentation/asyncgraphics/graphic/rectangle(size:center:cornerradius:color:backgroundcolor:resolution:options:)), [circle](http://async.graphics/documentation/asyncgraphics/graphic/circle(radius:center:color:backgroundcolor:resolution:options:)), [polygon](http://async.graphics/documentation/asyncgraphics/graphic/polygon(count:radius:center:rotation:cornerradius:color:backgroundcolor:resolution:options:)) [gradient](http://async.graphics/documentation/asyncgraphics/graphic/gradient(direction:stops:position:scale:offset:extend:gamma:resolution:options:)), [noise](http://async.graphics/documentation/asyncgraphics/graphic/noise(offset:depth:scale:octaves:seed:resolution:options:)), [particles](http://async.graphics/documentation/asyncgraphics/graphic/uvparticles(particlescale:particlecolor:backgroundcolor:resolution:samplecount:particleoptions:options:)) and more.
-
-## Effects
-
-Effects include [resize](http://async.graphics/documentation/asyncgraphics/graphic/resized(to:placement:)), [blend](http://async.graphics/documentation/asyncgraphics/graphic/blended(with:blendingmode:placement:options:)) with various [blending modes](http://async.graphics/documentation/asyncgraphics/blendingmode), [translate](http://async.graphics/documentation/asyncgraphics/graphic/translated(x:y:options:)), [rotate](http://async.graphics/documentation/asyncgraphics/graphic/rotated(_:options:)), [scale](http://async.graphics/documentation/asyncgraphics/graphic/scaled(_:options:)), [mirror](http://async.graphics/documentation/asyncgraphics/graphic/mirroredvertically()), [stack](http://async.graphics/documentation/asyncgraphics/graphic/vstack(with:alignment:spacing:padding:backgroundcolor:resolution:)), [brightness](http://async.graphics/documentation/asyncgraphics/graphic/brightness(_:)), [contrast](http://async.graphics/documentation/asyncgraphics/graphic/contrast(_:)), [invert](http://async.graphics/documentation/asyncgraphics/graphic/inverted()), [opacity](http://async.graphics/documentation/asyncgraphics/graphic/opacity(_:)), [monochrome](http://async.graphics/documentation/asyncgraphics/graphic/monochrome()), [saturation](http://async.graphics/documentation/asyncgraphics/graphic/saturated(_:)), [hue](http://async.graphics/documentation/asyncgraphics/graphic/hue(_:)), [tint](http://async.graphics/documentation/asyncgraphics/graphic/tinted(_:)), [channel mix](http://async.graphics/documentation/asyncgraphics/graphic/channelmix(red:green:blue:alpha:)), [blur](http://async.graphics/documentation/asyncgraphics/graphic/blurred(radius:)), [rainbow blur](http://async.graphics/documentation/asyncgraphics/graphic/rainbowblurredcircle(radius:angle:light:samplecount:options:)), [displace](http://async.graphics/documentation/asyncgraphics/graphic/displaced(with:offset:origin:placement:options:)), [edge](http://async.graphics/documentation/asyncgraphics/graphic/edge(amplitude:distance:options:)), [clamp](http://async.graphics/documentation/asyncgraphics/graphic/clamp(_:low:high:includealpha:options:)), [cross](http://async.graphics/documentation/asyncgraphics/graphic/cross(with:fraction:placement:options:)), [corner pin](http://async.graphics/documentation/asyncgraphics/graphic/cornerpinned(topleft:topright:bottomleft:bottomright:perspective:subdivisions:backgroundcolor:)), [chroma key](http://async.graphics/documentation/asyncgraphics/graphic/chromakey(color:parameters:options:)) a green screen.
+The documentation contains a list of all content and effects that can be created with the [Graphic](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic) type. It also contains articles about setting up a [live camera feed](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/livecamera) and [editing video](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/videoediting).
 
 ## Metal
 
-There is also the option to write high level [metal](http://async.graphics/documentation/asyncgraphics/graphic/metal(code:resolution:options:)) code in AsyncGraphics. No need to setup a pipeline.
+There is also the option to write high level [metal](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/metal) code in AsyncGraphics. No need to setup a pipeline.
 
 ## Install
 
@@ -30,9 +20,11 @@ There is also the option to write high level [metal](http://async.graphics/docum
 .package(url: "https://github.com/heestand-xyz/AsyncGraphics", from: "0.9.7")
 ```
 
-## Example
+## Camera Example
 
-A live camera feed.
+### Declarative
+
+### Imperative
 
 ```swift
 import SwiftUI

@@ -1,8 +1,29 @@
-# Live Camera
+# Camera
 
 Capture live footage from the camera.
 
 ## Overview
+
+To quickly get started you can add a ``AGCamera``, make it resizable and apply an aspect ratio.
+
+```swift
+import SwiftUI
+import AsyncGraphics
+
+struct ContentView: View {
+    var body: some View {
+        AGView {
+            AGZStack {
+                AGCamera(.front)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            }
+        }
+    }
+}
+```
+
+To get more control over the capturing we can use ``Graphic``s.
 
 We start by creating a `State` variable for our ``Graphic``. This will update 60 times a second.
 
