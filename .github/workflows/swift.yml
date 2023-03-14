@@ -34,16 +34,17 @@ jobs:
 
     - name: Configure Git
       run: |
+        cd AsyncGraphics-Docs        
         git config --global user.email "actions@github.com"
         git config --global user.name "GitHub Actions"
 
     - name: Commit to Docs Repo
       run: |
-        echo here...
-        pwd
+        cd AsyncGraphics-Docs        
         git add .
         git commit -m "Test 1 2 3"
 
     - name: Push to Docs Repo
       run: |
+        cd AsyncGraphics-Docs        
         git push origin main
