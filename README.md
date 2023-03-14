@@ -17,7 +17,7 @@ There is also the option to write high level [metal](https://heestand-xyz.github
 ## Install
 
 ```swift
-.package(url: "https://github.com/heestand-xyz/AsyncGraphics", from: "0.9.7")
+.package(url: "https://github.com/heestand-xyz/AsyncGraphics", from: "1.0.0")
 ```
 
 ## Camera Example
