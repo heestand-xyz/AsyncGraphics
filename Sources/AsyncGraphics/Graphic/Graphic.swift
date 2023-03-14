@@ -104,8 +104,9 @@ extension Graphic {
     }
     
     public var sampleBuffer: CMSampleBuffer {
-        get throws {
-            try TextureMap.sampleBuffer(texture: texture, colorSpace: colorSpace)
+        get async throws {
+            let graphic: Graphic = try await mirroredVertically()
+            return try TextureMap.sampleBuffer(texture: graphic.texture, colorSpace: colorSpace)
         }
     }
 }
