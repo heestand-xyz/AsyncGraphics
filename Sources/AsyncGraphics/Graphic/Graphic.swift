@@ -8,6 +8,8 @@ import Metal
 import TextureMap
 import PixelColor
 import CoreGraphicsExtensions
+import CoreVideo
+import CoreMedia
 
 public struct Graphic: Graphicable, Identifiable {
     
@@ -87,6 +89,23 @@ extension Graphic {
             guard let image = TMImage(data: try await pngData)
             else { throw ImageDataError.mappingFailed }
             return image
+        }
+    }
+}
+
+// MARK: - Buffer
+
+extension Graphic {
+    
+    public var pixelBuffer: CVPixelBuffer {
+        get throws {
+            try TextureMap.pixelBuffer(texture: texture, colorSpace: colorSpace)
+        }
+    }
+    
+    public var sampleBuffer: CMSampleBuffer {
+        get throws {
+            try TextureMap.sampleBuffer(texture: texture, colorSpace: colorSpace)
         }
     }
 }
