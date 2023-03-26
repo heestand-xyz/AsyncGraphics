@@ -69,7 +69,7 @@ extension Graphic {
         }
     }
     
-    @available(*, deprecated)
+//    @available(*, deprecated)
     public static func text(_ text: String,
                             font: LegacyTextFont,
                             center: CGPoint? = nil,
