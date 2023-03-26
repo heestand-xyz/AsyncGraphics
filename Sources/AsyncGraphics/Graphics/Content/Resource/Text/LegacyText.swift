@@ -11,12 +11,15 @@ import SpriteKit
 extension Graphic {
     
     #if os(macOS)
-    public typealias TextFont = NSFont
+    @available(*, deprecated)
+    public typealias LegacyTextFont = NSFont
     #else
-    public typealias TextFont = UIFont
+    @available(*, deprecated)
+    public typealias LegacyTextFont = UIFont
     #endif
     
-    public enum TextHorizontalAlignment {
+    @available(*, deprecated)
+    public enum LegacyTextHorizontalAlignment {
         
         case left
         case center
@@ -34,7 +37,8 @@ extension Graphic {
         }
     }
     
-    public enum TextVerticalAlignment {
+    @available(*, deprecated)
+    public enum LegacyTextVerticalAlignment {
         
         case top
         case center
@@ -52,7 +56,8 @@ extension Graphic {
         }
     }
     
-    enum TextError: LocalizedError {
+    @available(*, deprecated)
+    enum LegacyTextError: LocalizedError {
         
         case renderFailed
         
@@ -64,11 +69,12 @@ extension Graphic {
         }
     }
     
+    @available(*, deprecated)
     public static func text(_ text: String,
-                            font: TextFont,
+                            font: LegacyTextFont,
                             center: CGPoint? = nil,
-                            horizontalAlignment: TextHorizontalAlignment = .center,
-                            verticalAlignment: TextVerticalAlignment = .center,
+                            horizontalAlignment: LegacyTextHorizontalAlignment = .center,
+                            verticalAlignment: LegacyTextVerticalAlignment = .center,
                             color: PixelColor = .white,
                             backgroundColor: PixelColor = .black,
                             resolution: CGSize,
@@ -107,7 +113,7 @@ extension Graphic {
                 sceneView.presentScene(scene)
 
                 guard let skTexture: SKTexture = sceneView.texture(from: scene) else {
-                    continuation.resume(throwing: TextError.renderFailed)
+                    continuation.resume(throwing: LegacyTextError.renderFailed)
                     return
                 }
                 
