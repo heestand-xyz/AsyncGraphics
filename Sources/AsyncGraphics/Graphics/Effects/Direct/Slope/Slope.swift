@@ -13,7 +13,7 @@ extension Graphic {
     }
     
     public func slope(amplitude: CGFloat = 100,
-                      origin: PixelColor = .gray,
+                      origin: PixelColor = .rawGray,
                       options: EffectOptions = EffectOptions()) async throws -> Graphic {
         
         try await Renderer.render(

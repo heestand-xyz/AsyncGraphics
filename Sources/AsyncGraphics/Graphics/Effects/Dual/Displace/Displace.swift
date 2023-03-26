@@ -16,7 +16,7 @@ extension Graphic {
     
     public func displaced(with graphic: Graphic,
                           offset: CGFloat,
-                          origin: PixelColor = .gray,
+                          origin: PixelColor = .rawGray,
                           placement: Placement = .fill,
                           options: EffectOptions = EffectOptions()) async throws -> Graphic {
         
