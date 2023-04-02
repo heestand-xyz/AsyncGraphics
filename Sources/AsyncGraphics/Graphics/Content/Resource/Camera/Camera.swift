@@ -42,13 +42,13 @@ extension Graphic {
                     cameraController.graphicsHandler = nil
                     
                     Task {
-                        func mirrored(graphic: Graphic) async -> Graphic? {
+                        func mirrored(graphic: Graphic) async -> Graphic {
                             if position == .front {
-                                return try? await graphic.mirroredHorizontally()
+                                return (try? await graphic.mirroredHorizontally()) ?? graphic
                             }
-                            return nil
+                            return graphic
                         }
-                        func rotated(graphic: Graphic) async -> Graphic? {
+                        func rotated(graphic: Graphic) async -> Graphic {
                             #if os(iOS)
                             var keyWindow: UIWindow?
                             for window in await UIApplication.shared.windows {
@@ -58,23 +58,35 @@ extension Graphic {
                             }
                             guard let windowScene = await keyWindow?.windowScene
                             else { return graphic }
-                            switch await windowScene.interfaceOrientation {
-                            case .portrait:
-                                return try? await graphic.rotatedRight()
-                            case .portraitUpsideDown:
-                                return try? await graphic.rotatedLeft()
-                            case .landscapeLeft:
-                                return try? await graphic.rotated(.degrees(180))
-                            case .landscapeRight:
-                                return nil
-                            default:
-                                return nil
-                            }
+                            return await {
+                                switch await windowScene.interfaceOrientation {
+                                case .portrait:
+                                    return try? await graphic.rotatedRight()
+                                case .portraitUpsideDown:
+                                    return try? await graphic.rotatedLeft()
+                                case .landscapeLeft:
+                                    switch position {
+                                    case .back:
+                                        return try? await graphic.rotated(.degrees(180))
+                                    case .front:
+                                        return nil
+                                    }
+                                case .landscapeRight:
+                                    switch position {
+                                    case .back:
+                                        return nil
+                                    case .front:
+                                        return try? await graphic.rotated(.degrees(180))
+                                    }
+                                default:
+                                    return nil
+                                }
+                            }() ?? graphic
                             #else
-                            return nil
+                            return graphic
                             #endif
                         }
-                        let graphic: Graphic = await rotated(graphic: mirrored(graphic: graphic) ?? graphic) ?? graphic
+                        let graphic: Graphic = await mirrored(graphic: rotated(graphic: graphic))
                         continuation.resume(returning: graphic)
                     }
                 }
