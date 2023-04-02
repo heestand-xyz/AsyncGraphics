@@ -43,7 +43,10 @@ extension Graphic {
                     
                     Task {
                         func mirrored(graphic: Graphic) async -> Graphic? {
-                            try? await graphic.mirroredHorizontally()
+                            if position == .front {
+                                return try? await graphic.mirroredHorizontally()
+                            }
+                            return nil
                         }
                         func rotated(graphic: Graphic) async -> Graphic? {
                             #if os(iOS)
@@ -57,13 +60,13 @@ extension Graphic {
                             else { return graphic }
                             switch await windowScene.interfaceOrientation {
                             case .portrait:
-                                return try? await graphic.rotatedLeft()
-                            case .portraitUpsideDown:
                                 return try? await graphic.rotatedRight()
+                            case .portraitUpsideDown:
+                                return try? await graphic.rotatedLeft()
                             case .landscapeLeft:
-                                return nil
-                            case .landscapeRight:
                                 return try? await graphic.rotated(.degrees(180))
+                            case .landscapeRight:
+                                return nil
                             default:
                                 return nil
                             }
