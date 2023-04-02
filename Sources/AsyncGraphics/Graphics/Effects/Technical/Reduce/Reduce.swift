@@ -60,7 +60,7 @@ extension Graphic {
                     
                     let kernel: MPSImageReduceUnary = kernel(by: sampleMethod, in: sampleAxis)
 
-                    kernel.encode(commandBuffer: commandBuffer, sourceTexture: texture, destinationTexture: texture)
+                    kernel.encode(commandBuffer: commandBuffer, sourceTexture: self.texture, destinationTexture: texture)
                     
                     DispatchQueue.main.async {
                         continuation.resume(returning: texture)
