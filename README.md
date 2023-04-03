@@ -24,6 +24,26 @@ There is also the option to write high level [metal](https://heestand-xyz.github
 
 ### Declarative
 
+```swift
+import SwiftUI
+import AsyncGraphics
+
+struct ContentView: View {
+    
+    var body: some View {
+        AGView {
+            AGZStack {
+                AGCamera(.front)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                AGCircle()
+                    .blendMode(.multiply)
+            }
+        }
+    }
+}
+```
+
 ### Imperative
 
 ```swift
@@ -41,8 +61,19 @@ struct ContentView: View {
             }
         }
         .task {
-            for await cameraGraphic in try! Graphic.camera(.front) {
-                graphic = cameraGraphic
+            do {
+                let resolution = CGSize(width: 1_000, height: 1_000)
+                let circleGraphic: Graphic = try await .circle(radius: 500,
+                                                               backgroundColor: .clear,
+                                                               resolution: resolution)
+                for await cameraGraphic in try Graphic.camera(.front) {
+                    graphic = try await circleGraphic
+                        .blended(with: cameraGraphic,
+                                 blendingMode: .multiply,
+                                 placement: .fill)
+                }
+            } catch {
+                print(error)
             }
         }
     }
