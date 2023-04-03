@@ -30,7 +30,9 @@ In AsyncGraphics there are a couple ways to present a graphic.
 - [GraphicView](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphicview) to imperatively view [Graphic](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic)s
 - [Graphic3DView](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic3dview) to view [Graphic3D](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic3d/)s
 
-## Blending Example
+# Examples
+
+## Blending
 
 <img src="http://async.graphics/Images/Articles/async-graphics-blending.png" width="300px"/>
 
@@ -69,9 +71,41 @@ struct ContentView: View {
 }
 ```
 
-## Camera Example
+## Layout
 
-### Declarative
+<img src="http://async.graphics/Images/Articles/async-graphics-layout.png" width="300px"/>
+
+First we create an [AGView](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/agview/), this is the container for all [AGGraph](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/aggraph/)s.
+In this example we create an [AGHStack](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/aghstack/) to contain out boxes, then we loop 3 times with an [AGForEach](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/agforeach/), calculate the width and create [AGRoundedRectangles](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/agroundedrectangle/). After that we set the frame to get a fixed size and apply a color. After the stack we apply some padding and finally add a background.
+
+```swift
+import SwiftUI
+import AsyncGraphics
+
+struct ContentView: View {
+    var body: some View {
+        AGView {
+            AGHStack(alignment: .top, spacing: 15) {
+                AGForEach(0..<3) { index in
+                    let width = 50 * CGFloat(index + 1)
+                    AGRoundedRectangle(cornerRadius: 15)
+                        .frame(width: width, height: width)
+                        .foregroundColor(Color(hue: Double(index) / 3,
+                                               saturation: 0.5,
+                                               brightness: 1.0))
+                }
+            }
+            .padding(15)
+            .background {
+                AGRoundedRectangle(cornerRadius: 30)
+                    .opacity(0.1)
+            }
+        }
+    }
+}
+```
+
+## Camera
 
 ```swift
 import SwiftUI
@@ -93,7 +127,7 @@ struct ContentView: View {
 }
 ```
 
-### Imperative
+You can also do the same with `Graphic`s:
 
 ```swift
 import SwiftUI
