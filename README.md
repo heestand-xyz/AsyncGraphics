@@ -28,7 +28,46 @@ In AsyncGraphics there are a couple ways to present a graphic.
 
 - [AGView](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/agview) to declarativly view [AGGraph](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/aggraph)s
 - [GraphicView](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphicview) to imperatively view [Graphic](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic)s
-- [Graphic3DView](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic3dview) to view [Graphic3D](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic3d/)s.
+- [Graphic3DView](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic3dview) to view [Graphic3D](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic3d/)s
+
+## Blending Example
+
+<img src="http://async.graphics/Images/Articles/async-graphics-blending.png" width="300px"/>
+
+First we create an [AGView](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/agview/), this is the container for all [AGGraph](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/aggraph)s.
+In this example we have a [AGZStack](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/agzstack) with 3 [AGHStack](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/aghstack)s. Each graph has a blend mode ([AGBlendMode](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/agblendmode)), in this case .screen.
+
+```swift
+import SwiftUI
+import AsyncGraphics
+
+struct ContentView: View {
+    var body: some View {
+        AGView {
+            AGZStack {
+                AGHStack {
+                    AGSpacer()
+                    AGCircle()
+                        .foregroundColor(.red)
+                }
+                AGHStack {
+                    AGSpacer()
+                    AGCircle()
+                        .foregroundColor(.green)
+                    AGSpacer()
+                }
+                .blendMode(.screen)
+                AGHStack {
+                    AGCircle()
+                        .foregroundColor(.blue)
+                    AGSpacer()
+                }
+                .blendMode(.screen)
+            }
+        }
+    }
+}
+```
 
 ## Camera Example
 
