@@ -16,6 +16,10 @@ The documentation contains a list of all content and effects that can be created
 .package(url: "https://github.com/heestand-xyz/AsyncGraphics", from: "1.0.0")
 ```
 
+## Views
+
+In AsyncGraphics there are a couple ways to present a graphic. You can use the [AGView](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/agview) to declarativly view [AGGraph](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/aggraph)s or [GraphicView](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphicview) to imperartly view [Graphic](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic)s. Then there is the [Graphic3DView](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic3dview) to view [Graphic3D](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic3d/) to view 3d graphics.
+
 ## Camera Example
 
 ### Declarative
