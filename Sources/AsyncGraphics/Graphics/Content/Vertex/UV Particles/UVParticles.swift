@@ -62,8 +62,8 @@ extension Graphic {
                             sampleCount: UVParticleSampleCount = .one,
                             particleOptions: UVParticleOptions = UVParticleOptions(),
                             options: ContentOptions = ContentOptions()) async throws -> Graphic {
-        return try await .color(.green, resolution: resolution)
-        return try await Renderer.render(
+        
+        try await Renderer.render(
             name: "UV Particles",
             shader: .custom(fragment: "fragmentColor", vertex: "uvParticles"),
             graphics: [self],

@@ -24,7 +24,7 @@ struct Uniforms {
 };
 
 vertex VertexOut uvColorParticles(unsigned int vid [[ vertex_id ]],
-                                  const device Uniforms& uniforms [[ buffer(0) ]],
+                                  const device Uniforms& uniforms [[ buffer(1) ]],
                                   texture2d<float> leadingTexture [[ texture(0) ]],
                                   texture2d<float> trailingTexture [[ texture(1) ]],
                                   sampler sampler [[ sampler(0) ]]) {

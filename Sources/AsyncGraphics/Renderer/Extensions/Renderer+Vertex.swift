@@ -52,9 +52,20 @@ extension Renderer {
     
     static func buffer(vertices: [Vertex]) throws -> MTLBuffer {
         precondition(!vertices.isEmpty)
-        let vertexBuffer: [Float] = vertices.flatMap(\.buffer)
-        let dataSize = vertexBuffer.count * MemoryLayout.size(ofValue: vertexBuffer[0])
-        guard let buffer = metalDevice.makeBuffer(bytes: vertexBuffer, length: dataSize, options: []) else {
+        let floats: [Float] = vertices.flatMap(\.buffer)
+        return try buffer(floats: floats)
+    }
+    
+    static func buffer(count: Int) throws -> MTLBuffer {
+        precondition(count > 0)
+        let floats: [Float] = Array(repeating: 0.0, count: 4 * count)
+        return try buffer(floats: floats)
+    }
+    
+    private static func buffer(floats: [Float]) throws -> MTLBuffer {
+        precondition(!floats.isEmpty)
+        let dataSize = floats.count * MemoryLayout.size(ofValue: floats[0])
+        guard let buffer = metalDevice.makeBuffer(bytes: floats, length: dataSize, options: []) else {
             throw RendererError.failedToMakeVertexQuadBuffer
         }
         return buffer

@@ -327,7 +327,7 @@ struct Renderer {
                             
                             if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                                 
-                                renderCommandEncoder.setVertexBuffer(uniformsBuffer, offset: 0, index: 0)
+                                renderCommandEncoder.setVertexBuffer(uniformsBuffer, offset: 0, index: 1)
                             }
                         }
                         
@@ -336,8 +336,13 @@ struct Renderer {
                         if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                             
                             let vertexBuffer: MTLBuffer
-                            if case .direct(let vertices, _) = vertices {
-                                vertexBuffer = try buffer(vertices: vertices)
+                            if let vertices {
+                                switch vertices {
+                                case .direct(let vertices, _):
+                                    vertexBuffer = try buffer(vertices: vertices)
+                                case .indirect(let count, _):
+                                    vertexBuffer = try buffer(count: count)
+                                }
                             } else {
                                 vertexBuffer = try vertexQuadBuffer()
                             }
