@@ -15,7 +15,7 @@ extension Graphic {
         let mono: ColorUniform
     }
     
-    public enum ColorChannel {
+    public enum ColorChannel: String, Codable, CaseIterable, Identifiable {
         
         case red
         case green
@@ -25,7 +25,11 @@ extension Graphic {
         case white
         case mono
         
-        var color: PixelColor {
+        public var id: String {
+            rawValue
+        }
+        
+        public var color: PixelColor {
             switch self {
             case .red:
                 return PixelColor(channel: .red)
