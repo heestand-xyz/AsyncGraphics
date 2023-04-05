@@ -62,7 +62,7 @@ extension Graphic {
                 particleScale: Float(particleScale),
                 resolution: self.resolution.uniform
             ),
-            vertices: .indirect(count: resolution.count, type: .point),
+            vertices: .indirect(count: self.resolution.count, type: .point),
             metadata: Renderer.Metadata(
                 resolution: resolution,
                 colorSpace: options.colorSpace,
