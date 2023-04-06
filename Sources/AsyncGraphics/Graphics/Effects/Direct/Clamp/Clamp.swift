@@ -14,12 +14,29 @@ extension Graphic {
         let high: Float
     }
     
-    public enum ClampType: UInt32 {
+    public enum ClampType: String, Codable, Identifiable, CaseIterable {
         case hold
         case loop
         case mirror
         case zero
         case relative
+        public var id: String {
+            rawValue
+        }
+        var index: UInt32 {
+            switch self {
+            case .hold:
+                return 0
+            case .loop:
+                return 1
+            case .mirror:
+                return 2
+            case .zero:
+                return 3
+            case .relative:
+                return 4
+            }
+        }
     }
     
     public func clamp(
@@ -36,7 +53,7 @@ extension Graphic {
             graphics: [self],
             uniforms: ClampUniforms(
                 includeAlpha: includeAlpha,
-                type: type.rawValue,
+                type: type.index,
                 low: Float(low),
                 high: Float(high)
             )
