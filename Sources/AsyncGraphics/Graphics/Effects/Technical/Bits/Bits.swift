@@ -30,7 +30,11 @@ extension Graphic {
     /// **32 bits** has the most amount of precision.
     public func bits(_ bits: TMBits) async throws -> Graphic {
         
-        try await Renderer.render(
+        if self.bits == bits {
+            return self
+        }
+        
+        return try await Renderer.render(
             name: "Bits",
             shader: .name("bits"),
             graphics: [self],
