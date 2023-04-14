@@ -25,6 +25,23 @@ extension Graphic {
         case random
     }
     
+//    enum LumaBlurError: LocalizedError {
+//        case filterNotFound
+//    }
+//    
+//    public func lumaBlurred(
+//        with graphic: Graphic,
+//        radius: CGFloat
+//    ) async throws -> Graphic {
+//        guard let maskedVariableBlur = CIFilter(name: "CIMaskedVariableBlur") else {
+//            throw LumaBlurError.filterNotFound
+//        }
+//        maskedVariableBlur.setValue(inputImage, forKey: kCIInputImageKey)
+//        maskedVariableBlur.setValue(10, forKey: kCIInputRadiusKey)
+//        maskedVariableBlur.setValue(radialMask.outputImage, forKey: "inputMask")
+//        let selectivelyFocusedCIImage = maskedVariableBlur.outputImage
+//    }
+    
     public func lumaBlurredBox(
         with graphic: Graphic,
         radius: CGFloat,
