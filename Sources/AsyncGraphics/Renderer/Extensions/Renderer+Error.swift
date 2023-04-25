@@ -8,6 +8,7 @@ extension Renderer {
     
     enum RendererError: LocalizedError {
         
+        case metalLibraryNotFound
         case badMetadata
         case failedToMakeVertexQuadBuffer
         case shaderFunctionNotFound(name: String)
@@ -23,6 +24,8 @@ extension Renderer {
         
         var errorDescription: String? {
             switch self {
+            case .metalLibraryNotFound:
+                return "AsyncGraphics - Renderer - Metal Library Not Found"
             case .badMetadata:
                 return "AsyncGraphics - Renderer - Bad Metadata"
             case .failedToMakeVertexQuadBuffer:

@@ -9,16 +9,25 @@ import Foundation
 import MetalKit
 import TextureMap
 
-struct Renderer {
+public struct Renderer {
     
     /// Hardcoded. Defined as ARRMAX in shaders.
     private static let uniformArrayMaxLimit: Int = 128
     
-    static let metalDevice: MTLDevice = {
+    public static let metalDevice: MTLDevice = {
         guard let device = MTLCreateSystemDefaultDevice() else {
             fatalError("Device Not Supported")
         }
         return device
+    }()
+    
+    public static var metalLibrary: MTLLibrary? = {
+        do {
+            return try metalDevice.makeDefaultLibrary(bundle: .module)
+        } catch {
+            print("AsyncGraphics - Default metal library not found. Please provide a metal library with: `Renderer.metalLibrary = ...`. Error:", error)
+            return nil
+        }
     }()
     
     /// Basic

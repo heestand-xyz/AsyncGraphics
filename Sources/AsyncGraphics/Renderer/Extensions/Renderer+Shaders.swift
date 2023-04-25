@@ -7,7 +7,9 @@ import Metal
 extension Renderer {
     
     static func shader(name: String) throws -> MTLFunction {
-        let metalLibrary: MTLLibrary = try metalDevice.makeDefaultLibrary(bundle: .module)
+        guard let metalLibrary else {
+            throw RendererError.metalLibraryNotFound
+        }
         guard let shader = metalLibrary.makeFunction(name: name) else {
             throw RendererError.shaderFunctionNotFound(name: name)
         }
