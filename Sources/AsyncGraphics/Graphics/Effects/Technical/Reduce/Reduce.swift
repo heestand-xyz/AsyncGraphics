@@ -9,8 +9,8 @@ import PixelColor
 extension Graphic {
     
     public enum ReduceAxis {
-        case x
-        case y
+        case horizontal
+        case vertical
     }
     
     public enum ReduceMethod {
@@ -28,9 +28,9 @@ extension Graphic {
         
         let highBitGraphic = try await bits(._16)
         
-        let rowGraphic = try await highBitGraphic.reduce(by: sampleMethod, in: .y)
+        let rowGraphic = try await highBitGraphic.reduce(by: sampleMethod, axis: .vertical)
                 
-        let pixelGraphic = try await rowGraphic.reduce(by: sampleMethod, in: .x)
+        let pixelGraphic = try await rowGraphic.reduce(by: sampleMethod, axis: .horizontal)
         
         return try await pixelGraphic.firstPixelColor
     }
@@ -40,7 +40,7 @@ extension Graphic {
     /// Reduction in sample axis x, gives you a column
     ///
     /// Reduction in sample axis y, gives you a row
-    public func reduce(by sampleMethod: ReduceMethod, in sampleAxis: ReduceAxis) async throws -> Graphic {
+    public func reduce(by sampleMethod: ReduceMethod, axis sampleAxis: ReduceAxis) async throws -> Graphic {
                 
         let texture: MTLTexture = try await withCheckedThrowingContinuation { continuation in
             
@@ -61,10 +61,15 @@ extension Graphic {
                     let kernel: MPSImageReduceUnary = kernel(by: sampleMethod, in: sampleAxis)
 
                     kernel.encode(commandBuffer: commandBuffer, sourceTexture: self.texture, destinationTexture: texture)
-                    
-                    DispatchQueue.main.async {
-                        continuation.resume(returning: texture)
+                                            
+                    commandBuffer.addCompletedHandler { _ in
+                        
+                        DispatchQueue.main.async {
+                            continuation.resume(returning: texture)
+                        }
                     }
+                    
+                    commandBuffer.commit()
                     
                 } catch {
                     
@@ -80,9 +85,9 @@ extension Graphic {
     
     private func resolution(in sampleAxis: ReduceAxis) -> CGSize {
         switch sampleAxis {
-        case .x:
+        case .horizontal:
             return CGSize(width: 1, height: resolution.height)
-        case .y:
+        case .vertical:
             return CGSize(width: resolution.width, height: 1)
         }
     }
@@ -92,7 +97,7 @@ extension Graphic {
         let device: MTLDevice = Renderer.metalDevice
         
         switch sampleAxis {
-        case .x:
+        case .horizontal:
             switch sampleMethod {
             case .average:
                 return MPSImageReduceRowMean(device: device)
@@ -103,7 +108,7 @@ extension Graphic {
             case .sum:
                 return MPSImageReduceRowSum(device: device)
             }
-        case .y:
+        case .vertical:
             switch sampleMethod {
             case .average:
                 return MPSImageReduceColumnMean(device: device)
