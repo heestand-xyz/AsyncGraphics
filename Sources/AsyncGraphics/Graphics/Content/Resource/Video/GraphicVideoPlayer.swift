@@ -127,9 +127,9 @@ public class GraphicVideoPlayer: ObservableObject {
         }() else {
             fatalError(VideoPlayerError.resolutionNotFound.localizedDescription)
         }
-        self.info =  Info(frameRate: frameRate,
-                          duration: duration,
-                          resolution: resolution)
+        self.info = Info(frameRate: frameRate,
+                         duration: duration,
+                         resolution: resolution)
         
         updatedOptions()
         setupNotifications()

@@ -58,7 +58,6 @@ class GraphicVideoController: NSObject, GraphicVideoPlayerDelegate {
     
     // MARK: Read Buffer
     
-    
     func play(time: CMTime) {
         do {
             try goTo(time: time)

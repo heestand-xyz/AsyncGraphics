@@ -27,9 +27,40 @@ extension Graphic {
             stream.onTermination = { @Sendable _ in
                 videoController.cancel()
             }
-                            
+            
             videoController.graphicsHandler = { graphic in
                 stream.yield(graphic)
+            }
+        }
+    }
+}
+
+extension Graphic {
+    
+    public static func processVideo(url: URL, process: (Graphic) async throws -> Graphic) -> AsyncThrowingStream<Graphic, Error> {
+        
+        var options = GraphicVideoPlayer.Options()
+        options.loop = false
+        options.volume = 0.0
+        let videoPlayer = GraphicVideoPlayer(url: url, options: options)
+        
+        let videoController = GraphicVideoController(videoPlayer: videoPlayer)
+        
+        return AsyncThrowingStream<Graphic, Error> { stream in
+            
+            stream.onTermination = { @Sendable _ in
+                videoController.cancel()
+            }
+                            
+            videoController.graphicsHandler = { graphic in
+                do {
+                    Task {
+                        let processedGraphic: Graphic = try await process(graphic)
+                        stream.yield(processedGraphic)
+                    }
+                } catch {
+                    stream.finish(throwing: error)
+                }
             }
         }
     }
