@@ -15,7 +15,7 @@ extension Graphic {
         bottomRight: CGPoint? = nil,
         perspective: Bool = true,
         subdivisions: Int = 32,
-        backgroundColor: PixelColor = .black
+        backgroundColor: PixelColor = .clear
     ) async throws -> Graphic {
        
         let relativeTopLeft: CGPoint = (topLeft ?? .zero) / resolution
