@@ -8,6 +8,7 @@ import Metal
 import TextureMap
 import PixelColor
 import CoreGraphicsExtensions
+import CoreImage
 import CoreVideo
 import CoreMedia
 
@@ -71,6 +72,18 @@ extension Graphic {
     public var image: TMImage {
         get async throws {
             try await mirroredVertically().texture.image(colorSpace: colorSpace, bits: bits)
+        }
+    }
+    
+    public var cgImage: CGImage {
+        get throws {
+            try TextureMap.cgImage(texture: texture, colorSpace: colorSpace, bits: bits)
+        }
+    }
+    
+    public var ciImage: CIImage {
+        get throws {
+            try TextureMap.ciImage(texture: texture, colorSpace: colorSpace)
         }
     }
     
