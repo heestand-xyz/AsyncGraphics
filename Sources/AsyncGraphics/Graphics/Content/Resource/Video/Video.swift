@@ -41,7 +41,24 @@ extension Graphic {
     /// Async _direct_ stream of a video
     ///
     /// This stream will continue as soon as the async block is done
-    public static func processVideo(url: URL) throws -> AsyncThrowingStream<_Image, Error> {
-        try convertVideoToFrames(from: url)
+    public static func processVideo(url: URL) throws -> AsyncThrowingStream<Graphic, Error> {
+//        let videoPlayer = GraphicVideoPlayer(url: url)
+//        let info = VideoInfo(duration: videoPlayer.info.duration,
+//                             fps: videoPlayer.info.frameRate,
+//                             size: videoPlayer.info.resolution)
+        let frames: AsyncThrowingStream<_Image, Error> = try convertVideoToFrames(from: url)
+        return AsyncThrowingStream<Graphic, Error> { stream in
+            Task {
+                do {
+                    for try await image in frames {
+                        let graphic: Graphic = try await .image(image)
+                        stream.yield(graphic)
+                    }
+                    stream.finish()
+                } catch {
+                    stream.finish(throwing: error)
+                }
+            }
+        }
     }
 }
