@@ -15,7 +15,7 @@ extension Graphic {
         let outputResolution: SizeUniform
     }
     
-    public func resized(in resolution: CGSize) async throws -> Graphic {
+    public func resized(in resolution: CGSize, options: EffectOptions = []) async throws -> Graphic {
         
         let relativeWidth: CGFloat = width / resolution.width
         let relativeHeight: CGFloat = height / resolution.height
@@ -25,10 +25,10 @@ extension Graphic {
             height: relativeWidth < relativeHeight ? resolution.height : height * (resolution.width / width)
         )
         
-        return try await self.resized(to: derivedResolution, placement: .stretch)
+        return try await self.resized(to: derivedResolution, placement: .stretch, options: options)
     }
         
-    public func resized(to resolution: CGSize, placement: Placement = .fit) async throws -> Graphic {
+    public func resized(to resolution: CGSize, placement: Placement = .fit, options: EffectOptions = []) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Resolution",
@@ -42,6 +42,9 @@ extension Graphic {
                 resolution: resolution,
                 colorSpace: colorSpace,
                 bits: bits
+            ),
+            options: Renderer.Options(
+                addressMode: options.addressMode
             )
         )
     }
