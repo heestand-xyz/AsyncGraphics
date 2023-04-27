@@ -19,6 +19,14 @@ extension Graphic {
         }
     }
     
+    @available(*, deprecated, renamed: "metal(code:options:graphic:)")
+    public func metal(with graphic: Graphic,
+                      code: String,
+                      options: EffectOptions = EffectOptions()) async throws -> Graphic {
+        
+        try await metal(code: code, options: options, graphic: { graphic })
+    }
+    
     /// Metal Shader Code with two inputs
     ///
     /// Get the resolutions of the input textures.
@@ -41,9 +49,9 @@ extension Graphic {
     /// ```
     ///
     /// Available variables are:  `sampler`, `leadingTexture`, `trailingTexture`, `u`, `v`, `uv`, `leadingColor`, `trailingColor`.
-    public func metal(with graphic: Graphic,
-                      code: String,
-                      options: EffectOptions = EffectOptions()) async throws -> Graphic {
+    public func metal(code: String,
+                      options: EffectOptions = EffectOptions(),
+                      graphic: () async throws -> Graphic) async throws -> Graphic {
         
         guard let metalBaseURL = Bundle.module.url(forResource: "DualMetal.metal", withExtension: "txt") else {
             throw DualMetalError.metalFileNotFound
@@ -58,7 +66,10 @@ extension Graphic {
         return try await Renderer.render(
             name: "Metal",
             shader: .code(metalCode, name: "dualMetal"),
-            graphics: [self, graphic],
+            graphics: [
+                self,
+                graphic()
+            ],
             options: Renderer.Options(
                 addressMode: options.addressMode
             )

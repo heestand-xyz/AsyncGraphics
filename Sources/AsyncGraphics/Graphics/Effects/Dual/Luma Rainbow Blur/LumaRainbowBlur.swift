@@ -28,6 +28,7 @@ extension Graphic {
         case zoom
     }
     
+    @available(*, deprecated, renamed: "lumaRainbowBlurredCircle(radius:angle:light:lumaGamma:sampleCount:placement:options:graphic:)")
     public func lumaRainbowBlurredCircle(
         with graphic: Graphic,
         radius: CGFloat,
@@ -40,7 +41,6 @@ extension Graphic {
     ) async throws -> Graphic {
         
         try await lumaRainbowBlurred(
-            with: graphic,
             type: .circle,
             radius: radius,
             angle: angle,
@@ -48,10 +48,36 @@ extension Graphic {
             lumaGamma: lumaGamma,
             sampleCount: sampleCount,
             placement: placement,
-            options: options
+            options: options,
+            graphic: { graphic }
         )
     }
     
+    public func lumaRainbowBlurredCircle(
+        radius: CGFloat,
+        angle: Angle = .zero,
+        light: CGFloat = 1.0,
+        lumaGamma: CGFloat = 1.0,
+        sampleCount: Int = 100,
+        placement: Placement = .fit,
+        options: EffectOptions = EffectOptions(),
+        graphic: () async throws -> Graphic
+    ) async throws -> Graphic {
+        
+        try await lumaRainbowBlurred(
+            type: .circle,
+            radius: radius,
+            angle: angle,
+            light: light,
+            lumaGamma: lumaGamma,
+            sampleCount: sampleCount,
+            placement: placement,
+            options: options,
+            graphic: graphic
+        )
+    }
+    
+    @available(*, deprecated, renamed: "lumaRainbowBlurredZoom(radius:center:light:lumaGamma:sampleCount:placement:options:graphic:)")
     public func lumaRainbowBlurredZoom(
         with graphic: Graphic,
         radius: CGFloat,
@@ -64,7 +90,6 @@ extension Graphic {
     ) async throws -> Graphic {
         
         try await lumaRainbowBlurred(
-            with: graphic,
             type: .zoom,
             radius: radius,
             center: center,
@@ -72,10 +97,36 @@ extension Graphic {
             lumaGamma: lumaGamma,
             sampleCount: sampleCount,
             placement: placement,
-            options: options
+            options: options,
+            graphic: { graphic }
         )
     }
     
+    public func lumaRainbowBlurredZoom(
+        radius: CGFloat,
+        center: CGPoint? = nil,
+        light: CGFloat = 1.0,
+        lumaGamma: CGFloat = 1.0,
+        sampleCount: Int = 100,
+        placement: Placement = .fit,
+        options: EffectOptions = EffectOptions(),
+        graphic: () async throws -> Graphic
+    ) async throws -> Graphic {
+        
+        try await lumaRainbowBlurred(
+            type: .zoom,
+            radius: radius,
+            center: center,
+            light: light,
+            lumaGamma: lumaGamma,
+            sampleCount: sampleCount,
+            placement: placement,
+            options: options,
+            graphic: graphic
+        )
+    }
+    
+    @available(*, deprecated, renamed: "lumaRainbowBlurredAngle(radius:angle:light:lumaGamma:sampleCount:placement:options:graphic:)")
     public func lumaRainbowBlurredAngle(
         with graphic: Graphic,
         radius: CGFloat,
@@ -86,9 +137,8 @@ extension Graphic {
         placement: Placement = .fit,
         options: EffectOptions = EffectOptions()
     ) async throws -> Graphic {
-        
+    
         try await lumaRainbowBlurred(
-            with: graphic,
             type: .angle,
             radius: radius,
             angle: angle,
@@ -96,12 +146,36 @@ extension Graphic {
             lumaGamma: lumaGamma,
             sampleCount: sampleCount,
             placement: placement,
-            options: options
+            options: options,
+            graphic: { graphic }
+        )
+    }
+    
+    public func lumaRainbowBlurredAngle(
+        radius: CGFloat,
+        angle: Angle,
+        light: CGFloat = 1.0,
+        lumaGamma: CGFloat = 1.0,
+        sampleCount: Int = 100,
+        placement: Placement = .fit,
+        options: EffectOptions = EffectOptions(),
+        graphic: () async throws -> Graphic
+    ) async throws -> Graphic {
+        
+        try await lumaRainbowBlurred(
+            type: .angle,
+            radius: radius,
+            angle: angle,
+            light: light,
+            lumaGamma: lumaGamma,
+            sampleCount: sampleCount,
+            placement: placement,
+            options: options,
+            graphic: graphic
         )
     }
     
     private func lumaRainbowBlurred(
-        with graphic: Graphic,
         type: LumaRainbowBlurType,
         radius: CGFloat,
         center: CGPoint? = nil,
@@ -110,7 +184,8 @@ extension Graphic {
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions()
+        options: EffectOptions = EffectOptions(),
+        graphic: () async throws -> Graphic
     ) async throws -> Graphic {
         
         let center: CGPoint = center ?? resolution.asPoint / 2
@@ -121,7 +196,10 @@ extension Graphic {
         return try await Renderer.render(
             name: "Luma Rainbow Blur",
             shader: .name("lumaRainbowBlur"),
-            graphics: [self, graphic],
+            graphics: [
+                self,
+                graphic()
+            ],
             uniforms: LumaRainbowBlurUniforms(
                 type: type.rawValue,
                 placement: placement.index,
