@@ -58,7 +58,7 @@ extension Graphic {
     
     public static func strokedCircle(radius: CGFloat? = nil,
                                      center: CGPoint? = nil,
-                                     lineWidth: CGFloat,
+                                     lineWidth: CGFloat = 1,
                                      color: PixelColor = .white,
                                      backgroundColor: PixelColor = .black,
                                      resolution: CGSize,
