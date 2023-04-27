@@ -14,11 +14,22 @@ extension Graphic {
         let placement: UInt32
     }
     
+    @available(*, deprecated, renamed: "displaced(offset:origin:placement:options:graphic:)")
     public func displaced(with graphic: Graphic,
                           offset: CGFloat,
                           origin: PixelColor = .rawGray,
                           placement: Placement = .fill,
                           options: EffectOptions = EffectOptions()) async throws -> Graphic {
+        try await displaced(offset: offset, origin: origin, placement: placement, options: options) {
+            graphic
+        }
+    }
+    
+    public func displaced(offset: CGFloat,
+                          origin: PixelColor = .rawGray,
+                          placement: Placement = .fill,
+                          options: EffectOptions = EffectOptions(),
+                          graphic: () async throws -> Graphic) async throws -> Graphic {
         
         let relativeOffset: CGFloat = offset / resolution.height
         
@@ -27,7 +38,7 @@ extension Graphic {
             shader: .name("displace"),
             graphics: [
                 self,
-                graphic
+                graphic()
             ],
             uniforms: DisplaceUniforms(
                 offset: Float(relativeOffset),

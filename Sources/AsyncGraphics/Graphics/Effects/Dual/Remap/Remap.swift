@@ -21,8 +21,8 @@ extension Graphic {
             name: "Remap",
             shader: .name("remap"),
             graphics: [
-                self,
-                graphic
+                graphic,
+                self
             ],
             uniforms: RemapUniforms(),
             options: Renderer.Options(

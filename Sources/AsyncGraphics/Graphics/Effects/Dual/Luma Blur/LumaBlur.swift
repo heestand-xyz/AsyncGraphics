@@ -25,6 +25,7 @@ extension Graphic {
         case random
     }
     
+    // TODO: Implement Core Image Verison
 //    enum LumaBlurError: LocalizedError {
 //        case filterNotFound
 //    }

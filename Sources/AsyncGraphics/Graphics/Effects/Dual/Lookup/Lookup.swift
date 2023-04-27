@@ -20,10 +20,20 @@ extension Graphic {
         case vertical = 1
     }
     
+    @available(*, deprecated, renamed: "lookup(axis:sampleCoordinate:options:graphic:)")
     public func lookup(with graphic: Graphic,
                        axis: LookupAxis,
                        sampleCoordinate: CGFloat = 0.5,
                        options: EffectOptions = EffectOptions()) async throws -> Graphic {
+        try await lookup(axis: axis, sampleCoordinate: sampleCoordinate, options: options) {
+            graphic
+        }
+    }
+    
+    public func lookup(axis: LookupAxis,
+                       sampleCoordinate: CGFloat = 0.5,
+                       options: EffectOptions = EffectOptions(),
+                       graphic: () async throws -> Graphic) async throws -> Graphic {
             
         let holdEdgeFraction: CGFloat = {
             switch axis {
@@ -39,7 +49,7 @@ extension Graphic {
             shader: .name("lookup"),
             graphics: [
                 self,
-                graphic
+                graphic()
             ],
             uniforms: LookupUniforms(
                 axis: axis.rawValue,

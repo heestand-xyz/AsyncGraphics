@@ -11,17 +11,27 @@ extension Graphic {
         let placement: Int32
     }
     
+    @available(*, deprecated, renamed: "cross(fraction:placement:options:graphic:)")
     public func cross(with graphic: Graphic,
                       fraction: CGFloat,
                       placement: Placement = .fit,
                       options: EffectOptions = EffectOptions()) async throws -> Graphic {
+        try await cross(fraction: fraction, placement: placement, options: options) {
+            graphic
+        }
+    }
+    
+    public func cross(fraction: CGFloat,
+                      placement: Placement = .fit,
+                      options: EffectOptions = EffectOptions(),
+                      graphic: () async throws -> Graphic) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Cross",
             shader: .name("cross"),
             graphics: [
                 self,
-                graphic
+                graphic()
             ],
             uniforms: CrossUniforms(
                 fraction: Float(fraction),
