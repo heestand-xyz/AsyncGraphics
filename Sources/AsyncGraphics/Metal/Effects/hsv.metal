@@ -45,7 +45,7 @@ float3 rgb2hsv(float r, float g, float b) {
     if(h < 0.0) {
         h += 360.0;
     }
-    return float3(h / 360, s * v, v);
+    return float3(h / 360, s, v);
 }
 
 float3 hsv2rgb(float h, float s, float v) {
