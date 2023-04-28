@@ -140,3 +140,22 @@ extension Graphic {
         return try await backgroundGraphic().blended(with: graphic, blendingMode: .over, placement: placement)
     }
 }
+
+extension Graphic {
+    
+    public static func + (lhs: Graphic, rhs: Graphic) async throws -> Graphic {
+        try await lhs.blended(blendingMode: .add) { rhs }
+    }
+    
+    public static func - (lhs: Graphic, rhs: Graphic) async throws -> Graphic {
+        try await lhs.blended(blendingMode: .subtract) { rhs }
+    }
+    
+    public static func * (lhs: Graphic, rhs: Graphic) async throws -> Graphic {
+        try await lhs.blended(blendingMode: .multiply) { rhs }
+    }
+    
+    public static func / (lhs: Graphic, rhs: Graphic) async throws -> Graphic {
+        try await lhs.blended(blendingMode: .divide) { rhs }
+    }
+}

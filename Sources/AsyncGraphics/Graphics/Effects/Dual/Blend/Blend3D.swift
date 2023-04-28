@@ -40,3 +40,22 @@ extension Graphic3D {
         )
     }
 }
+
+extension Graphic3D {
+    
+    public static func + (lhs: Graphic3D, rhs: Graphic3D) async throws -> Graphic3D {
+        try await lhs.blended(blendingMode: .add) { rhs }
+    }
+    
+    public static func - (lhs: Graphic3D, rhs: Graphic3D) async throws -> Graphic3D {
+        try await lhs.blended(blendingMode: .subtract) { rhs }
+    }
+    
+    public static func * (lhs: Graphic3D, rhs: Graphic3D) async throws -> Graphic3D {
+        try await lhs.blended(blendingMode: .multiply) { rhs }
+    }
+    
+    public static func / (lhs: Graphic3D, rhs: Graphic3D) async throws -> Graphic3D {
+        try await lhs.blended(blendingMode: .divide) { rhs }
+    }
+}
