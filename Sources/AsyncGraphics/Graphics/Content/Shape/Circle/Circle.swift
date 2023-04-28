@@ -64,7 +64,7 @@ extension Graphic {
                                      resolution: CGSize,
                                      options: ContentOptions = ContentOptions()) async throws -> Graphic {
         
-        let radius: CGFloat = radius ?? min(resolution.width, resolution.height) / 2
+        let radius: CGFloat = radius ?? (min(resolution.width, resolution.height) / 2 - lineWidth / 2)
         
         let relativeRadius: CGFloat = radius / resolution.height
         
