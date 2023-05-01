@@ -31,19 +31,27 @@ extension Graphic {
                               device: AVCaptureDevice.DeviceType = .builtInWideAngleCamera,
                               preset: AVCaptureSession.Preset = .high) throws -> AsyncStream<Graphic> {
         
-        let cameraController = try CameraController(deviceType: device, position: position.av, preset: preset)
+        let camera = try Camera(position.av, with: device, quality: preset)
+        
+        return self.camera(camera)
+    }
+    
+    /// Async live stream from the camera
+    public static func camera(_ camera: Camera) -> AsyncStream<Graphic> {
+        
+        camera.start()
         
         return AsyncStream<Graphic>(unfolding: {
             
             await withCheckedContinuation { continuation in
                 
-                cameraController.graphicsHandler = { graphic in
+                camera.graphicsHandler = { graphic in
                     
-                    cameraController.graphicsHandler = nil
+                    camera.graphicsHandler = nil
                     
                     Task {
                         func mirrored(graphic: Graphic) async -> Graphic {
-                            if position == .front {
+                            if camera.position == .front {
                                 return (try? await graphic.mirroredHorizontally()) ?? graphic
                             }
                             return graphic
@@ -92,7 +100,7 @@ extension Graphic {
                 }
             }
         }, onCancel: {
-            cameraController.cancel()
+            camera.stop()
         })
     }
 }

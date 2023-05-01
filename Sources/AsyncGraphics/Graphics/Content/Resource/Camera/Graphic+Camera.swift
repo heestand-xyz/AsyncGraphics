@@ -1,0 +1,121 @@
+//
+//  Created by Anton Heestand on 2022-04-27.
+//
+
+import Metal
+import AVKit
+
+@available(*, deprecated, renamed: "Graphic.Camera")
+typealias CameraController = Graphic.Camera
+
+extension Graphic {
+    
+    public class Camera: NSObject {
+        
+        enum CameraError: LocalizedError {
+            
+            case captureDeviceNotSupported
+            case inputCanNotBeAdded
+            case outputCanNotBeAdded
+            case sessionPresetCanNotBeSet
+            
+            var errorDescription: String? {
+                switch self {
+                case .captureDeviceNotSupported:
+                    return "AsyncGraphics - Camera - Capture Device Not Supported"
+                case .inputCanNotBeAdded:
+                    return "AsyncGraphics - Camera - Input Can Not be Added"
+                case .outputCanNotBeAdded:
+                    return "AsyncGraphics - Camera - Output Can Not be Added"
+                case .sessionPresetCanNotBeSet:
+                    return "AsyncGraphics - Camera - Session Preset Can Not be Added"
+                }
+            }
+        }
+        
+        var graphicsHandler: ((Graphic) -> ())?
+        
+        let position: AVCaptureDevice.Position
+        private let device: AVCaptureDevice
+        private let videoInput: AVCaptureDeviceInput
+        private let videoOutput: AVCaptureVideoDataOutput
+        private let captureSession: AVCaptureSession
+        
+        public init(_ position: AVCaptureDevice.Position,
+                    with deviceType: AVCaptureDevice.DeviceType = .builtInWideAngleCamera,
+                    quality preset: AVCaptureSession.Preset = .high) throws {
+            
+            self.position = position
+            
+            guard let device = AVCaptureDevice.default(deviceType, for: .video, position: position) else {
+                throw CameraError.captureDeviceNotSupported
+            }
+            self.device = device
+            
+            captureSession = AVCaptureSession()
+            
+            guard captureSession.canSetSessionPreset(preset) else {
+                throw CameraError.sessionPresetCanNotBeSet
+            }
+            captureSession.sessionPreset = preset
+            
+            videoInput = try AVCaptureDeviceInput(device: device)
+            guard captureSession.canAddInput(videoInput) else {
+                throw CameraError.inputCanNotBeAdded
+            }
+            
+            videoOutput = AVCaptureVideoDataOutput()
+            videoOutput.alwaysDiscardsLateVideoFrames = true
+            videoOutput.videoSettings = [
+                kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA
+            ]
+            let queue = DispatchQueue(label: "async-graphics.camera")
+            
+            guard captureSession.canAddOutput(videoOutput) else {
+                throw CameraError.outputCanNotBeAdded
+            }
+            
+            super.init()
+            
+            videoOutput.setSampleBufferDelegate(self, queue: queue)
+        }
+        
+        deinit {
+            stop()
+        }
+        
+        public func focus(at point: CGPoint, mode: AVCaptureDevice.FocusMode = .continuousAutoFocus) {
+            guard (try? device.lockForConfiguration()) != nil else { return }
+            device.focusPointOfInterest = point
+            device.focusMode = mode
+            device.unlockForConfiguration()
+        }
+        
+        func start() {
+            captureSession.addInput(videoInput)
+            captureSession.addOutput(videoOutput)
+            DispatchQueue.global().async {
+                self.captureSession.startRunning()
+            }
+        }
+        
+        func stop() {
+            captureSession.stopRunning()
+            captureSession.removeInput(videoInput)
+            captureSession.removeOutput(videoOutput)
+        }
+    }
+}
+
+extension Graphic.Camera: AVCaptureVideoDataOutputSampleBufferDelegate {
+ 
+    public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        
+        guard let pixelBuffer: CVPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer),
+              let texture: MTLTexture = try? pixelBuffer.texture(),
+              let graphic: Graphic = try? .texture(texture)
+        else { return }
+    
+        graphicsHandler?(graphic)
+    }
+}
