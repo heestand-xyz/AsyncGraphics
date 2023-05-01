@@ -31,6 +31,7 @@ class CameraController: NSObject {
     var graphicsHandler: ((Graphic) -> ())?
     
     private let captureSession: AVCaptureSession
+    private let videoInput: AVCaptureDeviceInput
     private let videoOutput: AVCaptureVideoDataOutput
    
     init(deviceType: AVCaptureDevice.DeviceType,
@@ -48,11 +49,11 @@ class CameraController: NSObject {
         }
         captureSession.sessionPreset = preset
         
-        let input = try AVCaptureDeviceInput(device: device)
-        guard captureSession.canAddInput(input) else {
+        videoInput = try AVCaptureDeviceInput(device: device)
+        guard captureSession.canAddInput(videoInput) else {
             throw CameraError.inputCanNotBeAdded
         }
-        captureSession.addInput(input)
+        captureSession.addInput(videoInput)
         
         videoOutput = AVCaptureVideoDataOutput()
         videoOutput.alwaysDiscardsLateVideoFrames = true
@@ -68,19 +69,20 @@ class CameraController: NSObject {
 
         super.init()
         
-        videoOutput.setSampleBufferDelegate(self, queue: queue)
-
-        DispatchQueue.global().async {
-            self.captureSession.startRunning()
+        DispatchQueue.global().async { [weak self] in
+            self?.videoOutput.setSampleBufferDelegate(self, queue: queue)
+            self?.captureSession.startRunning()
         }
     }
     
     deinit {
-        captureSession.stopRunning()
+        cancel()
     }
     
     func cancel() {
         captureSession.stopRunning()
+        captureSession.removeInput(videoInput)
+        captureSession.removeOutput(videoOutput)
     }
 }
 
