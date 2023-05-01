@@ -73,18 +73,18 @@ extension Graphic {
                                 case .portraitUpsideDown:
                                     return try? await graphic.rotatedLeft()
                                 case .landscapeLeft:
-                                    switch position {
+                                    switch camera.position {
                                     case .back:
                                         return try? await graphic.rotated(.degrees(180))
-                                    case .front:
+                                    default:
                                         return nil
                                     }
                                 case .landscapeRight:
-                                    switch position {
-                                    case .back:
-                                        return nil
+                                    switch camera.position {
                                     case .front:
                                         return try? await graphic.rotated(.degrees(180))
+                                    default:
+                                        return nil
                                     }
                                 default:
                                     return nil

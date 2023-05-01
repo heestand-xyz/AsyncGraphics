@@ -84,7 +84,11 @@ extension Graphic {
             stop()
         }
         
+        /// Relative focus point
+        ///
+        /// **Apple:** This property’s CGPoint value uses a coordinate system where {0,0} is the top-left of the picture area and {1,1} is the bottom-right. This coordinate system is always relative to a landscape device orientation with the home button on the right, regardless of the actual device orientation.
         public func focus(at point: CGPoint, mode: AVCaptureDevice.FocusMode = .continuousAutoFocus) {
+            guard device.isFocusPointOfInterestSupported else { return }
             guard (try? device.lockForConfiguration()) != nil else { return }
             device.focusPointOfInterest = point
             device.focusMode = mode
