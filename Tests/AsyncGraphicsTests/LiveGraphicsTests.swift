@@ -18,9 +18,9 @@ final class LiveGraphicsTests: XCTestCase {
                 
         let firstPixel: PixelColor = try await imageTexture.firstPixelColor
         
-        let firstColor = PixelColor(red: 0.4392156862745098,
+        let firstColor = PixelColor(red: 0.00392156862745098,
                                     green: 0.2196078431372549,
-                                    blue: 0.00392156862745098,
+                                    blue: 0.4392156862745098,
                                     alpha: 1.0)
 
         XCTAssertEqual(firstColor, firstPixel)
@@ -30,7 +30,7 @@ final class LiveGraphicsTests: XCTestCase {
         
         let imageTexture: Graphic = try await .image(named: "Kite", in: .module)
 
-        let reducedTexture: Graphic = try await imageTexture.reduce(by: .average, in: .y)
+        let reducedTexture: Graphic = try await imageTexture.reduce(by: .average, axis: .vertical)
         
         XCTAssertEqual(reducedTexture.resolution.width, imageTexture.resolution.width)
         XCTAssertEqual(reducedTexture.resolution.height, 1)
@@ -79,7 +79,7 @@ final class LiveGraphicsTests: XCTestCase {
             let triangle: Graphic = try await .polygon(count: 3, resolution: CGSize(width: length, height: length))
             let color = try await triangle.averagePixelColor
             print("Triangle Test at \(length)", "alpha:", color.alpha, "brightness:", color.brightness)
-            XCTAssertNotEqual(color.alpha, 0.0)
+            XCTAssertNotEqual(color.alpha, 0.0, "length: \(length)")
         }
     }
 }
