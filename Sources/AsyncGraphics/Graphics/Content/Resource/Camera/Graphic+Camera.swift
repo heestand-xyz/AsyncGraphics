@@ -41,15 +41,21 @@ extension Graphic {
         private let videoOutput: AVCaptureVideoDataOutput
         private let captureSession: AVCaptureSession
         
-        public init(_ position: AVCaptureDevice.Position,
+        public convenience init(_ position: AVCaptureDevice.Position,
                     with deviceType: AVCaptureDevice.DeviceType = .builtInWideAngleCamera,
                     quality preset: AVCaptureSession.Preset = .high) throws {
-            
-            self.position = position
             
             guard let device = AVCaptureDevice.default(deviceType, for: .video, position: position) else {
                 throw CameraError.captureDeviceNotSupported
             }
+            
+            try self.init(device: device, quality: preset)
+        }
+        
+        public init(device: AVCaptureDevice,
+                    quality preset: AVCaptureSession.Preset = .high) throws {
+        
+            self.position = device.position
             self.device = device
             
             captureSession = AVCaptureSession()
