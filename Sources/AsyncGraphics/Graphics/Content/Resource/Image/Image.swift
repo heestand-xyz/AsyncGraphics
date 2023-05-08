@@ -32,8 +32,6 @@ extension Graphic {
     /// UIImage / NSImage
     public static func image(_ image: TMImage) async throws -> Graphic {
         
-        
-        
         let bits: TMBits = try image.bits
         
         let colorSpace: TMColorSpace = try image.colorSpace
@@ -60,6 +58,16 @@ extension Graphic {
         #endif
         
         return graphic
+    }
+    
+    public static func image(_ cgImage: CGImage) async throws -> Graphic {
+        let image = try TextureMap.image(cgImage: cgImage)
+        return try await .image(image)
+    }
+    
+    public static func image(_ ciImage: CIImage) async throws -> Graphic {
+        let image = try TextureMap.image(ciImage: ciImage)
+        return try await .image(image)
     }
     
     public static func image(named name: String, in bundle: Bundle = .main) async throws -> Graphic {
