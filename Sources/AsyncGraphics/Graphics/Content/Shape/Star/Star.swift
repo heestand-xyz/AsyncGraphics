@@ -40,7 +40,9 @@ extension Graphic {
         let relativeOuterRadius: CGFloat = outerRadius / resolution.height
         
         let center: CGPoint = center ?? (resolution.asPoint / 2)
-        let relativePosition: CGPoint = (center - resolution / 2) / resolution.height
+        var relativePosition: CGPoint = (center - resolution / 2) / resolution.height
+        // Flip Fix
+        relativePosition = CGPoint(x: relativePosition.x, y: -relativePosition.y)
 
         let relativeCornerRadius: CGFloat = cornerRadius / resolution.height
 

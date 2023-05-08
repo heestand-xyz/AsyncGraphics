@@ -48,14 +48,21 @@ fragment float4 arc(VertexOut out [[stage_in]],
     float radius = sqrt(pow(xRadius, 2) + pow(yRadius, 2));
     
     float currentAngle = atan2(yRadius, xRadius);
+    
     float angleCenter = uniforms.angleCenter * pi * 2;
     float angleLength = uniforms.angleLength * pi * 2;
-    float startAngle = angleCenter - angleLength / 2;
-    float endAngle = angleCenter + angleLength / 2;
+    
+    float angle = currentAngle - angleCenter;
+    while (angle < -pi) {
+        angle += pi * 2;
+    }
+    while (angle > pi) {
+        angle -= pi * 2;
+    }
     
     float4 color = backgroundColor;
     
-    if (startAngle != endAngle && currentAngle >= startAngle && currentAngle <= endAngle) {
+    if (angleLength != 0.0 && angle >= -angleLength / 2 && angle <= angleLength / 2) {
         color = radiusColor(radius, uniforms.radius, uniforms.edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
     }
     
