@@ -13,16 +13,38 @@ extension Graphic {
         let index: UInt32
     }
     
-    public enum ColorConversion: UInt32 {
+    public enum ColorConversion: String, Codable, CaseIterable, Identifiable {
         case rgbToHSV
         case hsvToRGB
+        public var id: String { rawValue } 
+        var index: UInt32 {
+            switch self {
+            case .rgbToHSV:
+                return 0
+            case .hsvToRGB:
+                return 1
+            }
+        }
     }
     
-    public enum ColorConvertChannel: UInt32 {
+    public enum ColorConvertChannel: String, Codable, CaseIterable, Identifiable {
         case all
         case first
         case second
         case third
+        public var id: String { rawValue }
+        var index: UInt32 {
+            switch self {
+            case .all:
+                return 0
+            case .first:
+                return 1
+            case .second:
+                return 1
+            case .third:
+                return 1
+            }
+        }
     }
     
     public func colorConvert(
@@ -35,8 +57,8 @@ extension Graphic {
             shader: .name("colorConvert"),
             graphics: [self],
             uniforms: ColorConvertUniforms(
-                conversion: conversion.rawValue,
-                index: channel.rawValue
+                conversion: conversion.index,
+                index: channel.index
             )
         )
     }
