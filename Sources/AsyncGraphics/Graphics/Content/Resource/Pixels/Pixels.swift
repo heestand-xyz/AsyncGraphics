@@ -10,10 +10,13 @@ import MetalKit
 extension Graphic {
     
     enum PixelsError: LocalizedError {
+        case unsupportedOS
         case noPixels
         case unevenPixels
         var errorDescription: String? {
             switch self {
+            case .unsupportedOS:
+                return "AsyncGraphics - Pixels - Unsupported OS"
             case .noPixels:
                 return "AsyncGraphics - Pixels - No Pixels"
             case .unevenPixels:
@@ -55,6 +58,7 @@ extension Graphic {
                         }
                         texture = try TextureMap.texture(channels: channels, resolution: resolution, on: Renderer.metalDevice)
                     case ._16:
+                        #if !os(macOS)
                         let channels: [Float16] = pixels.flatMap { row in
                             row.flatMap { color in
                                 color.components.map { channel in
@@ -63,6 +67,9 @@ extension Graphic {
                             }
                         }
                         texture = try TextureMap.texture(channels: channels, resolution: resolution, on: Renderer.metalDevice)
+                        #else
+                        throw PixelsError.unsupportedOS
+                        #endif
                     case ._32:
                         let channels: [Float] = pixels.flatMap { row in
                             row.flatMap { color in
