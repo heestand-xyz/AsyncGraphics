@@ -40,9 +40,9 @@ extension Graphic {
             case .first:
                 return 1
             case .second:
-                return 1
+                return 2
             case .third:
-                return 1
+                return 3
             }
         }
     }
