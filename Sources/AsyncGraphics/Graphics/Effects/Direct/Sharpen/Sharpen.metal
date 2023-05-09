@@ -16,6 +16,7 @@ struct VertexOut {
 
 struct Uniforms {
     float sharpness;
+    float distance;
 };
 
 fragment float4 sharpen(VertexOut out [[stage_in]],
@@ -31,17 +32,26 @@ fragment float4 sharpen(VertexOut out [[stage_in]],
     float height = texture.get_height();
     
     float sharpness = uniforms.sharpness;
+    float distance = uniforms.distance;
     
     float4 color = 0;
     color += texture.sample(sampler, uv) * (1 + 8 * sharpness);
-    color -= texture.sample(sampler, float2(u - 1.0 / width, v - 1.0 / height)) * sharpness;
-    color -= texture.sample(sampler, float2(u - 1.0 / width, v)) * sharpness;
-    color -= texture.sample(sampler, float2(u - 1.0 / width, v + 1.0 / height)) * sharpness;
-    color -= texture.sample(sampler, float2(u, v - 1.0 / height)) * sharpness;
-    color -= texture.sample(sampler, float2(u, v + 1.0 / height)) * sharpness;
-    color -= texture.sample(sampler, float2(u + 1.0 / width, v - 1.0 / height)) * sharpness;
-    color -= texture.sample(sampler, float2(u + 1.0 / width, v)) * sharpness;
-    color -= texture.sample(sampler, float2(u + 1.0 / width, v + 1.0 / height)) * sharpness;
+    color -= texture.sample(sampler, float2(u - (1.0 / width) * distance,
+                                            v - (1.0 / height) * distance)) * sharpness;
+    color -= texture.sample(sampler, float2(u - (1.0 / width) * distance,
+                                            v)) * sharpness;
+    color -= texture.sample(sampler, float2(u - (1.0 / width) * distance,
+                                            v + (1.0 / height) * distance)) * sharpness;
+    color -= texture.sample(sampler, float2(u,
+                                            v - (1.0 / height) * distance)) * sharpness;
+    color -= texture.sample(sampler, float2(u,
+                                            v + (1.0 / height) * distance)) * sharpness;
+    color -= texture.sample(sampler, float2(u + (1.0 / width) * distance,
+                                            v - (1.0 / height) * distance)) * sharpness;
+    color -= texture.sample(sampler, float2(u + (1.0 / width) * distance,
+                                            v)) * sharpness;
+    color -= texture.sample(sampler, float2(u + (1.0 / width) * distance,
+                                            v + (1.0 / height) * distance)) * sharpness;
     
     return color;
 }

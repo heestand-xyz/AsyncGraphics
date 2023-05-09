@@ -8,12 +8,16 @@ extension Graphic {
     
     private struct SharpenUniforms {
         let sharpness: Float
+        let distance: Float
     }
     
     /// Increases the sharpness of a graphic
     ///
     /// Recommended sharpness value are between 0.0 and 1.0. Higher values are allowed.
+    ///
+    /// The distance is in pixels, default to one pixel.
     public func sharpen(_ sharpness: CGFloat,
+                        distance: CGFloat = 1.0,
                         options: EffectOptions = EffectOptions()) async throws -> Graphic {
         
         try await Renderer.render(
@@ -21,7 +25,8 @@ extension Graphic {
             shader: .name("sharpen"),
             graphics: [self],
             uniforms: SharpenUniforms(
-                sharpness: Float(sharpness)
+                sharpness: Float(sharpness),
+                distance: Float(distance)
             ),
             options: Renderer.Options(
                 addressMode: options.addressMode
