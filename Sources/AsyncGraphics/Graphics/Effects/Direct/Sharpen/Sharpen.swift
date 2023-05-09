@@ -10,7 +10,10 @@ extension Graphic {
         let sharpness: Float
     }
     
-    public func sharpen(_ sharpness: CGFloat = 1.0,
+    /// Increases the sharpness of a graphic
+    ///
+    /// Recommended sharpness value are between 0.0 and 1.0. Higher values are allowed.
+    public func sharpen(_ sharpness: CGFloat,
                         options: EffectOptions = EffectOptions()) async throws -> Graphic {
         
         try await Renderer.render(
