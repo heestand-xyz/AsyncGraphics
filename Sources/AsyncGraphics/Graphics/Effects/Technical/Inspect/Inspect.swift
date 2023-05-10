@@ -7,7 +7,7 @@ extension Graphic {
         let scale: Float
         let offset: PointUniform
         let borderWidth: Float
-        let borderColor: ColorUniform
+        let borderOpacity: Float
         let placement: UInt32
         let resolution: SizeUniform
     }
@@ -15,7 +15,7 @@ extension Graphic {
     public static func inspect(scale: CGFloat = 1.0,
                                offset: CGPoint = .zero,
                                borderWidth: CGFloat = 1.0,
-                               borderColor: PixelColor = .gray,
+                               borderOpacity: CGFloat = 0.25,
                                placement: Placement = .fit,
                                resolution: CGSize,
                                interpolateNearest: Bool = true,
@@ -34,7 +34,7 @@ extension Graphic {
                 scale: Float(scale),
                 offset: offset.uniform,
                 borderWidth: Float(borderWidth),
-                borderColor: borderColor.uniform,
+                borderOpacity: Float(borderOpacity),
                 placement: placement.index,
                 resolution: resolution.uniform
             ),
