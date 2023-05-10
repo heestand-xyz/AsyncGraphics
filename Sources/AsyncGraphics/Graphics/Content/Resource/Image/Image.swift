@@ -70,7 +70,12 @@ extension Graphic {
         return try await .image(image)
     }
     
-    public static func image(named name: String, in bundle: Bundle = .main) async throws -> Graphic {
+    public static func image(named name: String) async throws -> Graphic {
+        
+        try await image(named: name, in: .main)
+    }
+    
+    public static func image(named name: String, in bundle: Bundle) async throws -> Graphic {
         
         let image = try bundle.image(named: name)
         

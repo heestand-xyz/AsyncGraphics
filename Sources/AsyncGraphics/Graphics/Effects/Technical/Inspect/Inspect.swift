@@ -12,17 +12,24 @@ extension Graphic {
         let resolution: SizeUniform
     }
     
-    static func inspect(scale: CGFloat = 1.0,
-                        offset: CGPoint = .zero,
-                        borderWidth: CGFloat = 1.0,
-                        borderColor: PixelColor = .gray,
-                        placement: Placement = .fit,
-                        resolution: CGSize,
-                        graphic: () async throws -> Graphic) async throws -> Graphic {
+    public static func inspect(scale: CGFloat = 1.0,
+                               offset: CGPoint = .zero,
+                               borderWidth: CGFloat = 1.0,
+                               borderColor: PixelColor = .gray,
+                               placement: Placement = .fit,
+                               resolution: CGSize,
+                               interpolateNearest: Bool = true,
+                               options: ContentOptions = [],
+                               graphic: () async throws -> Graphic) async throws -> Graphic {
         
-        try await Renderer.render(
+        let graphic: Graphic = try await graphic()
+        
+        return try await Renderer.render(
             name: "inspect",
             shader: .name("inspect"),
+            graphics: [
+                graphic
+            ],
             uniforms: InspectUniforms(
                 scale: Float(scale),
                 offset: offset.uniform,
@@ -30,6 +37,14 @@ extension Graphic {
                 borderColor: borderColor.uniform,
                 placement: placement.index,
                 resolution: resolution.uniform
+            ),
+            metadata: Renderer.Metadata(
+                resolution: resolution,
+                colorSpace: options.colorSpace,
+                bits: options.bits
+            ),
+            options: Renderer.Options(
+                filter: interpolateNearest ? .nearest : .linear
             )
         )
     }

@@ -242,7 +242,8 @@ public struct Renderer {
                             
                             // MARK: Sampler
                             
-                            let sampler: MTLSamplerState = try sampler(addressMode: options.addressMode)
+                            let sampler: MTLSamplerState = try sampler(addressMode: options.addressMode,
+                                                                       filter: options.filter)
                             
                             if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                                 

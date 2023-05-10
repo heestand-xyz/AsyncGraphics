@@ -33,12 +33,16 @@ fragment float4 inspect(VertexOut out [[stage_in]],
     
     uint inputWidth = texture.get_width();
     uint inputHeight = texture.get_height();
+    float inputAspect = float(inputWidth) / float(inputHeight);
     uint outputWidth = uniforms.resolution.x;
     uint outputHeight = uniforms.resolution.y;
+    float outputAspect = float(outputWidth) / float(outputHeight);
     
     float2 uvPlacement = place(uniforms.placement, uv, outputWidth, outputHeight, inputWidth, inputHeight);
     
-//    uvPlacement -= uniforms.offset
+    float2 uvScale = float2(uniforms.scale, uniforms.scale);
+    uvPlacement = (uvPlacement - 0.5) / uvScale + 0.5;
+    uvPlacement -= uniforms.offset / uniforms.resolution;
 
     float4 color = texture.sample(sampler, uvPlacement);
     
