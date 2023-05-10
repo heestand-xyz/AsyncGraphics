@@ -48,7 +48,8 @@ fragment float4 inspect(VertexOut out [[stage_in]],
     float4 color = texture.sample(sampler, uvPlacement);
     
     // Border
-    if (uniforms.scale >= 100) {
+    if (uniforms.scale >= 50 && uniforms.borderOpacity > 0.0 && uniforms.borderWidth > 0.0) {
+        float zoomFade = min(max(uniforms.scale / 100 - 0.5, 0.0), 1.0);
         float2 uvBorder = float2(uniforms.borderWidth / uniforms.scale,
                                  uniforms.borderWidth / uniforms.scale);
         float2 uvResolution = float2(uvPlacement.x * float(inputWidth),
@@ -57,7 +58,7 @@ fragment float4 inspect(VertexOut out [[stage_in]],
                                 uvResolution.y - float(int(uvResolution.y)));
         if (!(uvPixel.x > uvBorder.x && uvPixel.x < 1.0 - uvBorder.x) || !(uvPixel.y > uvBorder.y && uvPixel.y < 1.0 - uvBorder.y)) {
             float brightness = (color.r + color.g + color.b) / 3;
-            float4 borderColor = float4(float3(brightness < 0.5 ? 1.0 : 0.0), uniforms.borderOpacity);
+            float4 borderColor = float4(float3(brightness < 0.5 ? 1.0 : 0.0), uniforms.borderOpacity * zoomFade);
             color = float4(color.rgb * (1.0 - borderColor.a) + borderColor.rgb * borderColor.a, max(color.a, borderColor.a));
         }
     }
