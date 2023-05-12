@@ -9,6 +9,7 @@ extension Graphic {
         let borderWidth: Float
         let borderOpacity: Float
         let placement: UInt32
+        let scaleRange: SizeUniform
         let resolution: SizeUniform
     }
     
@@ -16,6 +17,7 @@ extension Graphic {
                                offset: CGPoint = .zero,
                                borderWidth: CGFloat = 1.0,
                                borderOpacity: CGFloat = 0.25,
+                               borderFadeRange: ClosedRange<CGFloat> = 25...50,
                                placement: Placement = .fit,
                                resolution: CGSize,
                                interpolateNearest: Bool = true,
@@ -36,6 +38,8 @@ extension Graphic {
                 borderWidth: Float(borderWidth),
                 borderOpacity: Float(borderOpacity),
                 placement: placement.index,
+                scaleRange: CGSize(width: borderFadeRange.lowerBound,
+                                   height: borderFadeRange.upperBound).uniform,
                 resolution: resolution.uniform
             ),
             metadata: Renderer.Metadata(

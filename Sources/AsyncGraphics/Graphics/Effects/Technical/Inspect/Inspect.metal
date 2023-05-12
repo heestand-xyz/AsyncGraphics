@@ -19,6 +19,7 @@ struct Uniforms {
     float borderWidth;
     float borderOpacity;
     uint placement;
+    packed_float2 scaleRange;
     packed_float2 resolution;
 };
 
@@ -48,8 +49,9 @@ fragment float4 inspect(VertexOut out [[stage_in]],
     float4 color = texture.sample(sampler, uvPlacement);
     
     // Border
-    if (uniforms.scale >= 50 && uniforms.borderOpacity > 0.0 && uniforms.borderWidth > 0.0) {
-        float zoomFade = min(max(uniforms.scale / 100 - 0.5, 0.0), 1.0);
+    if (uniforms.scale >= uniforms.scaleRange.x && uniforms.borderOpacity > 0.0 && uniforms.borderWidth > 0.0) {
+        float fraction = (uniforms.scale - uniforms.scaleRange.x) / (uniforms.scaleRange.y - uniforms.scaleRange.x);
+        float zoomFade = min(max(fraction, 0.0), 1.0);
         float2 uvBorder = float2(uniforms.borderWidth / uniforms.scale,
                                  uniforms.borderWidth / uniforms.scale);
         float2 uvResolution = float2(uvPlacement.x * float(inputWidth),
