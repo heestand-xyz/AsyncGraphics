@@ -14,6 +14,7 @@ struct VertexOut {
 };
 
 struct Uniforms {
+    bool transparencyChecker;
     float scale;
     packed_float2 offset;
     float borderWidth;
@@ -47,6 +48,22 @@ fragment float4 inspect(VertexOut out [[stage_in]],
 
     // Texture
     float4 color = texture.sample(sampler, uvPlacement);
+    
+    // Checker
+    if (uniforms.transparencyChecker) {
+        bool inBounds = false;
+        float4 checkerLight = 0.0;
+        if ((uvPlacement.x > 0.0 && uvPlacement.x < 1.0) && (uvPlacement.y > 0.0 && uvPlacement.y < 1.0)) {
+            inBounds = true;
+            uint x = uint(uvPlacement.x * float(inputWidth));
+            uint y = uint(uvPlacement.y * float(inputHeight));
+            bool isX = ((x + inputWidth / 2) / 100) % 2 == 0;
+            bool isY = ((y + inputHeight / 2) / 100) % 2 == 0;
+            checkerLight = isX ? (isY ? 0.75 : 0.25) : (isY ? 0.25 : 0.75);
+            checkerLight /= 2;
+        }
+        color = float4(float3(checkerLight) * (1.0 - color.a) + color.rgb, inBounds ? 0.25 + 0.75 * color.a : 0.0);
+    }
     
     // Border
     if (uniforms.scale >= uniforms.scaleRange.x && uniforms.borderOpacity > 0.0 && uniforms.borderWidth > 0.0) {

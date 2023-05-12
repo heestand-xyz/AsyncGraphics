@@ -4,6 +4,7 @@ import PixelColor
 extension Graphic {
     
     private struct InspectUniforms {
+        let transparencyChecker: Bool
         let scale: Float
         let offset: PointUniform
         let borderWidth: Float
@@ -21,6 +22,7 @@ extension Graphic {
                                placement: Placement = .fit,
                                resolution: CGSize,
                                interpolateNearest: Bool = true,
+                               transparencyChecker: Bool = false,
                                options: ContentOptions = [],
                                graphic: () async throws -> Graphic) async throws -> Graphic {
         
@@ -33,6 +35,7 @@ extension Graphic {
                 graphic
             ],
             uniforms: InspectUniforms(
+                transparencyChecker: transparencyChecker,
                 scale: Float(scale),
                 offset: offset.uniform,
                 borderWidth: Float(borderWidth),
