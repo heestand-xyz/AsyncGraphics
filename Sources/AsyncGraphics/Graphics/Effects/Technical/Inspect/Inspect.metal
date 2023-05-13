@@ -21,7 +21,8 @@ struct Uniforms {
     float borderOpacity;
     uint placement;
     packed_float2 scaleRange;
-    packed_float2 resolution;
+    packed_float2 containerResolution;
+    packed_float2 contentResolution;
 };
 
 fragment float4 inspect(VertexOut out [[stage_in]],
@@ -35,16 +36,16 @@ fragment float4 inspect(VertexOut out [[stage_in]],
     float2 uv = float2(u, v);
     
     // Resolution
-    uint inputWidth = texture.get_width();
-    uint inputHeight = texture.get_height();
-    uint outputWidth = uniforms.resolution.x;
-    uint outputHeight = uniforms.resolution.y;
+    uint inputWidth = uniforms.contentResolution.x;
+    uint inputHeight = uniforms.contentResolution.y;
+    uint outputWidth = uniforms.containerResolution.x;
+    uint outputHeight = uniforms.containerResolution.y;
     
     // Placement
     float2 uvPlacement = place(uniforms.placement, uv, outputWidth, outputHeight, inputWidth, inputHeight);
     float2 uvScale = float2(uniforms.scale, uniforms.scale);
     uvPlacement = (uvPlacement - 0.5) / uvScale + 0.5;
-    uvPlacement -= uniforms.offset / uniforms.resolution;
+    uvPlacement -= uniforms.offset / float2(outputWidth, outputHeight);
 
     // Texture
     float4 color = texture.sample(sampler, uvPlacement);
@@ -59,12 +60,13 @@ fragment float4 inspect(VertexOut out [[stage_in]],
             x -= inputWidth / 2;
             int y = int(uvPlacement.y * float(inputHeight));
             y -= inputHeight / 2;
-            bool isX = (x / 100) % 2 == (x >= 0 ? 0 : 1);
-            bool isY = (y / 100) % 2 == (y >= 0 ? 0 : 1);
+            bool isX = ((x + 10000) / 100) % 2 == 0;
+            bool isY = ((y + 10000) / 100) % 2 == 0;
             checkerLight = isX ? (isY ? 0.75 : 0.25) : (isY ? 0.25 : 0.75);
-            checkerLight /= 4;
+            checkerLight /= 2;
         }
-        color = float4(float3(checkerLight) * (1.0 - color.a) + color.rgb, inBounds ? 0.25 + 0.75 * color.a : 0.0);
+        color = float4(float3(checkerLight) * (1.0 - color.a) + color.rgb * color.a,
+                       inBounds ? 0.25 + 0.75 * color.a : 0.0);
     }
     
     // Border
@@ -79,7 +81,8 @@ fragment float4 inspect(VertexOut out [[stage_in]],
                                 uvResolution.y - float(int(uvResolution.y)));
         if (!(uvPixel.x > uvBorder.x && uvPixel.x < 1.0 - uvBorder.x) || !(uvPixel.y > uvBorder.y && uvPixel.y < 1.0 - uvBorder.y)) {
             float brightness = (color.r + color.g + color.b) / 3;
-            float4 borderColor = float4(float3(brightness < 0.5 ? 1.0 : 0.0), uniforms.borderOpacity * zoomFade);
+            float borderAlpha = uniforms.borderOpacity;
+            float4 borderColor = float4(float3(brightness < 0.5 ? 1.0 : 0.0), borderAlpha * zoomFade);
             color = float4(color.rgb * (1.0 - borderColor.a) + borderColor.rgb * borderColor.a, max(color.a, borderColor.a));
         }
     }

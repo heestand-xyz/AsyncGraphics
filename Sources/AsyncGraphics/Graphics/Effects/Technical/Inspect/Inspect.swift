@@ -11,7 +11,8 @@ extension Graphic {
         let borderOpacity: Float
         let placement: UInt32
         let scaleRange: SizeUniform
-        let resolution: SizeUniform
+        let containerResolution: SizeUniform
+        let contentResolution: SizeUniform
     }
     
     public static func inspect(scale: CGFloat = 1.0,
@@ -20,7 +21,8 @@ extension Graphic {
                                borderOpacity: CGFloat = 0.25,
                                borderFadeRange: ClosedRange<CGFloat> = 25...50,
                                placement: Placement = .fit,
-                               resolution: CGSize,
+                               containerResolution: CGSize,
+                               contentResolution: CGSize,
                                transparencyChecker: Bool = false,
                                options: ContentOptions = .interpolateNearest,
                                graphic: () async throws -> Graphic) async throws -> Graphic {
@@ -42,10 +44,11 @@ extension Graphic {
                 placement: placement.index,
                 scaleRange: CGSize(width: borderFadeRange.lowerBound,
                                    height: borderFadeRange.upperBound).uniform,
-                resolution: resolution.uniform
+                containerResolution: containerResolution.uniform,
+                contentResolution: contentResolution.uniform
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: containerResolution,
                 colorSpace: options.colorSpace,
                 bits: options.bits
             ),
