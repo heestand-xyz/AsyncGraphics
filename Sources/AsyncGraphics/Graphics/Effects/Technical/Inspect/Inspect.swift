@@ -21,9 +21,8 @@ extension Graphic {
                                borderFadeRange: ClosedRange<CGFloat> = 25...50,
                                placement: Placement = .fit,
                                resolution: CGSize,
-                               interpolateNearest: Bool = true,
                                transparencyChecker: Bool = false,
-                               options: ContentOptions = [],
+                               options: ContentOptions = .interpolateNearest,
                                graphic: () async throws -> Graphic) async throws -> Graphic {
         
         let graphic: Graphic = try await graphic()
@@ -51,7 +50,7 @@ extension Graphic {
                 bits: options.bits
             ),
             options: Renderer.Options(
-                filter: interpolateNearest ? .nearest : .linear
+                filter: options.filter
             )
         )
     }
