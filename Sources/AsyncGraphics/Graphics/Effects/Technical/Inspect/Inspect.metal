@@ -55,12 +55,14 @@ fragment float4 inspect(VertexOut out [[stage_in]],
         float4 checkerLight = 0.0;
         if ((uvPlacement.x > 0.0 && uvPlacement.x < 1.0) && (uvPlacement.y > 0.0 && uvPlacement.y < 1.0)) {
             inBounds = true;
-            uint x = uint(uvPlacement.x * float(inputWidth));
-            uint y = uint(uvPlacement.y * float(inputHeight));
-            bool isX = ((x + inputWidth / 2) / 100) % 2 == 0;
-            bool isY = ((y + inputHeight / 2) / 100) % 2 == 0;
+            int x = int(uvPlacement.x * float(inputWidth));
+            x -= inputWidth / 2;
+            int y = int(uvPlacement.y * float(inputHeight));
+            y -= inputHeight / 2;
+            bool isX = (x / 100) % 2 == (x >= 0 ? 0 : 1);
+            bool isY = (y / 100) % 2 == (y >= 0 ? 0 : 1);
             checkerLight = isX ? (isY ? 0.75 : 0.25) : (isY ? 0.25 : 0.75);
-            checkerLight /= 2;
+            checkerLight /= 4;
         }
         color = float4(float3(checkerLight) * (1.0 - color.a) + color.rgb, inBounds ? 0.25 + 0.75 * color.a : 0.0);
     }
