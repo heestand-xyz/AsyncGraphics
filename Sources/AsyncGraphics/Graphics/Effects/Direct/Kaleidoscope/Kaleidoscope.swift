@@ -38,7 +38,8 @@ extension Graphic {
                 position: relativeCenter.uniform
             ),
             options: Renderer.Options(
-                addressMode: options.addressMode
+                addressMode: options.addressMode,
+                filter: options.filter
             )
         )
     }

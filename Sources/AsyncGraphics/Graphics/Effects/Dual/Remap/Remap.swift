@@ -26,7 +26,8 @@ extension Graphic {
             ],
             uniforms: RemapUniforms(),
             options: Renderer.Options(
-                addressMode: options.addressMode
+                addressMode: options.addressMode,
+                filter: options.filter
             )
         )
     }

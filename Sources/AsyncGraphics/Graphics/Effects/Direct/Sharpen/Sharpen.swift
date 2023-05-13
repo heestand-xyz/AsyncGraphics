@@ -29,7 +29,8 @@ extension Graphic {
                 distance: Float(distance)
             ),
             options: Renderer.Options(
-                addressMode: options.addressMode
+                addressMode: options.addressMode,
+                filter: options.filter
             )
         )
     }

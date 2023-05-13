@@ -48,7 +48,8 @@ extension Graphic {
                 bits: bits
             ),
             options: Renderer.Options(
-                addressMode: options.addressMode
+                addressMode: options.addressMode,
+                filter: options.filter
             )
         )
     }

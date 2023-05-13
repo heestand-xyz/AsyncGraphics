@@ -85,6 +85,7 @@ extension Graphic {
             ),
             options: Renderer.Options(
                 addressMode: .clampToZero,
+                filter: options.filter,
                 clearColor: backgroundColor,
                 additive: true,
                 sampleCount: sampleCount.rawValue

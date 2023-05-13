@@ -51,7 +51,8 @@ extension Graphic {
             shader: .code(metalCode, name: "directMetal"),
             graphics: [self],
             options: Renderer.Options(
-                addressMode: options.addressMode
+                addressMode: options.addressMode,
+                filter: options.filter
             )
         )
     }

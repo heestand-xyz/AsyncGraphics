@@ -25,7 +25,8 @@ extension Graphic {
                 origin: origin.uniform
             ),
             options: Renderer.Options(
-                addressMode: options.addressMode
+                addressMode: options.addressMode,
+                filter: options.filter
             )
         )
     }

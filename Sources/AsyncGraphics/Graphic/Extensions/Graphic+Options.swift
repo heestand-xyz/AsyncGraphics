@@ -37,11 +37,11 @@ extension Graphic {
             .sRGB //contains(.displayP3) ? .displayP3 : .sRGB
         }
         
-//        public static let interpolateNearest = ContentOptions(rawValue: 1 << 3)
-//
-//        var filter: MTLSamplerMinMagFilter {
-//            contains(.interpolateNearest) ? .nearest : .linear
-//        }
+        public static let interpolateNearest = ContentOptions(rawValue: 1 << 3)
+
+        var filter: MTLSamplerMinMagFilter {
+            contains(.interpolateNearest) ? .nearest : .linear
+        }
         
         public init(rawValue: Int) {
             self.rawValue = rawValue
@@ -70,6 +70,12 @@ extension Graphic {
         
         var premultiply: Bool {
             !contains(.pureAlpha)
+        }
+        
+        public static let interpolateNearest = EffectOptions(rawValue: 1 << 3)
+
+        var filter: MTLSamplerMinMagFilter {
+            contains(.interpolateNearest) ? .nearest : .linear
         }
         
         public init(rawValue: Int) {

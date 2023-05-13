@@ -51,7 +51,8 @@ extension Graphic {
                 alphaCrop: Float(parameters.alphaCrop)
             ),
             options: Renderer.Options(
-                addressMode: options.addressMode
+                addressMode: options.addressMode,
+                filter: options.filter
             )
         )
     }

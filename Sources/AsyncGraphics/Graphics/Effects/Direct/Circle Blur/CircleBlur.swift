@@ -44,7 +44,8 @@ extension Graphic {
                 light: Float(light)
             ),
             options: Renderer.Options(
-                addressMode: options.addressMode
+                addressMode: options.addressMode,
+                filter: options.filter
             )
         )
     }

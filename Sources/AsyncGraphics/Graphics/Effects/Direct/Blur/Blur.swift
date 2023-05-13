@@ -74,7 +74,8 @@ extension Graphic {
                 position: CGPoint.zero.uniform
             ),
             options: Renderer.Options(
-                addressMode: options.addressMode
+                addressMode: options.addressMode,
+                filter: options.filter
             )
         )
     }
@@ -101,7 +102,8 @@ extension Graphic {
                 position: relativeCenter.uniform
             ),
             options: Renderer.Options(
-                addressMode: options.addressMode
+                addressMode: options.addressMode,
+                filter: options.filter
             )
         )
     }
@@ -125,7 +127,8 @@ extension Graphic {
                 position: CGPoint.zero.uniform
             ),
             options: Renderer.Options(
-                addressMode: options.addressMode
+                addressMode: options.addressMode,
+                filter: options.filter
             )
         )
     }
@@ -147,7 +150,8 @@ extension Graphic {
                 position: CGPoint.zero.uniform
             ),
             options: Renderer.Options(
-                addressMode: options.addressMode
+                addressMode: options.addressMode,
+                filter: options.filter
             )
         )
     }

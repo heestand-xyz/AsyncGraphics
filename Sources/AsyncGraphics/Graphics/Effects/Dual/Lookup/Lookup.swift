@@ -58,7 +58,8 @@ extension Graphic {
                 sampleCoordinate: Float(sampleCoordinate)
             ),
             options: Renderer.Options(
-                addressMode: options.addressMode
+                addressMode: options.addressMode,
+                filter: options.filter
             )
         )
     }

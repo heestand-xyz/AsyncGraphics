@@ -38,7 +38,8 @@ extension Graphic {
                 placement: Int32(placement.index)
             ),
             options: Renderer.Options(
-                addressMode: options.addressMode
+                addressMode: options.addressMode,
+                filter: options.filter
             )
         )
     }
