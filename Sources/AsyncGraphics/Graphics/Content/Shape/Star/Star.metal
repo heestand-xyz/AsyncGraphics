@@ -191,13 +191,13 @@ fragment float4 star(VertexOut out [[stage_in]],
             float p5r = (fid + uniforms.rotation) * pi * 2;
             float2 p5 = p1 + float2((sin(p5r) * largeScale) / aspectRatio, cos(p5r) * largeScale);
 
-            float2 p2x = float2((p2.x - 0.5) * aspectRatio, p2.y - 0.5);
+//            float2 p2x = float2((p2.x - 0.5) * aspectRatio, p2.y - 0.5);
             float2 p23x = float2((p23.x - 0.5) * aspectRatio, p23.y - 0.5);
             float2 p3x = float2((p3.x - 0.5) * aspectRatio, p3.y - 0.5);
             float2 p34x = float2((p34.x - 0.5) * aspectRatio, p34.y - 0.5);
             float2 p4x = float2((p4.x - 0.5) * aspectRatio, p4.y - 0.5);
             float2 p45x = float2((p45.x - 0.5) * aspectRatio, p45.y - 0.5);
-            float2 p5x = float2((p5.x - 0.5) * aspectRatio, p5.y - 0.5);
+//            float2 p5x = float2((p5.x - 0.5) * aspectRatio, p5.y - 0.5);
             
             StarCornerCircle cc1 = starCornerCircle(p3x, p23x, p34x, r);
             StarCornerCircle cc12 = starCornerCircle(p34x, p3x, p4x, r);
@@ -209,7 +209,7 @@ fragment float4 star(VertexOut out [[stage_in]],
 
             float2 cc1p = float2(cc1.p.x / aspectRatio + 0.5, cc1.p.y + 0.5);
             float2 cc1c2 = float2(cc1.c2.x / aspectRatio + 0.5, cc1.c2.y + 0.5);
-            float2 cc12p = float2(cc12.p.x / aspectRatio + 0.5, cc12.p.y + 0.5);
+//            float2 cc12p = float2(cc12.p.x / aspectRatio + 0.5, cc12.p.y + 0.5);
             float2 cc12c1 = float2(cc12.c1.x / aspectRatio + 0.5, cc12.c1.y + 0.5);
             float2 cc12c2 = float2(cc12.c2.x / aspectRatio + 0.5, cc12.c2.y + 0.5);
             float2 cc2p = float2(cc2.p.x / aspectRatio + 0.5, cc2.p.y + 0.5);
