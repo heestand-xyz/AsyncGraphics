@@ -21,6 +21,7 @@ final class GraphicMetalView: MTKView {
         autoResizeDrawable = true
         enableSetNeedsDisplay = true
         isPaused = true
+        colorPixelFormat = .rgba8Unorm
         
         #if os(macOS)
         wantsLayer = true
