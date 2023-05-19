@@ -72,7 +72,9 @@ extension GraphicMetalView: MTKViewDelegate {
         guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else { return }
         guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else { return }
 
-        if targetTexture.width == texture.width && targetTexture.height == texture.height,
+        if graphic.bits == ._8,
+           targetTexture.width == texture.width,
+           targetTexture.height == texture.height,
            let blitEncoder = commandBuffer.makeBlitCommandEncoder() {
            
             blitEncoder.copy(from: texture,
