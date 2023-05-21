@@ -8,6 +8,8 @@ AsyncGraphics is a Swift package for working with images and video with async / 
 
 [**Documentation**](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/) (DocC)
 
+See the [**Graphic**](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic) docs for all effects.
+
 ### Articles
 
 - [Blending](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/blending)
