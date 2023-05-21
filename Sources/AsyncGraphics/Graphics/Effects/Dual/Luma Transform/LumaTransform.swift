@@ -17,7 +17,7 @@ extension Graphic {
         let lumaGamma: Float
     }
     
-    @available(*, deprecated, renamed: "lumaTranslated(translation:lumaGamma:placement:options:graphic:)")
+    @available(*, deprecated, renamed: "lumaOffset(_:lumaGamma:placement:options:graphic:)")
     public func lumaTranslated(
         with graphic: Graphic,
         translation: CGPoint,
@@ -35,8 +35,8 @@ extension Graphic {
         )
     }
     
-    public func lumaTranslated(
-        translation: CGPoint,
+    public func lumaOffset(
+        _ translation: CGPoint,
         lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
         options: EffectOptions = EffectOptions(),
@@ -52,7 +52,7 @@ extension Graphic {
         )
     }
     
-    @available(*, deprecated, renamed: "lumaTranslated(x:y:lumaGamma:placement:options:graphic:)")
+    @available(*, deprecated, renamed: "lumaOffset(x:y:lumaGamma:placement:options:graphic:)")
     public func lumaTranslated(
         with graphic: Graphic,
         x: CGFloat = 0.0,
@@ -71,7 +71,7 @@ extension Graphic {
         )
     }
     
-    public func lumaTranslated(
+    public func lumaOffset(
         x: CGFloat = 0.0,
         y: CGFloat = 0.0,
         lumaGamma: CGFloat = 1.0,

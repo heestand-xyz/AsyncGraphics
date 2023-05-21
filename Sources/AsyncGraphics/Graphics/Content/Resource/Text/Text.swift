@@ -2,19 +2,11 @@
 //  Created by Anton Heestand on 2022-08-08.
 //
 
-import Foundation
-#if os(macOS)
-import AppKit
-#else
-import UIKit
-#endif
 import CoreGraphics
 import CoreGraphicsExtensions
 import TextureMap
 import PixelColor
-import CoreText
-
-// https://metalbyexample.com/text-3d/
+import SpriteKit
 
 extension Graphic {
     
@@ -29,6 +21,17 @@ extension Graphic {
         case left
         case center
         case right
+        
+        var mode: SKLabelHorizontalAlignmentMode  {
+            switch self {
+            case .left:
+                return .left
+            case .center:
+                return .center
+            case .right:
+                return .right
+            }
+        }
     }
     
     public enum TextVerticalAlignment {
@@ -36,78 +39,108 @@ extension Graphic {
         case top
         case center
         case bottom
+        
+        var mode: SKLabelVerticalAlignmentMode  {
+            switch self {
+            case .top:
+                return .top
+            case .center:
+                return .center
+            case .bottom:
+                return .bottom
+            }
+        }
     }
     
     enum TextError: LocalizedError {
         
         case renderFailed
-        case noRunFound
         
         var errorDescription: String? {
             switch self {
             case .renderFailed:
                 return "AsyncGraphics - Graphic - Text - Render Failed"
-            case .noRunFound:
-                return "AsyncGraphics - Graphic - Text - No Run Found"
             }
         }
     }
     
-    /*public*/ static func text(_ text: String,
-                                fontSize: CGFloat,
-                                center: CGPoint? = nil,
-                                horizontalAlignment: TextHorizontalAlignment = .center,
-                                verticalAlignment: TextVerticalAlignment = .center,
-                                color: PixelColor = .white,
-                                backgroundColor: PixelColor = .black,
-                                options: ContentOptions = ContentOptions()) async throws -> Graphic {
+    public static func text(_ text: String,
+                            font: TextFont,
+                            center: CGPoint? = nil,
+                            horizontalAlignment: TextHorizontalAlignment = .center,
+                            verticalAlignment: TextVerticalAlignment = .center,
+                            color: PixelColor = .white,
+                            backgroundColor: PixelColor = .black,
+                            resolution: CGSize,
+                            options: ContentOptions = ContentOptions()) async throws -> Graphic {
         
-//        let resolution = CGSize(width: 1_000, height: 1_000)
-//        let center: CGPoint = center ?? (resolution.asPoint / 2)
-
-        let font = CTFontCreateWithName("HelveticaNeue-UltraLight" as CFString, fontSize, nil)
+        let center: CGPoint = center ?? (resolution.asPoint / 2)
         
-        let textFont = TextFont.systemFont(ofSize: fontSize)
-        let attributes: [NSAttributedString.Key: Any] = [.font: textFont]
-        let attributedString = NSAttributedString(string: text, attributes: attributes)
-
-        let typesetter = CTTypesetterCreateWithAttributedString(attributedString)
-        let line = CTTypesetterCreateLine(typesetter, CFRange(location: 0, length: 0))
-        let runs: [CTRun] = CTLineGetGlyphRuns(line) as! [CTRun]
-        
-        guard let run = runs.first else {
-            throw TextError.noRunFound
-        }
-                    
-        let glyphCount = CTRunGetGlyphCount(run)
-        
-        var glyphPositions = [CGPoint](repeating: .zero, count: Int(glyphCount))
-        CTRunGetPositions(run, CFRange(location: 0, length: 0), &glyphPositions)
-        
-        var glyphs = [CGGlyph](repeating: 0, count: Int(glyphCount))
-        CTRunGetGlyphs(run, CFRange(location: 0, length: 0), &glyphs)
-        
-        print(glyphs.count, glyphPositions.count)
-        
-        for (glyph, glyphPosition) in zip(glyphs, glyphPositions) {
+        let texture: MTLTexture = try await withCheckedThrowingContinuation { continuation in
             
-            var transform = CGAffineTransform(translationX: glyphPosition.x, y: glyphPosition.y)
+            DispatchQueue.main.async {
+                
+                let scene = SKScene(size: resolution)
+                #if os(macOS)
+                scene.backgroundColor = backgroundColor.nsColor
+                #else
+                scene.backgroundColor = backgroundColor.uiColor
+                #endif
+                
+                let label = SKLabelNode()
+                label.text = text
+                label.numberOfLines = 0
+                label.position = center
+                label.fontName = font.fontName
+                label.fontSize = font.pointSize
+                #if os(macOS)
+                label.fontColor = color.nsColor
+                #else
+                label.fontColor = color.uiColor
+                #endif
+                label.horizontalAlignmentMode = horizontalAlignment.mode
+                label.verticalAlignmentMode = verticalAlignment.mode
+                scene.addChild(label)
 
-            if let path = CTFontCreatePathForGlyph(font, glyph, &transform) {
-                // Use the path here
+                let sceneView = SKView(frame: CGRect(origin: .zero, size: resolution))
+                sceneView.allowsTransparency = backgroundColor.alpha < 1.0
+                sceneView.presentScene(scene)
+
+                guard let skTexture: SKTexture = sceneView.texture(from: scene) else {
+                    continuation.resume(throwing: TextError.renderFailed)
+                    return
+                }
+                
+                DispatchQueue.global(qos: .background).async {
+                    
+                    let cgImage: CGImage = skTexture.cgImage()
+                    
+                    do {
+                        
+                        let texture: MTLTexture = try TextureMap.texture(cgImage: cgImage)
+                        
+                        DispatchQueue.main.async {
+                            continuation.resume(returning: texture)
+                        }
+                        
+                    } catch {
+                        DispatchQueue.main.async {
+                            continuation.resume(throwing: error)
+                        }
+                    }
+                }
             }
         }
-    
-        throw TextError.renderFailed
-//        var graphic = Graphic(name: "Text",
-//                              texture: texture,
-//                              bits: ._8,
-//                              colorSpace: options.colorSpace)
-//
-//        if options.bits != ._8 {
-//            graphic = try await graphic.bits(options.bits)
-//        }
-//
-//        return graphic
+        
+        var graphic = Graphic(name: "Text",
+                              texture: texture,
+                              bits: ._8,
+                              colorSpace: options.colorSpace)
+        
+        if options.bits != ._8 {
+            graphic = try await graphic.bits(options.bits)
+        }
+        
+        return graphic
     }
 }
