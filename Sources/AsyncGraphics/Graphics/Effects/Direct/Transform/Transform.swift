@@ -15,13 +15,13 @@ extension Graphic {
         let size: SizeUniform
     }
     
-    @available(*, deprecated, renamed: "offset(_:options:)")
+//    @available(*, deprecated, renamed: "offset(_:options:)")
     public func translated(_ translation: CGPoint,
                            options: EffectOptions = EffectOptions()) async throws -> Graphic {
         try await transformed(translation: translation, options: options)
     }
     
-    @available(*, deprecated, renamed: "offset(x:y:options:)")
+//    @available(*, deprecated, renamed: "offset(x:y:options:)")
     public func translated(x: CGFloat = 0.0, y: CGFloat = 0.0,
                            options: EffectOptions = EffectOptions()) async throws -> Graphic {
         try await transformed(translation: CGPoint(x: x, y: y), options: options)

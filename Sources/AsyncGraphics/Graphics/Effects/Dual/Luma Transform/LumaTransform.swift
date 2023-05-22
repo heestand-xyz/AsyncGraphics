@@ -17,7 +17,7 @@ extension Graphic {
         let lumaGamma: Float
     }
     
-    @available(*, deprecated, renamed: "lumaOffset(_:lumaGamma:placement:options:graphic:)")
+//    @available(*, deprecated, renamed: "lumaOffset(_:lumaGamma:placement:options:graphic:)")
     public func lumaTranslated(
         with graphic: Graphic,
         translation: CGPoint,
@@ -52,7 +52,7 @@ extension Graphic {
         )
     }
     
-    @available(*, deprecated, renamed: "lumaOffset(x:y:lumaGamma:placement:options:graphic:)")
+//    @available(*, deprecated, renamed: "lumaOffset(x:y:lumaGamma:placement:options:graphic:)")
     public func lumaTranslated(
         with graphic: Graphic,
         x: CGFloat = 0.0,
@@ -89,7 +89,7 @@ extension Graphic {
         )
     }
     
-    @available(*, deprecated, renamed: "lumaRotated(rotation:lumaGamma:placement:options:graphic:)")
+//    @available(*, deprecated, renamed: "lumaRotated(rotation:lumaGamma:placement:options:graphic:)")
     public func lumaRotated(
         with graphic: Graphic,
         rotation: Angle,
@@ -124,7 +124,7 @@ extension Graphic {
         )
     }
     
-    @available(*, deprecated, renamed: "lumaScaled(scale:lumaGamma:placement:options:graphic:)")
+//    @available(*, deprecated, renamed: "lumaScaled(scale:lumaGamma:placement:options:graphic:)")
     public func lumaScaled(
         with graphic: Graphic,
         scale: CGFloat,
@@ -159,7 +159,7 @@ extension Graphic {
         )
     }
     
-    @available(*, deprecated, renamed: "lumaScaled(x:y:lumaGamma:placement:options:graphic:)")
+//    @available(*, deprecated, renamed: "lumaScaled(x:y:lumaGamma:placement:options:graphic:)")
     public func lumaScaled(
         with graphic: Graphic,
         x: CGFloat = 1.0,

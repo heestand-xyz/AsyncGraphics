@@ -18,7 +18,7 @@ extension Graphic {
         let size: SizeUniform
     }
     
-    @available(*, deprecated, renamed: "blended(blendingMode:placement:options:graphic:)")
+//    @available(*, deprecated, renamed: "blended(blendingMode:placement:options:graphic:)")
     public func blended(
         with graphic: Graphic,
         blendingMode: AGBlendMode,
@@ -60,7 +60,7 @@ extension Graphic {
         )
     }
     
-    @available(*, deprecated, renamed: "transformBlended(blendingMode:placement:translation:rotation:scale:size:options:graphic:)")
+//    @available(*, deprecated, renamed: "transformBlended(blendingMode:placement:translation:rotation:scale:size:options:graphic:)")
     public func transformBlended(
         with graphic: Graphic,
         blendingMode: AGBlendMode,
@@ -113,7 +113,7 @@ extension Graphic {
         )
     }
     
-    @available(*, deprecated, renamed: "mask(placement:options:foreground:background:mask:)")
+//    @available(*, deprecated, renamed: "mask(placement:options:foreground:background:mask:)")
     public static func mask(
         foreground foregroundGraphic: Graphic,
         background backgroundGraphic: Graphic,

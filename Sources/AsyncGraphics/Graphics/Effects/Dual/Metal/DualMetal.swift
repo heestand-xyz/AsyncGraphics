@@ -19,7 +19,7 @@ extension Graphic {
         }
     }
     
-    @available(*, deprecated, renamed: "metal(code:options:graphic:)")
+//    @available(*, deprecated, renamed: "metal(code:options:graphic:)")
     public func metal(with graphic: Graphic,
                       code: String,
                       options: EffectOptions = EffectOptions()) async throws -> Graphic {
