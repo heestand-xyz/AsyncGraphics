@@ -21,8 +21,8 @@ extension Graphic {
         let lumaGamma: Float
     }
    
-    /// Default is 1.0
 //    @available(*, deprecated, renamed: "lumaBrightness(brightness:lumaGamma:placement:graphic:)")
+    /// Default is 1.0
     public func lumaBrightness(
         with graphic: Graphic,
         brightness: CGFloat,
@@ -54,8 +54,8 @@ extension Graphic {
         )
     }
     
-    /// Default is 0.0
 //    @available(*, deprecated, renamed: "lumaDarkness(darkness:lumaGamma:placement:graphic:)")
+    /// Default is 0.0
     public func lumaDarkness(
         with graphic: Graphic,
         darkness: CGFloat,
@@ -87,8 +87,8 @@ extension Graphic {
         )
     }
     
-    /// Default is 0.0
 //    @available(*, deprecated, renamed: "lumaContrast(contrast:lumaGamma:placement:graphic:)")
+    /// Default is 0.0
     public func lumaContrast(
         with graphic: Graphic,
         contrast: CGFloat,
@@ -120,8 +120,8 @@ extension Graphic {
         )
     }
     
-    /// Default is 1.0
 //    @available(*, deprecated, renamed: "lumaGamma(gamma:lumaGamma:placement:graphic:)")
+    /// Default is 1.0
     public func lumaGamma(
         with graphic: Graphic,
         gamma: CGFloat,
@@ -242,8 +242,8 @@ extension Graphic {
         )
     }
     
-    /// Default is 0.0
 //    @available(*, deprecated, renamed: "lumaExposureOffset(offset:lumaGamma:placement:graphic:)")
+    /// Default is 0.0
     public func lumaExposureOffset(
         with graphic: Graphic,
         offset: CGFloat,

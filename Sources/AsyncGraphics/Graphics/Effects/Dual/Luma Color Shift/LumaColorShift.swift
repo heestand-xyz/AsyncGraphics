@@ -41,8 +41,8 @@ extension Graphic {
         )
     }
     
-    /// `1.0` is *default*
 //    @available(*, deprecated, renamed: "lumaSaturated(saturation:lumaGamma:graphic:)")
+    /// `1.0` is *default*
     public func lumaSaturated(
         with graphic: Graphic,
         saturation: CGFloat,
@@ -70,8 +70,8 @@ extension Graphic {
         )
     }
     
-    /// `0.0` is *default*, `0.5` is `180` degrees of hue shift
 //    @available(*, deprecated, renamed: "lumaHue(hue:lumaGamma:graphic:)")
+    /// `0.0` is *default*, `0.5` is `180` degrees of hue shift
     public func lumaHue(
         with graphic: Graphic,
         hue: Angle,
