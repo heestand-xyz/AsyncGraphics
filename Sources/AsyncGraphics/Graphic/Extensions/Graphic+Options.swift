@@ -61,18 +61,23 @@ extension Graphic {
         ///
         /// Pixels sampled outside of uv coordinates 0.0 and 1.0 will be stretched
         public static let edgeStretch = EffectOptions(rawValue: 1 << 1)
+        
+        /// Edge sampling method of loop
+        ///
+        /// Pixels sampled outside of uv coordinates 0.0 and 1.0 will be repeated
+        public static let edgeLoop = EffectOptions(rawValue: 1 << 2)
 
         var addressMode: MTLSamplerAddressMode {
-            contains(.edgeMirror) ? .mirrorRepeat : contains(.edgeStretch) ? .clampToEdge : .clampToZero
+            contains(.edgeLoop) ? .repeat : contains(.edgeMirror) ? .mirrorRepeat : contains(.edgeStretch) ? .clampToEdge : .clampToZero
         }
         
-        public static let pureAlpha = EffectOptions(rawValue: 1 << 2)
+        public static let pureAlpha = EffectOptions(rawValue: 1 << 3)
         
         var premultiply: Bool {
             !contains(.pureAlpha)
         }
         
-        public static let interpolateNearest = EffectOptions(rawValue: 1 << 3)
+        public static let interpolateNearest = EffectOptions(rawValue: 1 << 4)
 
         var filter: MTLSamplerMinMagFilter {
             contains(.interpolateNearest) ? .nearest : .linear
