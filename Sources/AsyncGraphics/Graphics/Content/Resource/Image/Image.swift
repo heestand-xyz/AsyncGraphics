@@ -45,9 +45,9 @@ extension Graphic {
             let linearSRGB = CGColorSpace(name: CGColorSpace.linearSRGB)!
             graphic = try await graphic.convertColorSpace(from: .custom(linearSRGB), to: .sRGB)
         }
-        
+
         if isMonochrome {
-            graphic = try await graphic.monochrome().assignColorSpace(.sRGB)
+            graphic = try await graphic.channelMix(green: .red, blue: .red, alpha: .green).assignColorSpace(.sRGB)
         } else {
             /// Fix for different texture pixel formats
             graphic = try await graphic.brightness(1.0)
@@ -100,7 +100,7 @@ extension Graphic {
     private func rotate(to orientation: UIImage.Orientation) async throws -> Graphic {
         switch orientation {
         case .down, .downMirrored:
-            return try await rotatedLeft().rotatedLeft()
+            return try await rotated(.degrees(180))
         case .left, .leftMirrored:
             return try await rotatedLeft()
         case .right, .rightMirrored:

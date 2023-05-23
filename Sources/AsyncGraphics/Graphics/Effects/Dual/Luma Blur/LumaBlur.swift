@@ -43,7 +43,7 @@ extension Graphic {
 //        let selectivelyFocusedCIImage = maskedVariableBlur.outputImage
 //    }
     
-    @available(*, deprecated, renamed: "lumaBlurredBox(radius:lumaGamma:sampleCount:placement:options:graphic:)")
+//    @available(*, deprecated, renamed: "lumaBlurredBox(radius:lumaGamma:sampleCount:placement:options:graphic:)")
     public func lumaBlurredBox(
         with graphic: Graphic,
         radius: CGFloat,
@@ -83,7 +83,7 @@ extension Graphic {
         )
     }
  
-    @available(*, deprecated, renamed: "lumaBlurredZoom(radius:center:lumaGamma:sampleCount:placement:options:graphic:)")
+//    @available(*, deprecated, renamed: "lumaBlurredZoom(radius:center:lumaGamma:sampleCount:placement:options:graphic:)")
     public func lumaBlurredZoom(
         with graphic: Graphic,
         radius: CGFloat,
@@ -127,7 +127,7 @@ extension Graphic {
         )
     }
     
-    @available(*, deprecated, renamed: "lumaBlurredAngle(radius:angle:lumaGamma:sampleCount:placement:options:graphic:)")
+//    @available(*, deprecated, renamed: "lumaBlurredAngle(radius:angle:lumaGamma:sampleCount:placement:options:graphic:)")
     public func lumaBlurredAngle(
         with graphic: Graphic,
         radius: CGFloat,
@@ -171,7 +171,7 @@ extension Graphic {
         )
     }
     
-    @available(*, deprecated, renamed: "lumaBlurredRandom(radius:lumaGamma:placement:options:graphic:)")
+//    @available(*, deprecated, renamed: "lumaBlurredRandom(radius:lumaGamma:placement:options:graphic:)")
     public func lumaBlurredRandom(
         with graphic: Graphic,
         radius: CGFloat,

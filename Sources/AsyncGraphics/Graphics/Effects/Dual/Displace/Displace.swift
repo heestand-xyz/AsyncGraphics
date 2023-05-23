@@ -14,7 +14,7 @@ extension Graphic {
         let placement: UInt32
     }
     
-    @available(*, deprecated, renamed: "displaced(offset:origin:placement:options:graphic:)")
+//    @available(*, deprecated, renamed: "displaced(offset:origin:placement:options:graphic:)")
     public func displaced(with graphic: Graphic,
                           offset: CGFloat,
                           origin: PixelColor = .rawGray,

@@ -19,7 +19,29 @@ extension Graphic {
         }
     }
     
-    @available(*, deprecated, renamed: "metal(code:options:graphic:)")
+//    @available(*, deprecated, renamed: "metal(code:options:graphic:)")
+    /// Metal Shader Code with two inputs
+    ///
+    /// Get the resolutions of the input textures.
+    /// ```
+    /// uint leadingWidth = leadingTexture.get_width();
+    /// uint leadingHeight = leadingTexture.get_height();
+    /// uint trailingWidth = trailingTexture.get_width();
+    /// uint trailingHeight = trailingTexture.get_height();
+    /// ```
+    ///
+    /// Sample the next pixel.
+    /// ```
+    /// float2 coord = uv + float2(1.0 / float(leadingWidth), 0.0);
+    /// float4 nextColor = leadingTexture.sample(sampler, coord);
+    /// ```
+    ///
+    /// Return a `float4` color.
+    /// ```
+    /// return leadingColor + trailingColor;
+    /// ```
+    ///
+    /// Available variables are:  `sampler`, `leadingTexture`, `trailingTexture`, `u`, `v`, `uv`, `leadingColor`, `trailingColor`.
     public func metal(with graphic: Graphic,
                       code: String,
                       options: EffectOptions = EffectOptions()) async throws -> Graphic {

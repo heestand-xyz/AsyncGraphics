@@ -20,11 +20,18 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 - <doc:VideoEditing>
 - <doc:VideoPlayback>
 
-### Graphics
+### Graphic
+
+- ``Graphic``
+
+### Graphic 3D
+
+- ``Graphic3D``
+
+### Graph
 
 - ``AGGraph``
-- ``Graphic``
-- ``Graphic3D``
+- ``AGGraphic``
 
 ### Views
 
@@ -36,6 +43,7 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 
 - ``GraphicVideoPlayer``
 - ``GraphicVideoRecorder``
+- ``GraphicRecorder``
 
 ### Lists
 
@@ -53,6 +61,7 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 - ``AGSpacer``
 - ``AGPadding``
 - ``AGAspectRatio``
+- ``AGOffset``
 
 ### Resources
 
@@ -72,6 +81,7 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 
 - ``AGColor``
 - ``AGForegroundColor``
+- ``AGBackgroundColor``
 - ``AGBorder``
 
 ### Effects
@@ -83,6 +93,7 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 ### Blending
 
 - ``AGBlend``
+- ``AGBlended``
 - ``AGMask``
 - ``AGBackground``
 - ``AGOpacity``
@@ -91,8 +102,18 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 
 - ``AGForEach``
 
+### Renderer
+
+- ``Renderer``
+- ``AGGraphRenderer``
+
 ### Other
 
 - ``AGGraphBuilder``
 - ``AGSpecification``
+- ``AGComponents``
 - ``AGDetails``
+- ``AGGroup``
+- ``AGContentMode``
+- ``AGArrayBlendMode``
+- ``Placement``

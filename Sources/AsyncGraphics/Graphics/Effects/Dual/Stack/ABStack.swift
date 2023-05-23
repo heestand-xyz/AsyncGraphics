@@ -8,7 +8,7 @@ extension Graphic {
         let spacing: Float
     }
     
-    @available(*, deprecated, renamed: "vStacked(alignment:spacing:graphic:)")
+//    @available(*, deprecated, renamed: "vStacked(alignment:spacing:graphic:)")
     func vStacked(with graphic: Graphic,
                   alignment: VStackAlignment = .center,
                   spacing: CGFloat = 0.0) async throws -> Graphic {
@@ -45,7 +45,7 @@ extension Graphic {
         )
     }
     
-    @available(*, deprecated, renamed: "hStacked(alignment:spacing:graphic:)")
+//    @available(*, deprecated, renamed: "hStacked(alignment:spacing:graphic:)")
     func hStacked(with graphic: Graphic,
                   alignment: HStackAlignment = .center,
                   spacing: CGFloat = 0.0) async throws -> Graphic {

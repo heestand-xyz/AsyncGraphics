@@ -21,8 +21,8 @@ extension Graphic {
         let lumaGamma: Float
     }
    
+//    @available(*, deprecated, renamed: "lumaBrightness(brightness:lumaGamma:placement:graphic:)")
     /// Default is 1.0
-    @available(*, deprecated, renamed: "lumaBrightness(brightness:lumaGamma:placement:graphic:)")
     public func lumaBrightness(
         with graphic: Graphic,
         brightness: CGFloat,
@@ -54,8 +54,8 @@ extension Graphic {
         )
     }
     
+//    @available(*, deprecated, renamed: "lumaDarkness(darkness:lumaGamma:placement:graphic:)")
     /// Default is 0.0
-    @available(*, deprecated, renamed: "lumaDarkness(darkness:lumaGamma:placement:graphic:)")
     public func lumaDarkness(
         with graphic: Graphic,
         darkness: CGFloat,
@@ -87,8 +87,8 @@ extension Graphic {
         )
     }
     
+//    @available(*, deprecated, renamed: "lumaContrast(contrast:lumaGamma:placement:graphic:)")
     /// Default is 0.0
-    @available(*, deprecated, renamed: "lumaContrast(contrast:lumaGamma:placement:graphic:)")
     public func lumaContrast(
         with graphic: Graphic,
         contrast: CGFloat,
@@ -120,8 +120,8 @@ extension Graphic {
         )
     }
     
+//    @available(*, deprecated, renamed: "lumaGamma(gamma:lumaGamma:placement:graphic:)")
     /// Default is 1.0
-    @available(*, deprecated, renamed: "lumaGamma(gamma:lumaGamma:placement:graphic:)")
     public func lumaGamma(
         with graphic: Graphic,
         gamma: CGFloat,
@@ -153,7 +153,7 @@ extension Graphic {
         )
     }
     
-    @available(*, deprecated, renamed: "lumaInverted(lumaGamma:placement:graphic:)")
+//    @available(*, deprecated, renamed: "lumaInverted(lumaGamma:placement:graphic:)")
     public func lumaInverted(
         with graphic: Graphic,
         lumaGamma: CGFloat = 1.0,
@@ -182,7 +182,7 @@ extension Graphic {
         )
     }
     
-    @available(*, deprecated, renamed: "lumaSmoothed(lumaGamma:placement:graphic:)")
+//    @available(*, deprecated, renamed: "lumaSmoothed(lumaGamma:placement:graphic:)")
     public func lumaSmoothed(
         with graphic: Graphic,
         lumaGamma: CGFloat = 1.0,
@@ -211,7 +211,7 @@ extension Graphic {
         )
     }
     
-    @available(*, deprecated, renamed: "lumaOpacity(opacity:lumaGamma:placement:graphic:)")
+//    @available(*, deprecated, renamed: "lumaOpacity(opacity:lumaGamma:placement:graphic:)")
     public func lumaOpacity(
         with graphic: Graphic,
         opacity: CGFloat,
@@ -242,8 +242,8 @@ extension Graphic {
         )
     }
     
+//    @available(*, deprecated, renamed: "lumaExposureOffset(offset:lumaGamma:placement:graphic:)")
     /// Default is 0.0
-    @available(*, deprecated, renamed: "lumaExposureOffset(offset:lumaGamma:placement:graphic:)")
     public func lumaExposureOffset(
         with graphic: Graphic,
         offset: CGFloat,
@@ -275,7 +275,7 @@ extension Graphic {
         )
     }
     
-    @available(*, deprecated, renamed: "lumaAdd(value:lumaGamma:placement:graphic:)")
+//    @available(*, deprecated, renamed: "lumaAdd(value:lumaGamma:placement:graphic:)")
     public func lumaAdd(
         with graphic: Graphic,
         value: CGFloat,
@@ -306,7 +306,7 @@ extension Graphic {
         )
     }
     
-    @available(*, deprecated, renamed: "lumaSubtract(value:lumaGamma:placement:graphic:)")
+//    @available(*, deprecated, renamed: "lumaSubtract(value:lumaGamma:placement:graphic:)")
     public func lumaSubtract(
         with graphic: Graphic,
         value: CGFloat,
@@ -337,7 +337,7 @@ extension Graphic {
         )
     }
     
-    @available(*, deprecated, renamed: "lumaMultiply(value:lumaGamma:placement:graphic:)")
+//    @available(*, deprecated, renamed: "lumaMultiply(value:lumaGamma:placement:graphic:)")
     public func lumaMultiply(
         with graphic: Graphic,
         value: CGFloat,
@@ -368,7 +368,7 @@ extension Graphic {
         )
     }
     
-    @available(*, deprecated, renamed: "lumaDivide(value:lumaGamma:placement:graphic:)")
+//    @available(*, deprecated, renamed: "lumaDivide(value:lumaGamma:placement:graphic:)")
     public func lumaDivide(
         with graphic: Graphic,
         value: CGFloat,
