@@ -8,15 +8,16 @@
 #include <metal_stdlib>
 using namespace metal;
 
-struct VertexOut{
+struct VertexOut {
     float4 position [[position]];
     float2 texCoord;
 };
 
-struct Uniforms{
-    float mode;
+struct Uniforms {
+    uint mode;
     float rx;
     float ry;
+    float fraction;
 };
 
 float2 domeToEqui(float2 uv) {
@@ -110,47 +111,50 @@ float2 cubeToEqui(float2 uv) {
     return uv;
 }
 
-fragment float4 effectSingleConvertPIX(VertexOut out [[stage_in]],
-                                       texture2d<float>  inTex [[ texture(0) ]],
-                                       const device Uniforms& in [[ buffer(0) ]],
-                                       sampler s [[ sampler(0) ]]) {
+fragment float4 convert(VertexOut out [[stage_in]],
+                        texture2d<float> texture [[ texture(0) ]],
+                        const device Uniforms& uniforms [[ buffer(0) ]],
+                        sampler sampler [[ sampler(0) ]]) {
     
     float u = out.texCoord[0];
     float v = out.texCoord[1];
     float2 uv = float2(u, v);
     
-    switch (int(in.mode)) {
+    float2 displaceUV = uv;
+    switch (int(uniforms.mode)) {
         case 0: // domeToEqui
-            uv = domeToEqui(uv);
+            displaceUV = domeToEqui(uv);
             break;
         case 1: // equiToDome
-            uv = equiToDome(uv, in.rx, in.ry);
+            displaceUV = equiToDome(uv, uniforms.rx, uniforms.ry);
             break;
         case 2: // cubeToEqui
-            uv = cubeToEqui(uv);
+            displaceUV = cubeToEqui(uv);
             break;
         case 4: // squareToCircle
-            uv = squareToCircle(uv);
+            displaceUV = squareToCircle(uv);
             break;
         case 5: // circleToSquare
-            uv = circleToSquare(uv);
+            displaceUV = circleToSquare(uv);
             break;
     }
     
-    float4 c = inTex.sample(s, uv);
+    float2 fractionUV = uv * (1.0 - uniforms.fraction) + displaceUV * uniforms.fraction;
     
-    switch (int(in.mode)) {
+    float4 color = texture.sample(sampler, fractionUV);
+    
+    switch (int(uniforms.mode)) {
         case 0: // domeToEqui
             if (v > 0.5) {
-                c = 0;
+                color = 0;
             }
             break;
         case 1: // equiToDome
             if (sqrt(pow(u - 0.5, 2) + pow(v - 0.5, 2)) > 0.5) {
-                c = 0;
+                color = 0;
             }
             break;
     }
     
-    return c;
+    return color;
 }

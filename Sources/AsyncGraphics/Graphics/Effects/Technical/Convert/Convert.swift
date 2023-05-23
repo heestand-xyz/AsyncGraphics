@@ -8,6 +8,9 @@ extension Graphic {
     
     private struct ConvertUniforms {
         let conversion: UInt32
+        let rotationX: Float
+        let rotationY: Float
+        let fraction: Float
     }
     
     public enum Conversion: String, Codable, Identifiable, CaseIterable {
@@ -29,6 +32,8 @@ extension Graphic {
     }
     
     public func converted(_ conversion: Conversion,
+                          rotation: CGVector = .zero,
+                          fractionComplete: CGFloat = 1.0,
                           options: EffectOptions = []) async throws -> Graphic {
         
         try await Renderer.render(
@@ -36,7 +41,10 @@ extension Graphic {
             shader: .name("convert"),
             graphics: [self],
             uniforms: ConvertUniforms(
-                conversion: conversion.index
+                conversion: conversion.index,
+                rotationX: Float(rotation.dx),
+                rotationY: Float(rotation.dy),
+                fraction: Float(fractionComplete)
             ),
             options: Renderer.Options(
                 addressMode: options.addressMode,
