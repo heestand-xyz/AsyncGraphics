@@ -111,10 +111,10 @@ float2 cubeToEqui(float2 uv) {
     return uv;
 }
 
-fragment float4 convert(VertexOut out [[stage_in]],
-                        texture2d<float> texture [[ texture(0) ]],
-                        const device Uniforms& uniforms [[ buffer(0) ]],
-                        sampler sampler [[ sampler(0) ]]) {
+fragment float4 coordinateSpace(VertexOut out [[stage_in]],
+                                texture2d<float> texture [[ texture(0) ]],
+                                const device Uniforms& uniforms [[ buffer(0) ]],
+                                sampler sampler [[ sampler(0) ]]) {
     
     float u = out.texCoord[0];
     float v = out.texCoord[1];

@@ -6,14 +6,14 @@ import CoreGraphics
 
 extension Graphic {
     
-    private struct ConvertUniforms {
+    private struct CoordinateSpaceUniforms {
         let conversion: UInt32
         let rotationX: Float
         let rotationY: Float
         let fraction: Float
     }
     
-    public enum Conversion: String, Codable, Identifiable, CaseIterable {
+    public enum CoordinateSpaceConversion: String, Codable, Identifiable, CaseIterable {
         case domeToEqui
         case equiToDome
         case cubeToEqui
@@ -31,20 +31,25 @@ extension Graphic {
         }
     }
     
-    public func converted(_ conversion: Conversion,
-                          rotation: CGVector = .zero,
-                          fractionComplete: CGFloat = 1.0,
-                          options: EffectOptions = []) async throws -> Graphic {
+    /// Coordinate Space
+    /// - Parameters:
+    ///   - conversion: The type of coordinate space conversion
+    ///   - rotation: Only used for `.equiToDome`
+    ///   - fraction: The amount of conversion, `0.0` is no conversion and `1.0` is full conversion.
+    public func coordinateSpace(_ conversion: CoordinateSpaceConversion,
+                                rotation: CGVector = .zero,
+                                fraction: CGFloat = 1.0,
+                                options: EffectOptions = []) async throws -> Graphic {
         
         try await Renderer.render(
-            name: "Convert",
-            shader: .name("convert"),
+            name: "Coordinate Space",
+            shader: .name("coordinateSpace"),
             graphics: [self],
-            uniforms: ConvertUniforms(
+            uniforms: CoordinateSpaceUniforms(
                 conversion: conversion.index,
                 rotationX: Float(rotation.dx),
                 rotationY: Float(rotation.dy),
-                fraction: Float(fractionComplete)
+                fraction: Float(fraction)
             ),
             options: Renderer.Options(
                 addressMode: options.addressMode,
