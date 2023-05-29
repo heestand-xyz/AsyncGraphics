@@ -218,11 +218,38 @@ extension Graphic {
         }
     }
     
+    /// Normalized channels
     public var channels: [CGFloat] {
         
         get async throws {
             
             try await TextureMap.rawNormalized(texture: texture, bits: bits)
+        }
+    }
+    
+    /// 8 bit
+    public var channels8: [UInt8] {
+        
+        get throws {
+            try TextureMap.raw8(texture: texture)
+        }
+    }
+    
+    #if !os(macOS)
+    /// 16 bit
+    public var channels16: [Float16] {
+        
+        get throws {
+            try TextureMap.raw16(texture: texture)
+        }
+    }
+    #endif
+    
+    /// 32 bit
+    public var channels32: [Float] {
+        
+        get throws {
+            try TextureMap.raw32(texture: texture)
         }
     }
 }

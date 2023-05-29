@@ -26,11 +26,20 @@ To edit colors `import PixelColor`, a swift package (a dependency of AsyncGraphi
 - ``firstPixelColor``
 - ``averagePixelColor``
 - ``pixelColors``
-- ``channels``
 - ``isPixelsEqual(to:)``
 - ``pixels(_:options:)``
 - ``pixel(x:y:options:)``
 - ``pixel(u:v:options:)``
+
+### Channels
+
+- ``channels``
+- ``channels8``
+- ``channels16``
+- ``channels32``
+- ``channels(_:resolution:)-5dtx6``
+- ``channels(_:resolution:)-6011k``
+- ``channels(_:resolution:)-6011k``
 
 ### Image
 
