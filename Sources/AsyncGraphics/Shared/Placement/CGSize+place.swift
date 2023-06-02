@@ -6,19 +6,28 @@ import CoreGraphics
 
 extension CGSize {
     
-    public func place(in size: CGSize, placement: Placement) -> CGSize {
+    public func place(in resolution: CGSize, placement: Placement, rounded: Bool = true) -> CGSize {
        
-        switch placement {
-        case .fit:
-            return CGSize(width: width / size.width > height / size.height ? size.width : width * (size.height / height),
-                          height: width / size.width < height / size.height ? size.height : height * (size.width / width))
-        case .fill:
-            return CGSize(width: width / size.width < height / size.height ? size.width : width * (size.height / height),
-                          height: width / size.width > height / size.height ? size.height : height * (size.width / width))
-        case .center:
-            return self
-        case .stretch:
-            return size
+        var resolution: CGSize = {
+            switch placement {
+            case .fit:
+                return CGSize(width: width / resolution.width > height / resolution.height ? resolution.width : width * (resolution.height / height),
+                              height: width / resolution.width < height / resolution.height ? resolution.height : height * (resolution.width / width))
+            case .fill:
+                return CGSize(width: width / resolution.width < height / resolution.height ? resolution.width : width * (resolution.height / height),
+                              height: width / resolution.width > height / resolution.height ? resolution.height : height * (resolution.width / width))
+            case .center:
+                return self
+            case .stretch:
+                return resolution
+            }
+        }()
+        
+        if rounded {
+            resolution = CGSize(width: round(resolution.width),
+                                height: round(resolution.height))
         }
+        
+        return resolution
     }
 }
