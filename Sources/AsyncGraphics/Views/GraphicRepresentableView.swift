@@ -9,17 +9,41 @@ import SwiftUI
 struct GraphicRepresentableView: NSViewRepresentable {
     
     private let graphic: Graphic
+    private let viewResolution: CGSize
+    private let interpolation: GraphicView.Interpolation
     
-    init(graphic: Graphic) {
+    init(graphic: Graphic,
+         viewResolution: CGSize,
+         interpolation: GraphicView.Interpolation) {
         self.graphic = graphic
+        self.viewResolution = viewResolution
+        self.interpolation = interpolation
     }
     
     func makeNSView(context: Context) -> GraphicMetalView {
-        GraphicMetalView()
+        GraphicMetalView(interpolation: interpolation)
     }
     
     func updateNSView(_ view: GraphicMetalView, context: Context) {
-        view.render(graphic: graphic)
+        if [.nearestNeighbor, .linear].contains(interpolation) {
+            Task {
+                do {
+                    var options: Graphic.EffectOptions = []
+                    if interpolation == .nearestNeighbor {
+                        options.insert(.interpolateNearest)
+                    }
+                    let graphic: Graphic = try await graphic
+                        .resized(to: viewResolution,
+                                 placement: .stretch,
+                                 options: options)
+                    view.render(graphic: graphic)
+                } catch {
+                    print("AsyncGraphics - View interpolation failed:", error)
+                }
+            }
+        } else {
+            view.render(graphic: graphic)
+        }
     }
 }
 

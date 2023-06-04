@@ -11,17 +11,23 @@ extension Graphic3D {
         
         public let rawValue: Int
         
-        /// 16 bit rendering
-        public static let highBit = ContentOptions(rawValue: 1 << 0)
+        @available(*, deprecated, renamed: "bit16")
+        public static let highBit: ContentOptions = .bit16
         
+        /// 16 bit rendering
+        public static let bit16 = ContentOptions(rawValue: 1 << 0)
+        
+        /// 32 bit rendering
+        public static let bit32 = ContentOptions(rawValue: 1 << 1)
+
         var bits: TMBits {
-            contains(.highBit) ? ._16 : ._8
+            contains(.bit32) ? ._32 : contains(.bit16) ? ._16 : ._8
         }
         
         /// Display P3 Color Space
 //        public static let displayP3 = ContentOptions(rawValue: 1 << 1)
         
-        public static let pureAlpha = ContentOptions(rawValue: 1 << 1)
+        public static let pureAlpha = ContentOptions(rawValue: 1 << 2)
         
         var premultiply: Bool {
             !contains(.pureAlpha)

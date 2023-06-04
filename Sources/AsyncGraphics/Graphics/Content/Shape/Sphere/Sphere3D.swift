@@ -18,13 +18,14 @@ extension Graphic3D {
         let backgroundColor: ColorUniform
     }
     
-    public static func sphere(radius: Double,
+    public static func sphere(radius: Double? = nil,
                               center: SIMD3<Double>? = nil,
                               color: PixelColor = .white,
                               backgroundColor: PixelColor = .black,
                               resolution: SIMD3<Int>,
                               options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
         
+        let radius: Double = radius ?? Double(resolution.y) / 2
         let relativeRadius: Double = radius / Double(resolution.y)
         
         let position: SIMD3<Double> = center ?? SIMD3<Double>(

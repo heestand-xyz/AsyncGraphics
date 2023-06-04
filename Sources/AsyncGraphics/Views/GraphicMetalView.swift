@@ -10,8 +10,12 @@ import TextureMap
 final class GraphicMetalView: MTKView {
     
     private var graphic: Graphic?
+    
+    let interpolation: GraphicView.Interpolation
  
-    init() {
+    init(interpolation: GraphicView.Interpolation) {
+        
+        self.interpolation = interpolation
         
         super.init(frame: .zero, device: Renderer.metalDevice)
         
@@ -26,6 +30,7 @@ final class GraphicMetalView: MTKView {
         #if os(macOS)
         wantsLayer = true
         layer?.isOpaque = false
+//        layer?.magnificationFilter = .nearest
         #else
         isOpaque = false
         #endif
@@ -68,7 +73,7 @@ extension GraphicMetalView: MTKViewDelegate {
         
         guard let drawable: CAMetalDrawable = currentDrawable else { return }
         let targetTexture: MTLTexture = drawable.texture
-
+        
         guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else { return }
         guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else { return }
 
@@ -90,7 +95,12 @@ extension GraphicMetalView: MTKViewDelegate {
             
         } else {
             
-            let scaleKernel: MPSImageScale = MPSImageLanczosScale(device: Renderer.metalDevice) // MPSImageBilinearScale
+            let scaleKernel: MPSImageScale
+            if interpolation == .bilinear {
+                scaleKernel = MPSImageBilinearScale(device: Renderer.metalDevice)
+            } else {
+                scaleKernel = MPSImageLanczosScale(device: Renderer.metalDevice)
+            }
             scaleKernel.encode(commandBuffer: commandBuffer, sourceTexture: texture, destinationTexture: targetTexture)
         }
 
