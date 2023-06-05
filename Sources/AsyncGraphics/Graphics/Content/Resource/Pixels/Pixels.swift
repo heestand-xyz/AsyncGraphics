@@ -99,6 +99,11 @@ extension Graphic {
         let texture: MTLTexture = try TextureMap.texture(channels: channels, resolution: resolution, on: Renderer.metalDevice)
         return try .texture(texture)
     }
+    /// 8 bit
+    public static func channels(pointer: UnsafePointer<UInt8>, resolution: CGSize) throws -> Graphic {
+        let texture: MTLTexture = try TextureMap.texture(raw: pointer, resolution: resolution, on: Renderer.metalDevice)
+        return try .texture(texture)
+    }
     
 #if !os(macOS)
     /// 16 bit
@@ -106,11 +111,21 @@ extension Graphic {
         let texture: MTLTexture = try TextureMap.texture(channels: channels, resolution: resolution, on: Renderer.metalDevice)
         return try .texture(texture)
     }
+    /// 16 bit
+    public static func channels(pointer: UnsafePointer<Float16>, resolution: CGSize) throws -> Graphic {
+        let texture: MTLTexture = try TextureMap.texture(raw: pointer, resolution: resolution, on: Renderer.metalDevice)
+        return try .texture(texture)
+    }
 #endif
     
     /// 32 bit
     public static func channels(_ channels: [Float], resolution: CGSize) throws -> Graphic {
         let texture: MTLTexture = try TextureMap.texture(channels: channels, resolution: resolution, on: Renderer.metalDevice)
+        return try .texture(texture)
+    }
+    /// 32 bit
+    public static func channels(pointer: UnsafePointer<Float>, resolution: CGSize) throws -> Graphic {
+        let texture: MTLTexture = try TextureMap.texture(raw: pointer, resolution: resolution, on: Renderer.metalDevice)
         return try .texture(texture)
     }
 }

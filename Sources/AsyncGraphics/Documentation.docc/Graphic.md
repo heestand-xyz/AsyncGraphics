@@ -40,6 +40,9 @@ To edit colors `import PixelColor`, a swift package (a dependency of AsyncGraphi
 - ``channels(_:resolution:)-5dtx6``
 - ``channels(_:resolution:)-6011k``
 - ``channels(_:resolution:)-6011k``
+- ``channels(pointer:resolution:)-6gswn``
+- ``channels(pointer:resolution:)-1e6wo``
+- ``channels(pointer:resolution:)-1e6wo``
 
 ### Image
 

@@ -54,7 +54,7 @@ extension Graphic {
         
         public init(device: AVCaptureDevice,
                     quality preset: AVCaptureSession.Preset = .high) throws {
-        
+            
             self.position = device.position
             self.device = device
             
