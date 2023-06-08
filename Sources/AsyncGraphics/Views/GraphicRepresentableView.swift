@@ -4,9 +4,7 @@
 
 import SwiftUI
 
-#if os(macOS)
-
-struct GraphicRepresentableView: NSViewRepresentable {
+struct GraphicRepresentableView {
     
     private let graphic: Graphic
     private let viewResolution: CGSize
@@ -20,11 +18,7 @@ struct GraphicRepresentableView: NSViewRepresentable {
         self.interpolation = interpolation
     }
     
-    func makeNSView(context: Context) -> GraphicMetalView {
-        GraphicMetalView(interpolation: interpolation)
-    }
-    
-    func updateNSView(_ view: GraphicMetalView, context: Context) {
+    private func render(in view: GraphicMetalView) {
         if [.nearestNeighbor, .linear].contains(interpolation) {
             Task {
                 do {
@@ -36,7 +30,7 @@ struct GraphicRepresentableView: NSViewRepresentable {
                         .resized(to: viewResolution,
                                  placement: .stretch,
                                  options: options)
-                    view.render(graphic: graphic)
+                    await view.render(graphic: graphic)
                 } catch {
                     print("AsyncGraphics - View interpolation failed:", error)
                 }
@@ -46,23 +40,30 @@ struct GraphicRepresentableView: NSViewRepresentable {
         }
     }
 }
+  
+#if os(macOS)
+
+extension GraphicRepresentableView: NSViewRepresentable {
+    
+    func makeNSView(context: Context) -> GraphicMetalView {
+        GraphicMetalView(interpolation: interpolation)
+    }
+    
+    func updateNSView(_ view: GraphicMetalView, context: Context) {
+        render(in: view)
+    }
+}
 
 #else
 
-struct GraphicRepresentableView: UIViewRepresentable {
-    
-    private let graphic: Graphic
-    
-    init(graphic: Graphic) {
-        self.graphic = graphic
-    }
+extension GraphicRepresentableView: UIViewRepresentable {
     
     func makeUIView(context: Context) -> GraphicMetalView {
-        GraphicMetalView()
+        GraphicMetalView(interpolation: interpolation)
     }
     
     func updateUIView(_ view: GraphicMetalView, context: Context) {
-        view.render(graphic: graphic)
+        render(in: view)
     }
 }
 
