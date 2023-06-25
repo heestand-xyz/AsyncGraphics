@@ -2,6 +2,8 @@
 //  Created by Anton Heestand on 2022-04-06.
 //
 
+#if !os(xrOS)
+
 import Foundation
 import VideoFrames
 import TextureMap
@@ -17,8 +19,8 @@ extension Graphic {
         public let fps: Double
     }
     
-    public static func videoDetails(url: URL) throws -> VideoDetails {
-        let info = try VideoInfo(url: url)
+    public static func videoDetails(url: URL) async throws -> VideoDetails {
+        let info = try await VideoInfo(url: url)
         return VideoDetails(resolution: info.size,
                             frameCount: info.frameCount,
                             duration: info.duration,
@@ -73,7 +75,7 @@ extension Graphic {
         AsyncThrowingStream { stream in
             Task {
                 do {
-                    for try await image in try convertVideoToFrames(from: url) {
+                    for try await image in try await convertVideoToFrames(from: url) {
                         let graphic: Graphic = try await .image(image)
                         stream.yield(graphic)
                     }
@@ -93,7 +95,7 @@ extension Graphic {
     ///
     /// `Import VideoFrames` to access `VideoInfo`
     public static func importVideoFrame(at frameIndex: Int, url: URL, info: VideoInfo? = nil) async throws -> Graphic {
-        let image: TMImage = try videoFrame(at: frameIndex, from: url, info: info)
+        let image: TMImage = try await videoFrame(at: frameIndex, from: url, info: info)
         return try await .image(image)
     }
 }
@@ -107,3 +109,5 @@ extension Array where Element == Graphic {
         try await Graphic.importVideo(url: url, progress: progress)
     }
 }
+
+#endif

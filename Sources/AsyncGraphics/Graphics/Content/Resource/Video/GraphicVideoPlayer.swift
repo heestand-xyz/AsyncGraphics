@@ -2,6 +2,8 @@
 //  Created by Anton Heestand on 2023-02-28.
 //
 
+#if !os(xrOS)
+
 import AVKit
 import Combine
 
@@ -91,14 +93,14 @@ public class GraphicVideoPlayer: ObservableObject {
     public convenience init(named name: String,
                             fileExtension: String = "mov",
                             in bundle: Bundle = .main,
-                            options: Options = .init()) throws {
+                            options: Options = .init()) async throws {
         guard let url: URL = bundle.url(forResource: name, withExtension: fileExtension) else {
             throw VideoPlayerError.videoNotFound(name: "\(name).\(fileExtension)")
         }
-        self.init(url: url, options: options)
+        try await self.init(url: url, options: options)
     }
     
-    public init(url: URL, options: Options = .init()) {
+    public init(url: URL, options: Options = .init()) async throws {
         
         let asset = AVURLAsset(url: url)
         let item = AVPlayerItem(asset: asset)
@@ -111,13 +113,13 @@ public class GraphicVideoPlayer: ObservableObject {
         
         self.url = url
         
-        guard let track: AVAssetTrack = asset.tracks(withMediaType: .video).first else {
+        guard let track: AVAssetTrack = try await asset.load(.tracks).first(where: { $0.mediaType == .video }) else {
             fatalError(VideoPlayerError.assetNotFound.localizedDescription)
         }
-        let frameRate: Double = Double(track.nominalFrameRate)
-        let duration: Double = asset.duration.seconds
-        guard let resolution: CGSize = try? {
-            var resolution: CGSize = track.naturalSize
+        let frameRate: Double = try await Double(track.load(.nominalFrameRate))
+        let duration: Double = try await asset.load(.duration).seconds
+        guard let resolution: CGSize = try? await {
+            var resolution: CGSize = try await track.load(.naturalSize)
             if resolution != .zero {
                 let generator: AVAssetImageGenerator = AVAssetImageGenerator(asset: asset)
                 let firstImage: CGImage = try generator.copyCGImage(at: .zero, actualTime: nil)
@@ -233,3 +235,5 @@ extension GraphicVideoPlayer: Hashable {
         hasher.combine(id)
     }
 }
+
+#endif

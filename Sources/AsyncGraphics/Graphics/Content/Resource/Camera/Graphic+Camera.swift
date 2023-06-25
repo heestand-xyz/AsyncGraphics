@@ -2,6 +2,8 @@
 //  Created by Anton Heestand on 2022-04-27.
 //
 
+#if !os(xrOS)
+
 import Metal
 import AVKit
 
@@ -129,3 +131,5 @@ extension Graphic.Camera: AVCaptureVideoDataOutputSampleBufferDelegate {
         graphicsHandler?(graphic)
     }
 }
+
+#endif

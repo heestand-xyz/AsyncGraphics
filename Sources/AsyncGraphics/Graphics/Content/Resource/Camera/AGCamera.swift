@@ -1,3 +1,5 @@
+#if !os(xrOS)
+
 import CoreGraphics
 import CoreGraphicsExtensions
 import AVKit
@@ -77,3 +79,5 @@ extension AGCamera: Hashable {
         hasher.combine(placement)
     }
 }
+
+#endif

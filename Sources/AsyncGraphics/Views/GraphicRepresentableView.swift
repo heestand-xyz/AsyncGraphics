@@ -2,6 +2,8 @@
 //  Created by Anton Heestand on 2022-04-24.
 //
 
+#if !os(xrOS)
+
 import SwiftUI
 
 struct GraphicRepresentableView {
@@ -66,5 +68,7 @@ extension GraphicRepresentableView: UIViewRepresentable {
         render(in: view)
     }
 }
+
+#endif
 
 #endif

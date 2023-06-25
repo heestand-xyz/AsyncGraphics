@@ -2,6 +2,8 @@
 //  Created by Anton Heestand on 2022-04-24.
 //
 
+#if !os(xrOS)
+
 import MetalKit
 import MetalPerformanceShaders
 import QuartzCore.CoreAnimation
@@ -108,3 +110,5 @@ extension GraphicMetalView: MTKViewDelegate {
         commandBuffer.commit()
     }
 }
+
+#endif
