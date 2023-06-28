@@ -52,6 +52,7 @@ extension Graphic {
                                                     for: .video,
                                                     position: position)
 
+            #if os(macOS)
             if external {
                 let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.externalUnknown],
                                                                         mediaType: .video,
@@ -63,6 +64,7 @@ extension Graphic {
                     break
                 }
             }
+            #endif
             
             if device == nil {
                 throw CameraError.captureDeviceNotSupported
