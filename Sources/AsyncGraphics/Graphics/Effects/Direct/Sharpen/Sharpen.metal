@@ -34,8 +34,10 @@ fragment float4 sharpen(VertexOut out [[stage_in]],
     float sharpness = uniforms.sharpness;
     float distance = uniforms.distance;
     
+    float4 center = texture.sample(sampler, uv);
+    
     float4 color = 0;
-    color += texture.sample(sampler, uv) * (1 + 8 * sharpness);
+    color += center * (1 + 8 * sharpness);
     color -= texture.sample(sampler, float2(u - (1.0 / width) * distance,
                                             v - (1.0 / height) * distance)) * sharpness;
     color -= texture.sample(sampler, float2(u - (1.0 / width) * distance,
@@ -53,5 +55,5 @@ fragment float4 sharpen(VertexOut out [[stage_in]],
     color -= texture.sample(sampler, float2(u + (1.0 / width) * distance,
                                             v + (1.0 / height) * distance)) * sharpness;
     
-    return color;
+    return float4(color.rgb, center.a);
 }

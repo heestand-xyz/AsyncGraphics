@@ -48,7 +48,7 @@ extension Graphic {
                                 quality preset: AVCaptureSession.Preset = .high,
                                 external: Bool = false) throws {
             
-            var device: AVCaptureDevice? = .default(deviceType,
+            var device: AVCaptureDevice! = .default(deviceType,
                                                     for: .video,
                                                     position: position)
 
