@@ -12,6 +12,7 @@ extension Graphic {
     public enum CameraPosition: Hashable {
         case front
         case back
+        case external
         public mutating func flip() {
             self = flipped()
         }
@@ -24,6 +25,8 @@ extension Graphic {
                 return .front
             case .back:
                 return .back
+            case .external:
+                return .unspecified
             }
         }
     }
@@ -34,7 +37,7 @@ extension Graphic {
                               device: AVCaptureDevice.DeviceType = .builtInWideAngleCamera,
                               preset: AVCaptureSession.Preset = .high) throws -> AsyncStream<Graphic> {
         
-        let camera = try Camera(position.av, with: device, quality: preset)
+        let camera = try Camera(position.av, with: device, quality: preset, external: position == .external)
         
         return self.camera(with: camera)
     }
@@ -53,7 +56,7 @@ extension Graphic {
                               lens: AVCaptureDevice.DeviceType = .builtInWideAngleCamera,
                               quality: AVCaptureSession.Preset = .high) throws -> AsyncStream<Graphic> {
         
-        let camera = try Camera(position.av, with: lens, quality: quality)
+        let camera = try Camera(position.av, with: lens, quality: quality, external: position == .external)
         
         return self.camera(with: camera)
     }

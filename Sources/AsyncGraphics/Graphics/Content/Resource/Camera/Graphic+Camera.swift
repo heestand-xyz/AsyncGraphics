@@ -44,13 +44,30 @@ extension Graphic {
         private let captureSession: AVCaptureSession
         
         public convenience init(_ position: AVCaptureDevice.Position,
-                    with deviceType: AVCaptureDevice.DeviceType = .builtInWideAngleCamera,
-                    quality preset: AVCaptureSession.Preset = .high) throws {
+                                with deviceType: AVCaptureDevice.DeviceType = .builtInWideAngleCamera,
+                                quality preset: AVCaptureSession.Preset = .high,
+                                external: Bool = false) throws {
             
-            guard let device = AVCaptureDevice.default(deviceType, for: .video, position: position) else {
-                throw CameraError.captureDeviceNotSupported
+            var device: AVCaptureDevice? = .default(deviceType,
+                                                    for: .video,
+                                                    position: position)
+
+            if external {
+                let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.externalUnknown],
+                                                                        mediaType: .video,
+                                                                        position: position)
+                for iDevice in discoverySession.devices {
+                    guard iDevice != device else { continue }
+                    guard iDevice.hasMediaType(.video) else { continue }
+                    device = iDevice
+                    break
+                }
             }
             
+            if device == nil {
+                throw CameraError.captureDeviceNotSupported
+            }
+
             try self.init(device: device, quality: preset)
         }
         
