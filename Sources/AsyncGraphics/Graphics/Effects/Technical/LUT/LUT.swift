@@ -61,7 +61,7 @@ extension Graphic {
             throw LUTError.resolutionIsNotPowerOfTwo
         }
         return try await Renderer.render(
-            name: "Cross",
+            name: "LUT",
             shader: .name("lut"),
             graphics: [
                 self,
@@ -69,6 +69,9 @@ extension Graphic {
             ],
             uniforms: LUTUniforms(
                 count: Int32(count)
+            ),
+            options: Renderer.Options(
+                filter: .nearest
             )
         )
     }
