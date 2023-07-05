@@ -34,7 +34,7 @@ extension Graphic {
     ///
     /// Available variables are:  `sampler`, `texture`, `u`, `v`, `uv`, `color`.
     public func metal(code: String,
-                      options: EffectOptions = EffectOptions()) async throws -> Graphic {
+                      options: EffectOptions = []) async throws -> Graphic {
         
         guard let metalBaseURL = Bundle.module.url(forResource: "DirectMetal.metal", withExtension: "txt") else {
             throw DirectMetalError.metalFileNotFound

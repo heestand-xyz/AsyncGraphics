@@ -23,7 +23,7 @@ extension Graphic {
         translation: CGPoint,
         lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions()
+        options: EffectOptions = []
     ) async throws -> Graphic {
         
         try await lumaTransformed(
@@ -39,7 +39,7 @@ extension Graphic {
         _ translation: CGPoint,
         lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions(),
+        options: EffectOptions = [],
         graphic: () async throws -> Graphic
     ) async throws -> Graphic {
         
@@ -59,7 +59,7 @@ extension Graphic {
         y: CGFloat = 0.0,
         lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions()
+        options: EffectOptions = []
     ) async throws -> Graphic {
         
         try await lumaTransformed(
@@ -76,7 +76,7 @@ extension Graphic {
         y: CGFloat = 0.0,
         lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions(),
+        options: EffectOptions = [],
         graphic: () async throws -> Graphic
     ) async throws -> Graphic {
         
@@ -95,7 +95,7 @@ extension Graphic {
         rotation: Angle,
         lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions()
+        options: EffectOptions = []
     ) async throws -> Graphic {
         
         try await lumaTransformed(
@@ -111,7 +111,7 @@ extension Graphic {
         rotation: Angle,
         lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions(),
+        options: EffectOptions = [],
         graphic: () async throws -> Graphic
     ) async throws -> Graphic {
         
@@ -130,7 +130,7 @@ extension Graphic {
         scale: CGFloat,
         lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions()
+        options: EffectOptions = []
     ) async throws -> Graphic {
         
         try await lumaTransformed(
@@ -146,7 +146,7 @@ extension Graphic {
         scale: CGFloat,
         lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions(),
+        options: EffectOptions = [],
         graphic: () async throws -> Graphic
     ) async throws -> Graphic {
         
@@ -166,7 +166,7 @@ extension Graphic {
         y: CGFloat = 1.0,
         lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions()
+        options: EffectOptions = []
     ) async throws -> Graphic {
         
         try await lumaTransformed(
@@ -183,7 +183,7 @@ extension Graphic {
         y: CGFloat = 1.0,
         lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions(),
+        options: EffectOptions = [],
         graphic: () async throws -> Graphic
     ) async throws -> Graphic {
         
@@ -203,7 +203,7 @@ extension Graphic {
         scaleSize: CGSize = .one,
         lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions(),
+        options: EffectOptions = [],
         graphic: () async throws -> Graphic
     ) async throws -> Graphic {
         

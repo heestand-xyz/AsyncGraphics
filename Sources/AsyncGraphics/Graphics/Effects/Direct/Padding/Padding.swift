@@ -13,7 +13,7 @@ extension Graphic {
     
     public func padding(on edgeInsets: EdgeInsets = .all,
                         _ length: CGFloat,
-                        options: EffectOptions = EffectOptions()) async throws -> Graphic {
+                        options: EffectOptions = []) async throws -> Graphic {
         
         var width: CGFloat = resolution.width
         var height: CGFloat = resolution.height

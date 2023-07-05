@@ -23,7 +23,7 @@ extension Graphic {
         with graphic: Graphic,
         blendingMode: AGBlendMode,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions()
+        options: EffectOptions = []
     ) async throws -> Graphic {
         try await blended(blendingMode: blendingMode, placement: placement, options: options) {
             graphic
@@ -33,7 +33,7 @@ extension Graphic {
     public func blended(
         blendingMode: AGBlendMode,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions(),
+        options: EffectOptions = [],
         graphic: () async throws -> Graphic
     ) async throws -> Graphic {
         
@@ -69,7 +69,7 @@ extension Graphic {
         rotation: Angle = .zero,
         scale: CGFloat = 1.0,
         size: CGSize? = nil,
-        options: EffectOptions = EffectOptions()
+        options: EffectOptions = []
     ) async throws -> Graphic {
         try await transformBlended(blendingMode: blendingMode, placement: placement, translation: translation, rotation: rotation, scale: scale, size: size, options: options) {
             graphic
@@ -83,7 +83,7 @@ extension Graphic {
         rotation: Angle = .zero,
         scale: CGFloat = 1.0,
         size: CGSize? = nil,
-        options: EffectOptions = EffectOptions(),
+        options: EffectOptions = [],
         graphic: () async throws -> Graphic
     ) async throws -> Graphic {
        
@@ -119,7 +119,7 @@ extension Graphic {
         background backgroundGraphic: Graphic,
         mask maskGraphic: Graphic,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions()
+        options: EffectOptions = []
     ) async throws -> Graphic {
         try await mask(placement: placement, options: options) {
             foregroundGraphic
@@ -132,7 +132,7 @@ extension Graphic {
     
     public static func mask(
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions(),
+        options: EffectOptions = [],
         foreground foregroundGraphic: () async throws -> Graphic,
         background backgroundGraphic: () async throws -> Graphic,
         mask maskGraphic: () async throws -> Graphic

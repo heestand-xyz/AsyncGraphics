@@ -14,7 +14,7 @@ extension Graphic3D {
     
     public func edge(amplitude: Double = 1.0,
                      distance: Double = 1.0,
-                     options: EffectOptions = EffectOptions()) async throws -> Graphic3D {
+                     options: EffectOptions = []) async throws -> Graphic3D {
         
         try await edge(amplitude: amplitude,
                        distance: distance,
@@ -24,7 +24,7 @@ extension Graphic3D {
     
     public func coloredEdge(amplitude: Double = 1.0,
                             distance: Double = 1.0,
-                            options: EffectOptions = EffectOptions()) async throws -> Graphic3D {
+                            options: EffectOptions = []) async throws -> Graphic3D {
         
         try await edge(amplitude: amplitude,
                        distance: distance,
@@ -35,7 +35,7 @@ extension Graphic3D {
     private func edge(amplitude: Double = 1.0,
                       distance: Double = 1.0,
                       colored: Bool,
-                      options: EffectOptions = EffectOptions()) async throws -> Graphic3D {
+                      options: EffectOptions = []) async throws -> Graphic3D {
         
         try await Renderer.render(
             name: "Edge",

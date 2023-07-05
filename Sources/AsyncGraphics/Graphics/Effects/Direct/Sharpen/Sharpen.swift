@@ -18,7 +18,7 @@ extension Graphic {
     /// The distance is in pixels, default to one pixel.
     public func sharpen(_ sharpness: CGFloat,
                         distance: CGFloat = 1.0,
-                        options: EffectOptions = EffectOptions()) async throws -> Graphic {
+                        options: EffectOptions = []) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Sharpen",

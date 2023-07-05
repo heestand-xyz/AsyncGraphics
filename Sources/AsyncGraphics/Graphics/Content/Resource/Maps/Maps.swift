@@ -73,7 +73,7 @@ extension Graphic {
         span: Angle,
         resolution: CGSize,
         mapOptions: MapOptions = MapOptions(),
-        options: ContentOptions = ContentOptions()
+        options: ContentOptions = []
     ) async throws -> Graphic {
         
         let mapSnapshotOptions = MKMapSnapshotter.Options()

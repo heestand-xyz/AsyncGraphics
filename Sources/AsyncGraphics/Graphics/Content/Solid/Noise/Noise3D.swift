@@ -24,7 +24,7 @@ extension Graphic3D {
                              octaves: Int = 1,
                              seed: Int = 1,
                              resolution: SIMD3<Int>,
-                             options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
+                             options: ContentOptions = []) async throws -> Graphic3D {
         
         let relativeOffset: SIMD3<Double> = (offset - resolution.asDouble / 2) / Double(resolution.y)
         
@@ -58,7 +58,7 @@ extension Graphic3D {
                                         octaves: Int = 1,
                                         seed: Int = 1,
                                         resolution: SIMD3<Int>,
-                                        options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
+                                        options: ContentOptions = []) async throws -> Graphic3D {
         
         let relativeOffset: SIMD3<Double> = (offset - resolution.asDouble / 2) / Double(resolution.y)
         
@@ -92,7 +92,7 @@ extension Graphic3D {
                                     octaves: Int = 1,
                                     seed: Int = 1,
                                     resolution: SIMD3<Int>,
-                                    options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
+                                    options: ContentOptions = []) async throws -> Graphic3D {
         
         let relativeOffset: SIMD3<Double> = (offset - resolution.asDouble / 2) / Double(resolution.y)
         
@@ -121,7 +121,7 @@ extension Graphic3D {
     
     public static func randomNoise(seed: Int = 1,
                                    resolution: SIMD3<Int>,
-                                   options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
+                                   options: ContentOptions = []) async throws -> Graphic3D {
         
         try await Renderer.render(
             name: "Noise (Random)",
@@ -146,7 +146,7 @@ extension Graphic3D {
     
     public static func randomColoredNoise(seed: Int = 1,
                                           resolution: SIMD3<Int>,
-                                          options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
+                                          options: ContentOptions = []) async throws -> Graphic3D {
         
         try await Renderer.render(
             name: "Noise (Random Colored)",

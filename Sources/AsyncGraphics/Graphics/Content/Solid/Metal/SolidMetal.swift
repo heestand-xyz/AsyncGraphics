@@ -35,7 +35,7 @@ extension Graphic {
     /// Available variables are:  `u`, `v`, `uv`.
     public static func metal(code: String,
                              resolution: CGSize,
-                             options: ContentOptions = ContentOptions()) async throws -> Graphic {
+                             options: ContentOptions = []) async throws -> Graphic {
         
         guard let metalBaseURL = Bundle.module.url(forResource: "SolidMetal.metal", withExtension: "txt") else {
             throw SolidMetalError.metalFileNotFound
@@ -67,7 +67,7 @@ extension Graphic {
     ///
     /// V: Black to Green Vertically
     public static func uv(resolution: CGSize,
-                          options: ContentOptions = ContentOptions()) async throws -> Graphic {
+                          options: ContentOptions = []) async throws -> Graphic {
         
         try await metal(code: "return float4(uv, 0.0, 1.0);",
                         resolution: resolution,

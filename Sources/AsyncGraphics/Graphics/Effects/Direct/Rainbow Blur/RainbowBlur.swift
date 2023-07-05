@@ -30,7 +30,7 @@ extension Graphic {
                                      angle: Angle = .zero,
                                      light: CGFloat = 1.0,
                                      sampleCount: Int = 100,
-                                     options: EffectOptions = EffectOptions()) async throws -> Graphic {
+                                     options: EffectOptions = []) async throws -> Graphic {
         
         try await rainbowBlurred(type: .circle, radius: radius, angle: angle, light: light, sampleCount: sampleCount, options: options)
     }
@@ -39,7 +39,7 @@ extension Graphic {
                                    center: CGPoint? = nil,
                                    light: CGFloat = 1.0,
                                    sampleCount: Int = 100,
-                                   options: EffectOptions = EffectOptions()) async throws -> Graphic {
+                                   options: EffectOptions = []) async throws -> Graphic {
         
         try await rainbowBlurred(type: .zoom, radius: radius, center: center, light: light, sampleCount: sampleCount, options: options)
     }
@@ -48,7 +48,7 @@ extension Graphic {
                                     angle: Angle,
                                     light: CGFloat = 1.0,
                                     sampleCount: Int = 100,
-                                    options: EffectOptions = EffectOptions()) async throws -> Graphic {
+                                    options: EffectOptions = []) async throws -> Graphic {
         
         try await rainbowBlurred(type: .angle, radius: radius, angle: angle, light: light, sampleCount: sampleCount, options: options)
     }
@@ -59,7 +59,7 @@ extension Graphic {
                                 angle: Angle = .zero,
                                 light: CGFloat = 1.0,
                                 sampleCount: Int = 100,
-                                options: EffectOptions = EffectOptions()) async throws -> Graphic {
+                                options: EffectOptions = []) async throws -> Graphic {
         
         let center: CGPoint = center ?? resolution.asPoint / 2
         let relativeCenter: CGPoint = (center - resolution / 2) / height

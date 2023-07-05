@@ -27,7 +27,7 @@ extension Graphic {
                                  color: PixelColor = .white,
                                  backgroundColor: PixelColor = .black,
                                  resolution: CGSize,
-                                 options: ContentOptions = ContentOptions()) async throws -> Graphic {
+                                 options: ContentOptions = []) async throws -> Graphic {
         
         let size: CGSize = size ?? resolution
         
@@ -57,7 +57,7 @@ extension Graphic {
                                  color: PixelColor = .white,
                                  backgroundColor: PixelColor = .black,
                                  resolution: CGSize,
-                                 options: ContentOptions = ContentOptions()) async throws -> Graphic {
+                                 options: ContentOptions = []) async throws -> Graphic {
         
         let relativeSize: CGSize = frame.size / resolution.height
         
@@ -98,7 +98,7 @@ extension Graphic {
                                         color: PixelColor = .white,
                                         backgroundColor: PixelColor = .black,
                                         resolution: CGSize,
-                                        options: ContentOptions = ContentOptions()) async throws -> Graphic {
+                                        options: ContentOptions = []) async throws -> Graphic {
         
         let size: CGSize = size ?? resolution
         
@@ -122,7 +122,7 @@ extension Graphic {
                                         color: PixelColor = .white,
                                         backgroundColor: PixelColor = .black,
                                         resolution: CGSize,
-                                        options: ContentOptions = ContentOptions()) async throws -> Graphic {
+                                        options: ContentOptions = []) async throws -> Graphic {
         
         let relativeSize: CGSize = frame.size / resolution.height
         

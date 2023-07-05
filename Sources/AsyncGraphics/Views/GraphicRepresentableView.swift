@@ -21,24 +21,27 @@ struct GraphicRepresentableView {
     }
     
     private func render(in view: GraphicMetalView) {
-        if [.nearestNeighbor, .linear].contains(interpolation) {
-            Task {
-                do {
+        Task {
+            var graphic: Graphic = graphic
+            do {
+                if graphic.colorSpace != .sRGB {
+                    graphic = try await graphic
+                        .applyColorSpace(.sRGB)
+                }
+                if [.nearestNeighbor, .linear].contains(interpolation) {
                     var options: Graphic.EffectOptions = []
                     if interpolation == .nearestNeighbor {
                         options.insert(.interpolateNearest)
                     }
-                    let graphic: Graphic = try await graphic
+                    graphic = try await graphic
                         .resized(to: viewResolution,
                                  placement: .stretch,
                                  options: options)
-                    await view.render(graphic: graphic)
-                } catch {
-                    print("AsyncGraphics - View interpolation failed:", error)
                 }
+                await view.render(graphic: graphic)
+            } catch {
+                print("AsyncGraphics - View Render Failed:", error)
             }
-        } else {
-            view.render(graphic: graphic)
         }
     }
 }

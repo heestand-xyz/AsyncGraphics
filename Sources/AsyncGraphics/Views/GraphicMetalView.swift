@@ -22,23 +22,20 @@ final class GraphicMetalView: MTKView {
         super.init(frame: .zero, device: Renderer.metalDevice)
         
         clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 0.0)
-        
+        colorPixelFormat = .rgba8Unorm // .bgra10_xr (Display P3)
         framebufferOnly = false
         autoResizeDrawable = true
         enableSetNeedsDisplay = true
         isPaused = true
-        colorPixelFormat = .rgba8Unorm
         
         #if os(macOS)
         wantsLayer = true
         layer?.isOpaque = false
-//        layer?.magnificationFilter = .nearest
         #else
         isOpaque = false
         #endif
         
         delegate = self
-        
     }
     
     required init(coder: NSCoder) {

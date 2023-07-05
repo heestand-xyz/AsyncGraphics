@@ -72,7 +72,7 @@ extension Graphic {
                             color: PixelColor = .white,
                             backgroundColor: PixelColor = .black,
                             resolution: CGSize,
-                            options: ContentOptions = ContentOptions()) async throws -> Graphic {
+                            options: ContentOptions = []) async throws -> Graphic {
         
         let center: CGPoint = center ?? (resolution.asPoint / 2)
         

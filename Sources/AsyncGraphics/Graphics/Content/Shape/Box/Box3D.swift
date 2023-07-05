@@ -25,7 +25,7 @@ extension Graphic3D {
                            color: PixelColor = .white,
                            backgroundColor: PixelColor = .black,
                            resolution: SIMD3<Int>,
-                           options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
+                           options: ContentOptions = []) async throws -> Graphic3D {
         
         let center: SIMD3<Double> = SIMD3<Double>(
             origin.x + size.x / 2,
@@ -50,7 +50,7 @@ extension Graphic3D {
                            color: PixelColor = .white,
                            backgroundColor: PixelColor = .black,
                            resolution: SIMD3<Int>,
-                           options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
+                           options: ContentOptions = []) async throws -> Graphic3D {
         
         let relativeSize: SIMD3<Double> = SIMD3<Double>(
             size.x / Double(resolution.y),
@@ -100,7 +100,7 @@ extension Graphic3D {
                                   color: PixelColor = .white,
                                   backgroundColor: PixelColor = .black,
                                   resolution: SIMD3<Int>,
-                                  options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
+                                  options: ContentOptions = []) async throws -> Graphic3D {
         
         let center: SIMD3<Double> = SIMD3<Double>(
             origin.x + size.x / 2,
@@ -127,7 +127,7 @@ extension Graphic3D {
                                   color: PixelColor = .white,
                                   backgroundColor: PixelColor = .black,
                                   resolution: SIMD3<Int>,
-                                  options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
+                                  options: ContentOptions = []) async throws -> Graphic3D {
         
         let relativeSize: SIMD3<Double> = SIMD3<Double>(
             size.x / Double(resolution.y),

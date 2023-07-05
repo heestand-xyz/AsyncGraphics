@@ -29,7 +29,7 @@ extension Graphic3D {
     /// Available variables are:  `u`, `v`, `w`, `uvw`, `width`, `height`, `depth`.
     public static func metal(code: String,
                              resolution: SIMD3<Int>,
-                             options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
+                             options: ContentOptions = []) async throws -> Graphic3D {
         
         guard let metalBaseURL = Bundle.module.url(forResource: "SolidMetal3D.metal", withExtension: "txt") else {
             throw SolidMetal3DError.metalFileNotFound
@@ -53,7 +53,7 @@ extension Graphic3D {
     }
     
     public static func uvw(resolution: SIMD3<Int>,
-                           options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
+                           options: ContentOptions = []) async throws -> Graphic3D {
         
         try await metal(code: "return float4(uvw, 1.0);",
                         resolution: resolution,

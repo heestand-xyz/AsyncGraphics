@@ -44,7 +44,7 @@ extension Graphic {
         low: CGFloat = 0.0,
         high: CGFloat = 1.0,
         includeAlpha: Bool = false,
-        options: EffectOptions = EffectOptions()
+        options: EffectOptions = []
     ) async throws -> Graphic {
         
         try await Renderer.render(

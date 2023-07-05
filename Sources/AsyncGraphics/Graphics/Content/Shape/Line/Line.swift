@@ -44,7 +44,7 @@ extension Graphic {
                             color: PixelColor = .white,
                             backgroundColor: PixelColor = .black,
                             resolution: CGSize,
-                            options: ContentOptions = ContentOptions()) async throws -> Graphic {
+                            options: ContentOptions = []) async throws -> Graphic {
 
         let relativeLeadingPoint: CGPoint = (leadingPoint - resolution / 2) / resolution.height
         let relativeTrailingPoint: CGPoint = (trailingPoint - resolution / 2) / resolution.height

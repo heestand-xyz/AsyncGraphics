@@ -48,7 +48,7 @@ extension Graphic {
                                  resolution: CGSize,
                                  sampleCount: UVParticleSampleCount = .one,
                                  particleOptions: UVColorParticleOptions = UVColorParticleOptions(),
-                                 options: ContentOptions = ContentOptions()) async throws -> Graphic {
+                                 options: ContentOptions = []) async throws -> Graphic {
         
         try await Renderer.render(
             name: "UV Color Particles",

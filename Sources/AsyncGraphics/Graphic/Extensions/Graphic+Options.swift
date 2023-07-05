@@ -31,13 +31,13 @@ extension Graphic {
         }
        
         /// Display P3 Color Space
-//        public static let displayP3 = ContentOptions(rawValue: 1 << 3)
+        public static let displayP3 = ContentOptions(rawValue: 1 << 3)
         
         var colorSpace: TMColorSpace {
-            .sRGB //contains(.displayP3) ? .displayP3 : .sRGB
+            contains(.displayP3) ? .displayP3 : .sRGB
         }
         
-        public static let interpolateNearest = ContentOptions(rawValue: 1 << 3)
+        public static let interpolateNearest = ContentOptions(rawValue: 1 << 4)
 
         var filter: MTLSamplerMinMagFilter {
             contains(.interpolateNearest) ? .nearest : .linear

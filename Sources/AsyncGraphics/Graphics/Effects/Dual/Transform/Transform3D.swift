@@ -15,37 +15,37 @@ extension Graphic3D {
     }
     
     public func translated(_ translation: SIMD3<Double>,
-                           options: EffectOptions = EffectOptions()) async throws -> Graphic3D {
+                           options: EffectOptions = []) async throws -> Graphic3D {
         try await transformed(translation: translation, options: options)
     }
     
     public func translated(x: Double = 0.0, y: Double = 0.0, z: Double = 0.0,
-                           options: EffectOptions = EffectOptions()) async throws -> Graphic3D {
+                           options: EffectOptions = []) async throws -> Graphic3D {
         try await transformed(translation: SIMD3<Double>(x: x, y: y, z: z), options: options)
     }
     
     public func rotated(_ rotation: SIMD3<Double>,
-                        options: EffectOptions = EffectOptions()) async throws -> Graphic3D {
+                        options: EffectOptions = []) async throws -> Graphic3D {
         try await transformed(rotation: rotation, options: options)
     }
     
     public func rotated(x: Angle = .zero, y: Angle = .zero, z: Angle = .zero,
-                        options: EffectOptions = EffectOptions()) async throws -> Graphic3D {
+                        options: EffectOptions = []) async throws -> Graphic3D {
         try await transformed(rotation: SIMD3<Double>(x: Double(x.uniform), y: Double(y.uniform), z: Double(z.uniform)), options: options)
     }
     
     public func scaled(_ scale: Double,
-                       options: EffectOptions = EffectOptions()) async throws -> Graphic3D {
+                       options: EffectOptions = []) async throws -> Graphic3D {
         try await transformed(scale: scale, options: options)
     }
     
     public func scaled(_ scale: SIMD3<Double>,
-                       options: EffectOptions = EffectOptions()) async throws -> Graphic3D {
+                       options: EffectOptions = []) async throws -> Graphic3D {
         try await transformed(scaleSize: scale, options: options)
     }
     
     public func scaled(x: Double = 1.0, y: Double = 1.0, z: Double = 1.0,
-                       options: EffectOptions = EffectOptions()) async throws -> Graphic3D {
+                       options: EffectOptions = []) async throws -> Graphic3D {
         try await transformed(scaleSize: SIMD3<Double>(x: x, y: y, z: z), options: options)
     }
     
@@ -53,7 +53,7 @@ extension Graphic3D {
                              rotation: SIMD3<Double> = .zero,
                              scale: Double = 1.0,
                              scaleSize: SIMD3<Double> = .one,
-                             options: EffectOptions = EffectOptions()) async throws -> Graphic3D {
+                             options: EffectOptions = []) async throws -> Graphic3D {
         
         let relativeTranslation: SIMD3<Double> = translation / Double(height)
         

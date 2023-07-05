@@ -15,7 +15,7 @@ extension Graphic {
     public func cross(with graphic: Graphic,
                       fraction: CGFloat,
                       placement: Placement = .fit,
-                      options: EffectOptions = EffectOptions()) async throws -> Graphic {
+                      options: EffectOptions = []) async throws -> Graphic {
         try await cross(fraction: fraction, placement: placement, options: options) {
             graphic
         }
@@ -23,7 +23,7 @@ extension Graphic {
     
     public func cross(fraction: CGFloat,
                       placement: Placement = .fit,
-                      options: EffectOptions = EffectOptions(),
+                      options: EffectOptions = [],
                       graphic: () async throws -> Graphic) async throws -> Graphic {
         
         try await Renderer.render(

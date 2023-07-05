@@ -17,7 +17,7 @@ extension Graphic {
     
     public func edge(amplitude: CGFloat = 1.0,
                      distance: CGFloat = 1.0,
-                     options: EffectOptions = EffectOptions()) async throws -> Graphic {
+                     options: EffectOptions = []) async throws -> Graphic {
         
         try await edge(amplitude: amplitude,
                        distance: distance,
@@ -27,7 +27,7 @@ extension Graphic {
     
     public func coloredEdge(amplitude: CGFloat = 1.0,
                             distance: CGFloat = 1.0,
-                            options: EffectOptions = EffectOptions()) async throws -> Graphic {
+                            options: EffectOptions = []) async throws -> Graphic {
         
         try await edge(amplitude: amplitude,
                        distance: distance,
@@ -38,7 +38,7 @@ extension Graphic {
     private func edge(amplitude: CGFloat = 1.0,
                       distance: CGFloat = 1.0,
                       colored: Bool,
-                      options: EffectOptions = EffectOptions()) async throws -> Graphic {
+                      options: EffectOptions = []) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Edge",

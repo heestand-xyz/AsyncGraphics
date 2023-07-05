@@ -31,7 +31,7 @@ extension Graphic {
                             color: PixelColor = .white,
                             backgroundColor: PixelColor = .black,
                             resolution: CGSize,
-                            options: ContentOptions = ContentOptions()) async throws -> Graphic {
+                            options: ContentOptions = []) async throws -> Graphic {
         
         let innerRadius: CGFloat = innerRadius ?? min(resolution.width, resolution.height) / 4
         let outerRadius: CGFloat = outerRadius ?? min(resolution.width, resolution.height) / 2

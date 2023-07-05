@@ -19,7 +19,7 @@ extension Graphic {
                       leadingAngle: Angle,
                       trailingAngle: Angle,
                       resolution: CGSize,
-                      options: EffectOptions = EffectOptions()) async throws -> Graphic {
+                      options: EffectOptions = []) async throws -> Graphic {
         
         let relativeRadius: CGFloat = (radius ?? height / 2) / height
         let relativeWidth: CGFloat = (width ?? height / 4) / height

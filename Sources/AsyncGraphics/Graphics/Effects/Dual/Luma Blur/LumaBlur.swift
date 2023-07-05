@@ -50,7 +50,7 @@ extension Graphic {
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions()
+        options: EffectOptions = []
     ) async throws -> Graphic {
         
         try await lumaBlurredBox(
@@ -68,7 +68,7 @@ extension Graphic {
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions(),
+        options: EffectOptions = [],
         graphic: () async throws -> Graphic
     ) async throws -> Graphic {
         
@@ -91,7 +91,7 @@ extension Graphic {
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions()
+        options: EffectOptions = []
     ) async throws -> Graphic {
         
         try await lumaBlurredZoom(
@@ -111,7 +111,7 @@ extension Graphic {
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions(),
+        options: EffectOptions = [],
         graphic: () async throws -> Graphic
     ) async throws -> Graphic {
         
@@ -135,7 +135,7 @@ extension Graphic {
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions()
+        options: EffectOptions = []
     ) async throws -> Graphic {
         
         try await lumaBlurredAngle(
@@ -155,7 +155,7 @@ extension Graphic {
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions(),
+        options: EffectOptions = [],
         graphic: () async throws -> Graphic
     ) async throws -> Graphic {
         
@@ -177,7 +177,7 @@ extension Graphic {
         radius: CGFloat,
         lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions()
+        options: EffectOptions = []
     ) async throws -> Graphic {
         
         try await lumaBlurredRandom(
@@ -193,7 +193,7 @@ extension Graphic {
         radius: CGFloat,
         lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions(),
+        options: EffectOptions = [],
         graphic: () async throws -> Graphic
     ) async throws -> Graphic {
         
@@ -213,7 +213,7 @@ extension Graphic {
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions(),
+        options: EffectOptions = [],
         graphic: () async throws -> Graphic
     ) async throws -> Graphic {
             

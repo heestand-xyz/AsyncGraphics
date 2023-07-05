@@ -24,7 +24,7 @@ extension Graphic {
     public func lookup(with graphic: Graphic,
                        axis: LookupAxis,
                        sampleCoordinate: CGFloat = 0.5,
-                       options: EffectOptions = EffectOptions()) async throws -> Graphic {
+                       options: EffectOptions = []) async throws -> Graphic {
         try await lookup(axis: axis, sampleCoordinate: sampleCoordinate, options: options) {
             graphic
         }
@@ -32,7 +32,7 @@ extension Graphic {
     
     public func lookup(axis: LookupAxis,
                        sampleCoordinate: CGFloat = 0.5,
-                       options: EffectOptions = EffectOptions(),
+                       options: EffectOptions = [],
                        graphic: () async throws -> Graphic) async throws -> Graphic {
             
         let holdEdgeFraction: CGFloat = {

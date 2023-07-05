@@ -58,7 +58,7 @@ extension Graphic {
     
     public func blurredBox(radius: CGFloat,
                            sampleCount: Int = 100,
-                           options: EffectOptions = EffectOptions()) async throws -> Graphic {
+                           options: EffectOptions = []) async throws -> Graphic {
         
         let relativeRadius: CGFloat = radius / height
         
@@ -83,7 +83,7 @@ extension Graphic {
     public func blurredZoom(radius: CGFloat,
                             center: CGPoint? = nil,
                             sampleCount: Int = 100,
-                            options: EffectOptions = EffectOptions()) async throws -> Graphic {
+                            options: EffectOptions = []) async throws -> Graphic {
         
         let center: CGPoint = center ?? resolution.asPoint / 2
         let relativeCenter: CGPoint = (center - resolution / 2) / height
@@ -111,7 +111,7 @@ extension Graphic {
     public func blurredAngle(radius: CGFloat,
                              angle: Angle,
                              sampleCount: Int = 100,
-                             options: EffectOptions = EffectOptions()) async throws -> Graphic {
+                             options: EffectOptions = []) async throws -> Graphic {
         
         let relativeRadius: CGFloat = radius / height
         
@@ -134,7 +134,7 @@ extension Graphic {
     }
     
     public func blurredRandom(radius: CGFloat,
-                              options: EffectOptions = EffectOptions()) async throws -> Graphic {
+                              options: EffectOptions = []) async throws -> Graphic {
         
         let relativeRadius: CGFloat = radius / height
         

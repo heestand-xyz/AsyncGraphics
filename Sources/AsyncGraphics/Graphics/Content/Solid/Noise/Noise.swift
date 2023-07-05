@@ -25,7 +25,7 @@ extension Graphic {
                              octaves: Int = 1,
                              seed: Int = 1,
                              resolution: CGSize,
-                             options: ContentOptions = ContentOptions()) async throws -> Graphic {
+                             options: ContentOptions = []) async throws -> Graphic {
         
         let relativeOffset: CGPoint = (offset - resolution / 2) / resolution.height
         
@@ -66,7 +66,7 @@ extension Graphic {
                                     octaves: Int = 1,
                                     seed: Int = 1,
                                     resolution: CGSize,
-                                    options: ContentOptions = ContentOptions()) async throws -> Graphic {
+                                    options: ContentOptions = []) async throws -> Graphic {
         
         let relativeOffset: CGPoint = (offset - resolution / 2) / resolution.height
         
@@ -99,7 +99,7 @@ extension Graphic {
     
     public static func randomNoise(seed: Int = 1,
                                    resolution: CGSize,
-                                   options: ContentOptions = ContentOptions()) async throws -> Graphic {
+                                   options: ContentOptions = []) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Noise (Random)",
@@ -124,7 +124,7 @@ extension Graphic {
     
     public static func randomColoredNoise(seed: Int = 1,
                                           resolution: CGSize,
-                                          options: ContentOptions = ContentOptions()) async throws -> Graphic {
+                                          options: ContentOptions = []) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Noise (Random Colored)",

@@ -11,7 +11,7 @@ extension Graphic {
     }
     
     public func quantize(_ fraction: CGFloat,
-                         options: EffectOptions = EffectOptions()) async throws -> Graphic {
+                         options: EffectOptions = []) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Quantize",

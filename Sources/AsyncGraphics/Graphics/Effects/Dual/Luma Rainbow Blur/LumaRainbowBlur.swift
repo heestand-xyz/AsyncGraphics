@@ -37,7 +37,7 @@ extension Graphic {
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions()
+        options: EffectOptions = []
     ) async throws -> Graphic {
         
         try await lumaRainbowBlurred(
@@ -60,7 +60,7 @@ extension Graphic {
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions(),
+        options: EffectOptions = [],
         graphic: () async throws -> Graphic
     ) async throws -> Graphic {
         
@@ -86,7 +86,7 @@ extension Graphic {
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions()
+        options: EffectOptions = []
     ) async throws -> Graphic {
         
         try await lumaRainbowBlurred(
@@ -109,7 +109,7 @@ extension Graphic {
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions(),
+        options: EffectOptions = [],
         graphic: () async throws -> Graphic
     ) async throws -> Graphic {
         
@@ -135,7 +135,7 @@ extension Graphic {
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions()
+        options: EffectOptions = []
     ) async throws -> Graphic {
     
         try await lumaRainbowBlurred(
@@ -158,7 +158,7 @@ extension Graphic {
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions(),
+        options: EffectOptions = [],
         graphic: () async throws -> Graphic
     ) async throws -> Graphic {
         
@@ -184,7 +184,7 @@ extension Graphic {
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions(),
+        options: EffectOptions = [],
         graphic: () async throws -> Graphic
     ) async throws -> Graphic {
         

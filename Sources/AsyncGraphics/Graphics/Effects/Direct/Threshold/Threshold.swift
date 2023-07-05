@@ -11,7 +11,7 @@ extension Graphic {
     }
     
     public func threshold(_ fraction: CGFloat = 0.5,
-                          options: EffectOptions = EffectOptions()) async throws -> Graphic {
+                          options: EffectOptions = []) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Threshold",

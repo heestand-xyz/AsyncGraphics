@@ -16,7 +16,7 @@ extension Graphic3D {
     
     public static func color(_ color: PixelColor,
                              resolution: SIMD3<Int>,
-                             options: ContentOptions = ContentOptions()) async throws -> Graphic3D {
+                             options: ContentOptions = []) async throws -> Graphic3D {
                 
         try await Renderer.render(
             name: "Color",

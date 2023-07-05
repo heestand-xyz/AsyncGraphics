@@ -131,7 +131,7 @@ extension Graphic {
         tintColor: PixelColor = .white,
         lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
-        options: EffectOptions = EffectOptions(),
+        options: EffectOptions = [],
         graphic: () async throws -> Graphic
     ) async throws -> Graphic {
         

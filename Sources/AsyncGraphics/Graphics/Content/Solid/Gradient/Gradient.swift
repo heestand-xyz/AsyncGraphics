@@ -60,7 +60,7 @@ extension Graphic {
                                 extend: GradientExtend = .zero,
                                 gamma: CGFloat = 1.0,
                                 resolution: CGSize,
-                                options: ContentOptions = ContentOptions()) async throws -> Graphic {
+                                options: ContentOptions = []) async throws -> Graphic {
         
         let center: CGPoint = center ?? (resolution.asPoint / 2)
         let relativePosition: CGPoint = (center - resolution / 2) / resolution.height

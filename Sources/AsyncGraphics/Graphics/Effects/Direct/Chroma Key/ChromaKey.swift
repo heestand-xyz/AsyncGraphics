@@ -35,7 +35,7 @@ extension Graphic {
     public func chromaKey(
         color: PixelColor = .rawGreen,
         parameters: ChromaKeyParameters = ChromaKeyParameters(),
-        options: EffectOptions = EffectOptions()
+        options: EffectOptions = []
     ) async throws -> Graphic {
         
         try await Renderer.render(

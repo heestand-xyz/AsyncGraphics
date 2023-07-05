@@ -1,5 +1,6 @@
 import Foundation
 import PixelColor
+import TextureMap
 
 extension Graphic {
     
@@ -92,7 +93,7 @@ extension Graphic {
     
     // MARK: Identity LUT
     
-    public static func identityLUT() async throws -> Graphic {
+    public static func identityLUT(options: ContentOptions = []) async throws -> Graphic {
 
         let count = 8
         let powerCount = count * count
@@ -105,14 +106,14 @@ extension Graphic {
         let redGradient: Graphic = try await .gradient(direction: .horizontal, stops: [
             GradientStop(at: 0.0, color: .black),
             GradientStop(at: 1.0, color: .red),
-        ], resolution: partResolution)
+        ], resolution: partResolution, options: options)
         let greenGradient: Graphic = try await .gradient(direction: .vertical, stops: [
             GradientStop(at: 0.0, color: .black),
             GradientStop(at: 1.0, color: .green),
-        ], resolution: partResolution)
+        ], resolution: partResolution, options: options)
         let redGreenGradient: Graphic = try await redGradient + greenGradient
 
-        var lut: Graphic = try await .color(.black, resolution: fullResolution)
+        var lut: Graphic = try await .color(.black, resolution: fullResolution, options: options)
         
         for y in 0..<count {
             let yFraction = CGFloat(y) / CGFloat(count - 1)
@@ -122,7 +123,7 @@ extension Graphic {
                 let fraction = CGFloat(i) / CGFloat(powerCount - 1)
                 
                 let blueColor = PixelColor(red: 0.0, green: 0.0, blue: fraction)
-                let blueSolid: Graphic = try await .color(blueColor, resolution: partResolution)
+                let blueSolid: Graphic = try await .color(blueColor, resolution: partResolution, options: options)
                 let part: Graphic = try await redGreenGradient + blueSolid
                 
                 let offset = CGPoint(

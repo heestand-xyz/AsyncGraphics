@@ -14,7 +14,7 @@ extension Graphic {
     
     public static func color(_ color: PixelColor,
                              resolution: CGSize,
-                             options: ContentOptions = ContentOptions()) async throws -> Graphic {
+                             options: ContentOptions = []) async throws -> Graphic {
                 
         try await Renderer.render(
             name: "Color",

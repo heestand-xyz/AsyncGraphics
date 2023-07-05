@@ -60,7 +60,7 @@ extension Graphic {
                           verticalAlignment: GlyphTextVerticalAlignment = .center,
                           color: PixelColor = .white,
                           backgroundColor: PixelColor = .black,
-                          options: ContentOptions = ContentOptions()) async throws -> Graphic {
+                          options: ContentOptions = []) async throws -> Graphic {
         
 //        let resolution = CGSize(width: 1_000, height: 1_000)
 //        let center: CGPoint = center ?? (resolution.asPoint / 2)
