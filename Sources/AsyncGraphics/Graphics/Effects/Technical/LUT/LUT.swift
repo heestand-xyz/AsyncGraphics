@@ -3,13 +3,19 @@ import PixelColor
 
 extension Graphic {
     
+    private struct LUTUniforms {
+        let count: Int32
+    }
+    
     public enum LUTFileFormat: String {
         case cube
     }
     
     public enum LUTError: Error {
         case fileNotFound
-        case nonOneAspectRatio
+        case resolutionHasNonSquareAspectRatio
+        case resolutionIsNotPowerOfTwo
+        case resolutionUnknown
     }
     
     // MARK: Apply LUT
@@ -32,10 +38,38 @@ extension Graphic {
     
     public func applyLUT(with graphic: Graphic) async throws -> Graphic {
         guard graphic.width == graphic.height else {
-            throw LUTError.nonOneAspectRatio
+            throw LUTError.resolutionHasNonSquareAspectRatio
         }
-        // ...
-        return self
+        let width = Int(graphic.width)
+        func isPowerOfTwo(_ n: Int) -> Bool {
+            (n > 0) && ((n & (n - 1)) == 0)
+        }
+        guard isPowerOfTwo(width) else {
+            throw LUTError.resolutionIsNotPowerOfTwo
+        }
+        func correctRoundingError(_ value: Double) -> Double {
+            round(value * 1_000_000) / 1_000_000
+        }
+        var floatingCount: Double = pow(Double(width), 1.0 / 3.0)
+        floatingCount = correctRoundingError(floatingCount)
+        let count: Int = Int(floatingCount)
+        guard Double(count) == floatingCount else {
+            throw LUTError.resolutionUnknown
+        }
+        guard isPowerOfTwo(count) else {
+            throw LUTError.resolutionIsNotPowerOfTwo
+        }
+        return try await Renderer.render(
+            name: "Cross",
+            shader: .name("lut"),
+            graphics: [
+                self,
+                graphic
+            ],
+            uniforms: LUTUniforms(
+                count: Int32(count)
+            )
+        )
     }
     
     // MARK: Read LUT
