@@ -28,7 +28,7 @@ fragment float4 lut(VertexOut out [[stage_in]],
     
     int count = uniforms.count;
 
-    float3 rgb = originalColor.rgb;
+    float3 rgb = sourceColor.rgb;
     
 //    float2 uvOrigin = float2(int2(rgb * count)) / count;
 //    float2 uvFraction = (uv - uvOrigin) * count;
