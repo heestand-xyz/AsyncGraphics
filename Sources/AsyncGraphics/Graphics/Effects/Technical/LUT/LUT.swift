@@ -8,7 +8,7 @@ extension Graphic {
         let count: Int32
     }
     
-    public enum LUTFileFormat: String {
+    public enum LUTFormat: String {
         case cube
     }
     
@@ -33,20 +33,20 @@ extension Graphic {
     
     // MARK: Apply LUT
     
-    public func applyLUT(named name: String, as fileFormat: LUTFileFormat, layout: LUTLayout = .square) async throws -> Graphic {
-        try await applyLUT(named: name, in: .main, as: fileFormat, layout: layout)
+    public func applyLUT(named name: String, format: LUTFormat) async throws -> Graphic {
+        try await applyLUT(named: name, in: .main, format: format)
     }
     
-    public func applyLUT(named name: String, in bundle: Bundle, as fileFormat: LUTFileFormat, layout: LUTLayout = .square) async throws -> Graphic {
-        guard let url = bundle.url(forResource: name, withExtension: fileFormat.rawValue) ?? bundle.url(forResource: name, withExtension: fileFormat.rawValue.uppercased()) else {
+    public func applyLUT(named name: String, in bundle: Bundle, format: LUTFormat) async throws -> Graphic {
+        guard let url = bundle.url(named: name, format: format.rawValue) else {
             throw LUTError.fileNotFound
         }
-        return try await applyLUT(url: url, layout: layout)
+        return try await applyLUT(url: url)
     }
     
-    public func applyLUT(url: URL, layout: LUTLayout = .square) async throws -> Graphic {
-        let lut: Graphic = try await .readLUT(url: url)
-        return try await applyLUT(with: lut, layout: layout)
+    public func applyLUT(url: URL) async throws -> Graphic {
+        let lut: Graphic = try await .readLUT(url: url, layout: .linear)
+        return try await applyLUT(with: lut, layout: .linear)
     }
     
     public func applyLUT(with graphic: Graphic, layout: LUTLayout = .square) async throws -> Graphic {
@@ -106,12 +106,12 @@ extension Graphic {
     
     // MARK: Read LUT
     
-    public static func readLUT(named name: String, as fileFormat: LUTFileFormat, layout: LUTLayout = .square) async throws -> Graphic {
-        try await readLUT(named: name, in: .main, as: fileFormat, layout: layout)
+    public static func readLUT(named name: String, format: LUTFormat, layout: LUTLayout = .square) async throws -> Graphic {
+        try await readLUT(named: name, in: .main, format: format, layout: layout)
     }
     
-    public static func readLUT(named name: String, in bundle: Bundle, as fileFormat: LUTFileFormat, layout: LUTLayout = .square) async throws -> Graphic {
-        guard let url = bundle.url(forResource: name, withExtension: fileFormat.rawValue) ?? bundle.url(forResource: name, withExtension: fileFormat.rawValue.uppercased()) else {
+    public static func readLUT(named name: String, in bundle: Bundle, format: LUTFormat, layout: LUTLayout = .square) async throws -> Graphic {
+        guard let url = bundle.url(named: name, format: format.rawValue) else {
             throw LUTError.fileNotFound
         }
         return try await readLUT(url: url, layout: layout)
@@ -121,13 +121,13 @@ extension Graphic {
         
         typealias Color = [Float]
         
-        guard let fileFormat = LUTFileFormat(rawValue: url.pathExtension.lowercased()) else {
+        guard let fileFormat = LUTFormat(rawValue: url.pathExtension.lowercased()) else {
             throw LUTError.unknownFormat
         }
         
         let text = try String(contentsOf: url)
         
-        var colorCount: Int = try sizeOfLUT(url: url)
+        let colorCount: Int = try sizeOfLUT(url: url)
         var blockCount: Int?
         var squareWidth: Int?
         var linearWidth: Int?
@@ -135,7 +135,7 @@ extension Graphic {
             let floatingCount = sqrt(Double(colorCount))
             blockCount = Int(floatingCount)
             guard Double(blockCount!) == floatingCount else {
-                print("AsyncGraphics - CUBE size is odd, please use linear layout.")
+                print("AsyncGraphics - LUT size is not a power of two, please use a linear layout.")
                 throw LUTError.sizeNotAPowerOfTwo
             }
             squareWidth = blockCount! * blockCount! * blockCount!
@@ -252,12 +252,12 @@ extension Graphic {
     
     // MARK: Size
     
-    public static func sizeOfLUT(named name: String, as fileFormat: LUTFileFormat) throws -> Int {
-        try sizeOfLUT(named: name, in: .main, as: fileFormat)
+    public static func sizeOfLUT(named name: String, format: LUTFormat) throws -> Int {
+        try sizeOfLUT(named: name, in: .main, format: format)
     }
     
-    public static func sizeOfLUT(named name: String, in bundle: Bundle, as fileFormat: LUTFileFormat) throws -> Int {
-        guard let url = bundle.url(forResource: name, withExtension: fileFormat.rawValue) ?? bundle.url(forResource: name, withExtension: fileFormat.rawValue.uppercased()) else {
+    public static func sizeOfLUT(named name: String, in bundle: Bundle, format: LUTFormat) throws -> Int {
+        guard let url = bundle.url(named: name, format: format.rawValue) else {
             throw LUTError.fileNotFound
         }
         return try sizeOfLUT(url: url)
@@ -267,7 +267,7 @@ extension Graphic {
         
         typealias Color = [Float]
         
-        guard let fileFormat = LUTFileFormat(rawValue: url.pathExtension.lowercased()) else {
+        guard let fileFormat = LUTFormat(rawValue: url.pathExtension.lowercased()) else {
             throw LUTError.unknownFormat
         }
         
@@ -356,5 +356,13 @@ extension Graphic {
         }
         
         return lut
+    }
+}
+
+extension Bundle {
+    
+    fileprivate func url(named name: String, format: String) -> URL? {
+        url(forResource: name, withExtension: format) ??
+        url(forResource: name, withExtension: format.uppercased())
     }
 }
