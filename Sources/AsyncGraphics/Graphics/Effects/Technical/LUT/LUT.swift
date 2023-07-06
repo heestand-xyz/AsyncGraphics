@@ -17,10 +17,12 @@ extension Graphic {
         case resolutionHasNonSquareAspectRatio
         case resolutionIsNotPowerOfTwo
         case resolutionUnknown
+        case sizeCorrupt
         case sizeNotFound
         case sizeNotAPowerOfTwo
         case badColorCount
         case tooHighCount
+        case unknownFormat
     }
     
     // MARK: Apply LUT
@@ -33,11 +35,11 @@ extension Graphic {
         guard let url = bundle.url(forResource: name, withExtension: fileFormat.rawValue) else {
             throw LUTError.fileNotFound
         }
-        return try await applyLUT(url: url, as: fileFormat)
+        return try await applyLUT(url: url)
     }
     
-    public func applyLUT(url: URL, as fileFormat: LUTFileFormat) async throws -> Graphic {
-        let lut: Graphic = try await readLUT(url: url, as: fileFormat)
+    public func applyLUT(url: URL) async throws -> Graphic {
+        let lut: Graphic = try await .readLUT(url: url)
         return try await applyLUT(with: lut)
     }
     
@@ -82,53 +84,104 @@ extension Graphic {
     
     // MARK: Read LUT
     
-    public func readLUT(named name: String, as fileFormat: LUTFileFormat) async throws -> Graphic {
+    public static func readLUT(named name: String, as fileFormat: LUTFileFormat) async throws -> Graphic {
         try await readLUT(named: name, in: .main, as: fileFormat)
     }
     
-    public func readLUT(named name: String, in bundle: Bundle, as fileFormat: LUTFileFormat) async throws -> Graphic {
+    public static func readLUT(named name: String, in bundle: Bundle, as fileFormat: LUTFileFormat) async throws -> Graphic {
         guard let url = bundle.url(forResource: name, withExtension: fileFormat.rawValue) else {
             throw LUTError.fileNotFound
         }
-        return try await readLUT(url: url, as: fileFormat)
+        return try await readLUT(url: url)
     }
     
-    public func readLUT(url: URL, as fileFormat: LUTFileFormat) async throws -> Graphic {
+    public static func readLUT(url: URL) async throws -> Graphic {
+        
+        typealias Color = [Float]
+        
+        guard let fileFormat = LUTFileFormat(rawValue: url.pathExtension) else {
+            throw LUTError.unknownFormat
+        }
+        
         let text = try String(contentsOf: url)
+        
         var count: Int?
-        var allChannels: [Float] = []
-        for row in text.split(separator: "\n") {
-            if row.contains("LUT_3D_SIZE") {
-                guard let countString = row.split(separator: " ").last,
-                      let countNumber = Int(countString) else {
-                    throw LUTError.sizeNotFound
+        var squareCount: Int?
+        var cubeCount: Int?
+        var colors: [Color] = []
+        
+        switch fileFormat {
+        case .cube:
+            for row in text.components(separatedBy: .newlines) {
+                print(row)
+                if row.starts(with: "LUT_3D_SIZE") {
+                    guard let countString = row.components(separatedBy: .whitespaces).last,
+                          let countNumber = Int(countString) else {
+                        throw LUTError.sizeCorrupt
+                    }
+                    squareCount = countNumber
+                    let floatingCount = sqrt(Double(squareCount!))
+                    count = Int(floatingCount)
+                    guard Double(count!) == floatingCount else {
+                        throw LUTError.sizeNotAPowerOfTwo
+                    }
+                    cubeCount = count! * count! * count!
+                } else if count != nil {
+                    let channelStrings = row.components(separatedBy: .whitespaces)
+                    guard channelStrings.count == 3 else { continue }
+                    let color: Color = channelStrings.compactMap { channelString in
+                        Float(channelString)
+                    }
+                    guard color.count == 3 else { continue }
+                    colors.append(color)
                 }
-                let squareCount = countNumber
-                let floatingCount = sqrt(Double(squareCount))
-                count = Int(floatingCount)
-                guard Double(count!) == floatingCount else {
-                    throw LUTError.sizeNotAPowerOfTwo
-                }
-            } else if count != nil {
-                let channelStrings = row.split(separator: " ")
-                guard channelStrings.count == 3 else { continue }
-                let channels: [Float] = channelStrings.compactMap { channelString in
-                    Float(channelString)
-                }
-                guard channels.count == 3 else { continue }
-                allChannels.append(contentsOf: channels)
-                allChannels.append(1.0) /// Alpha
             }
         }
-        guard let count else {
+        
+        guard let count, let squareCount, let cubeCount else {
             throw LUTError.sizeNotFound
         }
-        let cubeCount: Int = count * count * count
-        guard allChannels.count == cubeCount * 4 else {
+        guard colors.count == cubeCount * cubeCount else {
             throw LUTError.badColorCount
         }
+        
+        struct BlueCoordinate: Hashable {
+            let x: Int
+            let y: Int
+        }
+        var blocks: [BlueCoordinate: [[Color]]] = [:]
+        for b in 0..<squareCount {
+            let blueCoordinate = BlueCoordinate(x: b % count, y: b / count)
+            var block: [[Color]] = []
+            for g in 0..<squareCount {
+                var blockRow: [Color] = []
+                for r in 0..<squareCount {
+                    let i = b * squareCount * squareCount + g * squareCount + r
+                    let color: Color = colors[i]
+                    blockRow.append(color)
+                }
+                block.append(blockRow)
+            }
+            blocks[blueCoordinate] = block
+        }
+        
+        var channels: [Float] = []
+        for y in 0..<count {
+            for iy in 0..<squareCount {
+                for x in 0..<count {
+                    let blueCoordinate = BlueCoordinate(x: x, y: y)
+                    for ix in 0..<squareCount {
+                        let color: Color = blocks[blueCoordinate]![iy][ix]
+                        channels.append(contentsOf: color + [1.0])
+                    }
+                }
+            }
+        }
+        
         let resolution = CGSize(width: cubeCount, height: cubeCount)
-        let graphic: Graphic = try .channels(allChannels, resolution: resolution)
+        
+        let graphic: Graphic = try .channels(channels, resolution: resolution)
+        
         return graphic
     }
     
