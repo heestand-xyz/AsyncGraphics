@@ -32,7 +32,7 @@ extension Graphic {
     }
     
     public func applyLUT(named name: String, in bundle: Bundle, as fileFormat: LUTFileFormat) async throws -> Graphic {
-        guard let url = bundle.url(forResource: name, withExtension: fileFormat.rawValue) else {
+        guard let url = bundle.url(forResource: name, withExtension: fileFormat.rawValue) ?? bundle.url(forResource: name, withExtension: fileFormat.rawValue.uppercased()) else {
             throw LUTError.fileNotFound
         }
         return try await applyLUT(url: url)
@@ -89,7 +89,7 @@ extension Graphic {
     }
     
     public static func readLUT(named name: String, in bundle: Bundle, as fileFormat: LUTFileFormat) async throws -> Graphic {
-        guard let url = bundle.url(forResource: name, withExtension: fileFormat.rawValue) else {
+        guard let url = bundle.url(forResource: name, withExtension: fileFormat.rawValue) ?? bundle.url(forResource: name, withExtension: fileFormat.rawValue.uppercased()) else {
             throw LUTError.fileNotFound
         }
         return try await readLUT(url: url)
@@ -99,7 +99,7 @@ extension Graphic {
         
         typealias Color = [Float]
         
-        guard let fileFormat = LUTFileFormat(rawValue: url.pathExtension) else {
+        guard let fileFormat = LUTFileFormat(rawValue: url.pathExtension.lowercased()) else {
             throw LUTError.unknownFormat
         }
         
