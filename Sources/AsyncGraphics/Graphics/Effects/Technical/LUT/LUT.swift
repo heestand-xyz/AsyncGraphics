@@ -8,18 +8,20 @@ extension Graphic {
         let count: Int32
     }
     
-    public enum LUTFormat: String {
+    public enum LUTFormat: String, CaseIterable {
         case cube
     }
     
     public enum LUTLayout: String {
+        /// This layout has a one by one aspect ratio
         case square
+        /// This layout has a `width` that is equal to `heigh * height`
         case linear
     }
     
     public enum LUTError: Error {
         case fileNotFound
-        case resolutionHasNonSquareAspectRatio
+        case resolutionIsNonSquareAspectRatio
         case resolutionIsNotPowerOfTwo
         case resolutionIsNotLinear
         case resolutionUnknown
@@ -29,6 +31,8 @@ extension Graphic {
         case badColorCount
         case tooHighCount
         case unknownFormat
+        case corruptFormat
+        case noText
     }
     
     // MARK: Apply LUT
@@ -54,25 +58,14 @@ extension Graphic {
         switch layout {
         case .square:
             guard graphic.width == graphic.height else {
-                throw LUTError.resolutionHasNonSquareAspectRatio
+                throw LUTError.resolutionIsNonSquareAspectRatio
             }
             let width = Int(graphic.width)
-            func isPowerOfTwo(_ n: Int) -> Bool {
-                (n > 0) && ((n & (n - 1)) == 0)
-            }
-            guard isPowerOfTwo(width) else {
+            guard Self.isPowerOfTwo(width) else {
                 throw LUTError.resolutionIsNotPowerOfTwo
             }
-            func correctRoundingError(_ value: Double) -> Double {
-                round(value * 1_000_000) / 1_000_000
-            }
-            var floatingCount: Double = pow(Double(width), 1.0 / 3.0)
-            floatingCount = correctRoundingError(floatingCount)
-            count = Int(floatingCount)
-            guard Double(count) == floatingCount else {
-                throw LUTError.resolutionUnknown
-            }
-            guard isPowerOfTwo(count) else {
+            count = try Self.cubeRoot(width)
+            guard Self.isPowerOfTwo(count) else {
                 throw LUTError.resolutionIsNotPowerOfTwo
             }
         case .linear:
@@ -119,15 +112,24 @@ extension Graphic {
     
     public static func readLUT(url: URL, layout: LUTLayout = .square) async throws -> Graphic {
         
-        typealias Color = [Float]
-        
-        guard let fileFormat = LUTFormat(rawValue: url.pathExtension.lowercased()) else {
+        guard let format = LUTFormat(rawValue: url.pathExtension.lowercased()) else {
             throw LUTError.unknownFormat
         }
         
-        let text = try String(contentsOf: url)
+        let data = try Data(contentsOf: url)
         
-        let colorCount: Int = try sizeOfLUT(url: url)
+        return try await readLUT(data: data, format: format, layout: layout)
+    }
+        
+    public static func readLUT(data: Data, format: LUTFormat, layout: LUTLayout = .square) async throws -> Graphic {
+        
+        typealias Color = [Float]
+        
+        guard let text = String(data: data, encoding: .utf8) else {
+            throw LUTError.noText
+        }
+            
+        let colorCount: Int = try sizeOfLUT(data: data, format: format)
         var blockCount: Int?
         var squareWidth: Int?
         var linearWidth: Int?
@@ -144,7 +146,7 @@ extension Graphic {
         }
         
         var colors: [Color] = []
-        switch fileFormat {
+        switch format {
         case .cube:
             for row in text.components(separatedBy: .newlines) {
                 let channelStrings = row.components(separatedBy: .whitespaces)
@@ -250,7 +252,7 @@ extension Graphic {
         }
     }
     
-    // MARK: Size
+    // MARK: Read Size
     
     public static func sizeOfLUT(named name: String, format: LUTFormat) throws -> Int {
         try sizeOfLUT(named: name, in: .main, format: format)
@@ -267,14 +269,23 @@ extension Graphic {
         
         typealias Color = [Float]
         
-        guard let fileFormat = LUTFormat(rawValue: url.pathExtension.lowercased()) else {
+        guard let format = LUTFormat(rawValue: url.pathExtension.lowercased()) else {
             throw LUTError.unknownFormat
         }
         
-        let text = try String(contentsOf: url)
+        let data = try Data(contentsOf: url)
+        
+        return try sizeOfLUT(data: data, format: format)
+    }
+    
+    public static func sizeOfLUT(data: Data, format: LUTFormat) throws -> Int {
+        
+        guard let text = String(data: data, encoding: .utf8) else {
+            throw LUTError.noText
+        }
         
         var colorCount: Int?
-        switch fileFormat {
+        switch format {
         case .cube:
             for row in text.components(separatedBy: .newlines) {
                 if row.starts(with: "LUT_3D_SIZE") {
@@ -295,6 +306,74 @@ extension Graphic {
         return colorCount
     }
     
+    // MARK: Write LUT
+    
+    /// Writes a the LUT graphic to data in a CUBE format
+    /// - Parameter layout: The layout of the LUT
+    /// - Returns: Data of a utf8 String for a .cube file
+    public func writeLUT(layout: LUTLayout = .square) async throws -> Data {
+        
+        var count: Int?
+        let size: Int
+        switch layout {
+        case .square:
+            guard width == height else {
+                throw LUTError.resolutionIsNonSquareAspectRatio
+            }
+            count = try Self.cubeRoot(Int(width))
+            size = count! * count!
+        case .linear:
+            guard width == height * height else {
+                throw LUTError.resolutionUnknown
+            }
+            size = Int(height)
+        }
+        
+        var lut = "// Created with AsyncGraphics\n\nLUT_3D_SIZE \(size)\n\n"
+        
+        let channels: [Float] = try await channels.map(Float.init)
+        
+        switch layout {
+        case .square:
+            for y in 0..<count! {
+                for x in 0..<count! {
+                    for iy in 0..<size {
+                        for ix in 0..<size {
+                            let _x = x * size + ix
+                            let _y = y * size + iy
+                            let _i = _y * size * count! * 4 + _x * 4
+                            let red = String(format: "%.6f", channels[_i])
+                            let green = String(format: "%.6f", channels[_i + 1])
+                            let blue = String(format: "%.6f", channels[_i + 2])
+                            let row = "\(red) \(green) \(blue)"
+                            lut += "\(row)\n"
+                        }
+                    }
+                }
+            }
+        case .linear:
+            for x in 0..<size {
+                for iy in 0..<size {
+                    for ix in 0..<size {
+                        let _x = x * size + ix
+                        let _i = iy * size * size * 4 + _x * 4
+                        let red = String(format: "%.6f", channels[_i])
+                        let green = String(format: "%.6f", channels[_i + 1])
+                        let blue = String(format: "%.6f", channels[_i + 2])
+                        let row = "\(red) \(green) \(blue)"
+                        lut += "\(row)\n"
+                    }
+                }
+            }
+        }
+        
+        guard let data: Data = lut.data(using: .utf8) else {
+            throw LUTError.corruptFormat
+        }
+        
+        return data
+    }
+    
     // MARK: Identity LUT
     
     /// Identity LUT
@@ -302,16 +381,14 @@ extension Graphic {
     /// A LUT UV Map
     /// - Parameters:
     ///   - count: The resolution of the graphic is `count ^ 3`.
-    ///   The default value is `8`, with a `512x512` resolution.
-    public static func identityLUT(count: Int = 8, options: ContentOptions = []) async throws -> Graphic {
+    ///   The default value is `4`, with a `64x64` resolution.
+    /// - Returns: A square LUT graphic.
+    public static func identityLUT(count: Int = 4, options: ContentOptions = []) async throws -> Graphic {
         
         guard count <= 16 else {
             throw LUTError.tooHighCount
         }
         
-        func isPowerOfTwo(_ n: Int) -> Bool {
-            (n > 0) && ((n & (n - 1)) == 0)
-        }
         guard isPowerOfTwo(count) else {
             throw LUTError.resolutionIsNotPowerOfTwo
         }
@@ -356,6 +433,30 @@ extension Graphic {
         }
         
         return lut
+    }
+    
+    // MARK: Helpers
+    
+    private static func isPowerOfTwo(_ n: Int) -> Bool {
+        (n > 0) && ((n & (n - 1)) == 0)
+    }
+    
+    enum CubeRootError: Error {
+        case nonIntAfterCubeRoot
+    }
+    
+    private static func cubeRoot(_ value: Int) throws -> Int {
+        var cubedValue: Double = pow(Double(value), 1.0 / 3.0)
+        cubedValue = correctRoundingError(cubedValue)
+        let intValue = Int(cubedValue)
+        guard Double(intValue) == cubedValue else {
+            throw CubeRootError.nonIntAfterCubeRoot
+        }
+        return intValue
+    }
+    
+    private static func correctRoundingError(_ value: Double) -> Double {
+        round(value * 1_000_000) / 1_000_000
     }
 }
 
