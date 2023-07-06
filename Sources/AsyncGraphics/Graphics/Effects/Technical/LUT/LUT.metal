@@ -27,34 +27,34 @@ fragment float4 lut(VertexOut out [[stage_in]],
     float4 sourceColor = leadingTexture.sample(sampler, uv);
     
     int count = uniforms.count;
-    int powerCount = count * count;
-    int resCount = count * count * count;
+    int squareCount = count * count;
+    int cubeCount = count * count * count;
     
-    float x = sourceColor.x * (powerCount - 1);
+    float x = sourceColor.x * (squareCount - 1);
     int xLow = int(floor(x));
     int xHigh = int(ceil(x));
     float xFraction = x - xLow;
     
-    float y = sourceColor.y * (powerCount - 1);
+    float y = sourceColor.y * (squareCount - 1);
     int yLow = int(floor(y));
     int yHigh = int(ceil(y));
     float yFraction = y - yLow;
 
-    float z = sourceColor.z * (powerCount - 1);
+    float z = sourceColor.z * (squareCount - 1);
     int zIndexLow = int(floor(z));
     int zIndexHigh = int(ceil(z));
     int2 zLow = int2(zIndexLow % count, zIndexLow / count);
     int2 zHigh = int2(zIndexHigh % count, zIndexHigh / count);
     float zFraction = z - zIndexLow;
     
-    float2 xLow_yLow_zLow = float2(zLow) / count + float2(xLow, yLow) / resCount;
-    float2 xLow_yLow_zHigh = float2(zHigh) / count + float2(xLow, yLow) / resCount;
-    float2 xLow_yHigh_zLow = float2(zLow) / count + float2(xLow, yHigh) / resCount;
-    float2 xLow_yHigh_zHigh = float2(zHigh) / count + float2(xLow, yHigh) / resCount;
-    float2 xHigh_yLow_zLow = float2(zLow) / count + float2(xHigh, yLow) / resCount;
-    float2 xHigh_yLow_zHigh = float2(zHigh) / count + float2(xHigh, yLow) / resCount;
-    float2 xHigh_yHigh_zLow = float2(zLow) / count + float2(xHigh, yHigh) / resCount;
-    float2 xHigh_yHigh_zHigh = float2(zHigh) / count + float2(xHigh, yHigh) / resCount;
+    float2 xLow_yLow_zLow = float2(zLow) / count + float2(xLow, yLow) / cubeCount;
+    float2 xLow_yLow_zHigh = float2(zHigh) / count + float2(xLow, yLow) / cubeCount;
+    float2 xLow_yHigh_zLow = float2(zLow) / count + float2(xLow, yHigh) / cubeCount;
+    float2 xLow_yHigh_zHigh = float2(zHigh) / count + float2(xLow, yHigh) / cubeCount;
+    float2 xHigh_yLow_zLow = float2(zLow) / count + float2(xHigh, yLow) / cubeCount;
+    float2 xHigh_yLow_zHigh = float2(zHigh) / count + float2(xHigh, yLow) / cubeCount;
+    float2 xHigh_yHigh_zLow = float2(zLow) / count + float2(xHigh, yHigh) / cubeCount;
+    float2 xHigh_yHigh_zHigh = float2(zHigh) / count + float2(xHigh, yHigh) / cubeCount;
     
     float4 xLow_yLow_zLow_color = trailingTexture.sample(sampler, xLow_yLow_zLow);
     float4 xLow_yLow_zHigh_color = trailingTexture.sample(sampler, xLow_yLow_zHigh);

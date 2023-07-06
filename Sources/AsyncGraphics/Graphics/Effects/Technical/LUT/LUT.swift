@@ -17,6 +17,10 @@ extension Graphic {
         case resolutionHasNonSquareAspectRatio
         case resolutionIsNotPowerOfTwo
         case resolutionUnknown
+        case sizeNotFound
+        case sizeNotAPowerOfTwo
+        case badColorCount
+        case tooHighCount
     }
     
     // MARK: Apply LUT
@@ -90,21 +94,72 @@ extension Graphic {
     }
     
     public func readLUT(url: URL, as fileFormat: LUTFileFormat) async throws -> Graphic {
-        // ...
-        return self
+        let text = try String(contentsOf: url)
+        var count: Int?
+        var allChannels: [Float] = []
+        for row in text.split(separator: "\n") {
+            if row.contains("LUT_3D_SIZE") {
+                guard let countString = row.split(separator: " ").last,
+                      let countNumber = Int(countString) else {
+                    throw LUTError.sizeNotFound
+                }
+                let squareCount = countNumber
+                let floatingCount = sqrt(Double(squareCount))
+                count = Int(floatingCount)
+                guard Double(count!) == floatingCount else {
+                    throw LUTError.sizeNotAPowerOfTwo
+                }
+            } else if count != nil {
+                let channelStrings = row.split(separator: " ")
+                guard channelStrings.count == 3 else { continue }
+                let channels: [Float] = channelStrings.compactMap { channelString in
+                    Float(channelString)
+                }
+                guard channels.count == 3 else { continue }
+                allChannels.append(contentsOf: channels)
+                allChannels.append(1.0) /// Alpha
+            }
+        }
+        guard let count else {
+            throw LUTError.sizeNotFound
+        }
+        let cubeCount: Int = count * count * count
+        guard allChannels.count == cubeCount * 4 else {
+            throw LUTError.badColorCount
+        }
+        let resolution = CGSize(width: cubeCount, height: cubeCount)
+        let graphic: Graphic = try .channels(allChannels, resolution: resolution)
+        return graphic
     }
     
     // MARK: Identity LUT
     
-    public static func identityLUT(options: ContentOptions = []) async throws -> Graphic {
+    /// Identity LUT
+    ///
+    /// A LUT UV Map
+    /// - Parameters:
+    ///   - count: The resolution of the graphic is `count ^ 3`.
+    ///   The default value is `8`, with a `512x512` resolution.
+    public static func identityLUT(count: Int = 8, options: ContentOptions = []) async throws -> Graphic {
+        
+        guard count <= 16 else {
+            throw LUTError.tooHighCount
+        }
+        
+        func isPowerOfTwo(_ n: Int) -> Bool {
+            (n > 0) && ((n & (n - 1)) == 0)
+        }
+        guard isPowerOfTwo(count) else {
+            throw LUTError.resolutionIsNotPowerOfTwo
+        }
+        
+        let squareCount = count * count
+        let cubeCount = count * count * count
 
-        let count = 8
-        let powerCount = count * count
-
-        let partResolution = CGSize(width: powerCount,
-                                    height: powerCount)
-        let fullResolution = CGSize(width: powerCount * count,
-                                    height: powerCount * count)
+        let partResolution = CGSize(width: squareCount,
+                                    height: squareCount)
+        let fullResolution = CGSize(width: cubeCount,
+                                    height: cubeCount)
 
         let redGradient: Graphic = try await .gradient(direction: .horizontal, stops: [
             GradientStop(at: 0.0, color: .black),
@@ -123,7 +178,7 @@ extension Graphic {
             for x in 0..<count {
                 let xFraction = CGFloat(x) / CGFloat(count - 1)
                 let i = y * count + x
-                let fraction = CGFloat(i) / CGFloat(powerCount - 1)
+                let fraction = CGFloat(i) / CGFloat(squareCount - 1)
                 
                 let blueColor = PixelColor(red: 0.0, green: 0.0, blue: fraction)
                 let blueSolid: Graphic = try await .color(blueColor, resolution: partResolution, options: options)
