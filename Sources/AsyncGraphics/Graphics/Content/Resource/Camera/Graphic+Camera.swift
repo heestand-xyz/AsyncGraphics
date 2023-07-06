@@ -46,7 +46,8 @@ extension Graphic {
         public convenience init(_ position: AVCaptureDevice.Position,
                                 with deviceType: AVCaptureDevice.DeviceType = .builtInWideAngleCamera,
                                 quality preset: AVCaptureSession.Preset = .high,
-                                external: Bool = false) throws {
+                                external: Bool = false,
+                                centerStage: Bool = true) throws {
             
             var device: AVCaptureDevice! = .default(deviceType,
                                                     for: .video,
@@ -69,7 +70,12 @@ extension Graphic {
             if device == nil {
                 throw CameraError.captureDeviceNotSupported
             }
-
+            
+            if #available(macOS 12.3, *) {
+                AVCaptureDevice.centerStageControlMode = .app
+                AVCaptureDevice.isCenterStageEnabled = centerStage
+            }
+            
             try self.init(device: device, quality: preset)
         }
         
