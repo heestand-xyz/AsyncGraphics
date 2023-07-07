@@ -99,18 +99,18 @@ extension Graphic {
     
     // MARK: Read LUT
     
-    public static func readLUT(named name: String, format: LUTFormat, layout: LUTLayout = .square) async throws -> Graphic {
+    public static func readLUT(named name: String, format: LUTFormat, layout: LUTLayout? = nil) async throws -> Graphic {
         try await readLUT(named: name, in: .main, format: format, layout: layout)
     }
     
-    public static func readLUT(named name: String, in bundle: Bundle, format: LUTFormat, layout: LUTLayout = .square) async throws -> Graphic {
+    public static func readLUT(named name: String, in bundle: Bundle, format: LUTFormat, layout: LUTLayout? = nil) async throws -> Graphic {
         guard let url = bundle.url(named: name, format: format.rawValue) else {
             throw LUTError.fileNotFound
         }
         return try await readLUT(url: url, layout: layout)
     }
     
-    public static func readLUT(url: URL, layout: LUTLayout = .square) async throws -> Graphic {
+    public static func readLUT(url: URL, layout: LUTLayout? = nil) async throws -> Graphic {
         
         guard let format = LUTFormat(rawValue: url.pathExtension.lowercased()) else {
             throw LUTError.unknownFormat
@@ -121,7 +121,12 @@ extension Graphic {
         return try await readLUT(data: data, format: format, layout: layout)
     }
         
-    public static func readLUT(data: Data, format: LUTFormat, layout: LUTLayout = .square) async throws -> Graphic {
+    public static func readLUT(data: Data, format: LUTFormat, layout: LUTLayout? = nil) async throws -> Graphic {
+        
+        var layout: LUTLayout! = layout
+        if layout == nil {
+            layout = try idealLayoutOfLUT(data: data, format: format)
+        }
         
         typealias Color = [Float]
         
@@ -159,7 +164,7 @@ extension Graphic {
             }
         }
         
-        switch layout {
+        switch layout! {
         case .square:
             
             guard let blockCount, let squareWidth else {
@@ -304,6 +309,43 @@ extension Graphic {
         }
         
         return colorCount
+    }
+    
+    // MARK: Layout
+    
+    public static func idealLayoutOfLUT(named name: String, format: LUTFormat) throws -> LUTLayout {
+        try idealLayoutOfLUT(named: name, in: .main, format: format)
+    }
+    
+    public static func idealLayoutOfLUT(named name: String, in bundle: Bundle, format: LUTFormat) throws -> LUTLayout {
+        guard let url = bundle.url(named: name, format: format.rawValue) else {
+            throw LUTError.fileNotFound
+        }
+        return try idealLayoutOfLUT(url: url)
+    }
+    
+    public static func idealLayoutOfLUT(url: URL) throws -> LUTLayout {
+        
+        typealias Color = [Float]
+        
+        guard let format = LUTFormat(rawValue: url.pathExtension.lowercased()) else {
+            throw LUTError.unknownFormat
+        }
+        
+        let data = try Data(contentsOf: url)
+        
+        return try idealLayoutOfLUT(data: data, format: format)
+    }
+    
+    public static func idealLayoutOfLUT(data: Data, format: LUTFormat) throws -> LUTLayout {
+        
+        let size: Int = try sizeOfLUT(data: data, format: format)
+        
+        if isPowerOfTwo(size) {
+            return .square
+        } else {
+            return .linear
+        }
     }
     
     // MARK: Write LUT
