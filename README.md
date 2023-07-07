@@ -11,120 +11,111 @@ AsyncGraphics is a Swift package for working with images and video with async / 
 See the [**Graphic**](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic) docs for all effects.
 
 ### Articles
-
-- [Blending](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/blending)
-- [Layout](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/layout)
-- [Video Playback](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/videoplayback)
-- [Video Editing](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/videoediting)
+- [Blending](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/blending),
+- [Layout](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/layout),
+- [Video Playback](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/videoplayback),
+- [Video Editing](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/videoediting),
 - [Live Camera](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/livecamera)
 
 ### Content
 
-#### Resources
-
-[Image](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/image(named:))
-[Video](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/playvideo(url:loop:volume:))
-[Camera](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/camera(at:lens:quality:)) 
-[Maps](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/maps(type:latitude:longitude:span:resolution:mapoptions:options:))
-[Screen](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/screen(at:))
-[Text](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/text(_:font:center:horizontalalignment:verticalalignment:color:backgroundcolor:resolution:options:))
+**Resources**:
+[Image](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/image(named:)),
+[Video](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/playvideo(url:loop:volume:)),
+[Camera](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/camera(at:lens:quality:)),
+[Maps](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/maps(type:latitude:longitude:span:resolution:mapoptions:options:)),
+[Screen](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/screen(at:)),
+[Text](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/text(_:font:center:horizontalalignment:verticalalignment:color:backgroundcolor:resolution:options:)),
 [View](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/view(content:))
 
-#### Shapes
-
-[Circle](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/circle(radius:center:color:backgroundcolor:resolution:options:))
-[Rectangle](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/rectangle(size:center:cornerradius:color:backgroundcolor:resolution:options:))
-[Arc](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/arc(angle:length:radius:center:color:backgroundcolor:resolution:options:))
-[Polygon](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/polygon(count:radius:center:rotation:cornerradius:color:backgroundcolor:resolution:options:))
-[Star](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/star(count:innerradius:outerradius:center:rotation:cornerradius:color:backgroundcolor:resolution:options:))
+**Shapes**:
+[Circle](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/circle(radius:center:color:backgroundcolor:resolution:options:)),
+[Rectangle](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/rectangle(size:center:cornerradius:color:backgroundcolor:resolution:options:)),
+[Arc](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/arc(angle:length:radius:center:color:backgroundcolor:resolution:options:)),
+[Polygon](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/polygon(count:radius:center:rotation:cornerradius:color:backgroundcolor:resolution:options:)),
+[Star](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/star(count:innerradius:outerradius:center:rotation:cornerradius:color:backgroundcolor:resolution:options:)),
 [Line](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/line(leadingpoint:trailingpoint:linewidth:cap:color:backgroundcolor:resolution:options:))
 
-#### Solid
-
-[Color](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/color(_:resolution:options:))
-[Gradient](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/gradient(direction:stops:center:scale:offset:extend:gamma:resolution:options:))
-[Noise](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/noise(offset:depth:scale:octaves:seed:resolution:options:))
+**Solid**:
+[Color](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/color(_:resolution:options:)),
+[Gradient](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/gradient(direction:stops:center:scale:offset:extend:gamma:resolution:options:)),
+[Noise](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/noise(offset:depth:scale:octaves:seed:resolution:options:)),
 [Metal](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/metal(code:resolution:options:))
 
-#### Particles
-
-[UV Particles](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/uvparticles(particlescale:particlecolor:backgroundcolor:resolution:samplecount:particleoptions:options:))
+**Particles**:
+[UV Particles](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/uvparticles(particlescale:particlecolor:backgroundcolor:resolution:samplecount:particleoptions:options:)),
 [UV Color Particles](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/uvcolorparticles(with:particlescale:backgroundcolor:resolution:samplecount:particleoptions:options:))
 
 ### Effects
 
-#### Direct
-
-[Blur](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/blurred(radius:))
-[Zoom Blur](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/blurredzoom(radius:center:samplecount:options:))
-[Angle Blur](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/blurredangle(radius:angle:samplecount:options:))
-[Circle Blur](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/blurredcircle(radius:samplecount:brightnessrange:saturationrange:light:options:))
-[Rainbow Blur](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/rainbowblurredcircle(radius:angle:light:samplecount:options:))
-[Random Blur](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/blurredrandom(radius:options:))
-[Channel Mix](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/channelmix(red:green:blue:alpha:))
-[Chroma Key](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/chromakey(color:parameters:options:))
-[Clamp](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/clamp(_:low:high:includealpha:options:))
-[Color Convert](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/colorconvert(_:channel:))
-[Hue](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/hue(_:))
-[Saturation](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/saturated(_:))
-[Monochrome](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/monochrome())
-[Tint](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/tinted(_:))
-[Corner Pin](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/cornerpinned(topleft:topright:bottomleft:bottomright:perspective:subdivisions:backgroundcolor:))
-[Edge](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/edge(amplitude:distance:options:))
-[Kaleidoscope](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/kaleidoscope(count:mirror:center:rotation:scale:options:))
-[Brightness](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/brightness(_:))
-[Contrast](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/contrast(_:))
-[Gamma](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/gamma(_:))
-[Inverted](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/inverted())
-[Opacity](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/opacity(_:))
-[Morph](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/morphedmaximum(size:))
-[Pixelate](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/pixelate(_:options:))
-[Quantize](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/quantize(_:options:))
-[Sharpen](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/sharpen(_:distance:options:))
-[Slope](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/slope(amplitude:origin:options:))
-[Threshold](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/threshold(_:options:))
-[Offset](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/offset(x:y:options:))
-[Rotate](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/rotated(_:options:))
-[Scale](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/scaled(_:options:))
+**Direct**:
+[Blur](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/blurred(radius:)),
+[Zoom Blur](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/blurredzoom(radius:center:samplecount:options:)),
+[Angle Blur](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/blurredangle(radius:angle:samplecount:options:)),
+[Circle Blur](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/blurredcircle(radius:samplecount:brightnessrange:saturationrange:light:options:)),
+[Rainbow Blur](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/rainbowblurredcircle(radius:angle:light:samplecount:options:)),
+[Random Blur](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/blurredrandom(radius:options:)),
+[Channel Mix](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/channelmix(red:green:blue:alpha:)),
+[Chroma Key](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/chromakey(color:parameters:options:)),
+[Clamp](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/clamp(_:low:high:includealpha:options:)),
+[Color Convert](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/colorconvert(_:channel:)),
+[Hue](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/hue(_:)),
+[Saturation](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/saturated(_:)),
+[Monochrome](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/monochrome()),
+[Tint](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/tinted(_:)),
+[Corner Pin](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/cornerpinned(topleft:topright:bottomleft:bottomright:perspective:subdivisions:backgroundcolor:)),
+[Edge](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/edge(amplitude:distance:options:)),
+[Kaleidoscope](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/kaleidoscope(count:mirror:center:rotation:scale:options:)),
+[Brightness](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/brightness(_:)),
+[Contrast](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/contrast(_:)),
+[Gamma](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/gamma(_:)),
+[Inverted](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/inverted()),
+[Opacity](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/opacity(_:)),
+[Morph](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/morphedmaximum(size:)),
+[Pixelate](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/pixelate(_:options:)),
+[Quantize](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/quantize(_:options:)),
+[Sharpen](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/sharpen(_:distance:options:)),
+[Slope](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/slope(amplitude:origin:options:)),
+[Threshold](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/threshold(_:options:)),
+[Offset](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/offset(x:y:options:)),
+[Rotate](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/rotated(_:options:)),
+[Scale](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/scaled(_:options:)),
 [Metal](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/metal(code:options:))
 
-#### Dual
-    
-[Blend](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/blended(with:blendingmode:placement:options:))
-[Cross](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/cross(with:fraction:placement:options:))
-[Displace](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/displaced(with:offset:origin:placement:options:))
-[Lookup](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lookup(with:axis:samplecoordinate:options:))
-[Luma Blur](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lumablurredbox(with:radius:lumagamma:samplecount:placement:options:))
-[Luma Rainbow Blur](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lumarainbowblurredcircle(radius:angle:light:lumagamma:samplecount:placement:options:graphic:))
-[Luma Hue](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lumahue(with:hue:lumagamma:))
-[Luma Saturation](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lumasaturated(with:saturation:lumagamma:))
-[Luma Brightness](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lumabrightness(with:brightness:lumagamma:placement:))
-[Luma Contrast](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lumacontrast(with:contrast:lumagamma:placement:))
-[Luma Gamma](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lumagamma(with:gamma:lumagamma:placement:))
-[Luma Translate](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lumatranslated(with:x:y:lumagamma:placement:options:))
-[Luma Rotate](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lumarotated(with:rotation:lumagamma:placement:options:))
-[Luma Scale](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lumascaled(with:scale:lumagamma:placement:options:))
-[Remap](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/remap(options:graphic:))
+**Dual**:
+[Blend](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/blended(with:blendingmode:placement:options:)),
+[Cross](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/cross(with:fraction:placement:options:)),
+[Displace](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/displaced(with:offset:origin:placement:options:)),
+[Lookup](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lookup(with:axis:samplecoordinate:options:)),
+[Luma Blur](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lumablurredbox(with:radius:lumagamma:samplecount:placement:options:)),
+[Luma Rainbow Blur](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lumarainbowblurredcircle(radius:angle:light:lumagamma:samplecount:placement:options:graphic:)),
+[Luma Hue](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lumahue(with:hue:lumagamma:)),
+[Luma Saturation](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lumasaturated(with:saturation:lumagamma:)),
+[Luma Brightness](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lumabrightness(with:brightness:lumagamma:placement:)),
+[Luma Contrast](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lumacontrast(with:contrast:lumagamma:placement:)),
+[Luma Gamma](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lumagamma(with:gamma:lumagamma:placement:)),
+[Luma Translate](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lumatranslated(with:x:y:lumagamma:placement:options:)),
+[Luma Rotate](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lumarotated(with:rotation:lumagamma:placement:options:)),
+[Luma Scale](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/lumascaled(with:scale:lumagamma:placement:options:)),
+[Remap](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/remap(options:graphic:)),
 [Metal](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/metal(with:code:options:)-swift.method)
 
-#### Array
-
-[HStack](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/hstacked(with:alignment:spacing:))
-[VStack](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/vstacked(with:alignment:spacing:)/)
-[ZStack](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/zstacked(with:alignment:))
-[Layers](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/zblendstacked(with:alignment:))
+**Array**:
+[HStack](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/hstacked(with:alignment:spacing:)),
+[VStack](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/vstacked(with:alignment:spacing:)/),
+[ZStack](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/zstacked(with:alignment:)),
+[Layers](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/zblendstacked(with:alignment:)),
 [Metal](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/metal(with:code:options:)-swift.type.method)
 
-#### Technical
-
-[Add](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/add(with:))
-[Average](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/average(with:))
-[Bits](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/bits(_:))
-[Color Space](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/applycolorspace(_:))
-[Crop](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/crop(to:options:))
-[Inspect](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/inspect(scale:offset:borderwidth:borderopacity:borderfaderange:placement:containerresolution:contentresolution:transparencychecker:options:graphic:))
-[Polar](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/polar(radius:width:leadingangle:trailingangle:resolution:options:))
-[Reduce](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/reduce(by:axis:))
+**Technical**:
+[Add](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/add(with:)),
+[Average](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/average(with:)),
+[Bits](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/bits(_:)),
+[Color Space](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/applycolorspace(_:)),
+[Crop](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/crop(to:options:)),
+[Inspect](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/inspect(scale:offset:borderwidth:borderopacity:borderfaderange:placement:containerresolution:contentresolution:transparencychecker:options:graphic:)),
+[Polar](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/polar(radius:width:leadingangle:trailingangle:resolution:options:)),
+[Reduce](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/reduce(by:axis:)),
 [Resize](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/resized(to:placement:method:))
 Coordinate Space
 LUT
