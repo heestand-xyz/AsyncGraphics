@@ -434,15 +434,15 @@ extension Graphic {
         let partResolution = CGSize(width: size,
                                     height: size)
         
-        let padding = 1.0 / CGFloat(size) / 2
+        let padding = (1.0 / CGFloat(size)) / 2
         
         let redGradient: Graphic = try await .gradient(direction: .horizontal, stops: [
             GradientStop(at: padding, color: .black),
-            GradientStop(at: 1.0 - padding, color: .red),
+            GradientStop(at: 1.0 - padding, color: .rawRed),
         ], resolution: partResolution, options: options)
         let greenGradient: Graphic = try await .gradient(direction: .vertical, stops: [
             GradientStop(at: padding, color: .black),
-            GradientStop(at: 1.0 - padding, color: .green),
+            GradientStop(at: 1.0 - padding, color: .rawGreen),
         ], resolution: partResolution, options: options)
         let redGreenGradient: Graphic = try await redGradient + greenGradient
 
