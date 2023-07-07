@@ -11,10 +11,10 @@ AsyncGraphics is a Swift package for working with images and video with async / 
 See the [**Graphic**](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic) docs for all effects.
 
 ### Articles
-- [Blending](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/blending),
-- [Layout](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/layout),
-- [Video Playback](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/videoplayback),
-- [Video Editing](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/videoediting),
+- [Blending](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/blending)
+- [Layout](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/layout)
+- [Video Playback](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/videoplayback)
+- [Video Editing](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/videoediting)
 - [Live Camera](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/livecamera)
 
 ### Content
@@ -116,8 +116,8 @@ See the [**Graphic**](https://heestand-xyz.github.io/AsyncGraphics-Docs/document
 [Inspect](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/inspect(scale:offset:borderwidth:borderopacity:borderfaderange:placement:containerresolution:contentresolution:transparencychecker:options:graphic:)),
 [Polar](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/polar(radius:width:leadingangle:trailingangle:resolution:options:)),
 [Reduce](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/reduce(by:axis:)),
-[Resize](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/resized(to:placement:method:))
-Coordinate Space
+[Resize](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/resized(to:placement:method:)),
+Coordinate Space,
 LUT
 
 ## Install
