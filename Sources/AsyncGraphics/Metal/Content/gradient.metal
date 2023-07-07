@@ -78,11 +78,12 @@ float4 gradient(float fraction, array<ColorStopArray, ARRMAX> inArr, array<bool,
         }
     }
 
-    float stop_fraction = (fraction - low_color_stop.position) / (high_color_stop.position - low_color_stop.position);
+    float difference = high_color_stop.position - low_color_stop.position;
+    float stop_fraction = difference > 0.0 ? ((fraction - low_color_stop.position) / difference) : 0.5;
 
-    if (stop_fraction < 0) {
+    if (stop_fraction < 0.0) {
         stop_fraction = 0.0;
-    } else if (stop_fraction > 1) {
+    } else if (stop_fraction > 1.0) {
         stop_fraction = 1.0;
     }
 
