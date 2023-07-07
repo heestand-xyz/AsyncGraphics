@@ -29,7 +29,7 @@ extension Graphic {
         case sizeNotFound
         case sizeNotAPowerOfTwo
         case badColorCount
-        case tooHighCount
+        case tooLargeSize
         case unknownFormat
         case corruptFormat
         case noText
@@ -422,27 +422,18 @@ extension Graphic {
     ///
     /// A LUT UV Map
     /// - Parameters:
-    ///   - count: The resolution of the graphic is `count ^ 3`.
-    ///   The default value is `4`, with a `64x64` resolution.
-    /// - Returns: A square LUT graphic.
-    public static func identityLUT(count: Int = 4, options: ContentOptions = []) async throws -> Graphic {
+    ///   - size: The resolution of the graphic is `count ^ 3`.
+    ///   The default value is `16`, with a `64x64` resolution.
+    /// - Returns: A LUT graphic.
+    public static func identityLUT(size: Int = 16, layout: LUTLayout = .square, options: ContentOptions = []) async throws -> Graphic {
         
-        guard count <= 16 else {
-            throw LUTError.tooHighCount
+        guard size <= 64 else {
+            throw LUTError.tooLargeSize
         }
         
-        guard isPowerOfTwo(count) else {
-            throw LUTError.resolutionIsNotPowerOfTwo
-        }
+        let partResolution = CGSize(width: size,
+                                    height: size)
         
-        let squareCount = count * count
-        let cubeCount = count * count * count
-
-        let partResolution = CGSize(width: squareCount,
-                                    height: squareCount)
-        let fullResolution = CGSize(width: cubeCount,
-                                    height: cubeCount)
-
         let redGradient: Graphic = try await .gradient(direction: .horizontal, stops: [
             GradientStop(at: 0.0, color: .black),
             GradientStop(at: 1.0, color: .red),
@@ -453,28 +444,67 @@ extension Graphic {
         ], resolution: partResolution, options: options)
         let redGreenGradient: Graphic = try await redGradient + greenGradient
 
-        var lut: Graphic = try await .color(.black, resolution: fullResolution, options: options)
-        
-        for y in 0..<count {
-            let yFraction = CGFloat(y) / CGFloat(count - 1)
-            for x in 0..<count {
-                let xFraction = CGFloat(x) / CGFloat(count - 1)
-                let i = y * count + x
-                let fraction = CGFloat(i) / CGFloat(squareCount - 1)
+        switch layout {
+        case .square:
+            
+            guard isPowerOfTwo(size) else {
+                throw LUTError.resolutionIsNotPowerOfTwo
+            }
+            
+            let count = Int(sqrt(Double(size)))
+            
+            let squareCount = count * count
+            let cubeCount = count * count * count
+
+            let fullResolution = CGSize(width: cubeCount,
+                                        height: cubeCount)
+
+            var lut: Graphic = try await .color(.black, resolution: fullResolution, options: options)
+            
+            for y in 0..<count {
+                let yFraction = CGFloat(y) / CGFloat(count - 1)
+                for x in 0..<count {
+                    let xFraction = CGFloat(x) / CGFloat(count - 1)
+                    let i = y * count + x
+                    let fraction = CGFloat(i) / CGFloat(squareCount - 1)
+                    
+                    let blueColor = PixelColor(red: 0.0, green: 0.0, blue: fraction)
+                    let blueSolid: Graphic = try await .color(blueColor, resolution: partResolution, options: options)
+                    let part: Graphic = try await redGreenGradient + blueSolid
+                    
+                    let offset = CGPoint(
+                        x: (xFraction - 0.5) * (fullResolution.width - partResolution.width),
+                        y: (yFraction - 0.5) * (fullResolution.height - partResolution.height))
+                    
+                    lut = try await lut.transformBlended(with: part, blendingMode: .over, placement: .center, translation: offset)
+                }
+            }
+            
+            return lut
+            
+        case .linear:
+            
+            let fullResolution = CGSize(width: size * size,
+                                        height: size)
+
+            var lut: Graphic = try await .color(.black, resolution: fullResolution, options: options)
+            
+            for x in 0..<size {
+                let fraction = CGFloat(x) / CGFloat(size - 1)
                 
                 let blueColor = PixelColor(red: 0.0, green: 0.0, blue: fraction)
                 let blueSolid: Graphic = try await .color(blueColor, resolution: partResolution, options: options)
                 let part: Graphic = try await redGreenGradient + blueSolid
                 
                 let offset = CGPoint(
-                    x: (xFraction - 0.5) * (fullResolution.width - partResolution.width),
-                    y: (yFraction - 0.5) * (fullResolution.height - partResolution.height))
+                    x: (fraction - 0.5) * (fullResolution.width - partResolution.width),
+                    y: 0.0)
                 
                 lut = try await lut.transformBlended(with: part, blendingMode: .over, placement: .center, translation: offset)
             }
+            
+            return lut
         }
-        
-        return lut
     }
     
     // MARK: Helpers

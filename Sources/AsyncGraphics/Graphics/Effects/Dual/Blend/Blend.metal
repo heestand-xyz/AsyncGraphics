@@ -54,8 +54,13 @@ fragment float4 blend(VertexOut out [[stage_in]],
         float y = uvPlacement.y - 0.5 - uniforms.translation.y * unitPlacement;
         float angle = atan2(y, x) - (uniforms.rotation * pi * 2);
         float radius = sqrt(pow(x, 2) + pow(y, 2));
-        float2 uvTransform = float2((cos(angle) / aspectRatio) * radius,
-                                    sin(angle) * radius) / size + 0.5;
+        float2 uvTransform;
+        if (radius == 0.0) {
+            uvTransform = 0.5;
+        } else {
+            uvTransform = float2((cos(angle) / aspectRatio) * radius,
+                                 sin(angle) * radius) / size + 0.5;
+        }
         trailingColor = trailingTexture.sample(sampler, uvTransform);
     } else {
         trailingColor = trailingTexture.sample(sampler, uvPlacement);
