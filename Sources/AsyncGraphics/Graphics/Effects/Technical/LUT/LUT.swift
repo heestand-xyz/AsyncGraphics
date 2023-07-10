@@ -32,7 +32,8 @@ extension Graphic {
         case tooLargeSize
         case unknownFormat
         case corruptFormat
-        case noText
+        case dataToStringFailed
+        case indexOutOfBounds
     }
     
     // MARK: Apply LUT
@@ -49,13 +50,20 @@ extension Graphic {
     }
     
     public func applyLUT(url: URL) async throws -> Graphic {
-        let lut: Graphic = try await .readLUT(url: url, layout: .linear)
-        return try await applyLUT(with: lut, layout: .linear)
+        let layout: LUTLayout = try Self.idealLayoutOfLUT(url: url)
+        let lut: Graphic = try await .readLUT(url: url, layout: layout)
+        return try await applyLUT(with: lut, layout: layout)
     }
     
-    public func applyLUT(with graphic: Graphic, layout: LUTLayout = .square) async throws -> Graphic {
+    public func applyLUT(with graphic: Graphic, layout: LUTLayout? = nil) async throws -> Graphic {
+        
+        var layout: LUTLayout! = layout
+        if layout == nil {
+            layout = try graphic.layoutOfLUT()
+        }
+        
         let count: Int
-        switch layout {
+        switch layout! {
         case .square:
             guard graphic.width == graphic.height else {
                 throw LUTError.resolutionIsNonSquareAspectRatio
@@ -77,7 +85,7 @@ extension Graphic {
         return try await Renderer.render(
             name: "LUT",
             shader: .name({
-                switch layout {
+                switch layout! {
                 case .square:
                     return "lutSquare"
                 case .linear:
@@ -131,7 +139,7 @@ extension Graphic {
         typealias Color = [Float]
         
         guard let text = String(data: data, encoding: .utf8) else {
-            throw LUTError.noText
+            throw LUTError.dataToStringFailed
         }
             
         let colorCount: Int = try sizeOfLUT(data: data, format: format)
@@ -257,7 +265,7 @@ extension Graphic {
         }
     }
     
-    // MARK: Read Size
+    // MARK: Size of LUT
     
     public static func sizeOfLUT(named name: String, format: LUTFormat) throws -> Int {
         try sizeOfLUT(named: name, in: .main, format: format)
@@ -286,7 +294,7 @@ extension Graphic {
     public static func sizeOfLUT(data: Data, format: LUTFormat) throws -> Int {
         
         guard let text = String(data: data, encoding: .utf8) else {
-            throw LUTError.noText
+            throw LUTError.dataToStringFailed
         }
         
         var colorCount: Int?
@@ -309,6 +317,24 @@ extension Graphic {
         }
         
         return colorCount
+    }
+    
+    public func sizeOfLUT() throws -> Int {
+        
+        if width == height {
+            
+            let blockCount = try Self.cubeRoot(Int(width))
+            
+            return blockCount * blockCount
+            
+        } else {
+            
+            guard width == height * height else {
+                throw LUTError.resolutionIsNotLinear
+            }
+            
+            return Int(height)
+        }
     }
     
     // MARK: Layout
@@ -344,6 +370,24 @@ extension Graphic {
         if isPowerOfTwo(size) {
             return .square
         } else {
+            return .linear
+        }
+    }
+    
+    public func layoutOfLUT() throws -> LUTLayout {
+        
+        if width == height {
+
+            _ = try Self.cubeRoot(Int(width))
+            
+            return .square
+            
+        } else {
+            
+            guard width == height * height else {
+                throw LUTError.resolutionIsNotLinear
+            }
+            
             return .linear
         }
     }
@@ -507,6 +551,37 @@ extension Graphic {
             
             return lut
         }
+    }
+    
+    // MARK: Sample of LUT
+    
+    public func sampleOfLUT(at index: Int, layout: LUTLayout) async throws -> Graphic {
+        
+        let size: Int = try sizeOfLUT()
+        
+        guard index >= 0, index < size else {
+            throw LUTError.indexOutOfBounds
+        }
+        
+        let origin: CGPoint
+        switch layout {
+        case .square:
+            
+            let blockSize = try Self.cubeRoot(size * size)
+            
+            origin = CGPoint(x: CGFloat(index % blockSize) * CGFloat(size),
+                             y: CGFloat(index / blockSize) * CGFloat(size))
+            
+        case .linear:
+            
+            origin = CGPoint(x: index * size, y: 0)
+        }
+
+        let frame = CGRect(origin: origin,
+                           size: CGSize(width: size,
+                                        height: size))
+        
+        return try await crop(to: frame)
     }
     
     // MARK: Helpers
