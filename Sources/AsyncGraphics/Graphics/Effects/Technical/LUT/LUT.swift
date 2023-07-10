@@ -44,7 +44,7 @@ extension Graphic {
     }
     
     public func applyLUT(named name: String, in bundle: Bundle, format: LUTFormat) async throws -> Graphic {
-        guard let url = bundle.url(named: name, format: format.rawValue) else {
+        guard let url = bundle.url(named: name, format: format) else {
             throw LUTError.fileNotFound
         }
         return try await applyLUT(url: url)
@@ -113,7 +113,7 @@ extension Graphic {
     }
     
     public static func readLUT(named name: String, in bundle: Bundle, format: LUTFormat, layout: LUTLayout? = nil) async throws -> Graphic {
-        guard let url = bundle.url(named: name, format: format.rawValue) else {
+        guard let url = bundle.url(named: name, format: format) else {
             throw LUTError.fileNotFound
         }
         return try await readLUT(url: url, layout: layout)
@@ -273,7 +273,7 @@ extension Graphic {
     }
     
     public static func sizeOfLUT(named name: String, in bundle: Bundle, format: LUTFormat) throws -> Int {
-        guard let url = bundle.url(named: name, format: format.rawValue) else {
+        guard let url = bundle.url(named: name, format: format) else {
             throw LUTError.fileNotFound
         }
         return try sizeOfLUT(url: url)
@@ -345,7 +345,7 @@ extension Graphic {
     }
     
     public static func idealLayoutOfLUT(named name: String, in bundle: Bundle, format: LUTFormat) throws -> LUTLayout {
-        guard let url = bundle.url(named: name, format: format.rawValue) else {
+        guard let url = bundle.url(named: name, format: format) else {
             throw LUTError.fileNotFound
         }
         return try idealLayoutOfLUT(url: url)
@@ -616,8 +616,8 @@ extension Graphic {
 
 extension Bundle {
     
-    fileprivate func url(named name: String, format: String) -> URL? {
-        url(forResource: name, withExtension: format) ??
-        url(forResource: name, withExtension: format.uppercased())
+    fileprivate func url(named name: String, format: Graphic.LUTFormat) -> URL? {
+        url(forResource: name, withExtension: format.rawValue) ??
+        url(forResource: name, withExtension: format.rawValue.uppercased())
     }
 }
