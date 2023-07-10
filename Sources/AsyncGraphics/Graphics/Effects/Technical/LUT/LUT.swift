@@ -572,7 +572,7 @@ extension Graphic {
         switch layout {
         case .square:
             
-            let blockSize = try Self.cubeRoot(size * size)
+            let blockSize = Int(sqrt(Double(size)))
             
             origin = CGPoint(x: CGFloat(index % blockSize) * CGFloat(size),
                              y: CGFloat(index / blockSize) * CGFloat(size))
