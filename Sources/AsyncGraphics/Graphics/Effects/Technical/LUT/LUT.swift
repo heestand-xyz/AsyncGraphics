@@ -29,6 +29,7 @@ extension Graphic {
         case sizeNotFound
         case sizeNotAPowerOfTwo
         case badColorCount
+        case tooSmallSize
         case tooLargeSize
         case unknownFormat
         case corruptFormat
@@ -466,10 +467,14 @@ extension Graphic {
     ///
     /// A LUT UV Map
     /// - Parameters:
-    ///   - size: The resolution of the graphic is `count ^ 3`.
-    ///   The default value is `16`, with a `64x64` resolution.
-    /// - Returns: A LUT graphic.
+    ///   - size: The color resolution of the LUT.
+    ///   Minimum allowed size is 2.
+    ///   Maximum allowed size is 64.
     public static func identityLUT(size: Int = 16, layout: LUTLayout = .square, options: ContentOptions = []) async throws -> Graphic {
+        
+        guard size >= 2 else {
+            throw LUTError.tooSmallSize
+        }
         
         guard size <= 64 else {
             throw LUTError.tooLargeSize
