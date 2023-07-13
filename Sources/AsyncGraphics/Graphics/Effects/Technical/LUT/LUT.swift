@@ -368,6 +368,11 @@ extension Graphic {
         
         let size: Int = try sizeOfLUT(data: data, format: format)
         
+        return idealLayoutOfLUT(size: size)
+    }
+    
+    public static func idealLayoutOfLUT(size: Int) -> LUTLayout {
+        
         if isPowerOfTwo(size) {
             return .square
         } else {
