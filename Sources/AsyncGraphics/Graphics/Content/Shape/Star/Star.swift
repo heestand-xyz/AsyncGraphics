@@ -22,6 +22,10 @@ extension Graphic {
         let resolution: SizeUniform
     }
     
+//    public static func starRadiusRatio(count: Int) -> CGFloat {
+//        abs(cos(.pi / CGFloat(count))) / 2
+//    }
+    
     public static func star(count: Int,
                             innerRadius: CGFloat? = nil,
                             outerRadius: CGFloat? = nil,
@@ -33,8 +37,8 @@ extension Graphic {
                             resolution: CGSize,
                             options: ContentOptions = []) async throws -> Graphic {
         
-        let innerRadius: CGFloat = innerRadius ?? min(resolution.width, resolution.height) / 4
         let outerRadius: CGFloat = outerRadius ?? min(resolution.width, resolution.height) / 2
+        let innerRadius: CGFloat = innerRadius ?? (outerRadius / 2)
         
         let relativeInnerRadius: CGFloat = innerRadius / resolution.height
         let relativeOuterRadius: CGFloat = outerRadius / resolution.height
