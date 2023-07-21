@@ -532,7 +532,7 @@ extension Graphic {
                         x: (xFraction - 0.5) * (fullResolution.width - partResolution.width),
                         y: (yFraction - 0.5) * (fullResolution.height - partResolution.height))
                     
-                    lut = try await lut.transformBlended(with: part, blendingMode: .over, placement: .center, translation: offset)
+                    lut = try await lut.transformBlended(with: part, blendingMode: .over, placement: .fixed, translation: offset)
                 }
             }
             
@@ -556,7 +556,7 @@ extension Graphic {
                     x: (fraction - 0.5) * (fullResolution.width - partResolution.width),
                     y: 0.0)
                 
-                lut = try await lut.transformBlended(with: part, blendingMode: .over, placement: .center, translation: offset)
+                lut = try await lut.transformBlended(with: part, blendingMode: .over, placement: .fixed, translation: offset)
             }
             
             return lut

@@ -6,7 +6,7 @@ public struct AGVideo: AGGraph {
     
     let videoPlayer: GraphicVideoPlayer
     
-    var placement: Placement = .center
+    var placement: Placement = .fixed
     
     public init(with videoPlayer: GraphicVideoPlayer) {
         self.videoPlayer = videoPlayer
@@ -20,7 +20,7 @@ public struct AGVideo: AGGraph {
             return videoResolution.place(in: proposedResolution, placement: .fit)
         case .fill:
             return videoResolution.place(in: proposedResolution, placement: .fill)
-        case .center:
+        case .fixed:
             return videoResolution
         case .stretch:
             return proposedResolution

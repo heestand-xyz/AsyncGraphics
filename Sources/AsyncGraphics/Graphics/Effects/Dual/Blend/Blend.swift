@@ -16,6 +16,45 @@ extension Graphic {
         let rotation: Float
         let scale: Float
         let size: SizeUniform
+        let horizontalAlignment: Int32
+        let verticalAlignment: Int32
+    }
+    
+    public enum Alignment {
+        
+        case topLeading
+        case top
+        case topTrailing
+        
+        case leading
+        case center
+        case trailing
+        
+        case bottomLeading
+        case bottom
+        case bottomTrailing
+        
+        var horizontalIndex: Int32 {
+            switch self {
+            case .leading, .topLeading, .bottomLeading:
+                return -1
+            case .center, .top, .bottom:
+                return 0
+            case .trailing, .topTrailing, .bottomTrailing:
+                return 1
+            }
+        }
+        
+        var verticalIndex: Int32 {
+            switch self {
+            case .top, .topLeading, .topTrailing:
+                return -1
+            case .center, .leading, .trailing:
+                return 0
+            case .bottom, .bottomLeading, .bottomTrailing:
+                return 1
+            }
+        }
     }
     
 //    @available(*, deprecated, renamed: "blended(blendingMode:placement:options:graphic:)")
@@ -32,6 +71,7 @@ extension Graphic {
     
     public func blended(
         blendingMode: AGBlendMode,
+        alignment: Alignment = .center,
         placement: Placement = .fit,
         options: EffectOptions = [],
         graphic: () async throws -> Graphic
@@ -51,7 +91,9 @@ extension Graphic {
                 translation: .zero,
                 rotation: 0.0,
                 scale: 0.0,
-                size: .one
+                size: .one,
+                horizontalAlignment: alignment.horizontalIndex,
+                verticalAlignment: alignment.verticalIndex
             ),
             options: Renderer.Options(
                 addressMode: options.addressMode,
@@ -64,6 +106,7 @@ extension Graphic {
     public func transformBlended(
         with graphic: Graphic,
         blendingMode: AGBlendMode,
+        alignment: Alignment = .center,
         placement: Placement = .fit,
         translation: CGPoint = .zero,
         rotation: Angle = .zero,
@@ -71,13 +114,23 @@ extension Graphic {
         size: CGSize? = nil,
         options: EffectOptions = []
     ) async throws -> Graphic {
-        try await transformBlended(blendingMode: blendingMode, placement: placement, translation: translation, rotation: rotation, scale: scale, size: size, options: options) {
+        try await transformBlended(
+            blendingMode: blendingMode,
+            alignment: alignment,
+            placement: placement,
+            translation: translation,
+            rotation: rotation,
+            scale: scale,
+            size: size,
+            options: options
+        ) {
             graphic
         }
     }
     
     public func transformBlended(
         blendingMode: AGBlendMode,
+        alignment: Alignment = .center,
         placement: Placement = .fit,
         translation: CGPoint = .zero,
         rotation: Angle = .zero,
@@ -104,7 +157,9 @@ extension Graphic {
                 translation: relativeTranslation.uniform,
                 rotation: rotation.uniform,
                 scale: Float(scale),
-                size: relativeSize.uniform
+                size: relativeSize.uniform,
+                horizontalAlignment: alignment.horizontalIndex,
+                verticalAlignment: alignment.verticalIndex
             ),
             options: Renderer.Options(
                 addressMode: options.addressMode,

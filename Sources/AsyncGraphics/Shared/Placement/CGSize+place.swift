@@ -16,7 +16,7 @@ extension CGSize {
             case .fill:
                 return CGSize(width: width / resolution.width < height / resolution.height ? resolution.width : width * (resolution.height / height),
                               height: width / resolution.width > height / resolution.height ? resolution.height : height * (resolution.width / width))
-            case .center:
+            case .fixed:
                 return self
             case .stretch:
                 return resolution

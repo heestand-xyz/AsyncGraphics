@@ -6,8 +6,11 @@ public enum Placement: String, Codable, CaseIterable, Identifiable {
     
     case fit
     case fill
-    case center
+    case fixed
     case stretch
+    
+    @available(*, deprecated, renamed: "fixed")
+    public static let center: Placement = .fixed
     
     public var id: String {
         rawValue
@@ -18,18 +21,19 @@ public enum Placement: String, Codable, CaseIterable, Identifiable {
         case .stretch: return 0
         case .fit: return 1
         case .fill: return 2
-        case .center: return 3
+        case .fixed: return 3
         }
     }
     
+    @available(*, deprecated)
     public var name: String {
         switch self {
         case .fit:
             return "Fit"
         case .fill:
             return "Fill"
-        case .center:
-            return "Center"
+        case .fixed:
+            return "Fixed"
         case .stretch:
             return "Stretch"
         }

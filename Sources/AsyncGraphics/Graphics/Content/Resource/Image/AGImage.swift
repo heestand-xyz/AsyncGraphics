@@ -16,7 +16,7 @@ public struct AGImage: AGGraph {
     
     let source: Source
     
-    var placement: Placement = .center
+    var placement: Placement = .fixed
     
     public init(named name: String) {
         source = .name(name)
@@ -35,7 +35,7 @@ public struct AGImage: AGGraph {
             return imageResolution.place(in: proposedResolution, placement: .fit)
         case .fill:
             return imageResolution.place(in: proposedResolution, placement: .fill)
-        case .center:
+        case .fixed:
             return imageResolution
         case .stretch:
             return proposedResolution

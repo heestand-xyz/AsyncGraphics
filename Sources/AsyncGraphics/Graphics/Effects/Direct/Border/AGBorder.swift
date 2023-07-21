@@ -25,7 +25,7 @@ public struct AGBorder: AGSingleParentGraph {
             color: color,
             backgroundColor: .clear,
             resolution: resolution)
-        return try await borderGraphic.blended(with: graphic, blendingMode: .under, placement: .center)
+        return try await borderGraphic.blended(with: graphic, blendingMode: .under, placement: .fixed)
     }
 }
 

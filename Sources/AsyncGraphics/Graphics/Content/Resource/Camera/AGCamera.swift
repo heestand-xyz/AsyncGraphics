@@ -8,7 +8,7 @@ public struct AGCamera: AGGraph {
     
     let position: Graphic.CameraPosition
     
-    var placement: Placement = .center
+    var placement: Placement = .fixed
     
     public init(_ position: Graphic.CameraPosition) {
         self.position = position
@@ -21,7 +21,7 @@ public struct AGCamera: AGGraph {
         switch placement {
         case .fit:
             return cameraResolution.place(in: proposedResolution, placement: .fit)
-        case .center:
+        case .fixed:
             return cameraResolution
         case .stretch, .fill:
             return proposedResolution

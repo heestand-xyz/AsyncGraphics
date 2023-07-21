@@ -159,7 +159,7 @@ fragment float4 star(VertexOut out [[stage_in]],
         float fibc = (float(i) + 1.5 + offset) / count;
         float fic = (float(i) + 2.0 + offset) / count;
         float ficd = (float(i) + 2.5 + offset) / count;
-        float fid = (float(i) + 3.0 + offset) / count;
+//        float fid = (float(i) + 3.0 + offset) / count;
 
         float2 p1 = 0.5 + p;
         float p2r = (fia + uniforms.rotation) * pi * 2;
@@ -188,8 +188,8 @@ fragment float4 star(VertexOut out [[stage_in]],
             float2 p4 = p1 + float2((sin(p4r) * largeScale) / aspectRatio, cos(p4r) * largeScale);
             float p45r = (ficd + uniforms.rotation) * pi * 2;
             float2 p45 = p1 + float2((sin(p45r) * smallScale) / aspectRatio, cos(p45r) * smallScale);
-            float p5r = (fid + uniforms.rotation) * pi * 2;
-            float2 p5 = p1 + float2((sin(p5r) * largeScale) / aspectRatio, cos(p5r) * largeScale);
+//            float p5r = (fid + uniforms.rotation) * pi * 2;
+//            float2 p5 = p1 + float2((sin(p5r) * largeScale) / aspectRatio, cos(p5r) * largeScale);
 
 //            float2 p2x = float2((p2.x - 0.5) * aspectRatio, p2.y - 0.5);
             float2 p23x = float2((p23.x - 0.5) * aspectRatio, p23.y - 0.5);

@@ -22,6 +22,8 @@ struct Uniforms {
     float rotation;
     float scale;
     packed_float2 size;
+    int horizontalAlignment;
+    int verticalAlignment;
 };
 
 fragment float4 blend(VertexOut out [[stage_in]],

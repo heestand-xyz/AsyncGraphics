@@ -124,7 +124,7 @@ extension Graphic {
             let blendMode: AGBlendMode = index == 0 ? .over : blendedGraphic.blendMode
             let offset = CGPoint(x: CGFloat(alignment.horizontal.rawValue) * (resolution.width - graphic.width) / 2,
                                  y: CGFloat(-alignment.vertical.rawValue) * (resolution.height - graphic.height) / 2)
-            stackGraphic = try await stackGraphic.transformBlended(with: graphic, blendingMode: blendMode, placement: .center, translation: offset)
+            stackGraphic = try await stackGraphic.transformBlended(with: graphic, blendingMode: blendMode, placement: .fixed, translation: offset)
         }
         
         return stackGraphic

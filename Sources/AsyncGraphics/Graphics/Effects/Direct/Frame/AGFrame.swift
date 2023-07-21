@@ -33,7 +33,7 @@ public struct AGFrame: AGSingleParentGraph {
         let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)
         let backgroundGraphic: Graphic = try await .color(.clear, resolution: resolution)
         let graphic: Graphic = try await child.render(at: resolution, details: details)
-        return try await backgroundGraphic.blended(with: graphic, blendingMode: .over, placement: .center)
+        return try await backgroundGraphic.blended(with: graphic, blendingMode: .over, placement: .fixed)
     }
 }
 
