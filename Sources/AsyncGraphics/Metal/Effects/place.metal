@@ -20,6 +20,8 @@ float2 place(int place, float2 uv, uint leadingWidth, uint leadingHeight, uint t
     float v = uv.y;
     
     switch (place) {
+        case 0: // Stretch
+            break;
         case 1: // Aspect Fit
             if (aspect_b > aspect_a) {
                 v /= aspect_a;
@@ -42,7 +44,7 @@ float2 place(int place, float2 uv, uint leadingWidth, uint leadingHeight, uint t
                 v += ((1.0 / aspect_b - 1.0 / aspect_a) / 2) * aspect_b;
             }
             break;
-        case 3: // Center
+        case 3: // Fixed
             u = 0.5 + ((uv.x - 0.5) * leadingWidth) / trailingWidth;
             v = 0.5 + ((uv.y - 0.5) * leadingHeight) / trailingHeight;
             break;
@@ -51,6 +53,7 @@ float2 place(int place, float2 uv, uint leadingWidth, uint leadingHeight, uint t
     return float2(u, v);
 }
 
+// Deprecated
 float unitPlace(int place, uint leadingWidth, uint leadingHeight, uint trailingWidth, uint trailingHeight) {
     
     float aspect_a = float(leadingWidth) / float(leadingHeight);
@@ -59,6 +62,8 @@ float unitPlace(int place, uint leadingWidth, uint leadingHeight, uint trailingW
     float unit = 1.0;
     
     switch (place) {
+        case 0: // Stretch
+            break;
         case 1: // Aspect Fit
             if (aspect_b > aspect_a) {
                 unit /= aspect_a;
@@ -73,12 +78,44 @@ float unitPlace(int place, uint leadingWidth, uint leadingHeight, uint trailingW
                 unit += ((1.0 / aspect_b - 1.0 / aspect_a) / 2) * aspect_b;
             }
             break;
-        case 3: // Center
+        case 3: // Fixed
             unit = float(leadingHeight) / float(trailingHeight);
             break;
     }
     
     return unit;
+}
+
+float2 transformPlace(int placement,
+                      float2 uv,
+                      uint leadingWidth,
+                      uint leadingHeight,
+                      uint trailingWidth,
+                      uint trailingHeight,
+                      float2 translation,
+                      float2 scale,
+                      float rotation,
+                      int horizontalAlignment,
+                      int verticalAlignment) {
+    
+    float pi = M_PI_F;
+    float aspectRatio = float(trailingWidth) / float(trailingHeight);
+
+    float2 uvPlacement = place(placement, uv, leadingWidth, leadingHeight, trailingWidth, trailingHeight);
+    float unit = unitPlace(placement, leadingWidth, leadingHeight, trailingWidth, trailingHeight);
+        
+    float x = (uvPlacement.x - 0.5) * aspectRatio - translation.x * unit;
+    float y = uvPlacement.y - 0.5 - translation.y * unit;
+    float angle = atan2(y, x) - (rotation * pi * 2);
+    float radius = sqrt(pow(x, 2) + pow(y, 2));
+    float2 uvTransform;
+    if (radius == 0.0) {
+        uvTransform = 0.5;
+    } else {
+        uvTransform = float2((cos(angle) / aspectRatio) * radius, sin(angle) * radius) / scale + 0.5;
+    }
+
+    return uvTransform;
 }
 
 float3 place3d(int place, float3 uvw, uint leadingWidth, uint leadingHeight, uint leadingDepth, uint trailingWidth, uint trailingHeight, uint trailingDepth) {
@@ -93,6 +130,8 @@ float3 place3d(int place, float3 uvw, uint leadingWidth, uint leadingHeight, uin
     float w = uvw.z;
 
     switch (place) {
+        case 0: // Stretch
+            break;
 //        case 1: // Aspect Fit
 //            if (aspect_b > aspect_a) {
 //                v /= aspect_a;
@@ -133,7 +172,7 @@ float3 place3d(int place, float3 uvw, uint leadingWidth, uint leadingHeight, uin
 //                v += ((1.0 / aspect_b - 1.0 / aspect_a) / 2) * aspect_b;
 //            }
 //            break;
-        case 3: // Center
+        case 3: // Fixed
             u = 0.5 + ((u - 0.5) * leadingWidth) / trailingWidth;
             v = 0.5 + ((v - 0.5) * leadingHeight) / trailingHeight;
             w = 0.5 + ((w - 0.5) * leadingDepth) / trailingDepth;

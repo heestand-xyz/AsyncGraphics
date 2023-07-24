@@ -9,7 +9,6 @@ import CoreGraphicsExtensions
 extension Graphic {
     
     private struct BlendUniforms {
-        let transform: Bool
         let blendingMode: Int32
         let placement: Int32
         let translation: PointUniform
@@ -61,10 +60,11 @@ extension Graphic {
     public func blended(
         with graphic: Graphic,
         blendingMode: AGBlendMode,
+        alignment: Alignment = .center,
         placement: Placement = .fit,
         options: EffectOptions = []
     ) async throws -> Graphic {
-        try await blended(blendingMode: blendingMode, placement: placement, options: options) {
+        try await blended(blendingMode: blendingMode, alignment: alignment, placement: placement, options: options) {
             graphic
         }
     }
@@ -85,12 +85,11 @@ extension Graphic {
                 graphic()
             ],
             uniforms: BlendUniforms(
-                transform: false,
                 blendingMode: Int32(blendingMode.index),
                 placement: Int32(placement.index),
                 translation: .zero,
                 rotation: 0.0,
-                scale: 0.0,
+                scale: 1.0,
                 size: .one,
                 horizontalAlignment: alignment.horizontalIndex,
                 verticalAlignment: alignment.verticalIndex
@@ -151,7 +150,6 @@ extension Graphic {
                 graphic()
             ],
             uniforms: BlendUniforms(
-                transform: true,
                 blendingMode: Int32(blendingMode.index),
                 placement: Int32(placement.index),
                 translation: relativeTranslation.uniform,

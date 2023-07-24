@@ -15,7 +15,6 @@ struct VertexOut {
 };
 
 struct Uniforms {
-    bool transform;
     int blendingMode;
     int placement;
     packed_float2 translation;
@@ -32,8 +31,6 @@ fragment float4 blend(VertexOut out [[stage_in]],
                       const device Uniforms& uniforms [[ buffer(0) ]],
                       sampler sampler [[ sampler(0) ]]) {
     
-    float pi = M_PI_F;
-
     float u = out.texCoord[0];
     float v = out.texCoord[1];
     float2 uv = float2(u, v);
@@ -44,29 +41,19 @@ fragment float4 blend(VertexOut out [[stage_in]],
     uint leadingHeight = leadingTexture.get_height();
     uint trailingWidth = trailingTexture.get_width();
     uint trailingHeight = trailingTexture.get_height();
-    float aspectRatio = float(trailingWidth) / float(trailingHeight);
-    float2 uvPlacement = place(uniforms.placement, uv, leadingWidth, leadingHeight, trailingWidth, trailingHeight);
-    float unitPlacement = unitPlace(uniforms.placement, leadingWidth, leadingHeight, trailingWidth, trailingHeight);
 
-    float4 trailingColor;
-    
-    if (uniforms.transform) {
-        float2 size = float2(uniforms.size.x * uniforms.scale, uniforms.size.y * uniforms.scale);
-        float x = (uvPlacement.x - 0.5) * aspectRatio - uniforms.translation.x * unitPlacement;
-        float y = uvPlacement.y - 0.5 - uniforms.translation.y * unitPlacement;
-        float angle = atan2(y, x) - (uniforms.rotation * pi * 2);
-        float radius = sqrt(pow(x, 2) + pow(y, 2));
-        float2 uvTransform;
-        if (radius == 0.0) {
-            uvTransform = 0.5;
-        } else {
-            uvTransform = float2((cos(angle) / aspectRatio) * radius,
-                                 sin(angle) * radius) / size + 0.5;
-        }
-        trailingColor = trailingTexture.sample(sampler, uvTransform);
-    } else {
-        trailingColor = trailingTexture.sample(sampler, uvPlacement);
-    }
+    float2 uvPlacement = transformPlace(uniforms.placement,
+                                        uv,
+                                        leadingWidth,
+                                        leadingHeight,
+                                        trailingWidth,
+                                        trailingHeight,
+                                        uniforms.translation,
+                                        uniforms.size * uniforms.scale,
+                                        uniforms.rotation,
+                                        uniforms.horizontalAlignment,
+                                        uniforms.verticalAlignment);
+    float4 trailingColor = trailingTexture.sample(sampler, uvPlacement);
     
     float4 color = blend(uniforms.blendingMode, leadingColor, trailingColor);
     
