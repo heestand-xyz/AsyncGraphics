@@ -98,6 +98,10 @@ float2 transformPlace(int placement,
                       int horizontalAlignment,
                       int verticalAlignment) {
     
+    if (scale.x <= 0.0 || scale.y <= 0.0) {
+        return 0.5;
+    }
+    
     float pi = M_PI_F;
     float leadingAspect = float(leadingWidth) / float(leadingHeight);
     float trailingAspect = float(trailingWidth) / float(trailingHeight);
@@ -125,21 +129,21 @@ float2 transformPlace(int placement,
                 float vertical = ((leadingAspect - trailingAspect) / 2) / leadingAspect;
                 switch (verticalAlignment) {
                     case -1: // Top
-                        uvAlignment.y -= vertical;
+                        uvAlignment.y -= vertical / scale.y;
                     case 0: // Center
                         break;
                     case 1: // Bottom
-                        uvAlignment.y += vertical;
+                        uvAlignment.y += vertical / scale.y;
                 }
             } else if (trailingAspect < leadingAspect) {
                 float horizontal = ((trailingAspect - leadingAspect) / 2) / trailingAspect;
                 switch (horizontalAlignment) {
                     case -1: // Leading (Left)
-                        uvAlignment.x -= horizontal;
+                        uvAlignment.x -= horizontal / scale.x;
                     case 0: // Center
                         break;
                     case 1: // Trailing (Right)
-                        uvAlignment.x += horizontal;
+                        uvAlignment.x += horizontal / scale.x;
                 }
             }
             break;
@@ -148,43 +152,45 @@ float2 transformPlace(int placement,
                 float horizontal = ((1.0 / leadingAspect - 1.0 / trailingAspect) / 2) * leadingAspect;
                 switch (horizontalAlignment) {
                     case -1: // Leading (Left)
-                        uvAlignment.x -= horizontal;
+                        uvAlignment.x -= horizontal / scale.x;
                     case 0: // Center
                         break;
                     case 1: // Trailing (Right)
-                        uvAlignment.x += horizontal;
+                        uvAlignment.x += horizontal / scale.x;
                 }
             } else if (trailingAspect < leadingAspect) {
                 float vertical = ((1.0 / trailingAspect - 1.0 / leadingAspect) / 2) * trailingAspect;
                 switch (verticalAlignment) {
                     case -1: // Top
-                        uvAlignment.y -= vertical;
+                        uvAlignment.y -= vertical / scale.y;
                     case 0: // Center
                         break;
                     case 1: // Bottom
-                        uvAlignment.y += vertical;
+                        uvAlignment.y += vertical / scale.y;
                 }
             }
             break;
         case 3: // Fixed
             // TODO: WIP
-            float horizontal = 0.5 + (float(trailingWidth) / float(leadingWidth)) / 2;
+            float hFraction = float(leadingWidth) / float(trailingWidth);
+            float horizontal = 0.5 - hFraction / 2;
             switch (horizontalAlignment) {
                 case -1: // Leading (Left)
-                    uvAlignment.x -= horizontal;
+                    uvAlignment.x -= horizontal / scale.x;
                 case 0: // Center
                     break;
                 case 1: // Trailing (Right)
-                    uvAlignment.x += horizontal;
+                    uvAlignment.x += horizontal / scale.x;
             }
-            float vertical = 0.5 + (float(trailingHeight) / float(leadingHeight)) / 2;
+            float vFraction = float(leadingHeight) / float(trailingHeight);
+            float vertical = 0.5 - vFraction / 2;
             switch (verticalAlignment) {
                 case -1: // Top
-                    uvAlignment.y -= vertical;
+                    uvAlignment.y -= vertical / scale.y;
                 case 0: // Center
                     break;
                 case 1: // Bottom
-                    uvAlignment.y += vertical;
+                    uvAlignment.y += vertical / scale.y;
             }
             break;
     }

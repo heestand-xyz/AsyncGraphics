@@ -60,19 +60,19 @@ extension Graphic {
     public func blended(
         with graphic: Graphic,
         blendingMode: AGBlendMode,
-        alignment: Alignment = .center,
         placement: Placement = .fit,
+        alignment: Alignment = .center,
         options: EffectOptions = []
     ) async throws -> Graphic {
-        try await blended(blendingMode: blendingMode, alignment: alignment, placement: placement, options: options) {
+        try await blended(blendingMode: blendingMode, placement: placement, alignment: alignment, options: options) {
             graphic
         }
     }
     
     public func blended(
         blendingMode: AGBlendMode,
-        alignment: Alignment = .center,
         placement: Placement = .fit,
+        alignment: Alignment = .center,
         options: EffectOptions = [],
         graphic: () async throws -> Graphic
     ) async throws -> Graphic {
@@ -105,8 +105,8 @@ extension Graphic {
     public func transformBlended(
         with graphic: Graphic,
         blendingMode: AGBlendMode,
-        alignment: Alignment = .center,
         placement: Placement = .fit,
+        alignment: Alignment = .center,
         translation: CGPoint = .zero,
         rotation: Angle = .zero,
         scale: CGFloat = 1.0,
@@ -115,8 +115,8 @@ extension Graphic {
     ) async throws -> Graphic {
         try await transformBlended(
             blendingMode: blendingMode,
-            alignment: alignment,
             placement: placement,
+            alignment: alignment,
             translation: translation,
             rotation: rotation,
             scale: scale,
@@ -129,8 +129,8 @@ extension Graphic {
     
     public func transformBlended(
         blendingMode: AGBlendMode,
-        alignment: Alignment = .center,
         placement: Placement = .fit,
+        alignment: Alignment = .center,
         translation: CGPoint = .zero,
         rotation: Angle = .zero,
         scale: CGFloat = 1.0,
