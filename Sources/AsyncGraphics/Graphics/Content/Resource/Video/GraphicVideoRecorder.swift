@@ -30,10 +30,22 @@ public class GraphicVideoRecorder {
     private let fps: Double
     private let kbps: Int
     
+    public enum VideoCodec: String, CaseIterable {
+        case h264
+        case proRes
+        public var type: AVVideoCodecType {
+            switch self {
+            case .h264: return .h264
+            case .proRes: return .proRes4444
+            }
+        }
+    }
+    private let codec: VideoCodec
+    
     public enum VideoFormat: String, CaseIterable {
         case mov
         case mp4
-        public var fileType: AVFileType {
+        public var type: AVFileType {
             switch self {
             case .mov: return .mov
             case .mp4: return .mp4
@@ -55,6 +67,7 @@ public class GraphicVideoRecorder {
         case noFramesRecorded
         case mismatchResolution
         case isNotReadyForMoreMediaData
+        case badWriterState(Int, String?)
         case writerFailed
         case appendFailed
         
@@ -70,6 +83,8 @@ public class GraphicVideoRecorder {
                 return "AsyncGraphics - GraphicVideoRecorder - Mismatch Resolution"
             case .isNotReadyForMoreMediaData:
                 return "AsyncGraphics - GraphicVideoRecorder - Is Not Ready For More Media Data"
+            case .badWriterState(let status, let error):
+                return "AsyncGraphics - GraphicVideoRecorder - Bad Writer State (\(status))\(error != nil ? "\n\n\(error!)" : "")"
             case .writerFailed:
                 return "AsyncGraphics - GraphicVideoRecorder - Writer Failed"
             case .appendFailed:
@@ -78,11 +93,12 @@ public class GraphicVideoRecorder {
         }
     }
 
-    public init(fps: Double = 30.0, kbps: Int = 10_000, format: VideoFormat = .mov, resolution: CGSize) {
+    public init(fps: Double = 30.0, kbps: Int = 10_000, format: VideoFormat = .mov, codec: VideoCodec = .h264, resolution: CGSize) {
         self.fps = fps
         self.kbps = kbps
         self.format = format
         self.resolution = resolution
+        self.codec = codec
     }
     
     public func start() throws {
@@ -100,18 +116,18 @@ public class GraphicVideoRecorder {
         
         let url = folderURL.appendingPathComponent("\(name)")
         
-        let writer = try AVAssetWriter(outputURL: url, fileType: format.fileType)
-
-        let bps: Int = kbps * 1_000
-        
-        let input = AVAssetWriterInput(mediaType: .video, outputSettings: [
-            AVVideoCodecKey: AVVideoCodecType.h264,
+        let writer = try AVAssetWriter(outputURL: url, fileType: format.type)
+    
+        var settings: [String: Any] = [
+            AVVideoCodecKey: codec.type,
             AVVideoWidthKey: resolution.width,
             AVVideoHeightKey: resolution.height,
-            AVVideoCompressionPropertiesKey: [
-                AVVideoAverageBitRateKey: bps
-            ],
-        ])
+        ]
+        if codec != .proRes {
+            let bps: Int = kbps * 1_000
+            settings[AVVideoCompressionPropertiesKey] = [AVVideoAverageBitRateKey: bps]
+        }
+        let input = AVAssetWriterInput(mediaType: .video, outputSettings: settings)
         input.expectsMediaDataInRealTime = true
         
         writer.add(input)
@@ -134,6 +150,14 @@ public class GraphicVideoRecorder {
         
         guard let av: AV = av else {
             throw RecordError.startNotCalled
+        }
+        
+        guard av.writer.status == .writing else {
+            var errorString: String?
+            if let error = av.writer.error {
+                errorString = error.localizedDescription + "\n\n" + String(describing: error)
+            }
+            throw RecordError.badWriterState(av.writer.status.rawValue, errorString)
         }
         
         guard graphic.resolution == resolution else {
