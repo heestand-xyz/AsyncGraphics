@@ -19,7 +19,7 @@ let package = Package(
         .package(url: "https://github.com/heestand-xyz/TextureMap", .upToNextMinor(from: "0.7.4")),
         .package(url: "https://github.com/heestand-xyz/PixelColor", .upToNextMinor(from: "2.1.0")),
         .package(url: "https://github.com/heestand-xyz/CoreGraphicsExtensions", .upToNextMinor(from: "1.4.2")),
-        .package(url: "https://github.com/heestand-xyz/VideoFrames", .upToNextMinor(from: "0.5.1")),
+        .package(url: "https://github.com/heestand-xyz/VideoFrames", .upToNextMinor(from: "1.0.0")),
         .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.1.0"),
     ],
     targets: [
