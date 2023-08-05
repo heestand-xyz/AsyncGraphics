@@ -73,7 +73,7 @@ extension GraphicMetalView: MTKViewDelegate {
         guard let drawable: CAMetalDrawable = currentDrawable else { return }
         let targetTexture: MTLTexture = drawable.texture
         
-        guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else { return }
+        guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else { return } // EXC_BREAKPOINT
         guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else { return }
 
         if graphic.bits == ._8,
