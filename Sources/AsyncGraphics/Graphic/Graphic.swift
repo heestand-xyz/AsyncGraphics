@@ -104,6 +104,19 @@ extension Graphic {
             return image
         }
     }
+    
+    public func writeImage(to url: URL, xdr: Bool = false) async throws {
+        let image: TMImage = try await image
+        try await TextureMap.write(image: image, to: url, bits: bits, colorSpace: xdr ? .xdr : colorSpace)
+    }
+    
+    /// XDR UIImage / NSImage
+    /// (Use with 16 or 32 bit graphics)
+    public var xdrImage: TMImage {
+        get async throws {
+            try await assignColorSpace(.xdr).image
+        }
+    }
 }
 
 // MARK: - Buffer
