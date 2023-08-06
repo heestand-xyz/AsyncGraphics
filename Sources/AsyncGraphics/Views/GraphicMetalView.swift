@@ -38,7 +38,9 @@ final class GraphicMetalView: MTKView {
         isOpaque = false
         #endif
         if extendedDynamicRange {
-            (layer as! CAMetalLayer).wantsExtendedDynamicRangeContent = true
+            if #available(macOS 10.11, iOS 16.0, *) {
+                (layer as! CAMetalLayer).wantsExtendedDynamicRangeContent = true
+            }
         }
         
         delegate = self
