@@ -11,13 +11,16 @@ struct GraphicRepresentableView {
     private let graphic: Graphic
     private let viewResolution: CGSize
     private let interpolation: GraphicView.Interpolation
+    private let extendedDynamicRange: Bool
     
     init(graphic: Graphic,
          viewResolution: CGSize,
-         interpolation: GraphicView.Interpolation) {
+         interpolation: GraphicView.Interpolation,
+         extendedDynamicRange: Bool) {
         self.graphic = graphic
         self.viewResolution = viewResolution
         self.interpolation = interpolation
+        self.extendedDynamicRange = extendedDynamicRange
     }
     
     private func render(in view: GraphicMetalView) {
@@ -51,7 +54,8 @@ struct GraphicRepresentableView {
 extension GraphicRepresentableView: NSViewRepresentable {
     
     func makeNSView(context: Context) -> GraphicMetalView {
-        GraphicMetalView(interpolation: interpolation)
+        GraphicMetalView(interpolation: interpolation,
+                         extendedDynamicRange: extendedDynamicRange)
     }
     
     func updateNSView(_ view: GraphicMetalView, context: Context) {
@@ -64,7 +68,8 @@ extension GraphicRepresentableView: NSViewRepresentable {
 extension GraphicRepresentableView: UIViewRepresentable {
     
     func makeUIView(context: Context) -> GraphicMetalView {
-        GraphicMetalView(interpolation: interpolation)
+        GraphicMetalView(interpolation: interpolation,
+                         extendedDynamicRange: extendedDynamicRange)
     }
     
     func updateUIView(_ view: GraphicMetalView, context: Context) {

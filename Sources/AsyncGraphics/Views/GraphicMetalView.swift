@@ -14,15 +14,18 @@ final class GraphicMetalView: MTKView {
     private var graphic: Graphic?
     
     let interpolation: GraphicView.Interpolation
+    
+    let extendedDynamicRange: Bool
  
-    init(interpolation: GraphicView.Interpolation) {
+    init(interpolation: GraphicView.Interpolation, extendedDynamicRange: Bool) {
         
         self.interpolation = interpolation
+        self.extendedDynamicRange = extendedDynamicRange
         
         super.init(frame: .zero, device: Renderer.metalDevice)
         
         clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 0.0)
-        colorPixelFormat = .rgba8Unorm // .bgra10_xr (Display P3)
+        colorPixelFormat = extendedDynamicRange ? .rgba16Float : .rgba8Unorm // .bgra10_xr (Display P3)
         framebufferOnly = false
         autoResizeDrawable = true
         enableSetNeedsDisplay = true
@@ -34,6 +37,9 @@ final class GraphicMetalView: MTKView {
         #else
         isOpaque = false
         #endif
+        if extendedDynamicRange {
+            (layer as! CAMetalLayer).wantsExtendedDynamicRangeContent = true
+        }
         
         delegate = self
     }
@@ -76,7 +82,8 @@ extension GraphicMetalView: MTKViewDelegate {
         guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else { return }
         guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else { return }
 
-        if graphic.bits == ._8,
+        if !extendedDynamicRange,
+           graphic.bits == ._8,
            targetTexture.width == texture.width,
            targetTexture.height == texture.height,
            let blitEncoder = commandBuffer.makeBlitCommandEncoder() {

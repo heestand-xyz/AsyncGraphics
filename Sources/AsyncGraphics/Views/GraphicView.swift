@@ -18,13 +18,23 @@ public struct GraphicView: View {
     }
     private let interpolation: Interpolation
     
+    private let extendedDynamicRange: Bool
+    
     #if os(xrOS)
     @State private var image: UIImage?
     #endif
     
-    public init(graphic: Graphic, interpolation: Interpolation = .lanczos) {
+    /// Graphic View
+    /// - Parameters:
+    ///   - graphic: The graphic to display.
+    ///   - interpolation: The pixel interpolation mode.
+    ///   - extendedDynamicRange: XDR high brightness support (16 or 32 bit).
+    public init(graphic: Graphic,
+                interpolation: Interpolation = .lanczos,
+                extendedDynamicRange: Bool = false) {
         self.graphic = graphic
         self.interpolation = interpolation
+        self.extendedDynamicRange = extendedDynamicRange
     }
     
     public var body: some View {
@@ -37,7 +47,8 @@ public struct GraphicView: View {
             #else
             GraphicRepresentableView(graphic: graphic,
                                      viewResolution: geometry.size * .pixelsPerPoint,
-                                     interpolation: interpolation)
+                                     interpolation: interpolation,
+                                     extendedDynamicRange: extendedDynamicRange)
             #endif
         }
         .aspectRatio(graphic.resolution, contentMode: .fit)
