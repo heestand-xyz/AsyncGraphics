@@ -15,7 +15,7 @@ final class GraphicMetalView: MTKView {
     
     let interpolation: GraphicView.Interpolation
     
-    let extendedDynamicRange: Bool
+    var extendedDynamicRange: Bool
  
     init(interpolation: GraphicView.Interpolation, extendedDynamicRange: Bool) {
         
@@ -37,17 +37,26 @@ final class GraphicMetalView: MTKView {
         #else
         isOpaque = false
         #endif
-        if extendedDynamicRange {
-            if #available(macOS 10.11, iOS 16.0, *) {
-                (layer as! CAMetalLayer).wantsExtendedDynamicRangeContent = true
-            }
-        }
         
         delegate = self
+        
+        set(extendedDynamicRange: extendedDynamicRange)
     }
     
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension GraphicMetalView {
+    
+    func set(extendedDynamicRange: Bool) {
+        if extendedDynamicRange {
+            if #available(macOS 10.11, iOS 16.0, *) {
+                (layer as! CAMetalLayer).wantsExtendedDynamicRangeContent = extendedDynamicRange
+            }
+        }
+        self.extendedDynamicRange = extendedDynamicRange
     }
 }
 

@@ -59,6 +59,9 @@ extension GraphicRepresentableView: NSViewRepresentable {
     }
     
     func updateNSView(_ view: GraphicMetalView, context: Context) {
+        if view.extendedDynamicRange != extendedDynamicRange {
+            view.set(extendedDynamicRange: extendedDynamicRange)
+        }
         render(in: view)
     }
 }
@@ -73,6 +76,9 @@ extension GraphicRepresentableView: UIViewRepresentable {
     }
     
     func updateUIView(_ view: GraphicMetalView, context: Context) {
+        if view.extendedDynamicRange != extendedDynamicRange {
+            view.set(extendedDynamicRange: extendedDynamicRange)
+        }
         render(in: view)
     }
 }
