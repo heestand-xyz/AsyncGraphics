@@ -14,17 +14,24 @@ import AppKit
 #elseif os(iOS)
 import UIKit
 #endif
+import UniformTypeIdentifiers
 
 extension Graphic {
     
     enum ImageError: LocalizedError {
         
         case imageNotFound
+        case rawPhotoNotSupported
+        case rawPhotoCorrupt
         
         var errorDescription: String? {
             switch self {
             case .imageNotFound:
                 return "AsyncGraphics - Image - Not Found"
+            case .rawPhotoNotSupported:
+                return "AsyncGraphics - Image - RAW Photo Not Supported"
+            case .rawPhotoCorrupt:
+                return "AsyncGraphics - Image - RAW Photo Corrupt"
             }
         }
     }
@@ -84,6 +91,10 @@ extension Graphic {
     
     public static func image(url: URL) async throws -> Graphic {
         
+        if isRAWImage(url: url) {
+            return try await rawImage(url: url)
+        }
+        
         let data = try Data(contentsOf: url)
         
         guard let image = TMImage(data: data) else {
@@ -91,6 +102,50 @@ extension Graphic {
         }
         
         return try await .image(image)
+    }
+    
+    public static func isRAWImage(url: URL) -> Bool {
+        
+        guard let type: UTType = UTType(filenameExtension: url.pathExtension) else {
+            return false
+        }
+        
+        return type.conforms(to: .rawImage)
+    }
+    
+    /// RAW Image - Canon, Nikon, Sony etc.
+    public static func rawImage(url: URL) async throws -> Graphic {
+        
+        try await withCheckedThrowingContinuation { continuation in
+            
+            DispatchQueue.global(qos: .userInteractive).async  {
+                
+                do {
+                    let graphic: Graphic = try rawImage(url: url)
+                    continuation.resume(returning: graphic)
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+    
+    private static func rawImage(url: URL) throws -> Graphic {
+        
+        guard let rawFilter = CIRAWFilter(imageURL: url) else {
+            throw ImageError.rawPhotoNotSupported
+        }
+        
+        guard let rawImage: CIImage = rawFilter.outputImage else {
+            throw ImageError.rawPhotoCorrupt
+        }
+        
+        let bits: TMBits = ._16
+        let colorSpace: TMColorSpace = .xdr
+        
+        let texture: MTLTexture = try TextureMap.texture(ciImage: rawImage, colorSpace: colorSpace, bits: bits)
+        
+        return Graphic(name: "RAW Image", texture: texture, bits: bits, colorSpace: colorSpace)
     }
 }
 
