@@ -51,10 +51,8 @@ final class GraphicMetalView: MTKView {
 extension GraphicMetalView {
     
     func set(extendedDynamicRange: Bool) {
-        if extendedDynamicRange {
-            if #available(macOS 10.11, iOS 16.0, *) {
-                (layer as! CAMetalLayer).wantsExtendedDynamicRangeContent = extendedDynamicRange
-            }
+        if #available(macOS 10.11, iOS 16.0, *) {
+            (layer as! CAMetalLayer).wantsExtendedDynamicRangeContent = extendedDynamicRange
         }
         self.extendedDynamicRange = extendedDynamicRange
     }
