@@ -2,8 +2,6 @@
 //  Created by Anton Heestand on 2022-08-21.
 //
 
-#if !os(xrOS)
-
 import Foundation
 import VideoFrames
 
@@ -64,5 +62,3 @@ extension Graphic {
         }
     }
 }
-
-#endif

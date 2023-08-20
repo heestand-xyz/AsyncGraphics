@@ -2,8 +2,6 @@
 //  Created by Anton Heestand on 2023-02-28.
 //
 
-#if !os(xrOS)
-
 import AVKit
 import Combine
 
@@ -120,9 +118,10 @@ public class GraphicVideoPlayer: ObservableObject {
         let duration: Double = try await asset.load(.duration).seconds
         guard let resolution: CGSize = try? await {
             var resolution: CGSize = try await track.load(.naturalSize)
-            if resolution != .zero {
+            if resolution == .zero {
+                /// Backup method
                 let generator: AVAssetImageGenerator = AVAssetImageGenerator(asset: asset)
-                let firstImage: CGImage = try generator.copyCGImage(at: .zero, actualTime: nil)
+                let (firstImage, _): (CGImage, CMTime) = try await generator.image(at: .zero)
                 resolution = firstImage.size
             }
             return resolution
@@ -235,5 +234,3 @@ extension GraphicVideoPlayer: Hashable {
         hasher.combine(id)
     }
 }
-
-#endif

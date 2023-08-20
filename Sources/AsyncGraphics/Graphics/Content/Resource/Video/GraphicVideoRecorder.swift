@@ -35,8 +35,15 @@ public class GraphicVideoRecorder {
         case proRes
         public var type: AVVideoCodecType {
             switch self {
-            case .h264: return .h264
-            case .proRes: return .proRes4444
+            case .h264: 
+                return .h264
+            case .proRes:
+                #if os(visionOS)
+                print("AsyncGraphics - Warning: ProRes not supported on visionOS. Falling back to h264.")
+                return .h264
+                #else
+                return .proRes4444
+                #endif
             }
         }
     }

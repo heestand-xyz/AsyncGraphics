@@ -2,8 +2,6 @@
 //  Created by Anton Heestand on 2022-04-06.
 //
 
-#if !os(xrOS)
-
 import Foundation
 import VideoFrames
 import TextureMap
@@ -109,5 +107,3 @@ extension Array where Element == Graphic {
         try await Graphic.importVideo(url: url, progress: progress)
     }
 }
-
-#endif

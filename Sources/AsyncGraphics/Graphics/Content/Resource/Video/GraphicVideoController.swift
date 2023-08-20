@@ -2,8 +2,6 @@
 //  Created by Anton Heestand on 2022-08-21.
 //
 
-#if !os(xrOS)
-
 import CoreGraphics
 import AVFoundation
 
@@ -94,5 +92,3 @@ class GraphicVideoController: NSObject, GraphicVideoPlayerDelegate {
         }
     }
 }
-
-#endif

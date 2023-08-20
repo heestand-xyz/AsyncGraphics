@@ -61,7 +61,7 @@ extension Graphic {
             graphic = try await graphic.brightness(1.0)
         }
         
-        #if os(iOS)
+        #if canImport(UIKit)
         graphic = try await graphic.rotate(to: image.imageOrientation)
         #endif
         
@@ -152,7 +152,7 @@ extension Graphic {
 
 extension Graphic {
     
-    #if os(iOS)
+    #if canImport(UIKit)
     private func rotate(to orientation: UIImage.Orientation) async throws -> Graphic {
         switch orientation {
         case .down, .downMirrored:

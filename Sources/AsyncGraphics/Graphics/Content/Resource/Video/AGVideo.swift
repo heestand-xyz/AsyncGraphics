@@ -1,5 +1,3 @@
-#if !os(xrOS)
-
 import CoreGraphics
 
 public struct AGVideo: AGGraph {
@@ -59,5 +57,3 @@ extension AGVideo {
         return image
     }
 }
-
-#endif
