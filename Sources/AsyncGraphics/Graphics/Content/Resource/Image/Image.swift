@@ -9,10 +9,11 @@ import Foundation
 import CoreGraphics
 import Metal
 import TextureMap
-#if os(macOS)
-import AppKit
-#elseif os(iOS)
 import UIKit
+#if canImport(UIKit)
+import UIKit
+#elseif canImport(AppKit)
+import AppKit
 #endif
 import UniformTypeIdentifiers
 
