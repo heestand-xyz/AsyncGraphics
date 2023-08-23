@@ -21,14 +21,21 @@ public struct Renderer {
         return device
     }()
     
-    public static var metalLibrary: MTLLibrary? = {
+    public static var customMetalLibrary: MTLLibrary?
+    
+    public static var defaultMetalLibrary: MTLLibrary? = {
         do {
             return try metalDevice.makeDefaultLibrary(bundle: .module)
         } catch {
-            print("AsyncGraphics - Default metal library not found. Please provide a metal library with: `Renderer.metalLibrary = ...`. Error:", error)
+            print("AsyncGraphics - Default metal library not found. Please provide a metal library with: `Renderer.customMetalLibrary = ...`. Error:", error)
             return nil
         }
     }()
+    
+    /// This is the `customMetalLibrary` if available, otherwise it is the `defaultMetalLibrary`.
+    public static var metalLibrary: MTLLibrary? {
+        customMetalLibrary ?? defaultMetalLibrary
+    }
     
     /// Basic
     static func render<U, G: Graphicable>(
