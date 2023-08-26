@@ -9,7 +9,6 @@ import Foundation
 import CoreGraphics
 import Metal
 import TextureMap
-import UIKit
 #if canImport(UIKit)
 import UIKit
 #elseif canImport(AppKit)
