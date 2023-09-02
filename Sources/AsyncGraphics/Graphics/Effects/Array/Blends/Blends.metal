@@ -51,6 +51,30 @@ fragment float4 blends(VertexOut out [[stage_in]],
                     c = float4(c_rgb * (1.0 - ci.a) + ci_rgb, max(c.a, ci.a));
                 }
                 break;
+            case 18: // Screen
+                ci = textures.sample(s, uv, i);
+                if (i == 0) {
+                    c = ci;
+                } else {
+                    c = float4(1.0 - (1.0 - c.rgb) * (1.0 - ci.rgb), max(c.a, ci.a));
+                }
+                break;
+            case 19: // Lighten
+                ci = textures.sample(s, uv, i);
+                if (i == 0) {
+                    c = ci;
+                } else {
+                    c = float4(max(c.rgb, ci.rgb), max(c.a, ci.a));
+                }
+                break;
+            case 20: // Darken
+                ci = textures.sample(s, uv, i);
+                if (i == 0) {
+                    c = ci;
+                } else {
+                    c = float4(min(c.rgb, ci.rgb), min(c.a, ci.a));
+                }
+                break;
             case 2: // Add Color
                 ci = textures.sample(s, uv, i);
                 if (i == 0) {
