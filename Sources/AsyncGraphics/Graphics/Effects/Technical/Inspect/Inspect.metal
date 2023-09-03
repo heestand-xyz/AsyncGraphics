@@ -66,7 +66,7 @@ fragment float4 inspect(VertexOut out [[stage_in]],
             checkerLight /= 2;
         }
         color = float4(float3(checkerLight) * (1.0 - color.a) + color.rgb * color.a,
-                       inBounds ? 0.25 + 0.75 * color.a : 0.0);
+                       inBounds ? 0.5 + 0.5 * color.a : 0.0);
     }
     
     // Border
