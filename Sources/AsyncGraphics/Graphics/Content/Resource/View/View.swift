@@ -25,11 +25,14 @@ extension Graphic {
         return try await .image(cgImage)
     }
     
-    public static func view<Content: View>(resolution: CGSize, content: () -> Content) async throws -> Graphic {
+    public static func view<Content: View>(resolution: CGSize, 
+                                           alignment: SwiftUI.Alignment = .center,
+                                           content: () -> Content) async throws -> Graphic {
         let renderer = await ImageRenderer(
-            content:  content()
+            content: content()
                 .frame(width: resolution.width,
-                       height: resolution.height)
+                       height: resolution.height,
+                       alignment: alignment)
         )
         guard var cgImage: CGImage = await renderer.cgImage else {
             throw ViewError.viewRenderFailed
