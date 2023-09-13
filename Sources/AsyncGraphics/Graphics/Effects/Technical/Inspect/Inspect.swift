@@ -6,6 +6,7 @@ extension Graphic {
     private struct InspectUniforms {
         let checkerTransparency: Bool
         let checkerSize: Float
+        let checkerOpacity: Float
         let scale: Float
         let offset: PointUniform
         let borderWidth: Float
@@ -26,6 +27,7 @@ extension Graphic {
                                contentResolution: CGSize,
                                checkerTransparency: Bool = false,
                                checkerSize: CGFloat = 100,
+                               checkerOpacity: CGFloat = 0.5,
                                options: ContentOptions = .interpolateNearest,
                                graphic: () async throws -> Graphic) async throws -> Graphic {
         
@@ -40,6 +42,7 @@ extension Graphic {
             uniforms: InspectUniforms(
                 checkerTransparency: checkerTransparency,
                 checkerSize: Float(checkerSize),
+                checkerOpacity: Float(checkerOpacity),
                 scale: Float(scale),
                 offset: offset.uniform,
                 borderWidth: Float(borderWidth),

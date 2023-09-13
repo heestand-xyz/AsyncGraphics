@@ -16,6 +16,7 @@ struct VertexOut {
 struct Uniforms {
     bool checkerTransparency;
     float checkerSize;
+    float checkerOpacity;
     float scale;
     packed_float2 offset;
     float borderWidth;
@@ -61,10 +62,14 @@ fragment float4 inspect(VertexOut out [[stage_in]],
             x -= inputWidth / 2;
             int y = int(uvPlacement.y * float(inputHeight));
             y -= inputHeight / 2;
-            bool isX = ((x + 10000) / int(uniforms.checkerSize)) % 2 == 0;
-            bool isY = ((y + 10000) / int(uniforms.checkerSize)) % 2 == 0;
+            int big = int(uniforms.checkerSize);
+            while (big < 10000) {
+                big *= 2;
+            }
+            bool isX = ((x + big) / int(uniforms.checkerSize)) % 2 == 0;
+            bool isY = ((y + big) / int(uniforms.checkerSize)) % 2 == 0;
             float light = isX ? (isY ? 0.75 : 0.25) : (isY ? 0.25 : 0.75);
-            light /= 2;
+            light *= uniforms.checkerOpacity;
             checkerLight = light;
         }
         color = float4(float3(checkerLight) * (1.0 - color.a) + color.rgb * color.a,
