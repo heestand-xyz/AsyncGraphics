@@ -5,8 +5,8 @@
 extension Graphic3D {
     
     private struct Edge3DUniforms {
-        let colored: Bool
-        let transparent: Bool
+        let isColored: Bool
+        let isTransparent: Bool
         let includeAlpha: Bool
         let amplitude: Float
         let dist: Float
@@ -14,27 +14,32 @@ extension Graphic3D {
     
     public func edge(amplitude: Double = 1.0,
                      distance: Double = 1.0,
+                     isTransparent: Bool = false,
                      options: EffectOptions = []) async throws -> Graphic3D {
         
         try await edge(amplitude: amplitude,
                        distance: distance,
-                       colored: false,
+                       isColored: false,
+                       isTransparent: isTransparent,
                        options: options)
     }
     
     public func coloredEdge(amplitude: Double = 1.0,
                             distance: Double = 1.0,
+                            isTransparent: Bool = false,
                             options: EffectOptions = []) async throws -> Graphic3D {
         
         try await edge(amplitude: amplitude,
                        distance: distance,
-                       colored: true,
+                       isColored: true,
+                       isTransparent: isTransparent,
                        options: options)
     }
     
     private func edge(amplitude: Double = 1.0,
                       distance: Double = 1.0,
-                      colored: Bool,
+                      isColored: Bool,
+                      isTransparent: Bool,
                       options: EffectOptions = []) async throws -> Graphic3D {
         
         try await Renderer.render(
@@ -42,8 +47,8 @@ extension Graphic3D {
             shader: .name("edge3d"),
             graphics: [self],
             uniforms: Edge3DUniforms(
-                colored: colored,
-                transparent: false,
+                isColored: isColored,
+                isTransparent: isTransparent,
                 includeAlpha: false,
                 amplitude: Float(amplitude),
                 dist: Float(distance)
