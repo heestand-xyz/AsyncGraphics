@@ -41,7 +41,12 @@ fragment float4 blend(VertexOut out [[stage_in]],
     uint leadingHeight = leadingTexture.get_height();
     uint trailingWidth = trailingTexture.get_width();
     uint trailingHeight = trailingTexture.get_height();
-
+    
+    float2 scale = uniforms.size * uniforms.scale;
+    if (scale.x <= 0.0 || scale.y <= 0.0) {
+        return 0.0;
+    }
+    
     float2 uvPlacement = transformPlace(uniforms.placement,
                                         uv,
                                         leadingWidth,

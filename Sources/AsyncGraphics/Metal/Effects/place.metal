@@ -171,7 +171,6 @@ float2 transformPlace(int placement,
             }
             break;
         case 3: // Fixed
-            // TODO: WIP
             float hFraction = float(leadingWidth) / float(trailingWidth);
             float horizontal = 0.5 - hFraction / 2;
             switch (horizontalAlignment) {
