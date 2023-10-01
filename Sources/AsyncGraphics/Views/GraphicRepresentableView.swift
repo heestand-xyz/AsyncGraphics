@@ -2,7 +2,7 @@
 //  Created by Anton Heestand on 2022-04-24.
 //
 
-#if !os(xrOS)
+#if !os(visionOS)
 
 import SwiftUI
 

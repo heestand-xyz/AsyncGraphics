@@ -2,7 +2,7 @@
 //  Created by Anton Heestand on 2022-04-27.
 //
 
-#if !os(xrOS)
+#if !os(visionOS)
 
 import Metal
 import AVKit

@@ -20,7 +20,7 @@ public struct GraphicView: View {
     
     private let extendedDynamicRange: Bool
     
-    #if os(xrOS)
+    #if os(visionOS)
     @State private var image: UIImage?
     #endif
     
@@ -39,7 +39,7 @@ public struct GraphicView: View {
     
     public var body: some View {
         GeometryReader { geometry in
-            #if os(xrOS)
+            #if os(visionOS)
             if let image {
                 Image(uiImage: image)
                     .resizable()
@@ -52,7 +52,7 @@ public struct GraphicView: View {
             #endif
         }
         .aspectRatio(graphic.resolution, contentMode: .fit)
-        #if os(xrOS)
+        #if os(visionOS)
         .task {
             do {
                 image = try await graphic.image
