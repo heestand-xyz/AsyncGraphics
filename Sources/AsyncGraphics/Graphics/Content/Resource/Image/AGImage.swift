@@ -1,10 +1,10 @@
 import TextureMap
 import CoreGraphics
 import CoreGraphicsExtensions
-#if os(macOS)
-import AppKit
-#else
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
 #endif
 
 public struct AGImage: AGGraph {

@@ -1,8 +1,8 @@
 
 struct AGResources: Equatable {
-    #if !os(xrOS)
+    #if !os(visionOS)
     let cameraGraphics: [Graphic.CameraPosition: Graphic]
-    let videoGraphics: [GraphicVideoPlayer: Graphic]
     #endif
+    let videoGraphics: [GraphicVideoPlayer: Graphic]
     let imageGraphics: [AGImage.Source: Graphic]
 }

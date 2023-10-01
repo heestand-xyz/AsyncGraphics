@@ -3,7 +3,7 @@ import Combine
 
 public final class AGGraphRenderer: ObservableObject {
     
-    #if !os(xrOS)
+    #if !os(visionOS)
     
     var activeCameraPositions: Set<Graphic.CameraPosition> = []
     var activeCameraTasks: [Graphic.CameraPosition: Task<Void, Error>] = [:]
@@ -11,13 +11,12 @@ public final class AGGraphRenderer: ObservableObject {
     @Published var activeCameraGraphics: [Graphic.CameraPosition: Graphic] = [:]
     @Published var activeCameraResolutions: [Graphic.CameraPosition: CGSize] = [:]
     
+    #endif
     
     var activeVideoPlayers: Set<GraphicVideoPlayer> = []
     var activeVideoTasks: [GraphicVideoPlayer: Task<Void, Error>] = [:]
     var activeVideoMaximumResolutions: [GraphicVideoPlayer: CGSize] = [:]
     @Published var activeVideoGraphics: [GraphicVideoPlayer: Graphic] = [:]
-    
-    #endif
     
     var activeImageSources: Set<AGImage.Source> = []
     var activeImageMaximumResolutions: [AGImage.Source: CGSize] = [:]
@@ -45,7 +44,7 @@ extension AGGraphRenderer {
         
         checkResources(for: graph, at: resolution)
         
-        #if !os(xrOS)
+        #if !os(visionOS)
         var cameraResolutions: [Graphic.CameraPosition: CGSize] = [:]
         for cameraPosition in activeCameraPositions {
             guard let resolution: CGSize = activeCameraResolutions[cameraPosition] else { continue }
@@ -59,7 +58,7 @@ extension AGGraphRenderer {
             imageResolutions[imageSource] = resolution
         }
         
-        #if os(xrOS)
+        #if os(visionOS)
         return AGResourceResolutions(image: imageResolutions)
         #else
         return AGResourceResolutions(camera: cameraResolutions, image: imageResolutions)
@@ -70,7 +69,7 @@ extension AGGraphRenderer {
         
         checkResources(for: graph, at: resolution)
         
-        #if !os(xrOS)
+        #if !os(visionOS)
         
         var cameraGraphics: [Graphic.CameraPosition: Graphic] = [:]
         for cameraPosition in activeCameraPositions {
@@ -78,13 +77,13 @@ extension AGGraphRenderer {
             cameraGraphics[cameraPosition] = graphic
         }
         
+        #endif
+        
         var videoGraphics: [GraphicVideoPlayer: Graphic] = [:]
         for videoPlayer in activeVideoPlayers {
             guard let graphic: Graphic = activeVideoGraphics[videoPlayer] else { continue }
             videoGraphics[videoPlayer] = graphic
         }
-        
-        #endif
         
         var imageGraphics: [AGImage.Source: Graphic] = [:]
         for imageSource in activeImageSources {
@@ -92,8 +91,8 @@ extension AGGraphRenderer {
             imageGraphics[imageSource] = graphic
         }
         
-        #if os(xrOS)
-        return AGResources(imageGraphics: imageGraphics)
+        #if os(visionOS)
+        return AGResources(videoGraphics: videoGraphics, imageGraphics: imageGraphics)
         #else
         return AGResources(cameraGraphics: cameraGraphics, videoGraphics: videoGraphics, imageGraphics: imageGraphics)
         #endif
@@ -103,14 +102,14 @@ extension AGGraphRenderer {
 extension AGGraphRenderer {
     
     private func checkResources(for graph: any AGGraph, at resolution: CGSize) {
-        #if !os(xrOS)
+        #if !os(visionOS)
         checkCameras(for: graph, at: resolution)
-        checkVideos(for: graph, at: resolution)
         #endif
+        checkVideos(for: graph, at: resolution)
         checkImages(for: graph, at: resolution)
     }
     
-    #if !os(xrOS)
+    #if !os(visionOS)
     
     private func checkCameras(for graph: any AGGraph, at resolution: CGSize) {
         
@@ -135,11 +134,17 @@ extension AGGraphRenderer {
         }
     }
     
+    #endif
+    
     private func checkVideos(for graph: any AGGraph, at resolution: CGSize) {
         
         let videoPlayers = videoPlayers(for: graph)
         
+        #if os(visionOS)
+        let emptyResourceResolutions = AGResourceResolutions(image: [:])
+        #else
         let emptyResourceResolutions = AGResourceResolutions(camera: [:], image: [:])
+        #endif
         let specification = AGSpecification(resourceResolutions: emptyResourceResolutions)
         activeVideoMaximumResolutions = videoMaximumResolutions(for: graph, at: resolution, for: specification)
         
@@ -158,13 +163,11 @@ extension AGGraphRenderer {
         }
     }
     
-    #endif
-    
     private func checkImages(for graph: any AGGraph, at resolution: CGSize) {
         
         let imageSources = imageSources(for: graph)
                 
-        #if os(xrOS)
+        #if os(visionOS)
         let emptyResourceResolutions = AGResourceResolutions(image: [:])
         #else
         let emptyResourceResolutions = AGResourceResolutions(camera: [:], image: [:])
@@ -188,7 +191,7 @@ extension AGGraphRenderer {
     }
 }
 
-#if !os(xrOS)
+#if !os(visionOS)
 
 extension AGGraphRenderer {
     
@@ -224,6 +227,8 @@ extension AGGraphRenderer {
     }
 }
 
+#endif
+
 extension AGGraphRenderer {
     
     private func startVideo(with videoPlayer: GraphicVideoPlayer) {
@@ -255,8 +260,6 @@ extension AGGraphRenderer {
         activeVideoGraphics.removeValue(forKey: videoPlayer)
     }
 }
-
-#endif
 
 extension AGGraphRenderer {
     
@@ -295,7 +298,7 @@ extension AGGraphRenderer {
 
 extension AGGraphRenderer {
     
-    #if !os(xrOS)
+    #if !os(visionOS)
     
     private func cameraPositions(for graph: any AGGraph) -> Set<Graphic.CameraPosition> {
         var cameraPositions: Set<Graphic.CameraPosition> = []
@@ -310,6 +313,8 @@ extension AGGraphRenderer {
         return cameraPositions
     }
     
+    #endif
+    
     private func videoPlayers(for graph: any AGGraph) -> Set<GraphicVideoPlayer> {
         var videoPlayers: Set<GraphicVideoPlayer> = []
         if let video = graph as? AGVideo {
@@ -322,8 +327,6 @@ extension AGGraphRenderer {
         }
         return videoPlayers
     }
-    
-    #endif
     
     private func imageSources(for graph: any AGGraph) -> Set<AGImage.Source> {
         var imageSources: Set<AGImage.Source> = []
@@ -341,7 +344,7 @@ extension AGGraphRenderer {
 
 extension AGGraphRenderer {
     
-    #if !os(xrOS)
+    #if !os(visionOS)
     
     private func cameraMaximumResolutions(for graph: any AGGraph, at proposedResolution: CGSize, for specification: AGSpecification) -> [Graphic.CameraPosition: CGSize] {
         var maximumResolutions: [Graphic.CameraPosition: CGSize] = [:]
@@ -365,6 +368,8 @@ extension AGGraphRenderer {
         return maximumResolutions
     }
     
+    #endif
+    
     private func videoMaximumResolutions(for graph: any AGGraph, at proposedResolution: CGSize, for specification: AGSpecification) -> [GraphicVideoPlayer: CGSize] {
         var maximumResolutions: [GraphicVideoPlayer: CGSize] = [:]
         if let video = graph as? AGVideo {
@@ -386,8 +391,6 @@ extension AGGraphRenderer {
         }
         return maximumResolutions
     }
-    
-    #endif
     
     private func imageMaximumResolutions(for graph: any AGGraph, at proposedResolution: CGSize, for specification: AGSpecification) -> [AGImage.Source: CGSize] {
         var maximumResolutions: [AGImage.Source: CGSize] = [:]

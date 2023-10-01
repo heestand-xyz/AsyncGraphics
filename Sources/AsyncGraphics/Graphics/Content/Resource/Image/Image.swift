@@ -9,10 +9,10 @@ import Foundation
 import CoreGraphics
 import Metal
 import TextureMap
-#if os(macOS)
-import AppKit
-#elseif os(iOS)
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
 #endif
 import UniformTypeIdentifiers
 
@@ -60,7 +60,7 @@ extension Graphic {
             graphic = try await graphic.brightness(1.0)
         }
         
-        #if os(iOS)
+        #if canImport(UIKit)
         graphic = try await graphic.rotate(to: image.imageOrientation)
         #endif
         
@@ -151,7 +151,7 @@ extension Graphic {
 
 extension Graphic {
     
-    #if os(iOS)
+    #if canImport(UIKit)
     private func rotate(to orientation: UIImage.Orientation) async throws -> Graphic {
         switch orientation {
         case .down, .downMirrored:
