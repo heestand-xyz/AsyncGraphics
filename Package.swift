@@ -16,10 +16,10 @@ let package = Package(
             targets: ["AsyncGraphics"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/heestand-xyz/TextureMap", .upToNextMinor(from: "0.7.9")),
-        .package(url: "https://github.com/heestand-xyz/PixelColor", .upToNextMinor(from: "2.1.0")),
-        .package(url: "https://github.com/heestand-xyz/CoreGraphicsExtensions", .upToNextMinor(from: "1.4.2")),
-        .package(url: "https://github.com/heestand-xyz/VideoFrames", .upToNextMinor(from: "1.0.0")),
+        .package(url: "https://github.com/heestand-xyz/TextureMap", .upToNextMinor(from: "0.8.0")),
+        .package(url: "https://github.com/heestand-xyz/PixelColor", .upToNextMinor(from: "2.2.0")),
+        .package(url: "https://github.com/heestand-xyz/CoreGraphicsExtensions", .upToNextMinor(from: "1.5.0")),
+        .package(url: "https://github.com/heestand-xyz/VideoFrames", .upToNextMinor(from: "1.1.1")),
         .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.1.0"),
     ],
     targets: [
