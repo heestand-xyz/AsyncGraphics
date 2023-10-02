@@ -16,7 +16,6 @@ public enum AGBlendMode {
     case add
     case addWithAlpha
     case multiply
-    case multiplyWithAlpha
     case multiplyWithoutAlpha
     case difference
     case subtract
@@ -31,6 +30,9 @@ public enum AGBlendMode {
     case inside
     case outside
     case exclusiveOr
+    
+    @available(*, deprecated, renamed: "multiply")
+    static var multiplyWithAlpha: AGBlendMode { .multiply }
     
     var index: Int {
         switch self {

@@ -71,10 +71,10 @@ float4 blend(int mode, float4 ca, float4 cb) {
         case 4: // Multiply
             c = ca * cb;
             break;
-        case 22: // Multiply with Alpha
-            c = float4(lerpColor(ia, max(rgb_a, rgb_b),
-                                     rgb_a * rgb_b), aa);
-            break;
+//        case 22: // Multiply with Alpha
+//            c = float4(lerpColor(ia, max(rgb_a, rgb_b),
+//                                 rgb_a * rgb_b), aa);
+//            break;
         case 23: // Multiply without Alpha
             c = float4(lerpColor(ia, max(rgb_a, rgb_b),
                                  rgb_a * rgb_b), aa);
