@@ -16,7 +16,7 @@ let package = Package(
             targets: ["AsyncGraphics"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/heestand-xyz/TextureMap", .upToNextMinor(from: "0.8.0")),
+        .package(url: "https://github.com/heestand-xyz/TextureMap", .upToNextMinor(from: "0.9.0")),
         .package(url: "https://github.com/heestand-xyz/PixelColor", .upToNextMinor(from: "2.2.0")),
         .package(url: "https://github.com/heestand-xyz/CoreGraphicsExtensions", .upToNextMinor(from: "1.5.0")),
         .package(url: "https://github.com/heestand-xyz/VideoFrames", .upToNextMinor(from: "1.1.1")),
