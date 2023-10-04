@@ -20,8 +20,8 @@ extension Graphic {
             throw ViewError.viewRenderFailed
         }
         // Hack to get around a bug
-        let ciImage = TextureMap.ciImage(cgImage: cgImage)
-        cgImage = try TextureMap.cgImage(ciImage: ciImage, colorSpace: .displayP3)
+//        let ciImage = TextureMap.ciImage(cgImage: cgImage)
+//        cgImage = try TextureMap.cgImage(ciImage: ciImage, colorSpace: .displayP3)
         return try await .image(cgImage)
     }
     
@@ -38,8 +38,8 @@ extension Graphic {
             throw ViewError.viewRenderFailed
         }
         // Hack to get around a bug
-        let ciImage = TextureMap.ciImage(cgImage: cgImage)
-        cgImage = try TextureMap.cgImage(ciImage: ciImage, colorSpace: .displayP3)
+//        let ciImage = TextureMap.ciImage(cgImage: cgImage)
+//        cgImage = try TextureMap.cgImage(ciImage: ciImage, colorSpace: .displayP3)
         return try await .image(cgImage)
     }
 }
