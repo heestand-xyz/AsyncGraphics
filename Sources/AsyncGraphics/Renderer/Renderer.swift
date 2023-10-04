@@ -150,14 +150,22 @@ public struct Renderer {
                 
                 do {
                     
-                    let targetTexture: MTLTexture = try {
-                        if let resolution: CGSize = resolution as? CGSize {
-                            return try .empty(resolution: resolution, bits: bits, sampleCount: sampleCount)
-                        } else if let resolution: SIMD3<Int> = resolution as? SIMD3<Int> {
-                            return try .empty3d(resolution: resolution, bits: bits, usage: .write)
+                    let targetTexture: MTLTexture
+                    if options.targetSourceTexture {
+                        guard let texture: MTLTexture = graphics.first?.texture else {
+                            throw RendererError.noTargetTextureFound
                         }
-                        fatalError("Unknown Graphicable")
-                    }()
+                        targetTexture = texture
+                    } else {
+                        targetTexture = try {
+                            if let resolution: CGSize = resolution as? CGSize {
+                                return try .empty(resolution: resolution, bits: bits, sampleCount: sampleCount)
+                            } else if let resolution: SIMD3<Int> = resolution as? SIMD3<Int> {
+                                return try .empty3d(resolution: resolution, bits: bits, usage: .write)
+                            }
+                            fatalError("Unknown Graphicable")
+                        }()
+                    }
                     
                     guard let commandQueue = metalDevice.makeCommandQueue() else {
                         throw RendererError.failedToMakeCommandQueue

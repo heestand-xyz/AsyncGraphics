@@ -56,19 +56,7 @@ extension Graphic {
         }
     }
     
-//    @available(*, deprecated, renamed: "blended(blendingMode:placement:options:graphic:)")
-    public func blended(
-        with graphic: Graphic,
-        blendingMode: AGBlendMode,
-        placement: Placement = .fit,
-        alignment: Alignment = .center,
-        options: EffectOptions = []
-    ) async throws -> Graphic {
-        try await blended(blendingMode: blendingMode, placement: placement, alignment: alignment, options: options) {
-            graphic
-        }
-    }
-    
+    @available(*, deprecated, renamed: "blended(with:blendingMode:placement:alignment:options:)")
     public func blended(
         blendingMode: AGBlendMode,
         placement: Placement = .fit,
@@ -77,12 +65,67 @@ extension Graphic {
         graphic: () async throws -> Graphic
     ) async throws -> Graphic {
         
+        try await blended(
+            with: graphic(),
+            blendingMode: blendingMode,
+            placement: placement,
+            alignment: alignment,
+            options: options,
+            targetSourceTexture: false
+        )
+    }
+    
+    public func blended(
+        with graphic: Graphic,
+        blendingMode: AGBlendMode,
+        placement: Placement = .fit,
+        alignment: Alignment = .center,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
+        
+        try await blended(
+            with: graphic,
+            blendingMode: blendingMode,
+            placement: placement,
+            alignment: alignment,
+            options: options,
+            targetSourceTexture: false
+        )
+    }
+    
+    public mutating func blend(
+        with graphic: Graphic,
+        blendingMode: AGBlendMode,
+        placement: Placement = .fit,
+        alignment: Alignment = .center,
+        options: EffectOptions = []
+    ) async throws {
+        
+        self = try await blended(
+            with: graphic,
+            blendingMode: blendingMode,
+            placement: placement,
+            alignment: alignment,
+            options: options,
+            targetSourceTexture: true
+        )
+    }
+    
+    private func blended(
+        with graphic: Graphic,
+        blendingMode: AGBlendMode,
+        placement: Placement = .fit,
+        alignment: Alignment = .center,
+        options: EffectOptions = [],
+        targetSourceTexture: Bool
+    ) async throws -> Graphic {
+        
         try await Renderer.render(
             name: "Blend",
             shader: .name("blend"),
             graphics: [
                 self,
-                graphic()
+                graphic
             ],
             uniforms: BlendUniforms(
                 blendingMode: Int32(blendingMode.index),
@@ -96,7 +139,8 @@ extension Graphic {
             ),
             options: Renderer.Options(
                 addressMode: options.addressMode,
-                filter: options.filter
+                filter: options.filter,
+                targetSourceTexture: targetSourceTexture
             )
         )
     }

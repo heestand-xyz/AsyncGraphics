@@ -15,5 +15,6 @@ extension Renderer {
         var clearColor: PixelColor = .clear
         var additive: Bool = false
         var sampleCount: Int = 1
+        var targetSourceTexture: Bool = false
     }
 }

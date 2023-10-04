@@ -21,6 +21,7 @@ extension Renderer {
         case failedToMakeVertexUniformBuffer
         case failedToMakeComputeCommandEncoder
         case graphic3dIsCurrentlyOnlySupportedOnMacOS
+        case noTargetTextureFound
         
         var errorDescription: String? {
             switch self {
@@ -50,6 +51,8 @@ extension Renderer {
                 return "AsyncGraphics - Renderer - Failed to Make Compute Command Encoder"
             case .graphic3dIsCurrentlyOnlySupportedOnMacOS:
                 return "AsyncGraphics - Renderer - Graphic3D is Currently Only Supported on macOS"
+            case .noTargetTextureFound:
+                return "AsyncGraphics - Renderer - No Target Texture Found"
             }
         }
     }
