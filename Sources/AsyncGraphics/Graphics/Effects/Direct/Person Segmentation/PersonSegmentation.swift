@@ -42,12 +42,10 @@ extension Graphic {
             }
 
             let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
-            DispatchQueue.global(qos: .userInteractive).async {
-                do {
-                    try handler.perform([request])
-                } catch {
-                    continuation.resume(throwing: error)
-                }
+            do {
+                try handler.perform([request])
+            } catch {
+                continuation.resume(throwing: error)
             }
         }
         let maskGraphic: Graphic = try await .pixelBuffer(maskPixelBuffer)

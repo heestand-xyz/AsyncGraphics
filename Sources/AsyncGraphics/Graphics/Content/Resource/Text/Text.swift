@@ -111,23 +111,16 @@ extension Graphic {
                     return
                 }
                 
-                DispatchQueue.global(qos: .background).async {
+                let cgImage: CGImage = skTexture.cgImage()
+                
+                do {
                     
-                    let cgImage: CGImage = skTexture.cgImage()
+                    let texture: MTLTexture = try TextureMap.texture(cgImage: cgImage)
                     
-                    do {
-                        
-                        let texture: MTLTexture = try TextureMap.texture(cgImage: cgImage)
-                        
-                        DispatchQueue.main.async {
-                            continuation.resume(returning: texture)
-                        }
-                        
-                    } catch {
-                        DispatchQueue.main.async {
-                            continuation.resume(throwing: error)
-                        }
-                    }
+                    continuation.resume(returning: texture)
+                    
+                } catch {
+                    continuation.resume(throwing: error)
                 }
             }
         }

@@ -225,9 +225,7 @@ public class GraphicVideoRecorder {
         
             av.writer.finishWriting {
             
-                DispatchQueue.main.async {
-                    continuation.resume()
-                }
+                continuation.resume()
             }
         }
         

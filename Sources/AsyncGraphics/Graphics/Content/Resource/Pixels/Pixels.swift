@@ -42,52 +42,47 @@ extension Graphic {
         
         let texture: MTLTexture = try await withCheckedThrowingContinuation { continuation in
             
-            DispatchQueue.global(qos: .userInteractive).async {
+            do {
                 
-                do {
-                    
-                    let texture: MTLTexture
-                    switch options.bits {
-                    case ._8:
-                        let channels: [UInt8] = pixels.flatMap { row in
-                            row.flatMap { color in
-                                color.components.map { channel in
-                                    UInt8(min(max(channel, 0.0), 1.0) * 255)
-                                }
+                let texture: MTLTexture
+                switch options.bits {
+                case ._8:
+                    let channels: [UInt8] = pixels.flatMap { row in
+                        row.flatMap { color in
+                            color.components.map { channel in
+                                UInt8(min(max(channel, 0.0), 1.0) * 255)
                             }
                         }
-                        texture = try TextureMap.texture(channels: channels, resolution: resolution, on: Renderer.metalDevice)
-                    case ._16:
-                        #if !os(macOS)
-                        let channels: [Float16] = pixels.flatMap { row in
-                            row.flatMap { color in
-                                color.components.map { channel in
-                                    Float16(channel)
-                                }
-                            }
-                        }
-                        texture = try TextureMap.texture(channels: channels, resolution: resolution, on: Renderer.metalDevice)
-                        #else
-                        throw PixelsError.unsupportedOS
-                        #endif
-                    case ._32:
-                        let channels: [Float] = pixels.flatMap { row in
-                            row.flatMap { color in
-                                color.components.map { channel in
-                                    Float(channel)
-                                }
-                            }
-                        }
-                        texture = try TextureMap.texture(channels: channels, resolution: resolution, on: Renderer.metalDevice)
                     }
-                    
-                    DispatchQueue.main.async {
-                        continuation.resume(returning: texture)
+                    texture = try TextureMap.texture(channels: channels, resolution: resolution, on: Renderer.metalDevice)
+                case ._16:
+                    #if !os(macOS)
+                    let channels: [Float16] = pixels.flatMap { row in
+                        row.flatMap { color in
+                            color.components.map { channel in
+                                Float16(channel)
+                            }
+                        }
                     }
-                    
-                } catch {
-                    continuation.resume(throwing: error)
+                    texture = try TextureMap.texture(channels: channels, resolution: resolution, on: Renderer.metalDevice)
+                    #else
+                    throw PixelsError.unsupportedOS
+                    #endif
+                case ._32:
+                    let channels: [Float] = pixels.flatMap { row in
+                        row.flatMap { color in
+                            color.components.map { channel in
+                                Float(channel)
+                            }
+                        }
+                    }
+                    texture = try TextureMap.texture(channels: channels, resolution: resolution, on: Renderer.metalDevice)
                 }
+                
+                continuation.resume(returning: texture)
+                
+            } catch {
+                continuation.resume(throwing: error)
             }
         }
         

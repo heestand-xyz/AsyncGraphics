@@ -44,7 +44,7 @@ extension Graphic {
         let colorSpace: TMColorSpace = try image.colorSpace
         let isMonochrome = colorSpace.isMonochrome
         
-        let texture: MTLTexture = try await image.texture
+        let texture: MTLTexture = try image.texture
         
         var graphic = Graphic(name: "Image", texture: texture, bits: bits, colorSpace: colorSpace)
         
@@ -117,15 +117,12 @@ extension Graphic {
     public static func rawImage(url: URL) async throws -> Graphic {
         
         try await withCheckedThrowingContinuation { continuation in
-            
-            DispatchQueue.global(qos: .userInteractive).async  {
                 
-                do {
-                    let graphic: Graphic = try rawImage(url: url)
-                    continuation.resume(returning: graphic)
-                } catch {
-                    continuation.resume(throwing: error)
-                }
+            do {
+                let graphic: Graphic = try rawImage(url: url)
+                continuation.resume(returning: graphic)
+            } catch {
+                continuation.resume(throwing: error)
             }
         }
     }

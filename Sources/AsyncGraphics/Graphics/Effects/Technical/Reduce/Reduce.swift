@@ -44,39 +44,32 @@ extension Graphic {
                 
         let texture: MTLTexture = try await withCheckedThrowingContinuation { continuation in
             
-            DispatchQueue.global(qos: .userInteractive).async {
+            do {
                 
-                do {
-                    
-                    guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else {
-                        throw Renderer.RendererError.failedToMakeCommandQueue
-                    }
-                    
-                    guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {
-                        throw Renderer.RendererError.failedToMakeCommandBuffer
-                    }
-         
-                    let texture: MTLTexture = try .empty(resolution: resolution(in: sampleAxis), bits: bits, usage: .write)
-                    
-                    let kernel: MPSImageReduceUnary = kernel(by: sampleMethod, in: sampleAxis)
-
-                    kernel.encode(commandBuffer: commandBuffer, sourceTexture: self.texture, destinationTexture: texture)
-                                            
-                    commandBuffer.addCompletedHandler { _ in
-                        
-                        DispatchQueue.main.async {
-                            continuation.resume(returning: texture)
-                        }
-                    }
-                    
-                    commandBuffer.commit()
-                    
-                } catch {
-                    
-                    DispatchQueue.main.async {
-                        continuation.resume(throwing: error)
-                    }
+                guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else {
+                    throw Renderer.RendererError.failedToMakeCommandQueue
                 }
+                
+                guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {
+                    throw Renderer.RendererError.failedToMakeCommandBuffer
+                }
+                
+                let texture: MTLTexture = try .empty(resolution: resolution(in: sampleAxis), bits: bits, usage: .write)
+                
+                let kernel: MPSImageReduceUnary = kernel(by: sampleMethod, in: sampleAxis)
+                
+                kernel.encode(commandBuffer: commandBuffer, sourceTexture: self.texture, destinationTexture: texture)
+                
+                commandBuffer.addCompletedHandler { _ in
+                    
+                    continuation.resume(returning: texture)
+                }
+                
+                commandBuffer.commit()
+                
+            } catch {
+                    
+                continuation.resume(throwing: error)
             }
         }
         

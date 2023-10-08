@@ -16,7 +16,7 @@ extension Graphic {
     
     public static func view<Content: View>(content: () -> Content) async throws -> Graphic {
         let renderer = await ImageRenderer(content: content())
-        guard var cgImage: CGImage = await renderer.cgImage else {
+        guard let cgImage: CGImage = await renderer.cgImage else {
             throw ViewError.viewRenderFailed
         }
         // Hack to get around a bug
@@ -34,7 +34,21 @@ extension Graphic {
                        height: resolution.height,
                        alignment: alignment)
         )
-        guard var cgImage: CGImage = await renderer.cgImage else {
+//        var cgImage: CGImage!
+//        await renderer.render { size, render in
+//            guard let context = CGContext(
+//                    data: nil,
+//                    width: Int(size.width),
+//                    height: Int(size.height),
+//                    bitsPerComponent: 8,
+//                    bytesPerRow: 0,
+//                    space: CGColorSpaceCreateDeviceRGB(),
+//                    bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+//            ) else { return }
+//            render(context)
+//            cgImage = context.makeImage()
+//        }
+        guard let cgImage: CGImage = await renderer.cgImage else {
             throw ViewError.viewRenderFailed
         }
         // Hack to get around a bug
