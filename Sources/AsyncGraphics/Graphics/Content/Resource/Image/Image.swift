@@ -114,6 +114,7 @@ extension Graphic {
     }
     
     /// RAW Image - Canon, Nikon, Sony etc.
+    @available(*, deprecated, message: "Please use the sync function in a task.")
     public static func rawImage(url: URL) async throws -> Graphic {
         
         try await withCheckedThrowingContinuation { continuation in

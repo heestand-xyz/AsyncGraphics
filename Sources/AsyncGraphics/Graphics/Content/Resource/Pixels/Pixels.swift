@@ -25,7 +25,7 @@ extension Graphic {
         }
     }
     
-    public static func pixels(_ pixels: [[PixelColor]], options: ContentOptions = []) async throws -> Graphic {
+    public static func pixels(_ pixels: [[PixelColor]], options: ContentOptions = []) throws -> Graphic {
         
         let height: Int = pixels.count
         guard height > 0 else {
@@ -39,51 +39,40 @@ extension Graphic {
         }
         
         let resolution = CGSize(width: width, height: height)
-        
-        let texture: MTLTexture = try await withCheckedThrowingContinuation { continuation in
-            
-            do {
                 
-                let texture: MTLTexture
-                switch options.bits {
-                case ._8:
-                    let channels: [UInt8] = pixels.flatMap { row in
-                        row.flatMap { color in
-                            color.components.map { channel in
-                                UInt8(min(max(channel, 0.0), 1.0) * 255)
-                            }
-                        }
+        let texture: MTLTexture
+        switch options.bits {
+        case ._8:
+            let channels: [UInt8] = pixels.flatMap { row in
+                row.flatMap { color in
+                    color.components.map { channel in
+                        UInt8(min(max(channel, 0.0), 1.0) * 255)
                     }
-                    texture = try TextureMap.texture(channels: channels, resolution: resolution, on: Renderer.metalDevice)
-                case ._16:
-                    #if !os(macOS)
-                    let channels: [Float16] = pixels.flatMap { row in
-                        row.flatMap { color in
-                            color.components.map { channel in
-                                Float16(channel)
-                            }
-                        }
-                    }
-                    texture = try TextureMap.texture(channels: channels, resolution: resolution, on: Renderer.metalDevice)
-                    #else
-                    throw PixelsError.unsupportedOS
-                    #endif
-                case ._32:
-                    let channels: [Float] = pixels.flatMap { row in
-                        row.flatMap { color in
-                            color.components.map { channel in
-                                Float(channel)
-                            }
-                        }
-                    }
-                    texture = try TextureMap.texture(channels: channels, resolution: resolution, on: Renderer.metalDevice)
                 }
-                
-                continuation.resume(returning: texture)
-                
-            } catch {
-                continuation.resume(throwing: error)
             }
+            texture = try TextureMap.texture(channels: channels, resolution: resolution, on: Renderer.metalDevice)
+        case ._16:
+            #if !os(macOS)
+            let channels: [Float16] = pixels.flatMap { row in
+                row.flatMap { color in
+                    color.components.map { channel in
+                        Float16(channel)
+                    }
+                }
+            }
+            texture = try TextureMap.texture(channels: channels, resolution: resolution, on: Renderer.metalDevice)
+            #else
+            throw PixelsError.unsupportedOS
+            #endif
+        case ._32:
+            let channels: [Float] = pixels.flatMap { row in
+                row.flatMap { color in
+                    color.components.map { channel in
+                        Float(channel)
+                    }
+                }
+            }
+            texture = try TextureMap.texture(channels: channels, resolution: resolution, on: Renderer.metalDevice)
         }
         
         return try .texture(texture)

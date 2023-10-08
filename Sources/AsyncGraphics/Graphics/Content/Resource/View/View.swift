@@ -15,7 +15,7 @@ extension Graphic {
     }
     
     public static func view<Content: View>(content: () -> Content) async throws -> Graphic {
-        let renderer = await ImageRenderer(content: content())
+        let renderer = await ImageRenderer<Content>(content: content())
         guard let cgImage: CGImage = await renderer.cgImage else {
             throw ViewError.viewRenderFailed
         }
