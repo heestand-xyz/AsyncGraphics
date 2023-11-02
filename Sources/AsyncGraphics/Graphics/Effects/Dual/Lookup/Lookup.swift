@@ -20,7 +20,6 @@ extension Graphic {
         case vertical = 1
     }
     
-//    @available(*, deprecated, renamed: "lookup(axis:sampleCoordinate:options:graphic:)")
     public func lookup(with graphic: Graphic,
                        axis: LookupAxis,
                        sampleCoordinate: CGFloat = 0.5,
@@ -30,6 +29,7 @@ extension Graphic {
         }
     }
     
+    @available(*, deprecated, renamed: "lookup(with:axis:sampleCoordinate:options:)")
     public func lookup(axis: LookupAxis,
                        sampleCoordinate: CGFloat = 0.5,
                        options: EffectOptions = [],

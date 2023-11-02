@@ -40,9 +40,9 @@ To edit colors `import PixelColor`, a swift package (a dependency of AsyncGraphi
 - ``channels(_:resolution:)-5dtx6``
 - ``channels(_:resolution:)-6011k``
 - ``channels(_:resolution:)-6011k``
-- ``channels(pointer:resolution:)-6gswn``
-- ``channels(pointer:resolution:)-1e6wo``
-- ``channels(pointer:resolution:)-1e6wo``
+- ``channels(pointer:resolution:)-1mynx``
+- ``channels(pointer:resolution:)-5svpm``
+- ``channels(pointer:resolution:)-5svpm``
 
 ### Image
 
@@ -67,8 +67,8 @@ To edit colors `import PixelColor`, a swift package (a dependency of AsyncGraphi
 - ``ImportVideoFrameProgress``
 - ``importVideoStream(url:)``
 - ``importVideoFrame(at:url:info:)``
-- ``exportVideoToData(with:fps:kbps:format:)``
-- ``exportVideoToURL(with:fps:kbps:format:)``
+- ``exportVideoToURL(with:fps:kbps:format:codec:)``
+- ``exportVideoToData(with:fps:kbps:format:codec:)``
 - ``processVideo(url:)``
 
 ### Texture
@@ -183,9 +183,10 @@ Create a graphic with a solid color.
 
 Use blending modes to combine two or more graphics.
 
-- ``blended(blendingMode:placement:options:graphic:)``
-- ``blended(with:blendingMode:placement:options:)``
 - ``blend(with:blendingMode:)``
+- ``blend(with:blendingMode:placement:alignment:options:)``
+- ``blended(with:blendingMode:placement:alignment:options:)``
+- ``blended(blendingMode:placement:alignment:options:graphic:)``
 - ``add(with:)``
 - ``average(with:)``
 - ``mask(placement:options:foreground:background:mask:)``
@@ -205,21 +206,21 @@ Use blending modes to combine two or more graphics.
 
 ### Luma Transform
 
-- ``lumaOffset(_:lumaGamma:placement:options:graphic:)``
 - ``lumaTranslated(with:translation:lumaGamma:placement:options:)``
-- ``lumaOffset(x:y:lumaGamma:placement:options:graphic:)``
+- ``lumaOffset(_:lumaGamma:placement:options:graphic:)``
 - ``lumaTranslated(with:x:y:lumaGamma:placement:options:)``
-- ``lumaRotated(rotation:lumaGamma:placement:options:graphic:)``
+- ``lumaOffset(x:y:lumaGamma:placement:options:graphic:)``
 - ``lumaRotated(with:rotation:lumaGamma:placement:options:)``
-- ``lumaScaled(scale:lumaGamma:placement:options:graphic:)``
+- ``lumaRotated(rotation:lumaGamma:placement:options:graphic:)``
 - ``lumaScaled(with:scale:lumaGamma:placement:options:)``
-- ``lumaScaled(x:y:lumaGamma:placement:options:graphic:)``
+- ``lumaScaled(scale:lumaGamma:placement:options:graphic:)``
 - ``lumaScaled(with:x:y:lumaGamma:placement:options:)``
+- ``lumaScaled(x:y:lumaGamma:placement:options:graphic:)``
 
 ### Transform with Blend
 
-- ``transformBlended(blendingMode:placement:translation:rotation:scale:size:options:graphic:)``
-- ``transformBlended(with:blendingMode:placement:translation:rotation:scale:size:options:)``
+- ``transformBlended(with:blendingMode:placement:alignment:translation:rotation:scale:size:options:)``
+- ``transformBlended(blendingMode:placement:alignment:translation:rotation:scale:size:options:graphic:)``
 
 ### Mirror
 
@@ -264,30 +265,30 @@ Use blending modes to combine two or more graphics.
 
 ### Luma Levels
 
-- ``lumaBrightness(brightness:lumaGamma:placement:graphic:)``
 - ``lumaBrightness(with:brightness:lumaGamma:placement:)``
-- ``lumaDarkness(darkness:lumaGamma:placement:graphic:)``
+- ``lumaBrightness(brightness:lumaGamma:placement:graphic:)``
 - ``lumaDarkness(with:darkness:lumaGamma:placement:)``
-- ``lumaContrast(contrast:lumaGamma:placement:graphic:)``
+- ``lumaDarkness(darkness:lumaGamma:placement:graphic:)``
 - ``lumaContrast(with:contrast:lumaGamma:placement:)``
-- ``lumaGamma(gamma:lumaGamma:placement:graphic:)``
+- ``lumaContrast(contrast:lumaGamma:placement:graphic:)``
 - ``lumaGamma(with:gamma:lumaGamma:placement:)``
-- ``lumaInverted(lumaGamma:placement:graphic:)``
+- ``lumaGamma(gamma:lumaGamma:placement:graphic:)``
 - ``lumaInverted(with:lumaGamma:placement:)``
-- ``lumaSmoothed(lumaGamma:placement:graphic:)``
+- ``lumaInverted(lumaGamma:placement:graphic:)``
 - ``lumaSmoothed(with:lumaGamma:placement:)``
-- ``lumaOpacity(opacity:lumaGamma:placement:graphic:)``
+- ``lumaSmoothed(lumaGamma:placement:graphic:)``
 - ``lumaOpacity(with:opacity:lumaGamma:placement:)``
-- ``lumaExposureOffset(offset:lumaGamma:placement:graphic:)``
+- ``lumaOpacity(opacity:lumaGamma:placement:graphic:)``
 - ``lumaExposureOffset(with:offset:lumaGamma:placement:)``
-- ``lumaAdd(value:lumaGamma:placement:graphic:)``
+- ``lumaExposureOffset(offset:lumaGamma:placement:graphic:)``
 - ``lumaAdd(with:value:lumaGamma:placement:)``
-- ``lumaSubtract(value:lumaGamma:placement:graphic:)``
+- ``lumaAdd(value:lumaGamma:placement:graphic:)``
 - ``lumaSubtract(with:value:lumaGamma:placement:)``
-- ``lumaMultiply(value:lumaGamma:placement:graphic:)``
+- ``lumaSubtract(value:lumaGamma:placement:graphic:)``
 - ``lumaMultiply(with:value:lumaGamma:placement:)``
-- ``lumaDivide(value:lumaGamma:placement:graphic:)``
+- ``lumaMultiply(value:lumaGamma:placement:graphic:)``
 - ``lumaDivide(with:value:lumaGamma:placement:)``
+- ``lumaDivide(value:lumaGamma:placement:graphic:)``
 
 ### Colors
 
@@ -295,17 +296,18 @@ Use blending modes to combine two or more graphics.
 - ``saturated(_:)``
 - ``hue(_:)``
 - ``tinted(_:)``
+- ``colorMap(from:to:options:)``
 
 ### Luma Colors
 
-- ``lumaMonochrome(lumaGamma:graphic:)``
 - ``lumaMonochrome(with:lumaGamma:)``
-- ``lumaSaturated(saturation:lumaGamma:graphic:)``
+- ``lumaMonochrome(lumaGamma:graphic:)``
 - ``lumaSaturated(with:saturation:lumaGamma:)``
-- ``lumaHue(hue:lumaGamma:graphic:)``
+- ``lumaSaturated(saturation:lumaGamma:graphic:)``
 - ``lumaHue(with:hue:lumaGamma:)``
-- ``lumaTinted(color:lumaGamma:graphic:)``
+- ``lumaHue(hue:lumaGamma:graphic:)``
 - ``lumaTinted(with:color:lumaGamma:)``
+- ``lumaTinted(color:lumaGamma:graphic:)``
 
 ### Color Convert
 
@@ -323,8 +325,8 @@ Use blending modes to combine two or more graphics.
 
 ### Lookup
 
-- ``lookup(axis:sampleCoordinate:options:graphic:)``
 - ``lookup(with:axis:sampleCoordinate:options:)``
+- ``lookup(axis:sampleCoordinate:options:graphic:)``
 - ``LookupAxis``
 
 ### Channels
@@ -346,14 +348,14 @@ Use blending modes to combine two or more graphics.
 
 ### Luma Blur
 
-- ``lumaBlurredBox(radius:lumaGamma:sampleCount:placement:options:graphic:)``
 - ``lumaBlurredBox(with:radius:lumaGamma:sampleCount:placement:options:)``
-- ``lumaBlurredZoom(radius:center:lumaGamma:sampleCount:placement:options:graphic:)``
+- ``lumaBlurredBox(radius:lumaGamma:sampleCount:placement:options:graphic:)``
 - ``lumaBlurredZoom(with:radius:center:lumaGamma:sampleCount:placement:options:)``
-- ``lumaBlurredAngle(radius:angle:lumaGamma:sampleCount:placement:options:graphic:)``
+- ``lumaBlurredZoom(radius:center:lumaGamma:sampleCount:placement:options:graphic:)``
 - ``lumaBlurredAngle(with:radius:angle:lumaGamma:sampleCount:placement:options:)``
-- ``lumaBlurredRandom(radius:lumaGamma:placement:options:graphic:)``
+- ``lumaBlurredAngle(radius:angle:lumaGamma:sampleCount:placement:options:graphic:)``
 - ``lumaBlurredRandom(with:radius:lumaGamma:placement:options:)``
+- ``lumaBlurredRandom(radius:lumaGamma:placement:options:graphic:)``
 
 ### Rainbow Blur
 
@@ -363,12 +365,12 @@ Use blending modes to combine two or more graphics.
 
 ### Luma Rainbow Blur
 
-- ``lumaRainbowBlurredCircle(radius:angle:light:lumaGamma:sampleCount:placement:options:graphic:)``
 - ``lumaRainbowBlurredCircle(with:radius:angle:light:lumaGamma:sampleCount:placement:options:)``
-- ``lumaRainbowBlurredAngle(radius:angle:light:lumaGamma:sampleCount:placement:options:graphic:)``
+- ``lumaRainbowBlurredCircle(radius:angle:light:lumaGamma:sampleCount:placement:options:graphic:)``
 - ``lumaRainbowBlurredAngle(with:radius:angle:light:lumaGamma:sampleCount:placement:options:)``
-- ``lumaRainbowBlurredZoom(radius:center:light:lumaGamma:sampleCount:placement:options:graphic:)``
+- ``lumaRainbowBlurredAngle(radius:angle:light:lumaGamma:sampleCount:placement:options:graphic:)``
 - ``lumaRainbowBlurredZoom(with:radius:center:light:lumaGamma:sampleCount:placement:options:)``
+- ``lumaRainbowBlurredZoom(radius:center:light:lumaGamma:sampleCount:placement:options:graphic:)``
 
 ### Pixelate
 
@@ -376,8 +378,8 @@ Use blending modes to combine two or more graphics.
 
 ### Displace
 
-- ``displaced(offset:origin:placement:options:graphic:)``
 - ``displaced(with:offset:origin:placement:options:)``
+- ``displaced(offset:origin:placement:options:graphic:)``
 
 ### Slope
 
@@ -385,8 +387,8 @@ Use blending modes to combine two or more graphics.
 
 ### Edge
 
-- ``edge(amplitude:distance:options:)``
-- ``coloredEdge(amplitude:distance:options:)``
+- ``edge(amplitude:distance:isTransparent:options:)``
+- ``coloredEdge(amplitude:distance:isTransparent:options:)``
 
 ### Sharpen
 
@@ -405,8 +407,8 @@ Use blending modes to combine two or more graphics.
 
 Fade two graphics by crossing them with opacity.
 
-- ``cross(fraction:placement:options:graphic:)``
 - ``cross(with:fraction:placement:options:)``
+- ``cross(fraction:placement:options:graphic:)``
 
 ### Crop
 
@@ -430,8 +432,14 @@ Fade two graphics by crossing them with opacity.
 - ``chromaKey(color:parameters:options:)``
 - ``ChromaKeyParameters``
 
+### Person Segmentation
+
+- ``personSegmentation()``
+- ``personSegmentationMask()``
+
 ### Remap
 
+- ``remap(with:options:)``
 - ``remap(options:graphic:)``
 
 ### Polar
@@ -479,6 +487,39 @@ Resize a graphic.
 - ``ReduceMethod``
 - ``ReduceAxis``
 
+### LUTs
+
+- ``readLUT(url:layout:)``
+- ``readLUT(data:format:layout:)``
+- ``readLUT(named:format:layout:)``
+- ``readLUT(named:in:format:layout:)``
+
+- ``writeLUT(layout:)``
+
+- ``applyLUT(with:layout:)``
+- ``applyLUT(url:)``
+- ``applyLUT(named:format:)``
+- ``applyLUT(named:in:format:)``
+
+- ``sizeOfLUT()``
+- ``sizeOfLUT(url:)``
+- ``sizeOfLUT(data:format:)``
+- ``sizeOfLUT(named:format:)``
+- ``sizeOfLUT(named:in:format:)``
+
+- ``layoutOfLUT()``
+- ``idealLayoutOfLUT(size:)``
+- ``idealLayoutOfLUT(url:)``
+- ``idealLayoutOfLUT(data:format:)``
+- ``idealLayoutOfLUT(named:format:)``
+- ``idealLayoutOfLUT(named:in:format:)``
+
+- ``sampleOfLUT(at:layout:)``
+
+- ``LUTError``
+- ``LUTFormat``
+- ``LUTLayout``
+
 ### Bits
 
 - ``bits(_:)``
@@ -493,7 +534,8 @@ Resize a graphic.
 
 ### Inspect
 
-- ``inspect(scale:offset:borderWidth:borderOpacity:borderFadeRange:placement:containerResolution:contentResolution:transparencyChecker:options:graphic:)``
+- ``inspect(with:scale:offset:borderWidth:borderOpacity:borderFadeRange:placement:containerResolution:contentResolution:checkerTransparency:checkerSize:checkerOpacity:options:)``
+- ``inspect(scale:offset:borderWidth:borderOpacity:borderFadeRange:placement:containerResolution:contentResolution:checkerTransparency:checkerSize:checkerOpacity:options:graphic:)``
 
 ### Options
 

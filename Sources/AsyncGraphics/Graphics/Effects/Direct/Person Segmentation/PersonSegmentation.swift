@@ -13,6 +13,7 @@ extension Graphic {
         }
     }
 
+    /// Remove the background of the current ``Graphic``
     public func personSegmentation() async throws -> Graphic {
         let mask: Graphic = try await personSegmentationMask()
         return try await blended(with: mask.luminanceToAlpha(),

@@ -145,7 +145,6 @@ extension Graphic {
         )
     }
     
-//    @available(*, deprecated, renamed: "transformBlended(blendingMode:placement:translation:rotation:scale:size:options:graphic:)")
     public func transformBlended(
         with graphic: Graphic,
         blendingMode: AGBlendMode,
@@ -171,6 +170,7 @@ extension Graphic {
         }
     }
     
+    @available(*, deprecated, renamed: "transformBlended(with:blendingMode:placement:alignment:translation:rotation:scale:size:options:)")
     public func transformBlended(
         blendingMode: AGBlendMode,
         placement: Placement = .fit,

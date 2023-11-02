@@ -28,7 +28,6 @@ extension Graphic {
         case zoom
     }
     
-//    @available(*, deprecated, renamed: "lumaRainbowBlurredCircle(radius:angle:light:lumaGamma:sampleCount:placement:options:graphic:)")
     public func lumaRainbowBlurredCircle(
         with graphic: Graphic,
         radius: CGFloat,
@@ -53,6 +52,7 @@ extension Graphic {
         )
     }
     
+    @available(*, deprecated, renamed: "lumaRainbowBlurredCircle(with:radius:angle:light:lumaGamma:sampleCount:placement:options:)")
     public func lumaRainbowBlurredCircle(
         radius: CGFloat,
         angle: Angle = .zero,
@@ -77,7 +77,6 @@ extension Graphic {
         )
     }
     
-//    @available(*, deprecated, renamed: "lumaRainbowBlurredZoom(radius:center:light:lumaGamma:sampleCount:placement:options:graphic:)")
     public func lumaRainbowBlurredZoom(
         with graphic: Graphic,
         radius: CGFloat,
@@ -102,6 +101,7 @@ extension Graphic {
         )
     }
     
+    @available(*, deprecated, renamed: "lumaRainbowBlurredZoom(with:radius:center:light:lumaGamma:sampleCount:placement:options:)")
     public func lumaRainbowBlurredZoom(
         radius: CGFloat,
         center: CGPoint? = nil,
@@ -126,7 +126,6 @@ extension Graphic {
         )
     }
     
-//    @available(*, deprecated, renamed: "lumaRainbowBlurredAngle(radius:angle:light:lumaGamma:sampleCount:placement:options:graphic:)")
     public func lumaRainbowBlurredAngle(
         with graphic: Graphic,
         radius: CGFloat,
@@ -151,6 +150,7 @@ extension Graphic {
         )
     }
     
+    @available(*, deprecated, renamed: "lumaRainbowBlurredAngle(with:radius:angle:light:lumaGamma:sampleCount:placement:options:)")
     public func lumaRainbowBlurredAngle(
         radius: CGFloat,
         angle: Angle,

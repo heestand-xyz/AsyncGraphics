@@ -43,7 +43,6 @@ extension Graphic {
 //        let selectivelyFocusedCIImage = maskedVariableBlur.outputImage
 //    }
     
-//    @available(*, deprecated, renamed: "lumaBlurredBox(radius:lumaGamma:sampleCount:placement:options:graphic:)")
     public func lumaBlurredBox(
         with graphic: Graphic,
         radius: CGFloat,
@@ -63,6 +62,7 @@ extension Graphic {
         )
     }
     
+    @available(*, deprecated, renamed: "lumaBlurredBox(with:radius:lumaGamma:sampleCount:placement:options:)")
     public func lumaBlurredBox(
         radius: CGFloat,
         lumaGamma: CGFloat = 1.0,
@@ -83,7 +83,6 @@ extension Graphic {
         )
     }
  
-//    @available(*, deprecated, renamed: "lumaBlurredZoom(radius:center:lumaGamma:sampleCount:placement:options:graphic:)")
     public func lumaBlurredZoom(
         with graphic: Graphic,
         radius: CGFloat,
@@ -105,6 +104,7 @@ extension Graphic {
         )
     }
     
+    @available(*, deprecated, renamed: "lumaBlurredZoom(with:radius:center:lumaGamma:sampleCount:placement:options:)")
     public func lumaBlurredZoom(
         radius: CGFloat,
         center: CGPoint? = nil,
@@ -127,7 +127,6 @@ extension Graphic {
         )
     }
     
-//    @available(*, deprecated, renamed: "lumaBlurredAngle(radius:angle:lumaGamma:sampleCount:placement:options:graphic:)")
     public func lumaBlurredAngle(
         with graphic: Graphic,
         radius: CGFloat,
@@ -149,6 +148,7 @@ extension Graphic {
         )
     }
     
+    @available(*, deprecated, renamed: "lumaBlurredAngle(with:radius:angle:lumaGamma:sampleCount:placement:options:)")
     public func lumaBlurredAngle(
         radius: CGFloat,
         angle: Angle,
@@ -171,7 +171,6 @@ extension Graphic {
         )
     }
     
-//    @available(*, deprecated, renamed: "lumaBlurredRandom(radius:lumaGamma:placement:options:graphic:)")
     public func lumaBlurredRandom(
         with graphic: Graphic,
         radius: CGFloat,
@@ -189,6 +188,7 @@ extension Graphic {
         )
     }
     
+    @available(*, deprecated, renamed: "lumaBlurredRandom(with:radius:lumaGamma:placement:options:)")
     public func lumaBlurredRandom(
         radius: CGFloat,
         lumaGamma: CGFloat = 1.0,

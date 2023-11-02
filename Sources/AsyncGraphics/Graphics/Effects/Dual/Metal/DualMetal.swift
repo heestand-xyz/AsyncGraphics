@@ -19,7 +19,6 @@ extension Graphic {
         }
     }
     
-//    @available(*, deprecated, renamed: "metal(code:options:graphic:)")
     /// Metal Shader Code with two inputs
     ///
     /// Get the resolutions of the input textures.
@@ -71,6 +70,7 @@ extension Graphic {
     /// ```
     ///
     /// Available variables are:  `sampler`, `leadingTexture`, `trailingTexture`, `u`, `v`, `uv`, `leadingColor`, `trailingColor`.
+    @available(*, deprecated, renamed: "metal(with:code:options:)")
     public func metal(code: String,
                       options: EffectOptions = [],
                       graphic: () async throws -> Graphic) async throws -> Graphic {

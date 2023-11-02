@@ -11,7 +11,6 @@ extension Graphic3D {
         let placement: Int32
     }
     
-//    @available(*, deprecated, renamed: "cross(fraction:placement:graphic:)")
     public func cross(with graphic: Graphic3D,
                       fraction: CGFloat,
                       placement: Placement = .fit) async throws -> Graphic3D {
@@ -19,7 +18,8 @@ extension Graphic3D {
             graphic
         }
     }
-        
+    
+    @available(*, deprecated, renamed: "cross(with:fraction:placement:)")
     public func cross(fraction: CGFloat,
                       placement: Placement = .fit,
                       graphic: () async throws -> Graphic3D) async throws -> Graphic3D {

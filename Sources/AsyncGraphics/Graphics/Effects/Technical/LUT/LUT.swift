@@ -565,6 +565,7 @@ extension Graphic {
     
     // MARK: Sample of LUT
     
+    /// A sample is a 2D slice of the 3D LUT
     public func sampleOfLUT(at index: Int, layout: LUTLayout) async throws -> Graphic {
         
         let size: Int = try sizeOfLUT()

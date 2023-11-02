@@ -11,7 +11,6 @@ extension Graphic {
         let placement: Int32
     }
     
-//    @available(*, deprecated, renamed: "cross(fraction:placement:options:graphic:)")
     public func cross(with graphic: Graphic,
                       fraction: CGFloat,
                       placement: Placement = .fit,
@@ -21,6 +20,7 @@ extension Graphic {
         }
     }
     
+    @available(*, deprecated, renamed: "cross(with:fraction:placement:options:)")
     public func cross(fraction: CGFloat,
                       placement: Placement = .fit,
                       options: EffectOptions = [],

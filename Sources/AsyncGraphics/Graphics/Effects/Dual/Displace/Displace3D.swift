@@ -13,7 +13,6 @@ extension Graphic3D {
         let placement: UInt32
     }
     
-//    @available(*, deprecated, renamed: "displaced(offset:origin:placement:options:graphic:)")
     public func displaced(with graphic: Graphic3D,
                           offset: Double,
                           origin: PixelColor = .gray,
@@ -24,6 +23,7 @@ extension Graphic3D {
         }
     }
     
+    @available(*, deprecated, renamed: "displaced(with:offset:origin:placement:options:)")
     public func displaced(offset: Double,
                           origin: PixelColor = .gray,
                           placement: Placement = .fill,

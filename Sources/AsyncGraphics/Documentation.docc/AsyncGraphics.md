@@ -12,6 +12,11 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 
 ## Topics
 
+### Graphics
+
+- ``Graphic``
+- ``Graphic3D``
+
 ### Articles
 
 - <doc:Blending>
@@ -20,37 +25,30 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 - <doc:VideoEditing>
 - <doc:VideoPlayback>
 
-### Graphic
+### References
 
-- ``Graphic``
-
-### Graphic 3D
-
-- ``Graphic3D``
-
-### Graph
-
-- ``AGGraph``
-- ``AGGraphic``
+- <doc:Resources>
+- <doc:Visuals>
+- <doc:Effects>
+- <doc:Metal>
+- <doc:LUTs>
 
 ### Views
 
 - ``AGView``
 - ``GraphicView``
-- ``Graphic3DView``
+- ``AsyncGraphicView``
+
+### Graphs
+
+- ``AGGraph``
+- ``AGGraphic``
 
 ### Video
 
 - ``GraphicVideoPlayer``
 - ``GraphicVideoRecorder``
 - ``GraphicRecorder``
-
-### Lists
-
-- <doc:Resources>
-- <doc:Visuals>
-- <doc:Effects>
-- <doc:Metal>
 
 ### Layout
 

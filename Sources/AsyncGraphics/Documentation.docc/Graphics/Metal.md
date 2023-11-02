@@ -1,6 +1,6 @@
 # Metal
 
-Write Metal Shaders 
+Write Metal shaders.
 
 ## Overview
 

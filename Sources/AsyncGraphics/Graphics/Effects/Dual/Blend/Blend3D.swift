@@ -11,7 +11,6 @@ extension Graphic3D {
         let placement: Int32
     }
     
-//    @available(*, deprecated, renamed: "blended(blendingMode:placement:graphic:)")
     public func blended(with graphic: Graphic3D,
                         blendingMode: AGBlendMode,
                         placement: Placement = .fit) async throws -> Graphic3D {
@@ -20,6 +19,7 @@ extension Graphic3D {
         }
     }
     
+    @available(*, deprecated, renamed: "blended(with:blendingMode:placement:)")
     public func blended(
         blendingMode: AGBlendMode,
         placement: Placement = .fit,

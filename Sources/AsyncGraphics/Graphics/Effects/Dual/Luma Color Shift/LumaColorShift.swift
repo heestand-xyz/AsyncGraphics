@@ -16,7 +16,6 @@ extension Graphic {
         let lumaGamma: Float
     }
     
-//    @available(*, deprecated, renamed: "lumaMonochrome(lumaGamma:graphic:)")
     public func lumaMonochrome(
         with graphic: Graphic,
         lumaGamma: CGFloat = 1.0
@@ -29,6 +28,7 @@ extension Graphic {
         )
     }
     
+    @available(*, deprecated, renamed: "lumaMonochrome(with:lumaGamma:)")
     public func lumaMonochrome(
         lumaGamma: CGFloat = 1.0,
         graphic: () async throws -> Graphic
@@ -41,7 +41,6 @@ extension Graphic {
         )
     }
     
-//    @available(*, deprecated, renamed: "lumaSaturated(saturation:lumaGamma:graphic:)")
     /// `1.0` is *default*
     public func lumaSaturated(
         with graphic: Graphic,
@@ -57,6 +56,7 @@ extension Graphic {
     }
     
     /// `1.0` is *default*
+    @available(*, deprecated, renamed: "lumaSaturated(with:saturation:lumaGamma:)")
     public func lumaSaturated(
         saturation: CGFloat,
         lumaGamma: CGFloat = 1.0,
@@ -70,7 +70,6 @@ extension Graphic {
         )
     }
     
-//    @available(*, deprecated, renamed: "lumaHue(hue:lumaGamma:graphic:)")
     /// `0.0` is *default*, `0.5` is `180` degrees of hue shift
     public func lumaHue(
         with graphic: Graphic,
@@ -85,6 +84,7 @@ extension Graphic {
         )
     }
     /// `0.0` is *default*, `0.5` is `180` degrees of hue shift
+    @available(*, deprecated, renamed: "lumaHue(with:hue:lumaGamma:)")
     public func lumaHue(
         hue: Angle,
         lumaGamma: CGFloat = 1.0,
@@ -98,7 +98,6 @@ extension Graphic {
         )
     }
     
-//    @available(*, deprecated, renamed: "lumaTinted(color:lumaGamma:graphic:)")
     public func lumaTinted(
         with graphic: Graphic,
         color: PixelColor,
@@ -112,6 +111,7 @@ extension Graphic {
         )
     }
     
+    @available(*, deprecated, renamed: "lumaTinted(with:color:lumaGamma:)")
     public func lumaTinted(
         color: PixelColor,
         lumaGamma: CGFloat = 1.0,
