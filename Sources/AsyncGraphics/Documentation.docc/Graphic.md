@@ -16,6 +16,7 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 
 ### Metadata
 
+- ``id``
 - ``bits``
 - ``colorSpace``
 
@@ -57,6 +58,10 @@ To edit colors `import PixelColor`, a swift package (a dependency of AsyncGraphi
 - ``image(_:)-7tsh0``
 - ``image(_:)-1mubl``
 - ``pngData``
+- ``xdrImage``
+- ``writeImage(to:xdr:)``
+- ``isRAWImage(url:)``
+- ``rawImage(url:)``
 
 ### Video
 
@@ -89,7 +94,18 @@ To edit colors `import PixelColor`, a swift package (a dependency of AsyncGraphi
 SwiftUI to Graphic
 
 - ``view(content:)``
-- ``view(resolution:content:)``
+- ``view(resolution:alignment:content:)``
+
+### Resolution
+
+Resize a graphic.
+
+- ``resized(to:placement:method:)``
+- ``resizedStretched(to:method:)``
+- ``resized(in:options:)``
+- ``resized(to:placement:options:)``
+- ``resized(by:)``
+- ``ResizeMethod``
 
 ### Graph
 
@@ -206,8 +222,10 @@ Use blending modes to combine two or more graphics.
 
 ### Luma Transform
 
-- ``lumaTranslated(with:translation:lumaGamma:placement:options:)``
+- ``lumaOffset(with:translation:lumaGamma:placement:options:)``
+- ``lumaOffset(with:x:y:lumaGamma:placement:options:)``
 - ``lumaOffset(_:lumaGamma:placement:options:graphic:)``
+- ``lumaTranslated(with:translation:lumaGamma:placement:options:)``
 - ``lumaTranslated(with:x:y:lumaGamma:placement:options:)``
 - ``lumaOffset(x:y:lumaGamma:placement:options:graphic:)``
 - ``lumaRotated(with:rotation:lumaGamma:placement:options:)``
@@ -469,16 +487,7 @@ Write metal shader code.
 
 - ``uv(resolution:options:)``
 
-### Resolution
-
-Resize a graphic.
-
-- ``resized(to:placement:method:)``
-- ``resizedStretched(to:method:)``
-- ``resized(in:options:)``
-- ``resized(to:placement:options:)``
-- ``resized(by:)``
-- ``ResizeMethod``
+- ``
 
 ### Reduce
 
@@ -516,9 +525,11 @@ Resize a graphic.
 
 - ``sampleOfLUT(at:layout:)``
 
-- ``LUTError``
-- ``LUTFormat``
+- ``identityLUT(size:layout:options:)``
+
 - ``LUTLayout``
+- ``LUTFormat``
+- ``LUTError``
 
 ### Bits
 
@@ -531,6 +542,11 @@ Resize a graphic.
 - ``applyColorSpace(_:)``
 - ``assignColorSpace(_:)``
 - ``convertColorSpace(from:to:)``
+
+### Coordinate Space
+
+- ``coordinateSpace(_:rotation:fraction:options:)``
+- ``CoordinateSpaceConversion``
 
 ### Inspect
 

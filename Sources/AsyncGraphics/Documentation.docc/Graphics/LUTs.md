@@ -28,6 +28,12 @@ In AsyncGraphics you can import and export LUTs in the `.cube` format.
 - ``Graphic/applyLUT(named:format:)``
 - ``Graphic/applyLUT(named:in:format:)``
 
+### Identity
+
+Used for creating a new LUT.
+
+- ``Graphic/identityLUT(size:layout:options:)``
+
 ### Size
 
 - ``Graphic/sizeOfLUT()``
@@ -48,3 +54,9 @@ In AsyncGraphics you can import and export LUTs in the `.cube` format.
 ### Sample
 
 - ``Graphic/sampleOfLUT(at:layout:)``
+
+### Structs
+
+- ``LUTLayout``
+- ``LUTFormat``
+- ``LUTError``

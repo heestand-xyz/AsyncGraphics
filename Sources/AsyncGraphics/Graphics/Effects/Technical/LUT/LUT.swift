@@ -468,7 +468,7 @@ extension Graphic {
     
     // MARK: Identity LUT
     
-    /// Identity LUT
+    /// Default LUT with no adjustments.
     ///
     /// A LUT UV Map
     /// - Parameters:
