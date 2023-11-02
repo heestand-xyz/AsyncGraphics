@@ -8,6 +8,23 @@ A LUT is a way to store color adjustments in a file.
 
 In AsyncGraphics you can import and export LUTs in the `.cube` format.
 
+## Example
+
+Identity LUT:
+
+![LUT](http://async.graphics/Images/LUTs/LUT.png)
+![Image](http://async.graphics/Images/LUTs/Image.png)
+
+120° Hue LUT:
+
+![LUT Hue 120](http://async.graphics/Images/LUTs/LUT_Hue_120.png)
+![Image Hue 120](http://async.graphics/Images/LUTs/Image_Hue_120.png)
+
+50% Saturation LUT:
+
+![LUT Sat 50](http://async.graphics/Images/LUTs/LUT_Sat_50.png)
+![Image Sat 50](http://async.graphics/Images/LUTs/Image_Sat_50.png)
+
 ## Topics
 
 ### Import
@@ -57,6 +74,6 @@ Used for creating a new LUT.
 
 ### Structs
 
-- ``LUTLayout``
-- ``LUTFormat``
-- ``LUTError``
+- ``Graphic/LUTLayout``
+- ``Graphic/LUTFormat``
+- ``Graphic/LUTError``
