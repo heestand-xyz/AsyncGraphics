@@ -12,7 +12,6 @@ In AsyncGraphics you can import and export LUTs in the `.cube` format.
 
 Identity LUT:
 
-https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/LUTs/LUT.png?raw=true
 ![LUT](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/LUTs/LUT.png?raw=true)
 ![Image](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/LUTs/Image.png?raw=true)
 
