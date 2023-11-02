@@ -4,4 +4,4 @@
 
 Edge highlights high contrast areas in a ``Graphic``.
 
-![Edge](http://async.graphics/Images/Effects/Edge.png)
+![Edge](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/Effects/Edge.png?raw=true)

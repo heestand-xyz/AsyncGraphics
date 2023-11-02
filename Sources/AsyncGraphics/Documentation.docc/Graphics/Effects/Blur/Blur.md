@@ -4,6 +4,6 @@
 
 Gaussian blur of a ``Graphic``.
 
-![Blur](http://async.graphics/Images/Effects/Blur-Radius-25.png)
+![Blur](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/Effects/Blur-Radius-25.png?raw=true)
 
 In this example the blur radius is `25`. 

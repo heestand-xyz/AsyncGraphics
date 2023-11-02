@@ -12,18 +12,19 @@ In AsyncGraphics you can import and export LUTs in the `.cube` format.
 
 Identity LUT:
 
-![LUT](http://async.graphics/Images/LUTs/LUT.png)
-![Image](http://async.graphics/Images/LUTs/Image.png)
+https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/LUTs/LUT.png?raw=true
+![LUT](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/LUTs/LUT.png?raw=true)
+![Image](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/LUTs/Image.png?raw=true)
 
 120° Hue LUT:
 
-![LUT Hue 120](http://async.graphics/Images/LUTs/LUT_Hue_120.png)
-![Image Hue 120](http://async.graphics/Images/LUTs/Image_Hue_120.png)
+![LUT Hue 120](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/LUTs/LUT_Hue_120.png?raw=true)
+![Image Hue 120](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/LUTs/Image_Hue_120.png?raw=true)
 
 50% Saturation LUT:
 
-![LUT Sat 50](http://async.graphics/Images/LUTs/LUT_Sat_50.png)
-![Image Sat 50](http://async.graphics/Images/LUTs/Image_Sat_50.png)
+![LUT Sat 50](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/LUTs/LUT_Sat_50.png?raw=true)
+![Image Sat 50](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/LUTs/Image_Sat_50.png?raw=true)
 
 ## Topics
 

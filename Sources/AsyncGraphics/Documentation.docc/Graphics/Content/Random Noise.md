@@ -4,4 +4,4 @@
 
 Random Noise can be created with a seed (to get a unique random noise).
 
-![Random Noise](http://async.graphics/Images/Visuals/Noise-Random.png)
+![Random Noise](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/Visuals/Noise-Random.png?raw=true)

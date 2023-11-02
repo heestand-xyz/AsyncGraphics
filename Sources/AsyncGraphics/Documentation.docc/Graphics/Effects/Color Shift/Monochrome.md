@@ -4,4 +4,4 @@
 
 Monochrome removes all color from a ``Graphic``.
 
-![Monochrome](http://async.graphics/Images/Effects/Color-Shift-Monochrome.png)
+![Monochrome](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/Effects/Color-Shift-Monochrome.png?raw=true)

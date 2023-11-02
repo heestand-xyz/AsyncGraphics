@@ -138,7 +138,7 @@ In AsyncGraphics there are a couple ways to present a graphic.
 
 ## Blending
 
-<img src="http://async.graphics/Images/Articles/async-graphics-blending.png" width="300px"/>
+<img src="https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/Articles/async-graphics-blending.png?raw=true" width="300px"/>
 
 First we create an [AGView](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/agview/), this is the container for all [AGGraph](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/aggraph)s.
 In this example we have a [AGZStack](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/agzstack) with 3 [AGHStack](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/aghstack)s. Each graph has a blend mode ([AGBlendMode](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/agblendmode)), in this case .screen.
@@ -177,7 +177,7 @@ struct ContentView: View {
 
 ## Layout
 
-<img src="http://async.graphics/Images/Articles/async-graphics-layout.png" width="300px"/>
+<img src="https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/Articles/async-graphics-layout.png?raw=true" width="300px"/>
 
 First we create an [AGView](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/agview/), this is the container for all [AGGraph](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/aggraph/)s.
 In this example we create an [AGHStack](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/aghstack/) to contain out boxes, then we loop 3 times with an [AGForEach](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/agforeach/), calculate the width and create [AGRoundedRectangles](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/agroundedrectangle/). After that we set the frame to get a fixed size and apply a color. After the stack we apply some padding and finally add a background.

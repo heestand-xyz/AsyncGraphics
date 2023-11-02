@@ -4,8 +4,8 @@
 
 A polygon can be created with a radius, a center coordinate (`nil` defaults to centered based on resolution) and count.
 
-![Polygon](http://async.graphics/Images/Visuals/Polygon.png)
+![Polygon](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/Visuals/Polygon.png?raw=true)
  
 There is also a corner radius argument:
 
-![Rounded Polygon](http://async.graphics/Images/Visuals/Polygon-Rounded.png)
+![Rounded Polygon](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/Visuals/Polygon-Rounded.png?raw=true)

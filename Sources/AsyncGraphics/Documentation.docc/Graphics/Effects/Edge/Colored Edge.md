@@ -4,4 +4,4 @@
 
 Colored Edge highlights high contrast areas individually for each channel in a ``Graphic``.
 
-![Colored Edge](http://async.graphics/Images/Effects/Edge-Colored.png)
+![Colored Edge](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/Effects/Edge-Colored.png?raw=true)

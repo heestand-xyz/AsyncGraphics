@@ -6,16 +6,16 @@ A gradient can be created with direction (style of gradient), color stops (``Gra
 
 Vertical Direction:
 
-![Vertical Gradient](http://async.graphics/Images/Visuals/Gradient-Vertical.png)
+![Vertical Gradient](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/Visuals/Gradient-Vertical.png?raw=true)
 
 Horizontal Direction:
 
-![Horizontal Gradient](http://async.graphics/Images/Visuals/Gradient-Horizontal.png)
+![Horizontal Gradient](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/Visuals/Gradient-Horizontal.png?raw=true)
 
 Radial Direction:
 
-![Radial Gradient](http://async.graphics/Images/Visuals/Gradient-Radial.png)
+![Radial Gradient](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/Visuals/Gradient-Radial.png?raw=true)
 
 Angle Direction:
 
-![Angle Gradient](http://async.graphics/Images/Visuals/Gradient-Angle.png)
+![Angle Gradient](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/Visuals/Gradient-Angle.png?raw=true)

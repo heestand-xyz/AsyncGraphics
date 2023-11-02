@@ -4,7 +4,7 @@ Blend graphics with the z stacks and blending modes.
 
 ## Overview
 
-![Blending](http://async.graphics/Images/Articles/async-graphics-blending.png)
+![Blending](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/Articles/async-graphics-blending.png?raw=true)
 
 First we create an ``AGView``, this is the container for all ``AGGraph``'s.
 

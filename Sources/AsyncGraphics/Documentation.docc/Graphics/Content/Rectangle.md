@@ -4,8 +4,8 @@
 
 A rectangle can be created with a size and a center coordinate (`nil` defaults to centered based on resolution).
 
-![Rectangle](http://async.graphics/Images/Visuals/Rectangle.png)
+![Rectangle](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/Visuals/Rectangle.png?raw=true)
  
 There is also a corner radius argument:
 
-![Rounded Rectangle](http://async.graphics/Images/Visuals/Rectangle-Rounded.png)
+![Rounded Rectangle](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/Visuals/Rectangle-Rounded.png?raw=true)

@@ -4,7 +4,7 @@ Layout graphics with stacks, frames and padding.
 
 ## Overview
 
-![Layout](http://async.graphics/Images/Articles/async-graphics-layout.png)
+![Layout](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/Articles/async-graphics-layout.png?raw=true)
 
 First we create an ``AGView``, this is the container for all ``AGGraph``'s.
 

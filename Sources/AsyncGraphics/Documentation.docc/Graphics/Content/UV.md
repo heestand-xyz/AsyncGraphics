@@ -2,4 +2,4 @@
 
 ## Overview
 
-![UV](http://async.graphics/Images/Visuals/UV.png)
+![UV](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/Visuals/UV.png?raw=true)

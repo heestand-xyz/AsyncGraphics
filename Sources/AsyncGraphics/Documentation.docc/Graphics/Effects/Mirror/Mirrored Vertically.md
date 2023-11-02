@@ -4,5 +4,5 @@
 
 Mirror a ``Graphic`` vertically.
 
-![Vertical Mirror](http://async.graphics/Images/Effects/Mirror-Vertical.png)
+![Vertical Mirror](https://github.com/heestand-xyz/AsyncGraphics-Docs/blob/main/Images/Effects/Mirror-Vertical.png?raw=true)
  
