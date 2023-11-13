@@ -384,24 +384,19 @@ public struct Renderer {
                         
                     } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
                         
-                        #if os(macOS)
-                        
-                        let threadsPerThreadGroup = MTLSize(width: 8, height: 8, depth: 8)
-                        
-                        let threadsPerGrid: MTLSize
-                        if let resolution: SIMD3<Int> = resolution as? SIMD3<Int> {
-                            threadsPerGrid = MTLSize(width: resolution.x, height: resolution.y, depth: resolution.z)
-                        } else {
-                            fatalError("3D resolution not found")
+                        guard let resolution: SIMD3<Int> = resolution as? SIMD3<Int> else {
+                            fatalError("Non 3D Compute Encoding Not Supported")
                         }
                         
-                        computeCommandEncoder.dispatchThreads(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadGroup)
-
-                        #else
-                        // Dispatch Threads with Non-Uniform Threadgroup Size is not supported on this device
-                        throw RendererError.graphic3dIsCurrentlyOnlySupportedOnMacOS
-                        #endif
+                        let threadsPerThreadGroup = MTLSize(width: 8,
+                                                            height: 8,
+                                                            depth: 8)
                         
+                        let threadsPerGrid: MTLSize = MTLSize(width: resolution.x,
+                                                              height: resolution.y,
+                                                              depth: resolution.z)
+                        
+                        computeCommandEncoder.dispatchThreadgroups(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadGroup)
                     }
                     
                     // MARK: Render

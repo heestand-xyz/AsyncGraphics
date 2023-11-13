@@ -28,6 +28,7 @@ final class GraphicMetalVisionView: UIView, GraphicRenderView {
         
         super.init(frame: .zero)
         
+        metalLayer.isOpaque = false
         metalLayer.device = Renderer.metalDevice
         metalLayer.pixelFormat = extendedDynamicRange ? .rgba16Float : .rgba8Unorm // .bgra10_xr (Display P3)
         metalLayer.delegate = self
@@ -57,20 +58,16 @@ extension GraphicMetalVisionView {
         
         self.graphic = graphic
         
-        print("----------> RENDER")
-        
         draw()
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-    
-        metalLayer.contentsScale = 1.0
+        
         metalLayer.drawableSize = bounds.size
         metalLayer.frame = bounds
         
         if self.layer.sublayers?.isEmpty != false {
-            print("----------> ADD")
             layer.addSublayer(metalLayer)
         }
         
@@ -81,9 +78,7 @@ extension GraphicMetalVisionView {
 extension GraphicMetalVisionView {
         
     func draw() {
-        
-        print("----------> DRAW")
-        
+                
         guard let graphic: Graphic = graphic else { return }
         let texture: MTLTexture = graphic.texture
         
@@ -119,10 +114,6 @@ extension GraphicMetalVisionView {
                 scaleKernel = MPSImageLanczosScale(device: Renderer.metalDevice)
             }
             scaleKernel.encode(commandBuffer: commandBuffer, sourceTexture: texture, destinationTexture: targetTexture)
-        }
-        print("----------> RENDER")
-        commandBuffer.addCompletedHandler { _ in
-            print("----------> RENDER DONE")
         }
         commandBuffer.present(drawable)
         commandBuffer.commit()
