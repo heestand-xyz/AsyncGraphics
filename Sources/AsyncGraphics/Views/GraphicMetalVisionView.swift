@@ -2,43 +2,36 @@
 //  Created by Anton Heestand on 2022-04-24.
 //
 
-#if !os(visionOS)
+#if os(visionOS)
 
 import MetalKit
 import MetalPerformanceShaders
 import QuartzCore.CoreAnimation
 import TextureMap
 
-final class GraphicMetalView: MTKView, GraphicRenderView {
+final class GraphicMetalVisionView: UIView, GraphicRenderView {
     
     private var graphic: Graphic?
     
     let interpolation: GraphicView.Interpolation
     
     var extendedDynamicRange: Bool
+    
+    let metalLayer: CAMetalLayer
  
     init(interpolation: GraphicView.Interpolation, extendedDynamicRange: Bool) {
         
         self.interpolation = interpolation
         self.extendedDynamicRange = extendedDynamicRange
         
-        super.init(frame: .zero, device: Renderer.metalDevice)
+        metalLayer = CAMetalLayer()
         
-        clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 0.0)
-        colorPixelFormat = extendedDynamicRange ? .rgba16Float : .rgba8Unorm // .bgra10_xr (Display P3)
-        framebufferOnly = false
-        autoResizeDrawable = true
-        enableSetNeedsDisplay = true
-        isPaused = true
+        super.init(frame: .zero)
         
-        #if os(macOS)
-        wantsLayer = true
-        layer?.isOpaque = false
-        #else
-        isOpaque = false
-        #endif
-        
-        delegate = self
+        metalLayer.device = Renderer.metalDevice
+        metalLayer.pixelFormat = extendedDynamicRange ? .rgba16Float : .rgba8Unorm // .bgra10_xr (Display P3)
+        metalLayer.delegate = self
+        metalLayer.framebufferOnly = false
         
         set(extendedDynamicRange: extendedDynamicRange)
     }
@@ -48,44 +41,53 @@ final class GraphicMetalView: MTKView, GraphicRenderView {
     }
 }
 
-extension GraphicMetalView {
+extension GraphicMetalVisionView {
     
     func set(extendedDynamicRange: Bool) {
         if #available(macOS 10.11, iOS 16.0, *) {
-            (layer as! CAMetalLayer).wantsExtendedDynamicRangeContent = extendedDynamicRange
+            metalLayer.wantsExtendedDynamicRangeContent = extendedDynamicRange
         }
         self.extendedDynamicRange = extendedDynamicRange
     }
 }
 
-extension GraphicMetalView {
+extension GraphicMetalVisionView {
     
     func render(graphic: Graphic) {
-                
+        
         self.graphic = graphic
         
-        draw()
-    }
-   
-    #if !os(macOS)
-    override func layoutSubviews() {
-        super.layoutSubviews()
+        print("----------> RENDER")
         
         draw()
     }
-    #endif
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    
+        metalLayer.contentsScale = 1.0
+        metalLayer.drawableSize = bounds.size
+        metalLayer.frame = bounds
+        
+        if self.layer.sublayers?.isEmpty != false {
+            print("----------> ADD")
+            layer.addSublayer(metalLayer)
+        }
+        
+        draw()
+    }
 }
 
-extension GraphicMetalView: MTKViewDelegate {
-    
-    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
-    
-    func draw(in view: MTKView) {
+extension GraphicMetalVisionView {
+        
+    func draw() {
+        
+        print("----------> DRAW")
         
         guard let graphic: Graphic = graphic else { return }
         let texture: MTLTexture = graphic.texture
         
-        guard let drawable: CAMetalDrawable = currentDrawable else { return }
+        guard let drawable: CAMetalDrawable = metalLayer.nextDrawable() else { return }
         let targetTexture: MTLTexture = drawable.texture
         
         guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else { return } // EXC_BREAKPOINT
@@ -118,7 +120,10 @@ extension GraphicMetalView: MTKViewDelegate {
             }
             scaleKernel.encode(commandBuffer: commandBuffer, sourceTexture: texture, destinationTexture: targetTexture)
         }
-
+        print("----------> RENDER")
+        commandBuffer.addCompletedHandler { _ in
+            print("----------> RENDER DONE")
+        }
         commandBuffer.present(drawable)
         commandBuffer.commit()
     }

@@ -20,10 +20,6 @@ public struct GraphicView: View {
     
     private let extendedDynamicRange: Bool
     
-    #if os(visionOS)
-    @State private var image: UIImage?
-    #endif
-    
     /// Graphic View
     /// - Parameters:
     ///   - graphic: The graphic to display.
@@ -39,36 +35,11 @@ public struct GraphicView: View {
     
     public var body: some View {
         GeometryReader { geometry in
-            #if os(visionOS)
-            if let image {
-                Image(uiImage: image)
-                    .resizable()
-            }
-            #else
             GraphicRepresentableView(graphic: graphic,
                                      viewResolution: geometry.size * .pixelsPerPoint,
                                      interpolation: interpolation,
                                      extendedDynamicRange: extendedDynamicRange)
-            #endif
         }
         .aspectRatio(graphic.resolution, contentMode: .fit)
-        #if os(visionOS)
-        .task {
-            do {
-                image = try await graphic.image
-            } catch {
-                print("AsyncGraphics View Render Failed:", error)
-            }
-        }
-        .onChange(of: graphic) { _, newGraphic in
-            Task {
-                do {
-                    image = try await newGraphic.image
-                } catch {
-                    print("AsyncGraphics View Render Failed:", error)
-                }
-            }
-        }
-        #endif
     }
 }

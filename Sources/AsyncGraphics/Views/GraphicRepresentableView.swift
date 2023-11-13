@@ -2,8 +2,6 @@
 //  Created by Anton Heestand on 2022-04-24.
 //
 
-#if !os(visionOS)
-
 import SwiftUI
 
 struct GraphicRepresentableView {
@@ -23,7 +21,7 @@ struct GraphicRepresentableView {
         self.extendedDynamicRange = extendedDynamicRange
     }
     
-    private func render(in view: GraphicMetalView) {
+    private func render(in view: GraphicRenderView) {
         Task {
             var graphic: Graphic = graphic
             do {
@@ -41,7 +39,7 @@ struct GraphicRepresentableView {
                                  placement: .stretch,
                                  options: options)
                 }
-                await view.render(graphic: graphic)
+                view.render(graphic: graphic)
             } catch {
                 print("AsyncGraphics - View Render Failed:", error)
             }
@@ -66,7 +64,7 @@ extension GraphicRepresentableView: NSViewRepresentable {
     }
 }
 
-#else
+#elseif os(iOS)
 
 extension GraphicRepresentableView: UIViewRepresentable {
     
@@ -83,6 +81,21 @@ extension GraphicRepresentableView: UIViewRepresentable {
     }
 }
 
-#endif
+#elseif os(visionOS)
+
+extension GraphicRepresentableView: UIViewRepresentable {
+    
+    func makeUIView(context: Context) -> GraphicMetalVisionView {
+        GraphicMetalVisionView(interpolation: interpolation,
+                               extendedDynamicRange: extendedDynamicRange)
+    }
+    
+    func updateUIView(_ view: GraphicMetalVisionView, context: Context) {
+        if view.extendedDynamicRange != extendedDynamicRange {
+            view.set(extendedDynamicRange: extendedDynamicRange)
+        }
+        render(in: view)
+    }
+}
 
 #endif
