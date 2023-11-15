@@ -10,6 +10,8 @@ public struct GraphicView: View {
     
     private let graphic: Graphic
     
+    private let renderUpdate: ((GraphicRenderState) -> ())?
+
     public enum Interpolation {
         case nearestNeighbor
         case linear
@@ -27,10 +29,12 @@ public struct GraphicView: View {
     ///   - extendedDynamicRange: XDR high brightness support (16 or 32 bit).
     public init(graphic: Graphic,
                 interpolation: Interpolation = .lanczos,
-                extendedDynamicRange: Bool = false) {
+                extendedDynamicRange: Bool = false,
+                renderUpdate: ((GraphicRenderState) -> ())? = nil) {
         self.graphic = graphic
         self.interpolation = interpolation
         self.extendedDynamicRange = extendedDynamicRange
+        self.renderUpdate = renderUpdate
     }
     
     public var body: some View {
@@ -38,8 +42,13 @@ public struct GraphicView: View {
             GraphicRepresentableView(graphic: graphic,
                                      viewResolution: geometry.size * .pixelsPerPoint,
                                      interpolation: interpolation,
-                                     extendedDynamicRange: extendedDynamicRange)
+                                     extendedDynamicRange: extendedDynamicRange) { id in
+                renderUpdate?(.done(id: id))
+            }
         }
         .aspectRatio(graphic.resolution, contentMode: .fit)
+        .onChange(of: graphic) { newGraphic in
+            renderUpdate?(.inProgress(id: newGraphic.id))
+        }
     }
 }

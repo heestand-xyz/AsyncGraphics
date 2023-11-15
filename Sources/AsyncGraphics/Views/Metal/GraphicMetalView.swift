@@ -2,14 +2,14 @@
 //  Created by Anton Heestand on 2022-04-24.
 //
 
-#if os(visionOS)
+#if !os(visionOS)
 
 import MetalKit
 import MetalPerformanceShaders
 import QuartzCore.CoreAnimation
 import TextureMap
 
-final class GraphicMetalVisionView: UIView, GraphicRenderView {
+final class GraphicMetalView: MTKView, GraphicRenderView {
     
     private var graphic: Graphic?
     
@@ -17,22 +17,33 @@ final class GraphicMetalVisionView: UIView, GraphicRenderView {
     
     var extendedDynamicRange: Bool
     
-    let metalLayer: CAMetalLayer
+    let didRender: (UUID) -> ()
  
-    init(interpolation: GraphicView.Interpolation, extendedDynamicRange: Bool) {
+    init(interpolation: GraphicView.Interpolation,
+         extendedDynamicRange: Bool,
+         didRender: @escaping (UUID) -> ()) {
         
         self.interpolation = interpolation
         self.extendedDynamicRange = extendedDynamicRange
+        self.didRender = didRender
         
-        metalLayer = CAMetalLayer()
+        super.init(frame: .zero, device: Renderer.metalDevice)
         
-        super.init(frame: .zero)
+        clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 0.0)
+        colorPixelFormat = extendedDynamicRange ? .rgba16Float : .rgba8Unorm // .bgra10_xr (Display P3)
+        framebufferOnly = false
+        autoResizeDrawable = true
+        enableSetNeedsDisplay = true
+        isPaused = true
         
-        metalLayer.isOpaque = false
-        metalLayer.device = Renderer.metalDevice
-        metalLayer.pixelFormat = extendedDynamicRange ? .rgba16Float : .rgba8Unorm // .bgra10_xr (Display P3)
-        metalLayer.delegate = self
-        metalLayer.framebufferOnly = false
+        #if os(macOS)
+        wantsLayer = true
+        layer?.isOpaque = false
+        #else
+        isOpaque = false
+        #endif
+        
+        delegate = self
         
         set(extendedDynamicRange: extendedDynamicRange)
     }
@@ -42,47 +53,44 @@ final class GraphicMetalVisionView: UIView, GraphicRenderView {
     }
 }
 
-extension GraphicMetalVisionView {
+extension GraphicMetalView {
     
     func set(extendedDynamicRange: Bool) {
         if #available(macOS 10.11, iOS 16.0, *) {
-            metalLayer.wantsExtendedDynamicRangeContent = extendedDynamicRange
+            (layer as! CAMetalLayer).wantsExtendedDynamicRangeContent = extendedDynamicRange
         }
         self.extendedDynamicRange = extendedDynamicRange
     }
 }
 
-extension GraphicMetalVisionView {
+extension GraphicMetalView {
     
     func render(graphic: Graphic) {
-        
+                
         self.graphic = graphic
         
         draw()
     }
-    
+   
+    #if !os(macOS)
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        metalLayer.drawableSize = bounds.size
-        metalLayer.frame = bounds
-        
-        if self.layer.sublayers?.isEmpty != false {
-            layer.addSublayer(metalLayer)
-        }
-        
         draw()
     }
+    #endif
 }
 
-extension GraphicMetalVisionView {
+extension GraphicMetalView: MTKViewDelegate {
+    
+    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
+    
+    func draw(in view: MTKView) {
         
-    func draw() {
-                
         guard let graphic: Graphic = graphic else { return }
         let texture: MTLTexture = graphic.texture
         
-        guard let drawable: CAMetalDrawable = metalLayer.nextDrawable() else { return }
+        guard let drawable: CAMetalDrawable = currentDrawable else { return }
         let targetTexture: MTLTexture = drawable.texture
         
         guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else { return } // EXC_BREAKPOINT
@@ -114,6 +122,10 @@ extension GraphicMetalVisionView {
                 scaleKernel = MPSImageLanczosScale(device: Renderer.metalDevice)
             }
             scaleKernel.encode(commandBuffer: commandBuffer, sourceTexture: texture, destinationTexture: targetTexture)
+        }
+        
+        commandBuffer.addCompletedHandler { [weak self] _ in
+            self?.didRender(graphic.id)
         }
         commandBuffer.present(drawable)
         commandBuffer.commit()
