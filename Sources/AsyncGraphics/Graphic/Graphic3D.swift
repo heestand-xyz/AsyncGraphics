@@ -66,9 +66,9 @@ extension Graphic3D {
         var errorDescription: String? {
             switch self {
             case .noChannelsFound:
-                return "Async Graphic3Ds - Texture - Pixels - No Channels Found"
+                return "Async Graphics - Texture - Pixels - No Channels Found"
             case .badChannelCount:
-                return "Async Graphic3Ds - Texture - Pixels - Bad Channel Count"
+                return "Async Graphics - Texture - Pixels - Bad Channel Count"
             }
         }
     }

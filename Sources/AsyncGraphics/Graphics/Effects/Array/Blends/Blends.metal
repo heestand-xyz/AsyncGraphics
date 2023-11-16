@@ -16,7 +16,7 @@ struct Uniforms {
 };
 
 fragment float4 blends(VertexOut out [[stage_in]],
-                       texture2d_array<float>  textures [[ texture(0) ]],
+                       texture2d_array<float> textures [[ texture(0) ]],
                        const device Uniforms& uniforms [[ buffer(0) ]],
                        sampler s [[ sampler(0) ]]) {
     

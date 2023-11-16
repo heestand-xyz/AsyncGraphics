@@ -114,7 +114,7 @@ extension Graphic {
     }
     
     /// RAW Image - Canon, Nikon, Sony etc.
-    @available(*, deprecated, message: "Please use the sync function in a task.")
+//    @available(*, deprecated, message: "Please use the sync function in a task.")
     public static func rawImage(url: URL) async throws -> Graphic {
         
         try await withCheckedThrowingContinuation { continuation in
@@ -128,7 +128,7 @@ extension Graphic {
         }
     }
     
-    private static func rawImage(url: URL) throws -> Graphic {
+    public static func rawImage(url: URL) throws -> Graphic {
         
         guard let rawFilter = CIRAWFilter(imageURL: url) else {
             throw ImageError.rawPhotoNotSupported

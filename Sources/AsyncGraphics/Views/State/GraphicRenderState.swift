@@ -2,7 +2,7 @@
 //  File.swift
 //  
 //
-//  Created by Heestand, Anton Norman | Anton | GSSD on 2023-11-15.
+//  Created by Anton Heestand on 2023-11-15.
 //
 
 import Foundation

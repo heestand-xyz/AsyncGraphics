@@ -17,10 +17,10 @@ struct Uniforms {
     int axis;
 };
 
-fragment float4 add(VertexOut out [[stage_in]],
-                    const device Uniforms& uniforms [[ buffer(0) ]],
-                    texture3d<float> texture [[ texture(0) ]],
-                    sampler sampler [[ sampler(0) ]]) {
+fragment float4 add3d(VertexOut out [[stage_in]],
+                      const device Uniforms& uniforms [[ buffer(0) ]],
+                      texture3d<float> texture [[ texture(0) ]],
+                      sampler sampler [[ sampler(0) ]]) {
     
     float u = out.texCoord[0];
     float v = out.texCoord[1];

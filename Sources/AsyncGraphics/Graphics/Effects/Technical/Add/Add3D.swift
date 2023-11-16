@@ -17,7 +17,7 @@ extension Graphic3D {
         
         return try await Renderer.render(
             name: "Add",
-            shader: .name("add"),
+            shader: .name("add3d"),
             graphics: [bits(._8)],
             uniforms: Add3DUniforms(
                 axis: axis.index
