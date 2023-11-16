@@ -37,6 +37,9 @@ extension Graphic3D {
                 ),
                 colorSpace: graphics.first!.colorSpace,
                 bits: graphics.first!.bits
+            ),
+            options: Renderer.Options(
+                isArray: true
             )
         )
     }
