@@ -16,7 +16,7 @@ extension Graphic3D {
                                         height: axis == .y ? CGFloat(resolution.z) : CGFloat(resolution.y))
         
         return try await Renderer.render(
-            name: "Add",
+            name: "Add 3D",
             shader: .name("add3d"),
             graphics: [bits(._8)],
             uniforms: Add3DUniforms(

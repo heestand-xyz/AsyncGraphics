@@ -33,7 +33,7 @@ extension Graphic3D {
         let relativeRadius: CGFloat = radius / CGFloat(height)
         
         return try await Renderer.render(
-            name: "Blur (Box)",
+            name: "Blur 3D (Box)",
             shader: .name("blur3d"),
             graphics: [self],
             uniforms: Blur3DUniforms(
@@ -60,7 +60,7 @@ extension Graphic3D {
         let relativeRadius: CGFloat = radius / CGFloat(height)
         
         return try await Renderer.render(
-            name: "Blur (Zoom)",
+            name: "Blur 3D (Zoom)",
             shader: .name("blur3d"),
             graphics: [self],
             uniforms: Blur3DUniforms(
@@ -84,7 +84,7 @@ extension Graphic3D {
         let relativeRadius: CGFloat = radius / CGFloat(height)
         
         return try await Renderer.render(
-            name: "Blur (Angle)",
+            name: "Blur 3D (Angle)",
             shader: .name("blur3d"),
             graphics: [self],
             uniforms: Blur3DUniforms(
@@ -106,7 +106,7 @@ extension Graphic3D {
         let relativeRadius: CGFloat = radius / CGFloat(height)
         
         return try await Renderer.render(
-            name: "Blur (Random)",
+            name: "Blur 3D (Random)",
             shader: .name("blur3d"),
             graphics: [self],
             uniforms: Blur3DUniforms(

@@ -19,7 +19,7 @@ extension Graphic3D {
                              options: ContentOptions = []) async throws -> Graphic3D {
                 
         try await Renderer.render(
-            name: "Color",
+            name: "Color 3D",
             shader: .name("color3d"),
             uniforms: Color3DUniforms(
                 premultiply: options.premultiply,

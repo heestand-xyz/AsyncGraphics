@@ -31,7 +31,7 @@ extension Graphic3D {
     public func bits(_ bits: TMBits) async throws -> Graphic3D {
         
         try await Renderer.render(
-            name: "Bits",
+            name: "Bits 3D",
             shader: .name("bits3d"),
             graphics: [self],
             metadata: Renderer.Metadata(

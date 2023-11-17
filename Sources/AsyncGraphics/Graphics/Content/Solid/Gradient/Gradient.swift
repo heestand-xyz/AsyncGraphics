@@ -19,7 +19,7 @@ extension Graphic {
         let resolution: SizeUniform
     }
     
-    private struct GradientColorStopUniforms {
+    struct GradientColorStopUniforms {
         let fraction: Float
         let color: ColorUniform
     }

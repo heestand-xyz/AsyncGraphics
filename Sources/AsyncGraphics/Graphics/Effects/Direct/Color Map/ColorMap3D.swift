@@ -16,7 +16,7 @@ extension Graphic3D {
                          options: EffectOptions = []) async throws -> Graphic3D {
         
         try await Renderer.render(
-            name: "Color Map",
+            name: "Color Map 3D",
             shader: .name("colorMap3d"),
             graphics: [self],
             uniforms: ColorMap3DUniforms(

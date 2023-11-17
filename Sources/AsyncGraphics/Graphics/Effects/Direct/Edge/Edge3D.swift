@@ -43,7 +43,7 @@ extension Graphic3D {
                       options: EffectOptions = []) async throws -> Graphic3D {
         
         try await Renderer.render(
-            name: "Edge",
+            name: "Edge 3D",
             shader: .name("edge3d"),
             graphics: [self],
             uniforms: Edge3DUniforms(

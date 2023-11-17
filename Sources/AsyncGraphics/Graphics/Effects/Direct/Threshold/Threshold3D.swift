@@ -14,7 +14,7 @@ extension Graphic3D {
                           options: EffectOptions = []) async throws -> Graphic3D {
         
         try await Renderer.render(
-            name: "Threshold",
+            name: "Threshold 3D",
             shader: .name("threshold3d"),
             graphics: [self],
             uniforms: Threshold3DUniforms(

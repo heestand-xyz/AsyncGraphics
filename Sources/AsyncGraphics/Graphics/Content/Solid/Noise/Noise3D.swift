@@ -31,7 +31,7 @@ extension Graphic3D {
         let relativeDepth: Double = depth / Double(resolution.y)
         
         return try await Renderer.render(
-            name: "Noise",
+            name: "Noise 3D",
             shader: .name("noise3d"),
             uniforms: Noise3DUniforms(
                 colored: false,
@@ -65,7 +65,7 @@ extension Graphic3D {
         let relativeDepth: Double = depth / Double(resolution.y)
         
         return try await Renderer.render(
-            name: "Noise",
+            name: "Noise 3D",
             shader: .name("noise3d"),
             uniforms: Noise3DUniforms(
                 colored: false,
@@ -99,7 +99,7 @@ extension Graphic3D {
         let relativeDepth: Double = depth / Double(resolution.y)
         
         return try await Renderer.render(
-            name: "Noise (Colored)",
+            name: "Noise 3D (Colored)",
             shader: .name("noise3d"),
             uniforms: Noise3DUniforms(
                 colored: true,
@@ -124,7 +124,7 @@ extension Graphic3D {
                                    options: ContentOptions = []) async throws -> Graphic3D {
         
         try await Renderer.render(
-            name: "Noise (Random)",
+            name: "Noise 3D (Random)",
             shader: .name("noise3d"),
             uniforms: Noise3DUniforms(
                 colored: false,
@@ -149,7 +149,7 @@ extension Graphic3D {
                                           options: ContentOptions = []) async throws -> Graphic3D {
         
         try await Renderer.render(
-            name: "Noise (Random Colored)",
+            name: "Noise 3D (Random Colored)",
             shader: .name("noise3d"),
             uniforms: Noise3DUniforms(
                 colored: true,

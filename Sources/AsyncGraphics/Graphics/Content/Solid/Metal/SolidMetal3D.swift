@@ -42,7 +42,7 @@ extension Graphic3D {
             .replacingOccurrences(of: "return 0;", with: "")
         
         return try await Renderer.render(
-            name: "Metal",
+            name: "Metal 3D",
             shader: .code(metalCode, name: "solidMetal3d"),
             metadata: Renderer.Metadata(
                 resolution: resolution,

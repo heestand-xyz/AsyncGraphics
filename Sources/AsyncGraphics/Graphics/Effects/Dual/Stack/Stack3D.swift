@@ -266,7 +266,7 @@ extension Graphic3D {
         let relativePadding: Double = padding / length
         
         return try await Renderer.render(
-            name: "Stack",
+            name: "Stack 3D",
             shader: .name("stack3d"),
             graphics: graphics,
             uniforms: Stack3DUniforms(

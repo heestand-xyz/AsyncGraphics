@@ -25,7 +25,7 @@ extension Graphic3D {
                       graphic: () async throws -> Graphic3D) async throws -> Graphic3D {
         
         try await Renderer.render(
-            name: "Cross",
+            name: "Cross 3D",
             shader: .name("cross3d"),
             graphics: [
                 self,

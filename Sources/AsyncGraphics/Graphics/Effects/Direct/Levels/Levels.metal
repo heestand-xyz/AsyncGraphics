@@ -46,7 +46,7 @@ fragment float4 levels(VertexOut out [[stage_in]],
     color *= 1.0 + uniforms.contrast;
     color += 0.5;
     
-    color = pow(color, 1 / max(0.001, uniforms.gamma));
+    color = pow(color, 1 / max(0.000001, uniforms.gamma));
     
     if (uniforms.invert) {
         color = 1.0 - color;

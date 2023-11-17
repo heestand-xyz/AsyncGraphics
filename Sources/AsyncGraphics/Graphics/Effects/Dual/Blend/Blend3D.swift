@@ -27,7 +27,7 @@ extension Graphic3D {
     ) async throws -> Graphic3D {
         
         try await Renderer.render(
-            name: "Blend",
+            name: "Blend 3D",
             shader: .name("blend3d"),
             graphics: [
                 self,

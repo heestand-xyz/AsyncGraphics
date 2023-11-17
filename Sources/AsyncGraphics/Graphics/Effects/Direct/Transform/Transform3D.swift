@@ -58,7 +58,7 @@ extension Graphic3D {
         let relativeTranslation: SIMD3<Double> = translation / Double(height)
         
         return try await Renderer.render(
-            name: "Transform",
+            name: "Transform 3D",
             shader: .name("transform3d"),
             graphics: [self],
             uniforms: Transform3DUniforms(

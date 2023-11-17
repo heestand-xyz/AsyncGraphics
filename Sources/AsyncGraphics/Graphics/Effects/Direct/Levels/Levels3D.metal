@@ -18,7 +18,7 @@ struct Uniforms {
 };
 
 kernel void levels3d(const device Uniforms& uniforms [[ buffer(0) ]],
-                     texture3d<float, access::write>  targetTexture [[ texture(0) ]],
+                     texture3d<float, access::write> targetTexture [[ texture(0) ]],
                      texture3d<float, access::sample> texture [[ texture(1) ]],
                      uint3 pos [[ thread_position_in_grid ]],
                      sampler sampler [[ sampler(0) ]]) {
@@ -51,7 +51,7 @@ kernel void levels3d(const device Uniforms& uniforms [[ buffer(0) ]],
     color *= 1.0 + uniforms.contrast;
     color += 0.5;
     
-    color = pow(color, 1 / max(0.001, uniforms.gamma));
+    color = pow(color, 1 / max(0.000001, uniforms.gamma));
     
     if (uniforms.invert) {
         color = 1.0 - color;

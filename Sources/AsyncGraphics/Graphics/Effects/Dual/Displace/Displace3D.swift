@@ -33,7 +33,7 @@ extension Graphic3D {
         let relativeOffset: Double = offset / Double(height)
         
         return try await Renderer.render(
-            name: "Displace",
+            name: "Displace 3D",
             shader: .name("displace3d"),
             graphics: [
                 self,

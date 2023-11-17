@@ -40,7 +40,7 @@ extension Graphic3D {
         )
         
         return try await Renderer.render(
-            name: "Sphere",
+            name: "Sphere 3D",
             shader: .name("sphere3d"),
             uniforms: Sphere3DUniforms(
                 premultiply: options.premultiply,
@@ -84,7 +84,7 @@ extension Graphic3D {
         let relativeSurfaceWidth: Double = surfaceWidth / Double(resolution.y)
         
         return try await Renderer.render(
-            name: "Sphere",
+            name: "Sphere 3D",
             shader: .name("sphere3d"),
             uniforms: Sphere3DUniforms(
                 premultiply: options.premultiply,

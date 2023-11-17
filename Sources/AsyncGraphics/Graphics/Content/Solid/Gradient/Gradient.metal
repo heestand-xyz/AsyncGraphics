@@ -50,6 +50,7 @@ fragment float4 gradient(VertexOut out [[stage_in]],
         fraction = (v - uniforms.offset) / uniforms.scale;
     } else if (uniforms.type == 2) {
         // Radial
+        // TODO: Invert so zero is in the center
         fraction = 1.0 - (sqrt(pow((u - 0.5) * aspectRatio, 2) + pow(v - 0.5, 2)) * 2 - uniforms.offset) / uniforms.scale;
     } else if (uniforms.type == 3) {
         // Angle
@@ -60,7 +61,7 @@ fragment float4 gradient(VertexOut out [[stage_in]],
     fraction = fz.fraction;
     
     if (uniforms.gamma != 1.0) {
-        fraction = pow(min(max(fraction, 0.0), 1.0), 1 / max(0.001, uniforms.gamma));
+        fraction = pow(min(max(fraction, 0.0), 1.0), 1 / max(0.000001, uniforms.gamma));
     }
     
     float4 c = 0;

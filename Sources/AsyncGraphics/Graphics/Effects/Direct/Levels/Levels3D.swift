@@ -72,7 +72,7 @@ extension Graphic3D {
                         offset: CGFloat = 0.0) async throws -> Graphic3D {
         
         try await Renderer.render(
-            name: "Levels",
+            name: "Levels 3D",
             shader: .name("levels3d"),
             graphics: [self],
             uniforms: Levels3DUniforms(

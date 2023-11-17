@@ -26,7 +26,7 @@ extension Graphic3D {
             throw ConstructError.noGraphics
         }
         return try await Renderer.render(
-            name: "Construct",
+            name: "Construct 3D",
             shader: .name("construct3d"),
             graphics: graphics,
             metadata: Renderer.Metadata(
