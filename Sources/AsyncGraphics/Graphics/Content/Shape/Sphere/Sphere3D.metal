@@ -52,7 +52,7 @@ kernel void sphere3d(const device Uniforms& uniforms [[ buffer(0) ]],
     float xRadius = (u - 0.5) * aspectRatio - uniforms.position.x;
     float yRadius = (v - 0.5) - uniforms.position.y;
     float zRadius = (w - 0.5) * depthAspectRatio - uniforms.position.z;
-    float radius = sqrt(pow(sqrt(pow(xRadius, 2) + pow(yRadius, 2)), 2) + pow(zRadius, 2));
+    float radius = sqrt(pow(xRadius, 2) + pow(yRadius, 2) + pow(zRadius, 2));
     
     float4 color = radiusColor(radius, uniforms.radius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
     

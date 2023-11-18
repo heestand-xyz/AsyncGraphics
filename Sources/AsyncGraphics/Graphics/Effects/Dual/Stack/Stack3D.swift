@@ -174,7 +174,7 @@ extension Graphic3D {
                        alignment: VStackAlignment = .center,
                        spacing: Double = 0.0,
                        padding: Double = 0.0,
-                       backgroundColor: PixelColor = .black,
+                       backgroundColor: PixelColor = .clear,
                        resolution: SIMD3<Int>? = nil) async throws -> Graphic3D {
         
         try await stack(with: graphic,
@@ -191,7 +191,7 @@ extension Graphic3D {
                        alignment: HStackAlignment = .center,
                        spacing: Double = 0.0,
                        padding: Double = 0.0,
-                       backgroundColor: PixelColor = .black,
+                       backgroundColor: PixelColor = .clear,
                        resolution: SIMD3<Int>? = nil) async throws -> Graphic3D {
         
         try await stack(with: graphic,
@@ -208,7 +208,7 @@ extension Graphic3D {
                        alignment: DStackAlignment = .center,
                        spacing: Double = 0.0,
                        padding: Double = 0.0,
-                       backgroundColor: PixelColor = .black,
+                       backgroundColor: PixelColor = .clear,
                        resolution: SIMD3<Int>? = nil) async throws -> Graphic3D {
         
         try await stack(with: graphic,
@@ -225,7 +225,7 @@ extension Graphic3D {
                        alignment: StackAlignment = .center,
                        spacing: Double = 0.0,
                        padding: Double = 0.0,
-                       backgroundColor: PixelColor = .black,
+                       backgroundColor: PixelColor = .clear,
                        resolution: SIMD3<Int>? = nil) async throws -> Graphic3D {
         
         let graphics: [Graphic3D] = [self, graphic]

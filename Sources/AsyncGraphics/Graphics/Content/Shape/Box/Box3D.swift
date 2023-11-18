@@ -23,7 +23,7 @@ extension Graphic3D {
                            origin: SIMD3<Double>,
                            cornerRadius: Double = 0.0,
                            color: PixelColor = .white,
-                           backgroundColor: PixelColor = .black,
+                           backgroundColor: PixelColor = .clear,
                            resolution: SIMD3<Int>,
                            options: ContentOptions = []) async throws -> Graphic3D {
         
@@ -48,7 +48,7 @@ extension Graphic3D {
                            center: SIMD3<Double>? = nil,
                            cornerRadius: Double = 0.0,
                            color: PixelColor = .white,
-                           backgroundColor: PixelColor = .black,
+                           backgroundColor: PixelColor = .clear,
                            resolution: SIMD3<Int>,
                            options: ContentOptions = []) async throws -> Graphic3D {
         
@@ -98,7 +98,7 @@ extension Graphic3D {
                                   cornerRadius: Double = 0.0,
                                   surfaceWidth: Double,
                                   color: PixelColor = .white,
-                                  backgroundColor: PixelColor = .black,
+                                  backgroundColor: PixelColor = .clear,
                                   resolution: SIMD3<Int>,
                                   options: ContentOptions = []) async throws -> Graphic3D {
         
@@ -125,7 +125,7 @@ extension Graphic3D {
                                   cornerRadius: Double = 0.0,
                                   surfaceWidth: Double,
                                   color: PixelColor = .white,
-                                  backgroundColor: PixelColor = .black,
+                                  backgroundColor: PixelColor = .clear,
                                   resolution: SIMD3<Int>,
                                   options: ContentOptions = []) async throws -> Graphic3D {
         

@@ -8,6 +8,8 @@ using namespace metal;
 
 struct Uniforms {
     float fraction;
+    packed_float4 foregroundColor;
+    packed_float4 backgroundColor;
 };
 
 kernel void threshold3d(const device Uniforms& uniforms [[ buffer(0) ]],
@@ -37,7 +39,8 @@ kernel void threshold3d(const device Uniforms& uniforms [[ buffer(0) ]],
         value = 1.0;
     }
     
-    targetTexture.write(float4(float3(value), 1.0), pos);
+    float4 targetColor = mix(uniforms.backgroundColor, uniforms.foregroundColor, value);
+    targetTexture.write(targetColor, pos);
 }
 
 

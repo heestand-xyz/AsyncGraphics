@@ -199,10 +199,10 @@ float2 transformPlace(int placement,
 
 float3 place3d(int place, float3 uvw, uint leadingWidth, uint leadingHeight, uint leadingDepth, uint trailingWidth, uint trailingHeight, uint trailingDepth) {
 
-//    float aspect_a = float(leadingWidth) / float(leadingHeight);
-//    float depthAspect_a = float(leadingDepth) / float(leadingHeight);
-//    float aspect_b = float(trailingWidth) / float(trailingHeight);
-//    float depthAspect_b = float(trailingDepth) / float(trailingHeight);
+    float aspect_a = float(leadingWidth) / float(leadingHeight);
+    float depth_aspect_a = float(leadingDepth) / float(leadingHeight);
+    float aspect_b = float(trailingWidth) / float(trailingHeight);
+    float depth_aspect_b = float(trailingDepth) / float(trailingHeight);
 
     float u = uvw.x;
     float v = uvw.y;
@@ -211,7 +211,21 @@ float3 place3d(int place, float3 uvw, uint leadingWidth, uint leadingHeight, uin
     switch (place) {
         case 0: // Stretch
             break;
-//        case 1: // Aspect Fit
+        case 1: // Aspect Fit
+            // TODO: Finish
+            if (aspect_b > aspect_a) {
+                v /= aspect_a;
+                v *= aspect_b;
+                v += ((aspect_a - aspect_b) / 2) / aspect_a;
+            } else if (aspect_b < aspect_a) {
+                u /= aspect_b;
+                u *= aspect_a;
+                u += ((aspect_b - aspect_a) / 2) / aspect_b;
+            }
+            w /= depth_aspect_b;
+            w *= depth_aspect_a;
+            w += ((depth_aspect_b - depth_aspect_a) / 2) / depth_aspect_b;
+            
 //            if (aspect_b > aspect_a) {
 //                v /= aspect_a;
 //                v *= aspect_b;
@@ -220,26 +234,26 @@ float3 place3d(int place, float3 uvw, uint leadingWidth, uint leadingHeight, uin
 //                u /= aspect_b;
 //                u *= aspect_a;
 //                u += ((aspect_b - aspect_a) / 2) / aspect_b;
-//                if (depthAspect_b > depthAspect_a) {
+//                if (depth_aspect_b > depth_aspect_a) {
 //
-//                } else if (depthAspect_b < depthAspect_a) {
+//                } else if (depth_aspect_b < depth_aspect_a) {
 //
 //                }
 //            } else {
-//                if (depthAspect_b > depthAspect_a) {
-//                    u /= depthAspect_a;
-//                    u *= depthAspect_b;
-//                    u += ((depthAspect_a - depthAspect_b) / 2) / depthAspect_a;
-//                    v /= depthAspect_a;
-//                    v *= depthAspect_b;
-//                    v += ((depthAspect_a - depthAspect_b) / 2) / depthAspect_a;
-//                } else if (depthAspect_b < depthAspect_a) {
-//                    w /= depthAspect_b;
-//                    w *= depthAspect_a;
-//                    w += ((depthAspect_b - depthAspect_a) / 2) / depthAspect_b;
+//                if (depth_aspect_b > depth_aspect_a) {
+//                    u /= depth_aspect_a;
+//                    u *= depth_aspect_b;
+//                    u += ((depth_aspect_a - depth_aspect_b) / 2) / depth_aspect_a;
+//                    v /= depth_aspect_a;
+//                    v *= depth_aspect_b;
+//                    v += ((depth_aspect_a - depth_aspect_b) / 2) / depth_aspect_a;
+//                } else if (depth_aspect_b < depth_aspect_a) {
+//                    w /= depth_aspect_b;
+//                    w *= depth_aspect_a;
+//                    w += ((depth_aspect_b - depth_aspect_a) / 2) / depth_aspect_b;
 //                }
 //            }
-//            break;
+            break;
 //        case 2: // Aspect Fill
 //            if (aspect_b > aspect_a) {
 //                u *= aspect_a;

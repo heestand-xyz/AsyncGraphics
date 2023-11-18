@@ -14,7 +14,7 @@ extension Graphic3D {
     
     public func edge(amplitude: Double = 1.0,
                      distance: Double = 1.0,
-                     isTransparent: Bool = false,
+                     isTransparent: Bool = true,
                      options: EffectOptions = []) async throws -> Graphic3D {
         
         try await edge(amplitude: amplitude,

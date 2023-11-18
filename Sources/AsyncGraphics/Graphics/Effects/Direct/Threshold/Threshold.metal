@@ -13,6 +13,8 @@ struct VertexOut {
 
 struct Uniforms {
     float fraction;
+    packed_float4 foregroundColor;
+    packed_float4 backgroundColor;
 };
 
 fragment float4 threshold(VertexOut out [[stage_in]],
@@ -32,5 +34,5 @@ fragment float4 threshold(VertexOut out [[stage_in]],
         value = 1.0;
     }
     
-    return float4(float3(value), 1.0);
+    return mix(uniforms.backgroundColor, uniforms.foregroundColor, value);
 }

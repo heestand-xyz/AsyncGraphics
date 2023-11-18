@@ -3,14 +3,19 @@
 //
 
 import CoreGraphics
+import PixelColor
 
 extension Graphic {
     
     private struct ThresholdUniforms {
         let fraction: Float
+        let foregroundColor: ColorUniform
+        let backgroundColor: ColorUniform
     }
     
     public func threshold(_ fraction: CGFloat = 0.5,
+                          color: PixelColor = .white,
+                          backgroundColor: PixelColor = .black,
                           options: EffectOptions = []) async throws -> Graphic {
         
         try await Renderer.render(
@@ -18,7 +23,9 @@ extension Graphic {
             shader: .name("threshold"),
             graphics: [self],
             uniforms: ThresholdUniforms(
-                fraction: Float(fraction)
+                fraction: Float(fraction),
+                foregroundColor: color.uniform,
+                backgroundColor: backgroundColor.uniform
             ),
             options: Renderer.Options(
                 addressMode: options.addressMode,

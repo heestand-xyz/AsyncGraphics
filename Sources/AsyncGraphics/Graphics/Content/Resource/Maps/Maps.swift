@@ -39,6 +39,7 @@ extension Graphic {
         public let rawValue: Int
         
         public static let showPointsOfInterest = MapOptions(rawValue: 1 << 0)
+        @available(*, deprecated, message: "Maps no longer supports changing showing buildings.")
         public static let showBuildings = MapOptions(rawValue: 1 << 1)
         public static let darkMode = MapOptions(rawValue: 1 << 2)
 
@@ -48,14 +49,14 @@ extension Graphic {
     }
    
     private enum MapsError: LocalizedError {
-        case invalidSpan
+        case invalidSpan(Angle)
         case invalidRegion
         case snapshotFailed
         case imageDataConversionFailed
         var errorDescription: String? {
             switch self {
-            case .invalidSpan:
-                return "AsyncGraphics - Maps - Invalid Span"
+            case .invalidSpan(let angle):
+                return "AsyncGraphics - Maps - Invalid Span (\(angle.degrees)°)"
             case .invalidRegion:
                 return "AsyncGraphics - Maps - Invalid Region"
             case .snapshotFailed:
@@ -81,7 +82,7 @@ extension Graphic {
         mapSnapshotOptions.mapType = type.mapType
         
         guard span.degrees > 0.0
-        else { throw MapsError.invalidSpan }
+        else { throw MapsError.invalidSpan(span) }
         
         let center = CLLocationCoordinate2D(latitude: latitude.degrees,
                                             longitude: longitude.degrees)
@@ -94,9 +95,7 @@ extension Graphic {
         mapSnapshotOptions.region = region
         
         mapSnapshotOptions.size = resolution
-        
-        mapSnapshotOptions.showsBuildings = mapOptions.contains(.showBuildings)
-        
+                
         mapSnapshotOptions.pointOfInterestFilter = mapOptions.contains(.showPointsOfInterest) ? .includingAll : .excludingAll
         
         if mapOptions.contains(.darkMode) {
