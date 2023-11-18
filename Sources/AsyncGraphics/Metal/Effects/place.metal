@@ -213,18 +213,44 @@ float3 place3d(int place, float3 uvw, uint leadingWidth, uint leadingHeight, uin
             break;
         case 1: // Aspect Fit
             // TODO: Finish
-            if (aspect_b > aspect_a) {
-                v /= aspect_a;
-                v *= aspect_b;
-                v += ((aspect_a - aspect_b) / 2) / aspect_a;
-            } else if (aspect_b < aspect_a) {
-                u /= aspect_b;
-                u *= aspect_a;
-                u += ((aspect_b - aspect_a) / 2) / aspect_b;
-            }
-            w /= depth_aspect_b;
-            w *= depth_aspect_a;
-            w += ((depth_aspect_b - depth_aspect_a) / 2) / depth_aspect_b;
+//            if (aspect_b > aspect_a) {
+//                v /= aspect_a;
+//                v *= aspect_b;
+//                v += ((aspect_a - aspect_b) / 2) / aspect_a;
+//            } else if (aspect_b < aspect_a) {
+//                u /= aspect_b;
+//                u *= aspect_a;
+//                u += ((aspect_b - aspect_a) / 2) / aspect_b;
+//            }
+//            w /= depth_aspect_b;
+//            w *= depth_aspect_a;
+//            w += ((depth_aspect_b - depth_aspect_a) / 2) / depth_aspect_b;
+            
+            
+            // GPT-4
+//            float scaleWidth = 1.0;
+//            float scaleHeight = 1.0;
+//            float scaleDepth = 1.0;
+//
+//            // Adjust for width and height
+//            if (aspect_b > aspect_a) {
+//                scaleHeight = aspect_a / aspect_b;
+//            } else if (aspect_b < aspect_a) {
+//                scaleWidth = aspect_b / aspect_a;
+//            }
+//
+//            // Adjust for depth and height
+//            if (depth_aspect_b > depth_aspect_a) {
+//                scaleHeight = max(scaleHeight, depth_aspect_a / depth_aspect_b);
+//            } else if (depth_aspect_b < depth_aspect_a) {
+//                scaleDepth = depth_aspect_b / depth_aspect_a;
+//            }
+//
+//            float u = uvw.x * scaleWidth;
+//            float v = uvw.y * scaleHeight;
+//            float w = uvw.z * scaleDepth;
+
+            
             
 //            if (aspect_b > aspect_a) {
 //                v /= aspect_a;
