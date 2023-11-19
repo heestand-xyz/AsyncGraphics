@@ -25,19 +25,11 @@ extension Graphic3D {
                               resolution: SIMD3<Int>,
                               options: ContentOptions = []) async throws -> Graphic3D {
         
-        let radius: Double = radius ?? Double(resolution.y) / 2
+        let radius: Double = radius ?? Double(min(resolution.x, resolution.y, resolution.z)) / 2
         let relativeRadius: Double = radius / Double(resolution.y)
         
-        let position: SIMD3<Double> = center ?? SIMD3<Double>(
-            Double(resolution.x) / 2,
-            Double(resolution.y) / 2,
-            Double(resolution.z) / 2
-        )
-        let relativePosition = SIMD3<Double>(
-            (position.x - Double(resolution.x) / 2) / Double(resolution.y),
-            (position.y - Double(resolution.y) / 2) / Double(resolution.y),
-            (position.z - Double(resolution.z) / 2) / Double(resolution.y)
-        )
+        let position: SIMD3<Double> = center ?? SIMD3<Double>(resolution) / 2
+        let relativePosition = (position - SIMD3<Double>(resolution) / 2) / Double(resolution.y)
         
         return try await Renderer.render(
             name: "Sphere 3D",
@@ -60,7 +52,7 @@ extension Graphic3D {
         )
     }
     
-    public static func surfaceSphere(radius: Double,
+    public static func surfaceSphere(radius: Double? = nil,
                                      center: SIMD3<Double>? = nil,
                                      surfaceWidth: Double,
                                      color: PixelColor = .white,
@@ -68,18 +60,11 @@ extension Graphic3D {
                                      resolution: SIMD3<Int>,
                                      options: ContentOptions = []) async throws -> Graphic3D {
         
+        let radius: Double = radius ?? (Double(min(resolution.x, resolution.y, resolution.z)) / 2 - surfaceWidth / 2)
         let relativeRadius: Double = radius / Double(resolution.y)
         
-        let position: SIMD3<Double> = center ?? SIMD3<Double>(
-            Double(resolution.x) / 2,
-            Double(resolution.y) / 2,
-            Double(resolution.z) / 2
-        )
-        let relativePosition = SIMD3<Double>(
-            (position.x - Double(resolution.x) / 2) / Double(resolution.y),
-            (position.y - Double(resolution.y) / 2) / Double(resolution.y),
-            (position.z - Double(resolution.z) / 2) / Double(resolution.y)
-        )
+        let position: SIMD3<Double> = center ?? SIMD3<Double>(resolution) / 2
+        let relativePosition = (position - SIMD3<Double>(resolution) / 2) / Double(resolution.y)
         
         let relativeSurfaceWidth: Double = surfaceWidth / Double(resolution.y)
         
