@@ -290,8 +290,10 @@ float3 place3d(int place, float3 uvw, uint leadingWidth, uint leadingHeight, uin
             }
             break;
         case 2: // Aspect Fill
+            // TODO: Work on Fill
 //            if (aspect_b > aspect_a) {
-//                if (horizontal_aspect_b > horizontal_aspect_a) {
+//                if (horizontal_aspect_b < horizontal_aspect_a) {
+//                    // DONE
 //                    u -= 0.5;
 //                    u /= horizontal_aspect_a;
 //                    u *= horizontal_aspect_b;
@@ -300,32 +302,10 @@ float3 place3d(int place, float3 uvw, uint leadingWidth, uint leadingHeight, uin
 //                    v /= aspect_a * horizontal_aspect_a;
 //                    v *= aspect_b * horizontal_aspect_b;
 //                    v += 0.5;
-//                } else if (horizontal_aspect_b < horizontal_aspect_a) {
-//                    v -= 0.5;
-//                    v /= aspect_a;
-//                    v *= aspect_b;
-//                    v += 0.5;
-//                    w -= 0.5;
-//                    w /= horizontal_aspect_b;
-//                    w *= horizontal_aspect_a;
-//                    w += 0.5;
-//                } else {
-//                    v -= 0.5;
-//                    v /= aspect_a;
-//                    v *= aspect_b;
-//                    v += 0.5;
-//                }
-//            } else if (aspect_b < aspect_a) {
-//                if (vertical_aspect_b > vertical_aspect_a) {
-//                    u -= 0.5;
-//                    u /= aspect_b * vertical_aspect_a;
-//                    u *= aspect_a * vertical_aspect_b;
-//                    u += 0.5;
-//                    v -= 0.5;
-//                    v /= vertical_aspect_a;
-//                    v *= vertical_aspect_b;
-//                    v += 0.5;
-//                } else if (vertical_aspect_b < vertical_aspect_a) {
+//                    
+////                    u = 0.5;
+//                } else if (horizontal_aspect_b > horizontal_aspect_a) {
+//                    // DONE
 //                    u -= 0.5;
 //                    u /= aspect_b;
 //                    u *= aspect_a;
@@ -334,14 +314,60 @@ float3 place3d(int place, float3 uvw, uint leadingWidth, uint leadingHeight, uin
 //                    w /= vertical_aspect_b;
 //                    w *= vertical_aspect_a;
 //                    w += 0.5;
+//                    
+////                    v = 0.5;
 //                } else {
+//                    // DONE
 //                    u -= 0.5;
 //                    u /= aspect_b;
 //                    u *= aspect_a;
 //                    u += 0.5;
+////                    w -= 0.5;
+////                    w /= vertical_aspect_b;
+////                    w *= vertical_aspect_a;
+////                    w += 0.5;
+//                    
+////                    w = 0.5;
+//                }
+//            } else if (aspect_b < aspect_a) {
+//                if (vertical_aspect_b < vertical_aspect_a) {
+//                    // CHECK
+//                    v -= 0.5;
+//                    v /= aspect_a;
+//                    v *= aspect_b;
+//                    v += 0.5;
+//                    w -= 0.5;
+//                    w /= horizontal_aspect_b;
+//                    w *= horizontal_aspect_a;
+//                    w += 0.5;
+//                } else if (vertical_aspect_b > vertical_aspect_a) {
+//                    // DONE
+//                    v -= 0.5;
+//                    v /= aspect_a;
+//                    v *= aspect_b;
+//                    v += 0.5;
+//                    w -= 0.5;
+//                    w /= horizontal_aspect_b;
+//                    w *= horizontal_aspect_a;
+//                    w += 0.5;
+//                    
+////                    v = 0.5;
+//                } else {
+//                    // CHECK
+//                    v -= 0.5;
+//                    v /= aspect_a;
+//                    v *= aspect_b;
+//                    v += 0.5;
+////                    w -= 0.5;
+////                    w /= horizontal_aspect_b;
+////                    w *= horizontal_aspect_a;
+////                    w += 0.5;
+//                    
+////                    w = 0.5;
 //                }
 //            } else {
-//                if (vertical_aspect_b > vertical_aspect_a) {
+//                if (vertical_aspect_b < vertical_aspect_a) {
+//                    // DONE
 //                    u -= 0.5;
 //                    u /= vertical_aspect_a;
 //                    u *= vertical_aspect_b;
@@ -350,7 +376,8 @@ float3 place3d(int place, float3 uvw, uint leadingWidth, uint leadingHeight, uin
 //                    v /= vertical_aspect_a;
 //                    v *= vertical_aspect_b;
 //                    v += 0.5;
-//                } else if (vertical_aspect_b < vertical_aspect_a) {
+//                } else if (vertical_aspect_b > vertical_aspect_a) {
+//                    // DONE
 //                    w -= 0.5;
 //                    w /= vertical_aspect_b;
 //                    w *= vertical_aspect_a;
