@@ -19,13 +19,15 @@ extension Graphic3D {
         let backgroundColor: ColorUniform
     }
     
-    public static func box(size: SIMD3<Double>,
+    public static func box(size: SIMD3<Double>? = nil,
                            origin: SIMD3<Double>,
                            cornerRadius: Double = 0.0,
                            color: PixelColor = .white,
                            backgroundColor: PixelColor = .clear,
                            resolution: SIMD3<Int>,
                            options: ContentOptions = []) async throws -> Graphic3D {
+        
+        let size: SIMD3<Double> = size ?? SIMD3<Double>(resolution)
         
         let center: SIMD3<Double> = SIMD3<Double>(
             origin.x + size.x / 2,
@@ -44,7 +46,7 @@ extension Graphic3D {
         )
     }
     
-    public static func box(size: SIMD3<Double>,
+    public static func box(size: SIMD3<Double>? = nil,
                            center: SIMD3<Double>? = nil,
                            cornerRadius: Double = 0.0,
                            color: PixelColor = .white,
@@ -52,22 +54,11 @@ extension Graphic3D {
                            resolution: SIMD3<Int>,
                            options: ContentOptions = []) async throws -> Graphic3D {
         
-        let relativeSize: SIMD3<Double> = SIMD3<Double>(
-            size.x / Double(resolution.y),
-            size.y / Double(resolution.y),
-            size.z / Double(resolution.y)
-        )
+        let size: SIMD3<Double> = size ?? SIMD3<Double>(resolution)
+        let relativeSize: SIMD3<Double> = size / Double(resolution.y)
         
-        let position: SIMD3<Double> = center ?? SIMD3<Double>(
-            Double(resolution.x) / 2,
-            Double(resolution.y) / 2,
-            Double(resolution.z) / 2
-        )
-        let relativePosition = SIMD3<Double>(
-            (position.x - Double(resolution.x) / 2) / Double(resolution.y),
-            (position.y - Double(resolution.y) / 2) / Double(resolution.y),
-            (position.z - Double(resolution.z) / 2) / Double(resolution.y)
-        )
+        let position: SIMD3<Double> = center ?? SIMD3<Double>(resolution) / 2
+        let relativePosition = (position - SIMD3<Double>(resolution) / 2) / Double(resolution.y)
         
         let relativeCornerRadius: Double = cornerRadius / Double(resolution.y)
         
@@ -93,7 +84,7 @@ extension Graphic3D {
         )
     }
     
-    public static func surfaceBox(size: SIMD3<Double>,
+    public static func surfaceBox(size: SIMD3<Double>? = nil,
                                   origin: SIMD3<Double>,
                                   cornerRadius: Double = 0.0,
                                   surfaceWidth: Double,
@@ -101,6 +92,8 @@ extension Graphic3D {
                                   backgroundColor: PixelColor = .clear,
                                   resolution: SIMD3<Int>,
                                   options: ContentOptions = []) async throws -> Graphic3D {
+        
+        let size: SIMD3<Double> = size ?? SIMD3<Double>(resolution)
         
         let center: SIMD3<Double> = SIMD3<Double>(
             origin.x + size.x / 2,
@@ -120,7 +113,7 @@ extension Graphic3D {
         )
     }
     
-    public static func surfaceBox(size: SIMD3<Double>,
+    public static func surfaceBox(size: SIMD3<Double>? = nil,
                                   center: SIMD3<Double>? = nil,
                                   cornerRadius: Double = 0.0,
                                   surfaceWidth: Double,
@@ -129,22 +122,11 @@ extension Graphic3D {
                                   resolution: SIMD3<Int>,
                                   options: ContentOptions = []) async throws -> Graphic3D {
         
-        let relativeSize: SIMD3<Double> = SIMD3<Double>(
-            size.x / Double(resolution.y),
-            size.y / Double(resolution.y),
-            size.z / Double(resolution.y)
-        )
+        let size: SIMD3<Double> = size ?? SIMD3<Double>(resolution)
+        let relativeSize: SIMD3<Double> = size / Double(resolution.y)
         
-        let position: SIMD3<Double> = center ?? SIMD3<Double>(
-            Double(resolution.x) / 2,
-            Double(resolution.y) / 2,
-            Double(resolution.z) / 2
-        )
-        let relativePosition = SIMD3<Double>(
-            (position.x - Double(resolution.x) / 2) / Double(resolution.y),
-            (position.y - Double(resolution.y) / 2) / Double(resolution.y),
-            (position.z - Double(resolution.z) / 2) / Double(resolution.y)
-        )
+        let position: SIMD3<Double> = center ?? SIMD3<Double>(resolution) / 2
+        let relativePosition = (position - SIMD3<Double>(resolution) / 2) / Double(resolution.y)
         
         let relativeCornerRadius: Double = cornerRadius / Double(resolution.y)
         
