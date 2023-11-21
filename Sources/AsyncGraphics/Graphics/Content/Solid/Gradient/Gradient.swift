@@ -25,7 +25,7 @@ extension Graphic {
     }
     
     /// Gradient Stop is a color with a location between 0.0 and 1.0
-    public struct GradientStop {
+    public struct GradientStop: Codable {
         /// A location between 0.0 and 1.0
         public var location: CGFloat
         public var color: PixelColor
