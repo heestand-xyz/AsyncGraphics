@@ -1,2 +1,0 @@
-
-struct CodableGraphic2D {}

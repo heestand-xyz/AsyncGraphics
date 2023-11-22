@@ -1,12 +1,12 @@
 import CoreGraphics
 import PixelColor
 
-extension CodableGraphic2D {
+extension CodableGraphic {
     
     @GraphicMacro
-    public class Line: ShapeGraphic2DProtocol {
+    public class Line: ShapeGraphicProtocol {
         
-        public var type: CodableGraphic2DType {
+        public var type: CodableGraphicType {
             .content(.shape(.line))
         }
         

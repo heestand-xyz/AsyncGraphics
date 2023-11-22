@@ -1,2 +1,2 @@
 
-struct CodableGraphic3D {}
+public struct CodableGraphic3D {}
