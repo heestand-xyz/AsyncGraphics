@@ -1,7 +1,7 @@
 import CoreGraphics
 import PixelColor
 
-extension CodableGraphic3D {
+extension CodableGraphic3D.Content.Solid {
     
     @GraphicMacro
     public class Color: SolidGraphic3DProtocol {

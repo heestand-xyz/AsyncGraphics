@@ -2,7 +2,7 @@ import CoreGraphics
 import PixelColor
 import SwiftUI
 
-extension CodableGraphic {
+extension CodableGraphic.Content.Shape {
     
     @GraphicMacro
     public class Arc: ShapeGraphicProtocol {

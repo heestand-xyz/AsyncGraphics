@@ -1,7 +1,7 @@
 import CoreGraphics
 import PixelColor
 
-extension CodableGraphic {
+extension CodableGraphic.Content.Shape {
     
     @GraphicMacro
     public class Circle: ShapeGraphicProtocol {

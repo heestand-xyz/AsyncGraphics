@@ -17,7 +17,7 @@ extension SolidGraphic3DType {
     public func instance() -> SolidGraphic3DProtocol {
         switch self {
         case .color:
-            CodableGraphic3D.Color()
+            CodableGraphic3D.Content.Solid.Color()
         }
     }
 }
