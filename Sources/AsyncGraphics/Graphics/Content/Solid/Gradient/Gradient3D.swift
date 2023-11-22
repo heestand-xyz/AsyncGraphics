@@ -9,8 +9,8 @@ import PixelColor
 extension Graphic3D {
     
     private struct Gradient3DUniforms {
-        let type: Int32
-        let extend: Int32
+        let type: UInt32
+        let extend: UInt32
         let scale: Float
         let offset: Float
         let position: VectorUniform
@@ -19,7 +19,8 @@ extension Graphic3D {
         let resolution: VectorUniform
     }
     
-    public enum Gradient3DDirection: Int32 {
+    @EnumMacro
+    public enum Gradient3DDirection: String, GraphicEnum {
         case x
         case y
         case z
@@ -46,8 +47,8 @@ extension Graphic3D {
             name: "Gradient 3D",
             shader: .name("gradient3d"),
             uniforms: Gradient3DUniforms(
-                type: direction.rawValue,
-                extend: extend.rawValue,
+                type: direction.index,
+                extend: extend.index,
                 scale: Float(scale),
                 offset: Float(offset),
                 position: relativePosition.uniform,

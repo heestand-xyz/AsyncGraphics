@@ -14,10 +14,10 @@ extension SolidGraphic3DType: Identifiable {
 
 extension SolidGraphic3DType {
     
-    public func instance() -> SolidGraphic3DProtocol {
+    public var type: SolidGraphic3DProtocol.Type {
         switch self {
         case .color:
-            CodableGraphic3D.Content.Solid.Color()
+            CodableGraphic3D.Content.Solid.Color.self
         }
     }
 }

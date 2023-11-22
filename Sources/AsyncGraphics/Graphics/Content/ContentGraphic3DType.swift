@@ -15,12 +15,12 @@ extension ContentGraphic3DType: CaseIterable {
 
 extension ContentGraphic3DType {
     
-    public func instance() -> ContentGraphic3DProtocol {
+    public var type: ContentGraphic3DProtocol.Type {
         switch self {
-        case .shape(let type):
-            type.instance()
-        case .solid(let type):
-            type.instance()
+        case .shape(let shape):
+            shape.type
+        case .solid(let solid):
+            solid.type
         }
     }
 }

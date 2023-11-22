@@ -14,10 +14,14 @@ extension CodableGraphic3DType: CaseIterable {
 
 extension CodableGraphic3DType {
     
-    public func instance() -> CodableGraphic3DProtocol {
+    public var type: CodableGraphic3DProtocol.Type {
         switch self {
-        case .content(let type):
-            type.instance()
+        case .content(let content):
+            content.type
         }
+    }
+    
+    public func instance() -> CodableGraphic3DProtocol {
+        type.init()
     }
 }

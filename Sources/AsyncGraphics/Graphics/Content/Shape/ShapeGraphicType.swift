@@ -16,14 +16,14 @@ extension ShapeGraphicType: Identifiable {
 
 extension ShapeGraphicType {
     
-    public func instance() -> ShapeGraphicProtocol {
+    public var type: ShapeGraphicProtocol.Type {
         switch self {
         case .circle:
-            CodableGraphic.Content.Shape.Circle()
+            CodableGraphic.Content.Shape.Circle.self
         case .arc:
-            CodableGraphic.Content.Shape.Arc()
+            CodableGraphic.Content.Shape.Arc.self
         case .line:
-            CodableGraphic.Content.Shape.Line()
+            CodableGraphic.Content.Shape.Line.self
         }
     }
 }
