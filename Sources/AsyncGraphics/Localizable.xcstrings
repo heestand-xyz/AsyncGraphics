@@ -62,7 +62,14 @@
       }
     },
     "graphic.property.leadingPoint" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leading Point"
+          }
+        }
+      }
     },
     "graphic.property.length" : {
       "localizations" : {
@@ -75,7 +82,14 @@
       }
     },
     "graphic.property.lineCap" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Line Cap"
+          }
+        }
+      }
     },
     "graphic.property.lineWidth" : {
       "localizations" : {
@@ -138,7 +152,14 @@
       }
     },
     "graphic.property.trailingPoint" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trailing Point"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

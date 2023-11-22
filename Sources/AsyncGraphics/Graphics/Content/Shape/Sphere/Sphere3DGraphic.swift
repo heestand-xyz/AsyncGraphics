@@ -1,7 +1,7 @@
 import CoreGraphics
 import PixelColor
 
-extension CodableGraphic3D {
+extension CodableGraphic3D.Content.Shape {
     
     @GraphicMacro
     public class Sphere: ShapeGraphic3DProtocol {

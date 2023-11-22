@@ -18,9 +18,9 @@ extension ShapeGraphic3DType {
     public func instance() -> ShapeGraphic3DProtocol {
         switch self {
         case .sphere:
-            CodableGraphic3D.Sphere()
+            CodableGraphic3D.Content.Shape.Sphere()
         case .box:
-            CodableGraphic3D.Box()
+            CodableGraphic3D.Content.Shape.Box()
         }
     }
 }

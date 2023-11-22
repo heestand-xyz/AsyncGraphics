@@ -19,11 +19,11 @@ extension ShapeGraphicType {
     public func instance() -> ShapeGraphicProtocol {
         switch self {
         case .circle:
-            CodableGraphic.Circle()
+            CodableGraphic.Content.Shape.Circle()
         case .arc:
-            CodableGraphic.Arc()
+            CodableGraphic.Content.Shape.Arc()
         case .line:
-            CodableGraphic.Line()
+            CodableGraphic.Content.Shape.Line()
         }
     }
 }
