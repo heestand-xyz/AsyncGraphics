@@ -5,5 +5,6 @@ import SwiftSyntaxMacros
 struct AsyncGraphicsMacros: CompilerPlugin {
     let providingMacros: [Macro.Type] = [
         GraphicMacro.self,
+        EnumMacro.self,
     ]
 }

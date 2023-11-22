@@ -20,11 +20,11 @@ extension Graphic {
         let resolution: SizeUniform
     }
     
-    public enum LineCap: String, Codable, CaseIterable, Identifiable {
+    @EnumMacro
+    public enum LineCap: String, GraphicEnum {
         case square
         case round
         case diamond
-        public var id: String { rawValue }
         var index: UInt32 {
             switch self {
             case .square:
