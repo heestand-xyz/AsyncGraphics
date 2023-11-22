@@ -1,0 +1,2 @@
+
+struct CodableGraphic2D {}
