@@ -4,7 +4,7 @@ import PixelColor
 extension CodableGraphic3D.Content.Solid {
     
     @GraphicMacro
-    public class Gradient: SolidGraphic3DProtocol {
+    public class Gradient: SolidContentGraphic3DProtocol {
         
         public var type: CodableGraphic3DType {
             .content(.solid(.gradient))

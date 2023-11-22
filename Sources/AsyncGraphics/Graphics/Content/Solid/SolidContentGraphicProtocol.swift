@@ -1,0 +1,2 @@
+
+public protocol SolidContentGraphicProtocol: ContentGraphicProtocol {}

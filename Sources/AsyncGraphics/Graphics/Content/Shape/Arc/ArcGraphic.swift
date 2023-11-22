@@ -5,7 +5,7 @@ import SwiftUI
 extension CodableGraphic.Content.Shape {
     
     @GraphicMacro
-    public class Arc: ShapeGraphicProtocol {
+    public class Arc: ShapeContentGraphicProtocol {
         
         public var type: CodableGraphicType {
             .content(.shape(.arc))

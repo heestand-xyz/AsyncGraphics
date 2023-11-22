@@ -13,7 +13,7 @@
       }
     },
     "graphic.property.backgroundColor" : {
-      "comment" : "Line\nSphere\nRectangle\nCircle\nPolygon\nStar\nBox\nArc",
+      "comment" : "Circle\nPolygon\nArc\nSphere\nBox\nRectangle\nLine\nStar",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -35,10 +35,18 @@
       }
     },
     "graphic.property.colorStops" : {
-      "comment" : "Gradient"
+      "comment" : "Gradient",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Color Stops"
+          }
+        }
+      }
     },
     "graphic.property.cornerRadius" : {
-      "comment" : "Rectangle\nPolygon\nStar\nBox",
+      "comment" : "Polygon\nBox\nRectangle\nStar",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -82,7 +90,7 @@
       }
     },
     "graphic.property.foregroundColor" : {
-      "comment" : "Line\nSphere\nRectangle\nCircle\nPolygon\nStar\nBox\nArc",
+      "comment" : "Circle\nPolygon\nArc\nSphere\nBox\nRectangle\nLine\nStar",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -104,10 +112,18 @@
       }
     },
     "graphic.property.innerRadius" : {
-      "comment" : "Star"
+      "comment" : "Star",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inner Radius"
+          }
+        }
+      }
     },
     "graphic.property.isStroked" : {
-      "comment" : "Rectangle\nCircle\nArc",
+      "comment" : "Circle\nArc\nRectangle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -151,7 +167,7 @@
       }
     },
     "graphic.property.lineWidth" : {
-      "comment" : "Line\nRectangle\nCircle\nArc",
+      "comment" : "Circle\nArc\nRectangle\nLine",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -173,10 +189,18 @@
       }
     },
     "graphic.property.outerRadius" : {
-      "comment" : "Star"
+      "comment" : "Star",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Outer Radius"
+          }
+        }
+      }
     },
     "graphic.property.position" : {
-      "comment" : "Gradient\nSphere\nRectangle\nCircle\nPolygon\nStar\nBox\nArc",
+      "comment" : "Circle\nPolygon\nArc\nSphere\nBox\nRectangle\nStar\nGradient",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -187,7 +211,7 @@
       }
     },
     "graphic.property.radius" : {
-      "comment" : "Sphere\nCircle\nPolygon\nArc",
+      "comment" : "Circle\nPolygon\nArc\nSphere",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -220,24 +244,12 @@
       }
     },
     "graphic.property.size" : {
-      "comment" : "Rectangle\nBox",
+      "comment" : "Box\nRectangle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Size"
-          }
-        }
-      }
-    },
-    "graphic.property.stops" : {
-      "comment" : "Gradient",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stops"
           }
         }
       }

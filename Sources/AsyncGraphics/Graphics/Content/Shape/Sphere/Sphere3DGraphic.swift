@@ -4,7 +4,7 @@ import PixelColor
 extension CodableGraphic3D.Content.Shape {
     
     @GraphicMacro
-    public class Sphere: ShapeGraphic3DProtocol {
+    public class Sphere: ShapeContentGraphic3DProtocol {
         
         public var type: CodableGraphic3DType {
             .content(.shape(.sphere))

@@ -5,6 +5,16 @@ public enum CodableGraphicType: Codable, Equatable {
     
 }
 
+extension CodableGraphicType {
+    
+    public var name: String {
+        switch self {
+        case .content(let content):
+            content.name
+        }
+    }
+}
+
 extension CodableGraphicType: CaseIterable {
     
     public static var allCases: [CodableGraphicType] {
