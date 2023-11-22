@@ -27,6 +27,7 @@ extension CodableGraphic.Content.Shape {
             at resolution: CGSize,
             options: AsyncGraphics.Graphic.ContentOptions = []
         ) async throws -> Graphic {
+          
             try await .line(
                 leadingPoint: leadingPoint.value.at(resolution: resolution),
                 trailingPoint: trailingPoint.value.at(resolution: resolution),

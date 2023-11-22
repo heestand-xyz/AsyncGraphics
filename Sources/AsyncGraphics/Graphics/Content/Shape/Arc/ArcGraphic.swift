@@ -34,8 +34,10 @@ extension CodableGraphic.Content.Shape {
             at resolution: CGSize,
             options: Graphic.ContentOptions = []
         ) async throws -> Graphic {
+            
             if isStroked.value.at(resolution: resolution) {
-                return try await .strokedArc(
+            
+                try await .strokedArc(
                     angle: angle.value.at(resolution: resolution),
                     length: length.value.at(resolution: resolution),
                     radius: radius.value.at(resolution: resolution),
@@ -45,8 +47,10 @@ extension CodableGraphic.Content.Shape {
                     backgroundColor: backgroundColor.value.at(resolution: resolution),
                     resolution: resolution,
                     options: options)
+                
             } else {
-                return try await .arc(
+                
+                try await .arc(
                     angle: angle.value.at(resolution: resolution),
                     length: length.value.at(resolution: resolution),
                     radius: radius.value.at(resolution: resolution),

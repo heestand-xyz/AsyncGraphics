@@ -29,8 +29,10 @@ extension CodableGraphic3D.Content.Shape {
             at resolution: SIMD3<Int>,
             options: Graphic3D.ContentOptions = []
         ) async throws -> Graphic3D {
+            
             if surface.value.at(resolution: resolution) {
-                return try await .surfaceBox(
+            
+                try await .surfaceBox(
                     size: size.value.at(resolution: resolution),
                     center: position.value.at(resolution: resolution),
                     cornerRadius: cornerRadius.value.at(resolution: resolution),
@@ -39,8 +41,10 @@ extension CodableGraphic3D.Content.Shape {
                     backgroundColor: backgroundColor.value.at(resolution: resolution),
                     resolution: resolution,
                     options: options)
+                
             } else {
-                return try await .box(
+                
+                try await .box(
                     size: size.value.at(resolution: resolution),
                     center: position.value.at(resolution: resolution),
                     cornerRadius: cornerRadius.value.at(resolution: resolution),

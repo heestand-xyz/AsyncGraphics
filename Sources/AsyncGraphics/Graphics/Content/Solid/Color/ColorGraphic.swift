@@ -18,6 +18,7 @@ extension CodableGraphic.Content.Solid {
             at resolution: CGSize,
             options: AsyncGraphics.Graphic.ContentOptions = []
         ) async throws -> Graphic {
+           
             try await .color(
                 color.value.at(resolution: resolution),
                 resolution: resolution,

@@ -28,8 +28,10 @@ extension CodableGraphic.Content.Shape {
             at resolution: CGSize,
             options: Graphic.ContentOptions = []
         ) async throws -> Graphic {
+            
             if isStroked.value.at(resolution: resolution) {
-                return try await .strokedCircle(
+                
+                try await .strokedCircle(
                     radius: radius.value.at(resolution: resolution),
                     center: position.value.at(resolution: resolution),
                     lineWidth: lineWidth.value.at(resolution: resolution),
@@ -37,8 +39,10 @@ extension CodableGraphic.Content.Shape {
                     backgroundColor: backgroundColor.value.at(resolution: resolution),
                     resolution: resolution,
                     options: options)
+                
             } else {
-                return try await .circle(
+                
+                try await .circle(
                     radius: radius.value.at(resolution: resolution),
                     center: position.value.at(resolution: resolution),
                     color: foregroundColor.value.at(resolution: resolution),
