@@ -38,18 +38,19 @@ final class CodableGraphicsTests: XCTestCase {
         }
     }
     
-    func testVisible() {
+    func testVisible() throws {
         
-        let property: CodableGraphic.Content.Solid.Noise.Property = .scale
+        let scaleProperty: CodableGraphic.Content.Solid.Noise.Property = .scale
+        let isRandomProperty: CodableGraphic.Content.Solid.Noise.Property = .isRandom
 
         let noise = CodableGraphic.Content.Solid.Noise()
         noise.isRandom.value = .fixed(true)
-        XCTAssert(noise.isVisible(property: property, at: resolution) == false)
+        XCTAssert(noise.isVisible(property: scaleProperty, at: resolution) == false)
 
         let instance = noise.type.instance()
-        if let valueProperty = instance.properties.first(where: { $0.key == property.rawValue }) as? AnyGraphicValueProperty {
-            valueProperty.setValue(.fixed(true))
+        if let valueProperty = instance.properties.first(where: { $0.key == isRandomProperty.rawValue }) as? AnyGraphicValueProperty {
+            try valueProperty.setValue(.fixed(true))
         }
-        XCTAssert(instance.isVisible(propertyKey: property.rawValue, at: resolution) == false)
+        XCTAssert(instance.isVisible(propertyKey: scaleProperty.rawValue, at: resolution) == false)
     }
 }
