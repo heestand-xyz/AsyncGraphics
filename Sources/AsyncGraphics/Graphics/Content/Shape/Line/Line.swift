@@ -25,16 +25,6 @@ extension Graphic {
         case square
         case round
         case diamond
-        var index: UInt32 {
-            switch self {
-            case .square:
-                return 0
-            case .round:
-                return 1
-            case .diamond:
-                return 2
-            }
-        }
     }
     
     public static func line(leadingPoint: CGPoint,

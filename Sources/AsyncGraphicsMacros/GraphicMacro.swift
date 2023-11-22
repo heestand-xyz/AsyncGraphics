@@ -57,15 +57,6 @@ public struct GraphicMacro: MemberMacro, MemberAttributeMacro {
             let isMetadata: Bool = typeName == "GraphicMetadata"
             let isEnumMetadata: Bool = typeName == "GraphicEnumMetadata"
             
-//            var genericTypeName: String?
-//            if let genericIdentifier =  identifier.genericArgumentClause?.arguments.first?.argument.as(MemberTypeSyntax.self) {
-//                if let genericBaseIdentifier = genericIdentifier.baseType.as(IdentifierTypeSyntax.self) {
-//                    genericTypeName = "\(genericBaseIdentifier.name.text).\(genericIdentifier.name.text)"
-//                } else {
-//                    genericTypeName = genericIdentifier.name.text
-//                }
-//            }
-            
             if blackList.contains(name) {
                 return []
             }
