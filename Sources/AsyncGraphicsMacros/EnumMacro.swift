@@ -21,10 +21,14 @@ public struct EnumMacro: MemberMacro {
                 enumCases.append(name)
             }
         }
-        let switchCases: [String] = enumCases.map { enumCase in
+        let nameCases: [String] = enumCases.map { enumCase in
             """
-            case .\(enumCase):
-                return String(localized: "graphic.enumCase.\(camelName).\(enumCase)")
+            case .\(enumCase): String(localized: "graphic.enumCase.\(camelName).\(enumCase)")
+            """
+        }
+        let indexCases: [String] = enumCases.enumerated().map { index, enumCase in
+            """
+            case .\(enumCase): \(index)
             """
         }
         return [
@@ -34,7 +38,14 @@ public struct EnumMacro: MemberMacro {
             DeclSyntax(stringLiteral: """
             public var name: String {
                 switch self {
-                \(switchCases.joined(separator: "\n"))
+                \(nameCases.joined(separator: "\n"))
+                }
+            }
+            """),
+            DeclSyntax(stringLiteral: """
+            public var index: UInt32 {
+                switch self {
+                \(indexCases.joined(separator: "\n"))
                 }
             }
             """),
