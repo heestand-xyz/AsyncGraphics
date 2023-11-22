@@ -9,28 +9,36 @@ public struct EnumMacro: MemberMacro {
         providingMembersOf declaration: some DeclGroupSyntax,
         in context: some MacroExpansionContext
     ) throws -> [DeclSyntax] {
+      
         guard let enumDecl = declaration.as(EnumDeclSyntax.self) else { return [] }
+        
         let name = enumDecl.name.text
         let camelName = name.first!.lowercased() + name.dropFirst()
+        
         let block: MemberBlockSyntax  = enumDecl.memberBlock
+        
         var enumCases: [String] = []
         for member in block.members {
-            if let item = member.as(MemberBlockItemSyntax.self)?.decl,
-               let enumCase = item.as(EnumCaseDeclSyntax.self)?.elements.first,
-               let name = enumCase.as(EnumCaseElementSyntax.self)?.name.text {
-                enumCases.append(name)
+            guard let item = member.as(MemberBlockItemSyntax.self)?.decl,
+                  let enumCase = item.as(EnumCaseDeclSyntax.self)?.elements.first,
+                  let name = enumCase.as(EnumCaseElementSyntax.self)?.name.text else {
+                continue
             }
+            enumCases.append(name)
         }
+        
         let nameCases: [String] = enumCases.map { enumCase in
             """
-            case .\(enumCase): String(localized: "graphic.enumCase.\(camelName).\(enumCase)")
+            case .\(enumCase): String(localized: "graphic.option.\(camelName).\(enumCase)")
             """
         }
+        
         let indexCases: [String] = enumCases.enumerated().map { index, enumCase in
             """
             case .\(enumCase): \(index)
             """
         }
+        
         return [
             DeclSyntax(stringLiteral: """
             public var id: String { rawValue }
