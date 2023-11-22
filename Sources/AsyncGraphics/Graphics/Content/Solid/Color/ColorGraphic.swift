@@ -1,12 +1,12 @@
 import CoreGraphics
 import PixelColor
 
-extension CodableGraphic2D {
+extension CodableGraphic {
     
     @GraphicMacro
-    public class Color: SolidGraphic2DProtocol {
+    public class Color: SolidGraphicProtocol {
         
-        public var type: CodableGraphic2DType {
+        public var type: CodableGraphicType {
             .content(.solid(.color))
         }
         

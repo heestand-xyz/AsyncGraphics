@@ -1,0 +1,2 @@
+
+public protocol ShapeGraphicProtocol: ContentGraphicProtocol {}
