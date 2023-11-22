@@ -46,7 +46,7 @@ extension GraphicValueProperty {
             return .bool
         case is Int.Type:
             return .int
-        case is Double.Type:
+        case is Double.Type, is CGFloat.Type:
             return .double
         case is PixelColor.Type:
             return .color
@@ -63,7 +63,7 @@ extension GraphicValueProperty {
         case is [Graphic.GradientStop].Type:
             return .gradient
         default:
-            fatalError("Unsupported Graphic Property Type")
+            fatalError("Unsupported Graphic Property Type (\(T.self))")
         }
     }
 }

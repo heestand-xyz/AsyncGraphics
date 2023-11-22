@@ -13,7 +13,7 @@
       }
     },
     "graphic.property.backgroundColor" : {
-      "comment" : "Circle\nPolygon\nArc\nSphere\nBox\nRectangle\nLine\nStar",
+      "comment" : "Polygon\nLine\nSphere\nRectangle\nBox\nStar\nArc\nCircle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -46,7 +46,7 @@
       }
     },
     "graphic.property.cornerRadius" : {
-      "comment" : "Polygon\nBox\nRectangle\nStar",
+      "comment" : "Polygon\nRectangle\nBox\nStar",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -66,6 +66,9 @@
           }
         }
       }
+    },
+    "graphic.property.depthOffset" : {
+      "comment" : "Noise"
     },
     "graphic.property.direction" : {
       "comment" : "Gradient",
@@ -90,7 +93,7 @@
       }
     },
     "graphic.property.foregroundColor" : {
-      "comment" : "Circle\nPolygon\nArc\nSphere\nBox\nRectangle\nLine\nStar",
+      "comment" : "Polygon\nLine\nSphere\nRectangle\nBox\nStar\nArc\nCircle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -122,8 +125,14 @@
         }
       }
     },
+    "graphic.property.isColored" : {
+      "comment" : "Noise"
+    },
+    "graphic.property.isRandom" : {
+      "comment" : "Noise"
+    },
     "graphic.property.isStroked" : {
-      "comment" : "Circle\nArc\nRectangle",
+      "comment" : "Rectangle\nArc\nCircle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -167,7 +176,7 @@
       }
     },
     "graphic.property.lineWidth" : {
-      "comment" : "Circle\nArc\nRectangle\nLine",
+      "comment" : "Line\nRectangle\nArc\nCircle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -177,8 +186,11 @@
         }
       }
     },
+    "graphic.property.octaves" : {
+      "comment" : "Noise"
+    },
     "graphic.property.offset" : {
-      "comment" : "Gradient",
+      "comment" : "Gradient\nNoise",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -200,7 +212,7 @@
       }
     },
     "graphic.property.position" : {
-      "comment" : "Circle\nPolygon\nArc\nSphere\nBox\nRectangle\nStar\nGradient",
+      "comment" : "Polygon\nGradient\nSphere\nRectangle\nBox\nStar\nArc\nCircle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -211,7 +223,7 @@
       }
     },
     "graphic.property.radius" : {
-      "comment" : "Circle\nPolygon\nArc\nSphere",
+      "comment" : "Polygon\nSphere\nArc\nCircle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -233,7 +245,7 @@
       }
     },
     "graphic.property.scale" : {
-      "comment" : "Gradient",
+      "comment" : "Gradient\nNoise",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -243,8 +255,11 @@
         }
       }
     },
+    "graphic.property.seed" : {
+      "comment" : "Noise"
+    },
     "graphic.property.size" : {
-      "comment" : "Box\nRectangle",
+      "comment" : "Rectangle\nBox",
       "localizations" : {
         "en" : {
           "stringUnit" : {
