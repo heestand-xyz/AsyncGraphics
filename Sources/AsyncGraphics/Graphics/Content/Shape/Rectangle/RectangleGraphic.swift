@@ -5,7 +5,7 @@ import PixelColor
 extension CodableGraphic.Content.Shape {
     
     @GraphicMacro
-    public class Rectangle: ShapeGraphicProtocol {
+    public class Rectangle: ShapeContentGraphicProtocol {
         
         public var type: CodableGraphicType {
             .content(.shape(.rectangle))

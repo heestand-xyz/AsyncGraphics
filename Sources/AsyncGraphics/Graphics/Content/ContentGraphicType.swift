@@ -1,15 +1,27 @@
 
 public enum ContentGraphicType: Codable, Equatable {
     
-    case shape(ShapeGraphicType)
-    case solid(SolidGraphicType)
+    case shape(ShapeContentGraphicType)
+    case solid(SolidContentGraphicType)
+}
+
+extension ContentGraphicType {
+    
+    public var name: String {
+        switch self {
+        case .shape(let shape):
+            shape.name
+        case .solid(let solid):
+            solid.name
+        }
+    }
 }
 
 extension ContentGraphicType: CaseIterable {
     
     public static var allCases: [ContentGraphicType] {
-        ShapeGraphicType.allCases.map { .shape($0) } +
-        SolidGraphicType.allCases.map { .solid($0) }
+        ShapeContentGraphicType.allCases.map { .shape($0) } +
+        SolidContentGraphicType.allCases.map { .solid($0) }
     }
 }
 

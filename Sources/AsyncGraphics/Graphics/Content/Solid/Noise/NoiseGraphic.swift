@@ -4,13 +4,11 @@ import PixelColor
 extension CodableGraphic.Content.Solid {
     
     @GraphicMacro
-    public class Color: SolidContentGraphicProtocol {
+    public class Noise: SolidContentGraphicProtocol {
         
         public var type: CodableGraphicType {
-            .content(.solid(.color))
+            .content(.solid(.noise))
         }
-        
-        public var color: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
         
         public required init() {}
         
@@ -19,10 +17,7 @@ extension CodableGraphic.Content.Solid {
             options: AsyncGraphics.Graphic.ContentOptions = []
         ) async throws -> Graphic {
            
-            try await .color(
-                color.value.eval(at: resolution),
-                resolution: resolution,
-                options: options)
+            fatalError()
         }
     }
 }
