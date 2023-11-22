@@ -71,7 +71,7 @@ extension AnyGraphicValueProperty {
             let data = try encoder.encode(value)
             return String(data: data, encoding: .utf8)!
         } catch {
-            fatalError("CodableGraphics - Encode in Property Failed: \(error.localizedDescription)")
+            fatalError("CodableGraphics - Encode in Property Failed: \(error)")
         }
     }
     
@@ -81,7 +81,7 @@ extension AnyGraphicValueProperty {
             let data: Data = string.data(using: .utf8)!
             return try decoder.decode(GraphicMetadataValue<T>.self, from: data)
         } catch {
-            fatalError("CodableGraphics - Decode in Property Failed: \(error.localizedDescription)")
+            fatalError("CodableGraphics - Decode in Property Failed: \(error)")
         }
     }
 }

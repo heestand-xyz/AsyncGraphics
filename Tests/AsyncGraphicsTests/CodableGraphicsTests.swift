@@ -37,4 +37,19 @@ final class CodableGraphicsTests: XCTestCase {
             }
         }
     }
+    
+    func testVisible() {
+        
+        let property: CodableGraphic.Content.Solid.Noise.Property = .scale
+
+        let noise = CodableGraphic.Content.Solid.Noise()
+        noise.isRandom.value = .fixed(true)
+        XCTAssert(noise.isVisible(property: property, at: resolution) == false)
+
+        let instance = noise.type.instance()
+        if let valueProperty = instance.properties.first(where: { $0.key == property.rawValue }) as? AnyGraphicValueProperty {
+            valueProperty.setValue(.fixed(true))
+        }
+        XCTAssert(instance.isVisible(propertyKey: property.rawValue, at: resolution) == false)
+    }
 }
