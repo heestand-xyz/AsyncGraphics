@@ -45,7 +45,6 @@ public enum AGBlendMode {
         case .add: return 2
         case .addWithAlpha: return 3
         case .multiply: return 4
-        case .multiplyWithAlpha: return 22
         case .multiplyWithoutAlpha: return 23
         case .difference: return 5
         case .subtract: return 6

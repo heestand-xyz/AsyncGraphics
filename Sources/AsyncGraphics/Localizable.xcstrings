@@ -61,6 +61,9 @@
         }
       }
     },
+    "graphic.property.leadingPoint" : {
+
+    },
     "graphic.property.length" : {
       "localizations" : {
         "en" : {
@@ -70,6 +73,9 @@
           }
         }
       }
+    },
+    "graphic.property.lineCap" : {
+
     },
     "graphic.property.lineWidth" : {
       "localizations" : {
@@ -130,6 +136,9 @@
           }
         }
       }
+    },
+    "graphic.property.trailingPoint" : {
+
     }
   },
   "version" : "1.0"

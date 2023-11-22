@@ -10,18 +10,20 @@ public class GraphicEnumProperty<T: GraphicEnum> where T.RawValue == String {
     
     public var wrappedValue: GraphicEnumMetadata<T>
     
-    public let allCases: [GraphicEnumCase]
+    public var allCases: [GraphicEnumCase] {
+        T.allCases.map { enumCase in
+            GraphicEnumCase(rawValue: enumCase.rawValue, name: enumCase.name)
+        }
+    }
     
     public init(
         wrappedValue: GraphicEnumMetadata<T>,
         key: String,
-        name: String,
-        allCases: [GraphicEnumCase]
+        name: String
     ) {
         self.key = key
         self.name = name
         self.wrappedValue = wrappedValue
-        self.allCases = allCases
     }
 }
 
