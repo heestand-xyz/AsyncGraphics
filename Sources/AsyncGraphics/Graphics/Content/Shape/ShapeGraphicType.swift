@@ -5,6 +5,7 @@ public enum ShapeGraphicType: String, Codable, Equatable, CaseIterable {
     case circle
     case rectangle
     case polygon
+    case star
     case arc
     case line
 }
@@ -26,6 +27,8 @@ extension ShapeGraphicType {
             CodableGraphic.Content.Shape.Rectangle.self
         case .polygon:
             CodableGraphic.Content.Shape.Polygon.self
+        case .star:
+            CodableGraphic.Content.Shape.Star.self
         case .arc:
             CodableGraphic.Content.Shape.Arc.self
         case .line:
