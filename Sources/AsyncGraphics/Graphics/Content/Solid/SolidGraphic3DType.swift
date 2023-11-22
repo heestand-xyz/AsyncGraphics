@@ -3,6 +3,7 @@ import SwiftUI
 public enum SolidGraphic3DType: String, Codable, Equatable, CaseIterable {
     
     case color
+    case gradient
 }
 
 extension SolidGraphic3DType: Identifiable {
@@ -18,6 +19,8 @@ extension SolidGraphic3DType {
         switch self {
         case .color:
             CodableGraphic3D.Content.Solid.Color.self
+        case .gradient:
+            CodableGraphic3D.Content.Solid.Gradient.self
         }
     }
 }

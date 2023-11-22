@@ -13,7 +13,7 @@
       }
     },
     "graphic.property.backgroundColor" : {
-      "comment" : "Arc\nCircle\nBox\nSphere\nLine",
+      "comment" : "Line\nArc\nCircle\nBox\nSphere",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -24,7 +24,7 @@
       }
     },
     "graphic.property.color" : {
-      "comment" : "Color\nGradient",
+      "comment" : "Color",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -45,8 +45,14 @@
         }
       }
     },
+    "graphic.property.direction" : {
+      "comment" : "Gradient"
+    },
+    "graphic.property.extend" : {
+      "comment" : "Gradient"
+    },
     "graphic.property.foregroundColor" : {
-      "comment" : "Arc\nCircle\nBox\nSphere\nLine",
+      "comment" : "Line\nArc\nCircle\nBox\nSphere",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -55,6 +61,9 @@
           }
         }
       }
+    },
+    "graphic.property.gamma" : {
+      "comment" : "Gradient"
     },
     "graphic.property.isStroked" : {
       "comment" : "Arc\nCircle",
@@ -101,7 +110,7 @@
       }
     },
     "graphic.property.lineWidth" : {
-      "comment" : "Arc\nCircle\nLine",
+      "comment" : "Line\nArc\nCircle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -111,8 +120,11 @@
         }
       }
     },
+    "graphic.property.offset" : {
+      "comment" : "Gradient"
+    },
     "graphic.property.position" : {
-      "comment" : "Arc\nCircle\nBox\nSphere",
+      "comment" : "Arc\nGradient\nCircle\nBox\nSphere",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -133,6 +145,9 @@
         }
       }
     },
+    "graphic.property.scale" : {
+      "comment" : "Gradient"
+    },
     "graphic.property.size" : {
       "comment" : "Box",
       "localizations" : {
@@ -143,6 +158,9 @@
           }
         }
       }
+    },
+    "graphic.property.stops" : {
+      "comment" : "Gradient"
     },
     "graphic.property.surface" : {
       "comment" : "Box\nSphere",

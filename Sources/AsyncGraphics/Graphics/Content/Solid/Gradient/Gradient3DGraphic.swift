@@ -1,23 +1,23 @@
 import CoreGraphics
 import PixelColor
 
-extension CodableGraphic.Content.Solid {
+extension CodableGraphic3D.Content.Solid {
     
     @GraphicMacro
-    public class Gradient: SolidGraphicProtocol {
+    public class Gradient: SolidGraphic3DProtocol {
         
-        public var type: CodableGraphicType {
+        public var type: CodableGraphic3DType {
             .content(.solid(.gradient))
         }
         
-        public var direction: GraphicEnumMetadata<Graphic.GradientDirection> = .init(value: .vertical)
+        public var direction: GraphicEnumMetadata<Graphic3D.Gradient3DDirection> = .init(value: .y)
         
         public var stops: GraphicMetadata<[Graphic.GradientStop]> = .init(value: .fixed([
             Graphic.GradientStop(at: 0.0, color: .black),
             Graphic.GradientStop(at: 1.0, color: .white),
         ]))
         
-        public var position: GraphicMetadata<CGPoint> = .init()
+        public var position: GraphicMetadata<SIMD3<Double>> = .init()
         
         public var scale: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
                                                            maximum: .fixed(2.0))
@@ -32,10 +32,10 @@ extension CodableGraphic.Content.Solid {
         public required init() {}
         
         public func render(
-            at resolution: CGSize,
-            options: AsyncGraphics.Graphic.ContentOptions = []
-        ) async throws -> Graphic {
-            
+            at resolution: SIMD3<Int>,
+            options: Graphic3D.ContentOptions
+        ) async throws -> Graphic3D {
+
             try await .gradient(
                 direction: direction.value,
                 stops: stops.value.at(resolution: resolution),

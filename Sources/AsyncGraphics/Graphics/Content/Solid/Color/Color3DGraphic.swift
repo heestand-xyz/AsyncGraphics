@@ -18,6 +18,7 @@ extension CodableGraphic3D.Content.Solid {
             at resolution: SIMD3<Int>,
             options: AsyncGraphics.Graphic3D.ContentOptions = []
         ) async throws -> Graphic3D {
+           
             try await .color(
                 color.value.at(resolution: resolution),
                 resolution: resolution,
