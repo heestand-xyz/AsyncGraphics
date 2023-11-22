@@ -13,7 +13,7 @@
       }
     },
     "graphic.property.backgroundColor" : {
-      "comment" : "Line\nArc\nCircle\nBox\nSphere",
+      "comment" : "Rectangle\nArc\nCircle\nLine\nBox\nSphere\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -35,7 +35,7 @@
       }
     },
     "graphic.property.cornerRadius" : {
-      "comment" : "Box",
+      "comment" : "Rectangle\nBox\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -45,14 +45,41 @@
         }
       }
     },
+    "graphic.property.count" : {
+      "comment" : "Polygon",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Count"
+          }
+        }
+      }
+    },
     "graphic.property.direction" : {
-      "comment" : "Gradient"
+      "comment" : "Gradient",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Direction"
+          }
+        }
+      }
     },
     "graphic.property.extend" : {
-      "comment" : "Gradient"
+      "comment" : "Gradient",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extend"
+          }
+        }
+      }
     },
     "graphic.property.foregroundColor" : {
-      "comment" : "Line\nArc\nCircle\nBox\nSphere",
+      "comment" : "Rectangle\nArc\nCircle\nLine\nBox\nSphere\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -63,10 +90,18 @@
       }
     },
     "graphic.property.gamma" : {
-      "comment" : "Gradient"
+      "comment" : "Gradient",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gamma"
+          }
+        }
+      }
     },
     "graphic.property.isStroked" : {
-      "comment" : "Arc\nCircle",
+      "comment" : "Rectangle\nArc\nCircle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -110,7 +145,7 @@
       }
     },
     "graphic.property.lineWidth" : {
-      "comment" : "Line\nArc\nCircle",
+      "comment" : "Rectangle\nArc\nCircle\nLine",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -121,10 +156,18 @@
       }
     },
     "graphic.property.offset" : {
-      "comment" : "Gradient"
+      "comment" : "Gradient",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offset"
+          }
+        }
+      }
     },
     "graphic.property.position" : {
-      "comment" : "Arc\nGradient\nCircle\nBox\nSphere",
+      "comment" : "Rectangle\nArc\nGradient\nCircle\nBox\nSphere\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -135,7 +178,7 @@
       }
     },
     "graphic.property.radius" : {
-      "comment" : "Arc\nCircle\nSphere",
+      "comment" : "Arc\nCircle\nSphere\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -145,11 +188,30 @@
         }
       }
     },
+    "graphic.property.rotation" : {
+      "comment" : "Polygon",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rotation"
+          }
+        }
+      }
+    },
     "graphic.property.scale" : {
-      "comment" : "Gradient"
+      "comment" : "Gradient",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scale"
+          }
+        }
+      }
     },
     "graphic.property.size" : {
-      "comment" : "Box",
+      "comment" : "Rectangle\nBox",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -160,7 +222,15 @@
       }
     },
     "graphic.property.stops" : {
-      "comment" : "Gradient"
+      "comment" : "Gradient",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stops"
+          }
+        }
+      }
     },
     "graphic.property.surface" : {
       "comment" : "Box\nSphere",

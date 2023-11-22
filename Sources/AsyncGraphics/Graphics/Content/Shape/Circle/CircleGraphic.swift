@@ -29,24 +29,24 @@ extension CodableGraphic.Content.Shape {
             options: Graphic.ContentOptions = []
         ) async throws -> Graphic {
             
-            if isStroked.value.at(resolution: resolution) {
+            if isStroked.value.eval(at: resolution) {
                 
                 try await .strokedCircle(
-                    radius: radius.value.at(resolution: resolution),
-                    center: position.value.at(resolution: resolution),
-                    lineWidth: lineWidth.value.at(resolution: resolution),
-                    color: foregroundColor.value.at(resolution: resolution),
-                    backgroundColor: backgroundColor.value.at(resolution: resolution),
+                    radius: radius.value.eval(at: resolution),
+                    center: position.value.eval(at: resolution),
+                    lineWidth: lineWidth.value.eval(at: resolution),
+                    color: foregroundColor.value.eval(at: resolution),
+                    backgroundColor: backgroundColor.value.eval(at: resolution),
                     resolution: resolution,
                     options: options)
                 
             } else {
                 
                 try await .circle(
-                    radius: radius.value.at(resolution: resolution),
-                    center: position.value.at(resolution: resolution),
-                    color: foregroundColor.value.at(resolution: resolution),
-                    backgroundColor: backgroundColor.value.at(resolution: resolution),
+                    radius: radius.value.eval(at: resolution),
+                    center: position.value.eval(at: resolution),
+                    color: foregroundColor.value.eval(at: resolution),
+                    backgroundColor: backgroundColor.value.eval(at: resolution),
                     resolution: resolution,
                     options: options)
             }

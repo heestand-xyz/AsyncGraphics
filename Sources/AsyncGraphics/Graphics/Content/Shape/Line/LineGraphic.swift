@@ -29,12 +29,12 @@ extension CodableGraphic.Content.Shape {
         ) async throws -> Graphic {
           
             try await .line(
-                leadingPoint: leadingPoint.value.at(resolution: resolution),
-                trailingPoint: trailingPoint.value.at(resolution: resolution),
-                lineWidth: lineWidth.value.at(resolution: resolution),
+                leadingPoint: leadingPoint.value.eval(at: resolution),
+                trailingPoint: trailingPoint.value.eval(at: resolution),
+                lineWidth: lineWidth.value.eval(at: resolution),
                 cap: lineCap.value,
-                color: foregroundColor.value.at(resolution: resolution),
-                backgroundColor: backgroundColor.value.at(resolution: resolution),
+                color: foregroundColor.value.eval(at: resolution),
+                backgroundColor: backgroundColor.value.eval(at: resolution),
                 resolution: resolution,
                 options: options)
         }
