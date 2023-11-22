@@ -12,7 +12,7 @@ extension CodableGraphic3D.Content.Solid {
         
         public var direction: GraphicEnumMetadata<Graphic3D.Gradient3DDirection> = .init(value: .y)
         
-        public var stops: GraphicMetadata<[Graphic.GradientStop]> = .init(value: .fixed([
+        public var colorStops: GraphicMetadata<[Graphic.GradientStop]> = .init(value: .fixed([
             Graphic.GradientStop(at: 0.0, color: .black),
             Graphic.GradientStop(at: 1.0, color: .white),
         ]))
@@ -38,12 +38,12 @@ extension CodableGraphic3D.Content.Solid {
 
             try await .gradient(
                 direction: direction.value,
-                stops: stops.value.at(resolution: resolution),
-                center: position.value.at(resolution: resolution),
-                scale: scale.value.at(resolution: resolution),
-                offset: offset.value.at(resolution: resolution),
+                stops: colorStops.value.eval(at: resolution),
+                center: position.value.eval(at: resolution),
+                scale: scale.value.eval(at: resolution),
+                offset: offset.value.eval(at: resolution),
                 extend: extend.value,
-                gamma: gamma.value.at(resolution: resolution),
+                gamma: gamma.value.eval(at: resolution),
                 resolution: resolution,
                 options: options)
         }

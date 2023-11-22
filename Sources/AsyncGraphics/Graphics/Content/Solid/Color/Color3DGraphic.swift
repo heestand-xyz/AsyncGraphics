@@ -20,7 +20,7 @@ extension CodableGraphic3D.Content.Solid {
         ) async throws -> Graphic3D {
            
             try await .color(
-                color.value.at(resolution: resolution),
+                color.value.eval(at: resolution),
                 resolution: resolution,
                 options: options)
         }

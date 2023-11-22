@@ -29,24 +29,24 @@ extension CodableGraphic3D.Content.Shape {
             options: Graphic3D.ContentOptions = []
         ) async throws -> Graphic3D {
           
-            if surface.value.at(resolution: resolution) {
+            if surface.value.eval(at: resolution) {
                 
                 try await .surfaceSphere(
-                    radius: radius.value.at(resolution: resolution),
-                    center: position.value.at(resolution: resolution),
-                    surfaceWidth: surfaceWidth.value.at(resolution: resolution),
-                    color: foregroundColor.value.at(resolution: resolution),
-                    backgroundColor: backgroundColor.value.at(resolution: resolution),
+                    radius: radius.value.eval(at: resolution),
+                    center: position.value.eval(at: resolution),
+                    surfaceWidth: surfaceWidth.value.eval(at: resolution),
+                    color: foregroundColor.value.eval(at: resolution),
+                    backgroundColor: backgroundColor.value.eval(at: resolution),
                     resolution: resolution,
                     options: options)
                 
             } else {
                 
                 try await .sphere(
-                    radius: radius.value.at(resolution: resolution),
-                    center: position.value.at(resolution: resolution),
-                    color: foregroundColor.value.at(resolution: resolution),
-                    backgroundColor: backgroundColor.value.at(resolution: resolution),
+                    radius: radius.value.eval(at: resolution),
+                    center: position.value.eval(at: resolution),
+                    color: foregroundColor.value.eval(at: resolution),
+                    backgroundColor: backgroundColor.value.eval(at: resolution),
                     resolution: resolution,
                     options: options)
             }

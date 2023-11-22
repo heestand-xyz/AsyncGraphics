@@ -3,6 +3,8 @@ import SwiftUI
 public enum ShapeGraphicType: String, Codable, Equatable, CaseIterable {
     
     case circle
+    case rectangle
+    case polygon
     case arc
     case line
 }
@@ -20,6 +22,10 @@ extension ShapeGraphicType {
         switch self {
         case .circle:
             CodableGraphic.Content.Shape.Circle.self
+        case .rectangle:
+            CodableGraphic.Content.Shape.Rectangle.self
+        case .polygon:
+            CodableGraphic.Content.Shape.Polygon.self
         case .arc:
             CodableGraphic.Content.Shape.Arc.self
         case .line:
