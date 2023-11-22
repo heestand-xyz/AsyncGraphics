@@ -13,7 +13,7 @@
       }
     },
     "graphic.property.backgroundColor" : {
-      "comment" : "Sphere\nLine\nCircle\nArc\nBox",
+      "comment" : "Arc\nCircle\nBox\nSphere\nLine",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -24,7 +24,7 @@
       }
     },
     "graphic.property.color" : {
-      "comment" : "Color",
+      "comment" : "Color\nGradient",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -46,7 +46,7 @@
       }
     },
     "graphic.property.foregroundColor" : {
-      "comment" : "Sphere\nLine\nCircle\nArc\nBox",
+      "comment" : "Arc\nCircle\nBox\nSphere\nLine",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -57,7 +57,7 @@
       }
     },
     "graphic.property.isStroked" : {
-      "comment" : "Circle\nArc",
+      "comment" : "Arc\nCircle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -101,7 +101,7 @@
       }
     },
     "graphic.property.lineWidth" : {
-      "comment" : "Line\nCircle\nArc",
+      "comment" : "Arc\nCircle\nLine",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -112,7 +112,7 @@
       }
     },
     "graphic.property.position" : {
-      "comment" : "Sphere\nCircle\nArc\nBox",
+      "comment" : "Arc\nCircle\nBox\nSphere",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -123,7 +123,7 @@
       }
     },
     "graphic.property.radius" : {
-      "comment" : "Sphere\nCircle\nArc",
+      "comment" : "Arc\nCircle\nSphere",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -145,7 +145,7 @@
       }
     },
     "graphic.property.surface" : {
-      "comment" : "Sphere\nBox",
+      "comment" : "Box\nSphere",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -156,7 +156,7 @@
       }
     },
     "graphic.property.surfaceWidth" : {
-      "comment" : "Sphere\nBox",
+      "comment" : "Box\nSphere",
       "localizations" : {
         "en" : {
           "stringUnit" : {

@@ -28,6 +28,8 @@ extension CodableGraphic.Content.Shape {
         public var lineWidth: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
                                                                maximum: .fixed(10.0))
         
+        public required init() {}
+        
         public func render(
             at resolution: CGSize,
             options: Graphic.ContentOptions = []

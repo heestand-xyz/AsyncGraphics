@@ -9,8 +9,8 @@ import PixelColor
 extension Graphic {
     
     private struct GradientUniforms {
-        let type: Int32
-        let extend: Int32
+        let type: UInt32
+        let extend: UInt32
         let scale: Float
         let offset: Float
         let position: PointUniform
@@ -35,14 +35,16 @@ extension Graphic {
         }
     }
     
-    public enum GradientDirection: Int32 {
+    @EnumMacro
+    public enum GradientDirection: String, GraphicEnum {
         case horizontal
         case vertical
         case radial
         case angle
     }
     
-    public enum GradientExtend: Int32 {
+    @EnumMacro
+    public enum GradientExtend: String, GraphicEnum {
         case zero
         case hold
         case loop
@@ -69,8 +71,8 @@ extension Graphic {
             name: "Gradient",
             shader: .name("gradient"),
             uniforms: GradientUniforms(
-                type: direction.rawValue,
-                extend: extend.rawValue,
+                type: direction.index,
+                extend: extend.index,
                 scale: Float(scale),
                 offset: Float(offset),
                 position: relativePosition.uniform,

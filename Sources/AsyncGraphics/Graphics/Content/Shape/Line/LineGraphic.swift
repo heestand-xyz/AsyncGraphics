@@ -21,6 +21,8 @@ extension CodableGraphic.Content.Shape {
         
         public var lineCap: GraphicEnumMetadata<Graphic.LineCap> = .init(value: .square)
         
+        public required init() {}
+        
         public func render(
             at resolution: CGSize,
             options: AsyncGraphics.Graphic.ContentOptions = []

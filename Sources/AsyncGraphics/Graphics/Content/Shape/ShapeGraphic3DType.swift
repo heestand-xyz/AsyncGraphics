@@ -15,12 +15,12 @@ extension ShapeGraphic3DType: Identifiable {
 
 extension ShapeGraphic3DType {
     
-    public func instance() -> ShapeGraphic3DProtocol {
+    public var type: ShapeGraphic3DProtocol.Type {
         switch self {
         case .sphere:
-            CodableGraphic3D.Content.Shape.Sphere()
+            CodableGraphic3D.Content.Shape.Sphere.self
         case .box:
-            CodableGraphic3D.Content.Shape.Box()
+            CodableGraphic3D.Content.Shape.Box.self
         }
     }
 }
