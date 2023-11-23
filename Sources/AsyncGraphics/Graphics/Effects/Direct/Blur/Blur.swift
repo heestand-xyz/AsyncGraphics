@@ -12,14 +12,15 @@ import TextureMap
 extension Graphic {
     
     private struct BlurUniforms {
-        let type: Int32
+        let type: UInt32
         let radius: Float
-        let count: Int32
+        let count: UInt32
         let angle: Float
         let position: PointUniform
     }
     
-    private enum BlurType: Int32 {
+    @EnumMacro
+    public enum BlurType: String, GraphicEnum {
         case gaussian
         case box
         case angle
@@ -67,9 +68,9 @@ extension Graphic {
             shader: .name("blur"),
             graphics: [self],
             uniforms: BlurUniforms(
-                type: BlurType.box.rawValue,
+                type: BlurType.box.index,
                 radius: Float(relativeRadius),
-                count: Int32(sampleCount),
+                count: UInt32(sampleCount),
                 angle: 0.0,
                 position: CGPoint.zero.uniform
             ),
@@ -95,9 +96,9 @@ extension Graphic {
             shader: .name("blur"),
             graphics: [self],
             uniforms: BlurUniforms(
-                type: BlurType.zoom.rawValue,
+                type: BlurType.zoom.index,
                 radius: Float(relativeRadius),
-                count: Int32(sampleCount),
+                count: UInt32(sampleCount),
                 angle: 0.0,
                 position: relativeCenter.uniform
             ),
@@ -120,9 +121,9 @@ extension Graphic {
             shader: .name("blur"),
             graphics: [self],
             uniforms: BlurUniforms(
-                type: BlurType.angle.rawValue,
+                type: BlurType.angle.index,
                 radius: Float(relativeRadius),
-                count: Int32(sampleCount),
+                count: UInt32(sampleCount),
                 angle: angle.uniform,
                 position: CGPoint.zero.uniform
             ),
@@ -143,7 +144,7 @@ extension Graphic {
             shader: .name("blur"),
             graphics: [self],
             uniforms: BlurUniforms(
-                type: BlurType.random.rawValue,
+                type: BlurType.random.index,
                 radius: Float(relativeRadius),
                 count: 0,
                 angle: 0.0,
