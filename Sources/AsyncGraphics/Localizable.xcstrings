@@ -1,6 +1,78 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "graphic.option.blur3DType.box" : {
+
+    },
+    "graphic.option.blur3DType.direction" : {
+
+    },
+    "graphic.option.blur3DType.random" : {
+
+    },
+    "graphic.option.blur3DType.zoom" : {
+
+    },
+    "graphic.option.blurType.angle" : {
+
+    },
+    "graphic.option.blurType.box" : {
+
+    },
+    "graphic.option.blurType.gaussian" : {
+
+    },
+    "graphic.option.blurType.random" : {
+
+    },
+    "graphic.option.blurType.zoom" : {
+
+    },
+    "graphic.option.gradient3DDirection.radial" : {
+
+    },
+    "graphic.option.gradient3DDirection.x" : {
+
+    },
+    "graphic.option.gradient3DDirection.y" : {
+
+    },
+    "graphic.option.gradient3DDirection.z" : {
+
+    },
+    "graphic.option.gradientDirection.angle" : {
+
+    },
+    "graphic.option.gradientDirection.horizontal" : {
+
+    },
+    "graphic.option.gradientDirection.radial" : {
+
+    },
+    "graphic.option.gradientDirection.vertical" : {
+
+    },
+    "graphic.option.gradientExtend.hold" : {
+
+    },
+    "graphic.option.gradientExtend.loop" : {
+
+    },
+    "graphic.option.gradientExtend.mirror" : {
+
+    },
+    "graphic.option.gradientExtend.zero" : {
+
+    },
+    "graphic.option.lineCap.diamond" : {
+
+    },
+    "graphic.option.lineCap.round" : {
+
+    },
+    "graphic.option.lineCap.square" : {
+
+    },
     "graphic.property.angle" : {
       "comment" : "Arc",
       "localizations" : {
@@ -13,7 +85,7 @@
       }
     },
     "graphic.property.backgroundColor" : {
-      "comment" : "Polygon\nLine\nSphere\nRectangle\nBox\nStar\nArc\nCircle",
+      "comment" : "Box\nArc\nRectangle\nStar\nSphere\nLine\nCircle\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22,6 +94,9 @@
           }
         }
       }
+    },
+    "graphic.property.blurType" : {
+      "comment" : "Blur"
     },
     "graphic.property.color" : {
       "comment" : "Color",
@@ -46,7 +121,7 @@
       }
     },
     "graphic.property.cornerRadius" : {
-      "comment" : "Polygon\nRectangle\nBox\nStar",
+      "comment" : "Box\nRectangle\nStar\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -57,7 +132,7 @@
       }
     },
     "graphic.property.count" : {
-      "comment" : "Polygon\nStar",
+      "comment" : "Star\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -71,7 +146,7 @@
       "comment" : "Noise"
     },
     "graphic.property.direction" : {
-      "comment" : "Gradient",
+      "comment" : "Blur\nGradient",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -93,7 +168,7 @@
       }
     },
     "graphic.property.foregroundColor" : {
-      "comment" : "Polygon\nLine\nSphere\nRectangle\nBox\nStar\nArc\nCircle",
+      "comment" : "Box\nArc\nRectangle\nStar\nSphere\nLine\nCircle\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -132,7 +207,7 @@
       "comment" : "Noise"
     },
     "graphic.property.isStroked" : {
-      "comment" : "Rectangle\nArc\nCircle",
+      "comment" : "Arc\nRectangle\nCircle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -176,7 +251,7 @@
       }
     },
     "graphic.property.lineWidth" : {
-      "comment" : "Line\nRectangle\nArc\nCircle",
+      "comment" : "Arc\nRectangle\nLine\nCircle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -212,7 +287,7 @@
       }
     },
     "graphic.property.position" : {
-      "comment" : "Polygon\nGradient\nSphere\nRectangle\nBox\nStar\nArc\nCircle",
+      "comment" : "Blur\nBox\nArc\nRectangle\nGradient\nStar\nSphere\nCircle\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -223,7 +298,7 @@
       }
     },
     "graphic.property.radius" : {
-      "comment" : "Polygon\nSphere\nArc\nCircle",
+      "comment" : "Blur\nArc\nSphere\nCircle\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -234,7 +309,7 @@
       }
     },
     "graphic.property.rotation" : {
-      "comment" : "Polygon\nStar",
+      "comment" : "Blur\nStar\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -243,6 +318,9 @@
           }
         }
       }
+    },
+    "graphic.property.sampleCount" : {
+      "comment" : "Blur"
     },
     "graphic.property.scale" : {
       "comment" : "Gradient\nNoise",
@@ -259,7 +337,7 @@
       "comment" : "Noise"
     },
     "graphic.property.size" : {
-      "comment" : "Rectangle\nBox",
+      "comment" : "Box\nRectangle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -270,7 +348,7 @@
       }
     },
     "graphic.property.surface" : {
-      "comment" : "Sphere\nBox",
+      "comment" : "Box\nSphere",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -281,7 +359,7 @@
       }
     },
     "graphic.property.surfaceWidth" : {
-      "comment" : "Sphere\nBox",
+      "comment" : "Box\nSphere",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -301,6 +379,42 @@
           }
         }
       }
+    },
+    "graphic.type.arc" : {
+      "comment" : "Shape Content"
+    },
+    "graphic.type.blur" : {
+      "comment" : "Direct Effect"
+    },
+    "graphic.type.box" : {
+      "comment" : "Shape Content"
+    },
+    "graphic.type.circle" : {
+      "comment" : "Shape Content"
+    },
+    "graphic.type.color" : {
+      "comment" : "Solid Content"
+    },
+    "graphic.type.gradient" : {
+      "comment" : "Solid Content"
+    },
+    "graphic.type.line" : {
+      "comment" : "Shape Content"
+    },
+    "graphic.type.noise" : {
+      "comment" : "Solid Content"
+    },
+    "graphic.type.polygon" : {
+      "comment" : "Shape Content"
+    },
+    "graphic.type.rectangle" : {
+      "comment" : "Shape Content"
+    },
+    "graphic.type.sphere" : {
+      "comment" : "Shape Content"
+    },
+    "graphic.type.star" : {
+      "comment" : "Shape Content"
     }
   },
   "version" : "1.0"

@@ -6,10 +6,10 @@ import simd
 
 extension SIMD3 where Scalar == Int {
     
-    var asDouble: SIMD3<Double> { SIMD3<Double>(Double(x), Double(y), Double(z)) }
+    var asDouble: SIMD3<Double> { SIMD3<Double>(self) }
 }
 
 extension SIMD3 where Scalar == Double {
     
-    var asInt: SIMD3<Int> { SIMD3<Int>(Int(x), Int(y), Int(z)) }
+    var asInt: SIMD3<Int> { SIMD3<Int>(self) }
 }

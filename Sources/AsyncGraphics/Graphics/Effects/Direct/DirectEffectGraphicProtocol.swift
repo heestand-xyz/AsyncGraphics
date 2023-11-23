@@ -1,0 +1,2 @@
+
+public protocol DirectEffectGraphicProtocol: EffectGraphicProtocol {}

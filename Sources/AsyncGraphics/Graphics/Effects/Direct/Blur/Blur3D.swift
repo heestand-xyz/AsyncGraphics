@@ -12,14 +12,15 @@ import TextureMap
 extension Graphic3D {
     
     private struct Blur3DUniforms {
-        let type: Int32
+        let type: UInt32
         let radius: Float
-        let count: Int32
+        let count: UInt32
         let direction: VectorUniform
         let position: VectorUniform
     }
     
-    private enum Blur3DType: Int32 {
+    @EnumMacro
+    public enum Blur3DType: String, GraphicEnum {
         case box
         case direction
         case zoom
@@ -37,9 +38,9 @@ extension Graphic3D {
             shader: .name("blur3d"),
             graphics: [self],
             uniforms: Blur3DUniforms(
-                type: Blur3DType.box.rawValue,
+                type: Blur3DType.box.index,
                 radius: Float(relativeRadius),
-                count: Int32(sampleCount),
+                count: UInt32(sampleCount),
                 direction: VectorUniform.zero,
                 position: VectorUniform.zero
             ),
@@ -64,9 +65,9 @@ extension Graphic3D {
             shader: .name("blur3d"),
             graphics: [self],
             uniforms: Blur3DUniforms(
-                type: Blur3DType.zoom.rawValue,
+                type: Blur3DType.zoom.index,
                 radius: Float(relativeRadius),
-                count: Int32(sampleCount),
+                count: UInt32(sampleCount),
                 direction: VectorUniform.zero,
                 position: relativeCenter.uniform
             ),
@@ -88,9 +89,9 @@ extension Graphic3D {
             shader: .name("blur3d"),
             graphics: [self],
             uniforms: Blur3DUniforms(
-                type: Blur3DType.direction.rawValue,
+                type: Blur3DType.direction.index,
                 radius: Float(relativeRadius),
-                count: Int32(sampleCount),
+                count: UInt32(sampleCount),
                 direction: direction.uniform,
                 position: VectorUniform.zero
             ),
@@ -110,7 +111,7 @@ extension Graphic3D {
             shader: .name("blur3d"),
             graphics: [self],
             uniforms: Blur3DUniforms(
-                type: Blur3DType.random.rawValue,
+                type: Blur3DType.random.index,
                 radius: Float(relativeRadius),
                 count: 0,
                 direction: VectorUniform.zero,
