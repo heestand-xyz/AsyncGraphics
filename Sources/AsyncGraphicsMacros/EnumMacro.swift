@@ -23,7 +23,6 @@ public struct EnumMacro: MemberMacro {
             })
             .split(separator: " ")
             .map(String.init)
-            .reversed()
                 
         let spaceName = names
             .joined(separator: " ")

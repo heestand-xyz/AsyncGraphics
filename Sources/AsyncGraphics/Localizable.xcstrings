@@ -1,6 +1,347 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "graphic.arc" : {
+      "comment" : "Content: Shape",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arc"
+          }
+        }
+      }
+    },
+    "graphic.blur" : {
+      "comment" : "Effect: Direct",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blur"
+          }
+        }
+      }
+    },
+    "graphic.box" : {
+      "comment" : "Content: Shape",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Box"
+          }
+        }
+      }
+    },
+    "graphic.circle" : {
+      "comment" : "Content: Shape",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Circle"
+          }
+        }
+      }
+    },
+    "graphic.color" : {
+      "comment" : "Content: Solid",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Color"
+          }
+        }
+      }
+    },
+    "graphic.gradient" : {
+      "comment" : "Content: Solid",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gradient"
+          }
+        }
+      }
+    },
+    "graphic.line" : {
+      "comment" : "Content: Shape",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Line"
+          }
+        }
+      }
+    },
+    "graphic.noise" : {
+      "comment" : "Content: Solid",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noise"
+          }
+        }
+      }
+    },
+    "graphic.polygon" : {
+      "comment" : "Content: Shape",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Polygon"
+          }
+        }
+      }
+    },
+    "graphic.rectangle" : {
+      "comment" : "Content: Shape",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rectangle"
+          }
+        }
+      }
+    },
+    "graphic.sphere" : {
+      "comment" : "Content: Shape",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sphere"
+          }
+        }
+      }
+    },
+    "graphic.star" : {
+      "comment" : "Content: Shape",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Star"
+          }
+        }
+      }
+    },
+    "option.angle" : {
+      "comment" : "Direction Gradient\nType Blur",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angle"
+          }
+        }
+      }
+    },
+    "option.box" : {
+      "comment" : "Type Blur\nType D 3 Blur",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Box"
+          }
+        }
+      }
+    },
+    "option.diamond" : {
+      "comment" : "Cap Line",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diamond"
+          }
+        }
+      }
+    },
+    "option.direction" : {
+      "comment" : "Type D 3 Blur",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Direction"
+          }
+        }
+      }
+    },
+    "option.gaussian" : {
+      "comment" : "Type Blur",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gaussian"
+          }
+        }
+      }
+    },
+    "option.hold" : {
+      "comment" : "Extend Gradient",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hold"
+          }
+        }
+      }
+    },
+    "option.horizontal" : {
+      "comment" : "Direction Gradient",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Horizontal"
+          }
+        }
+      }
+    },
+    "option.loop" : {
+      "comment" : "Extend Gradient",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loop"
+          }
+        }
+      }
+    },
+    "option.mirror" : {
+      "comment" : "Extend Gradient",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mirror"
+          }
+        }
+      }
+    },
+    "option.radial" : {
+      "comment" : "Direction Gradient\nDirection D 3 Gradient",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Radial"
+          }
+        }
+      }
+    },
+    "option.random" : {
+      "comment" : "Type Blur\nType D 3 Blur",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Random"
+          }
+        }
+      }
+    },
+    "option.round" : {
+      "comment" : "Cap Line",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Round"
+          }
+        }
+      }
+    },
+    "option.square" : {
+      "comment" : "Cap Line",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Square"
+          }
+        }
+      }
+    },
+    "option.vertical" : {
+      "comment" : "Direction Gradient",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vertical"
+          }
+        }
+      }
+    },
+    "option.x" : {
+      "comment" : "Direction D 3 Gradient",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "X"
+          }
+        }
+      }
+    },
+    "option.y" : {
+      "comment" : "Direction D 3 Gradient",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Y"
+          }
+        }
+      }
+    },
+    "option.z" : {
+      "comment" : "Direction D 3 Gradient",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Z"
+          }
+        }
+      }
+    },
+    "option.zero" : {
+      "comment" : "Extend Gradient",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zero"
+          }
+        }
+      }
+    },
+    "option.zoom" : {
+      "comment" : "Type Blur\nType D 3 Blur",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoom"
+          }
+        }
+      }
+    },
     "property.angle" : {
       "comment" : "Arc",
       "localizations" : {
@@ -13,7 +354,7 @@
       }
     },
     "property.backgroundColor" : {
-      "comment" : "Box\nLine\nSphere\nRectangle\nStar\nArc\nCircle\nPolygon",
+      "comment" : "Box\nLine\nRectangle\nSphere\nCircle\nArc\nStar\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -90,7 +431,7 @@
       }
     },
     "property.direction" : {
-      "comment" : "Blur\nGradient",
+      "comment" : "Gradient\nBlur",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -112,7 +453,7 @@
       }
     },
     "property.foregroundColor" : {
-      "comment" : "Box\nLine\nSphere\nRectangle\nStar\nArc\nCircle\nPolygon",
+      "comment" : "Box\nLine\nRectangle\nSphere\nCircle\nArc\nStar\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -167,7 +508,7 @@
       }
     },
     "property.isStroked" : {
-      "comment" : "Rectangle\nArc\nCircle",
+      "comment" : "Rectangle\nCircle\nArc",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -211,7 +552,7 @@
       }
     },
     "property.lineWidth" : {
-      "comment" : "Line\nRectangle\nArc\nCircle",
+      "comment" : "Line\nRectangle\nCircle\nArc",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -255,7 +596,7 @@
       }
     },
     "property.position" : {
-      "comment" : "Blur\nGradient\nBox\nSphere\nRectangle\nStar\nArc\nCircle\nPolygon",
+      "comment" : "Box\nBlur\nRectangle\nGradient\nSphere\nCircle\nArc\nStar\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -266,7 +607,7 @@
       }
     },
     "property.radius" : {
-      "comment" : "Blur\nSphere\nArc\nCircle\nPolygon",
+      "comment" : "Blur\nSphere\nCircle\nArc\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
