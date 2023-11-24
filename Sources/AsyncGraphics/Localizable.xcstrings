@@ -134,7 +134,7 @@
       }
     },
     "option.angle" : {
-      "comment" : "Gradient Direction\nBlur Type",
+      "comment" : "Blur Type\nGradient Direction",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -145,7 +145,7 @@
       }
     },
     "option.box" : {
-      "comment" : "Blur 3 D Type\nBlur Type",
+      "comment" : "Blur Type\nBlur 3 D Type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -233,7 +233,7 @@
       }
     },
     "option.radial" : {
-      "comment" : "Gradient Direction\nGradient 3 D Direction",
+      "comment" : "Gradient 3 D Direction\nGradient Direction",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -244,7 +244,7 @@
       }
     },
     "option.random" : {
-      "comment" : "Blur 3 D Type\nBlur Type",
+      "comment" : "Blur Type\nBlur 3 D Type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -332,7 +332,7 @@
       }
     },
     "option.zoom" : {
-      "comment" : "Blur 3 D Type\nBlur Type",
+      "comment" : "Blur Type\nBlur 3 D Type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -354,7 +354,7 @@
       }
     },
     "property.backgroundColor" : {
-      "comment" : "Polygon\nArc\nLine\nCircle\nRectangle\nBox\nSphere\nStar",
+      "comment" : "Line\nStar\nRectangle\nBox\nArc\nPolygon\nCircle\nSphere",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -398,7 +398,7 @@
       }
     },
     "property.cornerRadius" : {
-      "comment" : "Polygon\nRectangle\nBox\nStar",
+      "comment" : "Star\nRectangle\nBox\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -409,7 +409,7 @@
       }
     },
     "property.count" : {
-      "comment" : "Polygon\nStar",
+      "comment" : "Star\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -453,7 +453,7 @@
       }
     },
     "property.foregroundColor" : {
-      "comment" : "Polygon\nArc\nLine\nCircle\nRectangle\nBox\nSphere\nStar",
+      "comment" : "Line\nStar\nRectangle\nBox\nArc\nPolygon\nCircle\nSphere",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -508,7 +508,7 @@
       }
     },
     "property.isStroked" : {
-      "comment" : "Arc\nCircle\nRectangle",
+      "comment" : "Rectangle\nArc\nCircle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -552,7 +552,7 @@
       }
     },
     "property.lineWidth" : {
-      "comment" : "Arc\nLine\nCircle\nRectangle",
+      "comment" : "Line\nRectangle\nArc\nCircle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -574,7 +574,7 @@
       }
     },
     "property.offset" : {
-      "comment" : "Gradient\nNoise",
+      "comment" : "Noise\nGradient",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -596,7 +596,7 @@
       }
     },
     "property.position" : {
-      "comment" : "Blur\nPolygon\nArc\nCircle\nRectangle\nBox\nGradient\nSphere\nStar",
+      "comment" : "Star\nRectangle\nBox\nBlur\nGradient\nArc\nPolygon\nCircle\nSphere",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -607,7 +607,7 @@
       }
     },
     "property.radius" : {
-      "comment" : "Blur\nPolygon\nArc\nCircle\nSphere",
+      "comment" : "Blur\nArc\nPolygon\nCircle\nSphere",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -618,7 +618,7 @@
       }
     },
     "property.rotation" : {
-      "comment" : "Blur\nPolygon\nStar",
+      "comment" : "Star\nBlur\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -640,7 +640,7 @@
       }
     },
     "property.scale" : {
-      "comment" : "Gradient\nNoise",
+      "comment" : "Noise\nGradient",
       "localizations" : {
         "en" : {
           "stringUnit" : {

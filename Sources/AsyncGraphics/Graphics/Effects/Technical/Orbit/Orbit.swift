@@ -2,6 +2,7 @@
 //  Created by Anton Heestand on 2022-09-12.
 //
 
+import SwiftUI
 import CoreGraphics
 import CoreGraphicsExtensions
 import PixelColor
@@ -10,6 +11,8 @@ extension Graphic3D {
     
     public func orbit(
         backgroundColor: PixelColor = .clear,
+        rotationX: Angle = .zero,
+        rotationY: Angle = .zero,
         resolution: CGSize
     ) async throws -> Graphic {
        
@@ -22,9 +25,10 @@ extension Graphic3D {
             vertices: .direct(vertices, type: .triangle),
             camera: Renderer.Camera(
                 fieldOfView: .degrees(60),
-                position: SIMD3<Double>(0.0, 0.0, -2.01),
-                rotation: SIMD3<Double>(0.0, 0.0, 0.0)
+                position: SIMD3<Double>(0.0, 0.0, -2.5)
             ),
+            rotationX: rotationX,
+            rotationY: rotationY,
             metadata: Renderer.Metadata(
                 resolution: resolution,
                 colorSpace: colorSpace,
