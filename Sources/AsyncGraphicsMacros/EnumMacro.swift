@@ -12,8 +12,21 @@ public struct EnumMacro: MemberMacro {
       
         guard let enumDecl = declaration.as(EnumDeclSyntax.self) else { return [] }
         
-        let name = enumDecl.name.text
-        let camelName = name.first!.lowercased() + name.dropFirst()
+        let rawName = enumDecl.name.text
+        
+        let names: [String] = rawName
+            .reduce("", {
+                guard "\($1)".uppercased() == "\($1)",
+                      $0.count > 0
+                else { return $0 + String($1) }
+                return ($0 + " " + String($1))
+            })
+            .split(separator: " ")
+            .map(String.init)
+            .reversed()
+                
+        let spaceName = names
+            .joined(separator: " ")
         
         let block: MemberBlockSyntax  = enumDecl.memberBlock
         
@@ -29,7 +42,7 @@ public struct EnumMacro: MemberMacro {
         
         let nameCases: [String] = enumCases.map { enumCase in
             """
-            case .\(enumCase): String(localized: "graphic.option.\(camelName).\(enumCase)")
+            case .\(enumCase): String(localized: "option.\(enumCase)", bundle: .module, comment: "\(spaceName)")
             """
         }
         

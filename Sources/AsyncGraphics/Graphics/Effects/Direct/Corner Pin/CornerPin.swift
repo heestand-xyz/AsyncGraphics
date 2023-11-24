@@ -118,7 +118,10 @@ extension Graphic {
                     let top = add(scale(topLeft, by: 1.0 - u), scale(topRight, by: u))
                     pos = add(scale(bottom, by: 1.0 - v), scale(top, by: v))
                 }
-                let vert = Renderer.Vertex(x: CGFloat(pos.x * 2 - 1), y: CGFloat(pos.y * 2 - 1), s: CGFloat(u), t: CGFloat(1.0 - v))
+                let vert = Renderer.Vertex(x: CGFloat(pos.x * 2 - 1),
+                                           y: CGFloat(pos.y * 2 - 1),
+                                           u: CGFloat(u),
+                                           v: CGFloat(1.0 - v))
                 col_verts.append(vert)
             }
             verts.append(col_verts)

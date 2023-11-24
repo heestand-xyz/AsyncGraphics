@@ -210,8 +210,16 @@ public struct Renderer {
                         
                         let vertexFunction = try self.shader(name: vertexShaderName)
                         
-                        let pipeline: MTLRenderPipelineState = try pipeline(fragmentFunction: function, vertexFunction: vertexFunction, additive: options.additive, bits: bits, sampleCount: sampleCount)
+                        let pipeline: MTLRenderPipelineState = try pipeline(fragmentFunction: function, vertexFunction: vertexFunction, additive: options.additive, depth: options.depth, bits: bits, sampleCount: sampleCount)
                         renderCommandEncoder.setRenderPipelineState(pipeline)
+                        
+                        if options.depth {
+                            let depthStateDescriptor = MTLDepthStencilDescriptor()
+                            depthStateDescriptor.depthCompareFunction = .less
+                            depthStateDescriptor.isDepthWriteEnabled = true
+                            let depthState: MTLDepthStencilState = metalDevice.makeDepthStencilState(descriptor: depthStateDescriptor)!
+                            renderCommandEncoder.setDepthStencilState(depthState)
+                        }
                         
                     } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
                         
