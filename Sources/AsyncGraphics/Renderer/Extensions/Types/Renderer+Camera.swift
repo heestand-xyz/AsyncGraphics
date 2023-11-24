@@ -6,7 +6,7 @@ extension Renderer {
     struct Camera {
         let fieldOfView: Angle
         let position: SIMD3<Double>
-        let rotation: SIMD3<Double>
+//        let rotation: SIMD3<Double>
         let near: Double = 0.1
         let far: Double = 10.0
     }

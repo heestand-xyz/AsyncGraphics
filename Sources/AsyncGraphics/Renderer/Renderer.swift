@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 import MetalKit
 import TextureMap
 
@@ -93,6 +94,9 @@ public struct Renderer {
         uniforms: U = EmptyUniforms(),
         vertices: Vertices,
         camera: Camera,
+        rotationX: Angle = .zero,
+        rotationY: Angle = .zero,
+        rotationZ: Angle = .zero,
         metadata: Metadata? = nil,
         options: Options = Options()
     ) async throws -> Graphic {
@@ -114,11 +118,11 @@ public struct Renderer {
         let position: matrix_float4x4 = translation(Float(camera.position.x),
                                                     Float(camera.position.y),
                                                     Float(camera.position.z))
-        let rotationX: matrix_float4x4 = rotation(radians: Float(camera.rotation.x),
+        let rotationX: matrix_float4x4 = rotation(radians: Float(rotationX.radians),
                                                   axis: SIMD3<Float>(1, 0, 0))
-        let rotationY: matrix_float4x4 = rotation(radians: Float(camera.rotation.y),
+        let rotationY: matrix_float4x4 = rotation(radians: Float(rotationY.radians),
                                                   axis: SIMD3<Float>(0, 1, 0))
-        let rotationZ: matrix_float4x4 = rotation(radians: Float(camera.rotation.z),
+        let rotationZ: matrix_float4x4 = rotation(radians: Float(rotationZ.radians),
                                                   axis: SIMD3<Float>(0, 0, 1))
         let rotation: matrix_float4x4 = simd_mul(simd_mul(rotationX, rotationY), rotationZ)
         let modelViewMatrix: matrix_float4x4 = simd_mul(position, rotation)
