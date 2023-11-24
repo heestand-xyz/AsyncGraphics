@@ -94,7 +94,7 @@ public struct GraphicMacro: MemberMacro, MemberAttributeMacro {
         }
         
         let localizedName = """
-        String(localized: "graphic.property.\(name)", comment: "\(className)")
+        String(localized: "property.\(name)", bundle: .module, comment: "\(className)")
         """
         
         if isMetadata {

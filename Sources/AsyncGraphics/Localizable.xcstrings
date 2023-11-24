@@ -1,79 +1,7 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "graphic.option.blur3DType.box" : {
-
-    },
-    "graphic.option.blur3DType.direction" : {
-
-    },
-    "graphic.option.blur3DType.random" : {
-
-    },
-    "graphic.option.blur3DType.zoom" : {
-
-    },
-    "graphic.option.blurType.angle" : {
-
-    },
-    "graphic.option.blurType.box" : {
-
-    },
-    "graphic.option.blurType.gaussian" : {
-
-    },
-    "graphic.option.blurType.random" : {
-
-    },
-    "graphic.option.blurType.zoom" : {
-
-    },
-    "graphic.option.gradient3DDirection.radial" : {
-
-    },
-    "graphic.option.gradient3DDirection.x" : {
-
-    },
-    "graphic.option.gradient3DDirection.y" : {
-
-    },
-    "graphic.option.gradient3DDirection.z" : {
-
-    },
-    "graphic.option.gradientDirection.angle" : {
-
-    },
-    "graphic.option.gradientDirection.horizontal" : {
-
-    },
-    "graphic.option.gradientDirection.radial" : {
-
-    },
-    "graphic.option.gradientDirection.vertical" : {
-
-    },
-    "graphic.option.gradientExtend.hold" : {
-
-    },
-    "graphic.option.gradientExtend.loop" : {
-
-    },
-    "graphic.option.gradientExtend.mirror" : {
-
-    },
-    "graphic.option.gradientExtend.zero" : {
-
-    },
-    "graphic.option.lineCap.diamond" : {
-
-    },
-    "graphic.option.lineCap.round" : {
-
-    },
-    "graphic.option.lineCap.square" : {
-
-    },
-    "graphic.property.angle" : {
+    "property.angle" : {
       "comment" : "Arc",
       "localizations" : {
         "en" : {
@@ -84,8 +12,8 @@
         }
       }
     },
-    "graphic.property.backgroundColor" : {
-      "comment" : "Box\nArc\nRectangle\nStar\nSphere\nLine\nCircle\nPolygon",
+    "property.backgroundColor" : {
+      "comment" : "Box\nLine\nSphere\nRectangle\nStar\nArc\nCircle\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -95,10 +23,18 @@
         }
       }
     },
-    "graphic.property.blurType" : {
-      "comment" : "Blur"
+    "property.blurType" : {
+      "comment" : "Blur",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blur Type"
+          }
+        }
+      }
     },
-    "graphic.property.color" : {
+    "property.color" : {
       "comment" : "Color",
       "localizations" : {
         "en" : {
@@ -109,7 +45,7 @@
         }
       }
     },
-    "graphic.property.colorStops" : {
+    "property.colorStops" : {
       "comment" : "Gradient",
       "localizations" : {
         "en" : {
@@ -120,7 +56,7 @@
         }
       }
     },
-    "graphic.property.cornerRadius" : {
+    "property.cornerRadius" : {
       "comment" : "Box\nRectangle\nStar\nPolygon",
       "localizations" : {
         "en" : {
@@ -131,7 +67,7 @@
         }
       }
     },
-    "graphic.property.count" : {
+    "property.count" : {
       "comment" : "Star\nPolygon",
       "localizations" : {
         "en" : {
@@ -142,10 +78,18 @@
         }
       }
     },
-    "graphic.property.depthOffset" : {
-      "comment" : "Noise"
+    "property.depthOffset" : {
+      "comment" : "Noise",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depth Offset"
+          }
+        }
+      }
     },
-    "graphic.property.direction" : {
+    "property.direction" : {
       "comment" : "Blur\nGradient",
       "localizations" : {
         "en" : {
@@ -156,7 +100,7 @@
         }
       }
     },
-    "graphic.property.extend" : {
+    "property.extend" : {
       "comment" : "Gradient",
       "localizations" : {
         "en" : {
@@ -167,8 +111,8 @@
         }
       }
     },
-    "graphic.property.foregroundColor" : {
-      "comment" : "Box\nArc\nRectangle\nStar\nSphere\nLine\nCircle\nPolygon",
+    "property.foregroundColor" : {
+      "comment" : "Box\nLine\nSphere\nRectangle\nStar\nArc\nCircle\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -178,7 +122,7 @@
         }
       }
     },
-    "graphic.property.gamma" : {
+    "property.gamma" : {
       "comment" : "Gradient",
       "localizations" : {
         "en" : {
@@ -189,7 +133,7 @@
         }
       }
     },
-    "graphic.property.innerRadius" : {
+    "property.innerRadius" : {
       "comment" : "Star",
       "localizations" : {
         "en" : {
@@ -200,14 +144,30 @@
         }
       }
     },
-    "graphic.property.isColored" : {
-      "comment" : "Noise"
+    "property.isColored" : {
+      "comment" : "Noise",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colored"
+          }
+        }
+      }
     },
-    "graphic.property.isRandom" : {
-      "comment" : "Noise"
+    "property.isRandom" : {
+      "comment" : "Noise",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Random"
+          }
+        }
+      }
     },
-    "graphic.property.isStroked" : {
-      "comment" : "Arc\nRectangle\nCircle",
+    "property.isStroked" : {
+      "comment" : "Rectangle\nArc\nCircle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -217,7 +177,7 @@
         }
       }
     },
-    "graphic.property.leadingPoint" : {
+    "property.leadingPoint" : {
       "comment" : "Line",
       "localizations" : {
         "en" : {
@@ -228,7 +188,7 @@
         }
       }
     },
-    "graphic.property.length" : {
+    "property.length" : {
       "comment" : "Arc",
       "localizations" : {
         "en" : {
@@ -239,7 +199,7 @@
         }
       }
     },
-    "graphic.property.lineCap" : {
+    "property.lineCap" : {
       "comment" : "Line",
       "localizations" : {
         "en" : {
@@ -250,8 +210,8 @@
         }
       }
     },
-    "graphic.property.lineWidth" : {
-      "comment" : "Arc\nRectangle\nLine\nCircle",
+    "property.lineWidth" : {
+      "comment" : "Line\nRectangle\nArc\nCircle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -261,10 +221,18 @@
         }
       }
     },
-    "graphic.property.octaves" : {
-      "comment" : "Noise"
+    "property.octaves" : {
+      "comment" : "Noise",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Octaves"
+          }
+        }
+      }
     },
-    "graphic.property.offset" : {
+    "property.offset" : {
       "comment" : "Gradient\nNoise",
       "localizations" : {
         "en" : {
@@ -275,7 +243,7 @@
         }
       }
     },
-    "graphic.property.outerRadius" : {
+    "property.outerRadius" : {
       "comment" : "Star",
       "localizations" : {
         "en" : {
@@ -286,8 +254,8 @@
         }
       }
     },
-    "graphic.property.position" : {
-      "comment" : "Blur\nBox\nArc\nRectangle\nGradient\nStar\nSphere\nCircle\nPolygon",
+    "property.position" : {
+      "comment" : "Blur\nGradient\nBox\nSphere\nRectangle\nStar\nArc\nCircle\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -297,8 +265,8 @@
         }
       }
     },
-    "graphic.property.radius" : {
-      "comment" : "Blur\nArc\nSphere\nCircle\nPolygon",
+    "property.radius" : {
+      "comment" : "Blur\nSphere\nArc\nCircle\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -308,7 +276,7 @@
         }
       }
     },
-    "graphic.property.rotation" : {
+    "property.rotation" : {
       "comment" : "Blur\nStar\nPolygon",
       "localizations" : {
         "en" : {
@@ -319,10 +287,18 @@
         }
       }
     },
-    "graphic.property.sampleCount" : {
-      "comment" : "Blur"
+    "property.sampleCount" : {
+      "comment" : "Blur",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sample Count"
+          }
+        }
+      }
     },
-    "graphic.property.scale" : {
+    "property.scale" : {
       "comment" : "Gradient\nNoise",
       "localizations" : {
         "en" : {
@@ -333,10 +309,18 @@
         }
       }
     },
-    "graphic.property.seed" : {
-      "comment" : "Noise"
+    "property.seed" : {
+      "comment" : "Noise",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seed"
+          }
+        }
+      }
     },
-    "graphic.property.size" : {
+    "property.size" : {
       "comment" : "Box\nRectangle",
       "localizations" : {
         "en" : {
@@ -347,7 +331,7 @@
         }
       }
     },
-    "graphic.property.surface" : {
+    "property.surface" : {
       "comment" : "Box\nSphere",
       "localizations" : {
         "en" : {
@@ -358,7 +342,7 @@
         }
       }
     },
-    "graphic.property.surfaceWidth" : {
+    "property.surfaceWidth" : {
       "comment" : "Box\nSphere",
       "localizations" : {
         "en" : {
@@ -369,7 +353,7 @@
         }
       }
     },
-    "graphic.property.trailingPoint" : {
+    "property.trailingPoint" : {
       "comment" : "Line",
       "localizations" : {
         "en" : {
@@ -379,42 +363,6 @@
           }
         }
       }
-    },
-    "graphic.type.arc" : {
-      "comment" : "Shape Content"
-    },
-    "graphic.type.blur" : {
-      "comment" : "Direct Effect"
-    },
-    "graphic.type.box" : {
-      "comment" : "Shape Content"
-    },
-    "graphic.type.circle" : {
-      "comment" : "Shape Content"
-    },
-    "graphic.type.color" : {
-      "comment" : "Solid Content"
-    },
-    "graphic.type.gradient" : {
-      "comment" : "Solid Content"
-    },
-    "graphic.type.line" : {
-      "comment" : "Shape Content"
-    },
-    "graphic.type.noise" : {
-      "comment" : "Solid Content"
-    },
-    "graphic.type.polygon" : {
-      "comment" : "Shape Content"
-    },
-    "graphic.type.rectangle" : {
-      "comment" : "Shape Content"
-    },
-    "graphic.type.sphere" : {
-      "comment" : "Shape Content"
-    },
-    "graphic.type.star" : {
-      "comment" : "Shape Content"
     }
   },
   "version" : "1.0"

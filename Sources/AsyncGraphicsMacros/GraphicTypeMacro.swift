@@ -21,19 +21,21 @@ public struct GraphicTypeMacro: MemberMacro {
             .replacingOccurrences(of: "GraphicType", with: "")
             .replacingOccurrences(of: "Graphic3DType", with: "")
         
-        let spaceName: String = typeName.reduce("", {
-            guard "\($1)".uppercased() == "\($1)",
-                  $0.count > 0
-            else { return $0 + String($1) }
-            return ($0 + " " + String($1))
-        })
-        
-        let dotName = spaceName
+        let names: [String] = typeName
+            .reduce("", {
+                guard "\($1)".uppercased() == "\($1)",
+                      $0.count > 0
+                else { return $0 + String($1) }
+                return ($0 + " " + String($1))
+            })
             .split(separator: " ")
             .map(String.init)
             .reversed()
-            .joined(separator: ".")
-
+        
+        let colonName = names.joined(separator: ": ")
+        
+        let dotName: String = names.joined(separator: ".")
+        
         let block: MemberBlockSyntax  = enumDecl.memberBlock
         
         var enumCases: [String] = []
@@ -48,7 +50,7 @@ public struct GraphicTypeMacro: MemberMacro {
         
         let nameCases: [String] = enumCases.map { enumCase in
             """
-            case .\(enumCase): String(localized: "graphic.type.\(enumCase)", comment: "\(spaceName)")
+            case .\(enumCase): String(localized: "graphic.\(enumCase)", bundle: .module, comment: "\(colonName)")
             """
         }
         

@@ -14,6 +14,7 @@ extension Renderer {
         var filter: MTLSamplerMinMagFilter = .linear
         var clearColor: PixelColor = .clear
         var additive: Bool = false
+        var depth: Bool = false
         var sampleCount: Int = 1
         var targetSourceTexture: Bool = false
     }
