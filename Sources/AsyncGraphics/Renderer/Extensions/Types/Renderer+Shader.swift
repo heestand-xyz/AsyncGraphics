@@ -10,6 +10,7 @@ extension Renderer {
         case name(String)
         case custom(fragment: String, vertex: String)
         case code(String, name: String)
+        case camera(String)
         case passthrough
     }
 }
@@ -24,6 +25,8 @@ extension Renderer.Shader {
             return name
         case .code(_, let name):
             return name
+        case .camera(let name):
+            return name
         case .passthrough:
             return "fragmentPassthrough"
         }
@@ -33,6 +36,8 @@ extension Renderer.Shader {
         switch self {
         case .custom(_, let vertex):
             return vertex
+        case .camera:
+            return "vertexCamera"
         default:
             return "vertexPassthrough"
         }

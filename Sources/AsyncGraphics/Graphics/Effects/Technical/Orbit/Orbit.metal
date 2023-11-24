@@ -5,20 +5,19 @@
 #include <metal_stdlib>
 using namespace metal;
 
-struct VertexOut {
+struct VertexOut3D {
     float4 position [[position]];
-    float2 texCoord;
+    float3 texCoord;
 };
 
-fragment float4 orbit(VertexOut vertexOut [[stage_in]],
+fragment float4 orbit(VertexOut3D vertexOut [[stage_in]],
                       texture3d<float, access::sample> texture [[ texture(0) ]],
                       sampler sampler [[ sampler(0) ]]) {
     
     float u = vertexOut.texCoord[0];
     float v = vertexOut.texCoord[1];
-    float2 uv = float2(u, v);
-    
-    float3 uvw = float3(u, v, 0.5);
+    float w = vertexOut.texCoord[2];
+    float3 uvw = float3(u, v, w);
     
     float4 color = texture.sample(sampler, uvw);
     
