@@ -85,6 +85,62 @@ public struct Renderer {
         )
     }
     
+    /// Camera
+    static func render<U>(
+        name: String,
+        shader: Shader,
+        graphics: [Graphicable] = [],
+        uniforms: U = EmptyUniforms(),
+        vertices: Vertices,
+        camera: Camera,
+        metadata: Metadata? = nil,
+        options: Options = Options()
+    ) async throws -> Graphic {
+        
+        guard options.depth else {
+            fatalError("Depth Option Must be True for Camera")
+        }
+        
+        guard let resolution: CGSize = metadata?.resolution as? CGSize else {
+            fatalError("2D Resolution Needed for Camera Rendering")
+        }
+        
+        let projectionMatrix: matrix_float4x4 = perspective(
+            fovyRadians: radians(degrees: Float(camera.fieldOfView.degrees)),
+            aspectRatio: Float(resolution.aspectRatio),
+            nearZ: Float(camera.near),
+            farZ: Float(camera.far))
+        
+        let position: matrix_float4x4 = translation(Float(camera.position.x),
+                                                    Float(camera.position.y),
+                                                    Float(camera.position.z))
+        let rotationX: matrix_float4x4 = rotation(radians: Float(camera.rotation.x),
+                                                  axis: SIMD3<Float>(1, 0, 0))
+        let rotationY: matrix_float4x4 = rotation(radians: Float(camera.rotation.y),
+                                                  axis: SIMD3<Float>(0, 1, 0))
+        let rotationZ: matrix_float4x4 = rotation(radians: Float(camera.rotation.z),
+                                                  axis: SIMD3<Float>(0, 0, 1))
+        let rotation: matrix_float4x4 = simd_mul(simd_mul(rotationX, rotationY), rotationZ)
+        let modelViewMatrix: matrix_float4x4 = simd_mul(position, rotation)
+        
+        let cameraUniforms = CameraUniforms(
+            projectionMatrix: projectionMatrix,
+            modelViewMatrix: modelViewMatrix)
+
+        return try await render(
+            name: name,
+            shader: shader,
+            graphics: graphics,
+            uniforms: uniforms,
+            arrayUniforms: [],
+            emptyArrayUniform: EmptyUniforms(),
+            vertexUniforms: cameraUniforms,
+            vertices: vertices,
+            metadata: metadata,
+            options: options
+        )
+    }
+    
     /// Vertex
     static func render<U, VU, G: Graphicable>(
         name: String,
@@ -143,7 +199,9 @@ public struct Renderer {
         let hasVertices: Bool = vertexUniforms is EmptyUniforms == false
         
         let sampleCount: Int = options.sampleCount
-            
+        
+        let is3D: Bool = resolution is SIMD3<Int>
+        
         var graphic = try await withCheckedThrowingContinuation { continuation in
             
             do {
@@ -165,6 +223,20 @@ public struct Renderer {
                     }()
                 }
                 
+                var depthTexture: MTLTexture?
+                if options.depth, let size = resolution as? CGSize {
+                    
+                    let depthTextureDescriptor = MTLTextureDescriptor.texture2DDescriptor(
+                        pixelFormat: options.stencil ? .depth32Float_stencil8 : .depth32Float,
+                        width: Int(size.width),
+                        height: Int(size.height),
+                        mipmapped: false)
+                    
+                    depthTextureDescriptor.usage = [.renderTarget, .shaderRead]
+
+                    depthTexture = metalDevice.makeTexture(descriptor: depthTextureDescriptor)
+                }
+                
                 guard let commandQueue = metalDevice.makeCommandQueue() else {
                     throw RendererError.failedToMakeCommandQueue
                 }
@@ -174,13 +246,17 @@ public struct Renderer {
                 }
                 
                 let commandEncoder: MTLCommandEncoder
-                if resolution is SIMD3<Int> {
+                if is3D {
                     guard let computeCommandEncoder: MTLComputeCommandEncoder = commandBuffer.makeComputeCommandEncoder() else {
                         throw RendererError.failedToMakeComputeCommandEncoder
                     }
                     commandEncoder = computeCommandEncoder
                 } else {
-                    let renderCommandEncoder: MTLRenderCommandEncoder = try self.commandEncoder(texture: targetTexture, clearColor: options.clearColor, commandBuffer: commandBuffer)
+                    let renderCommandEncoder: MTLRenderCommandEncoder = try self.commandEncoder(
+                        texture: targetTexture,
+                        depthTexture: depthTexture,
+                        clearColor: options.clearColor,
+                        commandBuffer: commandBuffer)
                     commandEncoder = renderCommandEncoder
                 }
                 
@@ -198,26 +274,27 @@ public struct Renderer {
                     }()
                     
                     if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
-                    
-                        let vertexShaderName: String = {
-                            switch shader {
-                            case .custom(_, let vertex):
-                                return vertex
-                            default:
-                                return "vertexPassthrough"
-                            }
-                        }()
+                                                
+                        let vertexFunction = try self.shader(name: shader.vertexName)
                         
-                        let vertexFunction = try self.shader(name: vertexShaderName)
-                        
-                        let pipeline: MTLRenderPipelineState = try pipeline(fragmentFunction: function, vertexFunction: vertexFunction, additive: options.additive, depth: options.depth, bits: bits, sampleCount: sampleCount)
+                        let pipeline: MTLRenderPipelineState = try pipeline(
+                            fragmentFunction: function,
+                            vertexFunction: vertexFunction,
+                            additive: options.additive,
+                            depth: options.depth,
+                            stencil: options.stencil,
+                            bits: bits,
+                            sampleCount: sampleCount)
                         renderCommandEncoder.setRenderPipelineState(pipeline)
                         
                         if options.depth {
+                            
                             let depthStateDescriptor = MTLDepthStencilDescriptor()
                             depthStateDescriptor.depthCompareFunction = .less
                             depthStateDescriptor.isDepthWriteEnabled = true
+                            
                             let depthState: MTLDepthStencilState = metalDevice.makeDepthStencilState(descriptor: depthStateDescriptor)!
+
                             renderCommandEncoder.setDepthStencilState(depthState)
                         }
                         
