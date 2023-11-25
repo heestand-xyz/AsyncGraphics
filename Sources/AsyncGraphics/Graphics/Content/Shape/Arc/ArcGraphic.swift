@@ -55,5 +55,22 @@ extension CodableGraphic.Content.Shape {
                     options: options)
             }
         }
+        
+        enum Variant: GraphicVariant {
+            case _90
+            case _120
+            case _180
+        }
+        
+        public func edit(variant: Variant) {
+            switch variant {
+            case ._90:
+                angle.value = .fixed(.degrees(90))
+            case ._120:
+                angle.value = .fixed(.degrees(120))
+            case ._180:
+                angle.value = .fixed(.degrees(180))
+            }
+        }
     }
 }

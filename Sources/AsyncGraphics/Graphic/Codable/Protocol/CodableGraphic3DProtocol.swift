@@ -1,7 +1,7 @@
 
 public protocol CodableGraphic3DProtocol {
    
-    var type: CodableGraphic3DType { get }
+    static var type: CodableGraphic3DType { get }
     
     var properties: [any AnyGraphicProperty] { get }
         
@@ -9,6 +9,13 @@ public protocol CodableGraphic3DProtocol {
     
     func isVisible(propertyKey: String, at resolution: SIMD3<Int>) -> Bool?
     func isVisible<P: GraphicPropertyType>(property: P, at resolution: SIMD3<Int>) -> Bool
+}
+
+extension CodableGraphic3DProtocol {
+    
+    var type: CodableGraphic3DType {
+        Swift.type(of: self).type
+    }
 }
 
 extension CodableGraphic3DProtocol {
