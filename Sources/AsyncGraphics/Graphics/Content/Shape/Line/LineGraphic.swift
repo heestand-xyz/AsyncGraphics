@@ -12,8 +12,8 @@ extension CodableGraphic.Content.Shape {
         var leadingPoint: GraphicMetadata<CGPoint> = .init(value: .resolutionAlignment(.leading))
         var trailingPoint: GraphicMetadata<CGPoint> = .init(value: .resolutionAlignment(.trailing))
         
-        public var lineWidth: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
-                                                               maximum: .fixed(10.0))
+        public var lineWidth: GraphicMetadata<CGFloat> = .init(value: .fixed(10.0),
+                                                               maximum: .fixed(20.0))
         
         public var lineCap: GraphicEnumMetadata<Graphic.LineCap> = .init(value: .square)
         
@@ -34,14 +34,19 @@ extension CodableGraphic.Content.Shape {
         }
         
         @VariantMacro
-        enum Variant: String, GraphicVariant {
-            case regular
+        public enum Variant: String, GraphicVariant {
+            case horizontal
+            case vertical
         }
 
         public func edit(variant: Variant) {
             switch variant {
-            case .regular:
-                break
+            case .horizontal:
+                leadingPoint.value = .resolutionAlignment(.leading)
+                trailingPoint.value = .resolutionAlignment(.trailing)
+            case .vertical:
+                leadingPoint.value = .resolutionAlignment(.top)
+                trailingPoint.value = .resolutionAlignment(.bottom)
             }
         }
     }

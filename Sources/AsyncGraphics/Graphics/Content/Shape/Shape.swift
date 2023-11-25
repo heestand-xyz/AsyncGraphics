@@ -1,8 +1,8 @@
 
 extension CodableGraphic.Content {
-    struct Shape {}
+    public struct Shape {}
 }
 
 extension CodableGraphic3D.Content {
-    struct Shape {}
+    public struct Shape {}
 }

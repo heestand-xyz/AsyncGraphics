@@ -82,18 +82,18 @@ public struct GraphicMacro: MemberMacro, MemberAttributeMacro {
             }
             """),
             DeclSyntax(stringLiteral: """
-            enum Property: String, GraphicPropertyType {
+            public enum Property: String, GraphicPropertyType {
                 \(enumVariables.joined(separator: "\n"))
             }
             """),
             DeclSyntax(stringLiteral: """
-            func isVisible(propertyKey: String, at resolution: \(is3D ? "SIMD3<Int>" : "CGSize")) -> Bool? {
+            public func isVisible(propertyKey: String, at resolution: \(is3D ? "SIMD3<Int>" : "CGSize")) -> Bool? {
                 guard let property = Property.allCases.first(where: { $0.rawValue == propertyKey }) else { return nil }
                 return isVisible(property: property, at: resolution)
             }
             """),
             DeclSyntax(stringLiteral: """
-            static func variantIDs() -> [GraphicVariantID] {
+            public static func variantIDs() -> [GraphicVariantID] {
                 Variant.allCases.map { variant in
                     GraphicVariantID(
                         key: variant.rawValue,
@@ -103,7 +103,7 @@ public struct GraphicMacro: MemberMacro, MemberAttributeMacro {
             }
             """),
             DeclSyntax(stringLiteral: """
-            func edit(variantKey: String) {
+            public func edit(variantKey: String) {
                 guard let variant = Variant.allCases.first(where: {
                         $0.rawValue == variantKey
                     }) else {

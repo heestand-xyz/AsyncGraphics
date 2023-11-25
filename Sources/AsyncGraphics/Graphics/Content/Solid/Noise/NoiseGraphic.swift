@@ -90,7 +90,7 @@ extension CodableGraphic.Content.Solid {
         }
         
         @VariantMacro
-        enum Variant: String, GraphicVariant {
+        public enum Variant: String, GraphicVariant {
             case regular
         }
 

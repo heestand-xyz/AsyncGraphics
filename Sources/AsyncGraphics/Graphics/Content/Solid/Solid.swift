@@ -1,8 +1,8 @@
 
 extension CodableGraphic.Content {
-    struct Solid {}
+    public struct Solid {}
 }
 
 extension CodableGraphic3D.Content {
-    struct Solid {}
+    public struct Solid {}
 }

@@ -25,7 +25,7 @@ public enum GraphicMetadataValue<T: GraphicValue>: Codable {
             case .leading, .topLeading, .bottomLeading:
                 return 0.0
             case .trailing, .topTrailing, .bottomTrailing:
-                return 0.5
+                return 1.0
             }
         }
         var yFraction: CGFloat {

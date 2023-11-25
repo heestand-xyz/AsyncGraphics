@@ -73,7 +73,7 @@ extension CodableGraphic3D.Effect.Direct {
         }
         
         @VariantMacro
-        enum Variant: String, GraphicVariant {
+        public enum Variant: String, GraphicVariant {
             case regular
         }
 
