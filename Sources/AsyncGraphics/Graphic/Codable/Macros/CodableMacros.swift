@@ -8,3 +8,6 @@ public macro GraphicMacro() = #externalMacro(module: "AsyncGraphicsMacros", type
 
 @attached(member, names: arbitrary)
 public macro EnumMacro() = #externalMacro(module: "AsyncGraphicsMacros", type: "EnumMacro")
+
+@attached(member, names: arbitrary)
+public macro VariantMacro() = #externalMacro(module: "AsyncGraphicsMacros", type: "VariantMacro")

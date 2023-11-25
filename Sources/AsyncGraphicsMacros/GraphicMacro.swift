@@ -93,6 +93,21 @@ public struct GraphicMacro: MemberMacro, MemberAttributeMacro {
             }
             """),
             DeclSyntax(stringLiteral: """
+            static func variantKeys() -> [String] {
+                Variant.allCases.map(\\.rawValue)
+            }
+            """),
+            DeclSyntax(stringLiteral: """
+            func edit(variantKey: String) {
+                guard let variant = Variant.allCases.first(where: {
+                        $0.rawValue == variantKey
+                    }) else {
+                    return
+                }
+                return edit(variant: variant)
+            }
+            """),
+            DeclSyntax(stringLiteral: """
             public required init() {}
             """),
         ]

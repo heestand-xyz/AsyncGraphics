@@ -4,7 +4,7 @@ import CoreGraphics
 extension CodableGraphic.Effect.Direct {
     
     @GraphicMacro
-    public class ChannelMix: DirectEffectGraphicProtocol {
+    public final class ChannelMix: DirectEffectGraphicProtocol {
         
         public var red: GraphicEnumMetadata<Graphic.ColorChannel> = .init(value: .red)
         
@@ -24,6 +24,18 @@ extension CodableGraphic.Effect.Direct {
                  green: green.value,
                  blue: blue.value,
                  alpha: alpha.value)
+        }
+        
+        @VariantMacro
+        enum Variant: String, GraphicVariant {
+            case regular
+        }
+
+        public func edit(variant: Variant) {
+            switch variant {
+            case .regular:
+                break
+            }
         }
     }
 }

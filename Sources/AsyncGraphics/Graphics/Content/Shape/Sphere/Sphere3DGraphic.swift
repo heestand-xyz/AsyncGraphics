@@ -4,7 +4,7 @@ import PixelColor
 extension CodableGraphic3D.Content.Shape {
     
     @GraphicMacro
-    public class Sphere: ShapeContentGraphic3DProtocol {
+    public final class Sphere: ShapeContentGraphic3DProtocol {
         
         public var position: GraphicMetadata<SIMD3<Double>> = .init()
         
@@ -43,6 +43,18 @@ extension CodableGraphic3D.Content.Shape {
                     backgroundColor: backgroundColor.value.eval(at: resolution),
                     resolution: resolution,
                     options: options)
+            }
+        }
+        
+        @VariantMacro
+        enum Variant: String, GraphicVariant {
+            case regular
+        }
+
+        public func edit(variant: Variant) {
+            switch variant {
+            case .regular:
+                break
             }
         }
     }

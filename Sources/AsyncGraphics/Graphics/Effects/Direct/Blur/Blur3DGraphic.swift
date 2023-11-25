@@ -3,7 +3,7 @@ import CoreGraphics
 extension CodableGraphic3D.Effect.Direct {
     
     @GraphicMacro
-    public class Blur: DirectEffectGraphic3DProtocol {
+    public final class Blur: DirectEffectGraphic3DProtocol {
         
         public var style: GraphicEnumMetadata<Graphic3D.Blur3DType> = .init(value: .box)
 
@@ -69,6 +69,18 @@ extension CodableGraphic3D.Effect.Direct {
                 style.value == .direction
             case .sampleCount:
                 style.value != .random
+            }
+        }
+        
+        @VariantMacro
+        enum Variant: String, GraphicVariant {
+            case regular
+        }
+
+        public func edit(variant: Variant) {
+            switch variant {
+            case .regular:
+                break
             }
         }
     }
