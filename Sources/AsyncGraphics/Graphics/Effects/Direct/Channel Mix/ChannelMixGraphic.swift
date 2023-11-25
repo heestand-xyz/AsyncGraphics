@@ -1,33 +1,37 @@
+import SwiftUI
 import CoreGraphics
 
-extension CodableGraphic3D.Effect.Direct {
+extension CodableGraphic.Effect.Direct {
     
     @GraphicMacro
-    public class Blur: DirectEffectGraphic3DProtocol {
+    public class ChannelMix: DirectEffectGraphicProtocol {
         
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.1),
                                                             maximum: .resolutionMinimum(fraction: 0.5))
         
-        public var position: GraphicMetadata<SIMD3<Double>> = .init()
+        public var position: GraphicMetadata<CGPoint> = .init()
         
-        public var direction: GraphicMetadata<SIMD3<Double>> = .init(value: .fixed(SIMD3<Double>(1.0, 0.0, 0.0)),
-                                                                     minimum: .fixed(SIMD3<Double>(-1.0, -1.0, -1.0)),
-                                                                     maximum: .fixed(SIMD3<Double>(1.0, 1.0, 1.0)))
-                
-        public var blurType: GraphicEnumMetadata<Graphic3D.Blur3DType> = .init(value: .box)
+        public var rotation: GraphicMetadata<Angle> = .init()
         
-        public var sampleCount: GraphicMetadata<Int> = .init(value: .fixed(10),
+        public var blurType: GraphicEnumMetadata<Graphic.BlurType> = .init(value: .gaussian)
+        
+        public var sampleCount: GraphicMetadata<Int> = .init(value: .fixed(100),
                                                              minimum: .fixed(1),
-                                                             maximum: .fixed(10))
+                                                             maximum: .fixed(100))
         
         public required init() {}
         
         public func render(
-            with graphic: Graphic3D,
-            options: AsyncGraphics.Graphic3D.EffectOptions = []
-        ) async throws -> Graphic3D {
+            with graphic: Graphic,
+            options: AsyncGraphics.Graphic.EffectOptions = []
+        ) async throws -> Graphic {
            
             switch blurType.value {
+            case .gaussian:
+                
+                try await graphic.blurred(
+                    radius: radius.value.eval(at: graphic.resolution))
+                
             case .box:
                 
                 try await graphic.blurredBox(
@@ -35,11 +39,11 @@ extension CodableGraphic3D.Effect.Direct {
                     sampleCount: sampleCount.value.eval(at: graphic.resolution),
                     options: options)
                 
-            case .direction:
+            case .angle:
                 
-                try await graphic.blurredDirection(
+                try await graphic.blurredAngle(
                     radius: radius.value.eval(at: graphic.resolution),
-                    direction: direction.value.eval(at: graphic.resolution),
+                    angle: rotation.value.eval(at: graphic.resolution),
                     sampleCount: sampleCount.value.eval(at: graphic.resolution),
                     options: options)
                 
@@ -67,8 +71,8 @@ extension CodableGraphic3D.Effect.Direct {
                 true
             case .position:
                 blurType.value == .zoom
-            case .direction:
-                blurType.value == .direction
+            case .rotation:
+                blurType.value == .angle
             case .sampleCount:
                 blurType.value != .random
             }

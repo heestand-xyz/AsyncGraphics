@@ -6,10 +6,6 @@ extension CodableGraphic3D.Content.Solid {
     @GraphicMacro
     public class Noise: SolidContentGraphic3DProtocol {
         
-        public var type: CodableGraphic3DType {
-            .content(.solid(.noise))
-        }
-        
         public var octaves: GraphicMetadata<Int> = .init(value: .fixed(1),
                                                          minimum: .fixed(1),
                                                          maximum: .fixed(10))

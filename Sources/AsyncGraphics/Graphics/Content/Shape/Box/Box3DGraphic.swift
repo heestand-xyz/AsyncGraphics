@@ -6,10 +6,6 @@ extension CodableGraphic3D.Content.Shape {
     @GraphicMacro
     public class Box: ShapeContentGraphic3DProtocol {
         
-        public var type: CodableGraphic3DType {
-            .content(.shape(.box))
-        }
-        
         public var size: GraphicMetadata<SIMD3<Double>> = .init()
         public var position: GraphicMetadata<SIMD3<Double>> = .init()
         

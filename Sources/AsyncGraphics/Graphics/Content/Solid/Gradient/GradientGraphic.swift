@@ -6,10 +6,6 @@ extension CodableGraphic.Content.Solid {
     @GraphicMacro
     public class Gradient: SolidContentGraphicProtocol {
         
-        public var type: CodableGraphicType {
-            .content(.solid(.gradient))
-        }
-        
         public var direction: GraphicEnumMetadata<Graphic.GradientDirection> = .init(value: .vertical)
         
         public var colorStops: GraphicMetadata<[Graphic.GradientStop]> = .init(value: .fixed([
