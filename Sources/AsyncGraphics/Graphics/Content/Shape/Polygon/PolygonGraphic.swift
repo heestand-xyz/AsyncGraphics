@@ -7,10 +7,6 @@ extension CodableGraphic.Content.Shape {
     @GraphicMacro
     public class Polygon: ShapeContentGraphicProtocol {
         
-        public var type: CodableGraphicType {
-            .content(.shape(.polygon))
-        }
-        
         public var count: GraphicMetadata<Int> = .init(value: .fixed(3), 
                                                        minimum: .fixed(3),
                                                        maximum: .fixed(12))

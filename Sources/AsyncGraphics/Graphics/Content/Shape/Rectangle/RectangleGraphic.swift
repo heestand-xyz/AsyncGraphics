@@ -7,10 +7,6 @@ extension CodableGraphic.Content.Shape {
     @GraphicMacro
     public class Rectangle: ShapeContentGraphicProtocol {
         
-        public var type: CodableGraphicType {
-            .content(.shape(.rectangle))
-        }
-        
         public var position: GraphicMetadata<CGPoint> = .init()
         
         public var size: GraphicMetadata<CGSize> = .init()

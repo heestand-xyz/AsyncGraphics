@@ -17,7 +17,28 @@ public struct GraphicMacro: MemberMacro, MemberAttributeMacro {
         
         guard let classDecl = declaration.as(ClassDeclSyntax.self) else { return [] }
         
-        var is3D: Bool = false
+        let name: String = classDecl.name.text
+        
+        let rawTypeName: String = classDecl.inheritanceClause?.inheritedTypes.first?.type.as(IdentifierTypeSyntax.self)?.name.text ?? ""
+        
+        let typeName: String = rawTypeName
+            .replacingOccurrences(of: "GraphicProtocol", with: "")
+            .replacingOccurrences(of: "Graphic3DProtocol", with: "")
+        
+        let names: [String] = typeName
+            .reduce("", {
+                guard "\($1)".uppercased() == "\($1)",
+                      $0.count > 0
+                else { return $0 + String($1) }
+                return ($0 + " " + String($1))
+            })
+            .split(separator: " ")
+            .map(String.init)
+
+        let parentName = names.first ?? ""
+        let grandParentName = names.last ?? ""
+        
+        var is3D: Bool = rawTypeName.contains("3D")
         
         let block: MemberBlockSyntax  = classDecl.memberBlock
         
@@ -29,11 +50,6 @@ public struct GraphicMacro: MemberMacro, MemberAttributeMacro {
                 continue
             }
             let name = id.identifier.text
-            if name == "type" {
-                if let typeName = variable.typeAnnotation?.as(TypeAnnotationSyntax.self)?.type.as(IdentifierTypeSyntax.self)?.name.text {
-                    is3D = typeName.contains("3D")
-                }
-            }
             if blackList.contains(name) {
                 continue
             }
@@ -48,7 +64,16 @@ public struct GraphicMacro: MemberMacro, MemberAttributeMacro {
             "case \(variable)"
         }
         
+        func camel(_ name: String) -> String {
+            name.first!.lowercased() + name.dropFirst()
+        }
+        
         return [
+            DeclSyntax(stringLiteral: """
+            public var type: CodableGraphic\(is3D ? "3D" : "")Type {
+                .\(camel(grandParentName))(.\(camel(parentName))(.\(camel(name))))
+            }
+            """),
             DeclSyntax(stringLiteral: """
             public var properties: [any AnyGraphicProperty] {
                 [

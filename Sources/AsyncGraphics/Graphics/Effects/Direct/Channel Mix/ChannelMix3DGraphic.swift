@@ -1,9 +1,10 @@
 import CoreGraphics
+import simd
 
 extension CodableGraphic3D.Effect.Direct {
     
     @GraphicMacro
-    public class Blur: DirectEffectGraphic3DProtocol {
+    public class ChannelMix: DirectEffectGraphic3DProtocol {
         
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.1),
                                                             maximum: .resolutionMinimum(fraction: 0.5))
@@ -59,7 +60,7 @@ extension CodableGraphic3D.Effect.Direct {
             }
         }
         
-        public func isVisible(property: Property, at resolution: CGSize) -> Bool {
+        public func isVisible(property: Property, at resolution: SIMD3<Int>) -> Bool {
             switch property {
             case .blurType:
                 true

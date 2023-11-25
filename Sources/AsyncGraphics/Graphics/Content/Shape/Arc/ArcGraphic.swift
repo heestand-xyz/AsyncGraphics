@@ -7,10 +7,6 @@ extension CodableGraphic.Content.Shape {
     @GraphicMacro
     public class Arc: ShapeContentGraphicProtocol {
         
-        public var type: CodableGraphicType {
-            .content(.shape(.arc))
-        }
-        
         public var position: GraphicMetadata<CGPoint> = .init()
         
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.5),

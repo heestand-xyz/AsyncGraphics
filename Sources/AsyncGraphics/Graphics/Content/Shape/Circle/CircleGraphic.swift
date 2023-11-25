@@ -6,10 +6,6 @@ extension CodableGraphic.Content.Shape {
     @GraphicMacro
     public class Circle: ShapeContentGraphicProtocol {
         
-        public var type: CodableGraphicType {
-            .content(.shape(.circle))
-        }
-        
         public var position: GraphicMetadata<CGPoint> = .init()
         
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.5),

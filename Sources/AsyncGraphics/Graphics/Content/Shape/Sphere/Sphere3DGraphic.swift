@@ -6,10 +6,6 @@ extension CodableGraphic3D.Content.Shape {
     @GraphicMacro
     public class Sphere: ShapeContentGraphic3DProtocol {
         
-        public var type: CodableGraphic3DType {
-            .content(.shape(.sphere))
-        }
-        
         public var position: GraphicMetadata<SIMD3<Double>> = .init()
         
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.5),

@@ -6,10 +6,6 @@ extension CodableGraphic.Content.Shape {
     @GraphicMacro
     public class Line: ShapeContentGraphicProtocol {
         
-        public var type: CodableGraphicType {
-            .content(.shape(.line))
-        }
-        
         public var foregroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
         public var backgroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.clear))
         

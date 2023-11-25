@@ -4,4 +4,5 @@ import SwiftUI
 public enum DirectEffectGraphicType: String, CodableGraphicTypeProtocol {
     
     case blur
+    case channelMix
 }

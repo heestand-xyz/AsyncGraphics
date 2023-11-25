@@ -7,10 +7,6 @@ extension CodableGraphic.Content.Shape {
     @GraphicMacro
     public class Star: ShapeContentGraphicProtocol {
         
-        public var type: CodableGraphicType {
-            .content(.shape(.star))
-        }
-        
         public var count: GraphicMetadata<Int> = .init(value: .fixed(5),
                                                        minimum: .fixed(3),
                                                        maximum: .fixed(12))

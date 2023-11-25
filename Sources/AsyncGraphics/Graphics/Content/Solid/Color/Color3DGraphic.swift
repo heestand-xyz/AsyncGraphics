@@ -6,10 +6,6 @@ extension CodableGraphic3D.Content.Solid {
     @GraphicMacro
     public class Color: SolidContentGraphic3DProtocol {
         
-        public var type: CodableGraphic3DType {
-            .content(.solid(.color))
-        }
-        
         public var color: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
         
         public required init() {}
