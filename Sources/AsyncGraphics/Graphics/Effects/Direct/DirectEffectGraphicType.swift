@@ -5,4 +5,5 @@ public enum DirectEffectGraphicType: String, CodableGraphicTypeProtocol {
     
     case blur
     case channelMix
+    case chromaKey
 }
