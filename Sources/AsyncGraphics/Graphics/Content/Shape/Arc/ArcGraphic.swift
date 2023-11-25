@@ -12,7 +12,7 @@ extension CodableGraphic.Content.Shape {
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.5),
                                                             maximum: .resolutionMaximum(fraction: 0.5))
         
-        public var angle: GraphicMetadata<Angle> = .init()
+        public var angle: GraphicMetadata<Angle> = .init(value: .fixed(.degrees(-90)))
         public var length: GraphicMetadata<Angle> = .init(value: .fixed(.degrees(90)),
                                                           minimum: .fixed(.zero),
                                                           maximum: .fixed(.degrees(360)))
@@ -21,8 +21,8 @@ extension CodableGraphic.Content.Shape {
         public var backgroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.clear))
         
         public var isStroked: GraphicMetadata<Bool> = .init(value: .fixed(false))
-        public var lineWidth: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
-                                                               maximum: .fixed(10.0))
+        public var lineWidth: GraphicMetadata<CGFloat> = .init(value: .fixed(10.0),
+                                                               maximum: .fixed(20.0))
         
         public func render(
             at resolution: CGSize,
@@ -57,20 +57,23 @@ extension CodableGraphic.Content.Shape {
         }
         
         @VariantMacro
-        enum Variant: String, GraphicVariant {
-            case _90
-            case _120
-            case _180
+        public enum Variant: String, GraphicVariant {
+            case length45
+            case length90
+            case length120
+            case length180
         }
 
         public func edit(variant: Variant) {
             switch variant {
-            case ._90:
-                angle.value = .fixed(.degrees(90))
-            case ._120:
-                angle.value = .fixed(.degrees(120))
-            case ._180:
-                angle.value = .fixed(.degrees(180))
+            case .length45:
+                length.value = .fixed(.degrees(45))
+            case .length90:
+                length.value = .fixed(.degrees(90))
+            case .length120:
+                length.value = .fixed(.degrees(120))
+            case .length180:
+                length.value = .fixed(.degrees(180))
             }
         }
     }

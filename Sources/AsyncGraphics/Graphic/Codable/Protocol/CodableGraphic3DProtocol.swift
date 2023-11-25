@@ -18,14 +18,14 @@ public protocol CodableGraphic3DProtocol {
 
 extension CodableGraphic3DProtocol {
     
-    var type: CodableGraphic3DType {
+    public var type: CodableGraphic3DType {
         Swift.type(of: self).type
     }
 }
 
 extension CodableGraphic3DProtocol {
     
-    func isVisible<P: GraphicPropertyType>(property: P, at resolution: SIMD3<Int>) -> Bool {
+    public func isVisible<P: GraphicPropertyType>(property: P, at resolution: SIMD3<Int>) -> Bool {
         true
     }
 }
@@ -33,7 +33,7 @@ extension CodableGraphic3DProtocol {
 
 extension CodableGraphic3DProtocol {
     
-    static func variants() -> [CodableGraphic3DVariant] {
+    public static func variants() -> [CodableGraphic3DVariant] {
         variantIDs().map { variantID in
             let instance: Self = .init()
             instance.edit(variantKey: variantID.key)
@@ -43,5 +43,5 @@ extension CodableGraphic3DProtocol {
         }
     }
     
-    func edit<V: GraphicVariant>(variant: V) {}
+    public func edit<V: GraphicVariant>(variant: V) {}
 }

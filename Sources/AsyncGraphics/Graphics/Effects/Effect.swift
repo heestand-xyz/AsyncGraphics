@@ -1,8 +1,8 @@
 
 extension CodableGraphic {
-    struct Effect {}
+    public struct Effect {}
 }
 
 extension CodableGraphic3D {
-    struct Effect {}
+    public struct Effect {}
 }

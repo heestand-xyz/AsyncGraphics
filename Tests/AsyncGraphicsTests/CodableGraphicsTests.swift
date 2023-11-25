@@ -58,21 +58,23 @@ final class CodableGraphicsTests: XCTestCase {
     func testVariants() throws {
         
         let variants = CodableGraphic.Content.Shape.Arc.Variant.allCases
-        let angleProperty = CodableGraphic.Content.Shape.Arc.Property.angle
+        let lengthProperty = CodableGraphic.Content.Shape.Arc.Property.length
 
         let arcs = CodableGraphic.Content.Shape.Arc.variants()
         for arc in arcs {
             let variant = variants.first(where: { $0.description == arc.description })!
-            let angle: Angle = try (arc.instance.properties.first(where: {
-                $0.key == angleProperty.rawValue
+            let length: Angle = try (arc.instance.properties.first(where: {
+                $0.key == lengthProperty.rawValue
             }) as! AnyGraphicValueProperty).getValue().eval(at: resolution)
             switch variant {
-            case ._90:
-                XCTAssertEqual(angle, .degrees(90))
-            case ._120:
-                XCTAssertEqual(angle, .degrees(120))
-            case ._180:
-                XCTAssertEqual(angle, .degrees(180))
+            case .length45:
+                XCTAssertEqual(length, .degrees(45))
+            case .length90:
+                XCTAssertEqual(length, .degrees(90))
+            case .length120:
+                XCTAssertEqual(length, .degrees(120))
+            case .length180:
+                XCTAssertEqual(length, .degrees(180))
             }
         }
     }

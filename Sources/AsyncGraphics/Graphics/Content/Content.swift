@@ -1,8 +1,8 @@
 
 extension CodableGraphic {
-    struct Content {}
+    public struct Content {}
 }
 
 extension CodableGraphic3D {
-    struct Content {}
+    public struct Content {}
 }

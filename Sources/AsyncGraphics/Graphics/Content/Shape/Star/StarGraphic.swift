@@ -46,7 +46,7 @@ extension CodableGraphic.Content.Shape {
         }
         
         @VariantMacro
-        enum Variant: String, GraphicVariant {
+        public enum Variant: String, GraphicVariant {
             case regular
         }
 

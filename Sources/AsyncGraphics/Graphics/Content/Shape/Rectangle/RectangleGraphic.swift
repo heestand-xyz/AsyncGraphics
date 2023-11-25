@@ -18,8 +18,8 @@ extension CodableGraphic.Content.Shape {
         public var backgroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.clear))
         
         public var isStroked: GraphicMetadata<Bool> = .init(value: .fixed(false))
-        public var lineWidth: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
-                                                               maximum: .fixed(10.0))
+        public var lineWidth: GraphicMetadata<CGFloat> = .init(value: .fixed(10.0),
+                                                               maximum: .fixed(20.0))
         
         public func render(
             at resolution: CGSize,
@@ -52,7 +52,7 @@ extension CodableGraphic.Content.Shape {
         }
         
         @VariantMacro
-        enum Variant: String, GraphicVariant {
+        public enum Variant: String, GraphicVariant {
             case regular
         }
 
