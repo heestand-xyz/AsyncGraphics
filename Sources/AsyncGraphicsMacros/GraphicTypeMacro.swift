@@ -32,7 +32,7 @@ public struct GraphicTypeMacro: MemberMacro {
             .map(String.init)
             .reversed()
         
-        let colonName = names.joined(separator: ": ")
+        let colonName = names.joined(separator: ": ") + (is3D ? " (3D)" : "")
         
         let dotName: String = names.joined(separator: ".")
         

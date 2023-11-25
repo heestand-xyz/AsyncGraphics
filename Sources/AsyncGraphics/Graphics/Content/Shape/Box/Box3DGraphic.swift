@@ -19,8 +19,6 @@ extension CodableGraphic3D.Content.Shape {
         public var surfaceWidth: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
                                                                   maximum: .fixed(10.0))
         
-        public required init() {}
-        
         public func render(
             at resolution: SIMD3<Int>,
             options: Graphic3D.ContentOptions = []

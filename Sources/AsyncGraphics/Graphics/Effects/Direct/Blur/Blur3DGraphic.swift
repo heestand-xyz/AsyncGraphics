@@ -20,11 +20,9 @@ extension CodableGraphic3D.Effect.Direct {
                                                              minimum: .fixed(1),
                                                              maximum: .fixed(10))
         
-        public required init() {}
-        
         public func render(
             with graphic: Graphic3D,
-            options: AsyncGraphics.Graphic3D.EffectOptions = []
+            options: Graphic3D.EffectOptions = []
         ) async throws -> Graphic3D {
            
             switch blurType.value {

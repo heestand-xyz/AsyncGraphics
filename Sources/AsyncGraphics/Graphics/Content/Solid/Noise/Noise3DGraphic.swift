@@ -27,11 +27,9 @@ extension CodableGraphic3D.Content.Solid {
                                                       minimum: .fixed(0),
                                                       maximum: .fixed(100))
         
-        public required init() {}
-        
         public func render(
             at resolution: SIMD3<Int>,
-            options: AsyncGraphics.Graphic3D.ContentOptions = []
+            options: Graphic3D.ContentOptions = []
         ) async throws -> Graphic3D {
             
             if isRandom.value.eval(at: resolution) {
