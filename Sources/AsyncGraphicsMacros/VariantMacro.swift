@@ -38,7 +38,7 @@ public struct VariantMacro: MemberMacro {
             public var id: String { rawValue }
             """),
             DeclSyntax(stringLiteral: """
-            public var name: String {
+            public var description: String {
                 switch self {
                 \(nameCases.joined(separator: "\n"))
                 }

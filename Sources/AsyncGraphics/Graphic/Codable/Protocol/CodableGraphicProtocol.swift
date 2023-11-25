@@ -11,8 +11,8 @@ public protocol CodableGraphicProtocol {
     func isVisible(propertyKey: String, at resolution: CGSize) -> Bool?
     func isVisible<P: GraphicPropertyType>(property: P, at resolution: CGSize) -> Bool
     
-    static func variants() -> [Self]
-    static func variantKeys() -> [String]
+    static func variants() -> [CodableGraphicVariant]
+    static func variantIDs() -> [GraphicVariantID]
     func edit(variantKey: String)
     func edit<V: GraphicVariant>(variant: V)
 }
@@ -34,11 +34,13 @@ extension CodableGraphicProtocol {
 
 extension CodableGraphicProtocol {
     
-    static func variants() -> [Self] {
-        variantKeys().map { variantKey in
+    static func variants() -> [CodableGraphicVariant] {
+        variantIDs().map { variantID in
             let instance: Self = .init()
-            instance.edit(variantKey: variantKey)
-            return instance
+            instance.edit(variantKey: variantID.key)
+            return CodableGraphicVariant(
+                description: variantID.description,
+                instance: instance)
         }
     }
     

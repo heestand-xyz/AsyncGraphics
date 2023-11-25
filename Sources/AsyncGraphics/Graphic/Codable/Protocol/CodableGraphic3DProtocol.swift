@@ -10,8 +10,8 @@ public protocol CodableGraphic3DProtocol {
     func isVisible(propertyKey: String, at resolution: SIMD3<Int>) -> Bool?
     func isVisible<P: GraphicPropertyType>(property: P, at resolution: SIMD3<Int>) -> Bool
     
-    static func variants() -> [Self]
-    static func variantKeys() -> [String]
+    static func variants() -> [CodableGraphic3DVariant]
+    static func variantIDs() -> [GraphicVariantID]
     func edit(variantKey: String)
     func edit<V: GraphicVariant>(variant: V)
 }
@@ -33,11 +33,13 @@ extension CodableGraphic3DProtocol {
 
 extension CodableGraphic3DProtocol {
     
-    static func variants() -> [Self] {
-        variantKeys().map { variantKey in
+    static func variants() -> [CodableGraphic3DVariant] {
+        variantIDs().map { variantID in
             let instance: Self = .init()
-            instance.edit(variantKey: variantKey)
-            return instance
+            instance.edit(variantKey: variantID.key)
+            return CodableGraphic3DVariant(
+                description: variantID.description,
+                instance: instance)
         }
     }
     

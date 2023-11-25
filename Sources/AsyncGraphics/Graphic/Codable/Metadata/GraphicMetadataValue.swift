@@ -57,6 +57,8 @@ public enum GraphicMetadataValue<T: GraphicValue>: Codable {
             if T.self == CGPoint.self {
                 return CGPoint(x: resolution.width,
                                y: resolution.height) as! T
+            } else if T.self == CGSize.self {
+                return resolution as! T
             } else if T.self == CGRect.self {
                 return CGRect(origin: .zero,
                               size: resolution) as! T

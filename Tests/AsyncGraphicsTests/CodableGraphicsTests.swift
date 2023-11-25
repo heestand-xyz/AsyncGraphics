@@ -1,4 +1,5 @@
 import XCTest
+import SwiftUI
 @testable import AsyncGraphics
 
 final class CodableGraphicsTests: XCTestCase {
@@ -52,5 +53,27 @@ final class CodableGraphicsTests: XCTestCase {
             try valueProperty.setValue(.fixed(true))
         }
         XCTAssert(instance.isVisible(propertyKey: scaleProperty.rawValue, at: resolution) == false)
+    }
+    
+    func testVariants() throws {
+        
+        let variants = CodableGraphic.Content.Shape.Arc.Variant.allCases
+        let angleProperty = CodableGraphic.Content.Shape.Arc.Property.angle
+
+        let arcs = CodableGraphic.Content.Shape.Arc.variants()
+        for arc in arcs {
+            let variant = variants.first(where: { $0.description == arc.description })!
+            let angle: Angle = try (arc.instance.properties.first(where: {
+                $0.key == angleProperty.rawValue
+            }) as! AnyGraphicValueProperty).getValue().eval(at: resolution)
+            switch variant {
+            case ._90:
+                XCTAssertEqual(angle, .degrees(90))
+            case ._120:
+                XCTAssertEqual(angle, .degrees(120))
+            case ._180:
+                XCTAssertEqual(angle, .degrees(180))
+            }
+        }
     }
 }
