@@ -4,7 +4,7 @@ import CoreGraphics
 extension CodableGraphic.Effect.Direct {
     
     @GraphicMacro
-    public class Blur: DirectEffectGraphicProtocol {
+    public final class Blur: DirectEffectGraphicProtocol {
         
         public var style: GraphicEnumMetadata<Graphic.BlurType> = .init(value: .gaussian)
         
@@ -73,6 +73,18 @@ extension CodableGraphic.Effect.Direct {
                 style.value == .angle
             case .sampleCount:
                 style.value != .random
+            }
+        }
+        
+        @VariantMacro
+        enum Variant: String, GraphicVariant {
+            case regular
+        }
+
+        public func edit(variant: Variant) {
+            switch variant {
+            case .regular:
+                break
             }
         }
     }

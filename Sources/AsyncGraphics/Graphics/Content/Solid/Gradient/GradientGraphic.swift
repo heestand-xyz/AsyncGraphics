@@ -4,7 +4,7 @@ import PixelColor
 extension CodableGraphic.Content.Solid {
     
     @GraphicMacro
-    public class Gradient: SolidContentGraphicProtocol {
+    public final class Gradient: SolidContentGraphicProtocol {
         
         public var direction: GraphicEnumMetadata<Graphic.GradientDirection> = .init(value: .vertical)
         
@@ -41,6 +41,18 @@ extension CodableGraphic.Content.Solid {
                 gamma: gamma.value.eval(at: resolution),
                 resolution: resolution,
                 options: options)
+        }
+        
+        @VariantMacro
+        enum Variant: String, GraphicVariant {
+            case regular
+        }
+
+        public func edit(variant: Variant) {
+            switch variant {
+            case .regular:
+                break
+            }
         }
     }
 }

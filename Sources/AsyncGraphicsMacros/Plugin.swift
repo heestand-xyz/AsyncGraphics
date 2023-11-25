@@ -7,5 +7,6 @@ struct AsyncGraphicsMacros: CompilerPlugin {
         GraphicTypeMacro.self,
         GraphicMacro.self,
         EnumMacro.self,
+        VariantMacro.self,
     ]
 }

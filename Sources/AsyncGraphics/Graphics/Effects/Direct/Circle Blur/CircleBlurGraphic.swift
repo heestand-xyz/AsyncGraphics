@@ -5,7 +5,7 @@ import PixelColor
 extension CodableGraphic.Effect.Direct {
     
     @GraphicMacro
-    public class CircleBlur: DirectEffectGraphicProtocol {
+    public final class CircleBlur: DirectEffectGraphicProtocol {
         
         public var color: GraphicMetadata<PixelColor> = .init(value: .fixed(.rawGreen))
         
@@ -37,6 +37,18 @@ extension CodableGraphic.Effect.Direct {
                 saturationRange: saturationLow.value.eval(at: graphic.resolution)...saturationHigh.value.eval(at: graphic.resolution),
                 light: light.value.eval(at: graphic.resolution),
                 options: options)
+        }
+        
+        @VariantMacro
+        enum Variant: String, GraphicVariant {
+            case regular
+        }
+
+        public func edit(variant: Variant) {
+            switch variant {
+            case .regular:
+                break
+            }
         }
     }
 }

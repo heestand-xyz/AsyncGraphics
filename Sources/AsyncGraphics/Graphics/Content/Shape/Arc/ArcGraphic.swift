@@ -5,7 +5,7 @@ import SwiftUI
 extension CodableGraphic.Content.Shape {
     
     @GraphicMacro
-    public class Arc: ShapeContentGraphicProtocol {
+    public final class Arc: ShapeContentGraphicProtocol {
         
         public var position: GraphicMetadata<CGPoint> = .init()
         
@@ -56,12 +56,13 @@ extension CodableGraphic.Content.Shape {
             }
         }
         
-        enum Variant: GraphicVariant {
+        @VariantMacro
+        enum Variant: String, GraphicVariant {
             case _90
             case _120
             case _180
         }
-        
+
         public func edit(variant: Variant) {
             switch variant {
             case ._90:

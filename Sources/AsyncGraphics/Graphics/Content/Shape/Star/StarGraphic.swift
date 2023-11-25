@@ -5,7 +5,7 @@ import PixelColor
 extension CodableGraphic.Content.Shape {
     
     @GraphicMacro
-    public class Star: ShapeContentGraphicProtocol {
+    public final class Star: ShapeContentGraphicProtocol {
         
         public var count: GraphicMetadata<Int> = .init(value: .fixed(5),
                                                        minimum: .fixed(3),
@@ -43,6 +43,18 @@ extension CodableGraphic.Content.Shape {
                 backgroundColor: backgroundColor.value.eval(at: resolution),
                 resolution: resolution,
                 options: options)
+        }
+        
+        @VariantMacro
+        enum Variant: String, GraphicVariant {
+            case regular
+        }
+
+        public func edit(variant: Variant) {
+            switch variant {
+            case .regular:
+                break
+            }
         }
     }
 }

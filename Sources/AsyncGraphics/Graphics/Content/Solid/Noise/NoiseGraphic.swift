@@ -4,7 +4,7 @@ import PixelColor
 extension CodableGraphic.Content.Solid {
     
     @GraphicMacro
-    public class Noise: SolidContentGraphicProtocol {
+    public final class Noise: SolidContentGraphicProtocol {
         
         public var octaves: GraphicMetadata<Int> = .init(value: .fixed(1),
                                                          minimum: .fixed(1),
@@ -86,6 +86,18 @@ extension CodableGraphic.Content.Solid {
                 !isRandom.value.eval(at: resolution)
             default:
                 true
+            }
+        }
+        
+        @VariantMacro
+        enum Variant: String, GraphicVariant {
+            case regular
+        }
+
+        public func edit(variant: Variant) {
+            switch variant {
+            case .regular:
+                break
             }
         }
     }

@@ -5,7 +5,7 @@ import PixelColor
 extension CodableGraphic.Content.Shape {
     
     @GraphicMacro
-    public class Rectangle: ShapeContentGraphicProtocol {
+    public final class Rectangle: ShapeContentGraphicProtocol {
         
         public var position: GraphicMetadata<CGPoint> = .init()
         
@@ -48,6 +48,18 @@ extension CodableGraphic.Content.Shape {
                     backgroundColor: backgroundColor.value.eval(at: resolution),
                     resolution: resolution,
                     options: options)
+            }
+        }
+        
+        @VariantMacro
+        enum Variant: String, GraphicVariant {
+            case regular
+        }
+
+        public func edit(variant: Variant) {
+            switch variant {
+            case .regular:
+                break
             }
         }
     }

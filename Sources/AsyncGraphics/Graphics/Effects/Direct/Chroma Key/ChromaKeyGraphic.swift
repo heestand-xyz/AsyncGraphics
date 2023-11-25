@@ -5,7 +5,7 @@ import PixelColor
 extension CodableGraphic.Effect.Direct {
     
     @GraphicMacro
-    public class ChromaKey: DirectEffectGraphicProtocol {
+    public final class ChromaKey: DirectEffectGraphicProtocol {
         
         public var color: GraphicMetadata<PixelColor> = .init(value: .fixed(.rawGreen))
         
@@ -35,6 +35,18 @@ extension CodableGraphic.Effect.Direct {
                 color: color.value.eval(at: graphic.resolution),
                 parameters: parameters(at: graphic.resolution),
                 options: options)
+        }
+        
+        @VariantMacro
+        enum Variant: String, GraphicVariant {
+            case regular
+        }
+
+        public func edit(variant: Variant) {
+            switch variant {
+            case .regular:
+                break
+            }
         }
     }
 }

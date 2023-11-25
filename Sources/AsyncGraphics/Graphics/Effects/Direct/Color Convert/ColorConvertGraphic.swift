@@ -5,7 +5,7 @@ import PixelColor
 extension CodableGraphic.Effect.Direct {
     
     @GraphicMacro
-    public class ColorConvert: DirectEffectGraphicProtocol {
+    public final class ColorConvert: DirectEffectGraphicProtocol {
         
         public var conversion: GraphicEnumMetadata<Graphic.ColorConversion> = .init(value: .rgbToHSV)
         
@@ -19,6 +19,18 @@ extension CodableGraphic.Effect.Direct {
              try await graphic.colorConvert(
                 conversion.value,
                 channel: channel.value)
+        }
+        
+        @VariantMacro
+        enum Variant: String, GraphicVariant {
+            case regular
+        }
+
+        public func edit(variant: Variant) {
+            switch variant {
+            case .regular:
+                break
+            }
         }
     }
 }
