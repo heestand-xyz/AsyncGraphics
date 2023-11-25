@@ -70,7 +70,7 @@ public struct GraphicMacro: MemberMacro, MemberAttributeMacro {
         
         return [
             DeclSyntax(stringLiteral: """
-            public var type: CodableGraphic\(is3D ? "3D" : "")Type {
+            public static var type: CodableGraphic\(is3D ? "3D" : "")Type {
                 .\(camel(grandParentName))(.\(camel(parentName))(.\(camel(name))))
             }
             """),
