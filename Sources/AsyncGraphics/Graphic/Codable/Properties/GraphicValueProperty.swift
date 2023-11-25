@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 import simd
 import PixelColor
 
@@ -48,6 +49,8 @@ extension GraphicValueProperty {
             return .int
         case is Double.Type, is CGFloat.Type:
             return .double
+        case is Angle.Type:
+            return .angle
         case is PixelColor.Type:
             return .color
         case is CGSize.Type:

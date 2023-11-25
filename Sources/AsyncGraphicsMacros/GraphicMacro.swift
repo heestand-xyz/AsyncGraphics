@@ -93,8 +93,13 @@ public struct GraphicMacro: MemberMacro, MemberAttributeMacro {
             }
             """),
             DeclSyntax(stringLiteral: """
-            static func variantKeys() -> [String] {
-                Variant.allCases.map(\\.rawValue)
+            static func variantIDs() -> [GraphicVariantID] {
+                Variant.allCases.map { variant in
+                    GraphicVariantID(
+                        key: variant.rawValue,
+                        description: variant.description
+                    )
+                }
             }
             """),
             DeclSyntax(stringLiteral: """
