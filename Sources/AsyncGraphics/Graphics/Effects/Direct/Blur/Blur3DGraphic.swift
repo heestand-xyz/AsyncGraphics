@@ -5,6 +5,8 @@ extension CodableGraphic3D.Effect.Direct {
     @GraphicMacro
     public class Blur: DirectEffectGraphic3DProtocol {
         
+        public var style: GraphicEnumMetadata<Graphic3D.Blur3DType> = .init(value: .box)
+
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.1),
                                                             maximum: .resolutionMinimum(fraction: 0.5))
         
@@ -14,8 +16,6 @@ extension CodableGraphic3D.Effect.Direct {
                                                                      minimum: .fixed(SIMD3<Double>(-1.0, -1.0, -1.0)),
                                                                      maximum: .fixed(SIMD3<Double>(1.0, 1.0, 1.0)))
                 
-        public var blurType: GraphicEnumMetadata<Graphic3D.Blur3DType> = .init(value: .box)
-        
         public var sampleCount: GraphicMetadata<Int> = .init(value: .fixed(10),
                                                              minimum: .fixed(1),
                                                              maximum: .fixed(10))
@@ -25,7 +25,7 @@ extension CodableGraphic3D.Effect.Direct {
             options: Graphic3D.EffectOptions = []
         ) async throws -> Graphic3D {
            
-            switch blurType.value {
+            switch style.value {
             case .box:
                 
                 try await graphic.blurredBox(
@@ -59,16 +59,16 @@ extension CodableGraphic3D.Effect.Direct {
         
         public func isVisible(property: Property, at resolution: CGSize) -> Bool {
             switch property {
-            case .blurType:
+            case .style:
                 true
             case .radius:
                 true
             case .position:
-                blurType.value == .zoom
+                style.value == .zoom
             case .direction:
-                blurType.value == .direction
+                style.value == .direction
             case .sampleCount:
-                blurType.value != .random
+                style.value != .random
             }
         }
     }
