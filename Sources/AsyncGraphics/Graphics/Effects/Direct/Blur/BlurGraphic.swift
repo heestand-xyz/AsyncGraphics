@@ -6,14 +6,14 @@ extension CodableGraphic.Effect.Direct {
     @GraphicMacro
     public class Blur: DirectEffectGraphicProtocol {
         
+        public var style: GraphicEnumMetadata<Graphic.BlurType> = .init(value: .gaussian)
+        
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.1),
                                                             maximum: .resolutionMinimum(fraction: 0.5))
         
         public var position: GraphicMetadata<CGPoint> = .init()
         
         public var rotation: GraphicMetadata<Angle> = .init()
-        
-        public var blurType: GraphicEnumMetadata<Graphic.BlurType> = .init(value: .gaussian)
         
         public var sampleCount: GraphicMetadata<Int> = .init(value: .fixed(100),
                                                              minimum: .fixed(1),
@@ -24,7 +24,7 @@ extension CodableGraphic.Effect.Direct {
             options: Graphic.EffectOptions = []
         ) async throws -> Graphic {
            
-            switch blurType.value {
+            switch style.value {
             case .gaussian:
                 
                 try await graphic.blurred(
@@ -63,16 +63,16 @@ extension CodableGraphic.Effect.Direct {
         
         public func isVisible(property: Property, at resolution: CGSize) -> Bool {
             switch property {
-            case .blurType:
+            case .style:
                 true
             case .radius:
                 true
             case .position:
-                blurType.value == .zoom
+                style.value == .zoom
             case .rotation:
-                blurType.value == .angle
+                style.value == .angle
             case .sampleCount:
-                blurType.value != .random
+                style.value != .random
             }
         }
     }
