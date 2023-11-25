@@ -8,11 +8,9 @@ extension CodableGraphic3D.Content.Solid {
         
         public var color: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
         
-        public required init() {}
-        
         public func render(
             at resolution: SIMD3<Int>,
-            options: AsyncGraphics.Graphic3D.ContentOptions = []
+            options: Graphic3D.ContentOptions = []
         ) async throws -> Graphic3D {
            
             try await .color(

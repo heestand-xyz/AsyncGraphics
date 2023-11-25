@@ -25,11 +25,10 @@ extension CodableGraphic.Content.Solid {
                                                            maximum: .fixed(2.0))
         
         public var extend: GraphicEnumMetadata<Graphic.GradientExtend> = .init(value: .zero)
-        public required init() {}
         
         public func render(
             at resolution: CGSize,
-            options: AsyncGraphics.Graphic.ContentOptions = []
+            options: Graphic.ContentOptions = []
         ) async throws -> Graphic {
             
             try await .gradient(

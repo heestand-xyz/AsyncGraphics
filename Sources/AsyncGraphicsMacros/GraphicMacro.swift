@@ -92,6 +92,9 @@ public struct GraphicMacro: MemberMacro, MemberAttributeMacro {
                 return isVisible(property: property, at: resolution)
             }
             """),
+            DeclSyntax(stringLiteral: """
+            public required init() {}
+            """),
         ]
     }
     

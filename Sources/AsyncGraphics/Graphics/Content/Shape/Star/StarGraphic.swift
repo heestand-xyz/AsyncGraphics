@@ -27,8 +27,6 @@ extension CodableGraphic.Content.Shape {
         public var foregroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
         public var backgroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.clear))
         
-        public required init() {}
-        
         public func render(
             at resolution: CGSize,
             options: Graphic.ContentOptions = []

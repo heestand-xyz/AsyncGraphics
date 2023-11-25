@@ -8,11 +8,9 @@ extension CodableGraphic.Content.Solid {
         
         public var color: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
         
-        public required init() {}
-        
         public func render(
             at resolution: CGSize,
-            options: AsyncGraphics.Graphic.ContentOptions = []
+            options: Graphic.ContentOptions = []
         ) async throws -> Graphic {
            
             try await .color(

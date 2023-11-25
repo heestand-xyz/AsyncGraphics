@@ -27,11 +27,9 @@ extension CodableGraphic.Content.Solid {
                                                       minimum: .fixed(0),
                                                       maximum: .fixed(100))
         
-        public required init() {}
-        
         public func render(
             at resolution: CGSize,
-            options: AsyncGraphics.Graphic.ContentOptions = []
+            options: Graphic.ContentOptions = []
         ) async throws -> Graphic {
            
             if isRandom.value.eval(at: resolution) {
