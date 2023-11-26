@@ -45,13 +45,22 @@ extension CodableGraphic.Content.Solid {
         
         @VariantMacro
         public enum Variant: String, GraphicVariant {
-            case regular
+            case vertical
+            case horizontal
+            case radial
+            case angle
         }
 
         public func edit(variant: Variant) {
             switch variant {
-            case .regular:
-                break
+            case .vertical:
+                direction.value = .vertical
+            case .horizontal:
+                direction.value = .horizontal
+            case .radial:
+                direction.value = .radial
+            case .angle:
+                direction.value = .angle
             }
         }
     }

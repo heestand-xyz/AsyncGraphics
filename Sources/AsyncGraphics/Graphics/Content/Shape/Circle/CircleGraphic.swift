@@ -48,15 +48,12 @@ extension CodableGraphic.Content.Shape {
         
         @VariantMacro
         public enum Variant: String, GraphicVariant {
-            case big
-            case small
+            case regular
         }
 
         public func edit(variant: Variant) {
             switch variant {
-            case .big:
-                radius.value = .resolutionMinimum(fraction: 0.5)
-            case .small:
+            case .regular:
                 radius.value = .resolutionMinimum(fraction: 0.25)
             }
         }

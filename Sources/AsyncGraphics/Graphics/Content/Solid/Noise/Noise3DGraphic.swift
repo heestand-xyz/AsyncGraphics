@@ -91,13 +91,28 @@ extension CodableGraphic3D.Content.Solid {
         
         @VariantMacro
         public enum Variant: String, GraphicVariant {
-            case regular
+            case smooth
+            case detailed
+            case random
+            case smoothColored
+            case detailedColored
+            case randomColored
         }
 
         public func edit(variant: Variant) {
             switch variant {
-            case .regular:
-                break
+            case .smooth, .detailed, .random:
+                isColored.value = .fixed(false)
+            case .smoothColored, .detailedColored, .randomColored:
+                isColored.value = .fixed(true)
+            }
+            switch variant {
+            case .smooth, .smoothColored:
+                octaves.value = .fixed(1)
+            case .detailed, .detailedColored:
+                octaves.value = .fixed(10)
+            case .random, .randomColored:
+                isRandom.value = .fixed(true)
             }
         }
     }

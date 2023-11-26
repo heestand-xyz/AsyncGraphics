@@ -54,7 +54,7 @@ extension CodableGraphic3D.Content.Shape {
         public func edit(variant: Variant) {
             switch variant {
             case .regular:
-                break
+                radius.value = .resolutionMinimum(fraction: 0.25)
             }
         }
     }

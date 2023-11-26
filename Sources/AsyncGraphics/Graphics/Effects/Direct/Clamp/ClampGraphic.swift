@@ -31,13 +31,27 @@ extension CodableGraphic.Effect.Direct {
         
         @VariantMacro
         public enum Variant: String, GraphicVariant {
-            case regular
+            case hold
+            case loop
+            case mirror
+            case zero
+            case relative
         }
 
         public func edit(variant: Variant) {
+            low.value = .fixed(0.25)
+            high.value = .fixed(0.75)
             switch variant {
-            case .regular:
-                break
+            case .hold:
+                style.value = .hold
+            case .loop:
+                style.value = .loop
+            case .mirror:
+                style.value = .mirror
+            case .zero:
+                style.value = .zero
+            case .relative:
+                style.value = .relative
             }
         }
     }
