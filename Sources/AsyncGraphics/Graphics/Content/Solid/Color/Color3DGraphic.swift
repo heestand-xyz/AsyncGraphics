@@ -21,13 +21,19 @@ extension CodableGraphic3D.Content.Solid {
         
         @VariantMacro
         public enum Variant: String, GraphicVariant {
-            case regular
+            case white
+            case black
+            case clear
         }
 
         public func edit(variant: Variant) {
             switch variant {
-            case .regular:
-                break
+            case .white:
+                color.value = .fixed(.white)
+            case .black:
+                color.value = .fixed(.black)
+            case .clear:
+                color.value = .fixed(.clear)
             }
         }
     }

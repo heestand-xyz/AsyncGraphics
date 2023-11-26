@@ -43,13 +43,22 @@ extension CodableGraphic.Content.Shape {
         
         @VariantMacro
         public enum Variant: String, GraphicVariant {
-            case regular
+            case triangle
+            case diamond
+            case pentagon
+            case hexagon
         }
 
         public func edit(variant: Variant) {
             switch variant {
-            case .regular:
-                break
+            case .triangle:
+                count.value = .fixed(3)
+            case .diamond:
+                count.value = .fixed(4)
+            case .pentagon:
+                count.value = .fixed(5)
+            case .hexagon:
+                count.value = .fixed(6)
             }
         }
     }

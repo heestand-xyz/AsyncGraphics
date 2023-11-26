@@ -22,7 +22,7 @@ extension CodableGraphic3D.Effect.Direct {
         
         public func render(
             with graphic: Graphic3D,
-            options: Graphic3D.EffectOptions = []
+            options: Graphic3D.EffectOptions = [.edgeStretch]
         ) async throws -> Graphic3D {
            
             switch style.value {
@@ -74,12 +74,32 @@ extension CodableGraphic3D.Effect.Direct {
         
         @VariantMacro
         public enum Variant: String, GraphicVariant {
-            case regular
+            case light
+            case medium
+            case heavy
+            case zoom
+            case random
         }
 
         public func edit(variant: Variant) {
             switch variant {
-            case .regular:
+            case .light, .medium, .heavy:
+                style.value = .box
+            case .zoom:
+                style.value = .zoom
+            case .random:
+                style.value = .random
+            }
+            switch variant {
+            case .light:
+                radius.value = .resolutionMinimum(fraction: 1.0 / 32)
+            case .medium:
+                radius.value = .resolutionMinimum(fraction: 1.0 / 16)
+            case .heavy:
+                radius.value = .resolutionMinimum(fraction: 1.0 / 8)
+            case .zoom:
+                radius.value = .resolutionMinimum(fraction: 1.0 / 8)
+            case .random:
                 break
             }
         }

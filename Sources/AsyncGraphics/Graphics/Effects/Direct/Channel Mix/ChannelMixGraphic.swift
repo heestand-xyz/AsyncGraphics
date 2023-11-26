@@ -28,13 +28,22 @@ extension CodableGraphic.Effect.Direct {
         
         @VariantMacro
         public enum Variant: String, GraphicVariant {
-            case regular
+            case redGreen
+            case greenBlue
+            case blueRed
         }
 
         public func edit(variant: Variant) {
             switch variant {
-            case .regular:
-                break
+            case .redGreen:
+                red.value = .green
+                green.value = .red
+            case .greenBlue:
+                green.value = .blue
+                blue.value = .green
+            case .blueRed:
+                blue.value = .red
+                red.value = .blue
             }
         }
     }

@@ -52,12 +52,16 @@ extension CodableGraphic3D.Content.Shape {
         @VariantMacro
         public enum Variant: String, GraphicVariant {
             case regular
+            case rounded
         }
 
         public func edit(variant: Variant) {
+            size.value = .resolutionMinimum(fraction: 0.5)
             switch variant {
             case .regular:
                 break
+            case .rounded:
+                cornerRadius.value = .resolutionMinimum(fraction: 1.0 / 8)
             }
         }
     }

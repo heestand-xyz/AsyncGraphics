@@ -27,7 +27,7 @@ extension CodableGraphic.Effect.Direct {
         
         public func render(
             with graphic: Graphic,
-            options: Graphic.EffectOptions = []
+            options: Graphic.EffectOptions = [.edgeStretch]
         ) async throws -> Graphic {
             
              try await graphic.blurredCircle(
@@ -41,13 +41,19 @@ extension CodableGraphic.Effect.Direct {
         
         @VariantMacro
         public enum Variant: String, GraphicVariant {
-            case regular
+            case light
+            case medium
+            case heavy
         }
 
         public func edit(variant: Variant) {
             switch variant {
-            case .regular:
-                break
+            case .light:
+                radius.value = .resolutionMinimum(fraction: 1.0 / 32)
+            case .medium:
+                radius.value = .resolutionMinimum(fraction: 1.0 / 16)
+            case .heavy:
+                radius.value = .resolutionMinimum(fraction: 1.0 / 8)
             }
         }
     }
