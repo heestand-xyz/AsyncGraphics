@@ -5,4 +5,5 @@ public enum DirectEffectGraphic3DType: String, CodableGraphicTypeProtocol {
     
     case blur
     case channelMix
+    case clamp
 }

@@ -2,10 +2,10 @@ import SwiftUI
 import CoreGraphics
 import PixelColor
 
-extension CodableGraphic.Effect.Direct {
+extension CodableGraphic3D.Effect.Direct {
     
     @GraphicMacro
-    public final class Clamp: DirectEffectGraphicProtocol {
+    public final class Clamp: DirectEffectGraphic3DProtocol {
         
         public var style: GraphicEnumMetadata<Graphic.ClampType> = .init(value: .relative)
         
@@ -15,9 +15,9 @@ extension CodableGraphic.Effect.Direct {
         public var includeAlpha: GraphicMetadata<Bool> = .init(value: .fixed(false))
         
         public func render(
-            with graphic: Graphic,
-            options: Graphic.EffectOptions = []
-        ) async throws -> Graphic {
+            with graphic: Graphic3D,
+            options: Graphic3D.EffectOptions = []
+        ) async throws -> Graphic3D {
             
              try await graphic.clamp(
                 style.value,

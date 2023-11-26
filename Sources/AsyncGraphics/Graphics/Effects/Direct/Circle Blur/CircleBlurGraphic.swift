@@ -7,8 +7,6 @@ extension CodableGraphic.Effect.Direct {
     @GraphicMacro
     public final class CircleBlur: DirectEffectGraphicProtocol {
         
-        public var color: GraphicMetadata<PixelColor> = .init(value: .fixed(.rawGreen))
-        
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.1),
                                                             maximum: .resolutionMinimum(fraction: 0.5))
         
