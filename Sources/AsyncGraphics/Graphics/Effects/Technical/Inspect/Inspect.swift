@@ -47,7 +47,7 @@ extension Graphic {
             options: options
         )
     }
-    
+    @available(*, deprecated, renamed: "inspect(scale:offset:borderWidth:borderOpacity:borderFadeRange:placement:containerResolution:contentResolution:checkerTransparency:checkerSize:checkerOpacity:options:)")
     public static func inspect(with graphic: Graphic,
                                scale: CGFloat = 1.0,
                                offset: CGPoint = .zero,
@@ -61,11 +61,38 @@ extension Graphic {
                                checkerSize: CGFloat = 100,
                                checkerOpacity: CGFloat = 0.5,
                                options: ContentOptions = .interpolateNearest) async throws -> Graphic {
+        try await graphic.inspect(
+            scale: scale,
+            offset: offset,
+            borderWidth: borderWidth,
+            borderOpacity: borderOpacity,
+            borderFadeRange: borderFadeRange,
+            placement: placement,
+            containerResolution: containerResolution,
+            contentResolution: contentResolution,
+            checkerTransparency: checkerTransparency,
+            checkerSize: checkerSize,
+            checkerOpacity: checkerOpacity,
+            options: options.contains(.interpolateNearest) ? [.interpolateNearest] : [])
+    }
+    
+    public func inspect(scale: CGFloat = 1.0,
+                        offset: CGPoint = .zero,
+                        borderWidth: CGFloat = 1.0,
+                        borderOpacity: CGFloat = 0.25,
+                        borderFadeRange: ClosedRange<CGFloat> = 25...50,
+                        placement: Placement = .fit,
+                        containerResolution: CGSize,
+                        contentResolution: CGSize,
+                        checkerTransparency: Bool = false,
+                        checkerSize: CGFloat = 100,
+                        checkerOpacity: CGFloat = 0.5,
+                        options: EffectOptions = .interpolateNearest) async throws -> Graphic {
         try await Renderer.render(
             name: "inspect",
             shader: .name("inspect"),
             graphics: [
-                graphic
+                self
             ],
             uniforms: InspectUniforms(
                 checkerTransparency: checkerTransparency,
@@ -83,8 +110,8 @@ extension Graphic {
             ),
             metadata: Renderer.Metadata(
                 resolution: containerResolution,
-                colorSpace: options.colorSpace,
-                bits: options.bits
+                colorSpace: colorSpace,
+                bits: bits
             ),
             options: Renderer.Options(
                 filter: options.filter

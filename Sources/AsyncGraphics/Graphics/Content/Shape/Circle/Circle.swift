@@ -39,7 +39,7 @@ extension Graphic {
             shader: .name("circle"),
             uniforms: CircleUniforms(
                 premultiply: options.premultiply,
-                antiAlias: true,
+                antiAlias: options.antiAlias,
                 radius: Float(relativeRadius),
                 position: relativePosition.uniform,
                 edgeRadius: 0.0,
@@ -78,7 +78,7 @@ extension Graphic {
             shader: .name("circle"),
             uniforms: CircleUniforms(
                 premultiply: options.premultiply,
-                antiAlias: true,
+                antiAlias: options.antiAlias,
                 radius: Float(relativeRadius),
                 position: relativePosition.uniform,
                 edgeRadius: Float(relativeLineWidth),
@@ -91,9 +91,6 @@ extension Graphic {
                 resolution: resolution,
                 colorSpace: options.colorSpace,
                 bits: options.bits
-            ),
-            options: Renderer.Options(
-                filter: options.filter
             )
         )
     }

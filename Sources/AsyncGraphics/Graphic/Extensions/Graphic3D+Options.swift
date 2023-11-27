@@ -28,7 +28,7 @@ extension Graphic3D {
 //        public static let displayP3 = ContentOptions(rawValue: 1 << 1)
         
         public static let pureAlpha = ContentOptions(rawValue: 1 << 2)
-        
+                
         var premultiply: Bool {
             !contains(.pureAlpha)
         }
@@ -37,6 +37,12 @@ extension Graphic3D {
             .sRGB //contains(.displayP3) ? .displayP3 : .sRGB
         }
         
+        public static let interpolateNearest = ContentOptions(rawValue: 1 << 3)
+
+        var antiAlias: Bool {
+            !contains(.interpolateNearest)
+        }
+       
         public init(rawValue: Int) {
             self.rawValue = rawValue
         }

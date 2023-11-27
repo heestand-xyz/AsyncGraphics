@@ -16,7 +16,7 @@ struct Uniforms {
     float length;
     float cornerRadius;
     packed_float3 position;
-    float edgeRadius;
+    float surfaceWidth;
     packed_float4 foregroundColor;
     packed_float4 edgeColor;
     packed_float4 backgroundColor;
@@ -44,9 +44,24 @@ kernel void cylinder3d(const device Uniforms& uniforms [[ buffer(0) ]],
     float4 edgeColor = uniforms.edgeColor;
     float4 backgroundColor = uniforms.backgroundColor;
         
-    float edgeRadius = uniforms.edgeRadius;
-    if (edgeRadius < 0) {
-        edgeRadius = 0;
+    float surfaceWidth = uniforms.surfaceWidth;
+    if (surfaceWidth < 0) {
+        surfaceWidth = 0;
+    }
+    
+    float cornerRadius = uniforms.cornerRadius;
+    if (cornerRadius < 0) {
+        cornerRadius = 0;
+    }
+    
+    float radius = uniforms.radius;
+    if (radius < 0) {
+        radius = 0;
+    }
+    
+    float length = uniforms.length;
+    if (length < 0) {
+        length = 0;
     }
     
     float aspectRatio = float(width) / float(height);
@@ -72,27 +87,20 @@ kernel void cylinder3d(const device Uniforms& uniforms [[ buffer(0) ]],
             break;
     }
     float value;
-    float angle = atan2(radialRadius - uniforms.radius, lengthRadius - uniforms.length);
-//    float targetAngle = atan2(uniforms.radius, uniforms.length);
+    float angle = atan2(radialRadius - radius, lengthRadius - length / 2);
     if (angle + M_PI_F < M_PI_F / 4 || angle - M_PI_F / 2 > -M_PI_F / 4) {
         value = radialRadius;
     } else {
-        value = lengthRadius;
+        value = lengthRadius - length / 2 + radius;
     }
-//    if (
-//        uniforms.cornerRadius > 0.0 && 
-//        radialRadius > uniforms.radius &&
-//        lengthRadius > uniforms.radius
-//        ) {
-////        if (lengthRadius > uniforms.length / 2 - uniforms.edgeRadius / 2) {
-////            if (radialRadius < uniforms.radius + uniforms.edgeRadius / 2) {
-////                value = 1000;
-////            }
-////        }
-//        value = 1000;
-//    }
+    if (cornerRadius > 0.0 &&
+        radialRadius > radius - cornerRadius &&
+        lengthRadius > length / 2 - cornerRadius) {
+        value = sqrt(pow(radialRadius - radius + cornerRadius, 2) +
+                     pow(lengthRadius - length / 2 + cornerRadius, 2)) + radius - cornerRadius;
+    }
     
-    float4 color = radiusColor(value, uniforms.radius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
+    float4 color = radiusColor(value, radius, surfaceWidth, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
     
     if (uniforms.premultiply) {
         color = float4(color.rgb * color.a, color.a);

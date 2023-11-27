@@ -70,7 +70,7 @@ extension Graphic {
             shader: .name("rectangle"),
             uniforms: RectangleUniforms(
                 premultiply: options.premultiply,
-                antiAlias: true,
+                antiAlias: options.antiAlias,
                 size: relativeSize.uniform,
                 position: relativePosition.uniform,
                 cornerRadius: Float(relativeCornerRadius),
@@ -84,9 +84,6 @@ extension Graphic {
                 resolution: resolution,
                 colorSpace: options.colorSpace,
                 bits: options.bits
-            ),
-            options: Renderer.Options(
-                filter: options.filter
             )
         )
     }
@@ -137,7 +134,7 @@ extension Graphic {
             shader: .name("rectangle"),
             uniforms: RectangleUniforms(
                 premultiply: options.premultiply,
-                antiAlias: true,
+                antiAlias: options.antiAlias,
                 size: relativeSize.uniform,
                 position: relativePosition.uniform,
                 cornerRadius: Float(relativeCornerRadius),
@@ -151,9 +148,6 @@ extension Graphic {
                 resolution: resolution,
                 colorSpace: options.colorSpace,
                 bits: options.bits
-            ),
-            options: Renderer.Options(
-                filter: options.filter
             )
         )
     }

@@ -85,7 +85,7 @@ extension Graphic {
             ),
             options: Renderer.Options(
                 addressMode: .clampToZero,
-                filter: options.filter,
+                filter: options.contains(.pixelated) ? .nearest : .linear,
                 clearColor: backgroundColor,
                 additive: true,
                 sampleCount: sampleCount.rawValue

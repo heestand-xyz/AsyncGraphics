@@ -36,7 +36,7 @@ extension Graphic3D {
             shader: .name("sphere3d"),
             uniforms: Sphere3DUniforms(
                 premultiply: options.premultiply,
-                antiAlias: true,
+                antiAlias: options.antiAlias,
                 radius: Float(relativeRadius),
                 position: relativePosition.uniform,
                 edgeRadius: 0.0,
@@ -73,7 +73,7 @@ extension Graphic3D {
             shader: .name("sphere3d"),
             uniforms: Sphere3DUniforms(
                 premultiply: options.premultiply,
-                antiAlias: true,
+                antiAlias: options.antiAlias,
                 radius: Float(relativeRadius),
                 position: relativePosition.uniform,
                 edgeRadius: Float(relativeSurfaceWidth),

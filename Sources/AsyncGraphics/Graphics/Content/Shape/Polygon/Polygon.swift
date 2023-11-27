@@ -58,9 +58,6 @@ extension Graphic {
                 resolution: resolution,
                 colorSpace: options.colorSpace,
                 bits: options.bits
-            ),
-            options: Renderer.Options(
-                filter: options.filter
             )
         )
     }
