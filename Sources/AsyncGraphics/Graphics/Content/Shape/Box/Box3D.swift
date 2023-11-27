@@ -67,7 +67,7 @@ extension Graphic3D {
             shader: .name("box3d"),
             uniforms: Box3DUniforms(
                 premultiply: options.premultiply,
-                antiAlias: true,
+                antiAlias: options.antiAlias,
                 size: relativeSize.uniform,
                 position: relativePosition.uniform,
                 cornerRadius: Float(relativeCornerRadius),
@@ -137,7 +137,7 @@ extension Graphic3D {
             shader: .name("box3d"),
             uniforms: Box3DUniforms(
                 premultiply: options.premultiply,
-                antiAlias: true,
+                antiAlias: options.antiAlias,
                 size: relativeSize.uniform,
                 position: relativePosition.uniform,
                 cornerRadius: Float(relativeCornerRadius),

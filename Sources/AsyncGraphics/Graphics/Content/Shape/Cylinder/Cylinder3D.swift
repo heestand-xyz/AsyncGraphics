@@ -15,7 +15,7 @@ extension Graphic3D {
         let length: Float
         let cornerRadius: Float
         let position: VectorUniform
-        let edgeRadius: Float
+        let surfaceWidth: Float
         let foregroundColor: ColorUniform
         let edgeColor: ColorUniform
         let backgroundColor: ColorUniform
@@ -57,12 +57,12 @@ extension Graphic3D {
             uniforms: Cylinder3DUniforms(
                 axis: axis.index,
                 premultiply: options.premultiply,
-                antiAlias: true,
+                antiAlias: options.antiAlias,
                 radius: Float(relativeRadius),
                 length: Float(relativeLength),
                 cornerRadius: Float(relativeCornerRadius),
                 position: relativePosition.uniform,
-                edgeRadius: 0.0,
+                surfaceWidth: 0.0,
                 foregroundColor: color.uniform,
                 edgeColor: PixelColor.clear.uniform,
                 backgroundColor: backgroundColor.uniform
@@ -114,12 +114,12 @@ extension Graphic3D {
             uniforms: Cylinder3DUniforms(
                 axis: axis.index,
                 premultiply: options.premultiply,
-                antiAlias: true,
+                antiAlias: options.antiAlias,
                 radius: Float(relativeRadius),
                 length: Float(relativeLength),
                 cornerRadius: Float(relativeCornerRadius),
                 position: relativePosition.uniform,
-                edgeRadius: Float(relativeSurfaceWidth),
+                surfaceWidth: Float(relativeSurfaceWidth),
                 foregroundColor: backgroundColor.uniform,
                 edgeColor: color.uniform,
                 backgroundColor: backgroundColor.uniform

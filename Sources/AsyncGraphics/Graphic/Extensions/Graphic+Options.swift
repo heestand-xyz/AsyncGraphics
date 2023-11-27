@@ -37,11 +37,13 @@ extension Graphic {
             contains(.displayP3) ? .displayP3 : .sRGB
         }
         
-        public static let interpolateNearest = ContentOptions(rawValue: 1 << 4)
-
-        var filter: MTLSamplerMinMagFilter {
-            contains(.interpolateNearest) ? .nearest : .linear
+        public static let pixelated = ContentOptions(rawValue: 1 << 4)
+        
+        var antiAlias: Bool {
+            !contains(.pixelated)
         }
+
+        public static let interpolateNearest: ContentOptions = .pixelated
         
         public init(rawValue: Int) {
             self.rawValue = rawValue

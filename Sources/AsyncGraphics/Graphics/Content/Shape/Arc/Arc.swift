@@ -43,7 +43,7 @@ extension Graphic {
             shader: .name("arc"),
             uniforms: ArcUniforms(
                 premultiply: options.premultiply,
-                antiAlias: true,
+                antiAlias: options.antiAlias,
                 angleCenter: angle.uniform,
                 angleLength: length.uniform,
                 radius: Float(relativeRadius),
@@ -58,9 +58,6 @@ extension Graphic {
                 resolution: resolution,
                 colorSpace: options.colorSpace,
                 bits: options.bits
-            ),
-            options: Renderer.Options(
-                filter: options.filter
             )
         )
     }
@@ -88,7 +85,7 @@ extension Graphic {
             shader: .name("arc"),
             uniforms: ArcUniforms(
                 premultiply: options.premultiply,
-                antiAlias: true,
+                antiAlias: options.antiAlias,
                 angleCenter: angle.uniform,
                 angleLength: length.uniform,
                 radius: Float(relativeRadius),
@@ -103,9 +100,6 @@ extension Graphic {
                 resolution: resolution,
                 colorSpace: options.colorSpace,
                 bits: options.bits
-            ),
-            options: Renderer.Options(
-                filter: options.filter
             )
         )
     }
