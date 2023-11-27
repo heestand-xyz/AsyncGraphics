@@ -7,7 +7,7 @@ import CoreGraphics
 extension Graphic3D {
     
     private struct Add3DUniforms {
-        let axis: Int
+        let axis: UInt32
     }
     
     public func add(axis: Axis = .z) async throws -> Graphic {

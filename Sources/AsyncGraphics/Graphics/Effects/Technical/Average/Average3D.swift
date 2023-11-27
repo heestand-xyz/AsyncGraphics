@@ -7,7 +7,7 @@ import CoreGraphics
 extension Graphic3D {
     
     private struct Average3DUniforms {
-        let axis: Int
+        let axis: UInt32
     }
     
     public func average(axis: Axis = .z) async throws -> Graphic {
