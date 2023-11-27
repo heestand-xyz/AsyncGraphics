@@ -4,19 +4,16 @@ import PixelColor
 extension CodableGraphic3D.Content.Shape {
     
     @GraphicMacro
-    public final class Cylinder: ShapeContentGraphic3DProtocol {
+    public final class Torus: ShapeContentGraphic3DProtocol {
         
         public var position: GraphicMetadata<SIMD3<Double>> = .init()
         
-        public var length: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 1.0),
-                                                            maximum: .resolutionMaximum(fraction: 1.0))
+        public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 1.0 / 4),
+                                                            maximum: .resolutionMaximum(fraction: 1.0 / 4))
         
-        public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.5),
-                                                            maximum: .resolutionMaximum(fraction: 0.5))
-        
-        public var cornerRadius: GraphicMetadata<Double> = .init(value: .fixed(0.0),
-                                                                 maximum: .resolutionMinimum(fraction: 0.5))
-        
+        public var revolvingRadius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 1.0 / 8),
+                                                                     maximum: .resolutionMaximum(fraction: 1.0 / 8))
+            
         public var foregroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
         public var backgroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.clear))
         
@@ -31,10 +28,9 @@ extension CodableGraphic3D.Content.Shape {
           
             if surface.value.eval(at: resolution) {
                 
-                try await .surfaceCylinder(
-                    length: length.value.eval(at: resolution),
+                try await .surfaceTorus(
                     radius: radius.value.eval(at: resolution),
-                    cornerRadius: cornerRadius.value.eval(at: resolution),
+                    revolvingRadius: revolvingRadius.value.eval(at: resolution),
                     center: position.value.eval(at: resolution),
                     surfaceWidth: surfaceWidth.value.eval(at: resolution),
                     color: foregroundColor.value.eval(at: resolution),
@@ -44,10 +40,9 @@ extension CodableGraphic3D.Content.Shape {
                 
             } else {
                 
-                try await .cylinder(
-                    length: length.value.eval(at: resolution),
+                try await .torus(
                     radius: radius.value.eval(at: resolution),
-                    cornerRadius: cornerRadius.value.eval(at: resolution),
+                    revolvingRadius: revolvingRadius.value.eval(at: resolution),
                     center: position.value.eval(at: resolution),
                     color: foregroundColor.value.eval(at: resolution),
                     backgroundColor: backgroundColor.value.eval(at: resolution),
@@ -64,8 +59,8 @@ extension CodableGraphic3D.Content.Shape {
         public func edit(variant: Variant) {
             switch variant {
             case .regular:
-                radius.value = .resolutionMinimum(fraction: 0.25)
-                length.value = .resolutionMinimum(fraction: 0.5)
+                radius.value = .resolutionMinimum(fraction: 1.0 / 8)
+                revolvingRadius.value = .resolutionMinimum(fraction: 1.0 / 16)
             }
         }
     }
