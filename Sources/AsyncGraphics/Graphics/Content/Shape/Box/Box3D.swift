@@ -122,7 +122,7 @@ extension Graphic3D {
                                   resolution: SIMD3<Int>,
                                   options: ContentOptions = []) async throws -> Graphic3D {
         
-        let size: SIMD3<Double> = size ?? SIMD3<Double>(resolution)
+        let size: SIMD3<Double> = size ?? (SIMD3<Double>(resolution) - surfaceWidth)
         let relativeSize: SIMD3<Double> = size / Double(resolution.y)
         
         let position: SIMD3<Double> = center ?? SIMD3<Double>(resolution) / 2

@@ -8,7 +8,7 @@ extension Graphic3D {
     
     private struct Trace3DUniforms {
         let alphaThreshold: Float
-        let axis: Int
+        let axis: UInt32
     }
     
     public func trace(axis: Axis = .z, alphaThreshold: CGFloat = 0.5) async throws -> Graphic {

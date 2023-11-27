@@ -6,24 +6,11 @@ import TextureMap
 
 extension Graphic3D {
     
-    public enum Axis {
+    @EnumMacro
+    public enum Axis: String, GraphicEnum {
         case x
         case y
         case z
-    }
-}
-
-extension Graphic3D.Axis {
-    
-    var index: Int {
-        switch self {
-        case .x:
-            return 0
-        case .y:
-            return 1
-        case .z:
-            return 2
-        }
     }
 }
 
