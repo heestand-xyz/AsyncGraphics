@@ -17,6 +17,11 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 - ``Graphic``
 - ``Graphic3D``
 
+### Codable Graphics
+
+- ``CodableGraphic``
+- ``CodableGraphic3D``
+
 ### Articles
 
 - <doc:Blending>
@@ -37,6 +42,7 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 
 - ``AGView``
 - ``GraphicView``
+- ``Graphic3DView``
 - ``AsyncGraphicView``
 
 ### Graphs
@@ -105,7 +111,7 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 - ``Renderer``
 - ``AGGraphRenderer``
 
-### Other
+### Other AGs
 
 - ``AGGraphBuilder``
 - ``AGSpecification``
@@ -114,4 +120,83 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 - ``AGGroup``
 - ``AGContentMode``
 - ``AGArrayBlendMode``
+
+### Placement
+
 - ``Placement``
+
+### Render State
+
+- ``GraphicRenderState``
+- ``Graphic3DRenderState``
+
+## Codable
+
+### Codable Properties
+
+- ``GraphicPropertyType``
+
+- ``GraphicValueProperty``
+- ``GraphicEnumProperty``
+
+- ``AnyGraphicProperty``
+- ``AnyGraphicValueProperty``
+- ``AnyGraphicEnumProperty``
+
+### Codable Values
+
+- ``GraphicValueType``
+
+- ``GraphicValue``
+
+- ``GraphicEnum``
+- ``GraphicEnumCase``
+
+- ``GraphicMetadataValue``
+- ``GraphicMetadata``
+- ``GraphicEnumMetadata``
+
+- ``GraphicVariant``
+- ``CodableGraphicVariant``
+- ``CodableGraphic3DVariant``
+- ``GraphicVariantID``
+
+### Codable Protocols
+
+- ``CodableGraphicProtocol``
+- ``CodableGraphic3DProtocol``
+
+- ``ContentGraphicProtocol``
+- ``ContentGraphic3DProtocol``
+
+- ``ShapeContentGraphicProtocol``
+- ``ShapeContentGraphic3DProtocol``
+
+- ``SolidContentGraphicProtocol``
+- ``SolidContentGraphic3DProtocol``
+
+- ``EffectGraphicProtocol``
+- ``EffectGraphic3DProtocol``
+
+- ``DirectEffectGraphicProtocol``
+- ``DirectEffectGraphic3DProtocol``
+
+### Codable Types
+
+- ``CodableGraphicType``
+- ``CodableGraphic3DType``
+
+- ``ContentGraphicType``
+- ``ContentGraphic3DType``
+
+- ``DirectEffectGraphicType``
+- ``DirectEffectGraphic3DType``
+
+- ``EffectGraphicType``
+- ``EffectGraphic3DType``
+
+- ``ShapeContentGraphicType``
+- ``ShapeContentGraphic3DType``
+
+- ``SolidContentGraphicType``
+- ``SolidContentGraphic3DType``
