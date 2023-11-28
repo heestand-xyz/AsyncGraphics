@@ -86,7 +86,7 @@ extension Graphic {
     public func lumaBlurredZoom(
         with graphic: Graphic,
         radius: CGFloat,
-        center: CGPoint? = nil,
+        position: CGPoint? = nil,
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
@@ -95,7 +95,7 @@ extension Graphic {
         
         try await lumaBlurredZoom(
             radius: radius,
-            center: center,
+            position: position,
             lumaGamma: lumaGamma,
             sampleCount: sampleCount,
             placement: placement,
@@ -104,10 +104,10 @@ extension Graphic {
         )
     }
     
-    @available(*, deprecated, renamed: "lumaBlurredZoom(with:radius:center:lumaGamma:sampleCount:placement:options:)")
+    @available(*, deprecated, renamed: "lumaBlurredZoom(with:radius:position:lumaGamma:sampleCount:placement:options:)")
     public func lumaBlurredZoom(
         radius: CGFloat,
-        center: CGPoint? = nil,
+        position: CGPoint? = nil,
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
@@ -118,7 +118,7 @@ extension Graphic {
         try await lumaBlurred(
             type: .zoom,
             radius: radius,
-            center: center,
+            position: position,
             lumaGamma: lumaGamma,
             sampleCount: sampleCount,
             placement: placement,
@@ -208,7 +208,7 @@ extension Graphic {
     private func lumaBlurred(
         type: LumaBlurType,
         radius: CGFloat,
-        center: CGPoint? = nil,
+        position: CGPoint? = nil,
         angle: Angle = .zero,
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
@@ -219,8 +219,8 @@ extension Graphic {
             
         let relativeRadius: CGFloat = radius / height
        
-        let center: CGPoint = center ?? resolution.asPoint / 2
-        let relativeCenter: CGPoint = (center - resolution / 2) / height
+        let position: CGPoint = position ?? resolution.asPoint / 2
+        let relativePosition: CGPoint = (position - resolution / 2) / height
         
         return try await Renderer.render(
             name: "Luma Blur",
@@ -234,7 +234,7 @@ extension Graphic {
                 placement: placement.index,
                 count: UInt32(sampleCount),
                 radius: Float(relativeRadius),
-                position: relativeCenter.uniform,
+                position: relativePosition.uniform,
                 angle: angle.uniform,
                 lumaGamma: Float(lumaGamma)
             ),

@@ -21,7 +21,7 @@ extension Graphic {
     }
     
     public static func circle(radius: CGFloat? = nil,
-                              center: CGPoint? = nil,
+                              position: CGPoint? = nil,
                               color: PixelColor = .white,
                               backgroundColor: PixelColor = .black,
                               resolution: CGSize,
@@ -31,8 +31,8 @@ extension Graphic {
         
         let relativeRadius: CGFloat = radius / resolution.height
         
-        let center: CGPoint = center ?? (resolution.asPoint / 2)
-        let relativePosition: CGPoint = (center - resolution / 2) / resolution.height
+        let position: CGPoint = position ?? (resolution.asPoint / 2)
+        let relativePosition: CGPoint = (position - resolution / 2) / resolution.height
         
         return try await Renderer.render(
             name: "Circle",
@@ -57,7 +57,7 @@ extension Graphic {
     }
     
     public static func strokedCircle(radius: CGFloat? = nil,
-                                     center: CGPoint? = nil,
+                                     position: CGPoint? = nil,
                                      lineWidth: CGFloat = 1,
                                      color: PixelColor = .white,
                                      backgroundColor: PixelColor = .black,
@@ -68,8 +68,8 @@ extension Graphic {
         
         let relativeRadius: CGFloat = radius / resolution.height
         
-        let center: CGPoint = center ?? (resolution / 2).asPoint
-        let relativePosition: CGPoint = (center - resolution / 2) / resolution.height
+        let position: CGPoint = position ?? (resolution / 2).asPoint
+        let relativePosition: CGPoint = (position - resolution / 2) / resolution.height
         
         let relativeLineWidth: CGFloat = lineWidth / resolution.height
         

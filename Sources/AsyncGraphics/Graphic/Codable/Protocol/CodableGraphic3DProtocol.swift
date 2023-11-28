@@ -1,3 +1,4 @@
+import Spatial
 
 public protocol CodableGraphic3DProtocol {
    
@@ -7,8 +8,8 @@ public protocol CodableGraphic3DProtocol {
         
     init()
     
-    func isVisible(propertyKey: String, at resolution: SIMD3<Int>) -> Bool?
-    func isVisible<P: GraphicPropertyType>(property: P, at resolution: SIMD3<Int>) -> Bool
+    func isVisible(propertyKey: String, at resolution: Size3D) -> Bool?
+    func isVisible<P: GraphicPropertyType>(property: P, at resolution: Size3D) -> Bool
     
     static func variants() -> [CodableGraphic3DVariant]
     static func variantIDs() -> [GraphicVariantID]
@@ -25,7 +26,7 @@ extension CodableGraphic3DProtocol {
 
 extension CodableGraphic3DProtocol {
     
-    public func isVisible<P: GraphicPropertyType>(property: P, at resolution: SIMD3<Int>) -> Bool {
+    public func isVisible<P: GraphicPropertyType>(property: P, at resolution: Size3D) -> Bool {
         true
     }
 }

@@ -1,5 +1,5 @@
 import CoreGraphics
-import simd
+import Spatial
 
 public enum GraphicMetadataValue<T: GraphicValue>: Codable {
     
@@ -79,7 +79,7 @@ public enum GraphicMetadataValue<T: GraphicValue>: Codable {
         }
     }
     
-    func eval(at resolution: SIMD3<Int>) -> T {
+    func eval(at resolution: Size3D) -> T {
         switch self {
         case .zero:
             return T.zero
@@ -88,24 +88,24 @@ public enum GraphicMetadataValue<T: GraphicValue>: Codable {
         case .fixed(let value):
             return value
         case .resolution:
-            if T.self == SIMD3<Int>.self {
+            if T.self == Size3D.self {
                 return resolution as! T
-            } else if T.self == SIMD3<Double>.self {
-                return SIMD3<Double>(resolution) as! T
+            } else if T.self == Point3D.self {
+                return Point3D(resolution) as! T
             }
             fatalError("Resolution Not Supported")
         case .resolutionAlignment(let alignment):
-            if T.self == SIMD3<Double>.self {
-                return SIMD3<Double>(Double(resolution.x) * alignment.xFraction,
-                                     Double(resolution.y) * alignment.yFraction,
-                                     Double(resolution.z) / 2) as! T
+            if T.self == Point3D.self {
+                return Point3D(x: resolution.width * alignment.xFraction,
+                               y: resolution.height * alignment.yFraction,
+                               z: resolution.depth / 2) as! T
             }
             fatalError("Resolution Center Not Supported")
         case .resolutionMinimum(let fraction):
-            let minimum = Double(min(min(resolution.x, resolution.y), resolution.z))
+            let minimum: Double = min(min(resolution.width, resolution.height), resolution.depth)
             return .lerp(at: fraction, from: .zero, to: .one.scaled(by: minimum))
         case .resolutionMaximum(let fraction):
-            let maximum = Double(max(max(resolution.x, resolution.y), resolution.z))
+            let maximum: Double = max(max(resolution.width, resolution.height), resolution.depth)
             return .lerp(at: fraction, from: .zero, to: .one.scaled(by: maximum))
         }
     }

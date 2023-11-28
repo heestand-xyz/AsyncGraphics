@@ -4,7 +4,7 @@
 //
 //import Foundation
 //import CoreGraphics
-//import simd
+//import Spatial
 //import PixelColor
 //
 //public protocol MetalUniform {

@@ -13,8 +13,8 @@ extension Graphic3D {
     public func average(axis: Axis = .z) async throws -> Graphic {
         
         let resolution: CGSize = CGSize(
-            width: axis == .x ? CGFloat(resolution.z) : CGFloat(resolution.x),
-            height: axis == .y ? CGFloat(resolution.z) : CGFloat(resolution.y))
+            width: axis == .x ? resolution.depth : resolution.width,
+            height: axis == .y ? resolution.depth : resolution.height)
         
         return try await Renderer.render(
             name: "Average",

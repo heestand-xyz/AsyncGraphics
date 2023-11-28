@@ -32,7 +32,7 @@ extension CodableGraphic.Content.Shape {
             try await .polygon(
                 count: count.value.eval(at: resolution),
                 radius: radius.value.eval(at: resolution),
-                center: position.value.eval(at: resolution),
+                position: position.value.eval(at: resolution),
                 rotation: rotation.value.eval(at: resolution),
                 cornerRadius: cornerRadius.value.eval(at: resolution),
                 color: foregroundColor.value.eval(at: resolution),

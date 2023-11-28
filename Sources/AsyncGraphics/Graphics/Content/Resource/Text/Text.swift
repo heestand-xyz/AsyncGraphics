@@ -66,7 +66,7 @@ extension Graphic {
     
     public static func text(_ text: String,
                             font: TextFont,
-                            center: CGPoint? = nil,
+                            position: CGPoint? = nil,
                             horizontalAlignment: TextHorizontalAlignment = .center,
                             verticalAlignment: TextVerticalAlignment = .center,
                             color: PixelColor = .white,
@@ -74,7 +74,7 @@ extension Graphic {
                             resolution: CGSize,
                             options: ContentOptions = []) async throws -> Graphic {
         
-        let center: CGPoint = center ?? (resolution.asPoint / 2)
+        let position: CGPoint = position ?? (resolution.asPoint / 2)
         
         let texture: MTLTexture = try await withCheckedThrowingContinuation { continuation in
             
@@ -90,7 +90,7 @@ extension Graphic {
                 let label = SKLabelNode()
                 label.text = text
                 label.numberOfLines = 0
-                label.position = center
+                label.position = position
                 label.fontName = font.fontName
                 label.fontSize = font.pointSize
                 #if os(macOS)

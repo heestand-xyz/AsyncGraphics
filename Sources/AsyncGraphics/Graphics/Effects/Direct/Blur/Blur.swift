@@ -82,12 +82,12 @@ extension Graphic {
     }
     
     public func blurredZoom(radius: CGFloat,
-                            center: CGPoint? = nil,
+                            position: CGPoint? = nil,
                             sampleCount: Int = 100,
                             options: EffectOptions = []) async throws -> Graphic {
         
-        let center: CGPoint = center ?? resolution.asPoint / 2
-        let relativeCenter: CGPoint = (center - resolution / 2) / height
+        let position: CGPoint = position ?? resolution.asPoint / 2
+        let relativePosition: CGPoint = (position - resolution / 2) / height
         
         let relativeRadius: CGFloat = radius / height
         
@@ -100,7 +100,7 @@ extension Graphic {
                 radius: Float(relativeRadius),
                 count: UInt32(sampleCount),
                 angle: 0.0,
-                position: relativeCenter.uniform
+                position: relativePosition.uniform
             ),
             options: Renderer.Options(
                 addressMode: options.addressMode,

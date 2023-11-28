@@ -16,7 +16,7 @@ extension Graphic3D {
         resolution: CGSize
     ) async throws -> Graphic {
        
-        let vertices: [Renderer.Vertex3D] = Self.orbitVertices(depthCount: depth)
+        let vertices: [Renderer.Vertex3D] = Self.orbitVertices(depthCount: Int(depth))
         
         return try await Renderer.render(
             name: "Orbit",
@@ -25,7 +25,7 @@ extension Graphic3D {
             vertices: .direct(vertices, type: .triangle),
             camera: Renderer.Camera(
                 fieldOfView: .degrees(60),
-                position: SIMD3<Double>(0.0, 0.0, -2.5)
+                position: Point3D(x: 0.0, y: 0.0, z: -2.5)
             ),
             rotationX: rotationX,
             rotationY: rotationY,

@@ -1,3 +1,4 @@
+import Spatial
 import CoreGraphics
 import PixelColor
 
@@ -10,7 +11,7 @@ extension CodableGraphic3D.Content.Solid {
                                                          minimum: .fixed(1),
                                                          maximum: .fixed(10))
         
-        public var offset: GraphicMetadata<SIMD3<Double>> = .init(value: .zero,
+        public var offset: GraphicMetadata<Point3D> = .init(value: .zero,
                                                                   minimum: .resolutionMaximum(fraction: -0.5),
                                                                   maximum: .resolutionMaximum(fraction: 0.5))
         
@@ -28,7 +29,7 @@ extension CodableGraphic3D.Content.Solid {
                                                       maximum: .fixed(100))
         
         public func render(
-            at resolution: SIMD3<Int>,
+            at resolution: Size3D,
             options: Graphic3D.ContentOptions = []
         ) async throws -> Graphic3D {
             

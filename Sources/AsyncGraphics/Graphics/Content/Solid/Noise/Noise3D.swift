@@ -2,7 +2,7 @@
 //  Created by Anton Heestand on 2022-04-27.
 //
 
-import simd
+import Spatial
 
 extension Graphic3D {
     
@@ -18,17 +18,17 @@ extension Graphic3D {
     }
     
     /// Noise octaves are between 1 and 10
-    public static func noise(offset: SIMD3<Double> = .zero,
+    public static func noise(offset: Point3D = .zero,
                              depth: Double = 0.0,
                              scale: Double = 1.0,
                              octaves: Int = 1,
                              seed: Int = 1,
-                             resolution: SIMD3<Int>,
+                             resolution: Size3D,
                              options: ContentOptions = []) async throws -> Graphic3D {
         
-        let relativeOffset: SIMD3<Double> = (offset - resolution.asDouble / 2) / Double(resolution.y)
+        let relativeOffset: Point3D = (offset - resolution / 2) / resolution.height
         
-        let relativeDepth: Double = depth / Double(resolution.y)
+        let relativeDepth: Double = depth / resolution.height
         
         return try await Renderer.render(
             name: "Noise 3D",
@@ -52,17 +52,17 @@ extension Graphic3D {
     }
     
     /// Noise octaves are between 1 and 10
-    public static func transparantNoise(offset: SIMD3<Double> = .zero,
+    public static func transparantNoise(offset: Point3D = .zero,
                                         depth: Double = 0.0,
                                         scale: Double = 1.0,
                                         octaves: Int = 1,
                                         seed: Int = 1,
-                                        resolution: SIMD3<Int>,
+                                        resolution: Size3D,
                                         options: ContentOptions = []) async throws -> Graphic3D {
         
-        let relativeOffset: SIMD3<Double> = (offset - resolution.asDouble / 2) / Double(resolution.y)
+        let relativeOffset: Point3D = (offset - resolution / 2) / resolution.height
         
-        let relativeDepth: Double = depth / Double(resolution.y)
+        let relativeDepth: Double = depth / resolution.height
         
         return try await Renderer.render(
             name: "Noise 3D",
@@ -86,17 +86,17 @@ extension Graphic3D {
     }
     
     /// Noise octaves are between 1 and 10
-    public static func coloredNoise(offset: SIMD3<Double> = .zero,
+    public static func coloredNoise(offset: Point3D = .zero,
                                     depth: Double = 0.0,
                                     scale: Double = 1.0,
                                     octaves: Int = 1,
                                     seed: Int = 1,
-                                    resolution: SIMD3<Int>,
+                                    resolution: Size3D,
                                     options: ContentOptions = []) async throws -> Graphic3D {
         
-        let relativeOffset: SIMD3<Double> = (offset - resolution.asDouble / 2) / Double(resolution.y)
+        let relativeOffset: Point3D = (offset - resolution / 2) / resolution.height
         
-        let relativeDepth: Double = depth / Double(resolution.y)
+        let relativeDepth: Double = depth / resolution.height
         
         return try await Renderer.render(
             name: "Noise 3D (Colored)",
@@ -120,7 +120,7 @@ extension Graphic3D {
     }
     
     public static func randomNoise(seed: Int = 1,
-                                   resolution: SIMD3<Int>,
+                                   resolution: Size3D,
                                    options: ContentOptions = []) async throws -> Graphic3D {
         
         try await Renderer.render(
@@ -145,7 +145,7 @@ extension Graphic3D {
     }
     
     public static func randomColoredNoise(seed: Int = 1,
-                                          resolution: SIMD3<Int>,
+                                          resolution: Size3D,
                                           options: ContentOptions = []) async throws -> Graphic3D {
         
         try await Renderer.render(

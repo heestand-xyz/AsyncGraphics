@@ -1,6 +1,6 @@
 import Foundation
 import SwiftUI
-import simd
+import Spatial
 import PixelColor
 
 @propertyWrapper
@@ -59,10 +59,10 @@ extension GraphicValueProperty {
             return .point
         case is CGRect.Type:
             return .rect
-        case is SIMD3<Int>.Type:
-            return .intVector
-        case is SIMD3<Double>.Type:
-            return .doubleVector
+        case is Size3D.Type:
+            return .size3D
+        case is Point3D.Type:
+            return .point3D
         case is [Graphic.GradientStop].Type:
             return .gradient
         default:

@@ -1,5 +1,5 @@
 import SwiftUI
-import simd
+import Spatial
 import CoreGraphics
 import PixelColor
 
@@ -181,38 +181,43 @@ extension PixelColor: GraphicValue {
     }
 }
 
-extension SIMD3: GraphicValue where Scalar: GraphicValue {
+extension Point3D: GraphicValue {
     
-    public static var zero: Self {
-        if Scalar.self == Int.self {
-            return SIMD3<Int>(0, 0, 0) as! Self
-        } else if Scalar.self == Double.self {
-            return SIMD3<Double>(0.0, 0.0, 0.0) as! Self
-        }
-        fatalError("Unsupported Scalar")
-    }
-    public static var one: Self {
-        if Scalar.self == Int.self {
-            return SIMD3<Int>(1, 1, 1) as! Self
-        } else if Scalar.self == Double.self {
-            return SIMD3<Double>(1.0, 1.0, 1.0) as! Self
-        }
-        fatalError("Unsupported Scalar")
-    }
+    public static var one: Self { Point3D(x: 1.0, y: 1.0, z: 1.0) }
     public static var `default`: GraphicMetadataValue<Self> { .resolutionAlignment(.center) }
     public static var minimum: GraphicMetadataValue<Self> { .zero }
     public static var maximum: GraphicMetadataValue<Self> { .resolution }
     
     public static func lerp(at fraction: CGFloat, from leading: Self, to trailing: Self) -> Self {
-        SIMD3<Scalar>(Scalar.lerp(at: fraction, from: leading.x, to: trailing.x),
-                      Scalar.lerp(at: fraction, from: leading.y, to: trailing.y),
-                      Scalar.lerp(at: fraction, from: leading.z, to: trailing.z))
+        Point3D(x: Double.lerp(at: fraction, from: leading.x, to: trailing.x),
+                y: Double.lerp(at: fraction, from: leading.y, to: trailing.y),
+                z: Double.lerp(at: fraction, from: leading.z, to: trailing.z))
     }
     
     public func scaled(by scale: CGFloat) -> Self {
-        SIMD3<Scalar>(x.scaled(by: scale),
-                      y.scaled(by: scale),
-                      z.scaled(by: scale))
+        Point3D(x: x.scaled(by: scale),
+                y: y.scaled(by: scale),
+                z: z.scaled(by: scale))
+    }
+}
+
+extension Size3D: GraphicValue {
+    
+    public static var one: Self { Size3D(width: 1.0, height: 1.0, depth: 1.0) }
+    public static var `default`: GraphicMetadataValue<Self> { .resolution }
+    public static var minimum: GraphicMetadataValue<Self> { .zero }
+    public static var maximum: GraphicMetadataValue<Self> { .resolution }
+    
+    public static func lerp(at fraction: CGFloat, from leading: Self, to trailing: Self) -> Self {
+        Size3D(width: Double.lerp(at: fraction, from: leading.width, to: trailing.width),
+               height: Double.lerp(at: fraction, from: leading.height, to: trailing.height),
+               depth: Double.lerp(at: fraction, from: leading.depth, to: trailing.depth))
+    }
+    
+    public func scaled(by scale: CGFloat) -> Self {
+        Size3D(width: width.scaled(by: scale),
+               height: height.scaled(by: scale),
+               depth: depth.scaled(by: scale))
     }
 }
 

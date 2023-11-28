@@ -36,7 +36,7 @@ extension CodableGraphic.Content.Shape {
                 count: count.value.eval(at: resolution),
                 innerRadius: innerRadius.value.eval(at: resolution),
                 outerRadius: outerRadius.value.eval(at: resolution),
-                center: position.value.eval(at: resolution),
+                position: position.value.eval(at: resolution),
                 rotation: rotation.value.eval(at: resolution),
                 cornerRadius: cornerRadius.value.eval(at: resolution),
                 color: foregroundColor.value.eval(at: resolution),

@@ -3,7 +3,7 @@
 //
 
 import Foundation
-import simd
+import Spatial
 import CoreGraphics
 import Metal
 import TextureMap
@@ -34,23 +34,23 @@ public struct Graphic3D: Graphicable, Identifiable {
 extension Graphic3D {
     
     /// Resolution in pixels
-    public var resolution: SIMD3<Int> {
-        SIMD3(width, height, depth)
+    public var resolution: Size3D {
+        Size3D(width: width, height: height, depth: depth)
     }
     
     /// Width in pixels
-    public var width: Int {
-        texture.width
+    public var width: Double {
+        Double(texture.width)
     }
     
     /// Height in pixels
-    public var height: Int {
-        texture.height
+    public var height: Double {
+        Double(texture.height)
     }
     
     /// Depth in pixels
-    public var depth: Int {
-        texture.depth
+    public var depth: Double {
+        Double(texture.depth)
     }
 }
 
@@ -113,24 +113,24 @@ extension Graphic3D {
                 throw VoxelError.noChannelsFound
             }
             
-            let count = resolution.x * resolution.y * resolution.z * 4
+            let count = Int(resolution.width) * Int(resolution.height) * Int(resolution.depth) * 4
             guard channels.count == count else {
                 throw VoxelError.badChannelCount
             }
             
             var voxelColors: [[[PixelColor]]] = []
             
-            for z in 0..<Int(resolution.z) {
+            for z in 0..<Int(resolution.depth) {
                 
                 var planes: [[PixelColor]] = []
                 
-                for y in 0..<resolution.y {
+                for y in 0..<Int(resolution.height) {
                     
                     var rows: [PixelColor] = []
                             
-                    for x in 0..<resolution.x {
+                    for x in 0..<Int(resolution.width) {
                 
-                        let index = z * resolution.y * resolution.x * 4 + y * resolution.x * 4 + x * 4
+                        let index = z * Int(resolution.height) * Int(resolution.width) * 4 + y * Int(resolution.width) * 4 + x * 4
                         
                         let red = channels[index]
                         let green = channels[index + 1]

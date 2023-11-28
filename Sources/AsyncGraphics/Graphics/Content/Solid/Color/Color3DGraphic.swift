@@ -1,3 +1,4 @@
+import Spatial
 import CoreGraphics
 import PixelColor
 
@@ -9,7 +10,7 @@ extension CodableGraphic3D.Content.Solid {
         public var color: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
         
         public func render(
-            at resolution: SIMD3<Int>,
+            at resolution: Size3D,
             options: Graphic3D.ContentOptions = []
         ) async throws -> Graphic3D {
            

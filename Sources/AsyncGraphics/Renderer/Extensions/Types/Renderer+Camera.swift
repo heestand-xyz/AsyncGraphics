@@ -1,12 +1,12 @@
 import SwiftUI
-import simd
+import Spatial
 
 extension Renderer {
     
     struct Camera {
         let fieldOfView: Angle
-        let position: SIMD3<Double>
-//        let rotation: SIMD3<Double>
+        let position: Point3D
+//        let rotation: Point3D
         let near: Double = 0.1
         let far: Double = 10.0
     }

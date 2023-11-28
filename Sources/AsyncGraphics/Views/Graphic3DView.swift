@@ -81,12 +81,12 @@ public struct Graphic3DView: View {
     }
     
     private func checkRenderStates() {
-        guard renderStates.count == graphic3D.depth else { return }
+        guard renderStates.count == Int(graphic3D.depth) else { return }
         let doneCount: Int = renderStates.filter({ index, renderState in
-            guard case .done(let id) = renderState else { return false }
+            guard case .done = renderState else { return false }
             return true
         }).count
-        if doneCount == graphic3D.depth {
+        if doneCount == Int(graphic3D.depth) {
             renderUpdate?(.done(id: graphic3D.id))
         } else {
             let fraction = CGFloat(doneCount) / CGFloat(graphic3D.depth)

@@ -49,7 +49,7 @@ extension CodableGraphic.Effect.Direct {
                 
                 try await graphic.blurredZoom(
                     radius: radius.value.eval(at: graphic.resolution),
-                    center: position.value.eval(at: graphic.resolution),
+                    position: position.value.eval(at: graphic.resolution),
                     sampleCount: sampleCount.value.eval(at: graphic.resolution),
                     options: options)
                 

@@ -87,7 +87,7 @@ public struct GraphicMacro: MemberMacro, MemberAttributeMacro {
             }
             """),
             DeclSyntax(stringLiteral: """
-            public func isVisible(propertyKey: String, at resolution: \(is3D ? "SIMD3<Int>" : "CGSize")) -> Bool? {
+            public func isVisible(propertyKey: String, at resolution: \(is3D ? "Size3D" : "CGSize")) -> Bool? {
                 guard let property = Property.allCases.first(where: { $0.rawValue == propertyKey }) else { return nil }
                 return isVisible(property: property, at: resolution)
             }

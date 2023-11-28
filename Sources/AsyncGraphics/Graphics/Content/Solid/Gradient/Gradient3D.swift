@@ -2,6 +2,7 @@
 //  Created by Anton Heestand on 2022-05-23.
 //
 
+import Spatial
 import CoreGraphics
 import CoreGraphicsExtensions
 import PixelColor
@@ -32,16 +33,16 @@ extension Graphic3D {
                                     Graphic.GradientStop(at: 0.0, color: .black),
                                     Graphic.GradientStop(at: 1.0, color: .white)
                                 ],
-                                center: SIMD3<Double>? = nil,
+                                position: Point3D? = nil,
                                 scale: CGFloat = 1.0,
                                 offset: CGFloat = 0.0,
                                 extend: Graphic.GradientExtend = .zero,
                                 gamma: CGFloat = 1.0,
-                                resolution: SIMD3<Int>,
+                                resolution: Size3D,
                                 options: ContentOptions = []) async throws -> Graphic3D {
         
-        let center: SIMD3<Double> = center ?? SIMD3<Double>(resolution) / 2
-        let relativePosition: SIMD3<Double> = (center - SIMD3<Double>(resolution) / 2) / Double(resolution.y)
+        let position: Point3D = position ?? Point3D(resolution) / 2
+        let relativePosition: Point3D = (position - resolution / 2) / resolution.height
         
         return try await Renderer.render(
             name: "Gradient 3D",
@@ -54,7 +55,7 @@ extension Graphic3D {
                 position: relativePosition.uniform,
                 gamma: Float(gamma),
                 premultiply: options.premultiply,
-                resolution: SIMD3<Double>(resolution).uniform
+                resolution: Point3D(resolution).uniform
             ),
             arrayUniforms: stops.map { stop in
                 Graphic.GradientColorStopUniforms(
