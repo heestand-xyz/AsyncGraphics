@@ -2,11 +2,12 @@
 //  Created by Anton Heestand on 2022-04-22.
 //
 
+import SwiftUI
 import Metal
 import MetalPerformanceShaders
+import Spatial
 import CoreGraphics
 import CoreGraphicsExtensions
-import SwiftUI
 import TextureMap
 
 extension Graphic3D {

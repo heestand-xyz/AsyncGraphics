@@ -14,24 +14,13 @@ extension Graphic3D {
     public func blended(with graphic: Graphic3D,
                         blendingMode: AGBlendMode,
                         placement: Placement = .fit) async throws -> Graphic3D {
-        try await blended(blendingMode: blendingMode, placement: placement) {
-            graphic
-        }
-    }
-    
-    @available(*, deprecated, renamed: "blended(with:blendingMode:placement:)")
-    public func blended(
-        blendingMode: AGBlendMode,
-        placement: Placement = .fit,
-        graphic: () async throws -> Graphic3D
-    ) async throws -> Graphic3D {
         
         try await Renderer.render(
             name: "Blend 3D",
             shader: .name("blend3d"),
             graphics: [
                 self,
-                graphic()
+                graphic
             ],
             uniforms: Blend3DUniforms(
                 blendingMode: Int32(blendingMode.index),
@@ -44,18 +33,18 @@ extension Graphic3D {
 extension Graphic3D {
     
     public static func + (lhs: Graphic3D, rhs: Graphic3D) async throws -> Graphic3D {
-        try await lhs.blended(blendingMode: .add) { rhs }
+        try await lhs.blended(with: rhs, blendingMode: .add)
     }
     
     public static func - (lhs: Graphic3D, rhs: Graphic3D) async throws -> Graphic3D {
-        try await lhs.blended(blendingMode: .subtract) { rhs }
+        try await lhs.blended(with: rhs, blendingMode: .subtract)
     }
     
     public static func * (lhs: Graphic3D, rhs: Graphic3D) async throws -> Graphic3D {
-        try await lhs.blended(blendingMode: .multiply) { rhs }
+        try await lhs.blended(with: rhs, blendingMode: .multiply)
     }
     
     public static func / (lhs: Graphic3D, rhs: Graphic3D) async throws -> Graphic3D {
-        try await lhs.blended(blendingMode: .divide) { rhs }
+        try await lhs.blended(with: rhs, blendingMode: .divide)
     }
 }

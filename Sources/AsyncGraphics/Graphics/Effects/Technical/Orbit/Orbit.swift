@@ -3,6 +3,7 @@
 //
 
 import SwiftUI
+import Spatial
 import CoreGraphics
 import CoreGraphicsExtensions
 import PixelColor

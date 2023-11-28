@@ -56,25 +56,6 @@ extension Graphic {
         }
     }
     
-    @available(*, deprecated, renamed: "blended(with:blendingMode:placement:alignment:options:)")
-    public func blended(
-        blendingMode: AGBlendMode,
-        placement: Placement = .fit,
-        alignment: Alignment = .center,
-        options: EffectOptions = [],
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
-        try await blended(
-            with: graphic(),
-            blendingMode: blendingMode,
-            placement: placement,
-            alignment: alignment,
-            options: options,
-            targetSourceTexture: false
-        )
-    }
-    
     public func blended(
         with graphic: Graphic,
         blendingMode: AGBlendMode,
@@ -156,33 +137,7 @@ extension Graphic {
         size: CGSize? = nil,
         options: EffectOptions = []
     ) async throws -> Graphic {
-        try await transformBlended(
-            blendingMode: blendingMode,
-            placement: placement,
-            alignment: alignment,
-            translation: translation,
-            rotation: rotation,
-            scale: scale,
-            size: size,
-            options: options
-        ) {
-            graphic
-        }
-    }
-    
-    @available(*, deprecated, renamed: "transformBlended(with:blendingMode:placement:alignment:translation:rotation:scale:size:options:)")
-    public func transformBlended(
-        blendingMode: AGBlendMode,
-        placement: Placement = .fit,
-        alignment: Alignment = .center,
-        translation: CGPoint = .zero,
-        rotation: Angle = .zero,
-        scale: CGFloat = 1.0,
-        size: CGSize? = nil,
-        options: EffectOptions = [],
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-       
+        
         let relativeTranslation: CGPoint = translation / resolution.height
         let relativeSize: CGSize = (size ?? resolution) / resolution
 
@@ -191,7 +146,7 @@ extension Graphic {
             shader: .name("blend"),
             graphics: [
                 self,
-                graphic()
+                graphic
             ],
             uniforms: BlendUniforms(
                 blendingMode: Int32(blendingMode.index),
@@ -210,7 +165,6 @@ extension Graphic {
         )
     }
     
-//    @available(*, deprecated, renamed: "mask(placement:options:foreground:background:mask:)")
     public static func mask(
         foreground foregroundGraphic: Graphic,
         background backgroundGraphic: Graphic,
@@ -218,43 +172,30 @@ extension Graphic {
         placement: Placement = .fit,
         options: EffectOptions = []
     ) async throws -> Graphic {
-        try await mask(placement: placement, options: options) {
-            foregroundGraphic
-        } background: {
-            backgroundGraphic
-        } mask: {
-            maskGraphic
-        }
-    }
-    
-    public static func mask(
-        placement: Placement = .fit,
-        options: EffectOptions = [],
-        foreground foregroundGraphic: () async throws -> Graphic,
-        background backgroundGraphic: () async throws -> Graphic,
-        mask maskGraphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        let alphaGraphic = try await maskGraphic().luminanceToAlpha()
-        let graphic = try await alphaGraphic.blended(with: foregroundGraphic(), blendingMode: .multiply, placement: placement)
-        return try await backgroundGraphic().blended(with: graphic, blendingMode: .over, placement: placement)
+        
+        let alphaGraphic = try await maskGraphic.luminanceToAlpha()
+        
+        let graphic = try await alphaGraphic.blended(with: foregroundGraphic, blendingMode: .multiply, placement: placement)
+        
+        return try await backgroundGraphic.blended(with: graphic, blendingMode: .over, placement: placement)
     }
 }
 
 extension Graphic {
     
     public static func + (lhs: Graphic, rhs: Graphic) async throws -> Graphic {
-        try await lhs.blended(blendingMode: .add) { rhs }
+        try await lhs.blended(with: rhs, blendingMode: .add)
     }
     
     public static func - (lhs: Graphic, rhs: Graphic) async throws -> Graphic {
-        try await lhs.blended(blendingMode: .subtract) { rhs }
+        try await lhs.blended(with: rhs, blendingMode: .subtract)
     }
     
     public static func * (lhs: Graphic, rhs: Graphic) async throws -> Graphic {
-        try await lhs.blended(blendingMode: .multiply) { rhs }
+        try await lhs.blended(with: rhs, blendingMode: .multiply)
     }
     
     public static func / (lhs: Graphic, rhs: Graphic) async throws -> Graphic {
-        try await lhs.blended(blendingMode: .divide) { rhs }
+        try await lhs.blended(with: rhs, blendingMode: .divide)
     }
 }

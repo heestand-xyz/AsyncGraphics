@@ -7,20 +7,6 @@ import TextureMap
 
 extension Graphic3D {
     
-    /// 8 bits
-    @available(*, deprecated, renamed: "bits(_:)")
-    public func standardBit() async throws -> Graphic3D {
-        
-        try await bits(._8)
-    }
-    
-    /// 16 bits
-    @available(*, deprecated, renamed: "bits(_:)")
-    public func highBit() async throws -> Graphic3D {
-        
-        try await bits(._16)
-    }
-    
     /// 8, 16 or 32 bits
     ///
     /// **8 bits** is default when working with images.

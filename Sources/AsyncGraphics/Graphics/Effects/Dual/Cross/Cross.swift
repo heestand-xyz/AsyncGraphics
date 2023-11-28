@@ -15,23 +15,13 @@ extension Graphic {
                       fraction: CGFloat,
                       placement: Placement = .fit,
                       options: EffectOptions = []) async throws -> Graphic {
-        try await cross(fraction: fraction, placement: placement, options: options) {
-            graphic
-        }
-    }
-    
-    @available(*, deprecated, renamed: "cross(with:fraction:placement:options:)")
-    public func cross(fraction: CGFloat,
-                      placement: Placement = .fit,
-                      options: EffectOptions = [],
-                      graphic: () async throws -> Graphic) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Cross",
             shader: .name("cross"),
             graphics: [
                 self,
-                graphic()
+                graphic
             ],
             uniforms: CrossUniforms(
                 fraction: Float(fraction),
