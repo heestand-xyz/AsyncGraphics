@@ -64,6 +64,7 @@ extension Graphic {
         }
     }
     
+    @available(*, deprecated, message: "This text graphic uses the good old SpriteKit, it will be removed in the future, a work around to get text into a graphic is to render a SwiftUI to graphic with `Graphic.view` instead.")
     public static func text(_ text: String,
                             font: TextFont,
                             position: CGPoint? = nil,
