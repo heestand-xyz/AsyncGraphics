@@ -23,7 +23,7 @@ extension Graphic {
     
     public static func polygon(count: Int,
                                radius: CGFloat? = nil,
-                               center: CGPoint? = nil,
+                               position: CGPoint? = nil,
                                rotation: Angle = .zero,
                                cornerRadius: CGFloat = 0.0,
                                color: PixelColor = .white,
@@ -35,8 +35,8 @@ extension Graphic {
         
         let relativeRadius: CGFloat = radius / resolution.height
         
-        let center: CGPoint = center ?? (resolution.asPoint / 2)
-        let relativePosition: CGPoint = (center - resolution / 2) / resolution.height
+        let position: CGPoint = position ?? (resolution.asPoint / 2)
+        let relativePosition: CGPoint = (position - resolution / 2) / resolution.height
 
         let relativeCornerRadius: CGFloat = cornerRadius / resolution.height
 

@@ -1,3 +1,4 @@
+import Spatial
 import CoreGraphics
 
 extension CodableGraphic3D.Effect.Direct {
@@ -10,11 +11,11 @@ extension CodableGraphic3D.Effect.Direct {
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.1),
                                                             maximum: .resolutionMinimum(fraction: 0.5))
         
-        public var position: GraphicMetadata<SIMD3<Double>> = .init()
+        public var position: GraphicMetadata<Point3D> = .init()
         
-        public var direction: GraphicMetadata<SIMD3<Double>> = .init(value: .fixed(SIMD3<Double>(1.0, 0.0, 0.0)),
-                                                                     minimum: .fixed(SIMD3<Double>(-1.0, -1.0, -1.0)),
-                                                                     maximum: .fixed(SIMD3<Double>(1.0, 1.0, 1.0)))
+        public var direction: GraphicMetadata<Point3D> = .init(value: .fixed(Point3D(x: 1.0, y: 0.0, z: 0.0)),
+                                                               minimum: .fixed(Point3D(x: -1.0, y: -1.0, z: -1.0)),
+                                                               maximum: .fixed(Point3D(x: 1.0, y: 1.0, z: 1.0)))
                 
         public var sampleCount: GraphicMetadata<Int> = .init(value: .fixed(10),
                                                              minimum: .fixed(1),
@@ -45,7 +46,7 @@ extension CodableGraphic3D.Effect.Direct {
                 
                 try await graphic.blurredZoom(
                     radius: radius.value.eval(at: graphic.resolution),
-                    center: position.value.eval(at: graphic.resolution),
+                    position: position.value.eval(at: graphic.resolution),
                     sampleCount: sampleCount.value.eval(at: graphic.resolution),
                     options: options)
                 

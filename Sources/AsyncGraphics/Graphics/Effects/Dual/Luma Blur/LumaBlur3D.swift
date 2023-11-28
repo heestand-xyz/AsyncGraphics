@@ -46,7 +46,7 @@ extension Graphic3D {
     public func lumaBlurredZoom(
         with graphic: Graphic3D,
         radius: CGFloat,
-        center: SIMD3<Double>? = nil,
+        position: Point3D? = nil,
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 10,
         placement: Placement = .fit,
@@ -57,7 +57,7 @@ extension Graphic3D {
             with: graphic,
             type: .zoom,
             radius: radius,
-            center: center,
+            position: position,
             lumaGamma: lumaGamma,
             sampleCount: sampleCount,
             placement: placement,
@@ -85,7 +85,7 @@ extension Graphic3D {
         with graphic: Graphic3D,
         type: LumaBlur3DType,
         radius: CGFloat,
-        center: SIMD3<Double>? = nil,
+        position: Point3D? = nil,
         angle: Angle = .zero,
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 10,
@@ -93,10 +93,10 @@ extension Graphic3D {
         options: EffectOptions = []
     ) async throws -> Graphic3D {
             
-        let relativeRadius: CGFloat = radius / CGFloat(height)
+        let relativeRadius: CGFloat = radius / height
        
-        let center: SIMD3<Double> = center ?? SIMD3<Double>(resolution) / 2
-        let relativeCenter: SIMD3<Double> = (center - SIMD3<Double>(resolution) / 2) / Double(height)
+        let position: Point3D = position ?? Point3D(resolution) / 2
+        let relativePosition: Point3D = (position - resolution / 2) / height
         
         return try await Renderer.render(
             name: "Luma Blur 3D",
@@ -110,7 +110,7 @@ extension Graphic3D {
                 placement: placement.index,
                 count: UInt32(sampleCount),
                 radius: Float(relativeRadius),
-                position: relativeCenter.uniform,
+                position: relativePosition.uniform,
                 lumaGamma: Float(lumaGamma)
             ),
             options: Renderer.Options(

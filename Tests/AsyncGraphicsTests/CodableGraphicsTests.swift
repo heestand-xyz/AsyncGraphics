@@ -5,7 +5,7 @@ import SwiftUI
 final class CodableGraphicsTests: XCTestCase {
     
     let resolution = CGSize(width: 1000, height: 1000)
-    let resolution3D = SIMD3<Int>(100, 100, 100)
+    let resolution3D = Size3D(100, 100, 100)
     
     func testType() async throws {
         

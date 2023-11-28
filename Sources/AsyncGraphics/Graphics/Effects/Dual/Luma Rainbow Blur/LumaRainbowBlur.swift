@@ -80,7 +80,7 @@ extension Graphic {
     public func lumaRainbowBlurredZoom(
         with graphic: Graphic,
         radius: CGFloat,
-        center: CGPoint? = nil,
+        position: CGPoint? = nil,
         light: CGFloat = 1.0,
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
@@ -91,7 +91,7 @@ extension Graphic {
         try await lumaRainbowBlurred(
             type: .zoom,
             radius: radius,
-            center: center,
+            position: position,
             light: light,
             lumaGamma: lumaGamma,
             sampleCount: sampleCount,
@@ -101,10 +101,10 @@ extension Graphic {
         )
     }
     
-    @available(*, deprecated, renamed: "lumaRainbowBlurredZoom(with:radius:center:light:lumaGamma:sampleCount:placement:options:)")
+    @available(*, deprecated, renamed: "lumaRainbowBlurredZoom(with:radius:position:light:lumaGamma:sampleCount:placement:options:)")
     public func lumaRainbowBlurredZoom(
         radius: CGFloat,
-        center: CGPoint? = nil,
+        position: CGPoint? = nil,
         light: CGFloat = 1.0,
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
@@ -116,7 +116,7 @@ extension Graphic {
         try await lumaRainbowBlurred(
             type: .zoom,
             radius: radius,
-            center: center,
+            position: position,
             light: light,
             lumaGamma: lumaGamma,
             sampleCount: sampleCount,
@@ -178,7 +178,7 @@ extension Graphic {
     private func lumaRainbowBlurred(
         type: LumaRainbowBlurType,
         radius: CGFloat,
-        center: CGPoint? = nil,
+        position: CGPoint? = nil,
         angle: Angle = .zero,
         light: CGFloat = 1.0,
         lumaGamma: CGFloat = 1.0,
@@ -188,8 +188,8 @@ extension Graphic {
         graphic: () async throws -> Graphic
     ) async throws -> Graphic {
         
-        let center: CGPoint = center ?? resolution.asPoint / 2
-        let relativeCenter: CGPoint = (center - resolution / 2) / height
+        let position: CGPoint = position ?? resolution.asPoint / 2
+        let relativePosition: CGPoint = (position - resolution / 2) / height
         
         let relativeRadius: CGFloat = radius / height
         
@@ -208,7 +208,7 @@ extension Graphic {
                 angle: angle.uniform,
                 light: Float(light),
                 lumaGamma: Float(lumaGamma),
-                position: relativeCenter.uniform
+                position: relativePosition.uniform
             ),
             options: Renderer.Options(
                 addressMode: options.addressMode,

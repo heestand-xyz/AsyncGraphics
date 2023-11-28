@@ -1,6 +1,6 @@
-import simd
+import Spatial
 
 public protocol ContentGraphic3DProtocol: CodableGraphic3DProtocol {
     
-    func render(at resolution: SIMD3<Int>, options: Graphic3D.ContentOptions) async throws -> Graphic3D
+    func render(at resolution: Size3D, options: Graphic3D.ContentOptions) async throws -> Graphic3D
 }

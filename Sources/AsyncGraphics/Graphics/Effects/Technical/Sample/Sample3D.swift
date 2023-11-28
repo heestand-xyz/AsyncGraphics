@@ -19,11 +19,11 @@ extension Graphic3D {
         let index: Int = {
             switch axis {
             case .x:
-                return Int(round(fraction * Double(resolution.x - 1)))
+                return Int(round(fraction * resolution.width - 1.0))
             case .y:
-                return Int(round(fraction * Double(resolution.y - 1)))
+                return Int(round(fraction * resolution.height - 1.0))
             case .z:
-                return Int(round(fraction * Double(resolution.z - 1)))
+                return Int(round(fraction * resolution.depth - 1.0))
             }
         }()
         
@@ -46,11 +46,11 @@ extension Graphic3D {
         let count: Int = {
             switch axis {
             case .x:
-                return resolution.x
+                return Int(resolution.width)
             case .y:
-                return resolution.y
+                return Int(resolution.height)
             case .z:
-                return resolution.z
+                return Int(resolution.depth)
             }
         }()
         

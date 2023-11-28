@@ -1,6 +1,6 @@
 import Foundation
 import SwiftUI
-import simd
+import Spatial
 import PixelColor
 
 public enum GraphicValueType {
@@ -12,8 +12,8 @@ public enum GraphicValueType {
     case point
     case rect
     case color
-    case intVector
-    case doubleVector
+    case point3D
+    case size3D
     case gradient
 }
 
@@ -36,10 +36,10 @@ extension GraphicValueType {
             return CGRect.self
         case .color:
             return PixelColor.self
-        case .intVector:
-            return SIMD3<Int>.self
-        case .doubleVector:
-            return SIMD3<Double>.self
+        case .size3D:
+            return Size3D.self
+        case .point3D:
+            return Point3D.self
         case .gradient:
             return [Graphic.GradientStop].self
         }

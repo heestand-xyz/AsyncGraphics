@@ -51,14 +51,14 @@ extension Graphic3D {
     }
     
     public func blurredZoom(radius: CGFloat,
-                            center: SIMD3<Double>? = nil,
+                            position: Point3D? = nil,
                             sampleCount: Int = 100,
                             options: EffectOptions = []) async throws -> Graphic3D {
         
-        let center: SIMD3<Double> = center ?? resolution.asDouble / 2
-        let relativeCenter: SIMD3<Double> = (center - resolution.asDouble / 2) / Double(height)
+        let position: Point3D = position ?? Point3D(resolution) / 2
+        let relativePosition: Point3D = (position - resolution / 2) / height
         
-        let relativeRadius: CGFloat = radius / CGFloat(height)
+        let relativeRadius: CGFloat = radius / height
         
         return try await Renderer.render(
             name: "Blur 3D (Zoom)",
@@ -69,7 +69,7 @@ extension Graphic3D {
                 radius: Float(relativeRadius),
                 count: UInt32(sampleCount),
                 direction: VectorUniform.zero,
-                position: relativeCenter.uniform
+                position: relativePosition.uniform
             ),
             options: Renderer.Options(
                 addressMode: options.addressMode
@@ -78,7 +78,7 @@ extension Graphic3D {
     }
     
     public func blurredDirection(radius: CGFloat,
-                                 direction: SIMD3<Double>,
+                                 direction: Point3D,
                                  sampleCount: Int = 100,
                                  options: EffectOptions = []) async throws -> Graphic3D {
         

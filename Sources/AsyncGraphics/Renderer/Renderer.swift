@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import MetalKit
 import TextureMap
+import Spatial
 
 public struct Renderer {
     
@@ -204,9 +205,9 @@ public struct Renderer {
         
         let sampleCount: Int = options.sampleCount
         
-        let is3D: Bool = resolution is SIMD3<Int>
+        let is3D: Bool = resolution is Size3D
         
-        var graphic = try await withCheckedThrowingContinuation { continuation in
+        var graphic: G = try await withCheckedThrowingContinuation { continuation in
             
             do {
                 
@@ -219,9 +220,15 @@ public struct Renderer {
                 } else {
                     targetTexture = try {
                         if let resolution: CGSize = resolution as? CGSize {
-                            return try .empty(resolution: resolution, bits: bits, sampleCount: sampleCount)
-                        } else if let resolution: SIMD3<Int> = resolution as? SIMD3<Int> {
-                            return try .empty3d(resolution: resolution, bits: bits, usage: .write)
+                            return try .empty(
+                                resolution: resolution,
+                                bits: bits,
+                                sampleCount: sampleCount)
+                        } else if let resolution: Size3D = resolution as? Size3D {
+                            return try .empty3d(
+                                resolution: SIMD3<Int>(resolution.vector),
+                                bits: bits,
+                                usage: .write)
                         }
                         fatalError("Unknown Graphicable")
                     }()
@@ -477,7 +484,7 @@ public struct Renderer {
                         
                     } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
                         
-                        guard let resolution: SIMD3<Int> = resolution as? SIMD3<Int> else {
+                        guard let resolution: Size3D = resolution as? Size3D else {
                             fatalError("Non 3D Compute Encoding Not Supported")
                         }
                         
@@ -485,9 +492,9 @@ public struct Renderer {
                                                             height: 8,
                                                             depth: 8)
                         
-                        let threadsPerGrid: MTLSize = MTLSize(width: resolution.x,
-                                                              height: resolution.y,
-                                                              depth: resolution.z)
+                        let threadsPerGrid: MTLSize = MTLSize(width: Int(resolution.width),
+                                                              height: Int(resolution.height),
+                                                              depth: Int(resolution.depth))
                         
                         computeCommandEncoder.dispatchThreadgroups(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadGroup)
                     }

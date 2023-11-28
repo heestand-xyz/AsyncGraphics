@@ -1,3 +1,4 @@
+import Spatial
 import CoreGraphics
 import PixelColor
 
@@ -13,7 +14,7 @@ extension CodableGraphic3D.Content.Solid {
             Graphic.GradientStop(at: 1.0, color: .white),
         ]))
         
-        public var position: GraphicMetadata<SIMD3<Double>> = .init()
+        public var position: GraphicMetadata<Point3D> = .init()
         
         public var scale: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
                                                            maximum: .fixed(2.0))
@@ -27,14 +28,14 @@ extension CodableGraphic3D.Content.Solid {
         public var extend: GraphicEnumMetadata<Graphic.GradientExtend> = .init(value: .zero)
         
         public func render(
-            at resolution: SIMD3<Int>,
+            at resolution: Size3D,
             options: Graphic3D.ContentOptions
         ) async throws -> Graphic3D {
 
             try await .gradient(
                 direction: direction.value,
                 stops: colorStops.value.eval(at: resolution),
-                center: position.value.eval(at: resolution),
+                position: position.value.eval(at: resolution),
                 scale: scale.value.eval(at: resolution),
                 offset: offset.value.eval(at: resolution),
                 extend: extend.value,

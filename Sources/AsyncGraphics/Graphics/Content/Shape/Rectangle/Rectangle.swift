@@ -22,7 +22,7 @@ extension Graphic {
     }
     
     public static func rectangle(size: CGSize? = nil,
-                                 center: CGPoint? = nil,
+                                 position: CGPoint? = nil,
                                  cornerRadius: CGFloat = 0.0,
                                  color: PixelColor = .white,
                                  backgroundColor: PixelColor = .black,
@@ -31,8 +31,8 @@ extension Graphic {
         
         let size: CGSize = size ?? resolution
         
-        let center: CGPoint = center ?? resolution.asPoint / 2
-        let frame = CGRect(origin: center - size / 2, size: size)
+        let position: CGPoint = position ?? resolution.asPoint / 2
+        let frame = CGRect(origin: position - size / 2, size: size)
         
         var cornerRadius: CGFloat = cornerRadius
         if cornerRadius > 0.0 {
@@ -89,7 +89,7 @@ extension Graphic {
     }
     
     public static func strokedRectangle(size: CGSize? = nil,
-                                        center: CGPoint? = nil,
+                                        position: CGPoint? = nil,
                                         cornerRadius: CGFloat = 0.0,
                                         lineWidth: CGFloat,
                                         color: PixelColor = .white,
@@ -99,8 +99,8 @@ extension Graphic {
         
         let size: CGSize = size ?? resolution
         
-        let center: CGPoint = center ?? resolution.asPoint / 2
-        let frame = CGRect(origin: center - size / 2, size: size)
+        let position: CGPoint = position ?? resolution.asPoint / 2
+        let frame = CGRect(origin: position - size / 2, size: size)
         
         return try await strokedRectangle(
             frame: frame,

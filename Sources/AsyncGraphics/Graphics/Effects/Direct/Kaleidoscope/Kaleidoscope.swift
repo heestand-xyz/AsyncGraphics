@@ -18,13 +18,13 @@ extension Graphic {
     
     public func kaleidoscope(count: Int = 12,
                              mirror: Bool = true,
-                             center: CGPoint? = nil,
+                             position: CGPoint? = nil,
                              rotation: Angle = .zero,
                              scale: CGFloat = 1.0,
                              options: EffectOptions = .edgeMirror) async throws -> Graphic {
         
-        let center: CGPoint = center ?? (resolution.asPoint / 2)
-        let relativeCenter: CGPoint = (center - resolution / 2) / resolution.height
+        let position: CGPoint = position ?? (resolution.asPoint / 2)
+        let relativePosition: CGPoint = (position - resolution / 2) / resolution.height
 
         return try await Renderer.render(
             name: "Kaleidoscope",
@@ -35,7 +35,7 @@ extension Graphic {
                 divisions: UInt32(count),
                 rotation: rotation.uniform,
                 scale: Float(scale),
-                position: relativeCenter.uniform
+                position: relativePosition.uniform
             ),
             options: Renderer.Options(
                 addressMode: options.addressMode,

@@ -34,7 +34,7 @@ extension CodableGraphic.Content.Solid {
             try await .gradient(
                 direction: direction.value,
                 stops: colorStops.value.eval(at: resolution),
-                center: position.value.eval(at: resolution),
+                position: position.value.eval(at: resolution),
                 scale: scale.value.eval(at: resolution),
                 offset: offset.value.eval(at: resolution),
                 extend: extend.value,

@@ -1,5 +1,5 @@
 import Foundation
-import simd
+import Spatial
 import PixelColor
 
 @propertyWrapper

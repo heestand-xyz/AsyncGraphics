@@ -29,11 +29,11 @@ extension Graphic3D {
         let holdEdgeFraction: CGFloat = {
             switch axis {
             case .x:
-                return 1.0 / CGFloat(width)
+                return 1.0 / width
             case .y:
-                return 1.0 / CGFloat(height)
+                return 1.0 / height
             case .z:
-                return 1.0 / CGFloat(depth)
+                return 1.0 / depth
             }
         }()
         

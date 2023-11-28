@@ -1,3 +1,4 @@
+import Spatial
 import CoreGraphics
 import PixelColor
 
@@ -6,8 +7,8 @@ extension CodableGraphic3D.Content.Shape {
     @GraphicMacro
     public final class Box: ShapeContentGraphic3DProtocol {
         
-        public var size: GraphicMetadata<SIMD3<Double>> = .init()
-        public var position: GraphicMetadata<SIMD3<Double>> = .init()
+        public var size: GraphicMetadata<Size3D> = .init()
+        public var position: GraphicMetadata<Point3D> = .init()
         
         public var cornerRadius: GraphicMetadata<Double> = .init(value: .fixed(0.0),
                                                                  maximum: .resolutionMinimum(fraction: 0.5))
@@ -20,7 +21,7 @@ extension CodableGraphic3D.Content.Shape {
                                                                   maximum: .fixed(10.0))
         
         public func render(
-            at resolution: SIMD3<Int>,
+            at resolution: Size3D,
             options: Graphic3D.ContentOptions = []
         ) async throws -> Graphic3D {
             
@@ -28,7 +29,7 @@ extension CodableGraphic3D.Content.Shape {
             
                 try await .surfaceBox(
                     size: size.value.eval(at: resolution),
-                    center: position.value.eval(at: resolution),
+                    position: position.value.eval(at: resolution),
                     cornerRadius: cornerRadius.value.eval(at: resolution),
                     surfaceWidth: surfaceWidth.value.eval(at: resolution),
                     color: foregroundColor.value.eval(at: resolution),
@@ -40,7 +41,7 @@ extension CodableGraphic3D.Content.Shape {
                 
                 try await .box(
                     size: size.value.eval(at: resolution),
-                    center: position.value.eval(at: resolution),
+                    position: position.value.eval(at: resolution),
                     cornerRadius: cornerRadius.value.eval(at: resolution),
                     color: foregroundColor.value.eval(at: resolution),
                     backgroundColor: backgroundColor.value.eval(at: resolution),

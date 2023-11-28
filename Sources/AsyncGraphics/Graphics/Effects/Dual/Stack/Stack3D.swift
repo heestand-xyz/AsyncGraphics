@@ -3,7 +3,7 @@
 //
 
 import Foundation
-import simd
+import Spatial
 import PixelColor
 
 extension Graphic3D {
@@ -175,7 +175,7 @@ extension Graphic3D {
                        spacing: Double = 0.0,
                        padding: Double = 0.0,
                        backgroundColor: PixelColor = .clear,
-                       resolution: SIMD3<Int>? = nil) async throws -> Graphic3D {
+                       resolution: Size3D? = nil) async throws -> Graphic3D {
         
         try await stack(with: graphic,
                         axis: .vertical,
@@ -192,7 +192,7 @@ extension Graphic3D {
                        spacing: Double = 0.0,
                        padding: Double = 0.0,
                        backgroundColor: PixelColor = .clear,
-                       resolution: SIMD3<Int>? = nil) async throws -> Graphic3D {
+                       resolution: Size3D? = nil) async throws -> Graphic3D {
         
         try await stack(with: graphic,
                         axis: .horizontal,
@@ -209,7 +209,7 @@ extension Graphic3D {
                        spacing: Double = 0.0,
                        padding: Double = 0.0,
                        backgroundColor: PixelColor = .clear,
-                       resolution: SIMD3<Int>? = nil) async throws -> Graphic3D {
+                       resolution: Size3D? = nil) async throws -> Graphic3D {
         
         try await stack(with: graphic,
                         axis: .depth,
@@ -226,38 +226,44 @@ extension Graphic3D {
                        spacing: Double = 0.0,
                        padding: Double = 0.0,
                        backgroundColor: PixelColor = .clear,
-                       resolution: SIMD3<Int>? = nil) async throws -> Graphic3D {
+                       resolution: Size3D? = nil) async throws -> Graphic3D {
         
         let graphics: [Graphic3D] = [self, graphic]
         
-        let resolution: SIMD3<Int> = resolution ?? {
-            let resolution: SIMD3<Int> = graphics.first!.resolution
+        let finalResolution: Size3D
+        if let resolution: Size3D {
+            finalResolution = resolution
+        } else {
+            let resolution: Size3D = graphics.first!.resolution
             let length: Double = {
                 switch axis {
                 case .horizontal:
-                    return Double(resolution.x)
+                    return resolution.width
                 case .vertical:
-                    return Double(resolution.y)
+                    return resolution.height
                 case .depth:
-                    return Double(resolution.z)
+                    return resolution.depth
                 }
             }()
-            let adjacentSize: SIMD3<Double> = resolution.asDouble
-            let totalLength: Double = length * Double(graphics.count) + spacing * Double(graphics.count - 1) + padding * 2
-            let totalAdjacentSize: SIMD3<Double> = adjacentSize + padding * 2
-            return SIMD3<Int>(axis == .horizontal ? Int(totalLength) : Int(totalAdjacentSize.x),
-                              axis == .vertical ? Int(totalLength) : Int(totalAdjacentSize.y),
-                              axis == .depth ? Int(totalLength) : Int(totalAdjacentSize.z))
-        }()
+            let totalLength: Double = length * Double(graphics.count) + spacing * Double(graphics.count - 1) + padding * 2.0
+            let totalAdjacentSize: Size3D = Size3D(
+                width: resolution.width + padding * 2.0,
+                height: resolution.height + padding * 2.0,
+                depth: resolution.depth + padding * 2.0)
+            finalResolution = Size3D(
+                width: axis == .horizontal ? totalLength : totalAdjacentSize.width,
+                height: axis == .vertical ? totalLength : totalAdjacentSize.height,
+                depth: axis == .depth ? totalLength : totalAdjacentSize.depth)
+        }
         
         let length: Double = {
             switch axis {
             case .horizontal:
-                return Double(resolution.x)
+                return finalResolution.width
             case .vertical:
-                return Double(resolution.y)
+                return finalResolution.height
             case .depth:
-                return Double(resolution.z)
+                return finalResolution.depth
             }
         }()
         
@@ -277,10 +283,10 @@ extension Graphic3D {
                 spacing: Float(relativeSpacing),
                 padding: Float(relativePadding),
                 backgroundColor: backgroundColor.uniform,
-                resolution: resolution.asDouble.uniform
+                resolution: finalResolution.uniform
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: finalResolution,
                 colorSpace: graphics.first?.colorSpace ?? .sRGB,
                 bits: graphics.first?.bits ?? ._8
             )

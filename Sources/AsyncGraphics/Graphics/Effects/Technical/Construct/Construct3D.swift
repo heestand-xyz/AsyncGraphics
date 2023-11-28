@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Spatial
 
 extension Graphic3D {
     
@@ -30,10 +31,10 @@ extension Graphic3D {
             shader: .name("construct3d"),
             graphics: graphics,
             metadata: Renderer.Metadata(
-                resolution: SIMD3<Int>(
-                    Int(graphics.first!.width),
-                    Int(graphics.first!.height),
-                    graphics.count
+                resolution: Size3D(
+                    width: graphics.first!.width,
+                    height: graphics.first!.height,
+                    depth: Double(graphics.count)
                 ),
                 colorSpace: graphics.first!.colorSpace,
                 bits: graphics.first!.bits

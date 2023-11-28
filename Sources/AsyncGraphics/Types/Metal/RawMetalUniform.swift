@@ -2,7 +2,7 @@
 ////  Created by Anton Heestand on 2022-04-20.
 ////
 //
-//import simd
+//import Spatial
 //
 //public protocol RawMetalUniform {
 //    var metalTypeName: String { get }

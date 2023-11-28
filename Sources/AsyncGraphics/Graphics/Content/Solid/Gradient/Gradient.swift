@@ -56,7 +56,7 @@ extension Graphic {
                                     GradientStop(at: 0.0, color: .black),
                                     GradientStop(at: 1.0, color: .white)
                                 ],
-                                center: CGPoint? = nil,
+                                position: CGPoint? = nil,
                                 scale: CGFloat = 1.0,
                                 offset: CGFloat = 0.0,
                                 extend: GradientExtend = .zero,
@@ -64,8 +64,8 @@ extension Graphic {
                                 resolution: CGSize,
                                 options: ContentOptions = []) async throws -> Graphic {
         
-        let center: CGPoint = center ?? (resolution.asPoint / 2)
-        let relativePosition: CGPoint = (center - resolution / 2) / resolution.height
+        let position: CGPoint = position ?? (resolution.asPoint / 2)
+        let relativePosition: CGPoint = (position - resolution / 2) / resolution.height
         
         return try await Renderer.render(
             name: "Gradient",

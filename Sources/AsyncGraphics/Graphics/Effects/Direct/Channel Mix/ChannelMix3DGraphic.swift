@@ -1,5 +1,5 @@
 import CoreGraphics
-import simd
+import Spatial
 
 extension CodableGraphic3D.Effect.Direct {
     

@@ -29,7 +29,7 @@ extension Graphic {
     public static func star(count: Int,
                             innerRadius: CGFloat? = nil,
                             outerRadius: CGFloat? = nil,
-                            center: CGPoint? = nil,
+                            position: CGPoint? = nil,
                             rotation: Angle = .zero,
                             cornerRadius: CGFloat = 0.0,
                             color: PixelColor = .white,
@@ -43,8 +43,8 @@ extension Graphic {
         let relativeInnerRadius: CGFloat = innerRadius / resolution.height
         let relativeOuterRadius: CGFloat = outerRadius / resolution.height
         
-        let center: CGPoint = center ?? (resolution.asPoint / 2)
-        var relativePosition: CGPoint = (center - resolution / 2) / resolution.height
+        let position: CGPoint = position ?? (resolution.asPoint / 2)
+        var relativePosition: CGPoint = (position - resolution / 2) / resolution.height
         // Flip Fix
         relativePosition = CGPoint(x: relativePosition.x, y: -relativePosition.y)
 

@@ -7,9 +7,9 @@ let package = Package(
     name: "AsyncGraphics",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v15),
-        .tvOS(.v15),
-        .macOS(.v12),
+        .iOS(.v16),
+        .tvOS(.v16),
+        .macOS(.v13),
         .visionOS(.v1)
     ],
     products: [

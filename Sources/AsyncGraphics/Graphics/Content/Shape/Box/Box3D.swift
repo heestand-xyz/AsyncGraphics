@@ -2,7 +2,7 @@
 //  Created by Anton Heestand on 2022-04-11.
 //
 
-import simd
+import Spatial
 import PixelColor
 
 extension Graphic3D {
@@ -19,25 +19,21 @@ extension Graphic3D {
         let backgroundColor: ColorUniform
     }
     
-    public static func box(size: SIMD3<Double>? = nil,
-                           origin: SIMD3<Double>,
+    public static func box(size: Size3D? = nil,
+                           origin: Point3D,
                            cornerRadius: Double = 0.0,
                            color: PixelColor = .white,
                            backgroundColor: PixelColor = .clear,
-                           resolution: SIMD3<Int>,
+                           resolution: Size3D,
                            options: ContentOptions = []) async throws -> Graphic3D {
         
-        let size: SIMD3<Double> = size ?? SIMD3<Double>(resolution)
+        let size: Size3D = size ?? resolution
         
-        let center: SIMD3<Double> = SIMD3<Double>(
-            origin.x + size.x / 2,
-            origin.y + size.y / 2,
-            origin.z + size.z / 2
-        )
+        let position: Point3D = origin + size / 2
         
         return try await box(
             size: size,
-            center: center,
+            position: position,
             cornerRadius: cornerRadius,
             color: color,
             backgroundColor: backgroundColor,
@@ -46,21 +42,21 @@ extension Graphic3D {
         )
     }
     
-    public static func box(size: SIMD3<Double>? = nil,
-                           center: SIMD3<Double>? = nil,
+    public static func box(size: Size3D? = nil,
+                           position: Point3D? = nil,
                            cornerRadius: Double = 0.0,
                            color: PixelColor = .white,
                            backgroundColor: PixelColor = .clear,
-                           resolution: SIMD3<Int>,
+                           resolution: Size3D,
                            options: ContentOptions = []) async throws -> Graphic3D {
         
-        let size: SIMD3<Double> = size ?? SIMD3<Double>(resolution)
-        let relativeSize: SIMD3<Double> = size / Double(resolution.y)
+        let size: Size3D = size ?? resolution
+        let relativeSize: Size3D = size / resolution.height
         
-        let position: SIMD3<Double> = center ?? SIMD3<Double>(resolution) / 2
-        let relativePosition = (position - SIMD3<Double>(resolution) / 2) / Double(resolution.y)
+        let position: Point3D = position ?? Point3D(resolution) / 2
+        let relativePosition: Point3D = (position - resolution / 2) / resolution.height
         
-        let relativeCornerRadius: Double = cornerRadius / Double(resolution.y)
+        let relativeCornerRadius: Double = cornerRadius / resolution.height
         
         return try await Renderer.render(
             name: "Box 3D",
@@ -84,26 +80,22 @@ extension Graphic3D {
         )
     }
     
-    public static func surfaceBox(size: SIMD3<Double>? = nil,
-                                  origin: SIMD3<Double>,
+    public static func surfaceBox(size: Size3D? = nil,
+                                  origin: Point3D,
                                   cornerRadius: Double = 0.0,
                                   surfaceWidth: Double,
                                   color: PixelColor = .white,
                                   backgroundColor: PixelColor = .clear,
-                                  resolution: SIMD3<Int>,
+                                  resolution: Size3D,
                                   options: ContentOptions = []) async throws -> Graphic3D {
         
-        let size: SIMD3<Double> = size ?? SIMD3<Double>(resolution)
+        let size: Size3D = size ?? resolution
         
-        let center: SIMD3<Double> = SIMD3<Double>(
-            origin.x + size.x / 2,
-            origin.y + size.y / 2,
-            origin.z + size.z / 2
-        )
+        let position: Point3D = origin + size / 2
         
         return try await surfaceBox(
             size: size,
-            center: center,
+            position: position,
             cornerRadius: cornerRadius,
             surfaceWidth: surfaceWidth,
             color: color,
@@ -113,24 +105,24 @@ extension Graphic3D {
         )
     }
     
-    public static func surfaceBox(size: SIMD3<Double>? = nil,
-                                  center: SIMD3<Double>? = nil,
+    public static func surfaceBox(size: Size3D? = nil,
+                                  position: Point3D? = nil,
                                   cornerRadius: Double = 0.0,
                                   surfaceWidth: Double,
                                   color: PixelColor = .white,
                                   backgroundColor: PixelColor = .clear,
-                                  resolution: SIMD3<Int>,
+                                  resolution: Size3D,
                                   options: ContentOptions = []) async throws -> Graphic3D {
         
-        let size: SIMD3<Double> = size ?? (SIMD3<Double>(resolution) - surfaceWidth)
-        let relativeSize: SIMD3<Double> = size / Double(resolution.y)
+        let size: Size3D = size ?? (resolution - Size3D(width: surfaceWidth, height: surfaceWidth, depth: surfaceWidth))
+        let relativeSize: Size3D = size / resolution.height
         
-        let position: SIMD3<Double> = center ?? SIMD3<Double>(resolution) / 2
-        let relativePosition = (position - SIMD3<Double>(resolution) / 2) / Double(resolution.y)
+        let position: Point3D = position ?? Point3D(resolution) / 2
+        let relativePosition = (position - Point3D(resolution) / 2) / resolution.height
         
-        let relativeCornerRadius: Double = cornerRadius / Double(resolution.y)
+        let relativeCornerRadius: Double = cornerRadius / resolution.height
         
-        let relativeSurfaceWidth: Double = surfaceWidth / Double(resolution.y)
+        let relativeSurfaceWidth: Double = surfaceWidth / resolution.height
         
         return try await Renderer.render(
             name: "Box 3D",

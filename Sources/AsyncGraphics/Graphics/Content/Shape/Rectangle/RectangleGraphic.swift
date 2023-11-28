@@ -30,7 +30,7 @@ extension CodableGraphic.Content.Shape {
                 
                 try await .strokedRectangle(
                     size: size.value.eval(at: resolution),
-                    center: position.value.eval(at: resolution),
+                    position: position.value.eval(at: resolution),
                     cornerRadius: cornerRadius.value.eval(at: resolution),
                     lineWidth: lineWidth.value.eval(at: resolution),
                     color: foregroundColor.value.eval(at: resolution),
@@ -42,7 +42,7 @@ extension CodableGraphic.Content.Shape {
                 
                 try await .rectangle(
                     size: size.value.eval(at: resolution),
-                    center: position.value.eval(at: resolution),
+                    position: position.value.eval(at: resolution),
                     cornerRadius: cornerRadius.value.eval(at: resolution),
                     color: foregroundColor.value.eval(at: resolution),
                     backgroundColor: backgroundColor.value.eval(at: resolution),

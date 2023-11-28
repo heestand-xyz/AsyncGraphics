@@ -2,7 +2,7 @@
 //  Created by Anton Heestand on 2022-04-04.
 //
 
-import simd
+import Spatial
 import CoreGraphics
 import CoreGraphicsExtensions
 import PixelColor
@@ -15,7 +15,7 @@ extension Graphic3D {
     }
     
     public static func color(_ color: PixelColor,
-                             resolution: SIMD3<Int>,
+                             resolution: Size3D,
                              options: ContentOptions = []) async throws -> Graphic3D {
                 
         try await Renderer.render(

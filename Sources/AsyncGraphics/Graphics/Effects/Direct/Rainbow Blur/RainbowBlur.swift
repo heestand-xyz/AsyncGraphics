@@ -36,12 +36,12 @@ extension Graphic {
     }
     
     public func rainbowBlurredZoom(radius: CGFloat,
-                                   center: CGPoint? = nil,
+                                   position: CGPoint? = nil,
                                    light: CGFloat = 1.0,
                                    sampleCount: Int = 100,
                                    options: EffectOptions = []) async throws -> Graphic {
         
-        try await rainbowBlurred(type: .zoom, radius: radius, center: center, light: light, sampleCount: sampleCount, options: options)
+        try await rainbowBlurred(type: .zoom, radius: radius, position: position, light: light, sampleCount: sampleCount, options: options)
     }
     
     public func rainbowBlurredAngle(radius: CGFloat,
@@ -55,14 +55,14 @@ extension Graphic {
     
     private func rainbowBlurred(type: RainbowBlurType,
                                 radius: CGFloat,
-                                center: CGPoint? = nil,
+                                position: CGPoint? = nil,
                                 angle: Angle = .zero,
                                 light: CGFloat = 1.0,
                                 sampleCount: Int = 100,
                                 options: EffectOptions = []) async throws -> Graphic {
         
-        let center: CGPoint = center ?? resolution.asPoint / 2
-        let relativeCenter: CGPoint = (center - resolution / 2) / height
+        let position: CGPoint = position ?? resolution.asPoint / 2
+        let relativePosition: CGPoint = (position - resolution / 2) / height
         
         let relativeRadius: CGFloat = radius / height
         
@@ -76,7 +76,7 @@ extension Graphic {
                 radius: Float(relativeRadius),
                 angle: angle.uniform,
                 light: Float(light),
-                position: relativeCenter.uniform
+                position: relativePosition.uniform
             ),
             options: Renderer.Options(
                 addressMode: options.addressMode,
