@@ -112,7 +112,15 @@
       }
     },
     "graphic.cylinder" : {
-      "comment" : "Content: Shape (3D)"
+      "comment" : "Content: Shape (3D)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cylinder"
+          }
+        }
+      }
     },
     "graphic.gradient" : {
       "comment" : "Content: Solid (3D)\nContent: Solid",
@@ -192,7 +200,15 @@
       }
     },
     "graphic.torus" : {
-      "comment" : "Content: Shape (3D)"
+      "comment" : "Content: Shape (3D)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Torus"
+          }
+        }
+      }
     },
     "option.all" : {
       "comment" : "Color Convert Channel",
@@ -206,7 +222,15 @@
       }
     },
     "option.alpha" : {
-      "comment" : "Color Channel"
+      "comment" : "Color Channel",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alpha"
+          }
+        }
+      }
     },
     "option.angle" : {
       "comment" : "Blur Type\nGradient Direction",
@@ -220,7 +244,15 @@
       }
     },
     "option.blue" : {
-      "comment" : "Color Channel"
+      "comment" : "Color Channel",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blue"
+          }
+        }
+      }
     },
     "option.box" : {
       "comment" : "Blur 3 D Type\nBlur Type",
@@ -234,7 +266,15 @@
       }
     },
     "option.clear" : {
-      "comment" : "Color Channel"
+      "comment" : "Color Channel",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear"
+          }
+        }
+      }
     },
     "option.diamond" : {
       "comment" : "Line Cap",
@@ -281,7 +321,15 @@
       }
     },
     "option.green" : {
-      "comment" : "Color Channel"
+      "comment" : "Color Channel",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Green"
+          }
+        }
+      }
     },
     "option.hold" : {
       "comment" : "Clamp Type\nGradient Extend",
@@ -339,7 +387,15 @@
       }
     },
     "option.mono" : {
-      "comment" : "Color Channel"
+      "comment" : "Color Channel",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mono"
+          }
+        }
+      }
     },
     "option.radial" : {
       "comment" : "Gradient Direction\nGradient 3 D Direction",
@@ -364,10 +420,26 @@
       }
     },
     "option.red" : {
-      "comment" : "Color Channel"
+      "comment" : "Color Channel",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Red"
+          }
+        }
+      }
     },
     "option.relative" : {
-      "comment" : "Clamp Type"
+      "comment" : "Clamp Type",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Realtive"
+          }
+        }
+      }
     },
     "option.rgbToHSV" : {
       "comment" : "Color Conversion",
@@ -436,7 +508,15 @@
       }
     },
     "option.white" : {
-      "comment" : "Color Channel"
+      "comment" : "Color Channel",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "White"
+          }
+        }
+      }
     },
     "option.x" : {
       "comment" : "Axis\nGradient 3 D Direction",
@@ -561,10 +641,26 @@
       }
     },
     "property.brightnessHigh" : {
-      "comment" : "CircleBlur"
+      "comment" : "CircleBlur",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brightness High"
+          }
+        }
+      }
     },
     "property.brightnessLow" : {
-      "comment" : "CircleBlur"
+      "comment" : "CircleBlur",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brightness Low"
+          }
+        }
+      }
     },
     "property.channel" : {
       "comment" : "ColorConvert",
@@ -710,10 +806,26 @@
       }
     },
     "property.high" : {
-      "comment" : "Clamp"
+      "comment" : "Clamp",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "High"
+          }
+        }
+      }
     },
     "property.includeAlpha" : {
-      "comment" : "Clamp"
+      "comment" : "Clamp",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Include Alph"
+          }
+        }
+      }
     },
     "property.innerRadius" : {
       "comment" : "Star",
@@ -782,7 +894,15 @@
       }
     },
     "property.light" : {
-      "comment" : "CircleBlur"
+      "comment" : "CircleBlur",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "High"
+          }
+        }
+      }
     },
     "property.lineCap" : {
       "comment" : "Line",
@@ -807,7 +927,15 @@
       }
     },
     "property.low" : {
-      "comment" : "Clamp"
+      "comment" : "Clamp",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Low"
+          }
+        }
+      }
     },
     "property.octaves" : {
       "comment" : "Noise",
@@ -887,7 +1015,15 @@
       }
     },
     "property.revolvingRadius" : {
-      "comment" : "Torus"
+      "comment" : "Torus",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revolving Radius"
+          }
+        }
+      }
     },
     "property.rotation" : {
       "comment" : "Star\nBlur\nPolygon",
@@ -912,10 +1048,26 @@
       }
     },
     "property.saturationHigh" : {
-      "comment" : "CircleBlur"
+      "comment" : "CircleBlur",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saturation High"
+          }
+        }
+      }
     },
     "property.saturationLow" : {
-      "comment" : "CircleBlur"
+      "comment" : "CircleBlur",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saturation Low"
+          }
+        }
+      }
     },
     "property.scale" : {
       "comment" : "Gradient\nNoise",
@@ -998,130 +1150,466 @@
       }
     },
     "variant.angle" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angle"
+          }
+        }
+      }
     },
     "variant.black" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Black"
+          }
+        }
+      }
     },
     "variant.blueRed" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blue Red"
+          }
+        }
+      }
     },
     "variant.blueScreen" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blue Screen"
+          }
+        }
+      }
     },
     "variant.clear" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear"
+          }
+        }
+      }
     },
     "variant.detailed" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detailed"
+          }
+        }
+      }
     },
     "variant.detailedColored" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detailed Colored"
+          }
+        }
+      }
     },
     "variant.diamond" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diamond"
+          }
+        }
+      }
     },
     "variant.greenBlue" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Green Blue"
+          }
+        }
+      }
     },
     "variant.greenScreen" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Green Screen"
+          }
+        }
+      }
     },
     "variant.heavy" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heavy"
+          }
+        }
+      }
     },
     "variant.hexagon" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hexagon"
+          }
+        }
+      }
     },
     "variant.hold" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hold"
+          }
+        }
+      }
     },
     "variant.horizontal" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Horizonal"
+          }
+        }
+      }
     },
     "variant.hsvToRGB" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HSV to RGB"
+          }
+        }
+      }
     },
     "variant.length45" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "45°"
+          }
+        }
+      }
     },
     "variant.length90" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "90°"
+          }
+        }
+      }
     },
     "variant.length120" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "120°"
+          }
+        }
+      }
     },
     "variant.length180" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "180°"
+          }
+        }
+      }
     },
     "variant.light" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Light"
+          }
+        }
+      }
     },
     "variant.loop" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loop"
+          }
+        }
+      }
     },
     "variant.medium" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medium"
+          }
+        }
+      }
     },
     "variant.mirror" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mirror"
+          }
+        }
+      }
     },
     "variant.pentagon" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pentagon"
+          }
+        }
+      }
     },
     "variant.radial" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Radial"
+          }
+        }
+      }
     },
     "variant.random" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Random"
+          }
+        }
+      }
     },
     "variant.randomColored" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Random Colored"
+          }
+        }
+      }
     },
     "variant.redGreen" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Red Green"
+          }
+        }
+      }
     },
     "variant.regular" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Regular"
+          }
+        }
+      }
     },
     "variant.relative" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relative"
+          }
+        }
+      }
     },
     "variant.rgbToHSV" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RGB to HSV"
+          }
+        }
+      }
     },
     "variant.rounded" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rounded"
+          }
+        }
+      }
     },
     "variant.smooth" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smooth"
+          }
+        }
+      }
     },
     "variant.smoothColored" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smooth Colored"
+          }
+        }
+      }
     },
     "variant.triangle" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Traingle"
+          }
+        }
+      }
     },
     "variant.vertical" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vertical"
+          }
+        }
+      }
     },
     "variant.white" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "White"
+          }
+        }
+      }
     },
     "variant.x" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "X"
+          }
+        }
+      }
     },
     "variant.y" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Y"
+          }
+        }
+      }
     },
     "variant.z" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Z"
+          }
+        }
+      }
     },
     "variant.zero" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zero"
+          }
+        }
+      }
     },
     "variant.zoom" : {
-      "comment" : "..."
+      "comment" : "...",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoom"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
