@@ -38,7 +38,7 @@ public struct GraphicMacro: MemberMacro, MemberAttributeMacro {
         let parentName = names.first ?? ""
         let grandParentName = names.last ?? ""
         
-        var is3D: Bool = rawTypeName.contains("3D")
+        let is3D: Bool = rawTypeName.contains("3D")
         
         let block: MemberBlockSyntax  = classDecl.memberBlock
         

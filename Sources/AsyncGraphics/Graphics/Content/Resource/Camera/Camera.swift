@@ -32,17 +32,6 @@ extension Graphic {
     }
     
     /// Async live stream from the camera
-    @available(*, deprecated, renamed: "camera(at:lens:quality:)")
-    public static func camera(_ position: CameraPosition,
-                              device: AVCaptureDevice.DeviceType = .builtInWideAngleCamera,
-                              preset: AVCaptureSession.Preset = .high) throws -> AsyncStream<Graphic> {
-        
-        let camera = try Camera(position.av, with: device, quality: preset, external: position == .external)
-        
-        return self.camera(with: camera)
-    }
-    
-    /// Async live stream from the camera
     public static func camera(device: AVCaptureDevice,
                               quality: AVCaptureSession.Preset = .high) throws -> AsyncStream<Graphic> {
         

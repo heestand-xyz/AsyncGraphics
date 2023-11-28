@@ -30,27 +30,10 @@ extension Graphic {
     ) async throws -> Graphic {
         
         try await lumaLevels(
+            with: graphic,
             brightness: brightness,
             lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: { graphic }
-        )
-    }
-    
-    /// Default is 1.0
-    @available(*, deprecated, renamed: "lumaBrightness(with:brightness:lumaGamma:placement:)")
-    public func lumaBrightness(
-        brightness: CGFloat,
-        lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
-        try await lumaLevels(
-            brightness: brightness,
-            lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: graphic
+            placement: placement
         )
     }
     
@@ -63,27 +46,10 @@ extension Graphic {
     ) async throws -> Graphic {
         
         try await lumaLevels(
+            with: graphic,
             darkness: darkness,
             lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: { graphic }
-        )
-    }
-    
-    /// Default is 0.0
-    @available(*, deprecated, renamed: "lumaDarkness(with:darkness:lumaGamma:placement:)")
-    public func lumaDarkness(
-        darkness: CGFloat,
-        lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
-        try await lumaLevels(
-            darkness: darkness,
-            lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: graphic
+            placement: placement
         )
     }
     
@@ -96,27 +62,10 @@ extension Graphic {
     ) async throws -> Graphic {
         
         try await lumaLevels(
+            with: graphic,
             contrast: contrast,
             lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: { graphic }
-        )
-    }
-    
-    /// Default is 0.0
-    @available(*, deprecated, renamed: "lumaContrast(with:contrast:lumaGamma:placement:)")
-    public func lumaContrast(
-        contrast: CGFloat,
-        lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
-        try await lumaLevels(
-            contrast: contrast,
-            lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: graphic
+            placement: placement
         )
     }
     
@@ -129,27 +78,10 @@ extension Graphic {
     ) async throws -> Graphic {
         
         try await lumaLevels(
+            with: graphic,
             gamma: gamma,
             lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: { graphic }
-        )
-    }
-    
-    /// Default is 1.0
-    @available(*, deprecated, renamed: "lumaGamma(with:gamma:lumaGamma:placement:)")
-    public func lumaGamma(
-        gamma: CGFloat,
-        lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
-        try await lumaLevels(
-            gamma: gamma,
-            lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: graphic
+            placement: placement
         )
     }
     
@@ -160,25 +92,10 @@ extension Graphic {
     ) async throws -> Graphic {
         
         try await lumaLevels(
+            with: graphic,
             invert: true,
             lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: { graphic }
-        )
-    }
-    
-    @available(*, deprecated, renamed: "lumaInverted(with:lumaGamma:placement:)")
-    public func lumaInverted(
-        lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
-        try await lumaLevels(
-            invert: true,
-            lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: graphic
+            placement: placement
         )
     }
     
@@ -189,25 +106,10 @@ extension Graphic {
     ) async throws -> Graphic {
         
         try await lumaLevels(
+            with: graphic,
             smooth: true,
             lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: { graphic }
-        )
-    }
-    
-    @available(*, deprecated, renamed: "lumaSmoothed(with:lumaGamma:placement:)")
-    public func lumaSmoothed(
-        lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
-        try await lumaLevels(
-            smooth: true,
-            lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: graphic
+            placement: placement
         )
     }
     
@@ -219,26 +121,10 @@ extension Graphic {
     ) async throws -> Graphic {
         
         try await lumaLevels(
+            with: graphic,
             opacity: opacity,
             lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: { graphic }
-        )
-    }
-    
-    @available(*, deprecated, renamed: "lumaOpacity(with:opacity:lumaGamma:placement:)")
-    public func lumaOpacity(
-        opacity: CGFloat,
-        lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
-        try await lumaLevels(
-            opacity: opacity,
-            lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: graphic
+            placement: placement
         )
     }
     
@@ -251,27 +137,10 @@ extension Graphic {
     ) async throws -> Graphic {
         
         try await lumaLevels(
+            with: graphic,
             offset: offset,
             lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: { graphic }
-        )
-    }
-    
-    /// Default is 0.0
-    @available(*, deprecated, renamed: "lumaExposureOffset(with:offset:lumaGamma:placement:)")
-    public func lumaExposureOffset(
-        offset: CGFloat,
-        lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
-        try await lumaLevels(
-            offset: offset,
-            lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: graphic
+            placement: placement
         )
     }
     
@@ -283,26 +152,10 @@ extension Graphic {
     ) async throws -> Graphic {
         
         try await lumaLevels(
+            with: graphic,
             offset: value,
             lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: { graphic }
-        )
-    }
-    
-    @available(*, deprecated, renamed: "lumaAdd(with:value:lumaGamma:placement:)")
-    public func lumaAdd(
-        value: CGFloat,
-        lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
-        try await lumaLevels(
-            offset: value,
-            lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: graphic
+            placement: placement
         )
     }
     
@@ -314,26 +167,10 @@ extension Graphic {
     ) async throws -> Graphic {
         
         try await lumaLevels(
+            with: graphic,
             offset: -value,
             lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: { graphic }
-        )
-    }
-    
-    @available(*, deprecated, renamed: "lumaSubtract(with:value:lumaGamma:placement:)")
-    public func lumaSubtract(
-        value: CGFloat,
-        lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
-        try await lumaLevels(
-            offset: -value,
-            lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: graphic
+            placement: placement
         )
     }
     
@@ -345,26 +182,10 @@ extension Graphic {
     ) async throws -> Graphic {
         
         try await lumaLevels(
+            with: graphic,
             brightness: value,
             lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: { graphic }
-        )
-    }
-    
-    @available(*, deprecated, renamed: "lumaMultiply(with:value:lumaGamma:placement:)")
-    public func lumaMultiply(
-        value: CGFloat,
-        lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
-        try await lumaLevels(
-            brightness: value,
-            lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: graphic
+            placement: placement
         )
     }
     
@@ -376,30 +197,15 @@ extension Graphic {
     ) async throws -> Graphic {
         
         try await lumaLevels(
+            with: graphic,
             brightness: 1.0 / value,
             lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: { graphic }
-        )
-    }
-    
-    @available(*, deprecated, renamed: "lumaDivide(with:value:lumaGamma:placement:)")
-    public func lumaDivide(
-        value: CGFloat,
-        lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
-        try await lumaLevels(
-            brightness: 1.0 / value,
-            lumaGamma: lumaGamma,
-            placement: placement,
-            graphic: graphic
+            placement: placement
         )
     }
     
     private func lumaLevels(
+        with graphic: Graphic,
         brightness: CGFloat = 1.0,
         darkness: CGFloat = 0.0,
         contrast: CGFloat = 0.0,
@@ -409,8 +215,7 @@ extension Graphic {
         opacity: CGFloat = 1.0,
         offset: CGFloat = 0.0,
         lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
-        graphic: () async throws -> Graphic
+        placement: Placement = .fit
     ) async throws -> Graphic {
         
         try await Renderer.render(
@@ -418,7 +223,7 @@ extension Graphic {
             shader: .name("lumaLevels"),
             graphics: [
                 self,
-                graphic()
+                graphic
             ],
             uniforms: LumaLevelsUniforms(
                 placement: placement.index,

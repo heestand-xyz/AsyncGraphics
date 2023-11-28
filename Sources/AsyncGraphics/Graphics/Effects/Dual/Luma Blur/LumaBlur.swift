@@ -52,34 +52,14 @@ extension Graphic {
         options: EffectOptions = []
     ) async throws -> Graphic {
         
-        try await lumaBlurredBox(
-            radius: radius,
-            lumaGamma: lumaGamma,
-            sampleCount: sampleCount,
-            placement: placement,
-            options: options,
-            graphic: { graphic }
-        )
-    }
-    
-    @available(*, deprecated, renamed: "lumaBlurredBox(with:radius:lumaGamma:sampleCount:placement:options:)")
-    public func lumaBlurredBox(
-        radius: CGFloat,
-        lumaGamma: CGFloat = 1.0,
-        sampleCount: Int = 100,
-        placement: Placement = .fit,
-        options: EffectOptions = [],
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
         try await lumaBlurred(
+            with: graphic,
             type: .box,
             radius: radius,
             lumaGamma: lumaGamma,
             sampleCount: sampleCount,
             placement: placement,
-            options: options,
-            graphic: graphic
+            options: options
         )
     }
  
@@ -93,37 +73,15 @@ extension Graphic {
         options: EffectOptions = []
     ) async throws -> Graphic {
         
-        try await lumaBlurredZoom(
-            radius: radius,
-            position: position,
-            lumaGamma: lumaGamma,
-            sampleCount: sampleCount,
-            placement: placement,
-            options: options,
-            graphic: { graphic }
-        )
-    }
-    
-    @available(*, deprecated, renamed: "lumaBlurredZoom(with:radius:position:lumaGamma:sampleCount:placement:options:)")
-    public func lumaBlurredZoom(
-        radius: CGFloat,
-        position: CGPoint? = nil,
-        lumaGamma: CGFloat = 1.0,
-        sampleCount: Int = 100,
-        placement: Placement = .fit,
-        options: EffectOptions = [],
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
         try await lumaBlurred(
+            with: graphic,
             type: .zoom,
             radius: radius,
             position: position,
             lumaGamma: lumaGamma,
             sampleCount: sampleCount,
             placement: placement,
-            options: options,
-            graphic: graphic
+            options: options
         )
     }
     
@@ -137,37 +95,15 @@ extension Graphic {
         options: EffectOptions = []
     ) async throws -> Graphic {
         
-        try await lumaBlurredAngle(
-            radius: radius,
-            angle: angle,
-            lumaGamma: lumaGamma,
-            sampleCount: sampleCount,
-            placement: placement,
-            options: options,
-            graphic: { graphic }
-        )
-    }
-    
-    @available(*, deprecated, renamed: "lumaBlurredAngle(with:radius:angle:lumaGamma:sampleCount:placement:options:)")
-    public func lumaBlurredAngle(
-        radius: CGFloat,
-        angle: Angle,
-        lumaGamma: CGFloat = 1.0,
-        sampleCount: Int = 100,
-        placement: Placement = .fit,
-        options: EffectOptions = [],
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
         try await lumaBlurred(
+            with: graphic,
             type: .angle,
             radius: radius,
             angle: angle,
             lumaGamma: lumaGamma,
             sampleCount: sampleCount,
             placement: placement,
-            options: options,
-            graphic: graphic
+            options: options
         )
     }
     
@@ -179,33 +115,16 @@ extension Graphic {
         options: EffectOptions = []
     ) async throws -> Graphic {
         
-        try await lumaBlurredRandom(
-            radius: radius,
-            lumaGamma: lumaGamma,
-            placement: placement,
-            options: options,
-            graphic: { graphic }
-        )
-    }
-    
-    @available(*, deprecated, renamed: "lumaBlurredRandom(with:radius:lumaGamma:placement:options:)")
-    public func lumaBlurredRandom(
-        radius: CGFloat,
-        lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
-        options: EffectOptions = [],
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
         try await lumaBlurred(
+            with: graphic,
             type: .random,
             radius: radius,
-            options: options,
-            graphic: graphic
+            options: options
         )
     }
     
     private func lumaBlurred(
+        with graphic: Graphic,
         type: LumaBlurType,
         radius: CGFloat,
         position: CGPoint? = nil,
@@ -213,8 +132,7 @@ extension Graphic {
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
-        options: EffectOptions = [],
-        graphic: () async throws -> Graphic
+        options: EffectOptions = []
     ) async throws -> Graphic {
             
         let relativeRadius: CGFloat = radius / height
@@ -227,7 +145,7 @@ extension Graphic {
             shader: .name("lumaBlur"),
             graphics: [
                 self,
-                graphic()
+                graphic
             ],
             uniforms: LumaBlurUniforms(
                 type: type.rawValue,

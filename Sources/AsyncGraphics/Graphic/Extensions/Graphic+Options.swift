@@ -11,9 +11,6 @@ extension Graphic {
         
         public let rawValue: Int
         
-        @available(*, deprecated, renamed: "bit16")
-        public static let highBit: ContentOptions = .bit16
-        
         /// 16 bit rendering
         public static let bit16 = ContentOptions(rawValue: 1 << 0)
         

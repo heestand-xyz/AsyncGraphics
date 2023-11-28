@@ -17,24 +17,6 @@ extension Graphic {
         let lumaGamma: Float
     }
     
-    @available(*, deprecated, renamed: "lumaOffset(with:translation:lumaGamma:placement:options:)")
-    public func lumaTranslated(
-        with graphic: Graphic,
-        translation: CGPoint,
-        lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
-        options: EffectOptions = []
-    ) async throws -> Graphic {
-        
-        try await lumaTransformed(
-            translation: translation,
-            lumaGamma: lumaGamma,
-            placement: placement,
-            options: options,
-            graphic: { graphic }
-        )
-    }
-    
     public func lumaOffset(
         with graphic: Graphic,
         translation: CGPoint,
@@ -44,48 +26,11 @@ extension Graphic {
     ) async throws -> Graphic {
         
         try await lumaTransformed(
+            with: graphic,
             translation: translation,
             lumaGamma: lumaGamma,
             placement: placement,
-            options: options,
-            graphic: { graphic }
-        )
-    }
-    
-    @available(*, deprecated, renamed: "lumaOffset(with:translation:lumaGamma:placement:options:)")
-    public func lumaOffset(
-        _ translation: CGPoint,
-        lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
-        options: EffectOptions = [],
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
-        try await lumaTransformed(
-            translation: translation,
-            lumaGamma: lumaGamma,
-            placement: placement,
-            options: options,
-            graphic: graphic
-        )
-    }
-    
-    @available(*, deprecated, renamed: "lumaOffset(with:x:y:lumaGamma:placement:options:)")
-    public func lumaTranslated(
-        with graphic: Graphic,
-        x: CGFloat = 0.0,
-        y: CGFloat = 0.0,
-        lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
-        options: EffectOptions = []
-    ) async throws -> Graphic {
-        
-        try await lumaTransformed(
-            translation: CGPoint(x: x, y: y),
-            lumaGamma: lumaGamma,
-            placement: placement,
-            options: options,
-            graphic: { graphic }
+            options: options
         )
     }
     
@@ -99,30 +44,11 @@ extension Graphic {
     ) async throws -> Graphic {
         
         try await lumaTransformed(
+            with: graphic,
             translation: CGPoint(x: x, y: y),
             lumaGamma: lumaGamma,
             placement: placement,
-            options: options,
-            graphic: { graphic }
-        )
-    }
-    
-    @available(*, deprecated, renamed: "lumaOffset(with:x:y:lumaGamma:placement:options:)")
-    public func lumaOffset(
-        x: CGFloat = 0.0,
-        y: CGFloat = 0.0,
-        lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
-        options: EffectOptions = [],
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
-        try await lumaTransformed(
-            translation: CGPoint(x: x, y: y),
-            lumaGamma: lumaGamma,
-            placement: placement,
-            options: options,
-            graphic: graphic
+            options: options
         )
     }
     
@@ -135,29 +61,11 @@ extension Graphic {
     ) async throws -> Graphic {
         
         try await lumaTransformed(
+            with: graphic,
             rotation: rotation,
             lumaGamma: lumaGamma,
             placement: placement,
-            options: options,
-            graphic: { graphic }
-        )
-    }
-    
-    @available(*, deprecated, renamed: "lumaRotated(with:rotation:lumaGamma:placement:options:)")
-    public func lumaRotated(
-        rotation: Angle,
-        lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
-        options: EffectOptions = [],
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
-        try await lumaTransformed(
-            rotation: rotation,
-            lumaGamma: lumaGamma,
-            placement: placement,
-            options: options,
-            graphic: graphic
+            options: options
         )
     }
     
@@ -170,29 +78,11 @@ extension Graphic {
     ) async throws -> Graphic {
         
         try await lumaTransformed(
+            with: graphic,
             scale: scale,
             lumaGamma: lumaGamma,
             placement: placement,
-            options: options,
-            graphic: { graphic }
-        )
-    }
-    
-    @available(*, deprecated, renamed: "lumaScaled(with:scale:lumaGamma:placement:options:)")
-    public func lumaScaled(
-        scale: CGFloat,
-        lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
-        options: EffectOptions = [],
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
-        try await lumaTransformed(
-            scale: scale,
-            lumaGamma: lumaGamma,
-            placement: placement,
-            options: options,
-            graphic: graphic
+            options: options
         )
     }
     
@@ -206,42 +96,23 @@ extension Graphic {
     ) async throws -> Graphic {
         
         try await lumaTransformed(
+            with: graphic,
             scaleSize: CGSize(width: x, height: y),
             lumaGamma: lumaGamma,
             placement: placement,
-            options: options,
-            graphic: { graphic }
-        )
-    }
-    
-    @available(*, deprecated, renamed: "lumaScaled(with:x:y:lumaGamma:placement:options:)")
-    public func lumaScaled(
-        x: CGFloat = 1.0,
-        y: CGFloat = 1.0,
-        lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
-        options: EffectOptions = [],
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
-        try await lumaTransformed(
-            scaleSize: CGSize(width: x, height: y),
-            lumaGamma: lumaGamma,
-            placement: placement,
-            options: options,
-            graphic: graphic
+            options: options
         )
     }
     
     private func lumaTransformed(
+        with graphic: Graphic,
         translation: CGPoint = .zero,
         rotation: Angle = .zero,
         scale: CGFloat = 1.0,
         scaleSize: CGSize = .one,
         lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
-        options: EffectOptions = [],
-        graphic: () async throws -> Graphic
+        options: EffectOptions = []
     ) async throws -> Graphic {
         
         let relativeTranslation: CGPoint = translation / resolution.height
@@ -251,7 +122,7 @@ extension Graphic {
             shader: .name("lumaTransform"),
             graphics: [
                 self,
-                graphic()
+                graphic
             ],
             uniforms: LumaTransformUniforms(
                 placement: placement.index,

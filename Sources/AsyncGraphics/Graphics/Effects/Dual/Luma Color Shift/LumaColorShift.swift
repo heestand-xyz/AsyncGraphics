@@ -22,22 +22,9 @@ extension Graphic {
     ) async throws -> Graphic {
         
         try await lumaColorShifted(
+            with: graphic,
             saturation: 0.0,
-            lumaGamma: lumaGamma,
-            graphic: { graphic }
-        )
-    }
-    
-    @available(*, deprecated, renamed: "lumaMonochrome(with:lumaGamma:)")
-    public func lumaMonochrome(
-        lumaGamma: CGFloat = 1.0,
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-        
-        try await lumaColorShifted(
-            saturation: 0.0,
-            lumaGamma: lumaGamma,
-            graphic: graphic
+            lumaGamma: lumaGamma
         )
     }
     
@@ -49,24 +36,9 @@ extension Graphic {
     ) async throws -> Graphic {
     
         try await lumaColorShifted(
+            with: graphic,
             saturation: saturation,
-            lumaGamma: lumaGamma,
-            graphic: { graphic }
-        )
-    }
-    
-    /// `1.0` is *default*
-    @available(*, deprecated, renamed: "lumaSaturated(with:saturation:lumaGamma:)")
-    public func lumaSaturated(
-        saturation: CGFloat,
-        lumaGamma: CGFloat = 1.0,
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-    
-        try await lumaColorShifted(
-            saturation: saturation,
-            lumaGamma: lumaGamma,
-            graphic: graphic
+            lumaGamma: lumaGamma
         )
     }
     
@@ -78,23 +50,9 @@ extension Graphic {
     ) async throws -> Graphic {
     
         try await lumaColorShifted(
+            with: graphic,
             hue: hue,
-            lumaGamma: lumaGamma,
-            graphic: { graphic }
-        )
-    }
-    /// `0.0` is *default*, `0.5` is `180` degrees of hue shift
-    @available(*, deprecated, renamed: "lumaHue(with:hue:lumaGamma:)")
-    public func lumaHue(
-        hue: Angle,
-        lumaGamma: CGFloat = 1.0,
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-    
-        try await lumaColorShifted(
-            hue: hue,
-            lumaGamma: lumaGamma,
-            graphic: graphic
+            lumaGamma: lumaGamma
         )
     }
     
@@ -105,34 +63,20 @@ extension Graphic {
     ) async throws -> Graphic {
     
         try await lumaColorShifted(
+            with: graphic,
             tintColor: color,
-            lumaGamma: lumaGamma,
-            graphic: { graphic }
-        )
-    }
-    
-    @available(*, deprecated, renamed: "lumaTinted(with:color:lumaGamma:)")
-    public func lumaTinted(
-        color: PixelColor,
-        lumaGamma: CGFloat = 1.0,
-        graphic: () async throws -> Graphic
-    ) async throws -> Graphic {
-    
-        try await lumaColorShifted(
-            tintColor: color,
-            lumaGamma: lumaGamma,
-            graphic: graphic
+            lumaGamma: lumaGamma
         )
     }
     
     private func lumaColorShifted(
+        with graphic: Graphic,
         hue: Angle = .zero,
         saturation: CGFloat = 1.0,
         tintColor: PixelColor = .white,
         lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
-        options: EffectOptions = [],
-        graphic: () async throws -> Graphic
+        options: EffectOptions = []
     ) async throws -> Graphic {
         
         try await Renderer.render(
@@ -140,7 +84,7 @@ extension Graphic {
             shader: .name("lumaColorShift"),
             graphics: [
                 self,
-                graphic()
+                graphic
             ],
             uniforms: LumaColorShiftUniforms(
                 placement: placement.index,
