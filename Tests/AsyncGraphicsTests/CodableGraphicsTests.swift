@@ -1,23 +1,22 @@
 import XCTest
 import SwiftUI
+import Spatial
 @testable import AsyncGraphics
 
 final class CodableGraphicsTests: XCTestCase {
     
     let resolution = CGSize(width: 1000, height: 1000)
-    let resolution3D = Size3D(100, 100, 100)
+    let resolution3D = Size3D(width: 100, height: 100, depth: 100)
     
     func testType() async throws {
         
         for type in CodableGraphicType.allCases {
             let instance: CodableGraphicProtocol = type.instance()
-            print("------> 2D:", type)
             XCTAssertEqual(type, instance.type)
         }
         
         for type in CodableGraphic3DType.allCases {
             let instance: CodableGraphic3DProtocol = type.instance()
-            print("------> 3D:", type)
             XCTAssertEqual(type, instance.type)
         }
     }
