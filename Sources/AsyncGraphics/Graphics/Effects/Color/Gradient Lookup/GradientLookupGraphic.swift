@@ -2,10 +2,10 @@ import SwiftUI
 import CoreGraphics
 import PixelColor
 
-extension CodableGraphic.Effect.Direct {
+extension CodableGraphic.Effect.Color {
     
     @GraphicMacro
-    public final class GradientLookup: DirectEffectGraphicProtocol {
+    public final class GradientLookup: ColorEffectGraphicProtocol {
         
         public var colorStops: GraphicMetadata<[Graphic.GradientStop]> = .init(value: .fixed([
             Graphic.GradientStop(at: 0.0, color: .black),

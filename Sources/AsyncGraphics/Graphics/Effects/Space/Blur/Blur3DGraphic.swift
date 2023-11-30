@@ -1,10 +1,10 @@
 import Spatial
 import CoreGraphics
 
-extension CodableGraphic3D.Effect.Direct {
+extension CodableGraphic3D.Effect.Space {
     
     @GraphicMacro
-    public final class Blur: DirectEffectGraphic3DProtocol {
+    public final class Blur: SpaceEffectGraphic3DProtocol {
         
         public var style: GraphicEnumMetadata<Graphic3D.Blur3DType> = .init(value: .box)
 

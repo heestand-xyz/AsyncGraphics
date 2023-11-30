@@ -3,10 +3,10 @@ import Spatial
 import CoreGraphics
 import PixelColor
 
-extension CodableGraphic3D.Effect.Direct {
+extension CodableGraphic3D.Effect.Space {
     
     @GraphicMacro
-    public final class Edge: DirectEffectGraphic3DProtocol {
+    public final class Edge: SpaceEffectGraphic3DProtocol {
         
         public var amplitude: GraphicMetadata<CGFloat> = .init(value: .one,
                                                                maximum: .fixed(2.0))

@@ -1,8 +1,8 @@
 
 extension CodableGraphic.Effect {
-    public struct Direct {}
+    public struct Space {}
 }
 
 extension CodableGraphic3D.Effect {
-    public struct Direct {}
+    public struct Space {}
 }

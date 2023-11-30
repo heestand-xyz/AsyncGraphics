@@ -1,0 +1,2 @@
+
+public protocol SpaceEffectGraphicProtocol: EffectGraphicProtocol {}

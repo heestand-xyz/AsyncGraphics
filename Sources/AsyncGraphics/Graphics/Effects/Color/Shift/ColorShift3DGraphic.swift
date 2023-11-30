@@ -3,10 +3,10 @@ import Spatial
 import CoreGraphics
 import PixelColor
 
-extension CodableGraphic3D.Effect.Direct {
+extension CodableGraphic3D.Effect.Color {
     
     @GraphicMacro
-    public final class ColorShift: DirectEffectGraphic3DProtocol {
+    public final class ColorShift: ColorEffectGraphic3DProtocol {
         
         public var hue: GraphicMetadata<Angle> = .init()
         

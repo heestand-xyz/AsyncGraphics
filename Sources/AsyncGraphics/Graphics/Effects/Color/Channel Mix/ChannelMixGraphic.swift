@@ -1,10 +1,10 @@
 import SwiftUI
 import CoreGraphics
 
-extension CodableGraphic.Effect.Direct {
+extension CodableGraphic.Effect.Color {
     
     @GraphicMacro
-    public final class ChannelMix: DirectEffectGraphicProtocol {
+    public final class ChannelMix: ColorEffectGraphicProtocol {
         
         public var red: GraphicEnumMetadata<Graphic.ColorChannel> = .init(value: .red)
         

@@ -1,10 +1,10 @@
 import SwiftUI
 import CoreGraphics
 
-extension CodableGraphic.Effect.Direct {
+extension CodableGraphic.Effect.Space {
     
     @GraphicMacro
-    public final class Blur: DirectEffectGraphicProtocol {
+    public final class Blur: SpaceEffectGraphicProtocol {
         
         public var style: GraphicEnumMetadata<Graphic.BlurType> = .init(value: .gaussian)
         

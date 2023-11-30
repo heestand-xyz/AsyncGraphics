@@ -2,10 +2,10 @@ import SwiftUI
 import CoreGraphics
 import PixelColor
 
-extension CodableGraphic.Effect.Direct {
+extension CodableGraphic.Effect.Color {
     
     @GraphicMacro
-    public final class ColorShift: DirectEffectGraphicProtocol {
+    public final class ColorShift: ColorEffectGraphicProtocol {
         
         public var hue: GraphicMetadata<Angle> = .init()
         

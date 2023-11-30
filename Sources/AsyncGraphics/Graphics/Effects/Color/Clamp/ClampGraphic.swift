@@ -2,10 +2,10 @@ import SwiftUI
 import CoreGraphics
 import PixelColor
 
-extension CodableGraphic.Effect.Direct {
+extension CodableGraphic.Effect.Color {
     
     @GraphicMacro
-    public final class Clamp: DirectEffectGraphicProtocol {
+    public final class Clamp: ColorEffectGraphicProtocol {
         
         public var style: GraphicEnumMetadata<Graphic.ClampType> = .init(value: .relative)
         

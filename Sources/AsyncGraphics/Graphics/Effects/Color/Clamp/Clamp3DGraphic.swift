@@ -3,10 +3,10 @@ import Spatial
 import CoreGraphics
 import PixelColor
 
-extension CodableGraphic3D.Effect.Direct {
+extension CodableGraphic3D.Effect.Color {
     
     @GraphicMacro
-    public final class Clamp: DirectEffectGraphic3DProtocol {
+    public final class Clamp: ColorEffectGraphic3DProtocol {
         
         public var style: GraphicEnumMetadata<Graphic.ClampType> = .init(value: .relative)
         
