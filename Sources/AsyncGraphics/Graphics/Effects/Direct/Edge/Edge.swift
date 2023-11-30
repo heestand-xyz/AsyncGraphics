@@ -39,11 +39,11 @@ extension Graphic {
                        options: options)
     }
     
-    private func edge(amplitude: CGFloat = 1.0,
-                      distance: CGFloat = 1.0,
-                      isColored: Bool,
-                      isTransparent: Bool,
-                      options: EffectOptions = []) async throws -> Graphic {
+    func edge(amplitude: CGFloat = 1.0,
+              distance: CGFloat = 1.0,
+              isColored: Bool = false,
+              isTransparent: Bool = false,
+              options: EffectOptions = []) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Edge",

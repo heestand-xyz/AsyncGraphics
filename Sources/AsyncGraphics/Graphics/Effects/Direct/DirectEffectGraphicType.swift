@@ -9,4 +9,7 @@ public enum DirectEffectGraphicType: String, CodableGraphicTypeProtocol {
     case chromaKey
     case clamp
     case colorConvert
+    case colorMap
+    case colorShift
+    case edge
 }

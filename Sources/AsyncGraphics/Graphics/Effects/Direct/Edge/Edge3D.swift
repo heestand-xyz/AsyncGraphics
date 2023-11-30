@@ -36,11 +36,11 @@ extension Graphic3D {
                        options: options)
     }
     
-    private func edge(amplitude: Double = 1.0,
-                      distance: Double = 1.0,
-                      isColored: Bool,
-                      isTransparent: Bool,
-                      options: EffectOptions = []) async throws -> Graphic3D {
+    func edge(amplitude: Double = 1.0,
+              distance: Double = 1.0,
+              isColored: Bool = false,
+              isTransparent: Bool = false,
+              options: EffectOptions = []) async throws -> Graphic3D {
         
         try await Renderer.render(
             name: "Edge 3D",
