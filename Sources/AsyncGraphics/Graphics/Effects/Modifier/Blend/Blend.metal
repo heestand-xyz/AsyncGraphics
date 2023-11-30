@@ -6,8 +6,8 @@
 #include <metal_stdlib>
 using namespace metal;
 
-#import "../../../../Metal/Effects/blend_header.metal"
-#import "../../../../Metal/Effects/place_header.metal"
+#import "../../../../Shaders/Effects/blend_header.metal"
+#import "../../../../Shaders/Effects/place_header.metal"
 
 struct VertexOut {
     float4 position [[position]];

@@ -6,7 +6,7 @@
 #include <metal_stdlib>
 using namespace metal;
 
-#import "../../../../Metal/Content/radius_header.metal"
+#import "../../../../Shaders/Content/radius_header.metal"
 
 struct Uniforms {
     uint axis;

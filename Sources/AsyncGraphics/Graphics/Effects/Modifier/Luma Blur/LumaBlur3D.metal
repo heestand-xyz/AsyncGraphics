@@ -6,8 +6,8 @@
 #include <metal_stdlib>
 using namespace metal;
 
-#import "../../../../Metal/Effects/place_header.metal"
-#import "../../../../Metal/Content/random_header.metal"
+#import "../../../../Shaders/Effects/place_header.metal"
+#import "../../../../Shaders/Content/random_header.metal"
 
 struct Uniforms {
     uint type;
