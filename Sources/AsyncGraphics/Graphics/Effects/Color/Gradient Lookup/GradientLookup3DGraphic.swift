@@ -14,7 +14,7 @@ extension CodableGraphic3D.Effect.Color {
         ]))
         
         public var gamma: GraphicMetadata<CGFloat> = .init(value: .one,
-                                                               maximum: .fixed(2.0))
+                                                           maximum: .fixed(2.0))
         
         public func render(
             with graphic: Graphic3D,
