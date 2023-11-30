@@ -8,7 +8,7 @@ import SwiftUI
 
 extension Graphic3D {
     
-    private struct ColorShiftUniforms {
+    private struct ColorShift3DUniforms {
         let hue: Float
         let saturation: Float
         let tintColor: ColorUniform
@@ -26,7 +26,7 @@ extension Graphic3D {
             name: "Saturation 3D",
             shader: .name("colorShift3d"),
             graphics: [self],
-            uniforms: ColorShiftUniforms(
+            uniforms: ColorShift3DUniforms(
                 hue: 0.0,
                 saturation: Float(saturation),
                 tintColor: PixelColor.white.uniform
@@ -41,7 +41,7 @@ extension Graphic3D {
             name: "Hue 3D",
             shader: .name("colorShift3d"),
             graphics: [self],
-            uniforms: ColorShiftUniforms(
+            uniforms: ColorShift3DUniforms(
                 hue: hue.uniform,
                 saturation: 1.0,
                 tintColor: PixelColor.white.uniform
@@ -55,9 +55,25 @@ extension Graphic3D {
             name: "Tint 3D",
             shader: .name("colorShift3d"),
             graphics: [self],
-            uniforms: ColorShiftUniforms(
+            uniforms: ColorShift3DUniforms(
                 hue: 0.0,
                 saturation: 1.0,
+                tintColor: color.uniform
+            )
+        )
+    }
+    
+    func colorShift(hue: Angle = .zero,
+                    saturation: CGFloat = 1.0,
+                    tint color: PixelColor = .white) async throws -> Graphic3D {
+        
+        try await Renderer.render(
+            name: "Color Shift",
+            shader: .name("colorShift3d"),
+            graphics: [self],
+            uniforms: ColorShift3DUniforms(
+                hue: hue.uniform,
+                saturation: Float(saturation),
                 tintColor: color.uniform
             )
         )

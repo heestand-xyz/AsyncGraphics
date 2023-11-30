@@ -62,4 +62,20 @@ extension Graphic {
             )
         )
     }
+    
+    func colorShift(hue: Angle = .zero,
+                    saturation: CGFloat = 1.0,
+                    tint color: PixelColor = .white) async throws -> Graphic {
+        
+        try await Renderer.render(
+            name: "Color Shift",
+            shader: .name("colorShift"),
+            graphics: [self],
+            uniforms: ColorShiftUniforms(
+                hue: hue.uniform,
+                saturation: Float(saturation),
+                tintColor: color.uniform
+            )
+        )
+    }
 }
