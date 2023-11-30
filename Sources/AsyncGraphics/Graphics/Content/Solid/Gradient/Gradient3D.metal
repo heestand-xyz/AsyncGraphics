@@ -6,7 +6,7 @@
 #include <metal_stdlib>
 using namespace metal;
 
-#include "../../../../Metal/Content/gradient_header.metal"
+#include "../../../../Shaders/Content/gradient_header.metal"
 
 struct Uniforms {
     int type;

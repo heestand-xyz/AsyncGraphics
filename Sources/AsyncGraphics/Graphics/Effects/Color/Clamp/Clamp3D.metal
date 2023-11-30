@@ -5,7 +5,7 @@
 #include <metal_stdlib>
 using namespace metal;
 
-#import "../../../../Metal/Effects/clamp_header.metal"
+#import "../../../../Shaders/Effects/clamp_header.metal"
 
 struct VertexOut {
     float4 position [[position]];

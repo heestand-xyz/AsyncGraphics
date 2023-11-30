@@ -6,7 +6,7 @@
 #include <metal_stdlib>
 using namespace metal;
 
-#import "../../../../Metal/Effects/place_header.metal"
+#import "../../../../Shaders/Effects/place_header.metal"
 
 struct Uniforms {
     float fraction;

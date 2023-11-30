@@ -5,7 +5,7 @@
 #include <metal_stdlib>
 using namespace metal;
 
-#import "../../../../Metal/Effects/hsv_header.metal"
+#import "../../../../Shaders/Effects/hsv_header.metal"
 
 struct Uniforms {
     float hue;

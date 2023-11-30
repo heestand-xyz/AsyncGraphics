@@ -6,8 +6,8 @@
 #include <metal_stdlib>
 using namespace metal;
 
-#import "../../../../Metal/Content/noise_header.metal"
-#import "../../../../Metal/Content/random_header.metal"
+#import "../../../../Shaders/Content/noise_header.metal"
+#import "../../../../Shaders/Content/random_header.metal"
 
 struct Uniforms {
     bool colored;
