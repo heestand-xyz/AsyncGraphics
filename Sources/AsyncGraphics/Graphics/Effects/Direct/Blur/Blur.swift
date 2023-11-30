@@ -28,6 +28,7 @@ extension Graphic {
         case random
     }
     
+    /// Gaussian Blur
     public func blurred(radius: CGFloat) async throws -> Graphic {
         
         let targetTexture: MTLTexture = try await .empty(resolution: resolution, bits: bits, usage: .write)
