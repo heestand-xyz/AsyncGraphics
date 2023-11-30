@@ -112,10 +112,26 @@
       }
     },
     "graphic.colorMap" : {
-      "comment" : "Effect: Color\nEffect: Color (3D)"
+      "comment" : "Effect: Color\nEffect: Color (3D)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Color Map"
+          }
+        }
+      }
     },
     "graphic.colorShift" : {
-      "comment" : "Effect: Color\nEffect: Color (3D)"
+      "comment" : "Effect: Color\nEffect: Color (3D)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Color Shift"
+          }
+        }
+      }
     },
     "graphic.cone" : {
       "comment" : "Content: Shape (3D)",
@@ -140,7 +156,15 @@
       }
     },
     "graphic.edge" : {
-      "comment" : "Effect: Space (3D)\nEffect: Space"
+      "comment" : "Effect: Space (3D)\nEffect: Space",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edge"
+          }
+        }
+      }
     },
     "graphic.gradient" : {
       "comment" : "Content: Solid\nContent: Solid (3D)",
@@ -154,7 +178,15 @@
       }
     },
     "graphic.gradientLookup" : {
-      "comment" : "Effect: Color\nEffect: Color (3D)"
+      "comment" : "Effect: Color\nEffect: Color (3D)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gradient Lookup"
+          }
+        }
+      }
     },
     "graphic.line" : {
       "comment" : "Content: Shape",
@@ -663,7 +695,15 @@
       }
     },
     "property.amplitude" : {
-      "comment" : "Edge"
+      "comment" : "Edge",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amplitude"
+          }
+        }
+      }
     },
     "property.angle" : {
       "comment" : "Arc",
@@ -820,7 +860,15 @@
       }
     },
     "property.distance" : {
-      "comment" : "Edge"
+      "comment" : "Edge",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distance"
+          }
+        }
+      }
     },
     "property.edgeDesaturation" : {
       "comment" : "ChromaKey",
@@ -889,7 +937,15 @@
       }
     },
     "property.hue" : {
-      "comment" : "ColorShift"
+      "comment" : "ColorShift",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hue"
+          }
+        }
+      }
     },
     "property.includeAlpha" : {
       "comment" : "Clamp",
@@ -947,7 +1003,15 @@
       }
     },
     "property.isTransparent" : {
-      "comment" : "Edge"
+      "comment" : "Edge",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transparent"
+          }
+        }
+      }
     },
     "property.leadingPoint" : {
       "comment" : "Line",
@@ -961,7 +1025,15 @@
       }
     },
     "property.leadingRadius" : {
-      "comment" : "Cone"
+      "comment" : "Cone",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leading Radius"
+          }
+        }
+      }
     },
     "property.length" : {
       "comment" : "Cone\nCylinder\nArc",
@@ -1129,7 +1201,15 @@
       }
     },
     "property.saturation" : {
-      "comment" : "ColorShift"
+      "comment" : "ColorShift",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saturation"
+          }
+        }
+      }
     },
     "property.saturationHigh" : {
       "comment" : "CircleBlur",
@@ -1231,7 +1311,15 @@
       }
     },
     "property.tintColor" : {
-      "comment" : "ColorShift"
+      "comment" : "ColorShift",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tint Color"
+          }
+        }
+      }
     },
     "property.trailingPoint" : {
       "comment" : "Line",
@@ -1278,7 +1366,14 @@
       }
     },
     "variant.blue" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blue"
+          }
+        }
+      }
     },
     "variant.blueRed" : {
       "comment" : "...",
@@ -1314,13 +1409,34 @@
       }
     },
     "variant.colored" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colored"
+          }
+        }
+      }
     },
     "variant.colorShift120" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Color Shift 120°"
+          }
+        }
+      }
     },
     "variant.colorShift240" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Color Shift 240°"
+          }
+        }
+      }
     },
     "variant.detailed" : {
       "comment" : "...",
@@ -1356,10 +1472,24 @@
       }
     },
     "variant.fire" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fire"
+          }
+        }
+      }
     },
     "variant.green" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Green"
+          }
+        }
+      }
     },
     "variant.greenBlue" : {
       "comment" : "...",
@@ -1439,7 +1569,14 @@
       }
     },
     "variant.ice" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ice"
+          }
+        }
+      }
     },
     "variant.length45" : {
       "comment" : "...",
@@ -1530,7 +1667,14 @@
       }
     },
     "variant.monochrome" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monochrome"
+          }
+        }
+      }
     },
     "variant.pentagon" : {
       "comment" : "...",
@@ -1555,7 +1699,14 @@
       }
     },
     "variant.rainbow" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rainbow"
+          }
+        }
+      }
     },
     "variant.random" : {
       "comment" : "...",
@@ -1580,7 +1731,14 @@
       }
     },
     "variant.red" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Red"
+          }
+        }
+      }
     },
     "variant.redGreen" : {
       "comment" : "...",
@@ -1638,7 +1796,14 @@
       }
     },
     "variant.saturated" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saturated"
+          }
+        }
+      }
     },
     "variant.smooth" : {
       "comment" : "...",
