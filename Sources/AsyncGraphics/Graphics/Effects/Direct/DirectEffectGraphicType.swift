@@ -12,4 +12,5 @@ public enum DirectEffectGraphicType: String, CodableGraphicTypeProtocol {
     case colorMap
     case colorShift
     case edge
+    case gradientLookup
 }
