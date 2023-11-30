@@ -39,9 +39,9 @@ let package = Package(
                 .process("Localizable.xcstrings"),
                 .process("Graphics/Content/Solid/Metal/SolidMetal.metal.txt"),
                 .process("Graphics/Content/Solid/Metal/SolidMetal3D.metal.txt"),
-                .process("Graphics/Effects/Direct/Metal/DirectMetal.metal.txt"),
-                .process("Graphics/Effects/Dual/Metal/DualMetal.metal.txt"),
-                .process("Graphics/Effects/Array/Metal/ArrayMetal.metal.txt"),
+                .process("Graphics/Effects/Space/Metal/DirectMetal.metal.txt"),
+                .process("Graphics/Effects/Modifier/Metal/DualMetal.metal.txt"),
+                .process("Graphics/Effects/Sequence/Metal/ArrayMetal.metal.txt"),
             ]),
         .macro(
             name: "AsyncGraphicsMacros",
