@@ -3,10 +3,10 @@ import Spatial
 import CoreGraphics
 import PixelColor
 
-extension CodableGraphic3D.Effect.Direct {
+extension CodableGraphic3D.Effect.Color {
     
     @GraphicMacro
-    public final class ColorMap: DirectEffectGraphic3DProtocol {
+    public final class ColorMap: ColorEffectGraphic3DProtocol {
         
         public var foregroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
         public var backgroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.clear))

@@ -2,10 +2,10 @@ import SwiftUI
 import CoreGraphics
 import PixelColor
 
-extension CodableGraphic.Effect.Direct {
+extension CodableGraphic.Effect.Color {
     
     @GraphicMacro
-    public final class ChromaKey: DirectEffectGraphicProtocol {
+    public final class ChromaKey: ColorEffectGraphicProtocol {
         
         public var color: GraphicMetadata<PixelColor> = .init(value: .fixed(.rawGreen))
         

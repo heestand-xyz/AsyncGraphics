@@ -2,10 +2,10 @@ import SwiftUI
 import CoreGraphics
 import PixelColor
 
-extension CodableGraphic.Effect.Direct {
+extension CodableGraphic.Effect.Space {
     
     @GraphicMacro
-    public final class CircleBlur: DirectEffectGraphicProtocol {
+    public final class CircleBlur: SpaceEffectGraphicProtocol {
         
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.1),
                                                             maximum: .resolutionMinimum(fraction: 0.5))

@@ -2,10 +2,10 @@ import SwiftUI
 import CoreGraphics
 import PixelColor
 
-extension CodableGraphic.Effect.Direct {
+extension CodableGraphic.Effect.Space {
     
     @GraphicMacro
-    public final class Edge: DirectEffectGraphicProtocol {
+    public final class Edge: SpaceEffectGraphicProtocol {
         
         public var amplitude: GraphicMetadata<CGFloat> = .init(value: .one,
                                                                maximum: .fixed(2.0))

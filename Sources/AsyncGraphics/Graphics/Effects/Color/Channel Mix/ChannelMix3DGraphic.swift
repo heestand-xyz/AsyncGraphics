@@ -1,10 +1,10 @@
 import CoreGraphics
 import Spatial
 
-extension CodableGraphic3D.Effect.Direct {
+extension CodableGraphic3D.Effect.Color {
     
     @GraphicMacro
-    public final class ChannelMix: DirectEffectGraphic3DProtocol {
+    public final class ChannelMix: ColorEffectGraphic3DProtocol {
         
         public var red: GraphicEnumMetadata<Graphic.ColorChannel> = .init(value: .red)
         

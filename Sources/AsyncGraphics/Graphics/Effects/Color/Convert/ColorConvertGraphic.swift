@@ -2,10 +2,10 @@ import SwiftUI
 import CoreGraphics
 import PixelColor
 
-extension CodableGraphic.Effect.Direct {
+extension CodableGraphic.Effect.Color {
     
     @GraphicMacro
-    public final class ColorConvert: DirectEffectGraphicProtocol {
+    public final class ColorConvert: ColorEffectGraphicProtocol {
         
         public var conversion: GraphicEnumMetadata<Graphic.ColorConversion> = .init(value: .rgbToHSV)
         

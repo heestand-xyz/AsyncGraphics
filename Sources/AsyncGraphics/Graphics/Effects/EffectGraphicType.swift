@@ -1,15 +1,18 @@
 
 public enum EffectGraphicType: Codable, Equatable {
     
-    case direct(DirectEffectGraphicType)
+    case color(ColorEffectGraphicType)
+    case space(SpaceEffectGraphicType)
 }
 
 extension EffectGraphicType {
     
     public var name: String {
         switch self {
-        case .direct(let direct):
-            direct.name
+        case .color(let color):
+            color.name
+        case .space(let space):
+            space.name
         }
     }
 }
@@ -17,7 +20,8 @@ extension EffectGraphicType {
 extension EffectGraphicType: CaseIterable {
     
     public static var allCases: [EffectGraphicType] {
-        DirectEffectGraphicType.allCases.map { .direct($0) }
+        ColorEffectGraphicType.allCases.map { .color($0) } +
+        SpaceEffectGraphicType.allCases.map { .space($0) }
     }
 }
 
@@ -25,8 +29,10 @@ extension EffectGraphicType {
     
     public var type: EffectGraphicProtocol.Type {
         switch self {
-        case .direct(let direct):
-            direct.type
+        case .color(let color):
+            color.type
+        case .space(let space):
+            space.type
         }
     }
 }

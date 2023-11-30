@@ -2,10 +2,10 @@ import SwiftUI
 import CoreGraphics
 import PixelColor
 
-extension CodableGraphic.Effect.Direct {
+extension CodableGraphic.Effect.Color {
     
     @GraphicMacro
-    public final class ColorMap: DirectEffectGraphicProtocol {
+    public final class ColorMap: ColorEffectGraphicProtocol {
         
         public var foregroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
         public var backgroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.black))

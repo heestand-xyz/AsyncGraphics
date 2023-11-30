@@ -3,10 +3,10 @@ import Spatial
 import CoreGraphics
 import PixelColor
 
-extension CodableGraphic3D.Effect.Direct {
+extension CodableGraphic3D.Effect.Color {
     
     @GraphicMacro
-    public final class GradientLookup: DirectEffectGraphic3DProtocol {
+    public final class GradientLookup: ColorEffectGraphic3DProtocol {
         
         public var colorStops: GraphicMetadata<[Graphic.GradientStop]> = .init(value: .fixed([
             Graphic.GradientStop(at: 0.0, color: .black),
