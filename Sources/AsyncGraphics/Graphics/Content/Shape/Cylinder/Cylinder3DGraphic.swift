@@ -7,6 +7,8 @@ extension CodableGraphic3D.Content.Shape {
     @GraphicMacro
     public final class Cylinder: ShapeContentGraphic3DProtocol {
         
+        public var axis: GraphicEnumMetadata<Graphic3D.Axis> = .init(value: .z)
+        
         public var position: GraphicMetadata<Point3D> = .init()
         
         public var length: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 1.0),
@@ -33,6 +35,7 @@ extension CodableGraphic3D.Content.Shape {
             if surface.value.eval(at: resolution) {
                 
                 try await .surfaceCylinder(
+                    axis: axis.value,
                     length: length.value.eval(at: resolution),
                     radius: radius.value.eval(at: resolution),
                     cornerRadius: cornerRadius.value.eval(at: resolution),
@@ -46,6 +49,7 @@ extension CodableGraphic3D.Content.Shape {
             } else {
                 
                 try await .cylinder(
+                    axis: axis.value,
                     length: length.value.eval(at: resolution),
                     radius: radius.value.eval(at: resolution),
                     cornerRadius: cornerRadius.value.eval(at: resolution),

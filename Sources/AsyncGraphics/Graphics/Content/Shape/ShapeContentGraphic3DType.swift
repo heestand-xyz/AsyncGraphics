@@ -7,4 +7,5 @@ public enum ShapeContentGraphic3DType: String, CodableGraphicTypeProtocol {
     case box
     case cylinder
     case torus
+    case cone
 }

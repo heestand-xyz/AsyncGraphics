@@ -25,11 +25,9 @@ public struct VariantMacro: MemberMacro {
             enumCases.append(name)
         }
         
-        let comment: String = "..."
-        
         let nameCases: [String] = enumCases.map { enumCase in
             """
-            case .\(enumCase): String(localized: "variant.\(enumCase)", bundle: .module, comment: "\(comment)")
+            case .\(enumCase): String(localized: "variant.\(enumCase)", bundle: .module)
             """
         }
         
@@ -38,6 +36,7 @@ public struct VariantMacro: MemberMacro {
             public var id: String { rawValue }
             """),
             DeclSyntax(stringLiteral: """
+            ////// \(node.hasParent)
             public var description: String {
                 switch self {
                 \(nameCases.joined(separator: "\n"))

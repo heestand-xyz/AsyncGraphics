@@ -5,18 +5,21 @@ import PixelColor
 extension CodableGraphic3D.Content.Shape {
     
     @GraphicMacro
-    public final class Torus: ShapeContentGraphic3DProtocol {
+    public final class Cone: ShapeContentGraphic3DProtocol {
         
         public var axis: GraphicEnumMetadata<Graphic3D.Axis> = .init(value: .z)
         
         public var position: GraphicMetadata<Point3D> = .init()
         
-        public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 1.0 / 4),
-                                                            maximum: .resolutionMaximum(fraction: 1.0 / 4))
+        public var length: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 1.0),
+                                                            maximum: .resolutionMaximum(fraction: 1.0))
         
-        public var revolvingRadius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 1.0 / 8),
-                                                                     maximum: .resolutionMaximum(fraction: 1.0 / 8))
-            
+        public var leadingRadius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.5),
+                                                                   maximum: .resolutionMaximum(fraction: 0.5))
+        
+        public var trailingRadius: GraphicMetadata<CGFloat> = .init(value: .zero,
+                                                                    maximum: .resolutionMaximum(fraction: 0.5))
+        
         public var foregroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
         public var backgroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.clear))
         
@@ -31,10 +34,11 @@ extension CodableGraphic3D.Content.Shape {
           
             if surface.value.eval(at: resolution) {
                 
-                try await .surfaceTorus(
+                try await .surfaceCone(
                     axis: axis.value,
-                    radius: radius.value.eval(at: resolution),
-                    revolvingRadius: revolvingRadius.value.eval(at: resolution),
+                    length: length.value.eval(at: resolution),
+                    leadingRadius: leadingRadius.value.eval(at: resolution),
+                    trailingRadius: trailingRadius.value.eval(at: resolution),
                     position: position.value.eval(at: resolution),
                     surfaceWidth: surfaceWidth.value.eval(at: resolution),
                     color: foregroundColor.value.eval(at: resolution),
@@ -44,10 +48,11 @@ extension CodableGraphic3D.Content.Shape {
                 
             } else {
                 
-                try await .torus(
+                try await .cone(
                     axis: axis.value,
-                    radius: radius.value.eval(at: resolution),
-                    revolvingRadius: revolvingRadius.value.eval(at: resolution),
+                    length: length.value.eval(at: resolution),
+                    leadingRadius: leadingRadius.value.eval(at: resolution),
+                    trailingRadius: trailingRadius.value.eval(at: resolution),
                     position: position.value.eval(at: resolution),
                     color: foregroundColor.value.eval(at: resolution),
                     backgroundColor: backgroundColor.value.eval(at: resolution),
@@ -64,8 +69,8 @@ extension CodableGraphic3D.Content.Shape {
         public func edit(variant: Variant) {
             switch variant {
             case .regular:
-                radius.value = .resolutionMinimum(fraction: 1.0 / 8)
-                revolvingRadius.value = .resolutionMinimum(fraction: 1.0 / 16)
+                leadingRadius.value = .resolutionMinimum(fraction: 0.25)
+                length.value = .resolutionMinimum(fraction: 0.5)
             }
         }
     }
