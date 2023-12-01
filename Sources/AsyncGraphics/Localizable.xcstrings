@@ -189,7 +189,15 @@
       }
     },
     "graphic.levels" : {
-      "comment" : "Effect: Color (3D)\nEffect: Color"
+      "comment" : "Effect: Color (3D)\nEffect: Color",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Levels"
+          }
+        }
+      }
     },
     "graphic.line" : {
       "comment" : "Content: Shape",
@@ -214,7 +222,15 @@
       }
     },
     "graphic.personSegmentation" : {
-      "comment" : "Effect: Color"
+      "comment" : "Effect: Color",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Person Segmentation"
+          }
+        }
+      }
     },
     "graphic.polygon" : {
       "comment" : "Content: Shape",
@@ -228,7 +244,15 @@
       }
     },
     "graphic.quantize" : {
-      "comment" : "Effect: Color"
+      "comment" : "Effect: Color",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quantize"
+          }
+        }
+      }
     },
     "graphic.rectangle" : {
       "comment" : "Content: Shape",
@@ -242,7 +266,15 @@
       }
     },
     "graphic.slope" : {
-      "comment" : "Effect: Color (3D)\nEffect: Color"
+      "comment" : "Effect: Color (3D)\nEffect: Color",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slope"
+          }
+        }
+      }
     },
     "graphic.sphere" : {
       "comment" : "Content: Shape (3D)",
@@ -267,10 +299,26 @@
       }
     },
     "graphic.tetrahedron" : {
-      "comment" : "Content: Shape (3D)"
+      "comment" : "Content: Shape (3D)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tetrahedron"
+          }
+        }
+      }
     },
     "graphic.threshold" : {
-      "comment" : "Effect: Color (3D)\nEffect: Color"
+      "comment" : "Effect: Color (3D)\nEffect: Color",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Threshold"
+          }
+        }
+      }
     },
     "graphic.torus" : {
       "comment" : "Content: Shape (3D)",
@@ -768,7 +816,15 @@
       }
     },
     "property.brightness" : {
-      "comment" : "Levels"
+      "comment" : "Levels",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brightness"
+          }
+        }
+      }
     },
     "property.brightnessHigh" : {
       "comment" : "CircleBlur",
@@ -826,7 +882,15 @@
       }
     },
     "property.contrast" : {
-      "comment" : "Levels"
+      "comment" : "Levels",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contrast"
+          }
+        }
+      }
     },
     "property.conversion" : {
       "comment" : "ColorConvert",
@@ -862,7 +926,15 @@
       }
     },
     "property.darkness" : {
-      "comment" : "Levels"
+      "comment" : "Levels",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Darkness"
+          }
+        }
+      }
     },
     "property.depthOffset" : {
       "comment" : "Noise",
@@ -931,7 +1003,15 @@
       }
     },
     "property.fraction" : {
-      "comment" : "Threshold\nQuantize"
+      "comment" : "Threshold\nQuantize",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fraction"
+          }
+        }
+      }
     },
     "property.gamma" : {
       "comment" : "GradientLookup\nGradient\nLevels",
@@ -1011,10 +1091,26 @@
       }
     },
     "property.isInverted" : {
-      "comment" : "Levels"
+      "comment" : "Levels",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inverted"
+          }
+        }
+      }
     },
     "property.isMask" : {
-      "comment" : "PersonSegmentation"
+      "comment" : "PersonSegmentation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mask"
+          }
+        }
+      }
     },
     "property.isRandom" : {
       "comment" : "Noise",
@@ -1028,7 +1124,15 @@
       }
     },
     "property.isSmooth" : {
-      "comment" : "Levels"
+      "comment" : "Levels",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smooth"
+          }
+        }
+      }
     },
     "property.isStroked" : {
       "comment" : "Circle\nArc\nRectangle",
@@ -1152,10 +1256,26 @@
       }
     },
     "property.opacity" : {
-      "comment" : "Levels"
+      "comment" : "Levels",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opacity"
+          }
+        }
+      }
     },
     "property.originColor" : {
-      "comment" : "Slope"
+      "comment" : "Slope",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Origin Color"
+          }
+        }
+      }
     },
     "property.outerRadius" : {
       "comment" : "Star",
@@ -1443,7 +1563,14 @@
       }
     },
     "variant.bright" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bright"
+          }
+        }
+      }
     },
     "variant.clear" : {
       "comment" : "...",
@@ -1487,10 +1614,24 @@
       }
     },
     "variant.contrast" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contrast"
+          }
+        }
+      }
     },
     "variant.dark" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dark"
+          }
+        }
+      }
     },
     "variant.detailed" : {
       "comment" : "...",
@@ -1526,10 +1667,24 @@
       }
     },
     "variant.dim" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dim"
+          }
+        }
+      }
     },
     "variant.eight" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eight"
+          }
+        }
+      }
     },
     "variant.fire" : {
       "localizations" : {
@@ -1542,10 +1697,24 @@
       }
     },
     "variant.gammaDouble" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gamma Double"
+          }
+        }
+      }
     },
     "variant.gammaHalf" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gamma Half"
+          }
+        }
+      }
     },
     "variant.green" : {
       "localizations" : {
@@ -1580,7 +1749,14 @@
       }
     },
     "variant.half" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Half"
+          }
+        }
+      }
     },
     "variant.heavy" : {
       "comment" : "...",
@@ -1605,7 +1781,14 @@
       }
     },
     "variant.high" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "High"
+          }
+        }
+      }
     },
     "variant.hold" : {
       "comment" : "...",
@@ -1651,7 +1834,14 @@
       }
     },
     "variant.inverted" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inverted"
+          }
+        }
+      }
     },
     "variant.length45" : {
       "comment" : "...",
@@ -1720,10 +1910,24 @@
       }
     },
     "variant.low" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Low"
+          }
+        }
+      }
     },
     "variant.mask" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mask"
+          }
+        }
+      }
     },
     "variant.medium" : {
       "comment" : "...",
@@ -1737,7 +1941,14 @@
       }
     },
     "variant.mid" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mid"
+          }
+        }
+      }
     },
     "variant.mirror" : {
       "comment" : "...",
@@ -1761,13 +1972,34 @@
       }
     },
     "variant.one" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1"
+          }
+        }
+      }
     },
     "variant.oneHundred" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100"
+          }
+        }
+      }
     },
     "variant.oneThousand" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1000"
+          }
+        }
+      }
     },
     "variant.pentagon" : {
       "comment" : "...",
@@ -1781,7 +2013,14 @@
       }
     },
     "variant.quarter" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quater"
+          }
+        }
+      }
     },
     "variant.radial" : {
       "comment" : "...",
@@ -1902,7 +2141,14 @@
       }
     },
     "variant.semiTransparent" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semi Transparent"
+          }
+        }
+      }
     },
     "variant.smooth" : {
       "comment" : "...",
@@ -1927,10 +2173,24 @@
       }
     },
     "variant.ten" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10"
+          }
+        }
+      }
     },
     "variant.transparent" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transaprent"
+          }
+        }
+      }
     },
     "variant.triangle" : {
       "comment" : "...",
