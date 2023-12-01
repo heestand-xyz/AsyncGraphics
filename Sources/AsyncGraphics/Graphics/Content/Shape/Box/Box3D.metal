@@ -8,11 +8,6 @@ using namespace metal;
 
 #import "../../../../Shaders/Content/radius_header.metal"
 
-struct VertexOut {
-    float4 position [[position]];
-    float2 texCoord;
-};
-
 struct Uniforms {
     bool premultiply;
     bool antiAlias;

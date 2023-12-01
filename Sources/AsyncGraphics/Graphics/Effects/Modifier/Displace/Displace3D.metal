@@ -8,11 +8,6 @@ using namespace metal;
 
 #import "../../../../Shaders/Effects/place_header.metal"
 
-struct VertexOut {
-    float4 position [[position]];
-    float2 texCoord;
-};
-
 struct Uniforms {
     float offset;
     packed_float3 origin;

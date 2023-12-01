@@ -6,11 +6,6 @@
 #include <metal_stdlib>
 using namespace metal;
 
-struct VertexOut {
-    float4 position [[position]];
-    float2 texCoord;
-};
-
 struct Uniforms {
     packed_float3 translation;
     packed_float3 rotation;
