@@ -15,13 +15,18 @@ extension Graphic {
 
     /// Remove the background of the current ``Graphic``
     public func personSegmentation() async throws -> Graphic {
-        let mask: Graphic = try await personSegmentationMask()
-        return try await blended(with: mask.luminanceToAlpha(),
-                                 blendingMode: .multiply,
-                                 placement: .stretch)
+        try await blended(with: rawPersonSegmentationMask(),
+                          blendingMode: .multiply,
+                          placement: .stretch)
     }
     
     public func personSegmentationMask() async throws -> Graphic {
+        
+        try await rawPersonSegmentationMask()
+            .resized(to: resolution, placement: .stretch)
+    }
+    
+    private func rawPersonSegmentationMask() async throws -> Graphic {
         
         let cgImage: CGImage = try cgImage
         
