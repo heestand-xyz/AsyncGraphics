@@ -12,7 +12,7 @@ extension Graphic {
         let origin: ColorUniform
     }
     
-    public func slope(amplitude: CGFloat = 100,
+    public func slope(amplitude: CGFloat = 1.0,
                       origin: PixelColor = .rawGray,
                       options: EffectOptions = []) async throws -> Graphic {
         
