@@ -5,11 +5,6 @@
 #include <metal_stdlib>
 using namespace metal;
 
-struct VertexOut {
-    float4 position [[position]];
-    float2 texCoord;
-};
-
 struct Uniforms {
     int axis;
     packed_int3 alignment;

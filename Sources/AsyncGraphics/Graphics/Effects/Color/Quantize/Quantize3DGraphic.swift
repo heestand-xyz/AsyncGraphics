@@ -2,17 +2,17 @@ import SwiftUI
 import CoreGraphics
 import PixelColor
 
-extension CodableGraphic3D.Effect.Color {
+extension CodableGraphic.Effect.Color {
     
     @GraphicMacro
-    public final class Quantize: ColorEffectGraphic3DProtocol {
+    public final class Quantize: ColorEffectGraphicProtocol {
         
         public var fraction: GraphicMetadata<CGFloat> = .init(value: .fixed(0.25))
         
         public func render(
-            with graphic: Graphic3D,
-            options: Graphic3D.EffectOptions = []
-        ) async throws -> Graphic3D {
+            with graphic: Graphic,
+            options: Graphic.EffectOptions = []
+        ) async throws -> Graphic {
             
              try await graphic.quantize(
                 fraction.value.eval(at: graphic.resolution),

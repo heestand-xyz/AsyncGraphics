@@ -9,6 +9,7 @@ public enum ColorEffectGraphic3DType: String, CodableGraphicTypeProtocol {
     case colorShift
     case gradientLookup
     case levels
+    case quantize
     case slope
     case threshold
 }
