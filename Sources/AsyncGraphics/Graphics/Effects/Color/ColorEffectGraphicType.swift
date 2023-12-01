@@ -14,4 +14,5 @@ public enum ColorEffectGraphicType: String, CodableGraphicTypeProtocol {
     case quantize
     case personSegmentation
     case slope
+    case threshold
 }

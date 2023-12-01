@@ -10,4 +10,5 @@ public enum ColorEffectGraphic3DType: String, CodableGraphicTypeProtocol {
     case gradientLookup
     case levels
     case slope
+    case threshold
 }
