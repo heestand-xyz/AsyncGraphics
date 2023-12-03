@@ -7,6 +7,7 @@
 using namespace metal;
 
 #import "../../../../Shaders/Content/radius_header.metal"
+#import "../../../../Shaders/Effects/rotation_header.metal"
 
 struct Uniforms {
     uint axis;
@@ -74,6 +75,11 @@ kernel void tetrahedron3d(const device Uniforms& uniforms [[ buffer(0) ]],
 //    }
     
     float3 point = float3(x, y, z);
+    
+    point = rotateRadians(point, atan(1.0 / sqrt(2.0)), float3(1, 0, 0));
+    point = rotateDegrees(point, -45, float3(0, 1, 0));
+    
+    radius *= sqrt(3.0) / 3.0;
     float value = tetrahedron(point, radius);
 
     float4 color = radiusColor(value, 0.0, surfaceWidth, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
