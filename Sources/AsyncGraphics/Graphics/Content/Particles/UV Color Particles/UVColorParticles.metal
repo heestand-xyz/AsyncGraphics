@@ -6,11 +6,6 @@
 #include <metal_stdlib>
 using namespace metal;
 
-struct VertexIn {
-    packed_float3 position;
-    packed_float2 texCoord;
-};
-
 struct VertexOut {
     float4 position [[position]];
     float pointSize [[point_size]];
@@ -42,7 +37,7 @@ vertex VertexOut uvColorParticles(unsigned int vid [[ vertex_id ]],
     float4 uvColor = leadingTexture.sample(sampler, uv);
     float4 color = trailingTexture.sample(sampler, uv);
     float x = (uvColor.r / aspectRatio) * 2;
-    float y = uvColor.g * -2;
+    float y = uvColor.g * 2;
     float z = 0.0;
     
     VertexOut vtxOut;
