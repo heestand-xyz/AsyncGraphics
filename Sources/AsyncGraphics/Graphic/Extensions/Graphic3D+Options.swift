@@ -34,10 +34,10 @@ extension Graphic3D {
             .sRGB //contains(.displayP3) ? .displayP3 : .sRGB
         }
         
-        public static let interpolateNearest = ContentOptions(rawValue: 1 << 3)
+        public static let pixelated = ContentOptions(rawValue: 1 << 3)
 
         var antiAlias: Bool {
-            !contains(.interpolateNearest)
+            !contains(.pixelated)
         }
        
         public init(rawValue: Int) {

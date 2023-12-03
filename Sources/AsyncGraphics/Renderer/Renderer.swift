@@ -257,18 +257,18 @@ public struct Renderer {
                 }
                 
                 let commandEncoder: MTLCommandEncoder
-                if is3D {
-                    guard let computeCommandEncoder: MTLComputeCommandEncoder = commandBuffer.makeComputeCommandEncoder() else {
-                        throw RendererError.failedToMakeComputeCommandEncoder
-                    }
-                    commandEncoder = computeCommandEncoder
-                } else {
+                if !is3D {
                     let renderCommandEncoder: MTLRenderCommandEncoder = try self.commandEncoder(
                         texture: targetTexture,
                         depthTexture: depthTexture,
                         clearColor: options.clearColor,
                         commandBuffer: commandBuffer)
                     commandEncoder = renderCommandEncoder
+                } else {
+                    guard let computeCommandEncoder: MTLComputeCommandEncoder = commandBuffer.makeComputeCommandEncoder() else {
+                        throw RendererError.failedToMakeComputeCommandEncoder
+                    }
+                    commandEncoder = computeCommandEncoder
                 }
                 
                 do {

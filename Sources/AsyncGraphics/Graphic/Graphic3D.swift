@@ -52,6 +52,10 @@ extension Graphic3D {
     public var depth: Double {
         Double(texture.depth)
     }
+    
+    public var voxelCount: Int {
+        texture.width * texture.height * texture.depth
+    }
 }
 
 // MARK: - Pixels
