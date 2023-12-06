@@ -23,7 +23,7 @@ extension Graphic3D {
                            origin: Point3D,
                            cornerRadius: Double = 0.0,
                            color: PixelColor = .white,
-                           backgroundColor: PixelColor = .clear,
+                           backgroundColor: PixelColor = .clearWhite,
                            resolution: Size3D,
                            options: ContentOptions = []) async throws -> Graphic3D {
         
@@ -46,7 +46,7 @@ extension Graphic3D {
                            position: Point3D? = nil,
                            cornerRadius: Double = 0.0,
                            color: PixelColor = .white,
-                           backgroundColor: PixelColor = .clear,
+                           backgroundColor: PixelColor = .clearWhite,
                            resolution: Size3D,
                            options: ContentOptions = []) async throws -> Graphic3D {
         
@@ -85,7 +85,7 @@ extension Graphic3D {
                                   cornerRadius: Double = 0.0,
                                   surfaceWidth: Double,
                                   color: PixelColor = .white,
-                                  backgroundColor: PixelColor = .clear,
+                                  backgroundColor: PixelColor = .clearWhite,
                                   resolution: Size3D,
                                   options: ContentOptions = []) async throws -> Graphic3D {
         
@@ -110,7 +110,7 @@ extension Graphic3D {
                                   cornerRadius: Double = 0.0,
                                   surfaceWidth: Double,
                                   color: PixelColor = .white,
-                                  backgroundColor: PixelColor = .clear,
+                                  backgroundColor: PixelColor = .clearWhite,
                                   resolution: Size3D,
                                   options: ContentOptions = []) async throws -> Graphic3D {
         

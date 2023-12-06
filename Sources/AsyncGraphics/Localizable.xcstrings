@@ -1070,7 +1070,7 @@
       }
     },
     "property.fraction" : {
-      "comment" : "Threshold\nQuantize",
+      "comment" : "Quantize\nThreshold",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1147,7 +1147,7 @@
       }
     },
     "property.isColored" : {
-      "comment" : "Noise\nEdge",
+      "comment" : "Edge\nNoise",
       "localizations" : {
         "en" : {
           "stringUnit" : {
