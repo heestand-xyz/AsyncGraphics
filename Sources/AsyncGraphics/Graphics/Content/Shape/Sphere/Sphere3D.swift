@@ -21,7 +21,7 @@ extension Graphic3D {
     public static func sphere(radius: Double? = nil,
                               position: Point3D? = nil,
                               color: PixelColor = .white,
-                              backgroundColor: PixelColor = .clear,
+                              backgroundColor: PixelColor = .clearWhite,
                               resolution: Size3D,
                               options: ContentOptions = []) async throws -> Graphic3D {
         
@@ -56,7 +56,7 @@ extension Graphic3D {
                                      position: Point3D? = nil,
                                      surfaceWidth: Double,
                                      color: PixelColor = .white,
-                                     backgroundColor: PixelColor = .clear,
+                                     backgroundColor: PixelColor = .clearWhite,
                                      resolution: Size3D,
                                      options: ContentOptions = []) async throws -> Graphic3D {
         
