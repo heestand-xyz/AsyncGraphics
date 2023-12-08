@@ -15,6 +15,7 @@ extension Graphic {
         let trailingPoint: PointUniform
         let leadingAngle: Float
         let trailingAngle: Float
+        let tintColor: ColorUniform
         let backgroundColor: ColorUniform
         let blendingMode: UInt32
         let resolution: SizeUniform
@@ -28,6 +29,7 @@ extension Graphic {
         toAngle trailingAngle: Angle? = nil,
         count: Int,
         blendingMode: AGBlendMode = .over,
+        tintColor: PixelColor = .white,
         backgroundColor: PixelColor = .black,
         resolution: CGSize,
         options: EffectOptions = []
@@ -46,6 +48,7 @@ extension Graphic {
             toAngle: trailingAngle,
             sampleDistance: sampleDistance,
             blendingMode: blendingMode,
+            tintColor: tintColor,
             backgroundColor: backgroundColor,
             resolution: resolution,
             options: options)
@@ -59,6 +62,7 @@ extension Graphic {
         toAngle trailingAngle: Angle? = nil,
         sampleDistance: CGFloat,
         blendingMode: AGBlendMode = .over,
+        tintColor: PixelColor = .white,
         backgroundColor: PixelColor = .black,
         resolution: CGSize,
         options: EffectOptions = []
@@ -86,6 +90,7 @@ extension Graphic {
                 trailingPoint: relativeTrailingPoint.uniform,
                 leadingAngle: Float(leadingAngle.radians),
                 trailingAngle: Float(trailingAngle.radians),
+                tintColor: tintColor.uniform,
                 backgroundColor: backgroundColor.uniform,
                 blendingMode: blendingMode.index,
                 resolution: resolution.uniform

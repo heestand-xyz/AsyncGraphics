@@ -19,6 +19,7 @@ struct Uniforms {
     packed_float2 trailingPoint;
     float leadingAngle;
     float trailingAngle;
+    packed_float4 tintColor;
     packed_float4 backgroundColor;
     uint blendingMode;
     packed_float2 resolution;
@@ -77,7 +78,7 @@ fragment float4 sampleLine(VertexOut out [[stage_in]],
         
         float2 sampleUV = samplePoint / float2(sampleAspectRatio, 1.0) + 0.5;
         
-        float4 sampleColor = texture.sample(sampler, sampleUV);
+        float4 sampleColor = texture.sample(sampler, sampleUV) * uniforms.tintColor;
         
         color = blend(uniforms.blendingMode, color, sampleColor);
     }
