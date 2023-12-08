@@ -35,7 +35,6 @@ extension Bool: GraphicValue {
 
 extension Int: GraphicValue {
     
-    public static var zero: Self { 0 }
     public static var one: Self { 1 }
     public static var `default`: GraphicMetadataValue<Self> { .fixed(1) }
     public static var minimum: GraphicMetadataValue<Self> { .fixed(1) }
@@ -52,7 +51,6 @@ extension Int: GraphicValue {
 
 extension Double: GraphicValue {
     
-    public static var zero: Self { 0.0 }
     public static var one: Self { 1.0 }
     public static var `default`: GraphicMetadataValue<Self> { .fixed(0.0) }
     public static var minimum: GraphicMetadataValue<Self> { .fixed(0.0) }
@@ -69,7 +67,6 @@ extension Double: GraphicValue {
 
 extension CGFloat: GraphicValue {
     
-    public static var zero: Self { 0.0 }
     public static var one: Self { 1.0 }
     public static var `default`: GraphicMetadataValue<Self> { .fixed(0.0) }
     public static var minimum: GraphicMetadataValue<Self> { .fixed(0.0) }
@@ -86,7 +83,6 @@ extension CGFloat: GraphicValue {
 
 extension Angle: GraphicValue {
     
-    public static var zero: Self { .degrees(0) }
     public static var one: Self { .degrees(360) }
     public static var `default`: GraphicMetadataValue<Self> { .zero }
     public static var minimum: GraphicMetadataValue<Self> { .fixed(.degrees(-180)) }
@@ -103,7 +99,6 @@ extension Angle: GraphicValue {
 
 extension CGSize: GraphicValue {
     
-    public static var zero: Self { CGSize(width: 0.0, height: 0.0) }
     public static var one: Self { CGSize(width: 1.0, height: 1.0) }
     public static var `default`: GraphicMetadataValue<Self> { .resolution }
     public static var minimum: GraphicMetadataValue<Self> { .zero }
@@ -122,7 +117,6 @@ extension CGSize: GraphicValue {
 
 extension CGPoint: GraphicValue {
     
-    public static var zero: Self { CGPoint(x: 0.0, y: 0.0) }
     public static var one: Self { CGPoint(x: 1.0, y: 1.0) }
     public static var `default`: GraphicMetadataValue<Self> { .resolutionAlignment(.center) }
     public static var minimum: GraphicMetadataValue<Self> { .zero }
@@ -141,7 +135,6 @@ extension CGPoint: GraphicValue {
 
 extension CGRect: GraphicValue {
     
-    public static var zero: Self { CGRect(origin: .zero, size: .zero) }
     public static var one: Self { CGRect(origin: .zero, size: .one) }
     public static var `default`: GraphicMetadataValue<Self> { .resolution }
     public static var minimum: GraphicMetadataValue<Self> { .zero }
