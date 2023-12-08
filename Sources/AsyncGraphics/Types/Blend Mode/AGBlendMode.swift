@@ -34,7 +34,7 @@ public enum AGBlendMode {
     @available(*, deprecated, renamed: "multiply")
     static var multiplyWithAlpha: AGBlendMode { .multiply }
     
-    var index: Int {
+    var index: UInt32 {
         switch self {
         case .over: return 0
         case .under: return 1
