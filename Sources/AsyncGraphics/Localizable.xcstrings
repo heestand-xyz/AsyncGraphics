@@ -35,7 +35,7 @@
       }
     },
     "graphic.channelMix" : {
-      "comment" : "Effect: Color (3D)\nEffect: Color",
+      "comment" : "Effect: Color\nEffect: Color (3D)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -79,7 +79,7 @@
       }
     },
     "graphic.clamp" : {
-      "comment" : "Effect: Color (3D)\nEffect: Color",
+      "comment" : "Effect: Color\nEffect: Color (3D)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -112,7 +112,7 @@
       }
     },
     "graphic.colorMap" : {
-      "comment" : "Effect: Color (3D)\nEffect: Color",
+      "comment" : "Effect: Color\nEffect: Color (3D)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -123,7 +123,7 @@
       }
     },
     "graphic.colorShift" : {
-      "comment" : "Effect: Color (3D)\nEffect: Color",
+      "comment" : "Effect: Color\nEffect: Color (3D)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -178,7 +178,7 @@
       }
     },
     "graphic.gradientLookup" : {
-      "comment" : "Effect: Color (3D)\nEffect: Color",
+      "comment" : "Effect: Color\nEffect: Color (3D)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -189,7 +189,7 @@
       }
     },
     "graphic.levels" : {
-      "comment" : "Effect: Color (3D)\nEffect: Color",
+      "comment" : "Effect: Color\nEffect: Color (3D)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -244,7 +244,7 @@
       }
     },
     "graphic.quantize" : {
-      "comment" : "Effect: Color (3D)\nEffect: Color",
+      "comment" : "Effect: Color\nEffect: Color (3D)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -266,7 +266,7 @@
       }
     },
     "graphic.slope" : {
-      "comment" : "Effect: Color (3D)\nEffect: Color",
+      "comment" : "Effect: Color\nEffect: Color (3D)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -310,7 +310,7 @@
       }
     },
     "graphic.threshold" : {
-      "comment" : "Effect: Color (3D)\nEffect: Color",
+      "comment" : "Effect: Color\nEffect: Color (3D)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -354,7 +354,7 @@
       }
     },
     "option.angle" : {
-      "comment" : "Blur Type\nGradient Direction",
+      "comment" : "Gradient Direction\nBlur Type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -376,7 +376,7 @@
       }
     },
     "option.box" : {
-      "comment" : "Blur Type\nBlur 3 D Type",
+      "comment" : "Blur 3 D Type\nBlur Type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -486,7 +486,7 @@
       }
     },
     "option.hold" : {
-      "comment" : "Gradient Extend\nClamp Type",
+      "comment" : "Clamp Type\nGradient Extend",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -519,7 +519,7 @@
       }
     },
     "option.loop" : {
-      "comment" : "Gradient Extend\nClamp Type",
+      "comment" : "Clamp Type\nGradient Extend",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -530,7 +530,7 @@
       }
     },
     "option.mirror" : {
-      "comment" : "Gradient Extend\nClamp Type",
+      "comment" : "Clamp Type\nGradient Extend",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -563,7 +563,7 @@
       }
     },
     "option.random" : {
-      "comment" : "Blur Type\nBlur 3 D Type",
+      "comment" : "Blur 3 D Type\nBlur Type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -717,7 +717,7 @@
       }
     },
     "option.zero" : {
-      "comment" : "Gradient Extend\nClamp Type",
+      "comment" : "Clamp Type\nGradient Extend",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -728,7 +728,7 @@
       }
     },
     "option.zoom" : {
-      "comment" : "Blur Type\nBlur 3 D Type",
+      "comment" : "Blur 3 D Type\nBlur Type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -761,7 +761,7 @@
       }
     },
     "property.amplitude" : {
-      "comment" : "Slope\nEdge",
+      "comment" : "Edge\nSlope",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -783,7 +783,7 @@
       }
     },
     "property.axis" : {
-      "comment" : "Tetrahedron\nTorus\nCylinder\nCone",
+      "comment" : "Cone\nTorus\nCylinder\nTetrahedron",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -794,7 +794,7 @@
       }
     },
     "property.backgroundColor" : {
-      "comment" : "Arc\nThreshold\nCircle\nTetrahedron\nStar\nLine\nSphere\nRectangle\nBox\nColorMap\nTorus\nCylinder\nCone\nPolygon",
+      "comment" : "ColorMap\nCone\nLine\nRectangle\nSphere\nThreshold\nArc\nCircle\nTorus\nStar\nCylinder\nTetrahedron\nPolygon\nBox",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -871,7 +871,7 @@
       }
     },
     "property.colorStops" : {
-      "comment" : "Gradient\nGradientLookup",
+      "comment" : "GradientLookup\nGradient",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -904,7 +904,7 @@
       }
     },
     "property.cornerRadius" : {
-      "comment" : "Star\nRectangle\nBox\nCylinder\nPolygon",
+      "comment" : "Rectangle\nStar\nCylinder\nPolygon\nBox",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -948,7 +948,7 @@
       }
     },
     "property.direction" : {
-      "comment" : "Blur\nGradient",
+      "comment" : "Gradient\nBlur",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -992,7 +992,7 @@
       }
     },
     "property.foregroundColor" : {
-      "comment" : "Arc\nThreshold\nCircle\nTetrahedron\nStar\nLine\nSphere\nRectangle\nBox\nColorMap\nTorus\nCylinder\nCone\nPolygon",
+      "comment" : "ColorMap\nCone\nLine\nRectangle\nSphere\nThreshold\nArc\nCircle\nTorus\nStar\nCylinder\nTetrahedron\nPolygon\nBox",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1014,7 +1014,7 @@
       }
     },
     "property.gamma" : {
-      "comment" : "Gradient\nGradientLookup\nLevels",
+      "comment" : "Levels\nGradientLookup",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1080,7 +1080,7 @@
       }
     },
     "property.isColored" : {
-      "comment" : "Noise\nEdge",
+      "comment" : "Edge\nNoise",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1135,7 +1135,7 @@
       }
     },
     "property.isStroked" : {
-      "comment" : "Arc\nCircle\nRectangle",
+      "comment" : "Rectangle\nArc\nCircle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1179,7 +1179,7 @@
       }
     },
     "property.length" : {
-      "comment" : "Arc\nCylinder\nCone",
+      "comment" : "Cone\nArc\nCylinder",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1212,7 +1212,7 @@
       }
     },
     "property.lineWidth" : {
-      "comment" : "Arc\nCircle\nLine\nRectangle",
+      "comment" : "Line\nRectangle\nArc\nCircle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1245,7 +1245,7 @@
       }
     },
     "property.offset" : {
-      "comment" : "Noise\nGradient\nLevels",
+      "comment" : "Levels\nNoise\nGradient",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1289,7 +1289,7 @@
       }
     },
     "property.position" : {
-      "comment" : "Blur\nGradient\nArc\nCircle\nTetrahedron\nStar\nSphere\nRectangle\nBox\nTorus\nCylinder\nCone\nPolygon",
+      "comment" : "Cone\nRectangle\nSphere\nArc\nCircle\nGradient\nTorus\nStar\nCylinder\nTetrahedron\nPolygon\nBlur\nBox",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1300,7 +1300,7 @@
       }
     },
     "property.radius" : {
-      "comment" : "Blur\nArc\nCircle\nTetrahedron\nSphere\nCircleBlur\nTorus\nCylinder\nPolygon",
+      "comment" : "Sphere\nArc\nCircle\nCircleBlur\nTorus\nCylinder\nTetrahedron\nPolygon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1344,7 +1344,7 @@
       }
     },
     "property.rotation" : {
-      "comment" : "Blur\nStar\nPolygon",
+      "comment" : "Star\nPolygon\nBlur",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1355,7 +1355,7 @@
       }
     },
     "property.sampleCount" : {
-      "comment" : "Blur\nCircleBlur",
+      "comment" : "CircleBlur\nBlur",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1443,7 +1443,7 @@
       }
     },
     "property.style" : {
-      "comment" : "Blur\nClamp",
+      "comment" : "Clamp\nBlur",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1454,7 +1454,7 @@
       }
     },
     "property.surface" : {
-      "comment" : "Tetrahedron\nSphere\nBox\nTorus\nCylinder\nCone",
+      "comment" : "Cone\nSphere\nTorus\nCylinder\nTetrahedron\nBox",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1465,7 +1465,7 @@
       }
     },
     "property.surfaceWidth" : {
-      "comment" : "Tetrahedron\nSphere\nBox\nTorus\nCylinder\nCone",
+      "comment" : "Cone\nSphere\nTorus\nCylinder\nTetrahedron\nBox",
       "localizations" : {
         "en" : {
           "stringUnit" : {
