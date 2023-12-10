@@ -58,17 +58,26 @@ extension GraphicMetalVisionView {
 }
 
 extension GraphicMetalVisionView {
+
+    @discardableResult
+    func render(graphic: Graphic) async -> Bool {
+        await withCheckedContinuation { continuation in
+            render(graphic: graphic) { success in
+                continuation.resume(returning: success)
+            }
+        }
+    }
     
-    func render(graphic: Graphic) {
+    func render(graphic: Graphic, completion: @escaping (Bool) -> ()) {
         
         self.graphic = graphic
         
-        draw()
+        draw(completion: completion)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+
         metalLayer.drawableSize = bounds.size
         metalLayer.frame = bounds
         
@@ -76,22 +85,33 @@ extension GraphicMetalVisionView {
             layer.addSublayer(metalLayer)
         }
         
-        draw()
+        draw { _ in }
     }
 }
 
 extension GraphicMetalVisionView {
         
-    func draw() {
+    func draw(completion: @escaping (Bool) -> ()) {
                 
-        guard let graphic: Graphic = graphic else { return }
+        guard let graphic: Graphic = graphic else {
+            completion(false)
+            return
+        }
         let texture: MTLTexture = graphic.texture
         
-        guard let drawable: CAMetalDrawable = metalLayer.nextDrawable() else { return }
+        guard let drawable: CAMetalDrawable = metalLayer.nextDrawable() else {
+            completion(false)
+            return
+        }
         let targetTexture: MTLTexture = drawable.texture
         
-        guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else { return } // EXC_BREAKPOINT
-        guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else { return }
+        guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else {
+            completion(false)
+            return
+        } // EXC_BREAKPOINT
+        guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else { completion(false)
+            return
+        }
 
         if !extendedDynamicRange,
            graphic.bits == ._8,
@@ -123,6 +143,8 @@ extension GraphicMetalVisionView {
         
         commandBuffer.addCompletedHandler { [weak self] _ in
             self?.didRender(graphic.id)
+            completion(true)
+            return
         }
         commandBuffer.present(drawable)
         commandBuffer.commit()
