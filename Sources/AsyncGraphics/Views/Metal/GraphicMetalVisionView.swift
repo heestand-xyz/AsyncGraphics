@@ -9,11 +9,11 @@ import MetalPerformanceShaders
 import QuartzCore.CoreAnimation
 import TextureMap
 
-final class GraphicMetalVisionView: UIView, GraphicRenderView {
+final class GraphicMetalVisionView: UIView, GraphicMetalViewable {
     
     private var graphic: Graphic?
     
-    let interpolation: GraphicView.Interpolation
+    let interpolation: ViewInterpolation
     
     var extendedDynamicRange: Bool
     
@@ -21,7 +21,7 @@ final class GraphicMetalVisionView: UIView, GraphicRenderView {
     
     let didRender: (UUID) -> ()
  
-    init(interpolation: GraphicView.Interpolation, 
+    init(interpolation: ViewInterpolation, 
          extendedDynamicRange: Bool,
          didRender: @escaping (UUID) -> ()) {
         

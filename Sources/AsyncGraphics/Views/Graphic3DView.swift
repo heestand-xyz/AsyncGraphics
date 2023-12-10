@@ -15,7 +15,7 @@ public struct Graphic3DView: View {
     private let renderUpdate: ((Graphic3DRenderState) -> ())?
     @State private var renderStates: [Int: GraphicRenderState] = [:]
     
-    private let interpolation: GraphicView.Interpolation
+    private let interpolation: ViewInterpolation
     
     private let extendedDynamicRange: Bool
     
@@ -25,7 +25,7 @@ public struct Graphic3DView: View {
     ///   - interpolation: The pixel interpolation mode.
     ///   - extendedDynamicRange: XDR high brightness support (16 or 32 bit).
     public init(graphic3D: Graphic3D,
-                interpolation: GraphicView.Interpolation = .lanczos,
+                interpolation: ViewInterpolation = .lanczos,
                 extendedDynamicRange: Bool = false,
                 renderUpdate: ((Graphic3DRenderState) -> ())? = nil) {
         self.graphic3D = graphic3D
@@ -46,9 +46,9 @@ public struct Graphic3DView: View {
                     }
 #if os(visionOS)
                         .offset(z: {
-                            let count: Int = graphics.count > 0 ? graphics.count : 1
+                            let count: Int = max(2, graphics.count)
+                            let fraction: CGFloat = CGFloat(index) / CGFloat(count - 1)
                             let depthAspectRatio: CGFloat = CGFloat(graphic3D.depth) / CGFloat(graphic3D.height)
-                            let fraction: CGFloat = CGFloat(index) / CGFloat(count)
                             return fraction * geometry.size.height * depthAspectRatio
                         }())
 #endif
@@ -63,10 +63,10 @@ public struct Graphic3DView: View {
                 print("AsyncGraphics - Graphic3DView - Failed to get samples:", error)
             }
         }
-        .onChange(of: graphic3D) { graphic3D in
+        .onChange(of: graphic3D) { _, newGraphic3D in
             Task {
                 do {
-                    try await sample(graphic3D: graphic3D)
+                    try await sample(graphic3D: newGraphic3D)
                 } catch {
                     print("AsyncGraphics - Graphic3DView - Failed to get new samples:", error)
                 }
