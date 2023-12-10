@@ -8,27 +8,30 @@ struct GraphicRepresentableView {
     
     let graphic: Graphic
     let viewResolution: CGSize
-    let interpolation: GraphicView.Interpolation
+    let interpolation: ViewInterpolation
     let extendedDynamicRange: Bool
+    var preProcessed: Bool = false
     let didRender: (UUID) -> ()
     
-    private func render(in view: GraphicRenderView) {
+    private func render(in view: GraphicMetalViewable) {
         Task {
             var graphic: Graphic = graphic
             do {
-                if graphic.colorSpace != .sRGB {
-                    graphic = try await graphic
-                        .applyColorSpace(.sRGB)
-                }
-                if [.nearestNeighbor, .linear].contains(interpolation) {
-                    var options: Graphic.EffectOptions = []
-                    if interpolation == .nearestNeighbor {
-                        options.insert(.interpolateNearest)
+                if !preProcessed {
+                    if graphic.colorSpace != .sRGB {
+                        graphic = try await graphic
+                            .applyColorSpace(.sRGB)
                     }
-                    graphic = try await graphic
-                        .resized(to: viewResolution,
-                                 placement: .stretch,
-                                 options: options)
+                    if [.nearestNeighbor, .linear].contains(interpolation) {
+                        var options: Graphic.EffectOptions = []
+                        if interpolation == .nearestNeighbor {
+                            options.insert(.interpolateNearest)
+                        }
+                        graphic = try await graphic
+                            .resized(to: viewResolution,
+                                     placement: .stretch,
+                                     options: options)
+                    }                    
                 }
                 view.render(graphic: graphic)
             } catch {

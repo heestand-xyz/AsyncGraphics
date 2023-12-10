@@ -12,13 +12,7 @@ public struct GraphicView: View {
     
     private let renderUpdate: ((GraphicRenderState) -> ())?
 
-    public enum Interpolation {
-        case nearestNeighbor
-        case linear
-        case lanczos
-        case bilinear
-    }
-    private let interpolation: Interpolation
+    private let interpolation: ViewInterpolation
     
     private let extendedDynamicRange: Bool
     
@@ -28,7 +22,7 @@ public struct GraphicView: View {
     ///   - interpolation: The pixel interpolation mode.
     ///   - extendedDynamicRange: XDR high brightness support (16 or 32 bit).
     public init(graphic: Graphic,
-                interpolation: Interpolation = .lanczos,
+                interpolation: ViewInterpolation = .lanczos,
                 extendedDynamicRange: Bool = false,
                 renderUpdate: ((GraphicRenderState) -> ())? = nil) {
         self.graphic = graphic
