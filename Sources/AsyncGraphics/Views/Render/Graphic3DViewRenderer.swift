@@ -44,14 +44,17 @@ public final class Graphic3DViewRenderer {
     public init() {}
     
     public func display(graphic3D: Graphic3D) async throws {
+        print("------> Display")
         
-        sourceGraphic = graphic3D
+        await MainActor.run {
+            sourceGraphic = graphic3D
+        }
         
         try await render()
     }
     
     private func render() async throws {
-        
+        print("------> Render")
         guard let sourceGraphic: Graphic3D else { return }
         guard let viewResolution: CGSize else { return }
         
