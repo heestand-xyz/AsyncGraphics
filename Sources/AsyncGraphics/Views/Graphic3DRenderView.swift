@@ -2,6 +2,8 @@
 //  Created by Anton Heestand on 2022-12-10.
 //
 
+#if os(visionOS)
+
 import SwiftUI
 import CoreGraphicsExtensions
 
@@ -18,26 +20,24 @@ public struct Graphic3DRenderView: View {
         GeometryReader { geometry in
             ZStack {
                 Color.clear
-                if let sourceGraphic: Graphic3D = renderer.sourceGraphic,
-                   let graphics: [Graphic] = renderer.display?.graphics,
-                   let viewResolution: CGSize = renderer.viewResolution {
-                    ForEach(Array(graphics.enumerated()), id: \.element.id) { index, graphic in
+                if let sourceGraphic: Graphic3D = renderer.sourceGraphic {
+                    ForEach(Array(0..<Int(sourceGraphic.depth)), id: \.self) { index in
                         GeometryReader { contentGeometry in
-                            GraphicRepresentableView(graphic: graphic,
-                                                     viewResolution: viewResolution,
-                                                     interpolation: renderer.interpolation,
-                                                     extendedDynamicRange: renderer.extendedDynamicRange,
-                                                     preProcessed: true) { _ in }
-#if os(visionOS)
-                                .offset(z: {
-                                    let count: Int = max(2, Int(sourceGraphic.depth))
-                                    let fraction: CGFloat = CGFloat(index) / CGFloat(count - 1)
-                                    let depthAspectRatio: CGFloat = sourceGraphic.depth / sourceGraphic.height
-                                    return fraction * contentGeometry.size.height * depthAspectRatio
-                                }())
-#endif
+                            GraphicVisionRepresentableView(
+                                interpolation: renderer.interpolation,
+                                extendedDynamicRange: renderer.extendedDynamicRange
+                            ) { renderInView in
+                                renderer.renderInView[index] = renderInView
+                            }
+                            .offset(z: {
+                                let count: Int = max(2, Int(sourceGraphic.depth))
+                                let fraction: CGFloat = CGFloat(index) / CGFloat(count - 1)
+                                let depthAspectRatio: CGFloat = sourceGraphic.depth / sourceGraphic.height
+                                return fraction * contentGeometry.size.height * depthAspectRatio
+                            }())
                         }
-                        .aspectRatio(graphic.resolution,
+                        .aspectRatio(CGSize(width: sourceGraphic.width,
+                                            height: sourceGraphic.height),
                                      contentMode: .fit)
                     }
                 }
@@ -51,3 +51,5 @@ public struct Graphic3DRenderView: View {
         }
     }
 }
+
+#endif

@@ -41,6 +41,8 @@ public final class Graphic3DViewRenderer {
     }
     var display: Display?
     
+    var renderInView: [Int: (Graphic) async -> Bool] = [:]
+    
     public init() {}
     
     public func display(graphic3D: Graphic3D) async throws {
