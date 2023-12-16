@@ -34,10 +34,7 @@ public final class Graphic3DViewRenderer {
     
     struct Display {
         var id: UUID
-        var graphics: [Graphic]
-        var resolution: CGSize {
-            graphics.first?.resolution ?? .one
-        }
+        let resolution: CGSize
     }
     var display: Display?
     
@@ -55,8 +52,12 @@ public final class Graphic3DViewRenderer {
         try await render()
     }
     
+    enum RenderError: String, Error {
+        case renderFailed
+    }
+    
     private func render() async throws {
-        print("------> Render")
+
         guard let sourceGraphic: Graphic3D else { return }
         guard let viewResolution: CGSize else { return }
         
@@ -68,11 +69,6 @@ public final class Graphic3DViewRenderer {
         }
         
         var viewGraphics: [Graphic] = try await sourceGraphic.samples()
-        
-//        if viewGraphic.colorSpace != .sRGB {
-//            viewGraphic = try await viewGraphic
-//                .applyColorSpace(.sRGB)
-//        }
         
         if CGSize(width: sourceGraphic.width, height: sourceGraphic.height) != viewResolution {
             for (index, viewGraphic) in viewGraphics.enumerated() {
@@ -98,9 +94,27 @@ public final class Graphic3DViewRenderer {
             }
         }
         
-        let display = Display(id: sourceGraphic.id, graphics: viewGraphics)
+        let display = Display(id: sourceGraphic.id,
+                              resolution: viewGraphics.first!.resolution)
         await MainActor.run {
             self.display = display
+        }
+        
+        try await withThrowingTaskGroup(of: Void.self) { group in
+            
+            for (index, render) in renderInView {
+                guard viewGraphics.indices.contains(index) else { continue }
+                let graphic: Graphic = viewGraphics[index]
+                
+                group.addTask {
+                    let success = await render(graphic)
+                    if !success {
+                        throw RenderError.renderFailed
+                    }
+                }
+            }
+            
+            try await group.waitForAll()
         }
     }
     

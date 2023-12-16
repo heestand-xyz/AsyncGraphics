@@ -11,9 +11,35 @@ extension Graphic3D {
         let placement: Int32
     }
     
+    mutating public func blend(with graphic: Graphic3D,
+                               blendingMode: AGBlendMode,
+                               placement: Placement = .fit) async throws {
+        self = try await blended(
+            with: graphic,
+            blendingMode: blendingMode,
+            placement: placement,
+            targetSourceTexture: true
+        )
+    }
+    
     public func blended(with graphic: Graphic3D,
                         blendingMode: AGBlendMode,
                         placement: Placement = .fit) async throws -> Graphic3D {
+        
+        try await blended(
+            with: graphic,
+            blendingMode: blendingMode,
+            placement: placement,
+            targetSourceTexture: false
+        )
+    }
+    
+    private func blended(
+        with graphic: Graphic3D,
+        blendingMode: AGBlendMode,
+        placement: Placement,
+        targetSourceTexture: Bool
+    ) async throws -> Graphic3D {
         
         try await Renderer.render(
             name: "Blend 3D",
@@ -23,8 +49,11 @@ extension Graphic3D {
                 graphic
             ],
             uniforms: Blend3DUniforms(
-                blendingMode: Int32(blendingMode.index),
+                blendingMode: Int32(blendingMode.rawIndex),
                 placement: Int32(placement.index)
+            ),
+            options: Renderer.Options(
+                targetSourceTexture: targetSourceTexture
             )
         )
     }

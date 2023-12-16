@@ -5,7 +5,8 @@
 @available(*, deprecated, renamed: "AGBlendMode")
 typealias BlendingMode = AGBlendMode
 
-public enum AGBlendMode {
+@EnumMacro
+public enum AGBlendMode: String, GraphicEnum {
     
     case over
     case under
@@ -34,7 +35,7 @@ public enum AGBlendMode {
     @available(*, deprecated, renamed: "multiply")
     static var multiplyWithAlpha: AGBlendMode { .multiply }
     
-    var index: UInt32 {
+    var rawIndex: UInt32 {
         switch self {
         case .over: return 0
         case .under: return 1
