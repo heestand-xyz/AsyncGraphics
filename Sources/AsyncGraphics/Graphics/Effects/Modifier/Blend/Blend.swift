@@ -109,7 +109,7 @@ extension Graphic {
                 graphic
             ],
             uniforms: BlendUniforms(
-                blendingMode: Int32(blendingMode.index),
+                blendingMode: Int32(blendingMode.rawIndex),
                 placement: Int32(placement.index),
                 translation: .zero,
                 rotation: 0.0,
@@ -149,7 +149,7 @@ extension Graphic {
                 graphic
             ],
             uniforms: BlendUniforms(
-                blendingMode: Int32(blendingMode.index),
+                blendingMode: Int32(blendingMode.rawIndex),
                 placement: Int32(placement.index),
                 translation: relativeTranslation.uniform,
                 rotation: rotation.uniform,

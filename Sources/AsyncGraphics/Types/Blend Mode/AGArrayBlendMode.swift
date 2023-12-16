@@ -5,7 +5,8 @@
 @available(*, deprecated, renamed: "AGArrayBlendMode")
 typealias ArrayBlendingMode = AGArrayBlendMode
 
-public enum AGArrayBlendMode {
+@EnumMacro
+public enum AGArrayBlendMode: String, GraphicEnum {
     
     case over
     case under
@@ -25,7 +26,7 @@ public enum AGArrayBlendMode {
     case divide
     case average
     
-    var index: Int {
+    var rawIndex: Int {
         switch self {
         case .over: return 0
         case .under: return 1

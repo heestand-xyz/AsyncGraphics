@@ -26,7 +26,7 @@ extension Graphic {
             shader: .name("blends"),
             graphics: graphics,
             uniforms: BlendsUniforms(
-                mode: blendingMode.index
+                mode: blendingMode.rawIndex
             ),
             options: Renderer.Options(
                 isArray: true

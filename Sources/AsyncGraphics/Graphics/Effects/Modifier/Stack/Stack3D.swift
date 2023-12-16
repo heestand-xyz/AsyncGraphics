@@ -26,7 +26,8 @@ extension Graphic3D {
     }
     
     /// Vertical Stack Alignment
-    public enum VStackAlignment {
+    @EnumMacro
+    public enum VStackAlignment: String, GraphicEnum {
         case leadingFar
         case leadingNear
         case leading
@@ -37,7 +38,8 @@ extension Graphic3D {
     }
     
     /// Horizontal Stack Alignment
-    public enum HStackAlignment {
+    @EnumMacro
+    public enum HStackAlignment: String, GraphicEnum {
         case bottomFar
         case bottomNear
         case bottom
@@ -48,7 +50,8 @@ extension Graphic3D {
     }
     
     /// Depth Stack Alignment
-    public enum DStackAlignment {
+    @EnumMacro
+    public enum DStackAlignment: String, GraphicEnum {
         case bottomTrailing
         case bottomLeading
         case bottom
