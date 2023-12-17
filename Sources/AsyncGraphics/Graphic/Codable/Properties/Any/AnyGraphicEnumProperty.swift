@@ -6,9 +6,9 @@ public class AnyGraphicEnumProperty: AnyGraphicProperty {
     public let key: String
     public let name: String
     
-    private let rawValue: String
-    private let defaultRawValue: String
-    private let allCases: [GraphicEnumCase]
+    public let rawValue: String
+    public let defaultRawValue: String
+    public let allCases: [GraphicEnumCase]
     
     private var updateValue: (String) throws -> ()
     

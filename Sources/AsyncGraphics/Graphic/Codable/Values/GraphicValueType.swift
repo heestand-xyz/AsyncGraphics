@@ -3,7 +3,7 @@ import SwiftUI
 import Spatial
 import PixelColor
 
-public enum GraphicValueType {
+public enum GraphicValueType: String, Codable {
     case bool
     case int
     case double

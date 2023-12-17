@@ -8,10 +8,10 @@ public class AnyGraphicValueProperty: AnyGraphicProperty {
     public let key: String
     public let name: String
     
-    private let value: String
-    private let defaultValue: String
-    private let minimumValue: String
-    private let maximumValue: String
+    public let value: String
+    public let defaultValue: String
+    public let minimumValue: String
+    public let maximumValue: String
     
     private var updateValue: (String) throws -> ()
     
@@ -60,6 +60,10 @@ public extension AnyGraphicValueProperty {
     
     func setValue<T: GraphicValue>(_ value: GraphicMetadataValue<T>) throws {
         try updateValue(Self.encode(value))
+    }
+    
+    func setEncodedValue(_ encodedValue: String) throws {
+        try updateValue(encodedValue)
     }
 }
 
