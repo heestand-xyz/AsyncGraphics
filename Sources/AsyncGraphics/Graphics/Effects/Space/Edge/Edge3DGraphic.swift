@@ -16,7 +16,7 @@ extension CodableGraphic3D.Effect.Space {
                 
         public var isColored: GraphicMetadata<Bool> = .init(value: .fixed(false))
         
-        public var isTransparent: GraphicMetadata<Bool> = .init(value: .fixed(false))
+        public var isTransparent: GraphicMetadata<Bool> = .init(value: .fixed(true))
         
         public func render(
             with graphic: Graphic3D,
