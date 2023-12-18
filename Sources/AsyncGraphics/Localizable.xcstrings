@@ -90,7 +90,7 @@
       }
     },
     "graphic.color" : {
-      "comment" : "Content: Solid\nContent: Solid (3D)",
+      "comment" : "Content: Solid (3D)\nContent: Solid",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -167,7 +167,7 @@
       }
     },
     "graphic.gradient" : {
-      "comment" : "Content: Solid\nContent: Solid (3D)",
+      "comment" : "Content: Solid (3D)\nContent: Solid",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -211,7 +211,7 @@
       }
     },
     "graphic.noise" : {
-      "comment" : "Content: Solid\nContent: Solid (3D)",
+      "comment" : "Content: Solid (3D)\nContent: Solid",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -332,10 +332,10 @@
       }
     },
     "option.add" : {
-      "comment" : "A G Blend Mode\nA G Array Blend Mode"
+      "comment" : "A G Array Blend Mode\nA G Blend Mode"
     },
     "option.addWithAlpha" : {
-      "comment" : "A G Blend Mode\nA G Array Blend Mode"
+      "comment" : "A G Array Blend Mode\nA G Blend Mode"
     },
     "option.all" : {
       "comment" : "Color Convert Channel",
@@ -360,7 +360,7 @@
       }
     },
     "option.angle" : {
-      "comment" : "Blur Type\nGradient Direction",
+      "comment" : "Gradient Direction\nBlur Type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -371,7 +371,7 @@
       }
     },
     "option.average" : {
-      "comment" : "A G Blend Mode\nA G Array Blend Mode"
+      "comment" : "A G Array Blend Mode\nA G Blend Mode"
     },
     "option.blue" : {
       "comment" : "Color Channel",
@@ -400,7 +400,7 @@
       "comment" : "D Stack Alignment"
     },
     "option.box" : {
-      "comment" : "Blur Type\nBlur 3 D Type",
+      "comment" : "Blur 3 D Type\nBlur Type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -428,7 +428,7 @@
       "comment" : "A G Blend Mode"
     },
     "option.darken" : {
-      "comment" : "A G Blend Mode\nA G Array Blend Mode"
+      "comment" : "A G Array Blend Mode\nA G Blend Mode"
     },
     "option.darkenWithoutAlpha" : {
       "comment" : "A G Blend Mode"
@@ -445,7 +445,7 @@
       }
     },
     "option.difference" : {
-      "comment" : "A G Blend Mode\nA G Array Blend Mode"
+      "comment" : "A G Array Blend Mode\nA G Blend Mode"
     },
     "option.direction" : {
       "comment" : "Blur 3 D Type",
@@ -459,7 +459,7 @@
       }
     },
     "option.divide" : {
-      "comment" : "A G Blend Mode\nA G Array Blend Mode"
+      "comment" : "A G Array Blend Mode\nA G Blend Mode"
     },
     "option.exclusiveOr" : {
       "comment" : "A G Blend Mode"
@@ -509,7 +509,7 @@
       }
     },
     "option.gamma" : {
-      "comment" : "A G Blend Mode\nA G Array Blend Mode"
+      "comment" : "A G Array Blend Mode\nA G Blend Mode"
     },
     "option.gaussian" : {
       "comment" : "Blur Type",
@@ -534,7 +534,7 @@
       }
     },
     "option.hold" : {
-      "comment" : "Clamp Type\nGradient Extend",
+      "comment" : "Gradient Extend\nClamp Type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -579,10 +579,10 @@
       "comment" : "V Stack Alignment"
     },
     "option.lighten" : {
-      "comment" : "A G Blend Mode\nA G Array Blend Mode"
+      "comment" : "A G Array Blend Mode\nA G Blend Mode"
     },
     "option.loop" : {
-      "comment" : "Clamp Type\nGradient Extend",
+      "comment" : "Gradient Extend\nClamp Type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -593,13 +593,13 @@
       }
     },
     "option.maximum" : {
-      "comment" : "A G Blend Mode\nA G Array Blend Mode"
+      "comment" : "A G Array Blend Mode\nA G Blend Mode"
     },
     "option.minimum" : {
-      "comment" : "A G Blend Mode\nA G Array Blend Mode"
+      "comment" : "A G Array Blend Mode\nA G Blend Mode"
     },
     "option.mirror" : {
-      "comment" : "Clamp Type\nGradient Extend",
+      "comment" : "Gradient Extend\nClamp Type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -621,7 +621,7 @@
       }
     },
     "option.multiply" : {
-      "comment" : "A G Blend Mode\nA G Array Blend Mode"
+      "comment" : "A G Array Blend Mode\nA G Blend Mode"
     },
     "option.multiplyWithoutAlpha" : {
       "comment" : "A G Blend Mode"
@@ -630,13 +630,13 @@
       "comment" : "A G Blend Mode"
     },
     "option.over" : {
-      "comment" : "A G Blend Mode\nA G Array Blend Mode"
+      "comment" : "A G Array Blend Mode\nA G Blend Mode"
     },
     "option.power" : {
-      "comment" : "A G Blend Mode\nA G Array Blend Mode"
+      "comment" : "A G Array Blend Mode\nA G Blend Mode"
     },
     "option.radial" : {
-      "comment" : "Gradient Direction\nGradient 3 D Direction",
+      "comment" : "Gradient 3 D Direction\nGradient Direction",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -647,7 +647,7 @@
       }
     },
     "option.random" : {
-      "comment" : "Blur Type\nBlur 3 D Type",
+      "comment" : "Blur 3 D Type\nBlur Type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -702,7 +702,7 @@
       }
     },
     "option.screen" : {
-      "comment" : "A G Blend Mode\nA G Array Blend Mode"
+      "comment" : "A G Array Blend Mode\nA G Blend Mode"
     },
     "option.second" : {
       "comment" : "Color Convert Channel",
@@ -738,10 +738,10 @@
       }
     },
     "option.subtract" : {
-      "comment" : "A G Blend Mode\nA G Array Blend Mode"
+      "comment" : "A G Array Blend Mode\nA G Blend Mode"
     },
     "option.subtractWithAlpha" : {
-      "comment" : "A G Blend Mode\nA G Array Blend Mode"
+      "comment" : "A G Array Blend Mode\nA G Blend Mode"
     },
     "option.third" : {
       "comment" : "Color Convert Channel",
@@ -779,7 +779,7 @@
       "comment" : "V Stack Alignment"
     },
     "option.under" : {
-      "comment" : "A G Blend Mode\nA G Array Blend Mode"
+      "comment" : "A G Array Blend Mode\nA G Blend Mode"
     },
     "option.vertical" : {
       "comment" : "Gradient Direction",
@@ -837,7 +837,7 @@
       }
     },
     "option.zero" : {
-      "comment" : "Clamp Type\nGradient Extend",
+      "comment" : "Gradient Extend\nClamp Type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -848,7 +848,7 @@
       }
     },
     "option.zoom" : {
-      "comment" : "Blur Type\nBlur 3 D Type",
+      "comment" : "Blur 3 D Type\nBlur Type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -903,7 +903,7 @@
       }
     },
     "property.axis" : {
-      "comment" : "Cone\nTetrahedron\nCylinder\nTorus",
+      "comment" : "Tetrahedron\nTorus\nCone\nCylinder",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -914,7 +914,7 @@
       }
     },
     "property.backgroundColor" : {
-      "comment" : "Arc\nBox\nThreshold\nPolygon\nCone\nSphere\nStar\nLine\nColorMap\nTetrahedron\nCylinder\nTorus\nRectangle\nCircle",
+      "comment" : "Arc\nPolygon\nColorMap\nTetrahedron\nSphere\nStar\nTorus\nCone\nCylinder\nRectangle\nThreshold\nLine\nCircle\nBox",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1024,7 +1024,7 @@
       }
     },
     "property.cornerRadius" : {
-      "comment" : "Box\nPolygon\nStar\nCylinder\nRectangle",
+      "comment" : "Polygon\nStar\nCylinder\nRectangle\nBox",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1112,7 +1112,7 @@
       }
     },
     "property.foregroundColor" : {
-      "comment" : "Arc\nBox\nThreshold\nPolygon\nCone\nSphere\nStar\nLine\nColorMap\nTetrahedron\nCylinder\nTorus\nRectangle\nCircle",
+      "comment" : "Arc\nPolygon\nColorMap\nTetrahedron\nSphere\nStar\nTorus\nCone\nCylinder\nRectangle\nThreshold\nLine\nCircle\nBox",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1123,7 +1123,7 @@
       }
     },
     "property.fraction" : {
-      "comment" : "Threshold\nQuantize",
+      "comment" : "Quantize\nThreshold",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1332,7 +1332,7 @@
       }
     },
     "property.lineWidth" : {
-      "comment" : "Arc\nLine\nRectangle\nCircle",
+      "comment" : "Arc\nRectangle\nLine\nCircle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1409,7 +1409,7 @@
       }
     },
     "property.position" : {
-      "comment" : "Arc\nBox\nPolygon\nCone\nSphere\nStar\nTetrahedron\nBlur\nCylinder\nGradient\nTorus\nRectangle\nCircle",
+      "comment" : "Arc\nPolygon\nBlur\nTetrahedron\nSphere\nStar\nTorus\nCone\nCylinder\nGradient\nRectangle\nCircle\nBox",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1420,7 +1420,7 @@
       }
     },
     "property.radius" : {
-      "comment" : "Arc\nPolygon\nSphere\nTetrahedron\nBlur\nCircleBlur\nCylinder\nTorus",
+      "comment" : "Arc\nPolygon\nBlur\nTetrahedron\nSphere\nTorus\nCylinder\nCircleBlur",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1541,7 +1541,7 @@
       }
     },
     "property.size" : {
-      "comment" : "Box\nRectangle",
+      "comment" : "Rectangle\nBox",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1563,7 +1563,7 @@
       }
     },
     "property.style" : {
-      "comment" : "Clamp\nBlur",
+      "comment" : "Blur\nClamp",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1574,7 +1574,7 @@
       }
     },
     "property.surface" : {
-      "comment" : "Box\nCone\nSphere\nTetrahedron\nCylinder\nTorus",
+      "comment" : "Tetrahedron\nSphere\nTorus\nCone\nCylinder\nBox",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1585,7 +1585,7 @@
       }
     },
     "property.surfaceWidth" : {
-      "comment" : "Box\nCone\nSphere\nTetrahedron\nCylinder\nTorus",
+      "comment" : "Tetrahedron\nSphere\nTorus\nCone\nCylinder\nBox",
       "localizations" : {
         "en" : {
           "stringUnit" : {
