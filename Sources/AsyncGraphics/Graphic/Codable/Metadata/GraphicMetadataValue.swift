@@ -45,7 +45,7 @@ public enum GraphicMetadataValue<T: GraphicValue>: Codable {
     case resolutionMinimum(fraction: CGFloat)
     case resolutionMaximum(fraction: CGFloat)
     
-    func eval(at resolution: CGSize) -> T {
+    public func eval(at resolution: CGSize) -> T {
         switch self {
         case .zero:
             return T.zero
@@ -79,7 +79,7 @@ public enum GraphicMetadataValue<T: GraphicValue>: Codable {
         }
     }
     
-    func eval(at resolution: Size3D) -> T {
+    public func eval(at resolution: Size3D) -> T {
         switch self {
         case .zero:
             return T.zero
