@@ -39,7 +39,8 @@ public final class Graphic3DImageRenderer {
     
     public init() {}
     
-    public func display(graphic3D: Graphic3D) async throws {
+    public func display(graphic3D: Graphic3D,
+                        progress: ((Progress) -> ())? = nil) async throws {
         
         if resolution != graphic3D.resolution {
             await MainActor.run {
@@ -47,21 +48,65 @@ public final class Graphic3DImageRenderer {
             }
         }
         
-        try await render(graphic3D: graphic3D)
+        try await render(graphic3D: graphic3D, progress: progress)
     }
     
-    enum RenderError: String, Error {
+    public enum RenderError: String, Error {
         case renderFailed
         case viewNotReady
     }
     
-    private func render(graphic3D: Graphic3D) async throws {
+    public struct Progress {
+        public let index: Int
+        public let count: Int
+        public enum State: Int {
+            case sampling
+            case interpolating
+            case converting
+        }
+        public let state: State
+        public var fraction: CGFloat {
+            CGFloat(index) / CGFloat(count - 1)
+        }
+        class Manager {
+            private let count: Int
+            private var index: Int = 0
+            private let progress: (Progress) -> ()
+            init(count: Int, progress: @escaping (Progress) -> ()) {
+                self.count = count
+                self.progress = progress
+            }
+            func increment(state: State) {
+                progress(Progress(index: index, count: count, state: state))
+                index += 1
+            }
+            func set(index: Int, state: State) {
+                progress(Progress(index: index, count: count, state: state))
+                self.index = index
+            }
+            func reset(state: State) {
+                progress(Progress(index: 0, count: count, state: state))
+                index = 0
+            }
+        }
+    }
+    
+    private func render(graphic3D: Graphic3D,
+                        progress: ((Progress) -> ())? = nil) async throws {
 
         guard let viewResolution: CGSize else {
             throw RenderError.viewNotReady
         }
         
-        var viewGraphics: [Graphic] = try await graphic3D.samples()
+        let progressManager: Progress.Manager? = if let progress {
+            Progress.Manager(count: Int(graphic3D.depth), progress: progress)
+        } else { nil }
+        
+        var viewGraphics: [Graphic] = try await graphic3D.samples { progress in
+            progressManager?.set(index: progress.index, state: .sampling)
+        }
+        
+        progressManager?.reset(state: .interpolating)
         
         if interpolation != .linear,
            CGSize(width: graphic3D.width, height: graphic3D.height) != viewResolution {
@@ -91,6 +136,9 @@ public final class Graphic3DImageRenderer {
                         case .linear:
                             break
                         }
+                        
+                        progressManager?.increment(state: .interpolating)
+                        
                         return (index, graphic)
                     }
                 }
@@ -103,6 +151,8 @@ public final class Graphic3DImageRenderer {
             }
         }
         
+        progressManager?.reset(state: .converting)
+        
         let images: [Image] = try await withThrowingTaskGroup(of: (Int, Image).self) { group in
             
             for (index, graphic) in viewGraphics.enumerated() {
@@ -110,6 +160,7 @@ public final class Graphic3DImageRenderer {
                 group.addTask {
                     let tmImage: TMImage = try await graphic.image
                     let image = Image(tmImage: tmImage)
+                    progressManager?.increment(state: .converting)
                     return (index, image)
                 }
             }
