@@ -13,9 +13,9 @@ public final class Graphic3DImageRenderer {
 #else
     public static let defaultScale: CGFloat = .pixelsPerPoint
 #endif
-    var scale: CGFloat = Graphic3DImageRenderer.defaultScale
+    public var scale: CGFloat = Graphic3DImageRenderer.defaultScale
     
-    var interpolation: ViewInterpolation = .linear
+    public var interpolation: ViewInterpolation = .linear
     
     var resolution: Size3D?
     
@@ -59,7 +59,7 @@ public final class Graphic3DImageRenderer {
     public struct Progress {
         public let index: Int
         public let count: Int
-        public enum State: Int {
+        public enum State: String {
             case sampling
             case interpolating
             case converting
@@ -108,8 +108,7 @@ public final class Graphic3DImageRenderer {
         
         progressManager?.reset(state: .interpolating)
         
-        if interpolation != .linear,
-           CGSize(width: graphic3D.width, height: graphic3D.height) != viewResolution {
+        if interpolation != .linear {
     
             viewGraphics = try await withThrowingTaskGroup(of: (Int, Graphic).self) { [weak self] group in
                 
