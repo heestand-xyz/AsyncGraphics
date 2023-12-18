@@ -39,7 +39,28 @@ extension Graphic3D {
         return Graphic(name: "Sample", texture: texture, bits: bits, colorSpace: colorSpace)
     }
     
-    public func samples(/*axis: Axis = .z*/) async throws -> [Graphic] {
+    public struct SampleProgress {
+        public let index: Int
+        public let count: Int
+        public var fraction: CGFloat {
+            CGFloat(index) / CGFloat(count - 1)
+        }
+        class Manager {
+            private let count: Int
+            private var index: Int = 0
+            private let progress: (SampleProgress) -> ()
+            init(count: Int, progress: @escaping (SampleProgress) -> ()) {
+                self.count = count
+                self.progress = progress
+            }
+            func increment() {
+                progress(SampleProgress(index: index, count: count))
+                index += 1
+            }
+        }
+    }
+    
+    public func samples(/*axis: Axis = .z*/progress: ((SampleProgress) -> ())? = nil) async throws -> [Graphic] {
         
         let axis: Axis = .z
         
@@ -54,11 +75,16 @@ extension Graphic3D {
             }
         }()
         
+        let progressManager: SampleProgress.Manager? = if let progress {
+            SampleProgress.Manager(count: count, progress: progress)
+        } else { nil }
+        
         let graphics: [Graphic] = try await withThrowingTaskGroup(of: (Int, Graphic).self) { group in
             
             for index in 0..<count {
                 group.addTask {
                     let graphic: Graphic = try await self.sample(index: index/*, axis: axis*/)
+                    progressManager?.increment()
                     return (index, graphic)
                 }
             }
