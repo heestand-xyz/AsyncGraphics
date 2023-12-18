@@ -18,7 +18,7 @@ public enum GraphicValueType: String, Codable {
 }
 
 extension GraphicValueType {
-    var graphicValueType: any GraphicValue.Type {
+    public var graphicValueType: any GraphicValue.Type {
         switch self {
         case .bool:
             return Bool.self
