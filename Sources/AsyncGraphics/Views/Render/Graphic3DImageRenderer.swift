@@ -1,13 +1,21 @@
 import Foundation
+import SwiftUI
 import Spatial
 import Observation
 import CoreGraphicsExtensions
+import TextureMap
 
 @Observable
-public final class Graphic3DViewRenderer {
+public final class Graphic3DImageRenderer {
     
-    public var interpolation: ViewInterpolation = .linear
-    public let extendedDynamicRange: Bool = false
+#if os(visionOS)
+    public static let defaultScale: CGFloat = 1.0
+#else
+    public static let defaultScale: CGFloat = .pixelsPerPoint
+#endif
+    var scale: CGFloat = Graphic3DImageRenderer.defaultScale
+    
+    var interpolation: ViewInterpolation = .linear
     
     var resolution: Size3D?
     
@@ -16,11 +24,6 @@ public final class Graphic3DViewRenderer {
     var viewResolution: CGSize? {
         guard let viewSize: CGSize else { return nil }
         guard let resolution: Size3D else { return nil }
-        #if os(visionOS)
-        let scale: CGFloat = 1.0
-        #else
-        let scale: CGFloat = .pixelsPerPoint
-        #endif
         return CGSize(width: resolution.width, height: resolution.height)
             .place(in: viewSize * scale,
                    placement: .fit)
@@ -32,7 +35,7 @@ public final class Graphic3DViewRenderer {
     }
     private var display: Display?
     
-    var renderInView: [Int: (Graphic) async -> Bool] = [:]
+    var images: [Image] = []
     
     public init() {}
     
@@ -60,7 +63,8 @@ public final class Graphic3DViewRenderer {
         
         var viewGraphics: [Graphic] = try await graphic3D.samples()
         
-        if CGSize(width: graphic3D.width, height: graphic3D.height) != viewResolution {
+        if interpolation != .linear,
+           CGSize(width: graphic3D.width, height: graphic3D.height) != viewResolution {
     
             viewGraphics = try await withThrowingTaskGroup(of: (Int, Graphic).self) { [weak self] group in
                 
@@ -73,21 +77,19 @@ public final class Graphic3DViewRenderer {
                         var graphic: Graphic = graphic
                         
                         switch self.interpolation {
-                        case .linear, .nearestNeighbor:
-                            var options: Graphic.EffectOptions = []
-                            if self.interpolation == .nearestNeighbor {
-                                options.insert(.interpolateNearest)
-                            }
+                        case .nearestNeighbor:
                             graphic = try await graphic
                                 .resized(to: viewResolution,
                                          placement: .stretch,
-                                         options: options)
+                                         options: .interpolateNearest)
                         case .lanczos, .bilinear:
                             let method: Graphic.ResizeMethod = self.interpolation == .lanczos ? .lanczos : .bilinear
                             graphic = try await graphic
                                 .resized(to: viewResolution,
                                          placement: .stretch,
                                          method: method)
+                        case .linear:
+                            break
                         }
                         return (index, graphic)
                     }
@@ -101,29 +103,35 @@ public final class Graphic3DViewRenderer {
             }
         }
         
-        display = Display(id: graphic3D.id,
-                          resolution: viewGraphics.first!.resolution)
-        
-        try await withThrowingTaskGroup(of: Void.self) { group in
+        let images: [Image] = try await withThrowingTaskGroup(of: (Int, Image).self) { group in
             
-            for (index, render) in renderInView {
-                guard viewGraphics.indices.contains(index) else { continue }
-                let graphic: Graphic = viewGraphics[index]
+            for (index, graphic) in viewGraphics.enumerated() {
                 
                 group.addTask {
-                    let success = await render(graphic)
-                    if !success {
-                        throw RenderError.renderFailed
-                    }
+                    let tmImage: TMImage = try await graphic.image
+                    let image = Image(tmImage: tmImage)
+                    return (index, image)
                 }
             }
             
-            try await group.waitForAll()
+            var images: [Image?] = Array(repeating: nil, count: viewGraphics.count)
+            for try await (index, image) in group {
+                images[index] = image
+            }
+            return images.compactMap { $0 }
         }
+        
+        await MainActor.run {
+            self.images = images
+        }
+        
+        display = Display(id: graphic3D.id,
+                          resolution: viewGraphics.first!.resolution)
     }
     
     public func hide() {
         resolution = nil
         display = nil
+        images = []
     }
 }

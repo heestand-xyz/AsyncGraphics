@@ -8,11 +8,11 @@ import SwiftUI
 import CoreGraphicsExtensions
 
 /// SwiftUI view for rendering and displaying ``Graphic3D``s.
-public struct Graphic3DRenderView: View {
+public struct Graphic3DImageRenderView: View {
     
-    @Bindable private var renderer: Graphic3DViewRenderer
+    @Bindable private var renderer: Graphic3DImageRenderer
     
-    public init(renderer: Graphic3DViewRenderer) {
+    public init(renderer: Graphic3DImageRenderer) {
         _renderer = Bindable(renderer)
     }
     
@@ -23,18 +23,16 @@ public struct Graphic3DRenderView: View {
                 if let resolution: Size3D = renderer.resolution {
                     ForEach(Array(0..<Int(resolution.depth)), id: \.self) { index in
                         GeometryReader { contentGeometry in
-                            GraphicVisionRepresentableView(
-                                interpolation: renderer.interpolation,
-                                extendedDynamicRange: renderer.extendedDynamicRange
-                            ) { renderInView in
-                                renderer.renderInView[index] = renderInView
+                            if renderer.images.indices.contains(index) {
+                                renderer.images[index]
+                                    .resizable()
+                                    .offset(z: {
+                                        let count: Int = max(2, Int(resolution.depth))
+                                        let fraction: CGFloat = CGFloat(index) / CGFloat(count - 1)
+                                        let depthAspectRatio: CGFloat = resolution.depth / resolution.height
+                                        return fraction * contentGeometry.size.height * depthAspectRatio
+                                    }())
                             }
-                            .offset(z: {
-                                let count: Int = max(2, Int(resolution.depth))
-                                let fraction: CGFloat = CGFloat(index) / CGFloat(count - 1)
-                                let depthAspectRatio: CGFloat = resolution.depth / resolution.height
-                                return fraction * contentGeometry.size.height * depthAspectRatio
-                            }())
                         }
                         .aspectRatio(CGSize(width: resolution.width,
                                             height: resolution.height),
