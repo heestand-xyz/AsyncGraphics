@@ -15,6 +15,7 @@ struct VertexOut {
 
 struct Uniforms {
     int axis;
+    float brightness;
 };
 
 fragment float4 add3d(VertexOut out [[stage_in]],
@@ -47,6 +48,8 @@ fragment float4 add3d(VertexOut out [[stage_in]],
         
         color += texture.sample(sampler, crd);
     }
+    
+    color *= uniforms.brightness;
     
     return color;
 }

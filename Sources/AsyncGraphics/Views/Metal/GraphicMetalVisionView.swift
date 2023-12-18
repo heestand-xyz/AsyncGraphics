@@ -17,16 +17,20 @@ final class GraphicMetalVisionView: UIView, GraphicMetalViewable {
     
     var extendedDynamicRange: Bool
     
+    let autoDraw: Bool
+    
     let metalLayer: CAMetalLayer
     
     let didRender: (UUID) -> ()
  
     init(interpolation: ViewInterpolation, 
          extendedDynamicRange: Bool,
+         autoDraw: Bool,
          didRender: @escaping (UUID) -> ()) {
         
         self.interpolation = interpolation
         self.extendedDynamicRange = extendedDynamicRange
+        self.autoDraw = autoDraw
         self.didRender = didRender
         
         metalLayer = CAMetalLayer()
@@ -78,14 +82,15 @@ extension GraphicMetalVisionView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        metalLayer.drawableSize = bounds.size
         metalLayer.frame = bounds
         
         if self.layer.sublayers?.isEmpty != false {
             layer.addSublayer(metalLayer)
         }
         
-        draw { _ in }
+        if autoDraw {
+            draw { _ in }
+        }
     }
 }
 
@@ -109,7 +114,8 @@ extension GraphicMetalVisionView {
             completion(false)
             return
         } // EXC_BREAKPOINT
-        guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else { completion(false)
+        guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else { 
+            completion(false)
             return
         }
 

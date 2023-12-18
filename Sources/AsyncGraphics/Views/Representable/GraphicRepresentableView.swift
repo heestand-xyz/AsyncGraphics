@@ -88,6 +88,7 @@ extension GraphicRepresentableView: UIViewRepresentable {
     func makeUIView(context: Context) -> GraphicMetalVisionView {
         GraphicMetalVisionView(interpolation: interpolation,
                                extendedDynamicRange: extendedDynamicRange,
+                               autoDraw: true,
                                didRender: didRender)
     }
     

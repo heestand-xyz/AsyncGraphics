@@ -8,9 +8,11 @@ extension Graphic3D {
     
     private struct Add3DUniforms {
         let axis: UInt32
+        let brightness: Float
     }
     
-    public func add(axis: Axis = .z) async throws -> Graphic {
+    public func add(axis: Axis = .z,
+                    brightness: CGFloat = 1.0) async throws -> Graphic {
         
         let resolution: CGSize = CGSize(
             width: axis == .x ? resolution.depth : resolution.width,
@@ -21,7 +23,8 @@ extension Graphic3D {
             shader: .name("add3d"),
             graphics: [bits(._8)],
             uniforms: Add3DUniforms(
-                axis: axis.index
+                axis: axis.index,
+                brightness: Float(brightness)
             ),
             metadata: Renderer.Metadata(
                 resolution: resolution,

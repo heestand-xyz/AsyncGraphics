@@ -27,8 +27,13 @@ public final class Graphic3DViewRenderer {
     var viewResolution: CGSize? {
         guard let viewSize: CGSize else { return nil }
         guard let sourceGraphic: Graphic3D else { return nil }
+        #if os(visionOS)
+        let scale: CGFloat = 1.0
+        #else
+        let scale: CGFloat = .pixelsPerPoint
+        #endif
         return CGSize(width: sourceGraphic.width, height: sourceGraphic.height)
-            .place(in: viewSize * .pixelsPerPoint,
+            .place(in: viewSize * scale,
                    placement: .fit)
     }
     
@@ -43,7 +48,6 @@ public final class Graphic3DViewRenderer {
     public init() {}
     
     public func display(graphic3D: Graphic3D) async throws {
-        print("------> Display")
         
         await MainActor.run {
             sourceGraphic = graphic3D
@@ -71,26 +75,43 @@ public final class Graphic3DViewRenderer {
         var viewGraphics: [Graphic] = try await sourceGraphic.samples()
         
         if CGSize(width: sourceGraphic.width, height: sourceGraphic.height) != viewResolution {
-            for (index, viewGraphic) in viewGraphics.enumerated() {
-                var viewGraphic: Graphic = viewGraphic
-                switch interpolation {
-                case .linear, .nearestNeighbor:
-                    var options: Graphic.EffectOptions = []
-                    if interpolation == .nearestNeighbor {
-                        options.insert(.interpolateNearest)
+    
+            viewGraphics = try await withThrowingTaskGroup(of: (Int, Graphic).self) { [weak self] group in
+                
+                guard let self else { return [] }
+                
+                for (index, graphic) in viewGraphics.enumerated() {
+                    
+                    group.addTask {
+                        
+                        var graphic: Graphic = graphic
+                        
+                        switch self.interpolation {
+                        case .linear, .nearestNeighbor:
+                            var options: Graphic.EffectOptions = []
+                            if self.interpolation == .nearestNeighbor {
+                                options.insert(.interpolateNearest)
+                            }
+                            graphic = try await graphic
+                                .resized(to: viewResolution,
+                                         placement: .stretch,
+                                         options: options)
+                        case .lanczos, .bilinear:
+                            let method: Graphic.ResizeMethod = self.interpolation == .lanczos ? .lanczos : .bilinear
+                            graphic = try await graphic
+                                .resized(to: viewResolution,
+                                         placement: .stretch,
+                                         method: method)
+                        }
+                        return (index, graphic)
                     }
-                    viewGraphic = try await viewGraphic
-                        .resized(to: viewResolution,
-                                 placement: .stretch,
-                                 options: options)
-                case .lanczos, .bilinear:
-                    let method: Graphic.ResizeMethod = interpolation == .lanczos ? .lanczos : .bilinear
-                    viewGraphic = try await viewGraphic
-                        .resized(to: viewResolution,
-                                 placement: .stretch,
-                                 method: method)
                 }
-                viewGraphics[index] = viewGraphic
+            
+                var graphics: [Graphic?] = Array(repeating: nil, count: viewGraphics.count)
+                for try await (index, graphic) in group {
+                    graphics[index] = graphic
+                }
+                return graphics.compactMap { $0 }
             }
         }
         

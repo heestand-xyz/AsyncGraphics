@@ -15,6 +15,7 @@ struct GraphicVisionRepresentableView: UIViewRepresentable {
     func makeUIView(context: Context) -> GraphicMetalVisionView {
         let view = GraphicMetalVisionView(interpolation: interpolation,
                                           extendedDynamicRange: extendedDynamicRange,
+                                          autoDraw: false,
                                           didRender: { _ in })
         renderInView({ graphic in
             await view.render(graphic: graphic)
