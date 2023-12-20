@@ -18,7 +18,7 @@ extension CodableGraphic3D.Content.Shape {
                                                                      maximum: .resolutionMaximum(fraction: 1.0 / 8))
             
         public var foregroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
-        public var backgroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.clear))
+        public var backgroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.clearWhite))
         
         public var surface: GraphicMetadata<Bool> = .init(value: .fixed(false))
         public var surfaceWidth: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
