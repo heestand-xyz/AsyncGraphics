@@ -49,6 +49,7 @@ public struct Graphic3DRenderView: View {
                 renderer.viewSize = newSize
             }
         }
+        .allowsHitTesting(false)
     }
 }
 

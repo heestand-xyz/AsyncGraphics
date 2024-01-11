@@ -55,6 +55,7 @@ public struct Graphic3DView: View {
                 }
             }
         }
+        .allowsHitTesting(false)
         .aspectRatio(CGSize(width: graphic3D.width, height: graphic3D.height), contentMode: .fit)
         .task {
             do {
