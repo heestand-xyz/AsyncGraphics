@@ -117,12 +117,9 @@ public enum GraphicMetadataValue<T: GraphicValue>: Codable {
     public func scaled(by scale: CGFloat) -> Self {
         switch self {
         case .fixed(let value):
-            switch T.graphicValueType {
-                
-            }
-            .fixed(value.scaled(by: scale))
+            return .fixed(value.scaled(by: scale))
         default:
-            self
+            return self
         }
     }
 }
