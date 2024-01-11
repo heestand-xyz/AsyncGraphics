@@ -9,7 +9,8 @@ extension CodableGraphic3D.Effect.Color {
     public final class Slope: ColorEffectGraphic3DProtocol {
         
         public var amplitude: GraphicMetadata<CGFloat> = .init(value: .fixed(100.0),
-                                                               maximum: .fixed(100.0))
+                                                               maximum: .fixed(100.0),
+                                                               options: .spatial)
         
         public var originColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.rawGray))
         

@@ -8,7 +8,8 @@ extension CodableGraphic.Effect.Space {
     public final class CircleBlur: SpaceEffectGraphicProtocol {
         
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.1),
-                                                            maximum: .resolutionMinimum(fraction: 0.5))
+                                                            maximum: .resolutionMinimum(fraction: 0.5),
+                                                            options: .spatial)
         
         public var sampleCount: GraphicMetadata<Int> = .init(value: .fixed(100),
                                                              minimum: .fixed(1),

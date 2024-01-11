@@ -16,6 +16,38 @@ public protocol GraphicValue: Codable {
     func scaled(by scale: CGFloat) -> Self
 }
 
+extension GraphicValue {
+    
+    public var graphicValueType: GraphicValueType? {
+        switch self {
+        case is Bool:
+            .bool
+        case is Int:
+            .int
+        case is Double, is CGFloat:
+            .double
+        case is Angle:
+            .angle
+        case is CGSize:
+            .size
+        case is CGPoint:
+            .point
+        case is CGRect:
+            .rect
+        case is PixelColor:
+            .color
+        case is Point3D:
+            .point3D
+        case is Size3D:
+            .size3D
+        case is [Graphic.GradientStop]:
+            .gradient
+        default:
+            fatalError("Unknown Graphic Value Type")
+        }
+    }
+}
+
 extension Bool: GraphicValue {
     
     public static var zero: Self { false }
@@ -99,7 +131,7 @@ extension Angle: GraphicValue {
 
 extension CGSize: GraphicValue {
     
-    public static var one: Self { CGSize(width: 1.0, height: 1.0) }
+//    public static var one: Self { CGSize(width: 1.0, height: 1.0) }
     public static var `default`: GraphicMetadataValue<Self> { .resolution }
     public static var minimum: GraphicMetadataValue<Self> { .zero }
     public static var maximum: GraphicMetadataValue<Self> { .resolution }

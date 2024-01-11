@@ -9,10 +9,12 @@ extension CodableGraphic3D.Effect.Space {
     public final class Edge: SpaceEffectGraphic3DProtocol {
         
         public var amplitude: GraphicMetadata<CGFloat> = .init(value: .one,
-                                                               maximum: .fixed(2.0))
+                                                               maximum: .fixed(2.0),
+                                                               options: .spatial)
         
         public var distance: GraphicMetadata<CGFloat> = .init(value: .one,
-                                                              maximum: .fixed(2.0))
+                                                              maximum: .fixed(2.0),
+                                                              options: .spatial)
                 
         public var isColored: GraphicMetadata<Bool> = .init(value: .fixed(false))
         

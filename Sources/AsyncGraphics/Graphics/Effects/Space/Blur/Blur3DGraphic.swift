@@ -9,9 +9,10 @@ extension CodableGraphic3D.Effect.Space {
         public var style: GraphicEnumMetadata<Graphic3D.Blur3DType> = .init(value: .box)
 
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.1),
-                                                            maximum: .resolutionMinimum(fraction: 0.5))
+                                                            maximum: .resolutionMinimum(fraction: 0.5),
+                                                            options: .spatial)
         
-        public var position: GraphicMetadata<Point3D> = .init()
+        public var position: GraphicMetadata<Point3D> = .init(options: .spatial)
         
         public var direction: GraphicMetadata<Point3D> = .init(value: .fixed(Point3D(x: 1.0, y: 0.0, z: 0.0)),
                                                                minimum: .fixed(Point3D(x: -1.0, y: -1.0, z: -1.0)),

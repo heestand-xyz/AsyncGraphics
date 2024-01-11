@@ -13,7 +13,8 @@ extension CodableGraphic3D.Content.Solid {
         
         public var offset: GraphicMetadata<Point3D> = .init(value: .zero,
                                                                   minimum: .resolutionMaximum(fraction: -0.5),
-                                                                  maximum: .resolutionMaximum(fraction: 0.5))
+                                                                  maximum: .resolutionMaximum(fraction: 0.5),
+                                                            options: .spatial)
         
         public var depthOffset: GraphicMetadata<CGFloat> = .init(minimum: .resolutionMaximum(fraction: -0.5),
                                                                  maximum: .resolutionMaximum(fraction: 0.5))

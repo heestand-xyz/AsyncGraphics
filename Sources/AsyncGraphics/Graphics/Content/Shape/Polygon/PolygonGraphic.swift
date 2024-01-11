@@ -11,15 +11,17 @@ extension CodableGraphic.Content.Shape {
                                                        minimum: .fixed(3),
                                                        maximum: .fixed(12))
 
-        public var position: GraphicMetadata<CGPoint> = .init()
+        public var position: GraphicMetadata<CGPoint> = .init(options: .spatial)
         
         public var rotation: GraphicMetadata<Angle> = .init()
 
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.5),
-                                                            maximum: .resolutionMaximum(fraction: 0.5))
+                                                            maximum: .resolutionMaximum(fraction: 0.5),
+                                                            options: .spatial)
         
         public var cornerRadius: GraphicMetadata<Double> = .init(value: .fixed(0.0),
-                                                                 maximum: .resolutionMinimum(fraction: 0.5))
+                                                                 maximum: .resolutionMinimum(fraction: 0.5),
+                                                                 options: .spatial)
         
         public var foregroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
         public var backgroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.clear))

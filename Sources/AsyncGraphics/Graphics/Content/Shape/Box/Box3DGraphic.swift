@@ -7,18 +7,20 @@ extension CodableGraphic3D.Content.Shape {
     @GraphicMacro
     public final class Box: ShapeContentGraphic3DProtocol {
         
-        public var size: GraphicMetadata<Size3D> = .init()
-        public var position: GraphicMetadata<Point3D> = .init()
+        public var size: GraphicMetadata<Size3D> = .init(options: .spatial)
+        public var position: GraphicMetadata<Point3D> = .init(options: .spatial)
         
         public var cornerRadius: GraphicMetadata<Double> = .init(value: .fixed(0.0),
-                                                                 maximum: .resolutionMinimum(fraction: 0.5))
+                                                                 maximum: .resolutionMinimum(fraction: 0.5),
+                                                                 options: .spatial)
         
         public var foregroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
         public var backgroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.clearWhite))
         
         public var surface: GraphicMetadata<Bool> = .init(value: .fixed(false))
         public var surfaceWidth: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
-                                                                  maximum: .fixed(10.0))
+                                                                  maximum: .fixed(10.0),
+                                                                  options: .spatial)
         
         public func render(
             at resolution: Size3D,

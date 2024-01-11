@@ -13,7 +13,7 @@ extension CodableGraphic.Content.Solid {
             Graphic.GradientStop(at: 1.0, color: .white),
         ]))
         
-        public var position: GraphicMetadata<CGPoint> = .init()
+        public var position: GraphicMetadata<CGPoint> = .init(options: .spatial)
         
         public var scale: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
                                                            maximum: .fixed(2.0))

@@ -9,11 +9,14 @@ extension CodableGraphic.Content.Shape {
         public var foregroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
         public var backgroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.clear))
         
-        var leadingPoint: GraphicMetadata<CGPoint> = .init(value: .resolutionAlignment(.leading))
-        var trailingPoint: GraphicMetadata<CGPoint> = .init(value: .resolutionAlignment(.trailing))
+        var leadingPoint: GraphicMetadata<CGPoint> = .init(value: .resolutionAlignment(.leading),
+                                                           options: .spatial)
+        var trailingPoint: GraphicMetadata<CGPoint> = .init(value: .resolutionAlignment(.trailing),
+                                                            options: .spatial)
         
         public var lineWidth: GraphicMetadata<CGFloat> = .init(value: .fixed(10.0),
-                                                               maximum: .fixed(20.0))
+                                                               maximum: .fixed(20.0),
+                                                               options: .spatial)
         
         public var lineCap: GraphicEnumMetadata<Graphic.LineCap> = .init(value: .square)
         

@@ -109,4 +109,20 @@ public enum GraphicMetadataValue<T: GraphicValue>: Codable {
             return .lerp(at: fraction, from: .zero, to: .one.scaled(by: maximum))
         }
     }
+    
+    public mutating func scale(by scale: CGFloat) {
+        self = scaled(by: scale)
+    }
+    
+    public func scaled(by scale: CGFloat) -> Self {
+        switch self {
+        case .fixed(let value):
+            switch T.graphicValueType {
+                
+            }
+            .fixed(value.scaled(by: scale))
+        default:
+            self
+        }
+    }
 }
