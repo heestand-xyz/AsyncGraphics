@@ -6,17 +6,19 @@ extension CodableGraphic.Content.Shape {
     @GraphicMacro
     public final class Circle: ShapeContentGraphicProtocol {
         
-        public var position: GraphicMetadata<CGPoint> = .init()
+        public var position: GraphicMetadata<CGPoint> = .init(options: .spatial)
         
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.5),
-                                                            maximum: .resolutionMaximum(fraction: 0.5))
+                                                            maximum: .resolutionMaximum(fraction: 0.5),
+                                                            options: .spatial)
         
         public var foregroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
         public var backgroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.clear))
         
         public var isStroked: GraphicMetadata<Bool> = .init(value: .fixed(false))
         public var lineWidth: GraphicMetadata<CGFloat> = .init(value: .fixed(10.0),
-                                                               maximum: .fixed(20.0))
+                                                               maximum: .fixed(20.0),
+                                                               options: .spatial)
         
         public func render(
             at resolution: CGSize,

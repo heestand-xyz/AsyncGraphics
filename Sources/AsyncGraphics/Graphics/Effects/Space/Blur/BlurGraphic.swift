@@ -9,9 +9,10 @@ extension CodableGraphic.Effect.Space {
         public var style: GraphicEnumMetadata<Graphic.BlurType> = .init(value: .gaussian)
         
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.1),
-                                                            maximum: .resolutionMinimum(fraction: 0.5))
+                                                            maximum: .resolutionMinimum(fraction: 0.5),
+                                                            options: .spatial)
         
-        public var position: GraphicMetadata<CGPoint> = .init()
+        public var position: GraphicMetadata<CGPoint> = .init(options: .spatial)
         
         public var rotation: GraphicMetadata<Angle> = .init()
         

@@ -9,23 +9,27 @@ extension CodableGraphic3D.Content.Shape {
         
         public var axis: GraphicEnumMetadata<Graphic3D.Axis> = .init(value: .z)
         
-        public var position: GraphicMetadata<Point3D> = .init()
+        public var position: GraphicMetadata<Point3D> = .init(options: .spatial)
         
         public var length: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 1.0),
-                                                            maximum: .resolutionMaximum(fraction: 1.0))
+                                                            maximum: .resolutionMaximum(fraction: 1.0),
+                                                            options: .spatial)
         
         public var leadingRadius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.5),
-                                                                   maximum: .resolutionMaximum(fraction: 0.5))
+                                                                   maximum: .resolutionMaximum(fraction: 0.5),
+                                                                   options: .spatial)
         
         public var trailingRadius: GraphicMetadata<CGFloat> = .init(value: .zero,
-                                                                    maximum: .resolutionMaximum(fraction: 0.5))
+                                                                    maximum: .resolutionMaximum(fraction: 0.5),
+                                                                    options: .spatial)
         
         public var foregroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
         public var backgroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.clearWhite))
         
         public var surface: GraphicMetadata<Bool> = .init(value: .fixed(false))
         public var surfaceWidth: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
-                                                                  maximum: .fixed(10.0))
+                                                                  maximum: .fixed(10.0),
+                                                                  options: .spatial)
         
         public func render(
             at resolution: Size3D,
