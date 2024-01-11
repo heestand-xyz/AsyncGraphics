@@ -21,9 +21,24 @@ kernel void stack3d(const device Uniforms& uniforms [[ buffer(0) ]],
                     uint3 pos [[ thread_position_in_grid ]],
                     sampler sampler [[ sampler(0) ]]) {
     
+    int axis = uniforms.axis;
+
     uint width = targetTexture.get_width();
     uint height = targetTexture.get_height();
     uint depth = targetTexture.get_depth();
+
+    uint length;
+    switch (axis) {
+        case 0: // X
+            length = width;
+            break;
+        case 1: // Y
+            length = height;
+            break;
+        case 2: // Z
+            length = depth;
+            break;
+    }
     
     if (pos.x >= width || pos.y >= height || pos.z >= depth) {
         return;
@@ -33,18 +48,12 @@ kernel void stack3d(const device Uniforms& uniforms [[ buffer(0) ]],
     float v = float(pos.y + 0.5) / float(height);
     float w = float(pos.z + 0.5) / float(depth);
 
-    int axis = uniforms.axis;
     int3 alignment = uniforms.alignment;
     float spacing = min(max(uniforms.spacing, 0.0), 1.0);
     float padding = min(max(uniforms.padding, 0.0), 1.0);
     float4 backgroundColor = float4(uniforms.backgroundColor.rgb * uniforms.backgroundColor.a, uniforms.backgroundColor.a);
     
     uint count = 2;
-    
-    float sizeFraction = 1.0;
-    sizeFraction -= float(count - 1) * spacing;
-    sizeFraction -= padding * 2;
-    sizeFraction /= float(count);
     
     bool isHorizontal = axis == 0;
     bool isVertical = axis == 1;
@@ -59,28 +68,50 @@ kernel void stack3d(const device Uniforms& uniforms [[ buffer(0) ]],
     float offset = padding;
     for (uint i = 0; i < count; i++) {
         
+        texture3d<float> iTexture = i == 0 ? leadingTexture : trailingTexture;
+        
+        float iWidth = float(iTexture.get_width());
+        float iHeight = float(iTexture.get_height());
+        float iDepth = float(iTexture.get_depth());
+        float iLength;
+        switch (axis) {
+            case 0: // X
+                iLength = iWidth;
+                break;
+            case 1: // Y
+                iLength = iHeight;
+                break;
+            case 2: // Z
+                iLength = iDepth;
+                break;
+        }
+        
+        float sizeFraction = 1.0;
+        sizeFraction -= float(count - 1) * spacing;
+        sizeFraction -= padding * 2;
+        sizeFraction *= iLength / length;
+        
+//        float aspect = iWidth / iHeight;
+//        float depthAspect = iDepth / iHeight;
+//        float relativeAspect = isVertical ? aspect : (1.0 / aspect);
+//        float relativeDepthAspect = isVertical ? depthAspect : (1.0 / depthAspect);
+
+        float tangentSizeFraction = 1.0;
+        float tangentDepthSizeFraction = 1.0;
+//        float tangentSizeFraction = (sizeFraction * relativeAspect) / relativeFullAspect;
+//        if (isDepth) {
+//            tangentSizeFraction /= relativeFullDepthAspect;
+//        }
+//        float tangentDepthSizeFraction = (sizeFraction * relativeDepthAspect);// / relativeFullDepthAspect;
+//        if (isHorizontal) {
+//            tangentDepthSizeFraction /= relativeFullAspect;
+//        }
+        
         float fullCoordinate = isHorizontal ? u : isVertical ? v : w;
         float coordinate = (fullCoordinate - offset) / sizeFraction;
         offset += sizeFraction + spacing;
         if (coordinate < 0.0 || coordinate > 1.0) { continue; }
         
-        texture3d<float> iTexture = i == 0 ? leadingTexture : trailingTexture;
-        float width = float(iTexture.get_width());
-        float height = float(iTexture.get_height());
-        float depth = float(iTexture.get_depth());
-        float aspect = width / height;
-        float depthAspect = depth / height;
-        float relativeAspect = isVertical ? aspect : (1.0 / aspect);
-        float relativeDepthAspect = isVertical ? depthAspect : (1.0 / depthAspect);
-        float tangentSizeFraction = (sizeFraction * relativeAspect) / relativeFullAspect;
-        if (isDepth) {
-            tangentSizeFraction /= relativeFullDepthAspect;
-        }
-        float tangentDepthSizeFraction = (sizeFraction * relativeDepthAspect) / relativeFullDepthAspect;
-        if (isHorizontal) {
-            tangentDepthSizeFraction /= relativeFullAspect;
-        }
-
         float fullTangentCoordinate = isHorizontal ? v : u;
         float tangentCoordinate = 0.0;
         int iAlignment = isHorizontal ? alignment.y : alignment.x;
@@ -120,9 +151,9 @@ kernel void stack3d(const device Uniforms& uniforms [[ buffer(0) ]],
         float iw = isDepth ? coordinate : tangentDepthCoordinate;
         float3 iuvw = float3(iu, iv, iw);
         
+//        color = float4(iuvw, 1.0);
         float4 iColor = iTexture.sample(sampler, iuvw);
         color = float4(float3(color) * (1.0 - iColor.a) + float3(iColor), max(color.a, iColor.a));
-        
     }
     
     targetTexture.write(color, pos);
