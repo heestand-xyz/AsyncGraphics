@@ -13,6 +13,8 @@ public class AnyGraphicValueProperty: AnyGraphicProperty {
     public let minimumValue: String
     public let maximumValue: String
     
+    public let options: GraphicMetadataOptions
+    
     private var updateValue: (String) throws -> ()
     
     init<T: GraphicValue>(type: GraphicValueType,
@@ -22,6 +24,7 @@ public class AnyGraphicValueProperty: AnyGraphicProperty {
                           defaultValue: GraphicMetadataValue<T>,
                           minimumValue: GraphicMetadataValue<T>,
                           maximumValue: GraphicMetadataValue<T>,
+                          options: GraphicMetadataOptions,
                           update: @escaping (GraphicMetadataValue<T>) -> ()) {
         
         self.type = type
@@ -33,6 +36,8 @@ public class AnyGraphicValueProperty: AnyGraphicProperty {
         self.defaultValue = Self.encode(defaultValue)
         self.minimumValue = Self.encode(minimumValue)
         self.maximumValue = Self.encode(maximumValue)
+        
+        self.options = options
         
         updateValue = { string in
             try update(Self.decode(string))

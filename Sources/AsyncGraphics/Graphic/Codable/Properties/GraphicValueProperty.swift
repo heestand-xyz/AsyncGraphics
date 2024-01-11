@@ -32,7 +32,8 @@ extension GraphicValueProperty {
             value: wrappedValue.value,
             defaultValue: wrappedValue.defaultValue,
             minimumValue: wrappedValue.minimumValue,
-            maximumValue: wrappedValue.maximumValue
+            maximumValue: wrappedValue.maximumValue,
+            options: wrappedValue.options
         ) { [weak self] value in
             self?.wrappedValue.value = value
         }
