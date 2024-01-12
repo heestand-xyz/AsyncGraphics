@@ -5,6 +5,8 @@ import Observation
 import CoreGraphicsExtensions
 import TextureMap
 
+#if os(visionOS)
+
 @Observable
 public final class Graphic3DImageRenderer {
     
@@ -185,3 +187,5 @@ public final class Graphic3DImageRenderer {
         images = []
     }
 }
+
+#endif

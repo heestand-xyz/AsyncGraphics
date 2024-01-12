@@ -36,7 +36,7 @@ struct GraphicRepresentableView {
                 #if os(visionOS)
                 await (view as! GraphicMetalVisionView).render(graphic: graphic)
                 #else
-                (view as! GraphicMetalView).render(graphic: graphic)
+                await (view as! GraphicMetalView).render(graphic: graphic)
                 #endif
             } catch {
                 print("AsyncGraphics - View Render Failed:", error)

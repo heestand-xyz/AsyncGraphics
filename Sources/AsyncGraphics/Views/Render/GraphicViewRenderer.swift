@@ -2,8 +2,7 @@ import Foundation
 import Observation
 import CoreGraphicsExtensions
 
-@Observable
-public final class GraphicViewRenderer {
+public final class GraphicViewRenderer: ObservableObject {
     
     public var interpolation: ViewInterpolation = .lanczos {
         didSet {
@@ -14,9 +13,9 @@ public final class GraphicViewRenderer {
     }
     public let extendedDynamicRange: Bool = false
     
-    var sourceGraphic: Graphic?
+    @Published var sourceGraphic: Graphic?
     
-    var viewSize: CGSize? {
+    @Published var viewSize: CGSize? {
         didSet {
             Task {
                 try? await render()
@@ -39,7 +38,7 @@ public final class GraphicViewRenderer {
             graphic.resolution
         }
     }
-    var display: Display?
+    @Published var display: Display?
     
     public init() {}
     

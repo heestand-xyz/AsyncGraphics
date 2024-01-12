@@ -3,6 +3,8 @@ import Spatial
 import Observation
 import CoreGraphicsExtensions
 
+#if os(visionOS)
+
 @Observable
 public final class Graphic3DViewRenderer {
     
@@ -127,3 +129,5 @@ public final class Graphic3DViewRenderer {
         display = nil
     }
 }
+
+#endif

@@ -8,10 +8,10 @@ import CoreGraphicsExtensions
 /// SwiftUI view for rendering and displaying ``Graphic``s.
 public struct GraphicRenderView: View {
     
-    @Bindable private var renderer: GraphicViewRenderer
+    @ObservedObject private var renderer: GraphicViewRenderer
     
     public init(renderer: GraphicViewRenderer) {
-        _renderer = Bindable(renderer)
+        _renderer = ObservedObject(wrappedValue: renderer)
     }
     
     public var body: some View {
@@ -32,7 +32,7 @@ public struct GraphicRenderView: View {
             .onAppear {
                 renderer.viewSize = geometry.size
             }
-            .onChange(of: geometry.size) { _, newSize in
+            .onChange(of: geometry.size) { newSize in
                 renderer.viewSize = newSize
             }
         }
