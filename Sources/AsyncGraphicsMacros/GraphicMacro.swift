@@ -133,8 +133,6 @@ public struct GraphicMacro: MemberMacro, MemberAttributeMacro {
             return []
         }
         
-        let classCamelCaseName = className.first!.lowercased() + className.dropFirst()
-        
         let typeName: String = identifier.name.text
         let isMetadata: Bool = typeName == "GraphicMetadata"
         let isEnumMetadata: Bool = typeName == "GraphicEnumMetadata"
@@ -144,7 +142,7 @@ public struct GraphicMacro: MemberMacro, MemberAttributeMacro {
         }
         
         let localizedName = """
-        String(localized: "property.\(classCamelCaseName).\(name)", bundle: .module)
+        String(localized: "property.\(name)", bundle: .module)
         """
         
         if isMetadata {
