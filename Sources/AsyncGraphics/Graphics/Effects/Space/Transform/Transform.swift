@@ -46,11 +46,13 @@ extension Graphic {
         try await transformed(size: size, options: options)
     }
     
-    public func transformed(translation: CGPoint = .zero,
-                            rotation: Angle = .zero,
-                            scale: CGFloat = 1.0,
-                            size: CGSize? = nil,
-                            options: EffectOptions = []) async throws -> Graphic {
+    public func transformed(
+        translation: CGPoint = .zero,
+        rotation: Angle = .zero,
+        scale: CGFloat = 1.0,
+        size: CGSize? = nil,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         let relativeTranslation: CGPoint = translation / resolution.height
         let relativeSize: CGSize = (size ?? resolution) / resolution
