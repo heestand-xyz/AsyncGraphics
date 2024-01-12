@@ -49,11 +49,13 @@ extension Graphic3D {
         try await transformed(scaleSize: Point3D(x: x, y: y, z: z), options: options)
     }
     
-    private func transformed(translation: Point3D = .zero,
-                             rotation: Point3D = .zero,
-                             scale: Double = 1.0,
-                             scaleSize: Point3D = .one,
-                             options: EffectOptions = []) async throws -> Graphic3D {
+    public func transformed(
+        translation: Point3D = .zero,
+        rotation: Point3D = .zero,
+        scale: Double = 1.0,
+        scaleSize: Point3D = .one,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
         let relativeTranslation: Point3D = translation / Double(height)
         
