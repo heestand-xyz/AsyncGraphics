@@ -64,7 +64,7 @@ public struct Graphic3DView: View {
                 print("AsyncGraphics - Graphic3DView - Failed to get samples:", error)
             }
         }
-        .onChange(of: graphic3D) { _, newGraphic3D in
+        .onChange(of: graphic3D) { newGraphic3D in
             Task {
                 do {
                     try await sample(graphic3D: newGraphic3D)

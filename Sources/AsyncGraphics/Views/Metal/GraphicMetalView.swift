@@ -65,7 +65,7 @@ extension GraphicMetalView {
 
 extension GraphicMetalView {
     
-    func render(graphic: Graphic) {
+    func render(graphic: Graphic) async {
                 
         self.graphic = graphic
         
