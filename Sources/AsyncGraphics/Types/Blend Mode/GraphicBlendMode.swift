@@ -2,11 +2,14 @@
 //  Created by Anton Heestand on 2022-04-03.
 //
 
-@available(*, deprecated, renamed: "AGBlendMode")
-typealias BlendingMode = AGBlendMode
+@available(*, deprecated, renamed: "GraphicBlendMode")
+typealias BlendingMode = GraphicBlendMode
+
+@available(*, deprecated, renamed: "GraphicBlendMode")
+typealias AGBlendMode = GraphicBlendMode
 
 @EnumMacro
-public enum AGBlendMode: String, GraphicEnum {
+public enum GraphicBlendMode: String, GraphicEnum {
     
     case over
     case under
@@ -33,7 +36,7 @@ public enum AGBlendMode: String, GraphicEnum {
     case exclusiveOr
     
     @available(*, deprecated, renamed: "multiply")
-    static var multiplyWithAlpha: AGBlendMode { .multiply }
+    static var multiplyWithAlpha: Self { .multiply }
     
     var rawIndex: UInt32 {
         switch self {
