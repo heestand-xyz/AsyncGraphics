@@ -31,9 +31,7 @@ public struct GraphicTypeMacro: MemberMacro {
             .split(separator: " ")
             .map(String.init)
             .reversed()
-        
-        let colonName = names.joined(separator: ": ") + (is3D ? " (3D)" : "")
-        
+                
         let dotName: String = names.joined(separator: ".")
         
         let block: MemberBlockSyntax  = enumDecl.memberBlock
@@ -50,7 +48,7 @@ public struct GraphicTypeMacro: MemberMacro {
         
         let nameCases: [String] = enumCases.map { enumCase in
             """
-            case .\(enumCase): String(localized: "graphic.\(enumCase)", bundle: .module, comment: "\(colonName)")
+            case .\(enumCase): String(localized: "graphic.\(dotName.lowercased()).\(enumCase)", bundle: .module)
             """
         }
         
