@@ -1,5 +1,5 @@
 public struct AGComponents {
-    var blendMode: AGBlendMode?
+    var blendMode: GraphicBlendMode?
 }
 
 extension AGComponents {

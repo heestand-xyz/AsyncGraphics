@@ -58,7 +58,7 @@ extension Graphic {
     
     public func blended(
         with graphic: Graphic,
-        blendingMode: AGBlendMode,
+        blendingMode: GraphicBlendMode,
         placement: Placement = .fit,
         alignment: Alignment = .center,
         options: EffectOptions = []
@@ -76,7 +76,7 @@ extension Graphic {
     
     public mutating func blend(
         with graphic: Graphic,
-        blendingMode: AGBlendMode,
+        blendingMode: GraphicBlendMode,
         placement: Placement = .fit,
         alignment: Alignment = .center,
         options: EffectOptions = []
@@ -94,7 +94,7 @@ extension Graphic {
     
     private func blended(
         with graphic: Graphic,
-        blendingMode: AGBlendMode,
+        blendingMode: GraphicBlendMode,
         placement: Placement = .fit,
         alignment: Alignment = .center,
         options: EffectOptions = [],
@@ -128,7 +128,7 @@ extension Graphic {
     
     public func transformBlended(
         with graphic: Graphic,
-        blendingMode: AGBlendMode,
+        blendingMode: GraphicBlendMode,
         placement: Placement = .fit,
         alignment: Alignment = .center,
         translation: CGPoint = .zero,

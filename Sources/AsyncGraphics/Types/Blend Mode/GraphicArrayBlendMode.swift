@@ -2,11 +2,14 @@
 //  Created by Anton Heestand on 2022-04-03.
 //
 
-@available(*, deprecated, renamed: "AGArrayBlendMode")
-typealias ArrayBlendingMode = AGArrayBlendMode
+@available(*, deprecated, renamed: "GraphicArrayBlendMode")
+typealias ArrayBlendingMode = GraphicArrayBlendMode
+
+@available(*, deprecated, renamed: "GraphicArrayBlendMode")
+typealias AGArrayBlendMode = GraphicArrayBlendMode
 
 @EnumMacro
-public enum AGArrayBlendMode: String, GraphicEnum {
+public enum GraphicArrayBlendMode: String, GraphicEnum {
     
     case over
     case under
