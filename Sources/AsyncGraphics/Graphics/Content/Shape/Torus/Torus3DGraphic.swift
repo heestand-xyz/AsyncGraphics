@@ -12,11 +12,11 @@ extension CodableGraphic3D.Content.Shape {
         public var position: GraphicMetadata<Point3D> = .init(options: .spatial)
         
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 1.0 / 4),
-                                                            maximum: .resolutionMaximum(fraction: 1.0 / 4),
+                                                            maximum: .resolutionMinimum(fraction: 1.0 / 4),
                                                             options: .spatial)
         
         public var revolvingRadius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 1.0 / 8),
-                                                                     maximum: .resolutionMaximum(fraction: 1.0 / 8),
+                                                                     maximum: .resolutionMinimum(fraction: 1.0 / 8),
                                                                      options: .spatial)
             
         public var foregroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
