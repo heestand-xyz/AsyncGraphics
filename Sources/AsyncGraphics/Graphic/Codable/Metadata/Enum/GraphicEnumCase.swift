@@ -4,7 +4,17 @@
 
 import Foundation
 
-public struct GraphicEnumCase: Codable {
+public struct GraphicEnumCase: Codable, Identifiable {
+    
     public let rawValue: String
     public let name: String
+    
+    public var id: String {
+        rawValue
+    }
+    
+    public init(rawValue: String, name: String) {
+        self.rawValue = rawValue
+        self.name = name
+    }
 }
