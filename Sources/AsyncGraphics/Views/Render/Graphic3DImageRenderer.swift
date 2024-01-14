@@ -70,6 +70,11 @@ public final class Graphic3DImageRenderer {
         public var fraction: CGFloat {
             CGFloat(index) / CGFloat(count - 1)
         }
+        public init(index: Int, count: Int, state: State) {
+            self.index = index
+            self.count = count
+            self.state = state
+        }
         class Manager {
             private let count: Int
             private var index: Int = 0
