@@ -21,7 +21,7 @@ extension Graphic3D {
         try await Renderer.render(
             name: "Threshold 3D",
             shader: .name("threshold3d"),
-            graphics: [self],
+            graphics: [self], 
             uniforms: Threshold3DUniforms(
                 fraction: Float(fraction),
                 foregroundColor: color.uniform,

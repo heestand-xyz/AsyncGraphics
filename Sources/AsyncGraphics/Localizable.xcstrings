@@ -271,6 +271,26 @@
         }
       }
     },
+    "graphic.effect.modifier.displace" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Displace"
+          }
+        }
+      }
+    },
+    "graphic.effect.modifier.mask" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mask"
+          }
+        }
+      }
+    },
     "graphic.effect.space.blur" : {
       "localizations" : {
         "en" : {
@@ -1891,6 +1911,16 @@
         }
       }
     },
+    "property.origin" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Origin"
+          }
+        }
+      }
+    },
     "property.originColor" : {
       "localizations" : {
         "en" : {
@@ -1907,6 +1937,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Outer Radius"
+          }
+        }
+      }
+    },
+    "property.placement" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Placement"
           }
         }
       }
