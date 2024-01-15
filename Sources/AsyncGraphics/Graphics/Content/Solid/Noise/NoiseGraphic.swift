@@ -15,8 +15,7 @@ extension CodableGraphic.Content.Solid {
                                                             maximum: .resolutionMaximum(fraction: 0.5),
                                                             options: .spatial)
         
-        public var depthOffset: GraphicMetadata<CGFloat> = .init(minimum: .resolutionMaximum(fraction: -0.5),
-                                                                 maximum: .resolutionMaximum(fraction: 0.5))
+        public var depthOffset: GraphicMetadata<CGFloat> = .init(maximum: .resolutionMaximum(fraction: 0.5))
         
         public var scale: GraphicMetadata<CGFloat> = .init(value: .one,
                                                            maximum: .fixed(2.0))
