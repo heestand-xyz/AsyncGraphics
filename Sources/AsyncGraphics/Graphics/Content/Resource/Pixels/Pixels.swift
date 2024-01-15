@@ -52,7 +52,9 @@ extension Graphic {
             }
             texture = try TextureMap.texture(channels: channels, resolution: resolution, on: Renderer.metalDevice)
         case ._16:
-            #if !os(macOS)
+#if os(macOS)
+            throw PixelsError.unsupportedOS
+#else
             let channels: [Float16] = pixels.flatMap { row in
                 row.flatMap { color in
                     color.components.map { channel in
@@ -61,9 +63,7 @@ extension Graphic {
                 }
             }
             texture = try TextureMap.texture(channels: channels, resolution: resolution, on: Renderer.metalDevice)
-            #else
-            throw PixelsError.unsupportedOS
-            #endif
+#endif
         case ._32:
             let channels: [Float] = pixels.flatMap { row in
                 row.flatMap { color in

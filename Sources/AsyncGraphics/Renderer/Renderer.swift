@@ -226,7 +226,7 @@ public struct Renderer {
                                 sampleCount: sampleCount)
                         } else if let resolution: Size3D = resolution as? Size3D {
                             return try .empty3d(
-                                resolution: SIMD3<Int>(resolution.vector),
+                                resolution: resolution,
                                 bits: bits,
                                 usage: .write)
                         }
