@@ -12,7 +12,7 @@ extension CodableGraphic3D.Effect.Color {
         
         public var foregroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
         
-        public var backgroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.clearWhite))
+        public var backgroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.clear))
         
         public func render(
             with graphic: Graphic3D,
