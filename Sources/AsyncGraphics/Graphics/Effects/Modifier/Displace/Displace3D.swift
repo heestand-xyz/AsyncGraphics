@@ -16,7 +16,7 @@ extension Graphic3D {
     public func displaced(with graphic: Graphic3D,
                           offset: Double,
                           origin: PixelColor = .rawGray,
-                          placement: Placement = .fill,
+                          placement: Graphic.Placement = .fill,
                           options: EffectOptions = []) async throws -> Graphic3D {
         
         let relativeOffset: Double = offset / Double(height)

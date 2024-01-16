@@ -4,7 +4,7 @@ public struct AGVideo: AGGraph {
     
     let videoPlayer: GraphicVideoPlayer
     
-    var placement: Placement = .fixed
+    var placement: Graphic.Placement = .fixed
     
     public init(with videoPlayer: GraphicVideoPlayer) {
         self.videoPlayer = videoPlayer

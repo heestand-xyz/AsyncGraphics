@@ -18,7 +18,7 @@ public struct AGAspectRatio: AGSingleParentGraph {
     let aspectRatio: CGFloat?
     let contentMode: AGContentMode
     
-    private var placement: Placement {
+    private var placement: Graphic.Placement {
         switch contentMode {
         case .fit:
             return .fit

@@ -6,9 +6,9 @@ extension CodableGraphic.Effect.Modifier {
     @GraphicMacro
     public final class Blend: ModifierEffectGraphicProtocol {
         
-        public var blendingMode: GraphicEnumMetadata<GraphicBlendMode> = .init(value: .add)
+        public var blendingMode: GraphicEnumMetadata<Graphic.BlendMode> = .init(value: .add)
         
-        public var placement: GraphicEnumMetadata<Placement> = .init(value: .fill)
+        public var placement: GraphicEnumMetadata<Graphic.Placement> = .init(value: .fill)
 
         public var alignment: GraphicEnumMetadata<Graphic.Alignment> = .init(value: .center)
 

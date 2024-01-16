@@ -13,7 +13,7 @@ extension CodableGraphic3D.Effect.Modifier {
         
         public var origin: GraphicMetadata<PixelColor> = .init(value: .fixed(.gray))
         
-        public var placement: GraphicEnumMetadata<Placement> = .init(value: .fill)
+        public var placement: GraphicEnumMetadata<Graphic.Placement> = .init(value: .fill)
 
         public func render(
             with graphic: Graphic3D,

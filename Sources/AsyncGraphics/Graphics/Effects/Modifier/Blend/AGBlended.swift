@@ -2,7 +2,7 @@ import CoreGraphics
 
 extension AGGraph {
     
-    public func blendMode(_ blendMode: GraphicBlendMode) -> any AGGraph {
+    public func blendMode(_ blendMode: Graphic.BlendMode) -> any AGGraph {
         AGBlended(child: self, blendMode: blendMode)
     }
 }
@@ -11,7 +11,7 @@ public struct AGBlended: AGSingleParentGraph {
     
     var child: any AGGraph
     
-    let blendMode: GraphicBlendMode
+    let blendMode: Graphic.BlendMode
     
     public var components: AGComponents {
         var components: AGComponents = child.components

@@ -13,7 +13,7 @@ extension Graphic3D {
     
     public func cross(with graphic: Graphic3D,
                       fraction: CGFloat,
-                      placement: Placement = .fit,
+                      placement: Graphic.Placement = .fit,
                       options: EffectOptions = []) async throws -> Graphic3D {
         
         try await Renderer.render(
