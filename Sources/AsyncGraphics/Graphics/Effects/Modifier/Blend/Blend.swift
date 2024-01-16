@@ -19,7 +19,8 @@ extension Graphic {
         let verticalAlignment: Int32
     }
     
-    public enum Alignment {
+    @EnumMacro
+    public enum Alignment: String, GraphicEnum {
         
         case topLeading
         case top
