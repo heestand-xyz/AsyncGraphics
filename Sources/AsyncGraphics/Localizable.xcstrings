@@ -271,12 +271,52 @@
         }
       }
     },
+    "graphic.effect.modifier.blend" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blend"
+          }
+        }
+      }
+    },
+    "graphic.effect.modifier.cross" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cros"
+          }
+        }
+      }
+    },
     "graphic.effect.modifier.displace" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Displace"
+          }
+        }
+      }
+    },
+    "graphic.effect.modifier.lookup" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lookup"
+          }
+        }
+      }
+    },
+    "graphic.effect.modifier.lumaBlur" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luma Blur"
           }
         }
       }
@@ -327,6 +367,96 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Transform"
+          }
+        }
+      }
+    },
+    "option.alignment.bottom" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bottom"
+          }
+        }
+      }
+    },
+    "option.alignment.bottomLeading" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bottom Leading"
+          }
+        }
+      }
+    },
+    "option.alignment.bottomTrailing" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bottom Trailing"
+          }
+        }
+      }
+    },
+    "option.alignment.center" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Center"
+          }
+        }
+      }
+    },
+    "option.alignment.leading" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leading"
+          }
+        }
+      }
+    },
+    "option.alignment.top" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top"
+          }
+        }
+      }
+    },
+    "option.alignment.topLeading" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top Leading"
+          }
+        }
+      }
+    },
+    "option.alignment.topTrailing" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top Trailing"
+          }
+        }
+      }
+    },
+    "option.alignment.trailing" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trailing"
           }
         }
       }
@@ -1321,6 +1451,126 @@
         }
       }
     },
+    "option.lookup3DAxis.x" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "X"
+          }
+        }
+      }
+    },
+    "option.lookup3DAxis.y" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Y"
+          }
+        }
+      }
+    },
+    "option.lookup3DAxis.z" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Z"
+          }
+        }
+      }
+    },
+    "option.lookupAxis.horizontal" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Horizontal"
+          }
+        }
+      }
+    },
+    "option.lookupAxis.vertical" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vertical"
+          }
+        }
+      }
+    },
+    "option.lumaBlur3DType.box" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Box"
+          }
+        }
+      }
+    },
+    "option.lumaBlur3DType.random" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Random"
+          }
+        }
+      }
+    },
+    "option.lumaBlur3DType.zoom" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoom"
+          }
+        }
+      }
+    },
+    "option.lumaBlurType.angle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angle"
+          }
+        }
+      }
+    },
+    "option.lumaBlurType.box" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Box"
+          }
+        }
+      }
+    },
+    "option.lumaBlurType.random" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Random"
+          }
+        }
+      }
+    },
+    "option.lumaBlurType.zoom" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoom"
+          }
+        }
+      }
+    },
     "option.placement.fill" : {
       "localizations" : {
         "en" : {
@@ -1431,6 +1681,16 @@
         }
       }
     },
+    "property.alignment" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alignment"
+          }
+        }
+      }
+    },
     "property.alpha" : {
       "localizations" : {
         "en" : {
@@ -1487,6 +1747,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Background Color"
+          }
+        }
+      }
+    },
+    "property.blendingMode" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blending Mode"
           }
         }
       }
@@ -1881,6 +2151,16 @@
         }
       }
     },
+    "property.lumaGamma" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luma Gamma"
+          }
+        }
+      }
+    },
     "property.octaves" : {
       "localizations" : {
         "en" : {
@@ -2007,6 +2287,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rotation"
+          }
+        }
+      }
+    },
+    "property.sampleCoordinate" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sample Coordinate"
           }
         }
       }
@@ -2346,7 +2636,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Double Gamma"
+            "value" : "Gamma Double"
           }
         }
       }
@@ -2356,7 +2646,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Half Gamma"
+            "value" : "Gamma Half"
           }
         }
       }
