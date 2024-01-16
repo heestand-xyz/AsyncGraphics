@@ -18,7 +18,8 @@ extension Graphic3D {
         let lumaGamma: Float
     }
    
-    private enum LumaBlur3DType: UInt32 {
+    @EnumMacro
+    public enum LumaBlur3DType: String, GraphicEnum {
         case box
         case zoom
         case random
@@ -107,7 +108,7 @@ extension Graphic3D {
                 graphic
             ],
             uniforms: LumaBlur3DUniforms(
-                type: type.rawValue,
+                type: type.index,
                 placement: placement.index,
                 count: UInt32(sampleCount),
                 radius: Float(relativeRadius),

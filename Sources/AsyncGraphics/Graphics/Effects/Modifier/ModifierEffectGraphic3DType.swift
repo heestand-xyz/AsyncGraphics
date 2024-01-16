@@ -8,4 +8,5 @@ public enum ModifierEffectGraphic3DType: String, CodableGraphicTypeProtocol {
     case blend
     case displace
     case lookup
+    case lumaBlur
 }

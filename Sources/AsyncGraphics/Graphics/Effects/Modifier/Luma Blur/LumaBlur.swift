@@ -18,7 +18,8 @@ extension Graphic {
         let lumaGamma: Float
     }
    
-    private enum LumaBlurType: UInt32 {
+    @EnumMacro
+    public enum LumaBlurType: String, GraphicEnum {
         case box
         case angle
         case zoom
@@ -148,7 +149,7 @@ extension Graphic {
                 graphic
             ],
             uniforms: LumaBlurUniforms(
-                type: type.rawValue,
+                type: type.index,
                 placement: placement.index,
                 count: UInt32(sampleCount),
                 radius: Float(relativeRadius),
