@@ -1,17 +1,13 @@
 import SwiftUI
 import Spatial
 import CoreGraphics
-import PixelColor
 
 extension CodableGraphic3D.Effect.Modifier {
     
     @GraphicMacro
-    public final class Displace: ModifierEffectGraphic3DProtocol {
+    public final class Cross: ModifierEffectGraphic3DProtocol {
         
-        public var offset: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.1),
-                                                            options: .spatial)
-        
-        public var origin: GraphicMetadata<PixelColor> = .init(value: .fixed(.gray))
+        public var fraction: GraphicMetadata<CGFloat> = .init(value: .fixed(0.5))
         
         public var placement: GraphicEnumMetadata<Placement> = .init(value: .fill)
 
@@ -20,11 +16,10 @@ extension CodableGraphic3D.Effect.Modifier {
             modifier modifierGraphic: Graphic3D,
             options: Graphic3D.EffectOptions = [.edgeStretch]
         ) async throws -> Graphic3D {
-           
-            try await graphic.displaced(
+                       
+            try await graphic.cross(
                 with: modifierGraphic,
-                offset: offset.value.eval(at: graphic.resolution),
-                origin: origin.value.eval(at: graphic.resolution),
+                fraction: fraction.value.eval(at: graphic.resolution),
                 placement: placement.value,
                 options: options
             )

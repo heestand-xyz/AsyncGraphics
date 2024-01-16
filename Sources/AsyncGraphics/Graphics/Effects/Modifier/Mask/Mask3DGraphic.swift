@@ -1,4 +1,5 @@
 import SwiftUI
+import Spatial
 import CoreGraphics
 
 extension CodableGraphic3D.Effect.Modifier {
