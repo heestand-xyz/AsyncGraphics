@@ -13,7 +13,8 @@ extension Graphic3D {
     
     public func cross(with graphic: Graphic3D,
                       fraction: CGFloat,
-                      placement: Placement = .fit) async throws -> Graphic3D {
+                      placement: Placement = .fit,
+                      options: EffectOptions = []) async throws -> Graphic3D {
         
         try await Renderer.render(
             name: "Cross 3D",
@@ -25,6 +26,9 @@ extension Graphic3D {
             uniforms: Cross3DUniforms(
                 fraction: Float(fraction),
                 placement: Int32(placement.index)
+            ),
+            options: Renderer.Options(
+                addressMode: options.addressMode
             )
         )
     }
