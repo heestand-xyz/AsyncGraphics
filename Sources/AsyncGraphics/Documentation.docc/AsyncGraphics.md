@@ -44,6 +44,11 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 - ``GraphicView``
 - ``Graphic3DView``
 - ``AsyncGraphicView``
+- ``GraphicRenderView``
+
+### View Renderers
+
+- ``GraphicViewRenderer``
 
 ### Graphs
 
@@ -119,11 +124,6 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 - ``AGDetails``
 - ``AGGroup``
 - ``AGContentMode``
-- ``AGArrayBlendMode``
-
-### Placement
-
-- ``Placement``
 
 ### Render State
 
@@ -155,6 +155,7 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 - ``GraphicMetadataValue``
 - ``GraphicMetadata``
 - ``GraphicEnumMetadata``
+- ``GraphicMetadataOptions``
 
 - ``GraphicVariant``
 - ``CodableGraphicVariant``
@@ -178,8 +179,14 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 - ``EffectGraphicProtocol``
 - ``EffectGraphic3DProtocol``
 
-- ``DirectEffectGraphicProtocol``
-- ``DirectEffectGraphic3DProtocol``
+- ``ColorEffectGraphicProtocol``
+- ``ColorEffectGraphic3DProtocol``
+
+- ``SpaceEffectGraphicProtocol``
+- ``SpaceEffectGraphic3DProtocol``
+
+- ``ModifierEffectGraphicProtocol``
+- ``ModifierEffectGraphic3DProtocol``
 
 ### Codable Types
 
@@ -189,8 +196,14 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 - ``ContentGraphicType``
 - ``ContentGraphic3DType``
 
-- ``DirectEffectGraphicType``
-- ``DirectEffectGraphic3DType``
+- ``ColorEffectGraphicType``
+- ``ColorEffectGraphic3DType``
+
+- ``SpaceEffectGraphicType``
+- ``SpaceEffectGraphic3DType``
+
+- ``ModifierEffectGraphicType``
+- ``ModifierEffectGraphic3DType``
 
 - ``EffectGraphicType``
 - ``EffectGraphic3DType``

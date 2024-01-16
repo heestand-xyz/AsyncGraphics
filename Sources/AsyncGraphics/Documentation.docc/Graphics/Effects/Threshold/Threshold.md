@@ -1,4 +1,4 @@
-# ``AsyncGraphics/Graphic/threshold(_:options:)``
+# ``AsyncGraphics/Graphic/threshold(_:color:backgroundColor:options:)``
 
 ## Overview
 

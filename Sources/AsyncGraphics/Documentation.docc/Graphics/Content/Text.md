@@ -1,4 +1,4 @@
-# ``AsyncGraphics/Graphic/text(_:font:center:horizontalAlignment:verticalAlignment:color:backgroundColor:resolution:options:)``
+# ``AsyncGraphics/Graphic/text(_:font:position:horizontalAlignment:verticalAlignment:color:backgroundColor:resolution:options:)``
 
 ## Overview
 

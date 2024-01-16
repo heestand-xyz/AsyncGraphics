@@ -12,7 +12,7 @@ Create effects to modify color brightness and displacement.
 
 Use blending modes to combine two or more graphics.
 
-- ``Graphic/blended(with:blendingMode:placement:options:)``
+- ``Graphic/blended(with:blendingMode:placement:alignment:options:)``
 - ``Graphic/blend(with:blendingMode:)``
 - ``Graphic/add(with:)``
 - ``Graphic/average(with:)``
@@ -20,8 +20,7 @@ Use blending modes to combine two or more graphics.
 
 ### Transform
 
-- ``Graphic/translated(_:options:)``
-- ``Graphic/translated(x:y:options:)``
+- ``Graphic/offset(_:options:)``
 - ``Graphic/rotated(_:options:)``
 - ``Graphic/scaled(_:options:)``
 - ``Graphic/sized(width:height:options:)``
@@ -30,15 +29,15 @@ Use blending modes to combine two or more graphics.
 
 ### Luma Transform
 
-- ``Graphic/lumaTranslated(with:translation:lumaGamma:placement:options:)``
-- ``Graphic/lumaTranslated(with:x:y:lumaGamma:placement:options:)``
+- ``Graphic/lumaOffset(with:translation:lumaGamma:placement:options:)``
+- ``Graphic/lumaOffset(with:x:y:lumaGamma:placement:options:)``
 - ``Graphic/lumaRotated(with:rotation:lumaGamma:placement:options:)``
 - ``Graphic/lumaScaled(with:scale:lumaGamma:placement:options:)``
 - ``Graphic/lumaScaled(with:x:y:lumaGamma:placement:options:)``
 
 ### Transform with Blend
 
-- ``Graphic/transformBlended(with:blendingMode:placement:translation:rotation:scale:size:options:)``
+- ``Graphic/transformBlended(with:blendingMode:placement:alignment:translation:rotation:scale:size:options:)``
 
 ### Mirror
 
@@ -111,7 +110,7 @@ Use blending modes to combine two or more graphics.
 
 ### Threshold
 
-- ``Graphic/threshold(_:options:)``
+- ``Graphic/threshold(_:color:backgroundColor:options:)``
 
 ### Quantize
 
@@ -128,14 +127,14 @@ Use blending modes to combine two or more graphics.
 
 - ``Graphic/blurred(radius:)``
 - ``Graphic/blurredBox(radius:sampleCount:options:)``
-- ``Graphic/blurredZoom(radius:center:sampleCount:options:)``
+- ``Graphic/blurredZoom(radius:position:sampleCount:options:)``
 - ``Graphic/blurredAngle(radius:angle:sampleCount:options:)``
 - ``Graphic/blurredRandom(radius:options:)``
 
 ### Luma Blur
 
 - ``Graphic/lumaBlurredBox(with:radius:lumaGamma:sampleCount:placement:options:)``
-- ``Graphic/lumaBlurredZoom(with:radius:center:lumaGamma:sampleCount:placement:options:)``
+- ``Graphic/lumaBlurredZoom(with:radius:position:lumaGamma:sampleCount:placement:options:)``
 - ``Graphic/lumaBlurredAngle(with:radius:angle:lumaGamma:sampleCount:placement:options:)``
 - ``Graphic/lumaBlurredRandom(with:radius:lumaGamma:placement:options:)``
 
@@ -143,13 +142,13 @@ Use blending modes to combine two or more graphics.
 
 - ``Graphic/rainbowBlurredCircle(radius:angle:light:sampleCount:options:)``
 - ``Graphic/rainbowBlurredAngle(radius:angle:light:sampleCount:options:)``
-- ``Graphic/rainbowBlurredZoom(radius:center:light:sampleCount:options:)``
+- ``Graphic/rainbowBlurredZoom(radius:position:light:sampleCount:options:)``
 
 ### Luma Rainbow Blur
 
 - ``Graphic/lumaRainbowBlurredCircle(with:radius:angle:light:lumaGamma:sampleCount:placement:options:)``
 - ``Graphic/lumaRainbowBlurredAngle(with:radius:angle:light:lumaGamma:sampleCount:placement:options:)``
-- ``Graphic/lumaRainbowBlurredZoom(with:radius:center:light:lumaGamma:sampleCount:placement:options:)``
+- ``Graphic/lumaRainbowBlurredZoom(with:radius:position:light:lumaGamma:sampleCount:placement:options:)``
 
 ### Displace
 
@@ -161,8 +160,8 @@ Use blending modes to combine two or more graphics.
 
 ### Edge
 
-- ``Graphic/edge(amplitude:distance:options:)``
-- ``Graphic/coloredEdge(amplitude:distance:options:)``
+- ``Graphic/edge(amplitude:distance:isTransparent:options:)``
+- ``Graphic/coloredEdge(amplitude:distance:isTransparent:options:)``
 
 ### Clamp
 

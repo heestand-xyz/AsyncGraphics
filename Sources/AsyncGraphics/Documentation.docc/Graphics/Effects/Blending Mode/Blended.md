@@ -1,4 +1,4 @@
-# ``AsyncGraphics/Graphic/blended(with:blendingMode:placement:options:)``
+# ``AsyncGraphics/Graphic/blended(with:blendingMode:placement:alignment:options:)``
 
 ## Overview
 

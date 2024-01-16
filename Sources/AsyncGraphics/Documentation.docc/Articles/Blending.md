@@ -8,7 +8,7 @@ Blend graphics with the z stacks and blending modes.
 
 First we create an ``AGView``, this is the container for all ``AGGraph``'s.
 
-In this example we have a ``AGZStack`` with 3 ``AGHStack``s. Each graph has a blend mode (``AGBlendMode``), in this case `.screen`.
+In this example we have a ``AGZStack`` with 3 ``AGHStack``s. Each graph has a blend mode (``Graphic/BlendMode``), in this case `.screen`.
 
 ```swift
 import SwiftUI
@@ -46,4 +46,4 @@ struct ContentView: View {
 
 ### Blend Mode
 
-- ``AGBlendMode``
+- ``Graphic/BlendMode``
