@@ -30,7 +30,7 @@ extension Graphic3D {
         radius: CGFloat,
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 10,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
     ) async throws -> Graphic3D {
         
@@ -51,7 +51,7 @@ extension Graphic3D {
         position: Point3D? = nil,
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 10,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
     ) async throws -> Graphic3D {
         
@@ -71,7 +71,7 @@ extension Graphic3D {
         with graphic: Graphic3D,
         radius: CGFloat,
         lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
     ) async throws -> Graphic3D {
         
@@ -91,7 +91,7 @@ extension Graphic3D {
         angle: Angle = .zero,
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 10,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
     ) async throws -> Graphic3D {
             

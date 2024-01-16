@@ -6,7 +6,7 @@ import CoreGraphics
 
 extension CGSize {
     
-    public func place(in resolution: CGSize, placement: Placement, rounded: Bool = true) -> CGSize {
+    public func place(in resolution: CGSize, placement: Graphic.Placement, rounded: Bool = true) -> CGSize {
        
         var resolution: CGSize = {
             switch placement {

@@ -491,6 +491,75 @@
         }
       }
     },
+    "option.blendMode.add" : {
+
+    },
+    "option.blendMode.addWithAlpha" : {
+
+    },
+    "option.blendMode.average" : {
+
+    },
+    "option.blendMode.cosine" : {
+
+    },
+    "option.blendMode.darken" : {
+
+    },
+    "option.blendMode.darkenWithoutAlpha" : {
+
+    },
+    "option.blendMode.difference" : {
+
+    },
+    "option.blendMode.divide" : {
+
+    },
+    "option.blendMode.exclusiveOr" : {
+
+    },
+    "option.blendMode.gamma" : {
+
+    },
+    "option.blendMode.inside" : {
+
+    },
+    "option.blendMode.lighten" : {
+
+    },
+    "option.blendMode.maximum" : {
+
+    },
+    "option.blendMode.minimum" : {
+
+    },
+    "option.blendMode.multiply" : {
+
+    },
+    "option.blendMode.multiplyWithoutAlpha" : {
+
+    },
+    "option.blendMode.outside" : {
+
+    },
+    "option.blendMode.over" : {
+
+    },
+    "option.blendMode.power" : {
+
+    },
+    "option.blendMode.screen" : {
+
+    },
+    "option.blendMode.subtract" : {
+
+    },
+    "option.blendMode.subtractWithAlpha" : {
+
+    },
+    "option.blendMode.under" : {
+
+    },
     "option.blur3DType.box" : {
       "localizations" : {
         "en" : {
@@ -952,6 +1021,7 @@
       }
     },
     "option.graphicArrayBlendMode.add" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -962,6 +1032,7 @@
       }
     },
     "option.graphicArrayBlendMode.addWithAlpha" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -972,6 +1043,7 @@
       }
     },
     "option.graphicArrayBlendMode.average" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -982,6 +1054,7 @@
       }
     },
     "option.graphicArrayBlendMode.darken" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -992,6 +1065,7 @@
       }
     },
     "option.graphicArrayBlendMode.difference" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1002,6 +1076,7 @@
       }
     },
     "option.graphicArrayBlendMode.divide" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1012,6 +1087,7 @@
       }
     },
     "option.graphicArrayBlendMode.gamma" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1022,6 +1098,7 @@
       }
     },
     "option.graphicArrayBlendMode.lighten" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1032,6 +1109,7 @@
       }
     },
     "option.graphicArrayBlendMode.maximum" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1042,6 +1120,7 @@
       }
     },
     "option.graphicArrayBlendMode.minimum" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1052,6 +1131,7 @@
       }
     },
     "option.graphicArrayBlendMode.multiply" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1062,6 +1142,7 @@
       }
     },
     "option.graphicArrayBlendMode.over" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1072,6 +1153,7 @@
       }
     },
     "option.graphicArrayBlendMode.power" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1082,6 +1164,7 @@
       }
     },
     "option.graphicArrayBlendMode.screen" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1092,6 +1175,7 @@
       }
     },
     "option.graphicArrayBlendMode.subtract" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1102,6 +1186,7 @@
       }
     },
     "option.graphicArrayBlendMode.subtractWithAlpha" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1112,6 +1197,7 @@
       }
     },
     "option.graphicArrayBlendMode.under" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1122,6 +1208,7 @@
       }
     },
     "option.graphicBlendMode.add" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1132,6 +1219,7 @@
       }
     },
     "option.graphicBlendMode.addWithAlpha" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1142,6 +1230,7 @@
       }
     },
     "option.graphicBlendMode.average" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1152,6 +1241,7 @@
       }
     },
     "option.graphicBlendMode.cosine" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1162,6 +1252,7 @@
       }
     },
     "option.graphicBlendMode.darken" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1172,6 +1263,7 @@
       }
     },
     "option.graphicBlendMode.darkenWithoutAlpha" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1182,6 +1274,7 @@
       }
     },
     "option.graphicBlendMode.difference" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1192,6 +1285,7 @@
       }
     },
     "option.graphicBlendMode.divide" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1202,6 +1296,7 @@
       }
     },
     "option.graphicBlendMode.exclusiveOr" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1212,6 +1307,7 @@
       }
     },
     "option.graphicBlendMode.gamma" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1222,6 +1318,7 @@
       }
     },
     "option.graphicBlendMode.inside" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1232,6 +1329,7 @@
       }
     },
     "option.graphicBlendMode.lighten" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1242,6 +1340,7 @@
       }
     },
     "option.graphicBlendMode.maximum" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1252,6 +1351,7 @@
       }
     },
     "option.graphicBlendMode.minimum" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1262,6 +1362,7 @@
       }
     },
     "option.graphicBlendMode.multiply" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1272,6 +1373,7 @@
       }
     },
     "option.graphicBlendMode.multiplyWithoutAlpha" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1282,6 +1384,7 @@
       }
     },
     "option.graphicBlendMode.outside" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1292,6 +1395,7 @@
       }
     },
     "option.graphicBlendMode.over" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1302,6 +1406,7 @@
       }
     },
     "option.graphicBlendMode.power" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1312,6 +1417,7 @@
       }
     },
     "option.graphicBlendMode.screen" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1322,6 +1428,7 @@
       }
     },
     "option.graphicBlendMode.subtract" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1332,6 +1439,7 @@
       }
     },
     "option.graphicBlendMode.subtractWithAlpha" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1342,6 +1450,7 @@
       }
     },
     "option.graphicBlendMode.under" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1570,6 +1679,57 @@
           }
         }
       }
+    },
+    "option.multiBlendMode.add" : {
+
+    },
+    "option.multiBlendMode.addWithAlpha" : {
+
+    },
+    "option.multiBlendMode.average" : {
+
+    },
+    "option.multiBlendMode.darken" : {
+
+    },
+    "option.multiBlendMode.difference" : {
+
+    },
+    "option.multiBlendMode.divide" : {
+
+    },
+    "option.multiBlendMode.gamma" : {
+
+    },
+    "option.multiBlendMode.lighten" : {
+
+    },
+    "option.multiBlendMode.maximum" : {
+
+    },
+    "option.multiBlendMode.minimum" : {
+
+    },
+    "option.multiBlendMode.multiply" : {
+
+    },
+    "option.multiBlendMode.over" : {
+
+    },
+    "option.multiBlendMode.power" : {
+
+    },
+    "option.multiBlendMode.screen" : {
+
+    },
+    "option.multiBlendMode.subtract" : {
+
+    },
+    "option.multiBlendMode.subtractWithAlpha" : {
+
+    },
+    "option.multiBlendMode.under" : {
+
     },
     "option.placement.fill" : {
       "localizations" : {

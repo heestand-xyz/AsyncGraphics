@@ -12,8 +12,8 @@ extension Graphic3D {
     }
     
     mutating public func blend(with graphic: Graphic3D,
-                               blendingMode: GraphicBlendMode,
-                               placement: Placement = .fit,
+                               blendingMode: Graphic.BlendMode,
+                               placement: Graphic.Placement = .fit,
                                options: EffectOptions = []) async throws {
         self = try await blended(
             with: graphic,
@@ -25,8 +25,8 @@ extension Graphic3D {
     }
     
     public func blended(with graphic: Graphic3D,
-                        blendingMode: GraphicBlendMode,
-                        placement: Placement = .fit,
+                        blendingMode: Graphic.BlendMode,
+                        placement: Graphic.Placement = .fit,
                         options: EffectOptions = []) async throws -> Graphic3D {
         
         try await blended(
@@ -40,8 +40,8 @@ extension Graphic3D {
     
     private func blended(
         with graphic: Graphic3D,
-        blendingMode: GraphicBlendMode,
-        placement: Placement,
+        blendingMode: Graphic.BlendMode,
+        placement: Graphic.Placement,
         targetSourceTexture: Bool,
         options: EffectOptions = []
     ) async throws -> Graphic3D {

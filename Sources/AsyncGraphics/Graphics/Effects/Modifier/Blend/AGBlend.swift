@@ -12,7 +12,7 @@ public struct AGBlend: AGSingleModifierParentGraph {
     var child: any AGGraph
     let modifierChild: any AGGraph
     
-    let blendMode: GraphicBlendMode
+    let blendMode: Graphic.BlendMode
     
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {

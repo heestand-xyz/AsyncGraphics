@@ -7,9 +7,9 @@ extension CodableGraphic3D.Effect.Modifier {
     @GraphicMacro
     public final class Blend: ModifierEffectGraphic3DProtocol {
         
-        public var blendingMode: GraphicEnumMetadata<GraphicBlendMode> = .init(value: .add)
+        public var blendingMode: GraphicEnumMetadata<Graphic.BlendMode> = .init(value: .add)
         
-        public var placement: GraphicEnumMetadata<Placement> = .init(value: .fill)
+        public var placement: GraphicEnumMetadata<Graphic.Placement> = .init(value: .fill)
 
         public func render(
             with graphic: Graphic3D,

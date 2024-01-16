@@ -8,7 +8,7 @@ public struct AGCamera: AGGraph {
     
     let position: Graphic.CameraPosition
     
-    var placement: Placement = .fixed
+    var placement: Graphic.Placement = .fixed
     
     public init(_ position: Graphic.CameraPosition) {
         self.position = position

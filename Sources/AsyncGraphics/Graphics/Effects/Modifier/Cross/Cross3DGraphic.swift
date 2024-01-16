@@ -9,7 +9,7 @@ extension CodableGraphic3D.Effect.Modifier {
         
         public var fraction: GraphicMetadata<CGFloat> = .init(value: .fixed(0.5))
         
-        public var placement: GraphicEnumMetadata<Placement> = .init(value: .fill)
+        public var placement: GraphicEnumMetadata<Graphic.Placement> = .init(value: .fill)
 
         public func render(
             with graphic: Graphic3D,

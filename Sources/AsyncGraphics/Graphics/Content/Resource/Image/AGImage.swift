@@ -16,7 +16,7 @@ public struct AGImage: AGGraph {
     
     let source: Source
     
-    var placement: Placement = .fixed
+    var placement: Graphic.Placement = .fixed
     
     public init(named name: String) {
         source = .name(name)

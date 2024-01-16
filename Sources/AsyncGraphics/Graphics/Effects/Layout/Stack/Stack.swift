@@ -87,8 +87,8 @@ extension Graphic {
     
     public struct BlendedGraphic {
         let graphic: Graphic
-        let blendMode: GraphicBlendMode
-        public init(graphic: Graphic, blendMode: GraphicBlendMode) {
+        let blendMode: BlendMode
+        public init(graphic: Graphic, blendMode: BlendMode) {
             self.graphic = graphic
             self.blendMode = blendMode
         }
@@ -121,7 +121,7 @@ extension Graphic {
         
         for (index, blendedGraphic) in blendedGraphics.enumerated() {
             let graphic: Graphic = blendedGraphic.graphic
-            let blendMode: GraphicBlendMode = index == 0 ? .over : blendedGraphic.blendMode
+            let blendMode: BlendMode = index == 0 ? .over : blendedGraphic.blendMode
             let offset = CGPoint(x: CGFloat(alignment.horizontal.rawValue) * (resolution.width - graphic.width) / 2,
                                  y: CGFloat(-alignment.vertical.rawValue) * (resolution.height - graphic.height) / 2)
             stackGraphic = try await stackGraphic.transformBlended(with: graphic, blendingMode: blendMode, placement: .fixed, translation: offset)
