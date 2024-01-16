@@ -12,7 +12,7 @@ In this example we create a command line tool. This code will also run in an iOS
 
 - First import the video file to a stream of ``Graphic``, by passing the input url to ``Graphic/importVideoStream(url:)``.
 - Then loop over all frames and apply the effects you want.
-- Finally export the video with ``Graphic/exportVideoToData(with:fps:kbps:format:)`` and write out the data to an output url.
+- Finally export the video with ``Graphic/exportVideoToData(with:fps:kbps:format:codec:)`` and write out the data to an output url.
 
 ```swift
 import Foundation
@@ -51,5 +51,5 @@ struct Main {
 - ``Graphic/importVideoFrame(at:url:info:)``
 - ``Graphic/importVideo(url:progress:)``
 - ``Graphic/importVideoStream(url:)``
-- ``Graphic/exportVideoToData(with:fps:kbps:format:)``
-- ``Graphic/exportVideoToURL(with:fps:kbps:format:)``
+- ``Graphic/exportVideoToData(with:fps:kbps:format:codec:)``
+- ``Graphic/exportVideoToURL(with:fps:kbps:format:codec:)``

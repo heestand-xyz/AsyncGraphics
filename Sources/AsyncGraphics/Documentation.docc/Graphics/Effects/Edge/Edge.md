@@ -1,4 +1,4 @@
-# ``AsyncGraphics/Graphic/edge(amplitude:distance:options:)``
+# ``AsyncGraphics/Graphic/edge(amplitude:distance:isTransparent:options:)``
 
 ## Overview
 

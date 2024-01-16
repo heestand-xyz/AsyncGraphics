@@ -45,6 +45,8 @@ To edit colors `import PixelColor`, a swift package (a dependency of AsyncGraphi
 - ``channels(pointer:resolution:)-5svpm``
 - ``channels(pointer:resolution:)-5svpm``
 
+## Content
+
 ### Image
 
 - ``image``
@@ -61,7 +63,8 @@ To edit colors `import PixelColor`, a swift package (a dependency of AsyncGraphi
 - ``xdrImage``
 - ``writeImage(to:xdr:)``
 - ``isRAWImage(url:)``
-- ``rawImage(url:)``
+- ``rawImage(url:)-1dcqq``
+- ``rawImage(url:)-8w81k``
 
 ### Video
 
@@ -117,7 +120,6 @@ Resize a graphic.
 - ``camera(with:)``
 - ``camera(at:lens:quality:)``
 - ``camera(device:quality:)``
-- ``camera(_:device:preset:)``
 - ``CameraPosition``
 
 ### Screen
@@ -138,44 +140,49 @@ Create a graphic with a solid color.
 
 ### Text
 
-- ``text(_:font:center:horizontalAlignment:verticalAlignment:color:backgroundColor:resolution:options:)``
+- ``text(_:font:position:horizontalAlignment:verticalAlignment:color:backgroundColor:resolution:options:)``
 - ``TextFont``
 - ``TextHorizontalAlignment``
 - ``TextVerticalAlignment``
 
 ### Rectangle
 
-- ``rectangle(size:center:cornerRadius:color:backgroundColor:resolution:options:)``
+- ``rectangle(size:position:cornerRadius:color:backgroundColor:resolution:options:)``
 - ``rectangle(frame:cornerRadius:color:backgroundColor:resolution:options:)``
-- ``strokedRectangle(size:center:cornerRadius:lineWidth:color:backgroundColor:resolution:options:)``
+- ``strokedRectangle(size:position:cornerRadius:lineWidth:color:backgroundColor:resolution:options:)``
 - ``strokedRectangle(frame:cornerRadius:lineWidth:color:backgroundColor:resolution:options:)``
 
 ### Circle
 
-- ``circle(radius:center:color:backgroundColor:resolution:options:)``
-- ``strokedCircle(radius:center:lineWidth:color:backgroundColor:resolution:options:)``
+- ``circle(radius:position:color:backgroundColor:resolution:options:)``
+- ``strokedCircle(radius:position:lineWidth:color:backgroundColor:resolution:options:)``
 
 ### Polygon
 
-- ``polygon(count:radius:center:rotation:cornerRadius:color:backgroundColor:resolution:options:)``
+- ``polygon(count:radius:position:rotation:cornerRadius:color:backgroundColor:resolution:options:)``
 
 ### Arc
 
-- ``arc(angle:length:radius:center:color:backgroundColor:resolution:options:)``
-- ``strokedArc(angle:length:radius:center:lineWidth:color:backgroundColor:resolution:options:)``
+- ``arc(angle:length:radius:position:color:backgroundColor:resolution:options:)``
+- ``strokedArc(angle:length:radius:position:lineWidth:color:backgroundColor:resolution:options:)``
 
 ### Star
 
-- ``star(count:innerRadius:outerRadius:center:rotation:cornerRadius:color:backgroundColor:resolution:options:)``
+- ``star(count:innerRadius:outerRadius:position:rotation:cornerRadius:color:backgroundColor:resolution:options:)``
 
 ### Line
 
 - ``line(leadingPoint:trailingPoint:lineWidth:cap:color:backgroundColor:resolution:options:)``
 - ``LineCap``
 
+### Sample Line
+
+- ``sampleLine(with:form:to:fromAngle:toAngle:count:blendingMode:tintColor:backgroundColor:resolution:options:)``
+- ``sampleLine(with:form:to:fromAngle:toAngle:sampleDistance:blendingMode:tintColor:backgroundColor:resolution:options:)``
+
 ### Gradient
 
-- ``gradient(direction:stops:center:scale:offset:extend:gamma:resolution:options:)``
+- ``gradient(direction:stops:position:scale:offset:extend:gamma:resolution:options:)``
 - ``GradientDirection``
 - ``GradientStop``
 - ``GradientExtend``
@@ -194,6 +201,8 @@ Create a graphic with a solid color.
 - ``UVParticleSampleCount``
 - ``UVParticleOptions``
 - ``UVColorParticleOptions``
+
+## Effects
 
 ### Blend
 
@@ -319,13 +328,9 @@ Use blending modes to combine two or more graphics.
 ### Luma Colors
 
 - ``lumaMonochrome(with:lumaGamma:)``
-- ``lumaMonochrome(lumaGamma:graphic:)``
 - ``lumaSaturated(with:saturation:lumaGamma:)``
-- ``lumaSaturated(saturation:lumaGamma:graphic:)``
 - ``lumaHue(with:hue:lumaGamma:)``
-- ``lumaHue(hue:lumaGamma:graphic:)``
 - ``lumaTinted(with:color:lumaGamma:)``
-- ``lumaTinted(color:lumaGamma:graphic:)``
 
 ### Color Convert
 
@@ -335,7 +340,7 @@ Use blending modes to combine two or more graphics.
 
 ### Threshold
 
-- ``threshold(_:options:)``
+- ``threshold(_:color:backgroundColor:options:)``
 
 ### Quantize
 
@@ -344,8 +349,11 @@ Use blending modes to combine two or more graphics.
 ### Lookup
 
 - ``lookup(with:axis:sampleCoordinate:options:)``
-- ``lookup(axis:sampleCoordinate:options:graphic:)``
 - ``LookupAxis``
+
+### Gradient Lookup
+
+- ``gradientLookup(stops:gamma:options:)``
 
 ### Channels
 
@@ -360,35 +368,28 @@ Use blending modes to combine two or more graphics.
 - ``blurred(radius:)``
 - ``blurredBox(radius:sampleCount:options:)``
 - ``blurredCircle(radius:sampleCount:brightnessRange:saturationRange:light:options:)``
-- ``blurredZoom(radius:center:sampleCount:options:)``
+- ``blurredZoom(radius:position:sampleCount:options:)``
 - ``blurredAngle(radius:angle:sampleCount:options:)``
 - ``blurredRandom(radius:options:)``
 
 ### Luma Blur
 
 - ``lumaBlurredBox(with:radius:lumaGamma:sampleCount:placement:options:)``
-- ``lumaBlurredBox(radius:lumaGamma:sampleCount:placement:options:graphic:)``
-- ``lumaBlurredZoom(with:radius:center:lumaGamma:sampleCount:placement:options:)``
-- ``lumaBlurredZoom(radius:center:lumaGamma:sampleCount:placement:options:graphic:)``
+- ``lumaBlurredZoom(with:radius:position:lumaGamma:sampleCount:placement:options:)``
 - ``lumaBlurredAngle(with:radius:angle:lumaGamma:sampleCount:placement:options:)``
-- ``lumaBlurredAngle(radius:angle:lumaGamma:sampleCount:placement:options:graphic:)``
 - ``lumaBlurredRandom(with:radius:lumaGamma:placement:options:)``
-- ``lumaBlurredRandom(radius:lumaGamma:placement:options:graphic:)``
 
 ### Rainbow Blur
 
 - ``rainbowBlurredCircle(radius:angle:light:sampleCount:options:)``
 - ``rainbowBlurredAngle(radius:angle:light:sampleCount:options:)``
-- ``rainbowBlurredZoom(radius:center:light:sampleCount:options:)``
+- ``rainbowBlurredZoom(radius:position:light:sampleCount:options:)``
 
 ### Luma Rainbow Blur
 
 - ``lumaRainbowBlurredCircle(with:radius:angle:light:lumaGamma:sampleCount:placement:options:)``
-- ``lumaRainbowBlurredCircle(radius:angle:light:lumaGamma:sampleCount:placement:options:graphic:)``
 - ``lumaRainbowBlurredAngle(with:radius:angle:light:lumaGamma:sampleCount:placement:options:)``
-- ``lumaRainbowBlurredAngle(radius:angle:light:lumaGamma:sampleCount:placement:options:graphic:)``
-- ``lumaRainbowBlurredZoom(with:radius:center:light:lumaGamma:sampleCount:placement:options:)``
-- ``lumaRainbowBlurredZoom(radius:center:light:lumaGamma:sampleCount:placement:options:graphic:)``
+- ``lumaRainbowBlurredZoom(with:radius:position:light:lumaGamma:sampleCount:placement:options:)``
 
 ### Pixelate
 
@@ -397,7 +398,6 @@ Use blending modes to combine two or more graphics.
 ### Displace
 
 - ``displaced(with:offset:origin:placement:options:)``
-- ``displaced(offset:origin:placement:options:graphic:)``
 
 ### Slope
 
@@ -414,7 +414,7 @@ Use blending modes to combine two or more graphics.
 
 ### Kaleidoscope
 
-- ``kaleidoscope(count:mirror:center:rotation:scale:options:)``
+- ``kaleidoscope(count:mirror:position:rotation:scale:options:)``
 
 ### Clamp
 
@@ -426,7 +426,6 @@ Use blending modes to combine two or more graphics.
 Fade two graphics by crossing them with opacity.
 
 - ``cross(with:fraction:placement:options:)``
-- ``cross(fraction:placement:options:graphic:)``
 
 ### Crop
 
@@ -458,7 +457,6 @@ Fade two graphics by crossing them with opacity.
 ### Remap
 
 - ``remap(with:options:)``
-- ``remap(options:graphic:)``
 
 ### Polar
 
@@ -475,7 +473,6 @@ Write metal shader code.
 
 - ``metal(code:resolution:options:)``
 - ``metal(code:options:)``
-- ``metal(code:options:graphic:)``
 - ``metal(with:code:options:)-swift.method``
 - ``metal(with:code:options:)-swift.type.method``
 - ``SolidMetalError``
@@ -550,8 +547,7 @@ Write metal shader code.
 
 ### Inspect
 
-- ``inspect(with:scale:offset:borderWidth:borderOpacity:borderFadeRange:placement:containerResolution:contentResolution:checkerTransparency:checkerSize:checkerOpacity:options:)``
-- ``inspect(scale:offset:borderWidth:borderOpacity:borderFadeRange:placement:containerResolution:contentResolution:checkerTransparency:checkerSize:checkerOpacity:options:graphic:)``
+- ``inspect(scale:offset:borderWidth:borderOpacity:borderFadeRange:placement:containerResolution:contentResolution:checkerTransparency:checkerSize:checkerOpacity:options:)``
 
 ### Options
 

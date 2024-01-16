@@ -1,4 +1,4 @@
-# ``AsyncGraphics/Graphic/gradient(direction:stops:center:scale:offset:extend:gamma:resolution:options:)``
+# ``AsyncGraphics/Graphic/gradient(direction:stops:position:scale:offset:extend:gamma:resolution:options:)``
 
 ## Overview
 

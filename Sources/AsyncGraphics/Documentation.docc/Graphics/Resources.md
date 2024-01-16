@@ -12,7 +12,9 @@ Live screen or camera footage can also be converted into a stream of ``Graphic``
 
 ### Live Camera Feed
 
-- ``Graphic/camera(_:device:preset:)``
+- ``Graphic/camera(at:lens:quality:)``
+- ``Graphic/camera(device:quality:)``
+- ``Graphic/camera(with:)``
 
 ### Live Screen Feed
 
@@ -22,7 +24,9 @@ Live screen or camera footage can also be converted into a stream of ``Graphic``
 
 - ``Graphic/image(named:in:)``
 - ``Graphic/image(url:)``
-- ``Graphic/image(_:)``
+- ``Graphic/image(_:)-6435w``
+- ``Graphic/image(_:)-7tsh0``
+- ``Graphic/image(_:)-1mubl``
 
 ### Import a Video
 
@@ -47,8 +51,8 @@ Live screen or camera footage can also be converted into a stream of ``Graphic``
 
 ### Export a Video
 
-- ``Graphic/exportVideoToData(with:fps:kbps:format:)``
-- ``Graphic/exportVideoToURL(with:fps:kbps:format:)``
+- ``Graphic/exportVideoToData(with:fps:kbps:format:codec:)``
+- ``Graphic/exportVideoToURL(with:fps:kbps:format:codec:)``
 
 ### Apple Maps
 

@@ -4,7 +4,7 @@ Create a video player UI with a play / pause button and a slider as a time seeke
 
 ## Overview
 
-First we create a ``Graphic.VideoPlayer``. The video player takes a url and options. In this case we want the video to loop and be muted.
+First we create a ``GraphicVideoPlayer``. The video player takes a url and options. In this case we want the video to loop and be muted.
 
 Then we create a `State` for our current video ``Graphic``. Then in the `body` we add the graphic with ``GraphicView``. 
 

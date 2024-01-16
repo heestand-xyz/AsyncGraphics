@@ -31,7 +31,7 @@ Then we check if the graphic is available and display it with a ``GraphicView``.
 
 Create a task where we can execute async code. Here we also need a do catch block incase the selected camera is not available.
 
-In the task we will create a asynchronous for loop, by iterating over live camera frames from ``Graphic/camera(_:device:preset:)``.
+In the task we will create a asynchronous for loop, by iterating over live camera frames from ``Graphic/camera(at:lens:quality:)``.
 
 Then lastly we save each frame to the main graphic state. Here you can also add effects such as ``Graphic/blurred(radius:)``.
 
@@ -71,4 +71,6 @@ struct ContentView: View {
 
 ### Camera
 
-- ``Graphic/camera(_:device:preset:)``
+- ``Graphic/camera(with:)``
+- ``Graphic/camera(device:quality:)``
+- ``Graphic/camera(at:lens:quality:)``

@@ -20,6 +20,10 @@ A Graphic3D is a 3d image, made up out of voxels. It's backed by a `MTLTexture`.
 - ``depth``
 - ``resolution``
 
+### Bits
+
+- ``bits(_:)``
+
 ### Options
 
 - ``ContentOptions``
@@ -30,13 +34,25 @@ A Graphic3D is a 3d image, made up out of voxels. It's backed by a `MTLTexture`.
 - ``firstVoxelColor``
 - ``averageVoxelColor``
 - ``voxelColors``
-- ``channels``
 - ``isVoxelsEqual(to:)``
+- ``voxels(_:options:)``
+
+### Channels
+
+- ``channels``
+- ``channels(_:resolution:)-79xqi``
+- ``channels(_:resolution:)-5dz0k``
+- ``channels(_:resolution:)-5dz0k``
+- ``channels(pointer:resolution:)-8w75m``
+- ``channels(pointer:resolution:)-r9wl``
+- ``channels(pointer:resolution:)-r9wl``
 
 ### Texture
 
 - ``texture(_:)``
 - ``Texture3DError``
+
+## Content
 
 ### Color
 
@@ -45,26 +61,62 @@ A Graphic3D is a 3d image, made up out of voxels. It's backed by a `MTLTexture`.
 ### Box
 
 - ``box(size:origin:cornerRadius:color:backgroundColor:resolution:options:)``
-- ``box(size:center:cornerRadius:color:backgroundColor:resolution:options:)``
+- ``box(size:position:cornerRadius:color:backgroundColor:resolution:options:)``
 - ``surfaceBox(size:origin:cornerRadius:surfaceWidth:color:backgroundColor:resolution:options:)``
-- ``surfaceBox(size:center:cornerRadius:surfaceWidth:color:backgroundColor:resolution:options:)``
+- ``surfaceBox(size:position:cornerRadius:surfaceWidth:color:backgroundColor:resolution:options:)``
 
 ### Sphere
 
-- ``sphere(radius:center:color:backgroundColor:resolution:options:)``
-- ``surfaceSphere(radius:center:surfaceWidth:color:backgroundColor:resolution:options:)``
+- ``sphere(radius:position:color:backgroundColor:resolution:options:)``
+- ``surfaceSphere(radius:position:surfaceWidth:color:backgroundColor:resolution:options:)``
+
+### Cone
+
+- ``cone(axis:length:leadingRadius:trailingRadius:position:color:backgroundColor:resolution:options:)``
+- ``surfaceCone(axis:length:leadingRadius:trailingRadius:position:surfaceWidth:color:backgroundColor:resolution:options:)``
+
+### Cylinder
+
+- ``cylinder(axis:length:radius:cornerRadius:position:color:backgroundColor:resolution:options:)``
+- ``surfaceCylinder(axis:length:radius:cornerRadius:position:surfaceWidth:color:backgroundColor:resolution:options:)``
+
+### Tetrahedron
+
+- ``tetrahedron(axis:radius:position:color:backgroundColor:resolution:options:)``
+- ``surfaceTetrahedron(axis:radius:position:surfaceWidth:color:backgroundColor:resolution:options:)``
+
+### Torus
+
+- ``torus(axis:radius:revolvingRadius:position:color:backgroundColor:resolution:options:)``
+- ``surfaceTorus(axis:radius:revolvingRadius:position:surfaceWidth:color:backgroundColor:resolution:options:)``
+
+### Gradient
+
+- ``gradient(direction:stops:position:scale:offset:extend:gamma:resolution:options:)``
 
 ### Noise
 - ``noise(offset:depth:scale:octaves:seed:resolution:options:)``
 - ``coloredNoise(offset:depth:scale:octaves:seed:resolution:options:)``
 - ``randomNoise(seed:resolution:options:)``
 - ``randomColoredNoise(seed:resolution:options:)``
+- ``transparantNoise(offset:depth:scale:octaves:seed:resolution:options:)``
+
+### Metal
+
+- ``metal(code:resolution:options:)``
+
+### Map
+
+- ``uvw(resolution:options:)``
+
+## Effects
 
 ### Blend
 
 Use blending modes to combine two 3d graphics.
 
-- ``blended(with:blendingMode:placement:)``
+- ``blend(with:blendingMode:placement:options:)``
+- ``blended(with:blendingMode:placement:options:)``
 
 ### Transform
 
@@ -72,9 +124,10 @@ Use blending modes to combine two 3d graphics.
 - ``translated(x:y:z:options:)``
 - ``rotated(_:options:)``
 - ``rotated(x:y:z:options:)``
-- ``scaled(_:options:)-87l2t``
 - ``scaled(_:options:)-7kcho``
+- ``scaled(_:options:)-8aoeu``
 - ``scaled(x:y:z:options:)``
+- ``transformed(translation:rotation:scale:scaleSize:options:)``
 
 ### Stack
 
@@ -95,13 +148,27 @@ Use blending modes to combine two 3d graphics.
 - ``smoothed()``
 - ``opacity(_:)``
 - ``exposureOffset(_:)``
+- ``levels(brightness:darkness:contrast:gamma:invert:smooth:opacity:offset:)``
+
+### Color Shift
+
+- ``saturated(_:)``
+- ``monochrome()``
+- ``hue(_:)``
+- ``tinted(_:)``
 
 ### Blur
 
 - ``blurredBox(radius:sampleCount:options:)``
-- ``blurredZoom(radius:center:sampleCount:options:)``
+- ``blurredZoom(radius:position:sampleCount:options:)``
 - ``blurredDirection(radius:direction:sampleCount:options:)``
 - ``blurredRandom(radius:options:)``
+
+### Luma Blur
+
+- ``lumaBlurredBox(with:radius:lumaGamma:sampleCount:placement:options:)``
+- ``lumaBlurredZoom(with:radius:position:lumaGamma:sampleCount:placement:options:)``
+- ``lumaBlurredRandom(with:radius:lumaGamma:placement:options:)``
 
 ### Displace
 
@@ -109,27 +176,69 @@ Use blending modes to combine two 3d graphics.
 
 ### Edge
 
-- ``edge(amplitude:distance:options:)``
-- ``coloredEdge(amplitude:distance:options:)``
+- ``edge(amplitude:distance:isTransparent:options:)``
+- ``coloredEdge(amplitude:distance:isTransparent:options:)``
+
+### Slope
+
+- ``slope(amplitude:origin:options:)``
+
+### Threshold
+
+- ``threshold(_:color:backgroundColor:options:)``
 
 ### Cross
 
 Fade two graphics by crossing them with opacity.
 
-- ``cross(with:fraction:placement:)``
+- ``cross(with:fraction:placement:options:)``
+
+### Channel Mix
+
+- ``channelMix(red:green:blue:alpha:)``
+
+### Clamp
+
+- ``clamp(_:low:high:includeAlpha:options:)``
+
+### Color Map
+
+- ``colorMap(from:to:options:)``
+
+### Lookup
+
+- ``lookup(with:axis:sampleCoordinate:options:)``
+
+### Gradient Lookup
+
+- ``gradientLookup(stops:gamma:options:)``
+
+### Quantize
+
+- ``quantize(_:options:)``
 
 ### Sample
 
 Sample a ``Graphic`` from a Graphic3D.
 
-- ``add(axis:)``
+- ``add(axis:brightness:)``
 - ``average(axis:)``
 - ``sample(fraction:)``
 - ``sample(index:)``
-- ``samples()``
+- ``samples(progress:)``
 
-### Bits
+### Trace
 
-- ``bits(_:)``
-- ``standardBit()``
-- ``highBit()``
+Trace opaque voxels. 
+
+- ``trace(axis:alphaThreshold:)``
+
+### Orbit
+
+- ``orbit(backgroundColor:rotationX:rotationY:resolution:)``
+
+### Conversion
+
+- ``luminanceToAlpha()``
+- ``alphaToLuminance()``
+- ``alphaToLuminanceWithAlpha()``
