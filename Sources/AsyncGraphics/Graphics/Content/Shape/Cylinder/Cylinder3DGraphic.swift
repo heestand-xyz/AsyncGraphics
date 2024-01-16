@@ -7,7 +7,7 @@ extension CodableGraphic3D.Content.Shape {
     @GraphicMacro
     public final class Cylinder: ShapeContentGraphic3DProtocol {
         
-        public var axis: GraphicEnumMetadata<Graphic3D.Axis> = .init(value: .z)
+        public var axis: GraphicEnumMetadata<Graphic3D.Axis> = .init(value: .y)
         
         public var position: GraphicMetadata<Point3D> = .init(options: .spatial)
         
