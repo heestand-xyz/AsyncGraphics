@@ -8,7 +8,7 @@ import CoreGraphicsExtensions
 @Observable
 public final class Graphic3DViewRenderer {
     
-    public var interpolation: ViewInterpolation = .linear
+    public var interpolation: Graphic.ViewInterpolation = .linear
     public let extendedDynamicRange: Bool = false
     
     var resolution: Size3D?

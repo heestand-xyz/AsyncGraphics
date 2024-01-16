@@ -8,7 +8,7 @@ import SwiftUI
 
 struct GraphicVisionRepresentableView: UIViewRepresentable {
     
-    let interpolation: ViewInterpolation
+    let interpolation: Graphic.ViewInterpolation
     let extendedDynamicRange: Bool
     let renderInView: (@escaping (Graphic) async -> Bool) -> ()
     

@@ -13,7 +13,7 @@ final class GraphicMetalVisionView: UIView, GraphicMetalViewable {
     
     private var graphic: Graphic?
     
-    let interpolation: ViewInterpolation
+    let interpolation: Graphic.ViewInterpolation
     
     var extendedDynamicRange: Bool
     
@@ -23,7 +23,7 @@ final class GraphicMetalVisionView: UIView, GraphicMetalViewable {
     
     let didRender: (UUID) -> ()
  
-    init(interpolation: ViewInterpolation, 
+    init(interpolation: Graphic.ViewInterpolation, 
          extendedDynamicRange: Bool,
          autoDraw: Bool,
          didRender: @escaping (UUID) -> ()) {
