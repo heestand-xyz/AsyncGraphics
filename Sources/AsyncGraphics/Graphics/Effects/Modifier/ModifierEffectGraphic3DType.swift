@@ -5,5 +5,6 @@ public enum ModifierEffectGraphic3DType: String, CodableGraphicTypeProtocol {
     
     case mask
     case cross
+    case blend
     case displace
 }
