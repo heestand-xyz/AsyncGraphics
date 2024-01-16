@@ -8,7 +8,7 @@
 import Foundation
 
 protocol GraphicMetalViewable {
-    var interpolation: ViewInterpolation { get }
+    var interpolation: Graphic.ViewInterpolation { get }
     var extendedDynamicRange: Bool { get set }
     var didRender: (UUID) -> () { get }
 }

@@ -4,7 +4,7 @@ import CoreGraphicsExtensions
 
 public final class GraphicViewRenderer: ObservableObject {
     
-    public var interpolation: ViewInterpolation = .lanczos {
+    public var interpolation: Graphic.ViewInterpolation = .lanczos {
         didSet {
             Task {
                 try? await render()
