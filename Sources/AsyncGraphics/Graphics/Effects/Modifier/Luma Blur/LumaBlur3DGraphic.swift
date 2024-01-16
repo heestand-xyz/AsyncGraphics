@@ -18,9 +18,9 @@ extension CodableGraphic3D.Effect.Modifier {
         public var lumaGamma: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
                                                                maximum: .fixed(2.0))
         
-        public var sampleCount: GraphicMetadata<Int> = .init(value: .fixed(100),
+        public var sampleCount: GraphicMetadata<Int> = .init(value: .fixed(10),
                                                              minimum: .fixed(1),
-                                                             maximum: .fixed(100))
+                                                             maximum: .fixed(10))
         
         public func render(
             with graphic: Graphic3D,
