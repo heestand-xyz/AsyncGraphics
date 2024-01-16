@@ -8,7 +8,7 @@ struct GraphicRepresentableView {
     
     let graphic: Graphic
     let viewResolution: CGSize
-    let interpolation: ViewInterpolation
+    let interpolation: Graphic.ViewInterpolation
     let extendedDynamicRange: Bool
     var preProcessed: Bool = false
     let didRender: (UUID) -> ()

@@ -13,13 +13,13 @@ final class GraphicMetalView: MTKView, GraphicMetalViewable {
     
     private var graphic: Graphic?
     
-    let interpolation: ViewInterpolation
+    let interpolation: Graphic.ViewInterpolation
     
     var extendedDynamicRange: Bool
     
     let didRender: (UUID) -> ()
  
-    init(interpolation: ViewInterpolation,
+    init(interpolation: Graphic.ViewInterpolation,
          extendedDynamicRange: Bool,
          didRender: @escaping (UUID) -> ()) {
         
