@@ -17,7 +17,7 @@ public final class Graphic3DImageRenderer {
 #endif
     public var scale: CGFloat = Graphic3DImageRenderer.defaultScale
     
-    public var interpolation: ViewInterpolation = .linear
+    public var interpolation: Graphic.ViewInterpolation = .linear
     
     var resolution: Size3D?
     
