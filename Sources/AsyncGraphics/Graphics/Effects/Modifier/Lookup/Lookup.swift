@@ -15,9 +15,10 @@ extension Graphic {
         let sampleCoordinate: Float
     }
     
-    public enum LookupAxis: UInt32 {
-        case horizontal = 0
-        case vertical = 1
+    @EnumMacro
+    public enum LookupAxis: String, GraphicEnum {
+        case horizontal
+        case vertical
     }
     
     public func lookup(with graphic: Graphic,
@@ -42,7 +43,7 @@ extension Graphic {
                 graphic
             ],
             uniforms: LookupUniforms(
-                axis: axis.rawValue,
+                axis: axis.index,
                 holdEdge: true,
                 holdEdgeFraction: Float(holdEdgeFraction),
                 sampleCoordinate: Float(sampleCoordinate)

@@ -15,7 +15,8 @@ extension Graphic3D {
         let sampleCoordinate: Float
     }
     
-    public enum Lookup3DAxis: UInt32 {
+    @EnumMacro
+    public enum Lookup3DAxis: String, GraphicEnum {
         case x
         case y
         case z
@@ -45,7 +46,7 @@ extension Graphic3D {
                 graphic
             ],
             uniforms: Lookup3DUniforms(
-                axis: axis.rawValue,
+                axis: axis.index,
                 holdEdge: true,
                 holdEdgeFraction: Float(holdEdgeFraction),
                 sampleCoordinate: Float(sampleCoordinate)

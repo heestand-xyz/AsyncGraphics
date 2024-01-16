@@ -7,4 +7,5 @@ public enum ModifierEffectGraphicType: String, CodableGraphicTypeProtocol {
     case cross
     case blend
     case displace
+    case lookup
 }
