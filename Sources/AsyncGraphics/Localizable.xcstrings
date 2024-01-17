@@ -2,6 +2,7 @@
   "sourceLanguage" : "en",
   "strings" : {
     "graphic.content.shape.arc" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12,6 +13,7 @@
       }
     },
     "graphic.content.shape.box" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22,6 +24,7 @@
       }
     },
     "graphic.content.shape.circle" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -32,6 +35,7 @@
       }
     },
     "graphic.content.shape.cone" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -42,6 +46,7 @@
       }
     },
     "graphic.content.shape.cylinder" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -52,6 +57,7 @@
       }
     },
     "graphic.content.shape.line" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -62,6 +68,7 @@
       }
     },
     "graphic.content.shape.polygon" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -72,6 +79,7 @@
       }
     },
     "graphic.content.shape.rectangle" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -82,6 +90,7 @@
       }
     },
     "graphic.content.shape.sphere" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -92,6 +101,7 @@
       }
     },
     "graphic.content.shape.star" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -102,6 +112,7 @@
       }
     },
     "graphic.content.shape.tetrahedron" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -112,6 +123,7 @@
       }
     },
     "graphic.content.shape.torus" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -122,6 +134,7 @@
       }
     },
     "graphic.content.solid.color" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -132,6 +145,7 @@
       }
     },
     "graphic.content.solid.gradient" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -142,6 +156,7 @@
       }
     },
     "graphic.content.solid.noise" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -152,6 +167,7 @@
       }
     },
     "graphic.effect.color.channelMix" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -162,6 +178,7 @@
       }
     },
     "graphic.effect.color.chromaKey" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -172,6 +189,7 @@
       }
     },
     "graphic.effect.color.clamp" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -182,6 +200,7 @@
       }
     },
     "graphic.effect.color.colorConvert" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -192,6 +211,7 @@
       }
     },
     "graphic.effect.color.colorMap" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -202,6 +222,7 @@
       }
     },
     "graphic.effect.color.colorShift" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -212,6 +233,7 @@
       }
     },
     "graphic.effect.color.gradientLookup" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -222,6 +244,7 @@
       }
     },
     "graphic.effect.color.levels" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -232,6 +255,7 @@
       }
     },
     "graphic.effect.color.personSegmentation" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -242,6 +266,7 @@
       }
     },
     "graphic.effect.color.quantize" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -252,6 +277,7 @@
       }
     },
     "graphic.effect.color.slope" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -262,6 +288,7 @@
       }
     },
     "graphic.effect.color.threshold" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -272,6 +299,7 @@
       }
     },
     "graphic.effect.modifier.blend" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -282,6 +310,7 @@
       }
     },
     "graphic.effect.modifier.cross" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -292,6 +321,7 @@
       }
     },
     "graphic.effect.modifier.displace" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -302,6 +332,7 @@
       }
     },
     "graphic.effect.modifier.lookup" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -312,6 +343,7 @@
       }
     },
     "graphic.effect.modifier.lumaBlur" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -321,16 +353,8 @@
         }
       }
     },
-    "graphic.effect.modifier.lumaColorShift" : {
-
-    },
-    "graphic.effect.modifier.lumaLevels" : {
-
-    },
-    "graphic.effect.modifier.lumaRainbowBlur" : {
-
-    },
     "graphic.effect.modifier.mask" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -341,6 +365,7 @@
       }
     },
     "graphic.effect.space.blur" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -351,6 +376,7 @@
       }
     },
     "graphic.effect.space.circleBlur" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -361,6 +387,7 @@
       }
     },
     "graphic.effect.space.edge" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -371,6 +398,7 @@
       }
     },
     "graphic.effect.space.transform" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -381,6 +409,7 @@
       }
     },
     "option.alignment.bottom" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -391,6 +420,7 @@
       }
     },
     "option.alignment.bottomLeading" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -401,6 +431,7 @@
       }
     },
     "option.alignment.bottomTrailing" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -411,6 +442,7 @@
       }
     },
     "option.alignment.center" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -421,6 +453,7 @@
       }
     },
     "option.alignment.leading" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -431,6 +464,7 @@
       }
     },
     "option.alignment.top" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -441,6 +475,7 @@
       }
     },
     "option.alignment.topLeading" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -451,6 +486,7 @@
       }
     },
     "option.alignment.topTrailing" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -461,6 +497,7 @@
       }
     },
     "option.alignment.trailing" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -471,6 +508,7 @@
       }
     },
     "option.axis.x" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -481,6 +519,7 @@
       }
     },
     "option.axis.y" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -491,6 +530,7 @@
       }
     },
     "option.axis.z" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -500,76 +540,8 @@
         }
       }
     },
-    "option.blendMode.add" : {
-
-    },
-    "option.blendMode.addWithAlpha" : {
-
-    },
-    "option.blendMode.average" : {
-
-    },
-    "option.blendMode.cosine" : {
-
-    },
-    "option.blendMode.darken" : {
-
-    },
-    "option.blendMode.darkenWithoutAlpha" : {
-
-    },
-    "option.blendMode.difference" : {
-
-    },
-    "option.blendMode.divide" : {
-
-    },
-    "option.blendMode.exclusiveOr" : {
-
-    },
-    "option.blendMode.gamma" : {
-
-    },
-    "option.blendMode.inside" : {
-
-    },
-    "option.blendMode.lighten" : {
-
-    },
-    "option.blendMode.maximum" : {
-
-    },
-    "option.blendMode.minimum" : {
-
-    },
-    "option.blendMode.multiply" : {
-
-    },
-    "option.blendMode.multiplyWithoutAlpha" : {
-
-    },
-    "option.blendMode.outside" : {
-
-    },
-    "option.blendMode.over" : {
-
-    },
-    "option.blendMode.power" : {
-
-    },
-    "option.blendMode.screen" : {
-
-    },
-    "option.blendMode.subtract" : {
-
-    },
-    "option.blendMode.subtractWithAlpha" : {
-
-    },
-    "option.blendMode.under" : {
-
-    },
     "option.blur3DType.box" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -580,6 +552,7 @@
       }
     },
     "option.blur3DType.direction" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -590,6 +563,7 @@
       }
     },
     "option.blur3DType.random" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -600,6 +574,7 @@
       }
     },
     "option.blur3DType.zoom" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -610,6 +585,7 @@
       }
     },
     "option.blurType.angle" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -620,6 +596,7 @@
       }
     },
     "option.blurType.box" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -630,6 +607,7 @@
       }
     },
     "option.blurType.gaussian" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -640,6 +618,7 @@
       }
     },
     "option.blurType.random" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -650,6 +629,7 @@
       }
     },
     "option.blurType.zoom" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -660,6 +640,7 @@
       }
     },
     "option.clampType.hold" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -670,6 +651,7 @@
       }
     },
     "option.clampType.loop" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -680,6 +662,7 @@
       }
     },
     "option.clampType.mirror" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -690,6 +673,7 @@
       }
     },
     "option.clampType.relative" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -700,6 +684,7 @@
       }
     },
     "option.clampType.zero" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -710,6 +695,7 @@
       }
     },
     "option.colorChannel.alpha" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -720,6 +706,7 @@
       }
     },
     "option.colorChannel.blue" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -730,6 +717,7 @@
       }
     },
     "option.colorChannel.clear" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -740,6 +728,7 @@
       }
     },
     "option.colorChannel.green" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -750,6 +739,7 @@
       }
     },
     "option.colorChannel.mono" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -760,6 +750,7 @@
       }
     },
     "option.colorChannel.red" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -770,6 +761,7 @@
       }
     },
     "option.colorChannel.white" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -780,6 +772,7 @@
       }
     },
     "option.colorConversion.hsvToRGB" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -790,6 +783,7 @@
       }
     },
     "option.colorConversion.rgbToHSV" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -800,6 +794,7 @@
       }
     },
     "option.colorConvertChannel.all" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -810,6 +805,7 @@
       }
     },
     "option.colorConvertChannel.first" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -820,6 +816,7 @@
       }
     },
     "option.colorConvertChannel.second" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -830,6 +827,7 @@
       }
     },
     "option.colorConvertChannel.third" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -840,6 +838,7 @@
       }
     },
     "option.dStackAlignment.bottom" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -850,6 +849,7 @@
       }
     },
     "option.dStackAlignment.bottomLeading" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -860,6 +860,7 @@
       }
     },
     "option.dStackAlignment.bottomTrailing" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -870,6 +871,7 @@
       }
     },
     "option.dStackAlignment.center" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -880,6 +882,7 @@
       }
     },
     "option.dStackAlignment.top" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -890,6 +893,7 @@
       }
     },
     "option.dStackAlignment.topLeading" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -900,6 +904,7 @@
       }
     },
     "option.dStackAlignment.topTrailing" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -910,6 +915,7 @@
       }
     },
     "option.gradient3DDirection.radial" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -920,6 +926,7 @@
       }
     },
     "option.gradient3DDirection.x" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -930,6 +937,7 @@
       }
     },
     "option.gradient3DDirection.y" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -940,6 +948,7 @@
       }
     },
     "option.gradient3DDirection.z" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -950,6 +959,7 @@
       }
     },
     "option.gradientDirection.angle" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -960,6 +970,7 @@
       }
     },
     "option.gradientDirection.horizontal" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -970,6 +981,7 @@
       }
     },
     "option.gradientDirection.radial" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -980,6 +992,7 @@
       }
     },
     "option.gradientDirection.vertical" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -990,6 +1003,7 @@
       }
     },
     "option.gradientExtend.hold" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1000,6 +1014,7 @@
       }
     },
     "option.gradientExtend.loop" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1010,6 +1025,7 @@
       }
     },
     "option.gradientExtend.mirror" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1020,6 +1036,7 @@
       }
     },
     "option.gradientExtend.zero" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1470,6 +1487,7 @@
       }
     },
     "option.hStackAlignment.bottom" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1480,6 +1498,7 @@
       }
     },
     "option.hStackAlignment.bottomFar" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1490,6 +1509,7 @@
       }
     },
     "option.hStackAlignment.bottomNear" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1500,6 +1520,7 @@
       }
     },
     "option.hStackAlignment.center" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1510,6 +1531,7 @@
       }
     },
     "option.hStackAlignment.top" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1520,6 +1542,7 @@
       }
     },
     "option.hStackAlignment.topFar" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1530,6 +1553,7 @@
       }
     },
     "option.hStackAlignment.topNear" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1540,6 +1564,7 @@
       }
     },
     "option.lineCap.diamond" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1550,6 +1575,7 @@
       }
     },
     "option.lineCap.round" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1560,6 +1586,7 @@
       }
     },
     "option.lineCap.square" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1570,6 +1597,7 @@
       }
     },
     "option.lookup3DAxis.x" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1580,6 +1608,7 @@
       }
     },
     "option.lookup3DAxis.y" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1590,6 +1619,7 @@
       }
     },
     "option.lookup3DAxis.z" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1600,6 +1630,7 @@
       }
     },
     "option.lookupAxis.horizontal" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1610,6 +1641,7 @@
       }
     },
     "option.lookupAxis.vertical" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1620,6 +1652,7 @@
       }
     },
     "option.lumaBlur3DType.box" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1630,6 +1663,7 @@
       }
     },
     "option.lumaBlur3DType.random" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1640,6 +1674,7 @@
       }
     },
     "option.lumaBlur3DType.zoom" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1650,6 +1685,7 @@
       }
     },
     "option.lumaBlurType.angle" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1660,6 +1696,7 @@
       }
     },
     "option.lumaBlurType.box" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1670,6 +1707,7 @@
       }
     },
     "option.lumaBlurType.random" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1680,6 +1718,7 @@
       }
     },
     "option.lumaBlurType.zoom" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1689,73 +1728,8 @@
         }
       }
     },
-    "option.lumaRainbowBlur3DType.circle" : {
-
-    },
-    "option.lumaRainbowBlur3DType.zoom" : {
-
-    },
-    "option.lumaRainbowBlurType.angle" : {
-
-    },
-    "option.lumaRainbowBlurType.circle" : {
-
-    },
-    "option.lumaRainbowBlurType.zoom" : {
-
-    },
-    "option.multiBlendMode.add" : {
-
-    },
-    "option.multiBlendMode.addWithAlpha" : {
-
-    },
-    "option.multiBlendMode.average" : {
-
-    },
-    "option.multiBlendMode.darken" : {
-
-    },
-    "option.multiBlendMode.difference" : {
-
-    },
-    "option.multiBlendMode.divide" : {
-
-    },
-    "option.multiBlendMode.gamma" : {
-
-    },
-    "option.multiBlendMode.lighten" : {
-
-    },
-    "option.multiBlendMode.maximum" : {
-
-    },
-    "option.multiBlendMode.minimum" : {
-
-    },
-    "option.multiBlendMode.multiply" : {
-
-    },
-    "option.multiBlendMode.over" : {
-
-    },
-    "option.multiBlendMode.power" : {
-
-    },
-    "option.multiBlendMode.screen" : {
-
-    },
-    "option.multiBlendMode.subtract" : {
-
-    },
-    "option.multiBlendMode.subtractWithAlpha" : {
-
-    },
-    "option.multiBlendMode.under" : {
-
-    },
     "option.placement.fill" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1766,6 +1740,7 @@
       }
     },
     "option.placement.fit" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1776,6 +1751,7 @@
       }
     },
     "option.placement.fixed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1786,6 +1762,7 @@
       }
     },
     "option.placement.stretch" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1796,6 +1773,7 @@
       }
     },
     "option.vStackAlignment.center" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1806,6 +1784,7 @@
       }
     },
     "option.vStackAlignment.leading" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1816,6 +1795,7 @@
       }
     },
     "option.vStackAlignment.leadingFar" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1826,6 +1806,7 @@
       }
     },
     "option.vStackAlignment.leadingNear" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1836,6 +1817,7 @@
       }
     },
     "option.vStackAlignment.trailing" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1846,6 +1828,7 @@
       }
     },
     "option.vStackAlignment.trailingFar" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1856,6 +1839,7 @@
       }
     },
     "option.vStackAlignment.trailingNear" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2535,6 +2519,9 @@
         }
       }
     },
+    "property.scaleSize" : {
+
+    },
     "property.seed" : {
       "localizations" : {
         "en" : {
@@ -2636,6 +2623,7 @@
       }
     },
     "variant.angle" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2646,6 +2634,7 @@
       }
     },
     "variant.black" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2656,6 +2645,7 @@
       }
     },
     "variant.blue" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2666,6 +2656,7 @@
       }
     },
     "variant.blueRed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2676,6 +2667,7 @@
       }
     },
     "variant.blueScreen" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2686,6 +2678,7 @@
       }
     },
     "variant.bright" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2695,10 +2688,8 @@
         }
       }
     },
-    "variant.circle" : {
-
-    },
     "variant.clear" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2709,6 +2700,7 @@
       }
     },
     "variant.colored" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2741,6 +2733,7 @@
       }
     },
     "variant.contrast" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2751,6 +2744,7 @@
       }
     },
     "variant.dark" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2761,6 +2755,7 @@
       }
     },
     "variant.detailed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2771,6 +2766,7 @@
       }
     },
     "variant.detailedColored" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2781,6 +2777,7 @@
       }
     },
     "variant.diamond" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2791,6 +2788,7 @@
       }
     },
     "variant.dim" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2801,6 +2799,7 @@
       }
     },
     "variant.eight" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2811,6 +2810,7 @@
       }
     },
     "variant.fire" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2821,6 +2821,7 @@
       }
     },
     "variant.gammaDouble" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2831,6 +2832,7 @@
       }
     },
     "variant.gammaHalf" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2841,6 +2843,7 @@
       }
     },
     "variant.green" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2851,6 +2854,7 @@
       }
     },
     "variant.greenBlue" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2861,6 +2865,7 @@
       }
     },
     "variant.greenScreen" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2871,6 +2876,7 @@
       }
     },
     "variant.half" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2881,6 +2887,7 @@
       }
     },
     "variant.heavy" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2891,6 +2898,7 @@
       }
     },
     "variant.hexagon" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2901,6 +2909,7 @@
       }
     },
     "variant.high" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2911,6 +2920,7 @@
       }
     },
     "variant.hold" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2921,6 +2931,7 @@
       }
     },
     "variant.horizontal" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2931,6 +2942,7 @@
       }
     },
     "variant.hsvToRGB" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2940,13 +2952,8 @@
         }
       }
     },
-    "variant.hue120" : {
-
-    },
-    "variant.hue240" : {
-
-    },
     "variant.ice" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2957,6 +2964,7 @@
       }
     },
     "variant.inverted" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2967,6 +2975,7 @@
       }
     },
     "variant.length45" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2977,6 +2986,7 @@
       }
     },
     "variant.length90" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2987,6 +2997,7 @@
       }
     },
     "variant.length120" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2997,6 +3008,7 @@
       }
     },
     "variant.length180" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3007,6 +3019,7 @@
       }
     },
     "variant.light" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3017,6 +3030,7 @@
       }
     },
     "variant.loop" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3027,6 +3041,7 @@
       }
     },
     "variant.low" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3037,6 +3052,7 @@
       }
     },
     "variant.mask" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3047,6 +3063,7 @@
       }
     },
     "variant.medium" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3057,6 +3074,7 @@
       }
     },
     "variant.mid" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3067,6 +3085,7 @@
       }
     },
     "variant.mirror" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3077,6 +3096,7 @@
       }
     },
     "variant.monochrome" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3087,6 +3107,7 @@
       }
     },
     "variant.one" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3097,6 +3118,7 @@
       }
     },
     "variant.oneHundred" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3107,6 +3129,7 @@
       }
     },
     "variant.oneThousand" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3117,6 +3140,7 @@
       }
     },
     "variant.pentagon" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3127,6 +3151,7 @@
       }
     },
     "variant.quarter" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3137,6 +3162,7 @@
       }
     },
     "variant.radial" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3147,6 +3173,7 @@
       }
     },
     "variant.rainbow" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3157,6 +3184,7 @@
       }
     },
     "variant.random" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3167,6 +3195,7 @@
       }
     },
     "variant.randomColored" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3177,6 +3206,7 @@
       }
     },
     "variant.red" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3187,6 +3217,7 @@
       }
     },
     "variant.redGreen" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3197,6 +3228,7 @@
       }
     },
     "variant.regular" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3207,6 +3239,7 @@
       }
     },
     "variant.relative" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3217,6 +3250,7 @@
       }
     },
     "variant.rgbToHSV" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3227,6 +3261,7 @@
       }
     },
     "variant.rounded" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3237,6 +3272,7 @@
       }
     },
     "variant.saturated" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3247,6 +3283,7 @@
       }
     },
     "variant.scaledDown" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3257,6 +3294,7 @@
       }
     },
     "variant.scaledUp" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3267,6 +3305,7 @@
       }
     },
     "variant.semiTransparent" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3277,6 +3316,7 @@
       }
     },
     "variant.smooth" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3287,6 +3327,7 @@
       }
     },
     "variant.smoothColored" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3297,6 +3338,7 @@
       }
     },
     "variant.ten" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3307,6 +3349,7 @@
       }
     },
     "variant.transparent" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3317,6 +3360,7 @@
       }
     },
     "variant.triangle" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3327,6 +3371,7 @@
       }
     },
     "variant.vertical" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3337,6 +3382,7 @@
       }
     },
     "variant.white" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3347,6 +3393,7 @@
       }
     },
     "variant.x" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3357,6 +3404,7 @@
       }
     },
     "variant.y" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3367,6 +3415,7 @@
       }
     },
     "variant.z" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3377,6 +3426,7 @@
       }
     },
     "variant.zero" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3387,6 +3437,7 @@
       }
     },
     "variant.zoom" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

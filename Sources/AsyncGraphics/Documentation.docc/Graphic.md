@@ -211,7 +211,6 @@ Use blending modes to combine two or more graphics.
 - ``blend(with:blendingMode:)``
 - ``blend(with:blendingMode:placement:alignment:options:)``
 - ``blended(with:blendingMode:placement:alignment:options:)``
-- ``blended(blendingMode:placement:alignment:options:graphic:)``
 - ``add(with:)``
 - ``average(with:)``
 - ``mask(placement:options:foreground:background:mask:)``
@@ -233,21 +232,15 @@ Use blending modes to combine two or more graphics.
 
 - ``lumaOffset(with:translation:lumaGamma:placement:options:)``
 - ``lumaOffset(with:x:y:lumaGamma:placement:options:)``
-- ``lumaOffset(_:lumaGamma:placement:options:graphic:)``
 - ``lumaTranslated(with:translation:lumaGamma:placement:options:)``
 - ``lumaTranslated(with:x:y:lumaGamma:placement:options:)``
-- ``lumaOffset(x:y:lumaGamma:placement:options:graphic:)``
 - ``lumaRotated(with:rotation:lumaGamma:placement:options:)``
-- ``lumaRotated(rotation:lumaGamma:placement:options:graphic:)``
 - ``lumaScaled(with:scale:lumaGamma:placement:options:)``
-- ``lumaScaled(scale:lumaGamma:placement:options:graphic:)``
 - ``lumaScaled(with:x:y:lumaGamma:placement:options:)``
-- ``lumaScaled(x:y:lumaGamma:placement:options:graphic:)``
 
 ### Transform with Blend
 
 - ``transformBlended(with:blendingMode:placement:alignment:translation:rotation:scale:size:options:)``
-- ``transformBlended(blendingMode:placement:alignment:translation:rotation:scale:size:options:graphic:)``
 
 ### Mirror
 

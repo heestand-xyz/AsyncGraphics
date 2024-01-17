@@ -12,4 +12,5 @@ public enum ModifierEffectGraphicType: String, CodableGraphicTypeProtocol {
     case lumaColorShift
     case lumaBlur
     case lumaRainbowBlur
+    case lumaTransform
 }

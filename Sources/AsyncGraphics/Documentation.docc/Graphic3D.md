@@ -129,6 +129,16 @@ Use blending modes to combine two 3d graphics.
 - ``scaled(x:y:z:options:)``
 - ``transformed(translation:rotation:scale:scaleSize:options:)``
 
+### Luma Transform
+
+- ``lumaOffset(with:translation:lumaGamma:placement:options:)``
+- ``lumaOffset(with:x:y:lumaGamma:placement:options:)``
+- ``lumaTranslated(with:translation:lumaGamma:placement:options:)``
+- ``lumaTranslated(with:x:y:lumaGamma:placement:options:)``
+- ``lumaRotated(with:rotation:lumaGamma:placement:options:)``
+- ``lumaScaled(with:scale:lumaGamma:placement:options:)``
+- ``lumaScaled(with:x:y:lumaGamma:placement:options:)``
+
 ### Stack
 
 - ``hStack(with:alignment:spacing:padding:backgroundColor:resolution:)``
