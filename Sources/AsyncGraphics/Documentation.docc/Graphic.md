@@ -304,7 +304,6 @@ Use blending modes to combine two or more graphics.
 - ``lumaSubtract(with:value:lumaGamma:placement:options:)``
 - ``lumaMultiply(with:value:lumaGamma:placement:options:)``
 - ``lumaDivide(with:value:lumaGamma:placement:options:)``
-- ``lumaLevels(with:brightness:darkness:contrast:gamma:invert:smooth:opacity:offset:lumaGamma:placement:options:)``
 
 ### Color Shift
 
@@ -320,7 +319,6 @@ Use blending modes to combine two or more graphics.
 - ``lumaSaturated(with:saturation:lumaGamma:placement:options:)``
 - ``lumaHue(with:hue:lumaGamma:placement:options:)``
 - ``lumaTinted(with:color:lumaGamma:placement:options:)``
-- ``lumaColorShifted(with:hue:saturation:tintColor:lumaGamma:placement:options:)``
 
 ### Color Convert
 
@@ -380,7 +378,6 @@ Use blending modes to combine two or more graphics.
 - ``lumaRainbowBlurredCircle(with:radius:angle:light:lumaGamma:sampleCount:placement:options:)``
 - ``lumaRainbowBlurredAngle(with:radius:angle:light:lumaGamma:sampleCount:placement:options:)``
 - ``lumaRainbowBlurredZoom(with:radius:position:light:lumaGamma:sampleCount:placement:options:)``
-- ``lumaRainbowBlurred(with:type:radius:position:angle:light:lumaGamma:sampleCount:placement:options:)``
 
 ### Pixelate
 

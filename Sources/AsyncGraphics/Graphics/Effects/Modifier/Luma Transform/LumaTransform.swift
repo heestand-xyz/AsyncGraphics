@@ -104,7 +104,7 @@ extension Graphic {
         )
     }
     
-    private func lumaTransformed(
+    func lumaTransformed(
         with graphic: Graphic,
         translation: CGPoint = .zero,
         rotation: Angle = .zero,
