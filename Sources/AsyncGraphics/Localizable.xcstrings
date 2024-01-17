@@ -321,6 +321,9 @@
         }
       }
     },
+    "graphic.effect.modifier.lumaColorShift" : {
+
+    },
     "graphic.effect.modifier.mask" : {
       "localizations" : {
         "en" : {
@@ -2911,6 +2914,12 @@
         }
       }
     },
+    "variant.hue120" : {
+
+    },
+    "variant.hue240" : {
+
+    },
     "variant.ice" : {
       "localizations" : {
         "en" : {
@@ -3210,6 +3219,12 @@
           }
         }
       }
+    },
+    "variant.saturation50" : {
+
+    },
+    "variant.saturation200" : {
+
     },
     "variant.scaledDown" : {
       "localizations" : {

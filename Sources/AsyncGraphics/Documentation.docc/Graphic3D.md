@@ -157,6 +157,13 @@ Use blending modes to combine two 3d graphics.
 - ``hue(_:)``
 - ``tinted(_:)``
 
+### Luma Color Shift
+
+- ``lumaMonochrome(with:lumaGamma:placement:options:)``
+- ``lumaSaturated(with:saturation:lumaGamma:placement:options:)``
+- ``lumaHue(with:hue:lumaGamma:placement:options:)``
+- ``lumaTinted(with:color:lumaGamma:placement:options:)``
+
 ### Blur
 
 - ``blurredBox(radius:sampleCount:options:)``

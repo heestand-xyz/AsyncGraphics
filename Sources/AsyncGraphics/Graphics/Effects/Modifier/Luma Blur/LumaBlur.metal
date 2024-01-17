@@ -125,5 +125,3 @@ fragment float4 lumaBlur(VertexOut out [[stage_in]],
     
     return ca;
 }
-
-

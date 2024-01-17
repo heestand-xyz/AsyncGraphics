@@ -19,7 +19,7 @@ struct Uniforms {
 };
 
 kernel void lumaBlur3d(const device Uniforms& uniforms [[ buffer(0) ]],
-                       texture3d<float, access::write>  targetTexture [[ texture(0) ]],
+                       texture3d<float, access::write> targetTexture [[ texture(0) ]],
                        texture3d<float, access::sample> leadingTexture [[ texture(1) ]],
                        texture3d<float, access::sample> trailingTexture [[ texture(2) ]],
                        uint3 pos [[ thread_position_in_grid ]],
@@ -116,5 +116,3 @@ kernel void lumaBlur3d(const device Uniforms& uniforms [[ buffer(0) ]],
     
     targetTexture.write(ca, pos);
 }
-
-
