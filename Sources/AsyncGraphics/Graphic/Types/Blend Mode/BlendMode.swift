@@ -37,9 +37,6 @@ extension Graphic {
         case outside
         case exclusiveOr
         
-        @available(*, deprecated, renamed: "multiply")
-        static var multiplyWithAlpha: Self { .multiply }
-        
         var rawIndex: UInt32 {
             switch self {
             case .over: return 0
