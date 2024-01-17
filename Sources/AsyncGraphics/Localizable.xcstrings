@@ -324,6 +324,9 @@
     "graphic.effect.modifier.lumaColorShift" : {
 
     },
+    "graphic.effect.modifier.lumaLevels" : {
+
+    },
     "graphic.effect.modifier.mask" : {
       "localizations" : {
         "en" : {
@@ -2695,6 +2698,7 @@
       }
     },
     "variant.colorShift120" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2705,6 +2709,7 @@
       }
     },
     "variant.colorShift240" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3219,12 +3224,6 @@
           }
         }
       }
-    },
-    "variant.saturation50" : {
-
-    },
-    "variant.saturation200" : {
-
     },
     "variant.scaledDown" : {
       "localizations" : {

@@ -6,7 +6,7 @@ import SwiftUI
 import CoreGraphics
 import PixelColor
 
-extension Graphic {
+extension Graphic3D {
     
     private struct LumaLevelsUniforms {
         let placement: UInt32
@@ -23,12 +23,12 @@ extension Graphic {
    
     /// Default is 1.0
     public func lumaBrightness(
-        with graphic: Graphic,
+        with graphic: Graphic3D,
         brightness: CGFloat,
         lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
-    ) async throws -> Graphic {
+    ) async throws -> Graphic3D {
         
         try await lumaLevels(
             with: graphic,
@@ -41,12 +41,12 @@ extension Graphic {
     
     /// Default is 0.0
     public func lumaDarkness(
-        with graphic: Graphic,
+        with graphic: Graphic3D,
         darkness: CGFloat,
         lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
-    ) async throws -> Graphic {
+    ) async throws -> Graphic3D {
         
         try await lumaLevels(
             with: graphic,
@@ -59,12 +59,12 @@ extension Graphic {
     
     /// Default is 0.0
     public func lumaContrast(
-        with graphic: Graphic,
+        with graphic: Graphic3D,
         contrast: CGFloat,
         lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
-    ) async throws -> Graphic {
+    ) async throws -> Graphic3D {
         
         try await lumaLevels(
             with: graphic,
@@ -77,12 +77,12 @@ extension Graphic {
     
     /// Default is 1.0
     public func lumaGamma(
-        with graphic: Graphic,
+        with graphic: Graphic3D,
         gamma: CGFloat,
         lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
-    ) async throws -> Graphic {
+    ) async throws -> Graphic3D {
         
         try await lumaLevels(
             with: graphic,
@@ -94,11 +94,11 @@ extension Graphic {
     }
     
     public func lumaInverted(
-        with graphic: Graphic,
+        with graphic: Graphic3D,
         lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
-    ) async throws -> Graphic {
+    ) async throws -> Graphic3D {
         
         try await lumaLevels(
             with: graphic,
@@ -110,11 +110,11 @@ extension Graphic {
     }
     
     public func lumaSmoothed(
-        with graphic: Graphic,
+        with graphic: Graphic3D,
         lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
-    ) async throws -> Graphic {
+    ) async throws -> Graphic3D {
         
         try await lumaLevels(
             with: graphic,
@@ -126,12 +126,12 @@ extension Graphic {
     }
     
     public func lumaOpacity(
-        with graphic: Graphic,
+        with graphic: Graphic3D,
         opacity: CGFloat,
         lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
-    ) async throws -> Graphic {
+    ) async throws -> Graphic3D {
         
         try await lumaLevels(
             with: graphic,
@@ -144,12 +144,12 @@ extension Graphic {
     
     /// Default is 0.0
     public func lumaExposureOffset(
-        with graphic: Graphic,
+        with graphic: Graphic3D,
         offset: CGFloat,
         lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
-    ) async throws -> Graphic {
+    ) async throws -> Graphic3D {
         
         try await lumaLevels(
             with: graphic,
@@ -161,12 +161,12 @@ extension Graphic {
     }
     
     public func lumaAdd(
-        with graphic: Graphic,
+        with graphic: Graphic3D,
         value: CGFloat,
         lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
-    ) async throws -> Graphic {
+    ) async throws -> Graphic3D {
         
         try await lumaLevels(
             with: graphic,
@@ -178,12 +178,12 @@ extension Graphic {
     }
     
     public func lumaSubtract(
-        with graphic: Graphic,
+        with graphic: Graphic3D,
         value: CGFloat,
         lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
-    ) async throws -> Graphic {
+    ) async throws -> Graphic3D {
         
         try await lumaLevels(
             with: graphic,
@@ -195,12 +195,12 @@ extension Graphic {
     }
     
     public func lumaMultiply(
-        with graphic: Graphic,
+        with graphic: Graphic3D,
         value: CGFloat,
         lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
-    ) async throws -> Graphic {
+    ) async throws -> Graphic3D {
         
         try await lumaLevels(
             with: graphic,
@@ -212,12 +212,12 @@ extension Graphic {
     }
     
     public func lumaDivide(
-        with graphic: Graphic,
+        with graphic: Graphic3D,
         value: CGFloat,
         lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
-    ) async throws -> Graphic {
+    ) async throws -> Graphic3D {
         
         try await lumaLevels(
             with: graphic,
@@ -229,7 +229,7 @@ extension Graphic {
     }
     
     public func lumaLevels(
-        with graphic: Graphic,
+        with graphic: Graphic3D,
         brightness: CGFloat = 1.0,
         darkness: CGFloat = 0.0,
         contrast: CGFloat = 0.0,
@@ -239,13 +239,13 @@ extension Graphic {
         opacity: CGFloat = 1.0,
         offset: CGFloat = 0.0,
         lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
-    ) async throws -> Graphic {
+    ) async throws -> Graphic3D {
         
         try await Renderer.render(
-            name: "Luma Levels",
-            shader: .name("lumaLevels"),
+            name: "Luma Levels 3D",
+            shader: .name("lumaLevels3d"),
             graphics: [
                 self,
                 graphic
@@ -263,8 +263,7 @@ extension Graphic {
                 lumaGamma: Float(lumaGamma)
             ),
             options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
+                addressMode: options.addressMode
             )
         )
     }

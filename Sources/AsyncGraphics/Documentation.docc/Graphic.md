@@ -292,30 +292,19 @@ Use blending modes to combine two or more graphics.
 
 ### Luma Levels
 
-- ``lumaBrightness(with:brightness:lumaGamma:placement:)``
-- ``lumaBrightness(brightness:lumaGamma:placement:graphic:)``
-- ``lumaDarkness(with:darkness:lumaGamma:placement:)``
-- ``lumaDarkness(darkness:lumaGamma:placement:graphic:)``
-- ``lumaContrast(with:contrast:lumaGamma:placement:)``
-- ``lumaContrast(contrast:lumaGamma:placement:graphic:)``
-- ``lumaGamma(with:gamma:lumaGamma:placement:)``
-- ``lumaGamma(gamma:lumaGamma:placement:graphic:)``
-- ``lumaInverted(with:lumaGamma:placement:)``
-- ``lumaInverted(lumaGamma:placement:graphic:)``
-- ``lumaSmoothed(with:lumaGamma:placement:)``
-- ``lumaSmoothed(lumaGamma:placement:graphic:)``
-- ``lumaOpacity(with:opacity:lumaGamma:placement:)``
-- ``lumaOpacity(opacity:lumaGamma:placement:graphic:)``
-- ``lumaExposureOffset(with:offset:lumaGamma:placement:)``
-- ``lumaExposureOffset(offset:lumaGamma:placement:graphic:)``
-- ``lumaAdd(with:value:lumaGamma:placement:)``
-- ``lumaAdd(value:lumaGamma:placement:graphic:)``
-- ``lumaSubtract(with:value:lumaGamma:placement:)``
-- ``lumaSubtract(value:lumaGamma:placement:graphic:)``
-- ``lumaMultiply(with:value:lumaGamma:placement:)``
-- ``lumaMultiply(value:lumaGamma:placement:graphic:)``
-- ``lumaDivide(with:value:lumaGamma:placement:)``
-- ``lumaDivide(value:lumaGamma:placement:graphic:)``
+- ``lumaBrightness(with:brightness:lumaGamma:placement:options:)``
+- ``lumaDarkness(with:darkness:lumaGamma:placement:options:)``
+- ``lumaContrast(with:contrast:lumaGamma:placement:options:)``
+- ``lumaGamma(with:gamma:lumaGamma:placement:options:)``
+- ``lumaInverted(with:lumaGamma:placement:options:)``
+- ``lumaSmoothed(with:lumaGamma:placement:options:)``
+- ``lumaOpacity(with:opacity:lumaGamma:placement:options:)``
+- ``lumaExposureOffset(with:offset:lumaGamma:placement:options:)``
+- ``lumaAdd(with:value:lumaGamma:placement:options:)``
+- ``lumaSubtract(with:value:lumaGamma:placement:options:)``
+- ``lumaMultiply(with:value:lumaGamma:placement:options:)``
+- ``lumaDivide(with:value:lumaGamma:placement:options:)``
+- ``lumaLevels(with:brightness:darkness:contrast:gamma:invert:smooth:opacity:offset:lumaGamma:placement:options:)``
 
 ### Color Shift
 

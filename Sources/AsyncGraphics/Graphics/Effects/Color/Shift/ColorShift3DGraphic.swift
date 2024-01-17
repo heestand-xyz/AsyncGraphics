@@ -30,8 +30,8 @@ extension CodableGraphic3D.Effect.Color {
         public enum Variant: String, GraphicVariant {
             case monochrome
             case saturated
-            case colorShift120
-            case colorShift240
+            case hue120
+            case hue240
         }
 
         public func edit(variant: Variant) {
@@ -40,9 +40,9 @@ extension CodableGraphic3D.Effect.Color {
                 saturation.value = .zero
             case .saturated:
                 saturation.value = .fixed(2.0)
-            case .colorShift120:
+            case .hue120:
                 hue.value = .fixed(.degrees(120))
-            case .colorShift240:
+            case .hue240:
                 hue.value = .fixed(.degrees(240))
             }
         }

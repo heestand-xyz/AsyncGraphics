@@ -150,6 +150,22 @@ Use blending modes to combine two 3d graphics.
 - ``exposureOffset(_:)``
 - ``levels(brightness:darkness:contrast:gamma:invert:smooth:opacity:offset:)``
 
+### Luma Levels
+
+- ``lumaBrightness(with:brightness:lumaGamma:placement:options:)``
+- ``lumaDarkness(with:darkness:lumaGamma:placement:options:)``
+- ``lumaContrast(with:contrast:lumaGamma:placement:options:)``
+- ``lumaGamma(with:gamma:lumaGamma:placement:options:)``
+- ``lumaInverted(with:lumaGamma:placement:options:)``
+- ``lumaSmoothed(with:lumaGamma:placement:options:)``
+- ``lumaOpacity(with:opacity:lumaGamma:placement:options:)``
+- ``lumaExposureOffset(with:offset:lumaGamma:placement:options:)``
+- ``lumaAdd(with:value:lumaGamma:placement:options:)``
+- ``lumaSubtract(with:value:lumaGamma:placement:options:)``
+- ``lumaMultiply(with:value:lumaGamma:placement:options:)``
+- ``lumaDivide(with:value:lumaGamma:placement:options:)``
+- ``lumaLevels(with:brightness:darkness:contrast:gamma:invert:smooth:opacity:offset:lumaGamma:placement:options:)``
+
 ### Color Shift
 
 - ``saturated(_:)``
