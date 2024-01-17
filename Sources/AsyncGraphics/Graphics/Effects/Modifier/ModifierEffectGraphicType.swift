@@ -8,6 +8,7 @@ public enum ModifierEffectGraphicType: String, CodableGraphicTypeProtocol {
     case blend
     case displace
     case lookup
-    case lumaBlur
+    case lumaLevels
     case lumaColorShift
+    case lumaBlur
 }

@@ -22,7 +22,7 @@ extension CodableGraphic.Effect.Modifier {
         public func render(
             with graphic: Graphic,
             modifier modifierGraphic: Graphic,
-            options: Graphic.EffectOptions = [.edgeStretch]
+            options: Graphic.EffectOptions = []
         ) async throws -> Graphic {
            
             try await graphic.lumaColorShifted(
@@ -38,22 +38,22 @@ extension CodableGraphic.Effect.Modifier {
         
         @VariantMacro
         public enum Variant: String, GraphicVariant {
+            case monochrome
+            case saturated
             case hue120
             case hue240
-            case saturation50
-            case saturation200
         }
 
         public func edit(variant: Variant) {
             switch variant {
+            case .monochrome:
+                saturation.value = .fixed(0.0)
+            case .saturated:
+                saturation.value = .fixed(2.0)
             case .hue120:
                 hue.value = .fixed(.degrees(120))
             case .hue240:
                 hue.value = .fixed(.degrees(240))
-            case .saturation50:
-                saturation.value = .fixed(0.5)
-            case .saturation200:
-                saturation.value = .fixed(2.0)
             }
         }
     }

@@ -23,7 +23,7 @@ extension CodableGraphic3D.Effect.Modifier {
         public func render(
             with graphic: Graphic3D,
             modifier modifierGraphic: Graphic3D,
-            options: Graphic3D.EffectOptions = [.edgeStretch]
+            options: Graphic3D.EffectOptions = []
         ) async throws -> Graphic3D {
            
             try await graphic.lumaColorShifted(
@@ -39,22 +39,22 @@ extension CodableGraphic3D.Effect.Modifier {
         
         @VariantMacro
         public enum Variant: String, GraphicVariant {
+            case monochrome
+            case saturated
             case hue120
             case hue240
-            case saturation50
-            case saturation200
         }
 
         public func edit(variant: Variant) {
             switch variant {
+            case .monochrome:
+                saturation.value = .fixed(0.0)
+            case .saturated:
+                saturation.value = .fixed(2.0)
             case .hue120:
                 hue.value = .fixed(.degrees(120))
             case .hue240:
                 hue.value = .fixed(.degrees(240))
-            case .saturation50:
-                saturation.value = .fixed(0.5)
-            case .saturation200:
-                saturation.value = .fixed(2.0)
             }
         }
     }
