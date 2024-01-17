@@ -3,12 +3,13 @@
 //
 
 import SwiftUI
+import Spatial
 import CoreGraphics
 import PixelColor
 
-extension Graphic {
+extension Graphic3D {
     
-    private struct LumaColorShiftUniforms {
+    private struct LumaColorShift3DUniforms {
         let placement: UInt32
         let hue: Float
         let saturation: Float
@@ -17,27 +18,29 @@ extension Graphic {
     }
     
     public func lumaMonochrome(
-        with graphic: Graphic,
+        with graphic: Graphic3D,
         lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
-    ) async throws -> Graphic {
+    ) async throws -> Graphic3D {
         
         try await lumaColorShifted(
             with: graphic,
             saturation: 0.0,
-            lumaGamma: lumaGamma
+            lumaGamma: lumaGamma,
+            placement: placement,
+            options: options
         )
     }
     
     /// `1.0` is *default*
     public func lumaSaturated(
-        with graphic: Graphic,
+        with graphic: Graphic3D,
         saturation: CGFloat,
         lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
-    ) async throws -> Graphic {
+    ) async throws -> Graphic3D {
     
         try await lumaColorShifted(
             with: graphic,
@@ -50,12 +53,12 @@ extension Graphic {
     
     /// `0.0` is *default*, `0.5` is `180` degrees of hue shift
     public func lumaHue(
-        with graphic: Graphic,
+        with graphic: Graphic3D,
         hue: Angle,
         lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
-    ) async throws -> Graphic {
+    ) async throws -> Graphic3D {
     
         try await lumaColorShifted(
             with: graphic,
@@ -67,12 +70,12 @@ extension Graphic {
     }
     
     public func lumaTinted(
-        with graphic: Graphic,
+        with graphic: Graphic3D,
         color: PixelColor,
         lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
-    ) async throws -> Graphic {
+    ) async throws -> Graphic3D {
     
         try await lumaColorShifted(
             with: graphic,
@@ -84,23 +87,23 @@ extension Graphic {
     }
     
     public func lumaColorShifted(
-        with graphic: Graphic,
+        with graphic: Graphic3D,
         hue: Angle = .zero,
         saturation: CGFloat = 1.0,
         tintColor: PixelColor = .white,
         lumaGamma: CGFloat = 1.0,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
-    ) async throws -> Graphic {
+    ) async throws -> Graphic3D {
         
         try await Renderer.render(
-            name: "Luma Color Shift",
-            shader: .name("lumaColorShift"),
+            name: "Luma Color Shift 3D",
+            shader: .name("lumaColorShift3d"),
             graphics: [
                 self,
                 graphic
             ],
-            uniforms: LumaColorShiftUniforms(
+            uniforms: LumaColorShift3DUniforms(
                 placement: placement.index,
                 hue: hue.uniform,
                 saturation: Float(saturation),
@@ -108,8 +111,7 @@ extension Graphic {
                 lumaGamma: Float(lumaGamma)
             ),
             options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
+                addressMode: options.addressMode
             )
         )
     }

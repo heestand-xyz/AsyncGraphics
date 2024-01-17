@@ -58,5 +58,3 @@ fragment float4 lumaColorShift(VertexOut out [[stage_in]],
     float alpha = 1.0 - ((1.0 - uniforms.tintColor.a) * lum);
     return float4(cc.r * alpha, cc.g * alpha, cc.b * alpha, c.a * alpha);
 }
-
-

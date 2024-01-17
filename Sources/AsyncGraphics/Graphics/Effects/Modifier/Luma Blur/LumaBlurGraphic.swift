@@ -23,6 +23,8 @@ extension CodableGraphic.Effect.Modifier {
                                                              minimum: .fixed(1),
                                                              maximum: .fixed(100))
         
+        public var placement: GraphicEnumMetadata<Graphic.Placement> = .init(value: .fill)
+
         public func render(
             with graphic: Graphic,
             modifier modifierGraphic: Graphic,
@@ -37,6 +39,7 @@ extension CodableGraphic.Effect.Modifier {
                     radius: radius.value.eval(at: graphic.resolution),
                     lumaGamma: lumaGamma.value.eval(at: graphic.resolution),
                     sampleCount: sampleCount.value.eval(at: graphic.resolution),
+                    placement: placement.value,
                     options: options)
                 
             case .angle:
@@ -47,6 +50,7 @@ extension CodableGraphic.Effect.Modifier {
                     angle: rotation.value.eval(at: graphic.resolution),
                     lumaGamma: lumaGamma.value.eval(at: graphic.resolution),
                     sampleCount: sampleCount.value.eval(at: graphic.resolution),
+                    placement: placement.value,
                     options: options)
                 
             case .zoom:
@@ -57,6 +61,7 @@ extension CodableGraphic.Effect.Modifier {
                     position: position.value.eval(at: graphic.resolution),
                     lumaGamma: lumaGamma.value.eval(at: graphic.resolution),
                     sampleCount: sampleCount.value.eval(at: graphic.resolution),
+                    placement: placement.value,
                     options: options)
                 
             case .random:
@@ -65,6 +70,7 @@ extension CodableGraphic.Effect.Modifier {
                     with: modifierGraphic,
                     radius: radius.value.eval(at: graphic.resolution),
                     lumaGamma: lumaGamma.value.eval(at: graphic.resolution),
+                    placement: placement.value,
                     options: options)
             }
         }
@@ -82,6 +88,8 @@ extension CodableGraphic.Effect.Modifier {
             case .sampleCount:
                 style.value != .random
             case .lumaGamma:
+                true
+            case .placement:
                 true
             }
         }

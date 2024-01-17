@@ -317,7 +317,7 @@ Use blending modes to combine two or more graphics.
 - ``lumaDivide(with:value:lumaGamma:placement:)``
 - ``lumaDivide(value:lumaGamma:placement:graphic:)``
 
-### Colors
+### Color Shift
 
 - ``monochrome()``
 - ``saturated(_:)``
@@ -325,12 +325,12 @@ Use blending modes to combine two or more graphics.
 - ``tinted(_:)``
 - ``colorMap(from:to:options:)``
 
-### Luma Colors
+### Luma Color Shift
 
-- ``lumaMonochrome(with:lumaGamma:)``
-- ``lumaSaturated(with:saturation:lumaGamma:)``
-- ``lumaHue(with:hue:lumaGamma:)``
-- ``lumaTinted(with:color:lumaGamma:)``
+- ``lumaMonochrome(with:lumaGamma:placement:options:)``
+- ``lumaSaturated(with:saturation:lumaGamma:placement:options:)``
+- ``lumaHue(with:hue:lumaGamma:placement:options:)``
+- ``lumaTinted(with:color:lumaGamma:placement:options:)``
 
 ### Color Convert
 
