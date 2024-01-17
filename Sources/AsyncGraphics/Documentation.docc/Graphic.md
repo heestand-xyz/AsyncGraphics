@@ -331,6 +331,7 @@ Use blending modes to combine two or more graphics.
 - ``lumaSaturated(with:saturation:lumaGamma:placement:options:)``
 - ``lumaHue(with:hue:lumaGamma:placement:options:)``
 - ``lumaTinted(with:color:lumaGamma:placement:options:)``
+- ``lumaColorShifted(with:hue:saturation:tintColor:lumaGamma:placement:options:)``
 
 ### Color Convert
 
