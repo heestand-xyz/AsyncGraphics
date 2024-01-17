@@ -194,6 +194,13 @@ Use blending modes to combine two 3d graphics.
 - ``lumaBlurredZoom(with:radius:position:lumaGamma:sampleCount:placement:options:)``
 - ``lumaBlurredRandom(with:radius:lumaGamma:placement:options:)``
 
+### Luma Rainbow Blur
+
+- ``lumaRainbowBlurredCircle(with:radius:angle:light:lumaGamma:sampleCount:placement:options:)``
+- ``lumaRainbowBlurredAngle(with:radius:angle:light:lumaGamma:sampleCount:placement:options:)``
+- ``lumaRainbowBlurredZoom(with:radius:position:light:lumaGamma:sampleCount:placement:options:)``
+- ``lumaRainbowBlurred(with:type:radius:position:angle:light:lumaGamma:sampleCount:placement:options:)``
+
 ### Displace
 
 - ``displaced(with:offset:origin:placement:options:)``

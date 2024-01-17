@@ -380,6 +380,7 @@ Use blending modes to combine two or more graphics.
 - ``lumaRainbowBlurredCircle(with:radius:angle:light:lumaGamma:sampleCount:placement:options:)``
 - ``lumaRainbowBlurredAngle(with:radius:angle:light:lumaGamma:sampleCount:placement:options:)``
 - ``lumaRainbowBlurredZoom(with:radius:position:light:lumaGamma:sampleCount:placement:options:)``
+- ``lumaRainbowBlurred(with:type:radius:position:angle:light:lumaGamma:sampleCount:placement:options:)``
 
 ### Pixelate
 

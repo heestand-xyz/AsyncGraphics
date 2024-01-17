@@ -8,7 +8,7 @@ import PixelColor
 
 extension Graphic3D {
     
-    private struct LumaLevelsUniforms {
+    private struct LumaLevels3DUniforms {
         let placement: UInt32
         let brightness: Float
         let darkness: Float
@@ -250,7 +250,7 @@ extension Graphic3D {
                 self,
                 graphic
             ],
-            uniforms: LumaLevelsUniforms(
+            uniforms: LumaLevels3DUniforms(
                 placement: placement.index,
                 brightness: Float(brightness),
                 darkness: Float(darkness),

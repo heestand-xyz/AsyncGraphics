@@ -4,14 +4,15 @@
 
 import Metal
 import MetalPerformanceShaders
+import Spatial
 import CoreGraphics
 import CoreGraphicsExtensions
 import SwiftUI
 import TextureMap
 
-extension Graphic {
+extension Graphic3D {
     
-    private struct LumaRainbowBlurUniforms {
+    private struct LumaRainbowBlur3DUniforms {
         let type: UInt32
         let placement: UInt32
         let count: UInt32
@@ -19,26 +20,25 @@ extension Graphic {
         let angle: Float
         let light: Float
         let lumaGamma: Float
-        let position: PointUniform
+        let position: VectorUniform
     }
     
     @EnumMacro
-    public enum LumaRainbowBlurType: String, GraphicEnum {
+    public enum LumaRainbowBlur3DType: String, GraphicEnum {
         case circle
-        case angle
         case zoom
     }
     
     public func lumaRainbowBlurredCircle(
-        with graphic: Graphic,
+        with graphic: Graphic3D,
         radius: CGFloat,
         angle: Angle = .zero,
         light: CGFloat = 1.0,
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
-    ) async throws -> Graphic {
+    ) async throws -> Graphic3D {
         
         try await lumaRainbowBlurred(
             with: graphic,
@@ -54,15 +54,15 @@ extension Graphic {
     }
     
     public func lumaRainbowBlurredZoom(
-        with graphic: Graphic,
+        with graphic: Graphic3D,
         radius: CGFloat,
-        position: CGPoint? = nil,
+        position: Point3D? = nil,
         light: CGFloat = 1.0,
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
-    ) async throws -> Graphic {
+    ) async throws -> Graphic3D {
         
         try await lumaRainbowBlurred(
             with: graphic,
@@ -77,56 +77,32 @@ extension Graphic {
         )
     }
     
-    public func lumaRainbowBlurredAngle(
-        with graphic: Graphic,
-        radius: CGFloat,
-        angle: Angle,
-        light: CGFloat = 1.0,
-        lumaGamma: CGFloat = 1.0,
-        sampleCount: Int = 100,
-        placement: Placement = .fit,
-        options: EffectOptions = []
-    ) async throws -> Graphic {
-    
-        try await lumaRainbowBlurred(
-            with: graphic,
-            type: .angle,
-            radius: radius,
-            angle: angle,
-            light: light,
-            lumaGamma: lumaGamma,
-            sampleCount: sampleCount,
-            placement: placement,
-            options: options
-        )
-    }
-    
     public func lumaRainbowBlurred(
-        with graphic: Graphic,
-        type: LumaRainbowBlurType,
+        with graphic: Graphic3D,
+        type: LumaRainbowBlur3DType,
         radius: CGFloat,
-        position: CGPoint? = nil,
+        position: Point3D? = nil,
         angle: Angle = .zero,
         light: CGFloat = 1.0,
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
-        placement: Placement = .fit,
+        placement: Graphic.Placement = .fit,
         options: EffectOptions = []
-    ) async throws -> Graphic {
+    ) async throws -> Graphic3D {
         
-        let position: CGPoint = position ?? resolution.asPoint / 2
-        let relativePosition: CGPoint = (position - resolution / 2) / height
+        let position: Point3D = position ?? Point3D(resolution) / 2
+        let relativePosition: Point3D = (position - resolution / 2) / height
         
         let relativeRadius: CGFloat = radius / height
         
         return try await Renderer.render(
-            name: "Luma Rainbow Blur",
-            shader: .name("lumaRainbowBlur"),
+            name: "Luma Rainbow Blur 3D",
+            shader: .name("lumaRainbowBlur3d"),
             graphics: [
                 self,
                 graphic
             ],
-            uniforms: LumaRainbowBlurUniforms(
+            uniforms: LumaRainbowBlur3DUniforms(
                 type: type.index,
                 placement: placement.index,
                 count: UInt32(sampleCount),
@@ -137,8 +113,7 @@ extension Graphic {
                 position: relativePosition.uniform
             ),
             options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
+                addressMode: options.addressMode
             )
         )
     }
