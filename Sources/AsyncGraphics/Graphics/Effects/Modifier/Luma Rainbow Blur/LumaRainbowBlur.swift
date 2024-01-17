@@ -101,7 +101,7 @@ extension Graphic {
         )
     }
     
-    public func lumaRainbowBlurred(
+    func lumaRainbowBlurred(
         with graphic: Graphic,
         type: LumaRainbowBlurType,
         radius: CGFloat,

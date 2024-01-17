@@ -83,7 +83,7 @@ extension Graphic {
         )
     }
     
-    public func lumaColorShifted(
+    func lumaColorShifted(
         with graphic: Graphic,
         hue: Angle = .zero,
         saturation: CGFloat = 1.0,

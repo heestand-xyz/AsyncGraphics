@@ -29,38 +29,16 @@ extension CodableGraphic3D.Effect.Modifier {
             modifier modifierGraphic: Graphic3D,
             options: Graphic3D.EffectOptions = [.edgeStretch]
         ) async throws -> Graphic3D {
-           
-            switch style.value {
-            case .box:
-                
-                try await graphic.lumaBlurredBox(
-                    with: modifierGraphic,
-                    radius: radius.value.eval(at: graphic.resolution),
-                    lumaGamma: lumaGamma.value.eval(at: graphic.resolution),
-                    sampleCount: sampleCount.value.eval(at: graphic.resolution),
-                    placement: placement.value,
-                    options: options)
-                
-            case .zoom:
-                
-                try await graphic.lumaBlurredZoom(
-                    with: modifierGraphic,
-                    radius: radius.value.eval(at: graphic.resolution),
-                    position: position.value.eval(at: graphic.resolution),
-                    lumaGamma: lumaGamma.value.eval(at: graphic.resolution),
-                    sampleCount: sampleCount.value.eval(at: graphic.resolution),
-                    placement: placement.value,
-                    options: options)
-                
-            case .random:
-                
-                try await graphic.lumaBlurredRandom(
-                    with: modifierGraphic,
-                    radius: radius.value.eval(at: graphic.resolution),
-                    lumaGamma: lumaGamma.value.eval(at: graphic.resolution),
-                    placement: placement.value,
-                    options: options)
-            }
+            
+            try await graphic.lumaBlurred(
+                with: modifierGraphic,
+                type: style.value,
+                radius: radius.value.eval(at: graphic.resolution),
+                position: position.value.eval(at: graphic.resolution),
+                lumaGamma: lumaGamma.value.eval(at: graphic.resolution),
+                sampleCount: sampleCount.value.eval(at: graphic.resolution),
+                placement: placement.value,
+                options: options)
         }
         
         public func isVisible(property: Property, at resolution: CGSize) -> Bool {

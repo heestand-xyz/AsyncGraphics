@@ -86,7 +86,7 @@ extension Graphic3D {
         )
     }
     
-    public func lumaColorShifted(
+    func lumaColorShifted(
         with graphic: Graphic3D,
         hue: Angle = .zero,
         saturation: CGFloat = 1.0,

@@ -124,7 +124,7 @@ extension Graphic {
         )
     }
     
-    private func lumaBlurred(
+    func lumaBlurred(
         with graphic: Graphic,
         type: LumaBlurType,
         radius: CGFloat,

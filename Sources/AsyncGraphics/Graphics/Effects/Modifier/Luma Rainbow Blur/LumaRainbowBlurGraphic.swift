@@ -34,43 +34,17 @@ extension CodableGraphic.Effect.Modifier {
             options: Graphic.EffectOptions = [.edgeStretch]
         ) async throws -> Graphic {
            
-            switch style.value {
-            case .circle:
-                
-                try await graphic.lumaRainbowBlurredCircle(
-                    with: modifierGraphic,
-                    radius: radius.value.eval(at: graphic.resolution),
-                    angle: rotation.value.eval(at: graphic.resolution),
-                    light: light.value.eval(at: graphic.resolution),
-                    lumaGamma: lumaGamma.value.eval(at: graphic.resolution),
-                    sampleCount: sampleCount.value.eval(at: graphic.resolution),
-                    placement: placement.value,
-                    options: options)
-                
-            case .angle:
-                
-                try await graphic.lumaRainbowBlurredAngle(
-                    with: modifierGraphic,
-                    radius: radius.value.eval(at: graphic.resolution),
-                    angle: rotation.value.eval(at: graphic.resolution),
-                    light: light.value.eval(at: graphic.resolution),
-                    lumaGamma: lumaGamma.value.eval(at: graphic.resolution),
-                    sampleCount: sampleCount.value.eval(at: graphic.resolution),
-                    placement: placement.value,
-                    options: options)
-                
-            case .zoom:
-                
-                try await graphic.lumaRainbowBlurredZoom(
-                    with: modifierGraphic,
-                    radius: radius.value.eval(at: graphic.resolution),
-                    position: position.value.eval(at: graphic.resolution),
-                    light: light.value.eval(at: graphic.resolution),
-                    lumaGamma: lumaGamma.value.eval(at: graphic.resolution),
-                    sampleCount: sampleCount.value.eval(at: graphic.resolution),
-                    placement: placement.value,
-                    options: options)
-            }
+            try await graphic.lumaRainbowBlurred(
+                with: modifierGraphic,
+                type: style.value,
+                radius: radius.value.eval(at: graphic.resolution),
+                position: position.value.eval(at: graphic.resolution),
+                angle: rotation.value.eval(at: graphic.resolution),
+                light: light.value.eval(at: graphic.resolution),
+                lumaGamma: lumaGamma.value.eval(at: graphic.resolution),
+                sampleCount: sampleCount.value.eval(at: graphic.resolution),
+                placement: placement.value,
+                options: options)
         }
         
         public func isVisible(property: Property, at resolution: CGSize) -> Bool {

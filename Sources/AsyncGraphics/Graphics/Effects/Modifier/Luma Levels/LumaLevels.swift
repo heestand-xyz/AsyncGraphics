@@ -228,7 +228,7 @@ extension Graphic {
         )
     }
     
-    public func lumaLevels(
+    func lumaLevels(
         with graphic: Graphic,
         brightness: CGFloat = 1.0,
         darkness: CGFloat = 0.0,
