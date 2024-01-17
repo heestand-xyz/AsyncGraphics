@@ -327,6 +327,9 @@
     "graphic.effect.modifier.lumaLevels" : {
 
     },
+    "graphic.effect.modifier.lumaRainbowBlur" : {
+
+    },
     "graphic.effect.modifier.mask" : {
       "localizations" : {
         "en" : {
@@ -1686,6 +1689,21 @@
         }
       }
     },
+    "option.lumaRainbowBlur3DType.circle" : {
+
+    },
+    "option.lumaRainbowBlur3DType.zoom" : {
+
+    },
+    "option.lumaRainbowBlurType.angle" : {
+
+    },
+    "option.lumaRainbowBlurType.circle" : {
+
+    },
+    "option.lumaRainbowBlurType.zoom" : {
+
+    },
     "option.multiBlendMode.add" : {
 
     },
@@ -2676,6 +2694,9 @@
           }
         }
       }
+    },
+    "variant.circle" : {
+
     },
     "variant.clear" : {
       "localizations" : {
