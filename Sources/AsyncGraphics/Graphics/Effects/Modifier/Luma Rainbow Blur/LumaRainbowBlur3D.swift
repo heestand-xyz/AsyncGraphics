@@ -77,7 +77,7 @@ extension Graphic3D {
         )
     }
     
-    public func lumaRainbowBlurred(
+    func lumaRainbowBlurred(
         with graphic: Graphic3D,
         type: LumaRainbowBlur3DType,
         radius: CGFloat,

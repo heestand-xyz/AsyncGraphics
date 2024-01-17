@@ -228,7 +228,7 @@ extension Graphic3D {
         )
     }
     
-    public func lumaLevels(
+    func lumaLevels(
         with graphic: Graphic3D,
         brightness: CGFloat = 1.0,
         darkness: CGFloat = 0.0,
