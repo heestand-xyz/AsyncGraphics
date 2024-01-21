@@ -23,16 +23,26 @@ extension Graphic {
     /// Reduce
     ///
     /// Reduction to a singe pixel
-//    @available(iOS 14.0, tvOS 14, macOS 11, *)
     public func reduce(by sampleMethod: ReduceMethod) async throws -> PixelColor {
-        
-        let highBitGraphic = try await bits(._16)
-        
-        let rowGraphic = try await highBitGraphic.reduce(by: sampleMethod, axis: .vertical)
-                
-        let pixelGraphic = try await rowGraphic.reduce(by: sampleMethod, axis: .horizontal)
-        
-        return try await pixelGraphic.firstPixelColor
+        try await bits(._16)
+            .reduction(by: sampleMethod, axis: .horizontal)
+            .rotatedLeft()
+            .reduction(by: sampleMethod, axis: .horizontal)
+            .firstPixelColor
+    }
+    
+    /// Reduce Vertically
+    ///
+    /// Reduction in sample axis y, gives you a row
+    public func reduceToRow(by sampleMethod: ReduceMethod) async throws -> Graphic {
+        try await rotatedLeft().reduction(by: sampleMethod, axis: .horizontal).rotatedRight()
+    }
+    
+    /// Reduce Horizontally
+    ///
+    /// Reduction in sample axis x, gives you a column
+    public func reduceToColumn(by sampleMethod: ReduceMethod) async throws -> Graphic {
+        try await reduction(by: sampleMethod, axis: .horizontal)
     }
     
     /// Reduce
@@ -40,7 +50,12 @@ extension Graphic {
     /// Reduction in sample axis x, gives you a column
     ///
     /// Reduction in sample axis y, gives you a row
+    @available(*, deprecated)
     public func reduce(by sampleMethod: ReduceMethod, axis sampleAxis: ReduceAxis) async throws -> Graphic {
+        try await reduction(by: sampleMethod, axis: sampleAxis)
+    }
+    
+    private func reduction(by sampleMethod: ReduceMethod, axis sampleAxis: ReduceAxis) async throws -> Graphic {
                 
         let texture: MTLTexture = try await withCheckedThrowingContinuation { continuation in
             
