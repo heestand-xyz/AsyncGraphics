@@ -44,7 +44,9 @@ public final class GraphicViewRenderer: ObservableObject {
     
     public func display(graphic: Graphic) async throws {
         
-        sourceGraphic = graphic
+        await MainActor.run {        
+            sourceGraphic = graphic
+        }
         
         try await render()
     }
