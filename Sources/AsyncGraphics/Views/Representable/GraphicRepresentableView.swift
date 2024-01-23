@@ -13,35 +13,30 @@ struct GraphicRepresentableView {
     var preProcessed: Bool = false
     let didRender: (UUID) -> ()
     
-    private func render(in view: GraphicMetalViewable) {
-        Task {
-            var graphic: Graphic = graphic
-            do {
-                if !preProcessed {
-                    if graphic.colorSpace != .sRGB {
-                        graphic = try await graphic
-                            .applyColorSpace(.sRGB)
-                    }
-                    if [.nearestNeighbor, .linear].contains(interpolation) {
-                        var options: Graphic.EffectOptions = []
-                        if interpolation == .nearestNeighbor {
-                            options.insert(.interpolateNearest)
-                        }
-                        graphic = try await graphic
-                            .resized(to: viewResolution,
-                                     placement: .stretch,
-                                     options: options)
-                    }                    
+    private func render(in view: GraphicMetalViewable) async throws {
+        var graphic: Graphic = graphic
+        if !preProcessed {
+            if graphic.colorSpace != .sRGB {
+                graphic = try await graphic
+                    .applyColorSpace(.sRGB)
+            }
+            if [.nearestNeighbor, .linear].contains(interpolation) {
+                var options: Graphic.EffectOptions = []
+                if interpolation == .nearestNeighbor {
+                    options.insert(.interpolateNearest)
                 }
-                #if os(visionOS)
-                await (view as! GraphicMetalVisionView).render(graphic: graphic)
-                #else
-                await (view as! GraphicMetalView).render(graphic: graphic)
-                #endif
-            } catch {
-                print("AsyncGraphics - View Render Failed:", error)
+                graphic = try await graphic
+                    .resized(to: viewResolution,
+                             placement: .stretch,
+                             options: options)
             }
         }
+        #if os(visionOS)
+//        await (view as! GraphicMetalVisionView).renderNeedsDisplay(graphic: graphic)
+        await (view as! GraphicMetalVisionView).render(graphic: graphic)
+        #else
+        await (view as! GraphicMetalView).render(graphic: graphic)
+        #endif
     }
 }
   
@@ -59,7 +54,13 @@ extension GraphicRepresentableView: NSViewRepresentable {
         if view.extendedDynamicRange != extendedDynamicRange {
             view.set(extendedDynamicRange: extendedDynamicRange)
         }
-        render(in: view)
+        Task {
+            do {
+                try await render(in: view)
+            } catch {
+                print("AsyncGraphics - View Render Failed:", error)
+            }
+        }
     }
 }
 
@@ -77,7 +78,13 @@ extension GraphicRepresentableView: UIViewRepresentable {
         if view.extendedDynamicRange != extendedDynamicRange {
             view.set(extendedDynamicRange: extendedDynamicRange)
         }
-        render(in: view)
+        Task {
+            do {
+                try await render(in: view)
+            } catch {
+                print("AsyncGraphics - View Render Failed:", error)
+            }
+        }
     }
 }
 
@@ -96,7 +103,13 @@ extension GraphicRepresentableView: UIViewRepresentable {
         if view.extendedDynamicRange != extendedDynamicRange {
             view.set(extendedDynamicRange: extendedDynamicRange)
         }
-        render(in: view)
+        Task {
+            do {
+                try await render(in: view)
+            } catch {
+                print("AsyncGraphics - View Render Failed:", error)
+            }
+        }
     }
 }
 
