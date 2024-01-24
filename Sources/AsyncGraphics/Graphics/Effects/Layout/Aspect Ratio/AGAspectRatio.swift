@@ -31,10 +31,10 @@ public struct AGAspectRatio: AGSingleParentGraph {
                            for specification: AGSpecification) -> CGSize {
         if let aspectRatio {
             return CGSize(width: aspectRatio, height: 1.0)
-                .place(in: proposedResolution, placement: placement)
+                .place(in: proposedResolution, placement: placement.sizePlacement)
         }
         return child.resolution(at: proposedResolution, for: specification)
-            .place(in: proposedResolution, placement: placement)
+            .place(in: proposedResolution, placement: placement.sizePlacement)
     }
     
     public func render(at proposedResolution: CGSize,
