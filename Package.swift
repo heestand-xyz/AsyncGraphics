@@ -20,7 +20,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/heestand-xyz/TextureMap", .upToNextMinor(from: "1.0.1")),
         .package(url: "https://github.com/heestand-xyz/PixelColor", .upToNextMinor(from: "2.2.0")),
-        .package(url: "https://github.com/heestand-xyz/CoreGraphicsExtensions", .upToNextMinor(from: "1.5.0")),
+        .package(url: "https://github.com/heestand-xyz/CoreGraphicsExtensions", .upToNextMinor(from: "1.6.0")),
         .package(url: "https://github.com/heestand-xyz/VideoFrames", .upToNextMinor(from: "1.1.1")),
         .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.1.0"),
         .package(url: "https://github.com/apple/swift-syntax", from: "509.0.0"),
