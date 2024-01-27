@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import SwiftUI
 import CoreGraphics
 import Metal
 import TextureMap
@@ -72,6 +73,13 @@ extension Graphic {
     public var image: TMImage {
         get async throws {
             try await mirroredVertically().texture.image(colorSpace: colorSpace, bits: bits)
+        }
+    }
+    
+    /// SwiftUI Image
+    public var imageForSwiftUI: Image {
+        get async throws {
+            Image(tmImage: try await image)
         }
     }
     
