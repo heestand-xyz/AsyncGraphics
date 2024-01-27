@@ -24,7 +24,7 @@ extension Graphic {
     ///
     /// Reduction to a singe pixel
     public func reduce(by sampleMethod: ReduceMethod) async throws -> PixelColor {
-        try await bits(._16)
+        try await bits(._32)
             .reduction(by: sampleMethod, axis: .horizontal)
             .rotatedLeft()
             .reduction(by: sampleMethod, axis: .horizontal)

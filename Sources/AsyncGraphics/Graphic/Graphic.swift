@@ -182,14 +182,8 @@ extension Graphic {
     }
     
     public var averagePixelColor: PixelColor {
-        
         get async throws {
-            
-            let pixelColors: [PixelColor] = try await pixelColors.flatMap { $0 }
-            
-            let color: PixelColor = pixelColors.reduce(.clear, +) / CGFloat(pixelColors.count)
-            
-            return color
+            try await reduce(by: .average)
         }
     }
     
