@@ -123,7 +123,7 @@ LUT
 ## Install
 
 ```swift
-.package(url: "https://github.com/heestand-xyz/AsyncGraphics", from: "1.0.0")
+.package(url: "https://github.com/heestand-xyz/AsyncGraphics", from: "2.0.0")
 ```
 
 ## Views
