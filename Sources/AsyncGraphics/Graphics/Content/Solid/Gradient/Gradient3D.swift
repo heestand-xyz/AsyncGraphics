@@ -44,6 +44,21 @@ extension Graphic3D {
         let position: Point3D = position ?? Point3D(resolution) / 2
         let relativePosition: Point3D = (position - resolution / 2) / resolution.height
         
+        var colorStops: [Graphic.GradientColorStopUniforms] = stops.map { stop in
+            Graphic.GradientColorStopUniforms(
+                fraction: Float(stop.location),
+                color: stop.color.uniform
+            )
+        }
+        
+        if !colorStops.contains(where: { $0.fraction == 0.0 }) {
+            colorStops.insert(Graphic.GradientColorStopUniforms(fraction: 0.0, color: colorStops.sorted(by: { $0.fraction < $1.fraction }).first?.color ?? .clear), at: 0)
+        }
+        
+        if !colorStops.contains(where: { $0.fraction == 1.0 }) {
+            colorStops.append(Graphic.GradientColorStopUniforms(fraction: 1.0, color: colorStops.sorted(by: { $0.fraction < $1.fraction }).last?.color ?? .clear))
+        }
+        
         return try await Renderer.render(
             name: "Gradient 3D",
             shader: .name("gradient3d"),
@@ -57,12 +72,7 @@ extension Graphic3D {
                 premultiply: options.premultiply,
                 resolution: Point3D(resolution).uniform
             ),
-            arrayUniforms: stops.map { stop in
-                Graphic.GradientColorStopUniforms(
-                    fraction: Float(stop.location),
-                    color: stop.color.uniform
-                )
-            },
+            arrayUniforms: colorStops,
             emptyArrayUniform: Graphic.GradientColorStopUniforms(
                 fraction: 0.0,
                 color: PixelColor.clear.uniform

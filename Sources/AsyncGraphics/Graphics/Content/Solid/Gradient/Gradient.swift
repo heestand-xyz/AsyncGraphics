@@ -25,7 +25,7 @@ extension Graphic {
     }
     
     /// Gradient Stop is a color with a location between 0.0 and 1.0
-    public struct GradientStop: Codable {
+    public struct GradientStop: Codable, Equatable {
         /// A location between 0.0 and 1.0
         public var location: CGFloat
         public var color: PixelColor
@@ -67,6 +67,21 @@ extension Graphic {
         let position: CGPoint = position ?? (resolution.asPoint / 2)
         let relativePosition: CGPoint = (position - resolution / 2) / resolution.height
         
+        var colorStops: [GradientColorStopUniforms] = stops.map { stop in
+            GradientColorStopUniforms(
+                fraction: Float(stop.location),
+                color: stop.color.uniform
+            )
+        }
+        
+        if !colorStops.contains(where: { $0.fraction == 0.0 }) {
+            colorStops.insert(GradientColorStopUniforms(fraction: 0.0, color: colorStops.sorted(by: { $0.fraction < $1.fraction }).first?.color ?? .clear), at: 0)
+        }
+        
+        if !colorStops.contains(where: { $0.fraction == 1.0 }) {
+            colorStops.append(GradientColorStopUniforms(fraction: 1.0, color: colorStops.sorted(by: { $0.fraction < $1.fraction }).last?.color ?? .clear))
+        }
+        
         return try await Renderer.render(
             name: "Gradient",
             shader: .name("gradient"),
@@ -80,12 +95,7 @@ extension Graphic {
                 premultiply: options.premultiply,
                 resolution: resolution.uniform
             ),
-            arrayUniforms: stops.map { stop in
-                GradientColorStopUniforms(
-                    fraction: Float(stop.location),
-                    color: stop.color.uniform
-                )
-            },
+            arrayUniforms: colorStops,
             emptyArrayUniform: GradientColorStopUniforms(
                 fraction: 0.0,
                 color: PixelColor.clear.uniform

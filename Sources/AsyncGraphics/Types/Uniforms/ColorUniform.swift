@@ -21,3 +21,10 @@ extension PixelColor {
                      alpha: Float(alpha))
     }
 }
+
+extension ColorUniform {
+    static let clear = ColorUniform(red: 0.0, 
+                                    green: 0.0,
+                                    blue: 0.0,
+                                    alpha: 0.0)
+}
