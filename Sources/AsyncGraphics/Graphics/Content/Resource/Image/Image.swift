@@ -48,9 +48,11 @@ extension Graphic {
         
         var graphic = Graphic(name: "Image", texture: texture, bits: bits, colorSpace: colorSpace)
         
+        let linearSRGB = CGColorSpace(name: CGColorSpace.linearSRGB)!
         if colorSpace == .sRGB, bits == ._8 {
-            let linearSRGB = CGColorSpace(name: CGColorSpace.linearSRGB)!
             graphic = try await graphic.convertColorSpace(from: .custom(linearSRGB), to: .sRGB)
+        } else if colorSpace == .displayP3, bits == ._8 {
+            graphic = try await graphic.convertColorSpace(from: .custom(linearSRGB), to: .displayP3)
         }
 
         if isMonochrome {
