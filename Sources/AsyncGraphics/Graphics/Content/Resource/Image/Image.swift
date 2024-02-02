@@ -52,7 +52,8 @@ extension Graphic {
         if colorSpace == .sRGB, bits == ._8 {
             graphic = try await graphic.convertColorSpace(from: .custom(linearSRGB), to: .sRGB)
         } else if colorSpace == .displayP3, bits == ._8 {
-            graphic = try await graphic.convertColorSpace(from: .custom(linearSRGB), to: .displayP3)
+            /// Disable as it's hazy on some images
+//            graphic = try await graphic.convertColorSpace(from: .custom(linearSRGB), to: .displayP3)
         }
 
         if isMonochrome {

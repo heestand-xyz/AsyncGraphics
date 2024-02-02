@@ -245,8 +245,8 @@ extension Graphic {
     /// 8 bit
     public var channels8: [UInt8] {
         
-        get throws {
-            try TextureMap.raw8(texture: texture)
+        get async throws {
+            try await TextureMap.raw8(texture: bits(._8).texture)
         }
     }
     
