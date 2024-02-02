@@ -78,9 +78,7 @@ extension GraphicMetalVisionView {
     }
     
     func render(graphic: Graphic, completion: @escaping (Bool) -> ()) {
-        
-        print("---->", "render graphic")
-        
+                
         metalLayer.drawableSize = graphic.resolution
         self.graphic = graphic
         
@@ -89,17 +87,12 @@ extension GraphicMetalVisionView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        print("---->", "layoutSubviews", bounds.size, layer.frame.size)
         metalLayer.frame = bounds
         
         if self.layer.sublayers?.isEmpty != false {
-            print("---->", "first layoutSubviews")
             layer.addSublayer(metalLayer)
         }
         
-//        if autoDraw {
-//            print("---->", "AUTO layoutSubviews")
-//        }
         draw { _ in }
     }
 }
@@ -107,32 +100,26 @@ extension GraphicMetalVisionView {
 extension GraphicMetalVisionView {
         
     func draw(completion: @escaping (Bool) -> ()) {
-        print("----> draw:")
         guard let graphic: Graphic = graphic else {
-            print("----> xxx A")
             completion(false)
             return
         }
         let texture: MTLTexture = graphic.texture
         
         guard let drawable: CAMetalDrawable = metalLayer.nextDrawable() else {
-            print("----> xxx B")
             completion(false)
             return
         }
         let targetTexture: MTLTexture = drawable.texture
         
         guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else {
-            print("----> xxx C")
             completion(false)
             return
         } // EXC_BREAKPOINT
         guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {
-            print("----> xxx D")
             completion(false)
             return
         }
-        print("---->>> drawing...")
         if !extendedDynamicRange,
            graphic.bits == ._8,
            targetTexture.width == texture.width,
