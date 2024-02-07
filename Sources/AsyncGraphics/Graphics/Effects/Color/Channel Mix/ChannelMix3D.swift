@@ -59,4 +59,8 @@ extension Graphic3D {
     public func luminanceToAlpha() async throws -> Graphic3D {
         try await monochrome().channelMix(red: .mono, green: .mono, blue: .mono, alpha: .mono)
     }
+    
+    public func luminanceToAlphaWithColor() async throws -> Graphic3D {
+        try await channelMix(red: .red, green: .green, blue: .blue, alpha: .mono)
+    }
 }

@@ -86,4 +86,8 @@ extension Graphic {
     public func luminanceToAlpha() async throws -> Graphic {
         try await monochrome().channelMix(red: .mono, green: .mono, blue: .mono, alpha: .mono)
     }
+    
+    public func luminanceToAlphaWithColor() async throws -> Graphic {
+        try await channelMix(red: .red, green: .green, blue: .blue, alpha: .mono)
+    }
 }
