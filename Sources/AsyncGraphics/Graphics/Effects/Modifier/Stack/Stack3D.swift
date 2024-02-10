@@ -25,173 +25,66 @@ extension Graphic3D {
         case depth = 2
     }
     
-    /// Vertical Stack Alignment
-    @EnumMacro
-    public enum VStackAlignment: String, GraphicEnum {
-        case leadingFar
-        case leadingNear
-        case leading
-        case center
-        case trailing
-        case trailingNear
-        case trailingFar
-    }
-    
-    /// Horizontal Stack Alignment
-    @EnumMacro
-    public enum HStackAlignment: String, GraphicEnum {
-        case bottomFar
-        case bottomNear
-        case bottom
-        case center
-        case top
-        case topNear
-        case topFar
-    }
-    
-    /// Depth Stack Alignment
-    @EnumMacro
-    public enum DStackAlignment: String, GraphicEnum {
-        case bottomTrailing
-        case bottomLeading
-        case bottom
-        case center
-        case top
-        case topLeading
-        case topTrailing
-    }
-    
-    private enum StackAlignment {
-        
-        case center
-        case leading
-        case leadingNear
-        case leadingFar
-        case trailing
-        case trailingNear
-        case trailingFar
-        case bottom
-        case bottomLeading
-        case bottomTrailing
-        case bottomNear
-        case bottomFar
-        case top
-        case topLeading
-        case topTrailing
-        case topNear
-        case topFar
-        
-        init(alignment: VStackAlignment) {
-            switch alignment {
-            case .leadingFar:
-                self = .leadingFar
-            case .leadingNear:
-                self = .leadingNear
-            case .leading:
-                self = .leading
-            case .center:
-                self = .center
-            case .trailing:
-                self = .trailing
-            case .trailingNear:
-                self = .trailingNear
-            case .trailingFar:
-                self = .trailingFar
+    public struct Alignment3D: Codable, Hashable {
+
+        @EnumMacro
+        public enum X: String, GraphicEnum {
+            case leading
+            case center
+            case trailing
+            public var vector: Int {
+                switch self {
+                case .leading: -1
+                case .center: 0
+                case .trailing: 1
+                }
             }
         }
-        
-        init(alignment: HStackAlignment) {
-            switch alignment {
-            case .bottomFar:
-                self = .bottomFar
-            case .bottomNear:
-                self = .bottomNear
-            case .bottom:
-                self = .bottom
-            case .center:
-                self = .center
-            case .top:
-                self = .top
-            case .topNear:
-                self = .topNear
-            case .topFar:
-                self = .topFar
+        public var x: X
+
+        @EnumMacro
+        public enum Y: String, GraphicEnum {
+            case top
+            case center
+            case bottom
+            public var vector: Int {
+                switch self {
+                case .top: -1
+                case .center: 0
+                case .bottom: 1
+                }
             }
         }
-        
-        init(alignment: DStackAlignment) {
-            switch alignment {
-            case .bottomTrailing:
-                self = .bottomTrailing
-            case .bottomLeading:
-                self = .bottomLeading
-            case .bottom:
-                self = .bottom
-            case .center:
-                self = .center
-            case .top:
-                self = .top
-            case .topLeading:
-                self = .topLeading
-            case .topTrailing:
-                self = .topTrailing
+        public var y: Y
+
+        @EnumMacro
+        public enum Z: String, GraphicEnum {
+            case far
+            case center
+            case near
+            public var vector: Int {
+                switch self {
+                case .far: -1
+                case .center: 0
+                case .near: 1
+                }
             }
         }
+        public var z: Z
         
-        var xIndex: Int {
-            switch self {
-            case .leading, .leadingFar, .leadingNear, .bottomLeading, .topLeading:
-                return -1
-            case .trailing, .trailingNear, .trailingFar, .bottomTrailing, .topTrailing:
-                return 1
-            default:
-                return 0
-            }
+        public static let center = Alignment3D(x: .center, y: .center, z: .center)
+        
+        public init(x: X = .center, y: Y = .center, z: Z = .center) {
+            self.x = x
+            self.y = y
+            self.z = z
         }
-        
-        var yIndex: Int {
-            switch self {
-            case .bottom, .bottomLeading, .bottomTrailing, .bottomNear, .bottomFar:
-                return -1
-            case .top, .topLeading, .topTrailing, .topNear, .topFar:
-                return 1
-            default:
-                return 0
-            }
-        }
-        
-        var zIndex: Int {
-            switch self {
-            case .leadingNear, .trailingNear, .bottomNear, .topNear:
-                return -1
-            case .leadingFar, .trailingFar, .bottomFar, .topFar:
-                return 1
-            default:
-                return 0
-            }
-        }
-    }
-    
-    /// Vertical Stack
-    public func vStack(with graphic: Graphic3D,
-                       alignment: VStackAlignment = .center,
-                       spacing: Double = 0.0,
-                       padding: Double = 0.0,
-                       backgroundColor: PixelColor = .clear,
-                       resolution: Size3D? = nil) async throws -> Graphic3D {
-        
-        try await stack(with: graphic,
-                        axis: .vertical,
-                        alignment: StackAlignment(alignment: alignment),
-                        spacing: spacing,
-                        padding: padding,
-                        backgroundColor: backgroundColor,
-                        resolution: resolution)
     }
     
     /// Horizontal Stack
     public func hStack(with graphic: Graphic3D,
-                       alignment: HStackAlignment = .center,
+                       yAlignment: Alignment3D.Y = .center,
+                       zAlignment: Alignment3D.Z = .center,
                        spacing: Double = 0.0,
                        padding: Double = 0.0,
                        backgroundColor: PixelColor = .clear,
@@ -199,7 +92,25 @@ extension Graphic3D {
         
         try await stack(with: graphic,
                         axis: .horizontal,
-                        alignment: StackAlignment(alignment: alignment),
+                        alignment: Alignment3D(x: .center, y: yAlignment, z: zAlignment),
+                        spacing: spacing,
+                        padding: padding,
+                        backgroundColor: backgroundColor,
+                        resolution: resolution)
+    }
+    
+    /// Vertical Stack
+    public func vStack(with graphic: Graphic3D,
+                       xAlignment: Alignment3D.X = .center,
+                       zAlignment: Alignment3D.Z = .center,
+                       spacing: Double = 0.0,
+                       padding: Double = 0.0,
+                       backgroundColor: PixelColor = .clear,
+                       resolution: Size3D? = nil) async throws -> Graphic3D {
+        
+        try await stack(with: graphic,
+                        axis: .vertical,
+                        alignment: Alignment3D(x: xAlignment, y: .center, z: zAlignment),
                         spacing: spacing,
                         padding: padding,
                         backgroundColor: backgroundColor,
@@ -208,7 +119,8 @@ extension Graphic3D {
     
     /// Depth Stack
     public func dStack(with graphic: Graphic3D,
-                       alignment: DStackAlignment = .center,
+                       xAlignment: Alignment3D.X = .center,
+                       yAlignment: Alignment3D.Y = .center,
                        spacing: Double = 0.0,
                        padding: Double = 0.0,
                        backgroundColor: PixelColor = .clear,
@@ -216,7 +128,7 @@ extension Graphic3D {
         
         try await stack(with: graphic,
                         axis: .depth,
-                        alignment: StackAlignment(alignment: alignment),
+                        alignment: Alignment3D(x: xAlignment, y: yAlignment, z: .center),
                         spacing: spacing,
                         padding: padding,
                         backgroundColor: backgroundColor,
@@ -225,7 +137,7 @@ extension Graphic3D {
     
     private func stack(with graphic: Graphic3D,
                        axis: StackAxis,
-                       alignment: StackAlignment = .center,
+                       alignment: Alignment3D = .center,
                        spacing: Double = 0.0,
                        padding: Double = 0.0,
                        backgroundColor: PixelColor = .clear,
@@ -280,9 +192,9 @@ extension Graphic3D {
             graphics: graphics,
             uniforms: Stack3DUniforms(
                 axis: Int32(axis.rawValue),
-                xAlignment: Int32(alignment.xIndex),
-                yAlignment: Int32(alignment.yIndex),
-                zAlignment: Int32(alignment.zIndex),
+                xAlignment: Int32(alignment.x.vector),
+                yAlignment: Int32(alignment.y.vector),
+                zAlignment: Int32(alignment.z.vector),
                 spacing: Float(relativeSpacing),
                 padding: Float(relativePadding),
                 backgroundColor: backgroundColor.uniform,

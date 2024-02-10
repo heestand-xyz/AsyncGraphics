@@ -843,6 +843,7 @@
       }
     },
     "option.dStackAlignment.bottom" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -853,6 +854,7 @@
       }
     },
     "option.dStackAlignment.bottomLeading" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -863,6 +865,7 @@
       }
     },
     "option.dStackAlignment.bottomTrailing" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -873,6 +876,7 @@
       }
     },
     "option.dStackAlignment.center" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -883,6 +887,7 @@
       }
     },
     "option.dStackAlignment.top" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -893,6 +898,7 @@
       }
     },
     "option.dStackAlignment.topLeading" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -903,6 +909,7 @@
       }
     },
     "option.dStackAlignment.topTrailing" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1473,6 +1480,7 @@
       }
     },
     "option.hStackAlignment.bottom" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1483,6 +1491,7 @@
       }
     },
     "option.hStackAlignment.bottomFar" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1493,6 +1502,7 @@
       }
     },
     "option.hStackAlignment.bottomNear" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1503,6 +1513,7 @@
       }
     },
     "option.hStackAlignment.center" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1513,6 +1524,7 @@
       }
     },
     "option.hStackAlignment.top" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1523,6 +1535,7 @@
       }
     },
     "option.hStackAlignment.topFar" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1533,6 +1546,7 @@
       }
     },
     "option.hStackAlignment.topNear" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1799,6 +1813,7 @@
       }
     },
     "option.vStackAlignment.center" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1809,6 +1824,7 @@
       }
     },
     "option.vStackAlignment.leading" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1819,6 +1835,7 @@
       }
     },
     "option.vStackAlignment.leadingFar" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1829,6 +1846,7 @@
       }
     },
     "option.vStackAlignment.leadingNear" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1839,6 +1857,7 @@
       }
     },
     "option.vStackAlignment.trailing" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1849,6 +1868,7 @@
       }
     },
     "option.vStackAlignment.trailingFar" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1859,6 +1879,7 @@
       }
     },
     "option.vStackAlignment.trailingNear" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1867,6 +1888,33 @@
           }
         }
       }
+    },
+    "option.x.center" : {
+
+    },
+    "option.x.leading" : {
+
+    },
+    "option.x.trailing" : {
+
+    },
+    "option.y.bottom" : {
+
+    },
+    "option.y.center" : {
+
+    },
+    "option.y.top" : {
+
+    },
+    "option.z.center" : {
+
+    },
+    "option.z.far" : {
+
+    },
+    "option.z.near" : {
+
     },
     "property.alignment" : {
       "localizations" : {
