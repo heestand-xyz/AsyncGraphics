@@ -269,6 +269,17 @@ extension Graphic {
     }
 }
 
+// MARK: - Empty
+
+extension Graphic {
+    
+    public static func empty() throws -> Graphic {
+        let pixel: [UInt8] = [0,0,0,0]
+        let texture: MTLTexture = try TextureMap.texture(channels: pixel, resolution: CGSize(width: 1, height: 1), on: Renderer.metalDevice)
+        return Graphic(name: "Empty", texture: texture, bits: ._8, colorSpace: .sRGB)
+    }
+}
+
 // MARK: - Equatable
 
 extension Graphic: Equatable {
