@@ -66,7 +66,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ploygon"
+            "value" : "Polygon"
           }
         }
       }
@@ -322,16 +322,44 @@
       }
     },
     "graphic.effect.modifier.lumaColorShift" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luma Color Shift"
+          }
+        }
+      }
     },
     "graphic.effect.modifier.lumaLevels" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luma Levels"
+          }
+        }
+      }
     },
     "graphic.effect.modifier.lumaRainbowBlur" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luma Raindbow Blur"
+          }
+        }
+      }
     },
     "graphic.effect.modifier.lumaTransform" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luma Transform"
+          }
+        }
+      }
     },
     "graphic.effect.modifier.mask" : {
       "localizations" : {
@@ -504,73 +532,234 @@
       }
     },
     "option.blendMode.add" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add"
+          }
+        }
+      }
     },
     "option.blendMode.addWithAlpha" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add with Alpha"
+          }
+        }
+      }
     },
     "option.blendMode.average" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Average"
+          }
+        }
+      }
     },
     "option.blendMode.cosine" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cosine"
+          }
+        }
+      }
     },
     "option.blendMode.darken" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Darken"
+          }
+        }
+      }
     },
     "option.blendMode.darkenWithoutAlpha" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Darken without Alpha"
+          }
+        }
+      }
     },
     "option.blendMode.difference" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Difference"
+          }
+        }
+      }
     },
     "option.blendMode.divide" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Divide"
+          }
+        }
+      }
     },
     "option.blendMode.exclusiveOr" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exclusive Or"
+          }
+        }
+      }
     },
     "option.blendMode.gamma" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gamma"
+          }
+        }
+      }
     },
     "option.blendMode.inside" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inside"
+          }
+        }
+      }
     },
     "option.blendMode.lighten" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lighten"
+          }
+        }
+      }
     },
     "option.blendMode.maximum" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maximum"
+          }
+        }
+      }
     },
     "option.blendMode.minimum" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minimum"
+          }
+        }
+      }
     },
     "option.blendMode.multiply" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Multiply"
+          }
+        }
+      }
     },
     "option.blendMode.multiplyWithoutAlpha" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Multiply without Alpha"
+          }
+        }
+      }
     },
     "option.blendMode.outside" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Outside"
+          }
+        }
+      }
     },
     "option.blendMode.over" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Over"
+          }
+        }
+      }
     },
     "option.blendMode.power" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Power"
+          }
+        }
+      }
     },
     "option.blendMode.screen" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Screen"
+          }
+        }
+      }
     },
     "option.blendMode.subtract" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subtract"
+          }
+        }
+      }
     },
     "option.blendMode.subtractWithAlpha" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subtract with Alpha"
+          }
+        }
+      }
     },
     "option.blendMode.under" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Under"
+          }
+        }
+      }
     },
     "option.blur3DType.box" : {
       "localizations" : {
@@ -842,83 +1031,6 @@
         }
       }
     },
-    "option.dStackAlignment.bottom" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bottom"
-          }
-        }
-      }
-    },
-    "option.dStackAlignment.bottomLeading" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bottom Leading"
-          }
-        }
-      }
-    },
-    "option.dStackAlignment.bottomTrailing" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bottom Trailing"
-          }
-        }
-      }
-    },
-    "option.dStackAlignment.center" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Center"
-          }
-        }
-      }
-    },
-    "option.dStackAlignment.top" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Top"
-          }
-        }
-      }
-    },
-    "option.dStackAlignment.topLeading" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Top Leading"
-          }
-        }
-      }
-    },
-    "option.dStackAlignment.topTrailing" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Top Trailing"
-          }
-        }
-      }
-    },
     "option.gradient3DDirection.radial" : {
       "localizations" : {
         "en" : {
@@ -1035,523 +1147,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zero"
-          }
-        }
-      }
-    },
-    "option.graphicArrayBlendMode.add" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add"
-          }
-        }
-      }
-    },
-    "option.graphicArrayBlendMode.addWithAlpha" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add with Alpha"
-          }
-        }
-      }
-    },
-    "option.graphicArrayBlendMode.average" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Average"
-          }
-        }
-      }
-    },
-    "option.graphicArrayBlendMode.darken" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Darken"
-          }
-        }
-      }
-    },
-    "option.graphicArrayBlendMode.difference" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Difference"
-          }
-        }
-      }
-    },
-    "option.graphicArrayBlendMode.divide" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Divide"
-          }
-        }
-      }
-    },
-    "option.graphicArrayBlendMode.gamma" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gmma"
-          }
-        }
-      }
-    },
-    "option.graphicArrayBlendMode.lighten" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lighten"
-          }
-        }
-      }
-    },
-    "option.graphicArrayBlendMode.maximum" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Maximum"
-          }
-        }
-      }
-    },
-    "option.graphicArrayBlendMode.minimum" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Minimum"
-          }
-        }
-      }
-    },
-    "option.graphicArrayBlendMode.multiply" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Multiply"
-          }
-        }
-      }
-    },
-    "option.graphicArrayBlendMode.over" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Over"
-          }
-        }
-      }
-    },
-    "option.graphicArrayBlendMode.power" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Power"
-          }
-        }
-      }
-    },
-    "option.graphicArrayBlendMode.screen" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Screen"
-          }
-        }
-      }
-    },
-    "option.graphicArrayBlendMode.subtract" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Subtract"
-          }
-        }
-      }
-    },
-    "option.graphicArrayBlendMode.subtractWithAlpha" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Subtract with Alpha"
-          }
-        }
-      }
-    },
-    "option.graphicArrayBlendMode.under" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Under"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.add" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.addWithAlpha" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add with Alpha"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.average" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Average"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.cosine" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cosine"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.darken" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Darken"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.darkenWithoutAlpha" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Darken without Alpha"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.difference" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Difference"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.divide" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Divide"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.exclusiveOr" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Exclusive Or"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.gamma" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gamma"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.inside" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inside"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.lighten" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lighten"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.maximum" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Maximum"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.minimum" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Minimum"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.multiply" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Multiply"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.multiplyWithoutAlpha" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Multiply without Alpha"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.outside" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Outside"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.over" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Over"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.power" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Power"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.screen" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Screen"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.subtract" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Subtract"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.subtractWithAlpha" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Subtract with Alpha"
-          }
-        }
-      }
-    },
-    "option.graphicBlendMode.under" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Under"
-          }
-        }
-      }
-    },
-    "option.hStackAlignment.bottom" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bottom"
-          }
-        }
-      }
-    },
-    "option.hStackAlignment.bottomFar" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bottom Far"
-          }
-        }
-      }
-    },
-    "option.hStackAlignment.bottomNear" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bottom Near"
-          }
-        }
-      }
-    },
-    "option.hStackAlignment.center" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Center"
-          }
-        }
-      }
-    },
-    "option.hStackAlignment.top" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Top"
-          }
-        }
-      }
-    },
-    "option.hStackAlignment.topFar" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Top Far"
-          }
-        }
-      }
-    },
-    "option.hStackAlignment.topNear" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Top Near"
           }
         }
       }
@@ -1707,70 +1302,224 @@
       }
     },
     "option.lumaRainbowBlur3DType.circle" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Circle"
+          }
+        }
+      }
     },
     "option.lumaRainbowBlur3DType.zoom" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoom"
+          }
+        }
+      }
     },
     "option.lumaRainbowBlurType.angle" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angle"
+          }
+        }
+      }
     },
     "option.lumaRainbowBlurType.circle" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Circle"
+          }
+        }
+      }
     },
     "option.lumaRainbowBlurType.zoom" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoom"
+          }
+        }
+      }
     },
     "option.multiBlendMode.add" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add"
+          }
+        }
+      }
     },
     "option.multiBlendMode.addWithAlpha" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add with Alpha"
+          }
+        }
+      }
     },
     "option.multiBlendMode.average" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Average"
+          }
+        }
+      }
     },
     "option.multiBlendMode.darken" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Darken"
+          }
+        }
+      }
     },
     "option.multiBlendMode.difference" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Difference"
+          }
+        }
+      }
     },
     "option.multiBlendMode.divide" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Divide"
+          }
+        }
+      }
     },
     "option.multiBlendMode.gamma" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gamma"
+          }
+        }
+      }
     },
     "option.multiBlendMode.lighten" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lighten"
+          }
+        }
+      }
     },
     "option.multiBlendMode.maximum" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maximum"
+          }
+        }
+      }
     },
     "option.multiBlendMode.minimum" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minimum"
+          }
+        }
+      }
     },
     "option.multiBlendMode.multiply" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Multiply"
+          }
+        }
+      }
     },
     "option.multiBlendMode.over" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Over"
+          }
+        }
+      }
     },
     "option.multiBlendMode.power" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Power"
+          }
+        }
+      }
     },
     "option.multiBlendMode.screen" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Screen"
+          }
+        }
+      }
     },
     "option.multiBlendMode.subtract" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subtract"
+          }
+        }
+      }
     },
     "option.multiBlendMode.subtractWithAlpha" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subtract with Alpha"
+          }
+        }
+      }
     },
     "option.multiBlendMode.under" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Under"
+          }
+        }
+      }
     },
     "option.placement.fill" : {
       "localizations" : {
@@ -1812,8 +1561,7 @@
         }
       }
     },
-    "option.vStackAlignment.center" : {
-      "extractionState" : "stale",
+    "option.x.center" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1823,8 +1571,7 @@
         }
       }
     },
-    "option.vStackAlignment.leading" : {
-      "extractionState" : "stale",
+    "option.x.leading" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1834,30 +1581,7 @@
         }
       }
     },
-    "option.vStackAlignment.leadingFar" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Leading Far"
-          }
-        }
-      }
-    },
-    "option.vStackAlignment.leadingNear" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Leading Near"
-          }
-        }
-      }
-    },
-    "option.vStackAlignment.trailing" : {
-      "extractionState" : "stale",
+    "option.x.trailing" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1867,54 +1591,65 @@
         }
       }
     },
-    "option.vStackAlignment.trailingFar" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trailing Far"
-          }
-        }
-      }
-    },
-    "option.vStackAlignment.trailingNear" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trailing Near"
-          }
-        }
-      }
-    },
-    "option.x.center" : {
-
-    },
-    "option.x.leading" : {
-
-    },
-    "option.x.trailing" : {
-
-    },
     "option.y.bottom" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bottom"
+          }
+        }
+      }
     },
     "option.y.center" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Center"
+          }
+        }
+      }
     },
     "option.y.top" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top"
+          }
+        }
+      }
     },
     "option.z.center" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Center"
+          }
+        }
+      }
     },
     "option.z.far" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Far"
+          }
+        }
+      }
     },
     "option.z.near" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Near"
+          }
+        }
+      }
     },
     "property.alignment" : {
       "localizations" : {
@@ -2587,7 +2322,14 @@
       }
     },
     "property.scaleSize" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scale Size"
+          }
+        }
+      }
     },
     "property.seed" : {
       "localizations" : {
@@ -2750,7 +2492,14 @@
       }
     },
     "variant.circle" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Circle"
+          }
+        }
+      }
     },
     "variant.clear" : {
       "localizations" : {
@@ -2768,28 +2517,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Colored"
-          }
-        }
-      }
-    },
-    "variant.colorShift120" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Color Shift 120°"
-          }
-        }
-      }
-    },
-    "variant.colorShift240" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Color Shift 240°"
           }
         }
       }
@@ -2995,10 +2722,24 @@
       }
     },
     "variant.hue120" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hue 120"
+          }
+        }
+      }
     },
     "variant.hue240" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hue 240"
+          }
+        }
+      }
     },
     "variant.ice" : {
       "localizations" : {
