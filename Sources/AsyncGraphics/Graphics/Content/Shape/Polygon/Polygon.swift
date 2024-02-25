@@ -49,7 +49,7 @@ extension Graphic {
                 rotation: rotation.uniform,
                 count: UInt8(count),
                 foregroundColor: color.uniform,
-                backgroundColor: backgroundColor.uniform,
+                backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform,
                 cornerRadius: Float(relativeCornerRadius),
                 premultiply: options.premultiply,
                 resolution: resolution.uniform

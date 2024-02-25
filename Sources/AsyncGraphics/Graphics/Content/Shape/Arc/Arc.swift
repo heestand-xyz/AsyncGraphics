@@ -51,7 +51,7 @@ extension Graphic {
                 edgeRadius: 0.0,
                 foregroundColor: color.uniform,
                 edgeColor: PixelColor.clear.uniform,
-                backgroundColor: backgroundColor.uniform,
+                backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform,
                 resolution: resolution.uniform
             ),
             metadata: Renderer.Metadata(
@@ -93,7 +93,7 @@ extension Graphic {
                 edgeRadius: Float(relativeLineWidth),
                 foregroundColor: backgroundColor.uniform,
                 edgeColor: color.uniform,
-                backgroundColor: backgroundColor.uniform,
+                backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform,
                 resolution: resolution.uniform
             ),
             metadata: Renderer.Metadata(

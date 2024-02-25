@@ -62,7 +62,7 @@ extension Graphic {
                 cornerRadius: Float(relativeCornerRadius),
                 position: relativePosition.uniform,
                 foregroundColor: color.uniform,
-                backgroundColor: backgroundColor.uniform,
+                backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform,
                 resolution: resolution.uniform
             ),
             metadata: Renderer.Metadata(

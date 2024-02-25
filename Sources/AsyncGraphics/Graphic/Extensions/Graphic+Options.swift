@@ -4,6 +4,7 @@
 
 import TextureMap
 import Metal
+import PixelColor
 
 extension Graphic {
     
@@ -42,6 +43,17 @@ extension Graphic {
 
         public static let interpolateNearest: ContentOptions = .pixelated
         
+        /// If the background color is clear, it will be modified to include the foreground color when anti aliased.
+        public static let pureTranslucentColor = ContentOptions(rawValue: 1 << 5)
+
+        func pureTranslucentBackgroundColor(_ backgroundColor: PixelColor, color: PixelColor) -> PixelColor {
+            if contains(.pureTranslucentColor) {
+                if backgroundColor.alpha == 0.0 {
+                    return color.withAlpha(of: 0.0)
+                }
+            }
+            return backgroundColor
+        }
         public init(rawValue: Int) {
             self.rawValue = rawValue
         }

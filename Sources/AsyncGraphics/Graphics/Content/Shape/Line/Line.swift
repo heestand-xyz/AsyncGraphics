@@ -51,7 +51,7 @@ extension Graphic {
                 leadingPoint: relativeLeadingPoint.uniform,
                 trailingPoint: relativeTrailingPoint.uniform,
                 foregroundColor: color.uniform,
-                backgroundColor: backgroundColor.uniform,
+                backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform,
                 resolution: resolution.uniform
             ),
             metadata: Renderer.Metadata(
