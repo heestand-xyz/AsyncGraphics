@@ -13,7 +13,15 @@ extension CodableGraphic3D.Content.Shape {
                                                             maximum: .resolutionMaximum(fraction: 0.5),
                                                             options: .spatial)
         
-        public var foregroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
+        public var foregroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white)) {
+            didSet {
+                let fgColor: PixelColor = foregroundColor.value.eval(at: CGSize.one)
+                let bgColor: PixelColor = backgroundColor.value.eval(at: CGSize.one)
+                if bgColor.alpha == 0.0 {
+                    backgroundColor.value = .fixed(fgColor.withAlpha(of: 0.0))
+                }
+            }
+        }
         public var backgroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.clearWhite))
         
         public var surface: GraphicMetadata<Bool> = .init(value: .fixed(false))
