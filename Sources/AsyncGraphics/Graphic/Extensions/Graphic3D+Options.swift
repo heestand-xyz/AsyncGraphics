@@ -4,6 +4,7 @@
 
 import TextureMap
 import Metal
+import PixelColor
 
 extension Graphic3D {
     
@@ -35,7 +36,19 @@ extension Graphic3D {
         }
         
         public static let pixelated = ContentOptions(rawValue: 1 << 3)
+        
+        /// If the background color is clear, it will be modified to include the foreground color when anti aliased.
+        public static let pureTranslucentColor = ContentOptions(rawValue: 1 << 4)
 
+        func pureTranslucentBackgroundColor(_ backgroundColor: PixelColor, color: PixelColor) -> PixelColor {
+            if contains(.pureTranslucentColor) {
+                if backgroundColor.alpha == 0.0 {
+                    return color.withAlpha(of: 0.0)
+                }
+            }
+            return backgroundColor
+        }
+        
         var antiAlias: Bool {
             !contains(.pixelated)
         }

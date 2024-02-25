@@ -28,7 +28,7 @@ extension Graphic3D {
         trailingRadius: Double? = nil,
         position: Point3D? = nil,
         color: PixelColor = .white,
-        backgroundColor: PixelColor = .clearWhite,
+        backgroundColor: PixelColor = .clear,
         resolution: Size3D,
         options: ContentOptions = []
     ) async throws -> Graphic3D {
@@ -68,7 +68,7 @@ extension Graphic3D {
                 surfaceWidth: 0.0,
                 foregroundColor: color.uniform,
                 edgeColor: PixelColor.clear.uniform,
-                backgroundColor: backgroundColor.uniform
+                backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform
             ),
             metadata: Renderer.Metadata(
                 resolution: resolution,
@@ -86,7 +86,7 @@ extension Graphic3D {
         position: Point3D? = nil,
         surfaceWidth: Double,
         color: PixelColor = .white,
-        backgroundColor: PixelColor = .clearWhite,
+        backgroundColor: PixelColor = .clear,
         resolution: Size3D,
         options: ContentOptions = []
     ) async throws -> Graphic3D {
@@ -128,7 +128,7 @@ extension Graphic3D {
                 surfaceWidth: Float(relativeSurfaceWidth),
                 foregroundColor: backgroundColor.uniform,
                 edgeColor: color.uniform,
-                backgroundColor: backgroundColor.uniform
+                backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform
             ),
             metadata: Renderer.Metadata(
                 resolution: resolution,
