@@ -34,10 +34,7 @@ extension Graphic {
            
             let request = VNGeneratePersonSegmentationRequest { (request, error) in
                 
-                if let error {
-                    continuation.resume(throwing: error)
-                    return
-                }
+                guard error == nil else { return }
 
                 guard let observation = request.results?.first as? VNPixelBufferObservation else {
                     continuation.resume(throwing: PersonSegmentationError.noResults)
@@ -51,6 +48,7 @@ extension Graphic {
             do {
                 try handler.perform([request])
             } catch {
+                print("------------------->", error)
                 continuation.resume(throwing: error)
             }
         }

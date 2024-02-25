@@ -30,7 +30,7 @@ extension Graphic {
                         checkerOpacity: CGFloat = 0.5,
                         options: EffectOptions = .interpolateNearest) async throws -> Graphic {
         try await Renderer.render(
-            name: "inspect",
+            name: "Inspect",
             shader: .name("inspect"),
             graphics: [
                 self
