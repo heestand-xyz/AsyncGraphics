@@ -48,7 +48,6 @@ extension Graphic {
             do {
                 try handler.perform([request])
             } catch {
-                print("------------------->", error)
                 continuation.resume(throwing: error)
             }
         }
