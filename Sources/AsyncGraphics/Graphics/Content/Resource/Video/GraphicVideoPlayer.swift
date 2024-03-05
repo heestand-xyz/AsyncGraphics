@@ -9,6 +9,7 @@ protocol GraphicVideoPlayerDelegate: AnyObject {
     func play(time: CMTime)
 }
 
+/// Please call ``setup()`` or set ``info-swift.property`` before playing.
 public class GraphicVideoPlayer: ObservableObject {
     
     let id = UUID()
@@ -79,7 +80,7 @@ public class GraphicVideoPlayer: ObservableObject {
     private var seeking: Bool = false
     private var wasPlaying: Bool = false
     
-    public var info: Info
+    @Published public var info: Info?
     
     public var time: CMTime {
         player.currentTime()
@@ -88,17 +89,19 @@ public class GraphicVideoPlayer: ObservableObject {
     @Published public private(set) var seconds: Double = 0.0
     @Published public private(set) var frameIndex: Int = 0
     
+    /// Please call ``setup()`` or set ``info-swift.property`` before playing.
     public convenience init(named name: String,
                             fileExtension: String = "mov",
                             in bundle: Bundle = .main,
-                            options: Options = .init()) async throws {
+                            options: Options = .init()) throws {
         guard let url: URL = bundle.url(forResource: name, withExtension: fileExtension) else {
             throw VideoPlayerError.videoNotFound(name: "\(name).\(fileExtension)")
         }
-        try await self.init(url: url, options: options)
+        self.init(url: url, options: options)
     }
     
-    public init(url: URL, options: Options = .init()) async throws {
+    /// Please call ``setup()`` or set ``info-swift.property`` before playing.
+    public init(url: URL, options: Options = .init()) {
         
         let asset = AVURLAsset(url: url)
         let item = AVPlayerItem(asset: asset)
@@ -110,6 +113,12 @@ public class GraphicVideoPlayer: ObservableObject {
         self.options = options
         
         self.url = url
+        
+        updatedOptions()
+        setupNotifications()
+    }
+    
+    public func setup() async throws {
         
         guard let track: AVAssetTrack = try await asset.load(.tracks).first(where: { $0.mediaType == .video }) else {
             fatalError(VideoPlayerError.assetNotFound.localizedDescription)
@@ -138,12 +147,10 @@ public class GraphicVideoPlayer: ObservableObject {
         }() else {
             fatalError(VideoPlayerError.resolutionNotFound.localizedDescription)
         }
-        self.info = Info(frameRate: frameRate,
-                         duration: duration,
-                         resolution: resolution)
         
-        updatedOptions()
-        setupNotifications()
+        info = Info(frameRate: frameRate,
+                    duration: duration,
+                    resolution: resolution)
     }
     
     deinit {
@@ -151,12 +158,20 @@ public class GraphicVideoPlayer: ObservableObject {
     }
     
     private func playFrame() {
+        guard let info: Info else {
+            print("AsyncGraphics - GraphicVideoPlayer - Can't play - Please call setup or set info first.")
+            return
+        }
         delegate?.play(time: time)
         seconds = time.seconds
         frameIndex = Int(time.seconds * info.frameRate)
     }
     
     private func startTimer() {
+        guard let info: Info else {
+            print("AsyncGraphics - GraphicVideoPlayer - Can't start timer - Please call setup or set info first.")
+            return
+        }
         playFrame()
         timer = .scheduledTimer(withTimeInterval: 1.0 / Double(info.frameRate), repeats: true) { [weak self] _ in
             self?.playFrame()
@@ -196,10 +211,18 @@ public class GraphicVideoPlayer: ObservableObject {
     }
     
     public func seek(to frameIndex: Int) {
+        guard let info: Info else {
+            print("AsyncGraphics - GraphicVideoPlayer - Can't seek - Please call setup or set info first.")
+            return
+        }
         seek(to: CMTime(value: CMTimeValue(frameIndex), timescale: CMTimeScale(info.frameRate)))
     }
     
     public func seek(to seconds: Double) {
+        guard let info: Info else {
+            print("AsyncGraphics - GraphicVideoPlayer - Can't seek - Please call setup or set info first.")
+            return
+        }
         seek(to: CMTime(seconds: seconds, preferredTimescale: CMTimeScale(info.frameRate * 1_000)))
     }
     

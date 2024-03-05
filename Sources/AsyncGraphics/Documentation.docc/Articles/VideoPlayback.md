@@ -57,14 +57,19 @@ struct ContentView: View {
                     videoPlayer.seconds
                 }, set: { second in
                     videoPlayer.seek(to: second)
-                }), in: 0.0...videoPlayer.info.duration)
+                }), in: 0.0...(videoPlayer.info?.duration ?? 1.0))
                 .disabled(videoPlayer.playing)
             }
         }
         .padding()
         .task {
-            for await videoGraphic in Graphic.playVideo(with: videoPlayer) {
-                self.graphic = videoGraphic
+            do {
+                try await videoPlayer.setup()
+                for await videoGraphic in Graphic.playVideo(with: videoPlayer) {
+                    self.graphic = videoGraphic
+                }
+            } catch {
+                print("Video player setup failed:", error)
             }
         }
     }

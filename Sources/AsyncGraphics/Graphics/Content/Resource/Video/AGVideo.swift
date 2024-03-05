@@ -12,7 +12,9 @@ public struct AGVideo: AGGraph {
     
     public func resolution(at proposedResolution: CGSize,
                            for specification: AGSpecification) -> CGSize {
-        let videoResolution: CGSize = videoPlayer.info.resolution
+        guard let videoResolution: CGSize = videoPlayer.info?.resolution else {
+            return proposedResolution
+        }
         switch placement {
         case .fit:
             return videoResolution.place(in: proposedResolution, placement: .fit)
