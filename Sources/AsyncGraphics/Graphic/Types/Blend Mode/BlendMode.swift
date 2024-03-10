@@ -24,6 +24,7 @@ extension Graphic {
         case multiply
         case multiplyWithoutAlpha
         case difference
+        case differenceWithAlpha
         case subtract
         case subtractWithAlpha
         case maximum
@@ -50,6 +51,7 @@ extension Graphic {
             case .multiply: return 4
             case .multiplyWithoutAlpha: return 23
             case .difference: return 5
+            case .differenceWithAlpha: return 24
             case .subtract: return 6
             case .subtractWithAlpha: return 7
             case .maximum: return 8

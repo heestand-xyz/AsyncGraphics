@@ -42,6 +42,7 @@ float4 blend(int mode, float4 ca, float4 cb) {
     float ia = min(ca.a, cb.a);
     float oa = ca.a - cb.a;
     float xa = abs(ca.a - cb.a);
+    float4 diff = abs(ca - cb);
     switch (mode) {
         case 0: // Over
             c = float4(rgb_a * (1.0 - cb.a) + rgb_b * cb.a, aa);
@@ -81,6 +82,9 @@ float4 blend(int mode, float4 ca, float4 cb) {
             break;
         case 5: // Diff
             c = float4(abs(rgb_a - rgb_b), aa);
+            break;
+        case 24: // Diff with Alpha
+            c = float4(float3(abs(abs(rgb_a - rgb_b) - abs(ca.a - cb.a))), aa);
             break;
         case 6: // Sub
             c = float4(rgb_a - rgb_b, aa);

@@ -601,6 +601,9 @@
         }
       }
     },
+    "option.blendMode.differenceWithAlpha" : {
+
+    },
     "option.blendMode.divide" : {
       "localizations" : {
         "en" : {
@@ -1400,6 +1403,9 @@
           }
         }
       }
+    },
+    "option.multiBlendMode.differenceWithAlpha" : {
+
     },
     "option.multiBlendMode.divide" : {
       "localizations" : {

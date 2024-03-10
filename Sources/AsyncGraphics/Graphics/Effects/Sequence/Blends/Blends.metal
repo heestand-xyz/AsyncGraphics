@@ -111,6 +111,14 @@ fragment float4 blends(VertexOut out [[stage_in]],
                     c = float4(abs(c_rgb - ci_rgb), max(c.a, ci.a));
                 }
                 break;
+            case 24: // Diff with Alpha
+                ci = textures.sample(s, uv, i);
+                if (i == 0) {
+                    c = ci;
+                } else {
+                    c = float4(float3(abs(abs(c.rgb - ci.rgb) - abs(c.a - ci.a))), aa);
+                }
+                break;
             case 6: // Sub Color
                 ci = textures.sample(s, uv, i);
                 if (i == 0) {
