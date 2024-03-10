@@ -116,7 +116,7 @@ fragment float4 blends(VertexOut out [[stage_in]],
                 if (i == 0) {
                     c = ci;
                 } else {
-                    c = float4(float3(abs(abs(c.rgb - ci.rgb) - abs(c.a - ci.a))), aa);
+                    c = float4(float3(abs(abs(c.rgb - ci.rgb) - abs(c.a - ci.a))), ci.a);
                 }
                 break;
             case 6: // Sub Color
