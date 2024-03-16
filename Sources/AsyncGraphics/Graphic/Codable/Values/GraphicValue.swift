@@ -228,7 +228,7 @@ extension Point3D: GraphicValue {
 
 extension Size3D: GraphicValue {
     
-    public static var one: Self { Size3D(width: 1.0, height: 1.0, depth: 1.0) }
+//    public static var one: Self { Size3D(width: 1.0, height: 1.0, depth: 1.0) }
     public static var `default`: GraphicMetadataValue<Self> { .resolution }
     public static var minimum: GraphicMetadataValue<Self> { .zero }
     public static var maximum: GraphicMetadataValue<Self> { .resolution }
