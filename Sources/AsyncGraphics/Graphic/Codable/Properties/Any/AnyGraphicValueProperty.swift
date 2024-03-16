@@ -55,7 +55,7 @@ public extension AnyGraphicValueProperty {
         try Self.decode(defaultValue)
     }
     
-    func getMiniumValue<T: GraphicValue>() throws -> GraphicMetadataValue<T> {
+    func getMinimumValue<T: GraphicValue>() throws -> GraphicMetadataValue<T> {
         try Self.decode(minimumValue)
     }
     
