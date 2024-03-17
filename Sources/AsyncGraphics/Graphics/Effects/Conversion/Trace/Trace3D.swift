@@ -7,11 +7,12 @@ import CoreGraphics
 extension Graphic3D {
     
     private struct Trace3DUniforms {
+        let reversed: Bool
         let alphaThreshold: Float
         let axis: UInt32
     }
     
-    public func trace(axis: Axis = .z, alphaThreshold: CGFloat = 0.5) async throws -> Graphic {
+    public func trace(axis: Axis = .z, reversed: Bool = false, alphaThreshold: CGFloat = 0.5) async throws -> Graphic {
         
         let resolution: CGSize = CGSize(
             width: axis == .x ? resolution.depth : resolution.width,
@@ -22,6 +23,7 @@ extension Graphic3D {
             shader: .name("trace"),
             graphics: [bits(._8)],
             uniforms: Trace3DUniforms(
+                reversed: reversed,
                 alphaThreshold: Float(alphaThreshold),
                 axis: axis.index
             ),

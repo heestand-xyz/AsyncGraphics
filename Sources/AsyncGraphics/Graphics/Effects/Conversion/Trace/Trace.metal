@@ -11,6 +11,7 @@ struct VertexOut {
 };
 
 struct Uniforms {
+    bool reversed;
     float alphaThreshold;
     int axis;
 };
@@ -35,6 +36,9 @@ fragment float4 trace(VertexOut out [[stage_in]],
     for (int i = 0; i < res; ++i) {
         
         float fraction = (float(i) + 0.5) / float(res);
+        if (uniforms.reversed) {
+            fraction = 1.0 - fraction;
+        }
         
         float3 crd = 0.0;
         switch (uniforms.axis) {
