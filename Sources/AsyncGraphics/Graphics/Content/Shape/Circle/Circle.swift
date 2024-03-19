@@ -27,8 +27,8 @@ extension Graphic {
                               color: PixelColor = .white,
                               backgroundColor: PixelColor = .black,
                               resolution: CGSize,
-                              options: ContentOptions = [],
-                              tile: Tile = .one) async throws -> Graphic {
+                              tile: Tile = .one,
+                              options: ContentOptions = []) async throws -> Graphic {
         
         let radius: CGFloat = radius ?? min(resolution.width, resolution.height) / 2
         
@@ -63,12 +63,12 @@ extension Graphic {
     
     public static func strokedCircle(radius: CGFloat? = nil,
                                      position: CGPoint? = nil,
-                                     lineWidth: CGFloat = 1,
+                                     lineWidth: CGFloat = 1.0,
                                      color: PixelColor = .white,
                                      backgroundColor: PixelColor = .black,
                                      resolution: CGSize,
-                                     options: ContentOptions = [],
-                                     tile: Tile = .one) async throws -> Graphic {
+                                     tile: Tile = .one,
+                                     options: ContentOptions = []) async throws -> Graphic {
         
         let radius: CGFloat = radius ?? (min(resolution.width, resolution.height) / 2 - lineWidth / 2)
         

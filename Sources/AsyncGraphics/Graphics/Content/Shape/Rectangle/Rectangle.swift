@@ -19,6 +19,8 @@ extension Graphic {
         let edgeColor: ColorUniform
         let backgroundColor: ColorUniform
         let resolution: SizeUniform
+        let tileOrigin: PointUniform
+        let tileSize: SizeUniform
     }
     
     public static func rectangle(size: CGSize? = nil,
@@ -27,6 +29,7 @@ extension Graphic {
                                  color: PixelColor = .white,
                                  backgroundColor: PixelColor = .black,
                                  resolution: CGSize,
+                                 tile: Tile = .one,
                                  options: ContentOptions = []) async throws -> Graphic {
         
         let size: CGSize = size ?? resolution
@@ -48,6 +51,7 @@ extension Graphic {
             color: color,
             backgroundColor: backgroundColor,    
             resolution: resolution,
+            tile: tile,
             options: options
         )
     }
@@ -57,6 +61,7 @@ extension Graphic {
                                  color: PixelColor = .white,
                                  backgroundColor: PixelColor = .black,
                                  resolution: CGSize,
+                                 tile: Tile = .one,
                                  options: ContentOptions = []) async throws -> Graphic {
         
         let relativeSize: CGSize = frame.size / resolution.height
@@ -78,10 +83,12 @@ extension Graphic {
                 foregroundColor: color.uniform,
                 edgeColor: PixelColor.clear.uniform,
                 backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform,
-                resolution: resolution.uniform
+                resolution: resolution.uniform,
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )
@@ -91,10 +98,11 @@ extension Graphic {
     public static func strokedRectangle(size: CGSize? = nil,
                                         position: CGPoint? = nil,
                                         cornerRadius: CGFloat = 0.0,
-                                        lineWidth: CGFloat,
+                                        lineWidth: CGFloat = 1.0,
                                         color: PixelColor = .white,
                                         backgroundColor: PixelColor = .black,
                                         resolution: CGSize,
+                                        tile: Tile = .one,
                                         options: ContentOptions = []) async throws -> Graphic {
         
         let size: CGSize = size ?? resolution
@@ -109,16 +117,18 @@ extension Graphic {
             color: color,
             backgroundColor: backgroundColor,
             resolution: resolution,
+            tile: tile,
             options: options
         )
     }
     
     public static func strokedRectangle(frame: CGRect,
                                         cornerRadius: CGFloat = 0.0,
-                                        lineWidth: CGFloat,
+                                        lineWidth: CGFloat = 1.0,
                                         color: PixelColor = .white,
                                         backgroundColor: PixelColor = .black,
                                         resolution: CGSize,
+                                        tile: Tile = .one,
                                         options: ContentOptions = []) async throws -> Graphic {
         
         let relativeSize: CGSize = frame.size / resolution.height
@@ -142,10 +152,12 @@ extension Graphic {
                 foregroundColor: backgroundColor.uniform,
                 edgeColor: color.uniform,
                 backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform,
-                resolution: resolution.uniform
+                resolution: resolution.uniform,
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )

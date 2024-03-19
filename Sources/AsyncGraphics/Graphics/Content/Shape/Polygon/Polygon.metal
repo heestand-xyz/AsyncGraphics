@@ -104,6 +104,8 @@ struct Uniforms {
     float cornerRadius;
     float premultiply;
     packed_float2 resolution;
+    packed_float2 tileOrigin;
+    packed_float2 tileSize;
 };
 
 fragment float4 polygon(VertexOut out [[stage_in]],
@@ -113,6 +115,8 @@ fragment float4 polygon(VertexOut out [[stage_in]],
     
     float u = out.texCoord[0];
     float v = out.texCoord[1];
+    u = u * uniforms.tileSize.x + uniforms.tileOrigin.x;
+    v = v * uniforms.tileSize.y + uniforms.tileOrigin.y;
     float2 uv = float2(u, v);
     
     float aspectRatio = uniforms.resolution.x / uniforms.resolution.y;

@@ -20,6 +20,8 @@ extension Graphic {
         let foregroundColor: ColorUniform
         let backgroundColor: ColorUniform
         let resolution: SizeUniform
+        let tileOrigin: PointUniform
+        let tileSize: SizeUniform
     }
     
 //    public static func starRadiusRatio(count: Int) -> CGFloat {
@@ -35,6 +37,7 @@ extension Graphic {
                             color: PixelColor = .white,
                             backgroundColor: PixelColor = .black,
                             resolution: CGSize,
+                            tile: Tile = .one,
                             options: ContentOptions = []) async throws -> Graphic {
         
         let outerRadius: CGFloat = outerRadius ?? min(resolution.width, resolution.height) / 2
@@ -63,10 +66,12 @@ extension Graphic {
                 position: relativePosition.uniform,
                 foregroundColor: color.uniform,
                 backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform,
-                resolution: resolution.uniform
+                resolution: resolution.uniform,
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )

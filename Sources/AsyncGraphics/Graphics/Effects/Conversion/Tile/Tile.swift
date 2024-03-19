@@ -15,7 +15,14 @@ extension Graphic {
         case badCount(Tile.Size)
     }
     
-    public static func tile(
+    /// Tile render a ``Graphic`` with a very large resolution.
+    /// - Parameters:
+    ///   - count: The number of tiles.
+    ///   - padding: A padding relative to the final resolution, it can be useful to use when working with distortion effects, tho has no effect on color effects.
+    ///   - resolution: The final resolution.
+    ///   - render: A callback where you render a tile of ``Graphic``. Pass the tile struct to the shape you are rendering.
+    /// - Returns: A tilled ``Graphic``.
+    public static func tiled(
         count: Tile.Size,
         padding: CGFloat = 0.0,
         resolution: CGSize,

@@ -18,6 +18,8 @@ extension Graphic {
         let foregroundColor: ColorUniform
         let backgroundColor: ColorUniform
         let resolution: SizeUniform
+        let tileOrigin: PointUniform
+        let tileSize: SizeUniform
     }
     
     @EnumMacro
@@ -27,13 +29,37 @@ extension Graphic {
         case diamond
     }
     
+    @available(*, deprecated, renamed: "line(from:to:lineWidth:cap:color:backgroundColor:resolution:tile:options:)")
     public static func line(leadingPoint: CGPoint,
                             trailingPoint: CGPoint,
-                            lineWidth: CGFloat = 1,
+                            lineWidth: CGFloat = 1.0,
                             cap: LineCap = .square,
                             color: PixelColor = .white,
                             backgroundColor: PixelColor = .black,
                             resolution: CGSize,
+                            tile: Tile = .one,
+                            options: ContentOptions = []) async throws -> Graphic {
+        try await .line(
+            from: leadingPoint,
+            to: trailingPoint,
+            lineWidth: lineWidth,
+            cap: cap,
+            color: color,
+            backgroundColor: backgroundColor,
+            resolution: resolution,
+            tile: tile,
+            options: options
+        )
+    }
+    
+    public static func line(from leadingPoint: CGPoint,
+                            to trailingPoint: CGPoint,
+                            lineWidth: CGFloat = 1.0,
+                            cap: LineCap = .square,
+                            color: PixelColor = .white,
+                            backgroundColor: PixelColor = .black,
+                            resolution: CGSize,
+                            tile: Tile = .one,
                             options: ContentOptions = []) async throws -> Graphic {
 
         let relativeLeadingPoint: CGPoint = (leadingPoint - resolution / 2) / resolution.height
@@ -52,10 +78,12 @@ extension Graphic {
                 trailingPoint: relativeTrailingPoint.uniform,
                 foregroundColor: color.uniform,
                 backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform,
-                resolution: resolution.uniform
+                resolution: resolution.uniform,
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )
