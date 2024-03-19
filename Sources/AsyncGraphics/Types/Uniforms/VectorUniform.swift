@@ -3,6 +3,7 @@
 //
 
 import Spatial
+import SpatialExtensions
 
 struct VectorUniform {
     
@@ -40,5 +41,14 @@ extension Size3D {
         VectorUniform(x: Float(width),
                       y: Float(height),
                       z: Float(depth))
+    }
+}
+
+extension Angle3D {
+    
+    var uniform: VectorUniform {
+        VectorUniform(x: Float(x.radians),
+                      y: Float(y.radians),
+                      z: Float(z.radians))
     }
 }

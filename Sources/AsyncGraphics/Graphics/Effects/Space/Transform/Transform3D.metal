@@ -42,21 +42,21 @@ kernel void transform3d(const device Uniforms& uniforms [[ buffer(0) ]],
                       w - 0.5 - uniforms.translation.z);
     
     if (uniforms.rotation.x != 0.0) {
-        float angx = atan2(p.z, p.y) + (-uniforms.rotation.x * pi * 2);
+        float angx = atan2(p.z, p.y) - uniforms.rotation.x;
         float ampx = sqrt(pow(p.y, 2) + pow(p.z, 2));
         float2 rotx = float2(cos(angx) * ampx, sin(angx) * ampx);
         p = float3(p.x, rotx[0], rotx[1]);
     }
     
     if (uniforms.rotation.y != 0.0) {
-        float angy = atan2(p.z, p.x) + (-uniforms.rotation.y * pi * 2);
+        float angy = atan2(p.z, p.x) - uniforms.rotation.y;
         float ampy = sqrt(pow(p.x, 2) + pow(p.z, 2));
         float2 roty = float2(cos(angy) * ampy, sin(angy) * ampy);
         p = float3(roty[0], p.y, roty[1]);
     }
     
     if (uniforms.rotation.z != 0.0) {
-        float angz = atan2(p.y, p.x) + (-uniforms.rotation.z * pi * 2);
+        float angz = atan2(p.y, p.x) - uniforms.rotation.z;
         float ampz = sqrt(pow(p.x, 2) + pow(p.y, 2));
         float2 rotz = float2(cos(angz) * ampz, sin(angz) * ampz);
         p = float3(rotz[0], rotz[1], p.z);

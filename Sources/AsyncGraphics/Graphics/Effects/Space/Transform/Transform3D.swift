@@ -3,6 +3,7 @@
 //
 
 import Spatial
+import SpatialExtensions
 import SwiftUI
 
 extension Graphic3D {
@@ -24,14 +25,14 @@ extension Graphic3D {
         try await transformed(translation: Point3D(x: x, y: y, z: z), options: options)
     }
     
-    public func rotated(_ rotation: Point3D,
+    public func rotated(_ rotation: Angle3D,
                         options: EffectOptions = []) async throws -> Graphic3D {
         try await transformed(rotation: rotation, options: options)
     }
     
     public func rotated(x: Angle = .zero, y: Angle = .zero, z: Angle = .zero,
                         options: EffectOptions = []) async throws -> Graphic3D {
-        try await transformed(rotation: Point3D(x: Double(x.uniform), y: Double(y.uniform), z: Double(z.uniform)), options: options)
+        try await transformed(rotation: .angle(x: x, y: y, z: z), options: options)
     }
     
     public func scaled(_ scale: Double,
@@ -51,7 +52,7 @@ extension Graphic3D {
     
     public func transformed(
         translation: Point3D = .zero,
-        rotation: Point3D = .zero,
+        rotation: Angle3D = .zero,
         scale: Double = 1.0,
         scaleSize: Point3D = .one,
         options: EffectOptions = []

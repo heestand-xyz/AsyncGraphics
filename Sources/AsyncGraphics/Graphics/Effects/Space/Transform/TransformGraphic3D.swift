@@ -1,5 +1,6 @@
 import SwiftUI
 import Spatial
+import SpatialExtensions
 import CoreGraphics
 import PixelColor
 
@@ -13,9 +14,7 @@ extension CodableGraphic3D.Effect.Space {
                                                                  maximum: .resolutionMaximum(fraction: 0.5),
                                                                options: .spatial)
         
-        public var rotation: GraphicMetadata<Point3D> = .init(value: .zero,
-                                                              minimum: .fixed(Point3D(x: -.pi / 2, y: -.pi / 2, z: -.pi / 2)),
-                                                              maximum: .fixed(Point3D(x: .pi / 2, y: .pi / 2, z: .pi / 2)))
+        public var rotation: GraphicMetadata<Angle3D> = .init(value: .zero)
                 
         public var scale: GraphicMetadata<CGFloat> = .init(value: .one,
                                                            maximum: .fixed(2.0))
