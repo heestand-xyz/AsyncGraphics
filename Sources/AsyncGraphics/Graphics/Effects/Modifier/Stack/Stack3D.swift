@@ -26,7 +26,7 @@ extension Graphic3D {
     }
     
     public struct Alignment3D: Codable, Hashable {
-
+        
         @EnumMacro
         public enum X: String, GraphicEnum {
             case leading
@@ -41,7 +41,7 @@ extension Graphic3D {
             }
         }
         public var x: X
-
+        
         @EnumMacro
         public enum Y: String, GraphicEnum {
             case top
@@ -56,7 +56,7 @@ extension Graphic3D {
             }
         }
         public var y: Y
-
+        
         @EnumMacro
         public enum Z: String, GraphicEnum {
             case far
@@ -82,66 +82,66 @@ extension Graphic3D {
     }
     
     /// Horizontal Stack
-    public func hStack(with graphic: Graphic3D,
-                       yAlignment: Alignment3D.Y = .center,
-                       zAlignment: Alignment3D.Z = .center,
-                       spacing: Double = 0.0,
-                       padding: Double = 0.0,
-                       backgroundColor: PixelColor = .clear,
-                       resolution: Size3D? = nil) async throws -> Graphic3D {
+    public func hStacked(with graphic: Graphic3D,
+                         yAlignment: Alignment3D.Y = .center,
+                         zAlignment: Alignment3D.Z = .center,
+                         spacing: Double = 0.0,
+                         padding: Double = 0.0,
+                         backgroundColor: PixelColor = .clear,
+                         resolution: Size3D? = nil) async throws -> Graphic3D {
         
-        try await stack(with: graphic,
-                        axis: .horizontal,
-                        alignment: Alignment3D(x: .center, y: yAlignment, z: zAlignment),
-                        spacing: spacing,
-                        padding: padding,
-                        backgroundColor: backgroundColor,
-                        resolution: resolution)
+        try await stacked(with: graphic,
+                          axis: .horizontal,
+                          alignment: Alignment3D(x: .center, y: yAlignment, z: zAlignment),
+                          spacing: spacing,
+                          padding: padding,
+                          backgroundColor: backgroundColor,
+                          resolution: resolution)
     }
     
     /// Vertical Stack
-    public func vStack(with graphic: Graphic3D,
-                       xAlignment: Alignment3D.X = .center,
-                       zAlignment: Alignment3D.Z = .center,
-                       spacing: Double = 0.0,
-                       padding: Double = 0.0,
-                       backgroundColor: PixelColor = .clear,
-                       resolution: Size3D? = nil) async throws -> Graphic3D {
+    public func vStacked(with graphic: Graphic3D,
+                         xAlignment: Alignment3D.X = .center,
+                         zAlignment: Alignment3D.Z = .center,
+                         spacing: Double = 0.0,
+                         padding: Double = 0.0,
+                         backgroundColor: PixelColor = .clear,
+                         resolution: Size3D? = nil) async throws -> Graphic3D {
         
-        try await stack(with: graphic,
-                        axis: .vertical,
-                        alignment: Alignment3D(x: xAlignment, y: .center, z: zAlignment),
-                        spacing: spacing,
-                        padding: padding,
-                        backgroundColor: backgroundColor,
-                        resolution: resolution)
+        try await stacked(with: graphic,
+                          axis: .vertical,
+                          alignment: Alignment3D(x: xAlignment, y: .center, z: zAlignment),
+                          spacing: spacing,
+                          padding: padding,
+                          backgroundColor: backgroundColor,
+                          resolution: resolution)
     }
     
     /// Depth Stack
-    public func dStack(with graphic: Graphic3D,
-                       xAlignment: Alignment3D.X = .center,
-                       yAlignment: Alignment3D.Y = .center,
-                       spacing: Double = 0.0,
-                       padding: Double = 0.0,
-                       backgroundColor: PixelColor = .clear,
-                       resolution: Size3D? = nil) async throws -> Graphic3D {
+    public func dStacked(with graphic: Graphic3D,
+                         xAlignment: Alignment3D.X = .center,
+                         yAlignment: Alignment3D.Y = .center,
+                         spacing: Double = 0.0,
+                         padding: Double = 0.0,
+                         backgroundColor: PixelColor = .clear,
+                         resolution: Size3D? = nil) async throws -> Graphic3D {
         
-        try await stack(with: graphic,
-                        axis: .depth,
-                        alignment: Alignment3D(x: xAlignment, y: yAlignment, z: .center),
-                        spacing: spacing,
-                        padding: padding,
-                        backgroundColor: backgroundColor,
-                        resolution: resolution)
+        try await stacked(with: graphic,
+                          axis: .depth,
+                          alignment: Alignment3D(x: xAlignment, y: yAlignment, z: .center),
+                          spacing: spacing,
+                          padding: padding,
+                          backgroundColor: backgroundColor,
+                          resolution: resolution)
     }
     
-    private func stack(with graphic: Graphic3D,
-                       axis: StackAxis,
-                       alignment: Alignment3D = .center,
-                       spacing: Double = 0.0,
-                       padding: Double = 0.0,
-                       backgroundColor: PixelColor = .clear,
-                       resolution: Size3D? = nil) async throws -> Graphic3D {
+    private func stacked(with graphic: Graphic3D,
+                         axis: StackAxis,
+                         alignment: Alignment3D = .center,
+                         spacing: Double = 0.0,
+                         padding: Double = 0.0,
+                         backgroundColor: PixelColor = .clear,
+                         resolution: Size3D? = nil) async throws -> Graphic3D {
         
         let graphics: [Graphic3D] = [self, graphic]
         

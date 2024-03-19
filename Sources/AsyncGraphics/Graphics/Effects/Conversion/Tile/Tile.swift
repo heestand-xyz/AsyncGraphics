@@ -18,7 +18,7 @@ extension Graphic {
     /// Tile render a ``Graphic`` with a very large resolution.
     /// - Parameters:
     ///   - count: The number of tiles.
-    ///   - padding: A padding relative to the final resolution, it can be useful to use when working with distortion effects, tho has no effect on color effects.
+    ///   - padding: A padding relative to the final resolution height, it can be useful to use when working with distortion effects, tho has no effect on color effects.
     ///   - resolution: The final resolution.
     ///   - render: A callback where you render a tile of ``Graphic``. Pass the tile struct to the shape you are rendering.
     /// - Returns: A tilled ``Graphic``.
@@ -46,9 +46,7 @@ extension Graphic {
             for x in 0..<count.width {
                 
                 let tile = Tile(
-                    origin: .init(
-                        x: x,
-                        y: y),
+                    origin: .init(x: x, y: y),
                     count: count,
                     padding: tilePadding)
                 
@@ -71,7 +69,7 @@ extension Graphic {
                 }
             }
             guard let rowGraphic: Graphic else {
-                fatalError("Tiel Row Graphic Not Found")
+                fatalError("Tile Row Graphic Not Found")
             }
             if let previousGraphic: Graphic = gridGraphic {
                 gridGraphic = try await previousGraphic.vStacked(with: rowGraphic)
@@ -80,7 +78,7 @@ extension Graphic {
             }
         }
         guard let gridGraphic: Graphic else {
-            fatalError("Tiel Grid Graphic Not Found")
+            fatalError("Tile Grid Graphic Not Found")
         }
         return gridGraphic
     }
