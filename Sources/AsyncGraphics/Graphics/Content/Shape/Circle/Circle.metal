@@ -23,6 +23,8 @@ struct Uniforms {
     packed_float4 edgeColor;
     packed_float4 backgroundColor;
     packed_float2 resolution;
+    packed_float2 tileOrigin;
+    packed_float2 tileSize;
 };
 
 fragment float4 circle(VertexOut out [[stage_in]],
@@ -30,8 +32,10 @@ fragment float4 circle(VertexOut out [[stage_in]],
     
     float u = out.texCoord[0];
     float v = out.texCoord[1];
+    u = u * uniforms.tileSize.x + uniforms.tileOrigin.x;
+    v = v * uniforms.tileSize.y + uniforms.tileOrigin.y;
 
-    float onePixel = 1.0 / max(uniforms.resolution.x, uniforms.resolution.y);
+    float onePixel = 1.0 / max(uniforms.resolution.x, uniforms.resolution.y) * max(uniforms.tileSize.x, uniforms.tileSize.y);
     
     float4 foregroundColor = uniforms.foregroundColor;
     float4 edgeColor = uniforms.edgeColor;

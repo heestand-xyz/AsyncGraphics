@@ -18,6 +18,8 @@ extension Graphic {
         let edgeColor: ColorUniform
         let backgroundColor: ColorUniform
         let resolution: SizeUniform
+        let tileOrigin: PointUniform
+        let tileSize: SizeUniform
     }
     
     public static func circle(radius: CGFloat? = nil,
@@ -25,7 +27,8 @@ extension Graphic {
                               color: PixelColor = .white,
                               backgroundColor: PixelColor = .black,
                               resolution: CGSize,
-                              options: ContentOptions = []) async throws -> Graphic {
+                              options: ContentOptions = [],
+                              tile: Tile = .one) async throws -> Graphic {
         
         let radius: CGFloat = radius ?? min(resolution.width, resolution.height) / 2
         
@@ -46,10 +49,12 @@ extension Graphic {
                 foregroundColor: color.uniform,
                 edgeColor: PixelColor.clear.uniform,
                 backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform,
-                resolution: resolution.uniform
+                resolution: resolution.uniform,
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )
@@ -62,7 +67,8 @@ extension Graphic {
                                      color: PixelColor = .white,
                                      backgroundColor: PixelColor = .black,
                                      resolution: CGSize,
-                                     options: ContentOptions = []) async throws -> Graphic {
+                                     options: ContentOptions = [],
+                                     tile: Tile = .one) async throws -> Graphic {
         
         let radius: CGFloat = radius ?? (min(resolution.width, resolution.height) / 2 - lineWidth / 2)
         
@@ -85,10 +91,12 @@ extension Graphic {
                 foregroundColor: backgroundColor.uniform,
                 edgeColor: color.uniform,
                 backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform,
-                resolution: resolution.uniform
+                resolution: resolution.uniform,
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )
