@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 import Spatial
 import PixelColor
+import SpatialExtensions
 
 public enum GraphicValueType: String, Codable, CaseIterable {
     case bool
@@ -14,6 +15,7 @@ public enum GraphicValueType: String, Codable, CaseIterable {
     case color
     case point3D
     case size3D
+    case angle3D
     case gradient
 }
 
@@ -41,6 +43,8 @@ extension GraphicValueType {
             return Size3D.self
         case .point3D:
             return Point3D.self
+        case .angle3D:
+            return Angle3D.self
         case .gradient:
             return [Graphic.GradientStop].self
         }

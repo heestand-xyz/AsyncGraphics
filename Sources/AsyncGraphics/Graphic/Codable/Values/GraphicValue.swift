@@ -1,6 +1,8 @@
 import SwiftUI
 import Spatial
+import SpatialExtensions
 import CoreGraphics
+import CoreGraphicsExtensions
 import PixelColor
 
 public protocol GraphicValue: Codable {
@@ -228,7 +230,6 @@ extension Point3D: GraphicValue {
 
 extension Size3D: GraphicValue {
     
-//    public static var one: Self { Size3D(width: 1.0, height: 1.0, depth: 1.0) }
     public static var `default`: GraphicMetadataValue<Self> { .resolution }
     public static var minimum: GraphicMetadataValue<Self> { .zero }
     public static var maximum: GraphicMetadataValue<Self> { .resolution }
@@ -243,6 +244,41 @@ extension Size3D: GraphicValue {
         Size3D(width: width.scaled(by: scale),
                height: height.scaled(by: scale),
                depth: depth.scaled(by: scale))
+    }
+}
+
+extension Angle3D: GraphicValue {
+    
+    public static var one = Angle3D(
+        x: Angle2D(degrees: 360),
+        y: Angle2D(degrees: 360),
+        z: Angle2D(degrees: 360)
+    )
+    public static var `default`: GraphicMetadataValue<Self> { .zero }
+    public static var minimum: GraphicMetadataValue<Self> {
+        .fixed(Angle3D(
+            x: Angle2D(degrees: -180),
+            y: Angle2D(degrees: -180),
+            z: Angle2D(degrees: -180)
+        ))
+    }
+    public static var maximum: GraphicMetadataValue<Self> {
+        .fixed(Angle3D(
+            x: Angle2D(degrees: 180),
+            y: Angle2D(degrees: 180),
+            z: Angle2D(degrees: 180)
+        ))
+    }
+    public static func lerp(at fraction: CGFloat, from leading: Self, to trailing: Self) -> Self {
+        Angle3D(x: Angle2D(radians: Double.lerp(at: fraction, from: leading.x.radians, to: trailing.x.radians)),
+                y: Angle2D(radians: Double.lerp(at: fraction, from: leading.y.radians, to: trailing.y.radians)),
+                z: Angle2D(radians: Double.lerp(at: fraction, from: leading.z.radians, to: trailing.z.radians)))
+    }
+    
+    public func scaled(by scale: CGFloat) -> Self {
+        Angle3D(x: Angle2D(radians: x.radians.scaled(by: scale)),
+                y: Angle2D(radians: y.radians.scaled(by: scale)),
+                z: Angle2D(radians: z.radians.scaled(by: scale)))
     }
 }
 
