@@ -32,7 +32,7 @@ extension Graphic3D {
     
     public func rotated(x: Angle = .zero, y: Angle = .zero, z: Angle = .zero,
                         options: EffectOptions = []) async throws -> Graphic3D {
-        try await transformed(rotation: .angle(x: x, y: y, z: z), options: options)
+        try await transformed(rotation: .angles(x: x, y: y, z: z), options: options)
     }
     
     public func scaled(_ scale: Double,
