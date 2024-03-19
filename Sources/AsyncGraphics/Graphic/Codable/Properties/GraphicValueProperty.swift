@@ -1,6 +1,7 @@
 import Foundation
 import SwiftUI
 import Spatial
+import SpatialExtensions
 import PixelColor
 
 @propertyWrapper
@@ -52,6 +53,8 @@ extension GraphicValueProperty {
             return .double
         case is Angle.Type:
             return .angle
+        case is Angle3D.Type:
+            return .angle3D
         case is PixelColor.Type:
             return .color
         case is CGSize.Type:
