@@ -18,6 +18,8 @@ extension Graphic3D {
         let gamma: Float
         let premultiply: Bool
         let resolution: VectorUniform
+        let tileOrigin: VectorUniform
+        let tileSize: VectorUniform
     }
     
     @EnumMacro
@@ -39,6 +41,7 @@ extension Graphic3D {
                                 extend: Graphic.GradientExtend = .zero,
                                 gamma: CGFloat = 1.0,
                                 resolution: Size3D,
+                                tile: Tile = .one,
                                 options: ContentOptions = []) async throws -> Graphic3D {
         
         let position: Point3D = position ?? Point3D(resolution) / 2
@@ -70,7 +73,9 @@ extension Graphic3D {
                 position: relativePosition.uniform,
                 gamma: Float(gamma),
                 premultiply: options.premultiply,
-                resolution: Point3D(resolution).uniform
+                resolution: Point3D(resolution).uniform,
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             arrayUniforms: colorStops,
             emptyArrayUniform: Graphic.GradientColorStopUniforms(
@@ -78,7 +83,7 @@ extension Graphic3D {
                 color: PixelColor.clear.uniform
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )

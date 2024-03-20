@@ -16,6 +16,8 @@ extension Graphic {
         let random: Bool
         let includeAlpha: Bool
         let resolution: SizeUniform
+        let tileOrigin: PointUniform
+        let tileSize: SizeUniform
     }
     
     /// Noise octaves are between 1 and 10
@@ -25,6 +27,7 @@ extension Graphic {
                              octaves: Int = 1,
                              seed: Int = 1,
                              resolution: CGSize,
+                             tile: Tile = .one,
                              options: ContentOptions = []) async throws -> Graphic {
         
         let relativeOffset: CGPoint = (offset - resolution / 2) / resolution.height
@@ -46,10 +49,12 @@ extension Graphic {
                 colored: false,
                 random: false,
                 includeAlpha: false,
-                resolution: resolution.uniform
+                resolution: resolution.uniform,
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )
@@ -63,6 +68,7 @@ extension Graphic {
                                     octaves: Int = 1,
                                     seed: Int = 1,
                                     resolution: CGSize,
+                                    tile: Tile = .one,
                                     options: ContentOptions = []) async throws -> Graphic {
         
         let relativeOffset: CGPoint = (offset - resolution / 2) / resolution.height
@@ -84,10 +90,12 @@ extension Graphic {
                 colored: true,
                 random: false,
                 includeAlpha: false,
-                resolution: resolution.uniform
+                resolution: resolution.uniform,
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )
@@ -96,6 +104,7 @@ extension Graphic {
     
     public static func randomNoise(seed: Int = 1,
                                    resolution: CGSize,
+                                   tile: Tile = .one,
                                    options: ContentOptions = []) async throws -> Graphic {
         
         try await Renderer.render(
@@ -109,10 +118,12 @@ extension Graphic {
                 colored: false,
                 random: true,
                 includeAlpha: false,
-                resolution: resolution.uniform
+                resolution: resolution.uniform,
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )
@@ -121,6 +132,7 @@ extension Graphic {
     
     public static func randomColoredNoise(seed: Int = 1,
                                           resolution: CGSize,
+                                          tile: Tile = .one,
                                           options: ContentOptions = []) async throws -> Graphic {
         
         try await Renderer.render(
@@ -134,10 +146,12 @@ extension Graphic {
                 colored: true,
                 random: true,
                 includeAlpha: false,
-                resolution: resolution.uniform
+                resolution: resolution.uniform,
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )

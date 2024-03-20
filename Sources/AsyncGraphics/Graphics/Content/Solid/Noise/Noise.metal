@@ -27,6 +27,8 @@ struct Uniforms {
     bool random;
     bool includeAlpha;
     packed_float2 resolution;
+    packed_float2 tileOrigin;
+    packed_float2 tileSize;
 };
 
 fragment float4 noise(VertexOut out [[stage_in]],
@@ -36,6 +38,8 @@ fragment float4 noise(VertexOut out [[stage_in]],
     
     float u = out.texCoord[0];
     float v = out.texCoord[1];
+    u = u * uniforms.tileSize.x + uniforms.tileOrigin.x;
+    v = v * uniforms.tileSize.y + uniforms.tileOrigin.y;
     
     float2 resolution = uniforms.resolution;
     float aspectRatio = resolution.x / resolution.y;

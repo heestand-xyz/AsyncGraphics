@@ -17,6 +17,8 @@ extension Graphic {
         let gamma: Float
         let premultiply: Bool
         let resolution: SizeUniform
+        let tileOrigin: PointUniform
+        let tileSize: SizeUniform
     }
     
     struct GradientColorStopUniforms {
@@ -62,6 +64,7 @@ extension Graphic {
                                 extend: GradientExtend = .zero,
                                 gamma: CGFloat = 1.0,
                                 resolution: CGSize,
+                                tile: Tile = .one,
                                 options: ContentOptions = []) async throws -> Graphic {
         
         let position: CGPoint = position ?? (resolution.asPoint / 2)
@@ -93,7 +96,9 @@ extension Graphic {
                 position: relativePosition.uniform,
                 gamma: Float(gamma),
                 premultiply: options.premultiply,
-                resolution: resolution.uniform
+                resolution: resolution.uniform,
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             arrayUniforms: colorStops,
             emptyArrayUniform: GradientColorStopUniforms(
@@ -101,7 +106,7 @@ extension Graphic {
                 color: PixelColor.clear.uniform
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )

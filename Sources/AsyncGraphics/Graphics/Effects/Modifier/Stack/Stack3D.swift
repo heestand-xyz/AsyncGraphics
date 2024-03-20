@@ -10,7 +10,6 @@ import PixelColor
 extension Graphic3D {
     
     private struct Stack3DUniforms {
-        let axis: Int32
         let backgroundColor: ColorUniform
         let leadingCenter: VectorUniform
         let leadingSize: VectorUniform
@@ -199,7 +198,6 @@ extension Graphic3D {
             shader: .name("stack3d"),
             graphics: [self, graphic],
             uniforms: Stack3DUniforms(
-                axis: Int32(axis.rawValue),
                 backgroundColor: backgroundColor.uniform,
                 leadingCenter: relativeLeadingCenter.uniform,
                 leadingSize: relativeLeadingSize.uniform,

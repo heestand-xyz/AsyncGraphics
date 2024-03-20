@@ -15,6 +15,8 @@ extension Graphic3D {
         let position: VectorUniform
         let depth: Float
         let zoom: Float
+        let tileOrigin: VectorUniform
+        let tileSize: VectorUniform
     }
     
     /// Noise octaves are between 1 and 10
@@ -24,6 +26,7 @@ extension Graphic3D {
                              octaves: Int = 1,
                              seed: Int = 1,
                              resolution: Size3D,
+                             tile: Tile = .one,
                              options: ContentOptions = []) async throws -> Graphic3D {
         
         let relativeOffset: Point3D = (offset - resolution / 2) / resolution.height
@@ -41,10 +44,12 @@ extension Graphic3D {
                 octaves: UInt32(octaves),
                 position: relativeOffset.uniform,
                 depth: Float(relativeDepth),
-                zoom: Float(scale)
+                zoom: Float(scale),
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )
@@ -58,6 +63,7 @@ extension Graphic3D {
                                         octaves: Int = 1,
                                         seed: Int = 1,
                                         resolution: Size3D,
+                                        tile: Tile = .one,
                                         options: ContentOptions = []) async throws -> Graphic3D {
         
         let relativeOffset: Point3D = (offset - resolution / 2) / resolution.height
@@ -75,10 +81,12 @@ extension Graphic3D {
                 octaves: UInt32(octaves),
                 position: relativeOffset.uniform,
                 depth: Float(relativeDepth),
-                zoom: Float(scale)
+                zoom: Float(scale),
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )
@@ -92,6 +100,7 @@ extension Graphic3D {
                                     octaves: Int = 1,
                                     seed: Int = 1,
                                     resolution: Size3D,
+                                    tile: Tile = .one,
                                     options: ContentOptions = []) async throws -> Graphic3D {
         
         let relativeOffset: Point3D = (offset - resolution / 2) / resolution.height
@@ -109,10 +118,12 @@ extension Graphic3D {
                 octaves: UInt32(octaves),
                 position: relativeOffset.uniform,
                 depth: Float(relativeDepth),
-                zoom: Float(scale)
+                zoom: Float(scale),
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )
@@ -121,6 +132,7 @@ extension Graphic3D {
     
     public static func randomNoise(seed: Int = 1,
                                    resolution: Size3D,
+                                   tile: Tile = .one,
                                    options: ContentOptions = []) async throws -> Graphic3D {
         
         try await Renderer.render(
@@ -134,10 +146,12 @@ extension Graphic3D {
                 octaves: 0,
                 position: .zero,
                 depth: 0.0,
-                zoom: 0.0
+                zoom: 0.0,
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )
@@ -146,6 +160,7 @@ extension Graphic3D {
     
     public static func randomColoredNoise(seed: Int = 1,
                                           resolution: Size3D,
+                                          tile: Tile = .one,
                                           options: ContentOptions = []) async throws -> Graphic3D {
         
         try await Renderer.render(
@@ -159,10 +174,12 @@ extension Graphic3D {
                 octaves: 0,
                 position: .zero,
                 depth: 0.0,
-                zoom: 0.0
+                zoom: 0.0,
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )

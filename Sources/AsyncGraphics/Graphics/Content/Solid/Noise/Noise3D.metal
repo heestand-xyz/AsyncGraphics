@@ -18,6 +18,8 @@ struct Uniforms {
     packed_float3 position;
     float depth;
     float zoom;
+    packed_float3 tileOrigin;
+    packed_float3 tileSize;
 };
 
 kernel void noise3d(const device Uniforms& uniforms [[ buffer(0) ]],
@@ -36,6 +38,9 @@ kernel void noise3d(const device Uniforms& uniforms [[ buffer(0) ]],
     float x = float(pos.x + 0.5) / float(width);
     float y = float(pos.y + 0.5) / float(height);
     float z = float(pos.z + 0.5) / float(depth);
+    x = x * uniforms.tileSize.x + uniforms.tileOrigin.x;
+    y = y * uniforms.tileSize.y + uniforms.tileOrigin.y;
+    z = z * uniforms.tileSize.z + uniforms.tileOrigin.z;
     
     int max_res = 16384 - 1;
     

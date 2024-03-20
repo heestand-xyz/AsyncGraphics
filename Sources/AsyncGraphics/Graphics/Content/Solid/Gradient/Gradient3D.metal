@@ -17,6 +17,8 @@ struct Uniforms {
     float gamma;
     bool premultiply;
     packed_float3 resolution;
+    packed_float3 tileOrigin;
+    packed_float3 tileSize;
 };
 
 kernel void gradient3d(const device Uniforms& uniforms [[ buffer(0) ]],
@@ -38,6 +40,9 @@ kernel void gradient3d(const device Uniforms& uniforms [[ buffer(0) ]],
     float u = float(pos.x + 0.5) / float(width);
     float v = float(pos.y + 0.5) / float(height);
     float w = float(pos.z + 0.5) / float(depth);
+    u = u * uniforms.tileSize.x + uniforms.tileOrigin.x;
+    v = v * uniforms.tileSize.y + uniforms.tileOrigin.y;
+    w = w * uniforms.tileSize.z + uniforms.tileOrigin.z;
     
     float3 resolution = uniforms.resolution;
     float aspectRatio = resolution.x / resolution.y;

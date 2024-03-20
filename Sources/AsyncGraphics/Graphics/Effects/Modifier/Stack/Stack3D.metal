@@ -6,7 +6,6 @@
 using namespace metal;
 
 struct Uniforms {
-    int axis;
     packed_float4 backgroundColor;
     packed_float3 leadingCenter;
     packed_float3 leadingSize;
@@ -21,8 +20,6 @@ kernel void stack3d(const device Uniforms& uniforms [[ buffer(0) ]],
                     uint3 pos [[ thread_position_in_grid ]],
                     sampler sampler [[ sampler(0) ]]) {
     
-    int axis = uniforms.axis;
-
     uint width = targetTexture.get_width();
     uint height = targetTexture.get_height();
     uint depth = targetTexture.get_depth();
@@ -41,35 +38,6 @@ kernel void stack3d(const device Uniforms& uniforms [[ buffer(0) ]],
     float3 trailingCenter = uniforms.trailingCenter;
     float3 trailingSize = uniforms.trailingSize;
 
-//    float coord;
-//    uint leadingPoint;
-//    uint leadingLength;
-//    uint trailingPoint;
-//    uint trailingLength;
-//    switch (axis) {
-//        case 0: // X
-//            coord = u;
-//            leadingPoint = leadingCenter.x;
-//            leadingLength = leadingSize.x;
-//            trailingPoint = trailingCenter.x;
-//            trailingLength = trailingSize.x;
-//            break;
-//        case 1: // Y
-//            coord = v;
-//            leadingPoint = leadingCenter.y;
-//            leadingLength = leadingSize.y;
-//            trailingPoint = trailingCenter.y;
-//            trailingLength = trailingSize.y;
-//            break;
-//        case 2: // Z
-//            coord = w;
-//            leadingPoint = leadingCenter.z;
-//            leadingLength = leadingSize.z;
-//            trailingPoint = trailingCenter.z;
-//            trailingLength = trailingSize.z;
-//            break;
-//    }
-    
     float4 backgroundColor = float4(uniforms.backgroundColor.rgb * uniforms.backgroundColor.a, uniforms.backgroundColor.a);
     
     float4 color = backgroundColor;
@@ -87,18 +55,6 @@ kernel void stack3d(const device Uniforms& uniforms [[ buffer(0) ]],
         float3 coord = (uvw - trailingOrigin) / trailingSize;
         color = trailingTexture.sample(sampler, coord);
     }
-    
-//    float4 color = backgroundColor;
-//    if (coord > leadingPoint - leadingLength / 2 && coord < leadingPoint + leadingLength / 2) {
-//        
-//        float3 coord = uvw;
-//        color = leadingTexture.sample(sampler, coord);
-//        
-//    } else if (coord > trailingPoint - trailingLength / 2 && coord < trailingPoint + trailingLength / 2) {
-//        
-//        float3 coord = uvw;
-//        color = trailingTexture.sample(sampler, coord);
-//    }
     
     targetTexture.write(color, pos);
 }
