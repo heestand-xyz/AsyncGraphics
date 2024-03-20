@@ -19,6 +19,8 @@ struct Uniforms {
     packed_float4 foregroundColor;
     packed_float4 edgeColor;
     packed_float4 backgroundColor;
+    packed_float3 tileOrigin;
+    packed_float3 tileSize;
 };
 
 float plane(float3 p, float3 c, float3 n) {
@@ -51,6 +53,9 @@ kernel void tetrahedron3d(const device Uniforms& uniforms [[ buffer(0) ]],
     float u = float(pos.x + 0.5) / float(width);
     float v = float(pos.y + 0.5) / float(height);
     float w = float(pos.z + 0.5) / float(depth);
+    u = u * uniforms.tileSize.x + uniforms.tileOrigin.x;
+    v = v * uniforms.tileSize.y + uniforms.tileOrigin.y;
+    w = w * uniforms.tileSize.z + uniforms.tileOrigin.z;
     
     float4 foregroundColor = uniforms.foregroundColor;
     float4 edgeColor = uniforms.edgeColor;

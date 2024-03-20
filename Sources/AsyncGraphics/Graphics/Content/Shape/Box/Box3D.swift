@@ -17,6 +17,8 @@ extension Graphic3D {
         let foregroundColor: ColorUniform
         let edgeColor: ColorUniform
         let backgroundColor: ColorUniform
+        let tileOrigin: VectorUniform
+        let tileSize: VectorUniform
     }
     
     public static func box(size: Size3D? = nil,
@@ -25,6 +27,7 @@ extension Graphic3D {
                            color: PixelColor = .white,
                            backgroundColor: PixelColor = .clear,
                            resolution: Size3D,
+                           tile: Tile = .one,
                            options: ContentOptions = []) async throws -> Graphic3D {
         
         let size: Size3D = size ?? resolution
@@ -38,6 +41,7 @@ extension Graphic3D {
             color: color,
             backgroundColor: backgroundColor,
             resolution: resolution,
+            tile: tile,
             options: options
         )
     }
@@ -48,6 +52,7 @@ extension Graphic3D {
                            color: PixelColor = .white,
                            backgroundColor: PixelColor = .clear,
                            resolution: Size3D,
+                           tile: Tile = .one,
                            options: ContentOptions = []) async throws -> Graphic3D {
         
         let size: Size3D = size ?? resolution
@@ -70,10 +75,12 @@ extension Graphic3D {
                 edgeRadius: 0.0,
                 foregroundColor: color.uniform,
                 edgeColor: PixelColor.clear.uniform,
-                backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform
+                backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform,
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )
@@ -83,10 +90,11 @@ extension Graphic3D {
     public static func surfaceBox(size: Size3D? = nil,
                                   origin: Point3D,
                                   cornerRadius: Double = 0.0,
-                                  surfaceWidth: Double,
+                                  surfaceWidth: Double = 1.0,
                                   color: PixelColor = .white,
                                   backgroundColor: PixelColor = .clear,
                                   resolution: Size3D,
+                                  tile: Tile = .one,
                                   options: ContentOptions = []) async throws -> Graphic3D {
         
         let size: Size3D = size ?? resolution
@@ -101,6 +109,7 @@ extension Graphic3D {
             color: color,
             backgroundColor: backgroundColor,
             resolution: resolution,
+            tile: tile,
             options: options
         )
     }
@@ -108,10 +117,11 @@ extension Graphic3D {
     public static func surfaceBox(size: Size3D? = nil,
                                   position: Point3D? = nil,
                                   cornerRadius: Double = 0.0,
-                                  surfaceWidth: Double,
+                                  surfaceWidth: Double = 1.0,
                                   color: PixelColor = .white,
                                   backgroundColor: PixelColor = .clear,
                                   resolution: Size3D,
+                                  tile: Tile = .one,
                                   options: ContentOptions = []) async throws -> Graphic3D {
         
         let size: Size3D = size ?? (resolution - Size3D(width: surfaceWidth, height: surfaceWidth, depth: surfaceWidth))
@@ -136,10 +146,12 @@ extension Graphic3D {
                 edgeRadius: Float(relativeSurfaceWidth),
                 foregroundColor: backgroundColor.uniform,
                 edgeColor: color.uniform,
-                backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform
+                backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform,
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )

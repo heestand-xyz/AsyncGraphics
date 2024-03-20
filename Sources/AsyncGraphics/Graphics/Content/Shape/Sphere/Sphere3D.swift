@@ -16,6 +16,8 @@ extension Graphic3D {
         let foregroundColor: ColorUniform
         let edgeColor: ColorUniform
         let backgroundColor: ColorUniform
+        let tileOrigin: VectorUniform
+        let tileSize: VectorUniform
     }
     
     public static func sphere(radius: Double? = nil,
@@ -23,6 +25,7 @@ extension Graphic3D {
                               color: PixelColor = .white,
                               backgroundColor: PixelColor = .clear,
                               resolution: Size3D,
+                              tile: Tile = .one,
                               options: ContentOptions = []) async throws -> Graphic3D {
         
         let radius: Double = radius ?? min(resolution.width, resolution.height, resolution.depth) / 2
@@ -42,10 +45,12 @@ extension Graphic3D {
                 edgeRadius: 0.0,
                 foregroundColor: color.uniform,
                 edgeColor: PixelColor.clear.uniform,
-                backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform
+                backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform,
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )
@@ -54,10 +59,11 @@ extension Graphic3D {
     
     public static func surfaceSphere(radius: Double? = nil,
                                      position: Point3D? = nil,
-                                     surfaceWidth: Double,
+                                     surfaceWidth: Double = 1.0,
                                      color: PixelColor = .white,
                                      backgroundColor: PixelColor = .clear,
                                      resolution: Size3D,
+                                     tile: Tile = .one,
                                      options: ContentOptions = []) async throws -> Graphic3D {
         
         let radius: Double = radius ?? min(resolution.width, resolution.height, resolution.depth) / 2
@@ -79,10 +85,12 @@ extension Graphic3D {
                 edgeRadius: Float(relativeSurfaceWidth),
                 foregroundColor: backgroundColor.uniform,
                 edgeColor: color.uniform,
-                backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform
+                backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform,
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )

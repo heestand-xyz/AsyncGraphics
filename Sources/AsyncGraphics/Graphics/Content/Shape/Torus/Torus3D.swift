@@ -18,6 +18,8 @@ extension Graphic3D {
         let foregroundColor: ColorUniform
         let edgeColor: ColorUniform
         let backgroundColor: ColorUniform
+        let tileOrigin: VectorUniform
+        let tileSize: VectorUniform
     }
     
     public static func torus(
@@ -28,6 +30,7 @@ extension Graphic3D {
         color: PixelColor = .white,
         backgroundColor: PixelColor = .clear,
         resolution: Size3D,
+        tile: Tile = .one,
         options: ContentOptions = []
     ) async throws -> Graphic3D {
         
@@ -53,10 +56,12 @@ extension Graphic3D {
                 surfaceWidth: 0.0,
                 foregroundColor: color.uniform,
                 edgeColor: PixelColor.clear.uniform,
-                backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform
+                backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform,
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )
@@ -68,10 +73,11 @@ extension Graphic3D {
         radius: Double? = nil,
         revolvingRadius: Double? = nil,
         position: Point3D? = nil,
-        surfaceWidth: Double,
+        surfaceWidth: Double = 1.0,
         color: PixelColor = .white,
         backgroundColor: PixelColor = .clear,
         resolution: Size3D,
+        tile: Tile = .one,
         options: ContentOptions = []
     ) async throws -> Graphic3D {
         
@@ -99,10 +105,12 @@ extension Graphic3D {
                 surfaceWidth: Float(relativeSurfaceWidth),
                 foregroundColor: backgroundColor.uniform,
                 edgeColor: color.uniform,
-                backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform
+                backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform,
+                tileOrigin: tile.uvOrigin,
+                tileSize: tile.uvSize
             ),
             metadata: Renderer.Metadata(
-                resolution: resolution,
+                resolution: tile.resolution(at: resolution),
                 colorSpace: options.colorSpace,
                 bits: options.bits
             )

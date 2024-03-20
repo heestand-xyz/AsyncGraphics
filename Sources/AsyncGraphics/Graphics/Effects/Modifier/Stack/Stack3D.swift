@@ -4,19 +4,18 @@
 
 import Foundation
 import Spatial
+import SpatialExtensions
 import PixelColor
 
 extension Graphic3D {
     
     private struct Stack3DUniforms {
         let axis: Int32
-        let xAlignment: Int32
-        let yAlignment: Int32
-        let zAlignment: Int32
-        let spacing: Float
-        let padding: Float
         let backgroundColor: ColorUniform
-        let resolution: VectorUniform
+        let leadingCenter: VectorUniform
+        let leadingSize: VectorUniform
+        let trailingCenter: VectorUniform
+        let trailingSize: VectorUniform
     }
     
     private enum StackAxis: Int {
@@ -87,16 +86,14 @@ extension Graphic3D {
                          zAlignment: Alignment3D.Z = .center,
                          spacing: Double = 0.0,
                          padding: Double = 0.0,
-                         backgroundColor: PixelColor = .clear,
-                         resolution: Size3D? = nil) async throws -> Graphic3D {
+                         backgroundColor: PixelColor = .clear) async throws -> Graphic3D {
         
         try await stacked(with: graphic,
                           axis: .horizontal,
                           alignment: Alignment3D(x: .center, y: yAlignment, z: zAlignment),
                           spacing: spacing,
                           padding: padding,
-                          backgroundColor: backgroundColor,
-                          resolution: resolution)
+                          backgroundColor: backgroundColor)
     }
     
     /// Vertical Stack
@@ -105,16 +102,14 @@ extension Graphic3D {
                          zAlignment: Alignment3D.Z = .center,
                          spacing: Double = 0.0,
                          padding: Double = 0.0,
-                         backgroundColor: PixelColor = .clear,
-                         resolution: Size3D? = nil) async throws -> Graphic3D {
+                         backgroundColor: PixelColor = .clear) async throws -> Graphic3D {
         
         try await stacked(with: graphic,
                           axis: .vertical,
                           alignment: Alignment3D(x: xAlignment, y: .center, z: zAlignment),
                           spacing: spacing,
                           padding: padding,
-                          backgroundColor: backgroundColor,
-                          resolution: resolution)
+                          backgroundColor: backgroundColor)
     }
     
     /// Depth Stack
@@ -123,16 +118,14 @@ extension Graphic3D {
                          yAlignment: Alignment3D.Y = .center,
                          spacing: Double = 0.0,
                          padding: Double = 0.0,
-                         backgroundColor: PixelColor = .clear,
-                         resolution: Size3D? = nil) async throws -> Graphic3D {
+                         backgroundColor: PixelColor = .clear) async throws -> Graphic3D {
         
         try await stacked(with: graphic,
                           axis: .depth,
                           alignment: Alignment3D(x: xAlignment, y: yAlignment, z: .center),
                           spacing: spacing,
                           padding: padding,
-                          backgroundColor: backgroundColor,
-                          resolution: resolution)
+                          backgroundColor: backgroundColor)
     }
     
     private func stacked(with graphic: Graphic3D,
@@ -140,70 +133,83 @@ extension Graphic3D {
                          alignment: Alignment3D = .center,
                          spacing: Double = 0.0,
                          padding: Double = 0.0,
-                         backgroundColor: PixelColor = .clear,
-                         resolution: Size3D? = nil) async throws -> Graphic3D {
+                         backgroundColor: PixelColor = .clear) async throws -> Graphic3D {
         
-        let graphics: [Graphic3D] = [self, graphic]
+        let leadingResolution: Size3D = resolution
+        let trailingResolution: Size3D = graphic.resolution
         
-        let finalResolution: Size3D
-        if let resolution: Size3D {
-            finalResolution = resolution
-        } else {
-            let resolution: Size3D = graphics.first!.resolution
-            let length: Double = {
-                switch axis {
-                case .horizontal:
-                    return resolution.width
-                case .vertical:
-                    return resolution.height
-                case .depth:
-                    return resolution.depth
-                }
-            }()
-            let totalLength: Double = length * Double(graphics.count) + spacing * Double(graphics.count - 1) + padding * 2.0
-            let totalAdjacentSize: Size3D = Size3D(
-                width: resolution.width + padding * 2.0,
-                height: resolution.height + padding * 2.0,
-                depth: resolution.depth + padding * 2.0)
-            finalResolution = Size3D(
-                width: axis == .horizontal ? totalLength : totalAdjacentSize.width,
-                height: axis == .vertical ? totalLength : totalAdjacentSize.height,
-                depth: axis == .depth ? totalLength : totalAdjacentSize.depth)
+        let finalResolution: Size3D = switch axis {
+        case .horizontal:
+            Size3D(width: leadingResolution.width + trailingResolution.width + padding * 2 + spacing,
+                   height: max(leadingResolution.height, trailingResolution.height) + padding * 2,
+                   depth: max(leadingResolution.depth, trailingResolution.depth) + padding * 2)
+        case .vertical:
+            Size3D(width: max(leadingResolution.width, trailingResolution.width) + padding * 2,
+                   height: leadingResolution.height + trailingResolution.height + padding * 2 + spacing,
+                   depth: max(leadingResolution.depth, trailingResolution.depth) + padding * 2)
+        case .depth:
+            Size3D(width: max(leadingResolution.width, trailingResolution.width) + padding * 2,
+                   height: max(leadingResolution.height, trailingResolution.height) + padding * 2,
+                   depth: leadingResolution.depth + trailingResolution.depth + padding * 2 + spacing)
         }
         
-        let length: Double = {
+        func leadingCenter() -> Point3D {
             switch axis {
             case .horizontal:
-                return finalResolution.width
+                Point3D(x: padding + leadingResolution.width / 2,
+                        y: finalResolution.height / 2 + max(0.0, (trailingResolution.height / 2 - leadingResolution.height / 2)) * CGFloat(alignment.y.vector),
+                        z: finalResolution.depth / 2 + max(0.0, (trailingResolution.depth / 2 - leadingResolution.depth / 2)) * CGFloat(alignment.z.vector))
             case .vertical:
-                return finalResolution.height
+                Point3D(x: finalResolution.width / 2 + max(0.0, (trailingResolution.width / 2 - leadingResolution.width / 2)) * CGFloat(alignment.x.vector),
+                        y: padding + leadingResolution.height / 2,
+                        z: finalResolution.depth / 2 + max(0.0, (trailingResolution.depth / 2 - leadingResolution.depth / 2)) * CGFloat(alignment.z.vector))
             case .depth:
-                return finalResolution.depth
+                Point3D(x: finalResolution.width / 2 + max(0.0, (trailingResolution.width / 2 - leadingResolution.width / 2)) * CGFloat(alignment.x.vector),
+                        y: finalResolution.height / 2 + max(0.0, (trailingResolution.height / 2 - leadingResolution.height / 2)) * CGFloat(alignment.y.vector),
+                        z: padding + leadingResolution.depth / 2)
             }
-        }()
+        }
+        let leadingCenter: Point3D = leadingCenter()
         
-        let relativeSpacing: Double = spacing / length
+        func trailingCenter() -> Point3D {
+            switch axis {
+            case .horizontal:
+                Point3D(x: finalResolution.width - padding - trailingResolution.width / 2,
+                        y: finalResolution.height / 2 + max(0.0, (leadingResolution.height / 2 - trailingResolution.height / 2)) * CGFloat(alignment.y.vector),
+                        z: finalResolution.depth / 2 + max(0.0, (leadingResolution.depth / 2 - trailingResolution.depth / 2)) * CGFloat(alignment.z.vector))
+            case .vertical:
+                Point3D(x: finalResolution.width / 2 + max(0.0, (leadingResolution.width / 2 - trailingResolution.width / 2)) * CGFloat(alignment.x.vector),
+                        y: finalResolution.height - padding - trailingResolution.height / 2,
+                        z: finalResolution.depth / 2 + max(0.0, (leadingResolution.depth / 2 - trailingResolution.depth / 2)) * CGFloat(alignment.z.vector))
+            case .depth:
+                Point3D(x: finalResolution.width / 2 + max(0.0, (leadingResolution.width / 2 - trailingResolution.width / 2)) * CGFloat(alignment.x.vector),
+                        y: finalResolution.height / 2 + max(0.0, (leadingResolution.height / 2 - trailingResolution.height / 2)) * CGFloat(alignment.y.vector),
+                        z: finalResolution.depth - padding - trailingResolution.depth / 2)
+            }
+        }
+        let trailingCenter: Point3D = trailingCenter()
         
-        let relativePadding: Double = padding / length
+        let relativeLeadingCenter: Point3D = leadingCenter / finalResolution
+        let relativeTrailingCenter: Point3D = trailingCenter / finalResolution
+        let relativeLeadingSize: Size3D = leadingResolution / finalResolution
+        let relativeTrailingSize: Size3D = trailingResolution / finalResolution
         
         return try await Renderer.render(
             name: "Stack 3D",
             shader: .name("stack3d"),
-            graphics: graphics,
+            graphics: [self, graphic],
             uniforms: Stack3DUniforms(
                 axis: Int32(axis.rawValue),
-                xAlignment: Int32(alignment.x.vector),
-                yAlignment: Int32(alignment.y.vector),
-                zAlignment: Int32(alignment.z.vector),
-                spacing: Float(relativeSpacing),
-                padding: Float(relativePadding),
                 backgroundColor: backgroundColor.uniform,
-                resolution: finalResolution.uniform
+                leadingCenter: relativeLeadingCenter.uniform,
+                leadingSize: relativeLeadingSize.uniform,
+                trailingCenter: relativeTrailingCenter.uniform,
+                trailingSize: relativeTrailingSize.uniform
             ),
             metadata: Renderer.Metadata(
                 resolution: finalResolution,
-                colorSpace: graphics.first?.colorSpace ?? .sRGB,
-                bits: graphics.first?.bits ?? ._8
+                colorSpace: colorSpace,
+                bits: bits
             )
         )
     }
