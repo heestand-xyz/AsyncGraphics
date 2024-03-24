@@ -34,6 +34,7 @@ extension Graphic {
     ///
     /// Available variables are:  `sampler`, `texture`, `u`, `v`, `uv`, `color`.
     public func metal(code: String,
+                      resolution: CGSize? = nil,
                       options: EffectOptions = []) async throws -> Graphic {
         
         guard let metalBaseURL = Bundle.module.url(forResource: "DirectMetal.metal", withExtension: "txt") else {
@@ -50,6 +51,11 @@ extension Graphic {
             name: "Metal",
             shader: .code(metalCode, name: "directMetal"),
             graphics: [self],
+            metadata: Renderer.Metadata(
+                resolution: resolution ?? self.resolution,
+                colorSpace: colorSpace,
+                bits: bits
+            ),
             options: Renderer.Options(
                 addressMode: options.addressMode,
                 filter: options.filter
