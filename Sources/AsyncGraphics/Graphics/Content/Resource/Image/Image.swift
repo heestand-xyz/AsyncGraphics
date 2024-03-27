@@ -23,6 +23,7 @@ extension Graphic {
         case imageNotFound
         case rawPhotoNotSupported
         case rawPhotoCorrupt
+        case imageDataCorrupt
         
         var errorDescription: String? {
             switch self {
@@ -32,6 +33,8 @@ extension Graphic {
                 return "AsyncGraphics - Image - RAW Photo Not Supported"
             case .rawPhotoCorrupt:
                 return "AsyncGraphics - Image - RAW Photo Corrupt"
+            case .imageDataCorrupt:
+                return "AsyncGraphics - Image - Data Corrupt"
             }
         }
     }
@@ -102,6 +105,15 @@ extension Graphic {
         
         guard let image = TMImage(data: data) else {
             throw ImageError.imageNotFound
+        }
+        
+        return try await .image(image)
+    }
+    
+    public static func image(data: Data) async throws -> Graphic {
+        
+        guard let image = TMImage(data: data) else {
+            throw ImageError.imageDataCorrupt
         }
         
         return try await .image(image)
