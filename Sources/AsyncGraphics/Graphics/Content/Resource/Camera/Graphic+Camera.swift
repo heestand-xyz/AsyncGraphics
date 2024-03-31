@@ -128,18 +128,27 @@ extension Graphic {
             device.unlockForConfiguration()
         }
         
-        func start() {
+        /// Start Camera
+        ///
+        /// Starts the capture session.
+        /// Automatically called on when used with ``Graphic.camera(with:)``.
+        public func start() {
+            if captureSession.isRunning { return }
             captureSession.addInput(videoInput)
             captureSession.addOutput(videoOutput)
-            DispatchQueue.global().async {
-                self.captureSession.startRunning()
+            DispatchQueue.global().async { [weak self] in
+                self?.captureSession.startRunning()
             }
         }
         
-        func stop() {
-            captureSession.stopRunning()
+        /// Stop Camera
+        ///
+        /// Stops the capture session.
+        public func stop() {
+            guard captureSession.isRunning else { return }
             captureSession.removeInput(videoInput)
             captureSession.removeOutput(videoOutput)
+            captureSession.stopRunning()
         }
     }
 }
