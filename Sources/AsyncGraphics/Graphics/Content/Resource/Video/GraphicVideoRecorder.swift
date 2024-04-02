@@ -66,7 +66,8 @@ public class GraphicVideoRecorder {
     private var frameIndex: Int = 0
     
     public var recording: Bool = false
-    public var appending: Bool = false
+    private var appending: Bool = false
+    private var stopping: Bool = false
     
     enum RecordError: LocalizedError {
         
@@ -159,6 +160,9 @@ public class GraphicVideoRecorder {
     
     public func append(graphic: Graphic) async throws {
         
+        if stopping { return }
+        if !recording { return }
+        
         if appending {
             throw RecordError.currentlyAppending
         }
@@ -168,7 +172,7 @@ public class GraphicVideoRecorder {
             appending = false
         }
         
-        guard let av: AV = av else {
+        guard let av: AV = await MainActor.run(body: { av }) else {
             throw RecordError.startNotCalled
         }
         
@@ -214,8 +218,11 @@ public class GraphicVideoRecorder {
     
     public func stop() async throws -> URL {
         
+        stopping = true
+        
         defer {
             cleanup()
+            stopping = false
         }
         
         guard let av: AV = av else {
