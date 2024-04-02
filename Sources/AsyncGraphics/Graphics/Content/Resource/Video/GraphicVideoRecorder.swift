@@ -66,6 +66,7 @@ public class GraphicVideoRecorder {
     private var frameIndex: Int = 0
     
     public var recording: Bool = false
+    public var appending: Bool = false
     
     enum RecordError: LocalizedError {
         
@@ -77,6 +78,7 @@ public class GraphicVideoRecorder {
         case badWriterState(Int, String?)
         case writerFailed
         case appendFailed
+        case currentlyAppending
         
         var errorDescription: String? {
             switch self {
@@ -96,6 +98,8 @@ public class GraphicVideoRecorder {
                 return "AsyncGraphics - GraphicVideoRecorder - Writer Failed"
             case .appendFailed:
                 return "AsyncGraphics - GraphicVideoRecorder - Append Failed"
+            case .currentlyAppending:
+                return "AsyncGraphics - GraphicVideoRecorder - Currently Appending"
             }
         }
     }
@@ -155,6 +159,15 @@ public class GraphicVideoRecorder {
     
     public func append(graphic: Graphic) async throws {
         
+        if appending {
+            throw RecordError.currentlyAppending
+        }
+        
+        appending = true
+        defer {
+            appending = false
+        }
+        
         guard let av: AV = av else {
             throw RecordError.startNotCalled
         }
@@ -183,7 +196,9 @@ public class GraphicVideoRecorder {
             throw RecordError.appendFailed
         }
         
-        frameIndex += 1
+        await MainActor.run {
+            frameIndex += 1
+        }
     }
  
     public func stop() async throws -> Data {
