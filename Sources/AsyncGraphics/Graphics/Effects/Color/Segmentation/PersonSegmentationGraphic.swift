@@ -7,6 +7,10 @@ extension CodableGraphic.Effect.Color {
     @GraphicMacro
     public final class PersonSegmentation: ColorEffectGraphicProtocol {
         
+        public var docs: String {
+            "Background removal."
+        }
+        
         public var isMask: GraphicMetadata<Bool> = .init(value: .fixed(false))
         
         public func render(

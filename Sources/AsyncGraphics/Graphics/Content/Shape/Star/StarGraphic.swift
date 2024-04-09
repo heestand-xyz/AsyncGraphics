@@ -9,7 +9,8 @@ extension CodableGraphic.Content.Shape {
         
         public var count: GraphicMetadata<Int> = .init(value: .fixed(5),
                                                        minimum: .fixed(3),
-                                                       maximum: .fixed(12))
+                                                       maximum: .fixed(12),
+                                                       docs: "Count of outer points.")
 
         public var position: GraphicMetadata<CGPoint> = .init(options: .spatial)
         
@@ -17,11 +18,13 @@ extension CodableGraphic.Content.Shape {
 
         public var innerRadius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.25),
                                                                  maximum: .resolutionMaximum(fraction: 0.5),
-                                                                 options: .spatial)
+                                                                 options: .spatial,
+                                                                 docs: "Radius of inner points.")
         
         public var outerRadius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.5),
                                                                  maximum: .resolutionMaximum(fraction: 0.5),
-                                                                 options: .spatial)
+                                                                 options: .spatial,
+                                                                 docs: "Radius of outer points.")
         
         public var cornerRadius: GraphicMetadata<Double> = .init(value: .fixed(0.0),
                                                                  maximum: .resolutionMinimum(fraction: 0.5),

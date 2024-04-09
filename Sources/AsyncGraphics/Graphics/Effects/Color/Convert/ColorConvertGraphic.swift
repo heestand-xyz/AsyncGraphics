@@ -7,6 +7,13 @@ extension CodableGraphic.Effect.Color {
     @GraphicMacro
     public final class ColorConvert: ColorEffectGraphicProtocol {
         
+        public var docs: String {
+            """
+            Convert between color models.
+            For HSV and the all channel option; hue is red, saturation is green, and value / brightness is blue.
+            """
+        }
+        
         public var conversion: GraphicEnumMetadata<Graphic.ColorConversion> = .init(value: .rgbToHSV)
         
         public var channel: GraphicEnumMetadata<Graphic.ColorConvertChannel> = .init(value: .all)

@@ -9,7 +9,8 @@ extension CodableGraphic.Content.Shape {
         
         public var count: GraphicMetadata<Int> = .init(value: .fixed(3), 
                                                        minimum: .fixed(3),
-                                                       maximum: .fixed(12))
+                                                       maximum: .fixed(12),
+                                                       docs: "Corner count.")
 
         public var position: GraphicMetadata<CGPoint> = .init(options: .spatial)
         

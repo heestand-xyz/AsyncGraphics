@@ -14,15 +14,17 @@ extension CodableGraphic.Effect.Color {
         public var contrast: GraphicMetadata<CGFloat> = .init(value: .zero)
         
         public var gamma: GraphicMetadata<CGFloat> = .init(value: .one,
-                                                           maximum: .fixed(2.0))
+                                                           maximum: .fixed(2.0),
+                                                           docs: "Adjustment of light.")
         
-        public var isInverted: GraphicMetadata<Bool> = .init(value: .fixed(false))
+        public var isInverted: GraphicMetadata<Bool> = .init()
         
-        public var isSmooth: GraphicMetadata<Bool> = .init(value: .fixed(false))
+        public var isSmooth: GraphicMetadata<Bool> = .init(docs: "Applies an s-curve of smooth contrast to the graphic. (With a sine curve)")
         
         public var opacity: GraphicMetadata<CGFloat> = .init(value: .one)
         
-        public var offset: GraphicMetadata<CGFloat> = .init(value: .zero)
+        public var offset: GraphicMetadata<CGFloat> = .init(minimum: .fixed(-1.0),
+                                                            docs: "Exposure offset. (With addition)")
         
         public func render(
             with graphic: Graphic,

@@ -20,7 +20,8 @@ extension CodableGraphic.Effect.Modifier {
                                                            maximum: .fixed(2.0))
         
         public var lumaGamma: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
-                                                               maximum: .fixed(2.0))
+                                                               maximum: .fixed(2.0),
+                                                               docs: "Adjustment of light on the modifier graphic.")
         
         public var sampleCount: GraphicMetadata<Int> = .init(value: .fixed(100),
                                                              minimum: .fixed(1),

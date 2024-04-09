@@ -7,15 +7,24 @@ extension CodableGraphic.Effect.Color {
     @GraphicMacro
     public final class ChromaKey: ColorEffectGraphicProtocol {
         
-        public var color: GraphicMetadata<PixelColor> = .init(value: .fixed(.rawGreen))
+        public var docs: String {
+            "Green screen background removal."
+        }
         
-        public var range: GraphicMetadata<CGFloat> = .init(value: .fixed(0.1))
+        public var color: GraphicMetadata<PixelColor> = .init(value: .fixed(.rawGreen),
+                                                              docs: "Key color to remove.")
         
-        public var softness: GraphicMetadata<CGFloat> = .init(value: .fixed(0.1))
+        public var range: GraphicMetadata<CGFloat> = .init(value: .fixed(0.1),
+                                                           docs: "Hue range of the key color.")
         
-        public var edgeDesaturation: GraphicMetadata<CGFloat> = .init(value: .fixed(0.5))
+        public var softness: GraphicMetadata<CGFloat> = .init(value: .fixed(0.1),
+                                                              docs: "Smooths the alpha mask.")
         
-        public var alphaCrop: GraphicMetadata<CGFloat> = .init(value: .fixed(0.5))
+        public var edgeDesaturation: GraphicMetadata<CGFloat> = .init(value: .fixed(0.5),
+                                                                      docs: "A higher value makes the edges of the alpha mask more monochrome.")
+        
+        public var alphaCrop: GraphicMetadata<CGFloat> = .init(value: .fixed(0.5),
+                                                               docs: "Clip semi transparent pixels.")
         
         public func parameters(at resolution: CGSize) -> Graphic.ChromaKeyParameters {
             var parameters = Graphic.ChromaKeyParameters()

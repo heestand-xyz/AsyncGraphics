@@ -13,11 +13,13 @@ extension CodableGraphic.Content.Shape {
                                                             maximum: .resolutionMaximum(fraction: 0.5),
                                                             options: .spatial)
         
-        public var angle: GraphicMetadata<Angle> = .init(value: .fixed(.degrees(-90)))
+        public var angle: GraphicMetadata<Angle> = .init(value: .fixed(.degrees(-90)),
+                                                         docs: "Center of the arc.")
         public var length: GraphicMetadata<Angle> = .init(value: .fixed(.degrees(90)),
                                                           minimum: .fixed(.zero),
                                                           maximum: .fixed(.degrees(360)),
-                                                          options: .spatial)
+                                                          options: .spatial,
+                                                          docs: "The angle length of the arc.")
         
         public var foregroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
         public var backgroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.clear))

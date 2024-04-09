@@ -9,7 +9,8 @@ extension CodableGraphic3D.Content.Solid {
         
         public var octaves: GraphicMetadata<Int> = .init(value: .fixed(1),
                                                          minimum: .fixed(1),
-                                                         maximum: .fixed(10))
+                                                         maximum: .fixed(10),
+                                                         docs: "A value between 1 and 10, the lower the smoother, the higher the more cloudy detail.")
         
         public var offset: GraphicMetadata<Point3D> = .init(value: .zero,
                                                                   minimum: .resolutionMaximum(fraction: -0.5),
@@ -17,17 +18,20 @@ extension CodableGraphic3D.Content.Solid {
                                                             options: .spatial)
         
         public var depthOffset: GraphicMetadata<CGFloat> = .init(minimum: .resolutionMaximum(fraction: -0.5),
-                                                                 maximum: .resolutionMaximum(fraction: 0.5))
+                                                                 maximum: .resolutionMaximum(fraction: 0.5),
+                                                                 docs: "An offset in the motion dimension.")
         
         public var scale: GraphicMetadata<CGFloat> = .init(value: .one,
                                                            maximum: .fixed(2.0))
         
-        public var isRandom: GraphicMetadata<Bool> = .init(value: .fixed(false))
+        public var isRandom: GraphicMetadata<Bool> = .init(value: .fixed(false),
+                                                           docs: "Every voxel get's a random tho persistent color, change the seed to animate.")
         public var isColored: GraphicMetadata<Bool> = .init(value: .fixed(false))
         
         public var seed: GraphicMetadata<Int> = .init(value: .fixed(0),
                                                       minimum: .fixed(0),
-                                                      maximum: .fixed(100))
+                                                      maximum: .fixed(100),
+                                                      docs: "Noise with the same seed always looks the same. Change for variation.")
         
         public func render(
             at resolution: Size3D,

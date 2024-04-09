@@ -4,6 +4,8 @@ public protocol CodableGraphicProtocol {
     
     static var type: CodableGraphicType { get }
     
+    var docs: String { get }
+    
     var properties: [any AnyGraphicProperty] { get }
     
     init()
@@ -22,6 +24,11 @@ extension CodableGraphicProtocol {
     public var type: CodableGraphicType {
         Swift.type(of: self).type
     }
+}
+
+extension CodableGraphicProtocol {
+    
+    public var docs: String { "" }
 }
 
 extension CodableGraphicProtocol {

@@ -6,7 +6,8 @@ public struct GraphicMacro: MemberMacro, MemberAttributeMacro {
     
     static let blackList: [String] = [
         "type",
-        "properties"
+        "properties",
+        "docs",
     ]
     
     public static func expansion(

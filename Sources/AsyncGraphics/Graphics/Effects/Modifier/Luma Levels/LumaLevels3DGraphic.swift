@@ -15,18 +15,21 @@ extension CodableGraphic3D.Effect.Modifier {
         
         public var contrast: GraphicMetadata<CGFloat> = .init()
         
-        public var gamma: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0))
+        public var gamma: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
+                                                           docs: "Adjustment of light.")
         
         public var isInverted: GraphicMetadata<Bool> = .init()
         
-        public var isSmooth: GraphicMetadata<Bool> = .init()
+        public var isSmooth: GraphicMetadata<Bool> = .init(docs: "Applies an s-curve of smooth contrast to the graphic. (With a sine curve)")
         
         public var opacity: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0))
         
-        public var offset: GraphicMetadata<CGFloat> = .init(minimum: .fixed(-1.0))
+        public var offset: GraphicMetadata<CGFloat> = .init(minimum: .fixed(-1.0),
+                                                            docs: "Exposure offset. (With addition)")
         
         public var lumaGamma: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
-                                                               maximum: .fixed(2.0))
+                                                               maximum: .fixed(2.0),
+                                                               docs: "Adjustment of light on the modifier graphic.")
         
         public var placement: GraphicEnumMetadata<Graphic.Placement> = .init(value: .fill)
 

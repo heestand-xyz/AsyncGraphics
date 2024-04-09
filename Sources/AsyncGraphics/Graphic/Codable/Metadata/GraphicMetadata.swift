@@ -8,16 +8,20 @@ public struct GraphicMetadata<T: GraphicValue>: Codable {
     public let minimumValue: GraphicMetadataValue<T>
     public let maximumValue: GraphicMetadataValue<T>
     
-    let options: GraphicMetadataOptions
+    public let options: GraphicMetadataOptions
+    
+    public let docs: String
     
     public init(value: GraphicMetadataValue<T> = T.default,
                 minimum: GraphicMetadataValue<T> = T.minimum,
                 maximum: GraphicMetadataValue<T> = T.maximum,
-                options: GraphicMetadataOptions = []) {
+                options: GraphicMetadataOptions = [],
+                docs: String = "") {
         self.value = value
         defaultValue = value
         minimumValue = minimum
         maximumValue = maximum
         self.options = options
+        self.docs = docs
     }
 }

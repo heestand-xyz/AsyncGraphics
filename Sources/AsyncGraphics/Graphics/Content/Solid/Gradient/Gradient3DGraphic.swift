@@ -23,9 +23,11 @@ extension CodableGraphic3D.Content.Solid {
                                                             minimum: .fixed(-1.0))
         
         public var gamma: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
-                                                           maximum: .fixed(2.0))
+                                                           maximum: .fixed(2.0),
+                                                           docs: "Adjustment of light.")
         
-        public var extend: GraphicEnumMetadata<Graphic.GradientExtend> = .init(value: .zero)
+        public var extend: GraphicEnumMetadata<Graphic.GradientExtend> = .init(value: .zero,
+                                                                               docs: "Property for what to do with values extending above 1.0 and below 0.0. This property has no effect until position, scale or offset are modified.")
         
         public func render(
             at resolution: Size3D,

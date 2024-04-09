@@ -7,6 +7,10 @@ extension CodableGraphic3D.Content.Shape {
     @GraphicMacro
     public final class Torus: ShapeContentGraphic3DProtocol {
         
+        public var docs: String {
+            "A 3D donut shape."
+        }
+        
         public var axis: GraphicEnumMetadata<Graphic3D.Axis> = .init(value: .z)
         
         public var position: GraphicMetadata<Point3D> = .init(options: .spatial)

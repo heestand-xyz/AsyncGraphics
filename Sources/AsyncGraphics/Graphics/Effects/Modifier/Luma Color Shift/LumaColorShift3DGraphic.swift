@@ -16,7 +16,8 @@ extension CodableGraphic3D.Effect.Modifier {
         public var tintColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
         
         public var lumaGamma: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
-                                                               maximum: .fixed(2.0))
+                                                               maximum: .fixed(2.0),
+                                                               docs: "Adjustment of light on the modifier graphic.")
         
         public var placement: GraphicEnumMetadata<Graphic.Placement> = .init(value: .fill)
 

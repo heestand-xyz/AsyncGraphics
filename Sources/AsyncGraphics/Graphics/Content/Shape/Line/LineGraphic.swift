@@ -18,7 +18,8 @@ extension CodableGraphic.Content.Shape {
                                                                maximum: .fixed(20.0),
                                                                options: .spatial)
         
-        public var lineCap: GraphicEnumMetadata<Graphic.LineCap> = .init(value: .square)
+        public var lineCap: GraphicEnumMetadata<Graphic.LineCap> = .init(value: .square,
+                                                                         docs: "The shape of the ends of the line.")
         
         public func render(
             at resolution: CGSize,

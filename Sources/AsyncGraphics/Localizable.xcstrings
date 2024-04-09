@@ -602,7 +602,14 @@
       }
     },
     "option.blendMode.differenceWithAlpha" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Difference with Alpha"
+          }
+        }
+      }
     },
     "option.blendMode.divide" : {
       "localizations" : {
@@ -1405,7 +1412,14 @@
       }
     },
     "option.multiBlendMode.differenceWithAlpha" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Difference with Alpha"
+          }
+        }
+      }
     },
     "option.multiBlendMode.divide" : {
       "localizations" : {

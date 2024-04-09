@@ -7,7 +7,12 @@ extension CodableGraphic3D.Content.Shape {
     @GraphicMacro
     public final class Tetrahedron: ShapeContentGraphic3DProtocol {
         
-        public var axis: GraphicEnumMetadata<Graphic3D.Axis> = .init(value: .z)
+        public var docs: String {
+            "A 3D shape with four triangular faces, six edges, and four vertices."
+        }
+        
+        public var axis: GraphicEnumMetadata<Graphic3D.Axis> = .init(value: .z,
+         docs: "The axis in which the base plane and top point goes through.")
         
         public var position: GraphicMetadata<Point3D> = .init(options: .spatial)
         

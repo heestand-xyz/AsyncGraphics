@@ -7,6 +7,10 @@ extension CodableGraphic3D.Content.Solid {
     @GraphicMacro
     public final class Color: SolidContentGraphic3DProtocol {
         
+        public var docs: String {
+            "A plain solid color, filling the volume."
+        }
+        
         public var color: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
         
         public func render(

@@ -4,9 +4,11 @@ public struct GraphicEnumMetadata<T: GraphicEnum>: Codable where T.RawValue == S
     
     public var value: T
     public var defaultValue: T
+    public let docs: String
     
-    init(value: T) {
+    init(value: T, docs: String = "") {
         self.value = value
         defaultValue = value
+        self.docs = docs
     }
 }

@@ -8,13 +8,18 @@ extension CodableGraphic3D.Effect.Color {
     @GraphicMacro
     public final class GradientLookup: ColorEffectGraphic3DProtocol {
         
+        public var docs: String {
+            "Apply a gradient to a graphic, where the gradient's leading colors are applied the darker voxels, and the trailing colors are applied to the lighter voxels."
+        }
+        
         public var colorStops: GraphicMetadata<[Graphic.GradientStop]> = .init(value: .fixed([
             Graphic.GradientStop(at: 0.0, color: .black),
             Graphic.GradientStop(at: 1.0, color: .white),
         ]))
         
         public var gamma: GraphicMetadata<CGFloat> = .init(value: .one,
-                                                           maximum: .fixed(2.0))
+                                                           maximum: .fixed(2.0),
+                                                           docs: "Adjustment of light.")
         
         public func render(
             with graphic: Graphic3D,

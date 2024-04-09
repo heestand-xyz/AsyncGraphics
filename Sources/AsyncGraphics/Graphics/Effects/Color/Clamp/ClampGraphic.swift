@@ -7,6 +7,10 @@ extension CodableGraphic.Effect.Color {
     @GraphicMacro
     public final class Clamp: ColorEffectGraphicProtocol {
         
+        public var docs: String {
+            "Apply various styles to colors outside of the set range."
+        }
+        
         public var style: GraphicEnumMetadata<Graphic.ClampType> = .init(value: .relative)
         
         public var low: GraphicMetadata<CGFloat> = .init(value: .zero)

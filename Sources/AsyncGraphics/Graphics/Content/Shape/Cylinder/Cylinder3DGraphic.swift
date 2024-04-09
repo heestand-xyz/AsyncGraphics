@@ -7,6 +7,10 @@ extension CodableGraphic3D.Content.Shape {
     @GraphicMacro
     public final class Cylinder: ShapeContentGraphic3DProtocol {
         
+        public var docs: String {
+            "A 3D tube shape."
+        }
+        
         public var axis: GraphicEnumMetadata<Graphic3D.Axis> = .init(value: .y)
         
         public var position: GraphicMetadata<Point3D> = .init(options: .spatial)
@@ -21,7 +25,8 @@ extension CodableGraphic3D.Content.Shape {
         
         public var cornerRadius: GraphicMetadata<Double> = .init(value: .fixed(0.0),
                                                                  maximum: .resolutionMinimum(fraction: 0.5),
-                                                                 options: .spatial)
+                                                                 options: .spatial,
+                                                                 docs: "Also know as fillet radius.")
         
         public var foregroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))
         public var backgroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.clear))

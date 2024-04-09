@@ -8,7 +8,12 @@ extension CodableGraphic3D.Effect.Color {
     @GraphicMacro
     public final class Quantize: ColorEffectGraphic3DProtocol {
         
-        public var fraction: GraphicMetadata<CGFloat> = .init(value: .fixed(0.25))
+        public var docs: String {
+            "Lowers the color detail."
+        }
+        
+        public var fraction: GraphicMetadata<CGFloat> = .init(value: .fixed(0.25),
+                                                              docs: "A higher value results in lower quality graphic, and a value approaching zero is closer to the original graphic. The default value of 0.25 results in 4 steps of quantization.")
         
         public func render(
             with graphic: Graphic3D,
