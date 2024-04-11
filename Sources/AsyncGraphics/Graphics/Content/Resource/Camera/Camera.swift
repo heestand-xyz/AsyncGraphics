@@ -2,8 +2,6 @@
 //  Created by Anton Heestand on 2022-04-27.
 //
 
-#if !os(visionOS)
-
 import CoreGraphics
 import AVKit
 
@@ -31,6 +29,7 @@ extension Graphic {
         }
     }
     
+#if !os(visionOS)
     /// Async live stream from the camera
     public static func camera(device: AVCaptureDevice,
                               quality: AVCaptureSession.Preset = .high) throws -> AsyncStream<Graphic> {
@@ -49,6 +48,7 @@ extension Graphic {
         
         return self.camera(with: camera)
     }
+#endif
     
     /// Async live stream from the camera
     public static func camera(with camera: Camera) -> AsyncStream<Graphic> {
@@ -118,5 +118,3 @@ extension Graphic {
         })
     }
 }
-
-#endif

@@ -2,8 +2,6 @@
 //  Created by Anton Heestand on 2022-04-27.
 //
 
-#if !os(visionOS)
-
 import Metal
 import AVKit
 
@@ -43,6 +41,7 @@ extension Graphic {
         private let videoOutput: AVCaptureVideoDataOutput
         private let captureSession: AVCaptureSession
         
+#if !os(visionOS)
         public convenience init(_ position: AVCaptureDevice.Position,
                                 with deviceType: AVCaptureDevice.DeviceType = .builtInWideAngleCamera,
                                 quality preset: AVCaptureSession.Preset = .high,
@@ -112,11 +111,41 @@ extension Graphic {
             
             videoOutput.setSampleBufferDelegate(self, queue: queue)
         }
+#else
+        public init(device: AVCaptureDevice) throws {
+            
+            self.position = device.position
+            self.device = device
+            
+            captureSession = AVCaptureSession()
+            
+            videoInput = try AVCaptureDeviceInput(device: device)
+            guard captureSession.canAddInput(videoInput) else {
+                throw CameraError.inputCanNotBeAdded
+            }
+            
+            videoOutput = AVCaptureVideoDataOutput()
+            videoOutput.alwaysDiscardsLateVideoFrames = true
+            videoOutput.videoSettings = [
+                kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA
+            ]
+            let queue = DispatchQueue(label: "async-graphics.camera")
+            
+            guard captureSession.canAddOutput(videoOutput) else {
+                throw CameraError.outputCanNotBeAdded
+            }
+            
+            super.init()
+            
+            videoOutput.setSampleBufferDelegate(self, queue: queue)
+        }
+#endif
         
         deinit {
             stop()
         }
         
+#if !os(visionOS)
         /// Relative focus point
         ///
         /// **Apple:** This property’s CGPoint value uses a coordinate system where {0,0} is the top-left of the picture area and {1,1} is the bottom-right. This coordinate system is always relative to a landscape device orientation with the home button on the right, regardless of the actual device orientation.
@@ -127,6 +156,7 @@ extension Graphic {
             device.focusMode = mode
             device.unlockForConfiguration()
         }
+#endif
         
         /// Start Camera
         ///
@@ -165,5 +195,3 @@ extension Graphic.Camera: AVCaptureVideoDataOutputSampleBufferDelegate {
         graphicsHandler?(graphic)
     }
 }
-
-#endif
