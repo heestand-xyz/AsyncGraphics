@@ -4,6 +4,7 @@ public enum EffectGraphic3DType: Codable, Equatable {
     case color(ColorEffectGraphic3DType)
     case space(SpaceEffectGraphic3DType)
     case modifier(ModifierEffectGraphic3DType)
+    case convert(ConvertEffectGraphic3DType)
 }
 
 extension EffectGraphic3DType {
@@ -16,6 +17,8 @@ extension EffectGraphic3DType {
             space.name
         case .modifier(let modifier):
             modifier.name
+        case .convert(let convert):
+            convert.name
         }
     }
 }
@@ -23,9 +26,10 @@ extension EffectGraphic3DType {
 extension EffectGraphic3DType: CaseIterable {
     
     public static var allCases: [EffectGraphic3DType] {
-        ColorEffectGraphic3DType.allCases.map { .color($0) } +
-        SpaceEffectGraphic3DType.allCases.map { .space($0) } +
-        ModifierEffectGraphic3DType.allCases.map { .modifier($0) }
+        ColorEffectGraphic3DType.allCases.map { .color($0) }
+        + SpaceEffectGraphic3DType.allCases.map { .space($0) }
+        + ModifierEffectGraphic3DType.allCases.map { .modifier($0) }
+        + ConvertEffectGraphic3DType.allCases.map { .convert($0) }
     }
 }
 
@@ -39,6 +43,8 @@ extension EffectGraphic3DType {
             space.type
         case .modifier(let modifier):
             modifier.type
+        case .convert(let convert):
+            convert.type
         }
     }
 }

@@ -271,6 +271,36 @@
         }
       }
     },
+    "graphic.effect.convert.bits" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bits"
+          }
+        }
+      }
+    },
+    "graphic.effect.convert.cornerPin" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corner Pin"
+          }
+        }
+      }
+    },
+    "graphic.effect.convert.resolution" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resolution"
+          }
+        }
+      }
+    },
     "graphic.effect.modifier.blend" : {
       "localizations" : {
         "en" : {
@@ -527,6 +557,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Z"
+          }
+        }
+      }
+    },
+    "option.bits.bit8" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "8 Bit"
+          }
+        }
+      }
+    },
+    "option.bits.bit16" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "16 Bit"
+          }
+        }
+      }
+    },
+    "option.bits.bit32" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "32 Bit"
           }
         }
       }
@@ -1581,6 +1641,46 @@
         }
       }
     },
+    "option.resolutionInterpolation.bilinear" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilinear"
+          }
+        }
+      }
+    },
+    "option.resolutionInterpolation.lanczos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lanczos"
+          }
+        }
+      }
+    },
+    "option.resolutionInterpolation.linear" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Linear"
+          }
+        }
+      }
+    },
+    "option.resolutionInterpolation.pixelated" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pixelated"
+          }
+        }
+      }
+    },
     "option.x.center" : {
       "localizations" : {
         "en" : {
@@ -1741,6 +1841,16 @@
         }
       }
     },
+    "property.bits" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bits"
+          }
+        }
+      }
+    },
     "property.blendingMode" : {
       "localizations" : {
         "en" : {
@@ -1757,6 +1867,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Blue"
+          }
+        }
+      }
+    },
+    "property.bottomLeft" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bottom Left"
+          }
+        }
+      }
+    },
+    "property.bottomRight" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bottom Right"
           }
         }
       }
@@ -2001,6 +2131,16 @@
         }
       }
     },
+    "property.interpolation" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interpolation"
+          }
+        }
+      }
+    },
     "property.isColored" : {
       "localizations" : {
         "en" : {
@@ -2211,6 +2351,16 @@
         }
       }
     },
+    "property.perspective" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perspective"
+          }
+        }
+      }
+    },
     "property.placement" : {
       "localizations" : {
         "en" : {
@@ -2257,6 +2407,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Red"
+          }
+        }
+      }
+    },
+    "property.resolution" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resolution"
           }
         }
       }
@@ -2391,6 +2551,16 @@
         }
       }
     },
+    "property.subdivisions" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subdivisions"
+          }
+        }
+      }
+    },
     "property.surface" : {
       "localizations" : {
         "en" : {
@@ -2417,6 +2587,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tint Color"
+          }
+        }
+      }
+    },
+    "property.topLeft" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top Left"
+          }
+        }
+      }
+    },
+    "property.topRight" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top Right"
           }
         }
       }

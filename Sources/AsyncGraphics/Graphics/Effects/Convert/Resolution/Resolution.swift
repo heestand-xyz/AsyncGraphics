@@ -27,7 +27,30 @@ extension Graphic {
         
         return try await self.resized(to: derivedResolution, placement: .stretch, options: options)
     }
-        
+    
+    @EnumMacro
+    public enum ResolutionInterpolation: String, GraphicEnum {
+        case linear
+        case lanczos
+        case bilinear
+        case pixelated
+    }
+    
+    public func resized(to resolution: CGSize, placement: Placement = .fit, interpolation: ResolutionInterpolation, options: EffectOptions = []) async throws -> Graphic {
+        switch interpolation {
+        case .linear:
+            return try await resized(to: resolution, placement: placement, options: options)
+        case .lanczos:
+            return try await resized(to: resolution, placement: placement, method: .lanczos)
+        case .bilinear:
+            return try await resized(to: resolution, placement: placement, method: .bilinear)
+        case .pixelated:
+            var options: EffectOptions = options
+            options.insert(.interpolateNearest)
+            return try await resized(to: resolution, placement: placement, options: options)
+        }
+    }
+    
     public func resized(to resolution: CGSize, placement: Placement = .fit, options: EffectOptions = []) async throws -> Graphic {
         
         try await Renderer.render(

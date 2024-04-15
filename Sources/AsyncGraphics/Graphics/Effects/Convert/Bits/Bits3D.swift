@@ -7,6 +7,11 @@ import TextureMap
 
 extension Graphic3D {
     
+    @available(*, deprecated, renamed: "withBits(_:)")
+    public func bits(_ tmBits: TMBits) async throws -> Graphic3D {
+        try await withBits(Graphic.Bits(tmBits: tmBits))
+    }
+    
     /// 8, 16 or 32 bits
     ///
     /// **8 bits** is default when working with images.
@@ -14,16 +19,20 @@ extension Graphic3D {
     /// **16 bits** has colors beyond black and white with more precision.
     ///
     /// **32 bits** has the most amount of precision.
-    public func bits(_ bits: TMBits) async throws -> Graphic3D {
+    public func withBits(_ bits: Graphic.Bits) async throws -> Graphic3D {
         
-        try await Renderer.render(
+        if self.bits == bits.tmBits {
+            return self
+        }
+        
+        return try await Renderer.render(
             name: "Bits 3D",
             shader: .name("bits3d"),
             graphics: [self],
             metadata: Renderer.Metadata(
                 resolution: resolution,
                 colorSpace: colorSpace,
-                bits: bits
+                bits: bits.tmBits
             )
         )
     }
