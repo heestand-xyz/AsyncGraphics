@@ -10,3 +10,23 @@ public enum ShapeContentGraphic3DType: String, CodableGraphicTypeProtocol {
     case cone
     case tetrahedron
 }
+
+extension ShapeContentGraphic3DType {
+    
+    var symbolName: String {
+        switch self {
+        case .sphere:
+            "circle"
+        case .box:
+            "square"
+        case .cylinder:
+            "capsule.portrait"
+        case .torus:
+            "circle.circle"
+        case .cone:
+            "triangle"
+        case .tetrahedron:
+            "triangle"
+        }
+    }
+}

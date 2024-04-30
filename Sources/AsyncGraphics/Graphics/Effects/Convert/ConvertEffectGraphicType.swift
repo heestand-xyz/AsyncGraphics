@@ -7,3 +7,17 @@ public enum ConvertEffectGraphicType: String, CodableGraphicTypeProtocol {
     case bits
     case cornerPin
 }
+
+extension ConvertEffectGraphicType {
+    
+    var symbolName: String {
+        switch self {
+        case .resolution:
+            "square.resize"
+        case .bits:
+            "drop.keypad.rectangle"
+        case .cornerPin:
+            "skew"
+        }
+    }
+}
