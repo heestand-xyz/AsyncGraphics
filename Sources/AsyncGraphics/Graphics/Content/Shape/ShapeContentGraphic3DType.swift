@@ -13,7 +13,7 @@ public enum ShapeContentGraphic3DType: String, CodableGraphicTypeProtocol {
 
 extension ShapeContentGraphic3DType {
     
-    var symbolName: String {
+    public var symbolName: String {
         switch self {
         case .sphere:
             "circle"

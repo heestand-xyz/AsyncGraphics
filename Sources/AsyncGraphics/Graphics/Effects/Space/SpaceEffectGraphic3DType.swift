@@ -10,7 +10,7 @@ public enum SpaceEffectGraphic3DType: String, CodableGraphicTypeProtocol {
 
 extension SpaceEffectGraphic3DType {
     
-    var symbolName: String {
+    public var symbolName: String {
         switch self {
         case .blur:
             "aqi.medium"

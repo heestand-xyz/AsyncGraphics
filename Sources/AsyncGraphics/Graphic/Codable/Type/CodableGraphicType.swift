@@ -18,6 +18,18 @@ extension CodableGraphicType {
     }
 }
 
+extension CodableGraphicType {
+    
+    public var symbolName: String {
+        switch self {
+        case .content(let content):
+            content.symbolName
+        case .effect(let effect):
+            effect.symbolName
+        }
+    }
+}
+
 extension CodableGraphicType: CaseIterable {
     
     public static var allCases: [CodableGraphicType] {

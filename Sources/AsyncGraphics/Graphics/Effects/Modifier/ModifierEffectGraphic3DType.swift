@@ -17,7 +17,7 @@ public enum ModifierEffectGraphic3DType: String, CodableGraphicTypeProtocol {
 
 extension ModifierEffectGraphic3DType {
     
-    var symbolName: String {
+    public var symbolName: String {
         switch self {
         case .mask:
             "circle.rectangle.dashed"

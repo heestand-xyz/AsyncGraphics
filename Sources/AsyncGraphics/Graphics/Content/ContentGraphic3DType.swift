@@ -17,6 +17,18 @@ extension ContentGraphic3DType {
     }
 }
 
+extension ContentGraphic3DType {
+    
+    public var symbolName: String {
+        switch self {
+        case .shape(let shape):
+            shape.symbolName
+        case .solid(let solid):
+            solid.symbolName
+        }
+    }
+}
+
 extension ContentGraphic3DType: CaseIterable {
     
     public static var allCases: [ContentGraphic3DType] {

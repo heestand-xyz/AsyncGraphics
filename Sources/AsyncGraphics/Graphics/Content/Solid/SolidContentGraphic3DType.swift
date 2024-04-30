@@ -10,7 +10,7 @@ public enum SolidContentGraphic3DType: String, CodableGraphicTypeProtocol {
 
 extension SolidContentGraphic3DType {
     
-    var symbolName: String {
+    public var symbolName: String {
         switch self {
         case .color:
             "paintpalette"

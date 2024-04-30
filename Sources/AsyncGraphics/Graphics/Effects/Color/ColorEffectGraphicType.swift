@@ -19,7 +19,7 @@ public enum ColorEffectGraphicType: String, CodableGraphicTypeProtocol {
 
 extension ColorEffectGraphicType {
     
-    var symbolName: String {
+    public var symbolName: String {
         switch self {
         case .channelMix:
             "square.stack.3d.forward.dottedline"

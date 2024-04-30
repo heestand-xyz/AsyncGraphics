@@ -8,7 +8,7 @@ public enum ConvertEffectGraphic3DType: String, CodableGraphicTypeProtocol {
 
 extension ConvertEffectGraphic3DType {
     
-    var symbolName: String {
+    public var symbolName: String {
         switch self {
         case .bits:
             "drop.keypad.rectangle"

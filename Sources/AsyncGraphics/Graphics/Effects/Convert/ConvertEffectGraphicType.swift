@@ -10,7 +10,7 @@ public enum ConvertEffectGraphicType: String, CodableGraphicTypeProtocol {
 
 extension ConvertEffectGraphicType {
     
-    var symbolName: String {
+    public var symbolName: String {
         switch self {
         case .resolution:
             "square.resize"

@@ -18,6 +18,18 @@ extension CodableGraphic3DType {
     }
 }
 
+extension CodableGraphic3DType {
+    
+    public var symbolName: String {
+        switch self {
+        case .content(let content):
+            content.symbolName
+        case .effect(let effect):
+            effect.symbolName
+        }
+    }
+}
+
 extension CodableGraphic3DType: CaseIterable {
     
     public static var allCases: [CodableGraphic3DType] {

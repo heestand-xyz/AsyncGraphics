@@ -23,6 +23,22 @@ extension EffectGraphicType {
     }
 }
 
+extension EffectGraphicType {
+    
+    public var symbolName: String {
+        switch self {
+        case .color(let color):
+            color.symbolName
+        case .space(let space):
+            space.symbolName
+        case .modifier(let modifier):
+            modifier.symbolName
+        case .convert(let convert):
+            convert.symbolName
+        }
+    }
+}
+
 extension EffectGraphicType: CaseIterable {
     
     public static var allCases: [EffectGraphicType] {

@@ -23,6 +23,22 @@ extension EffectGraphic3DType {
     }
 }
 
+extension EffectGraphic3DType {
+    
+    public var symbolName: String {
+        switch self {
+        case .color(let color):
+            color.symbolName
+        case .space(let space):
+            space.symbolName
+        case .modifier(let modifier):
+            modifier.symbolName
+        case .convert(let convert):
+            convert.symbolName
+        }
+    }
+}
+
 extension EffectGraphic3DType: CaseIterable {
     
     public static var allCases: [EffectGraphic3DType] {

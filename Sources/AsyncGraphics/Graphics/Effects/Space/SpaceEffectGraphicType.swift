@@ -11,7 +11,7 @@ public enum SpaceEffectGraphicType: String, CodableGraphicTypeProtocol {
 
 extension SpaceEffectGraphicType {
     
-    var symbolName: String {
+    public var symbolName: String {
         switch self {
         case .blur:
             "aqi.medium"
