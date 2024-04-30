@@ -65,10 +65,14 @@ extension Graphic {
                     
                     Task {
                         func mirrored(graphic: Graphic) async -> Graphic {
+                            #if os(macOS)
+                            return (try? await graphic.mirroredHorizontally()) ?? graphic
+                            #else
                             if camera.position == .front {
                                 return (try? await graphic.mirroredHorizontally()) ?? graphic
                             }
                             return graphic
+                            #endif
                         }
                         func rotated(graphic: Graphic) async -> Graphic {
                             #if os(iOS)
