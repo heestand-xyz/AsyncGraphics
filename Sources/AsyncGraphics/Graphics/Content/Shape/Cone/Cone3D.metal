@@ -77,7 +77,7 @@ kernel void cone3d(const device Uniforms& uniforms [[ buffer(0) ]],
             break;
     }
     float value = radialRadius;
-    float fraction = direction / length + length / 2;
+    float fraction = direction / length + 0.5;
     float4 color = 0.0;
     if (fraction >= 0.0 && fraction <= 1.0) {
         float radius = mix(leadingRadius, trailingRadius, fraction);
