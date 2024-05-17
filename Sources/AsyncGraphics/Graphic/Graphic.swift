@@ -23,6 +23,20 @@ public struct Graphic: Graphicable, Identifiable {
     
     public let bits: TMBits
     public let colorSpace: TMColorSpace
+
+#if DEBUG
+    /// Quick Look Debug Active
+    ///
+    /// Only available with `#if DEBUG`.
+    /// Default is `false`.
+    /// Setting this to `true` will create an extra image for each ``Graphic`` for debug previewing.
+    public static var quickLookDebugActive: Bool = false
+    /// Quick Look Debug Image
+    ///
+    /// Preview for debugging.
+    /// Tap the eye icon on while in a breakpoint to see the preview.
+    private var quickLookDebugImage: CGImage?
+#endif
     
     init(id: UUID = UUID(), name: String, texture: MTLTexture, bits: TMBits, colorSpace: TMColorSpace) {
         self.id = id
@@ -30,6 +44,15 @@ public struct Graphic: Graphicable, Identifiable {
         self.texture = texture
         self.bits = bits
         self.colorSpace = colorSpace
+#if DEBUG
+        if Self.quickLookDebugActive {
+            quickLookDebugImage = try? TextureMap.cgImage(
+                texture: texture,
+                colorSpace: colorSpace,
+                bits: bits
+            )
+        }
+#endif
     }
 }
 
