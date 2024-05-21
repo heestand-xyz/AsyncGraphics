@@ -12,9 +12,27 @@ extension Graphic {
         let gamma: Float
     }
     
-    public func gradientLookup(stops: [GradientStop],
-                               gamma: CGFloat = 1.0,
-                               options: EffectOptions = []) async throws -> Graphic {
+    public func sepia(
+        color: PixelColor,
+        gamma: CGFloat = 1.0,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
+        try await gradientLookup(
+            stops: [
+                Graphic.GradientStop(at: 0.0, color: .black),
+                Graphic.GradientStop(at: 0.5, color: color),
+                Graphic.GradientStop(at: 1.0, color: .white),
+            ],
+            gamma: gamma,
+            options: options
+        )
+    }
+    
+    public func gradientLookup(
+        stops: [GradientStop],
+        gamma: CGFloat = 1.0,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         try await Renderer.render(
             name: "Gradient Lookup",
             shader: .name("gradientLookup"),
