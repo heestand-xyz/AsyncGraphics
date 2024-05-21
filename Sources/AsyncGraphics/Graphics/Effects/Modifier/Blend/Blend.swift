@@ -138,6 +138,57 @@ extension Graphic {
         size: CGSize? = nil,
         options: EffectOptions = []
     ) async throws -> Graphic {
+        try await transformBlended(
+            with: graphic,
+            blendingMode: blendingMode,
+            placement: placement,
+            alignment: alignment,
+            translation: translation,
+            rotation: rotation,
+            scale: scale,
+            size: size,
+            options: options,
+            targetSourceTexture: false
+        )
+    }
+    
+    public mutating func transformBlend(
+        with graphic: Graphic,
+        blendingMode: BlendMode,
+        placement: Placement = .fit,
+        alignment: Alignment = .center,
+        translation: CGPoint = .zero,
+        rotation: Angle = .zero,
+        scale: CGFloat = 1.0,
+        size: CGSize? = nil,
+        options: EffectOptions = []
+    ) async throws {
+        self = try await transformBlended(
+            with: graphic,
+            blendingMode: blendingMode,
+            placement: placement,
+            alignment: alignment,
+            translation: translation,
+            rotation: rotation,
+            scale: scale,
+            size: size,
+            options: options,
+            targetSourceTexture: true
+        )
+    }
+    
+    private func transformBlended(
+        with graphic: Graphic,
+        blendingMode: BlendMode,
+        placement: Placement = .fit,
+        alignment: Alignment = .center,
+        translation: CGPoint = .zero,
+        rotation: Angle = .zero,
+        scale: CGFloat = 1.0,
+        size: CGSize? = nil,
+        options: EffectOptions = [],
+        targetSourceTexture: Bool
+    ) async throws -> Graphic {
         
         let relativeTranslation: CGPoint = translation / resolution.height
         let relativeSize: CGSize = (size ?? resolution) / resolution
@@ -161,7 +212,8 @@ extension Graphic {
             ),
             options: Renderer.Options(
                 addressMode: options.addressMode,
-                filter: options.filter
+                filter: options.filter,
+                targetSourceTexture: targetSourceTexture
             )
         )
     }
