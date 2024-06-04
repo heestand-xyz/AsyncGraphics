@@ -251,6 +251,16 @@
         }
       }
     },
+    "graphic.effect.color.range" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Range"
+          }
+        }
+      }
+    },
     "graphic.effect.color.slope" : {
       "localizations" : {
         "en" : {
@@ -2411,6 +2421,26 @@
         }
       }
     },
+    "property.referenceHigh" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reference High"
+          }
+        }
+      }
+    },
+    "property.referenceLow" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reference Low"
+          }
+        }
+      }
+    },
     "property.resolution" : {
       "localizations" : {
         "en" : {
@@ -2577,6 +2607,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Surface Width"
+          }
+        }
+      }
+    },
+    "property.targetHigh" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Target High"
+          }
+        }
+      }
+    },
+    "property.targetLow" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Target Low"
           }
         }
       }

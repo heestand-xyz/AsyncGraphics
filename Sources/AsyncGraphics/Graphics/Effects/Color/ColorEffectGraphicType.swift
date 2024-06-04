@@ -5,6 +5,7 @@ public enum ColorEffectGraphicType: String, CodableGraphicTypeProtocol {
     
     case channelMix
     case chromaKey
+    case range
     case clamp
     case colorConvert
     case colorMap
@@ -25,6 +26,8 @@ extension ColorEffectGraphicType {
             "square.stack.3d.forward.dottedline"
         case .chromaKey:
             "rectangle.checkered"
+        case .range:
+            "rectangle.compress.vertical"
         case .clamp:
             "rectangle.compress.vertical"
         case .colorConvert:

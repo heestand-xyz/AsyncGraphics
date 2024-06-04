@@ -4,6 +4,7 @@ import SwiftUI
 public enum ColorEffectGraphic3DType: String, CodableGraphicTypeProtocol {
     
     case channelMix
+    case range
     case clamp
     case colorMap
     case colorShift
@@ -20,6 +21,8 @@ extension ColorEffectGraphic3DType {
         switch self {
         case .channelMix:
             "square.stack.3d.forward.dottedline"
+        case .range:
+            "rectangle.compress.vertical"
         case .clamp:
             "rectangle.compress.vertical"
         case .colorMap:
