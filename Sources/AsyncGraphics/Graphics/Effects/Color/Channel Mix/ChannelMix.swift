@@ -42,7 +42,7 @@ extension Graphic {
         }
     }
     
-    private func channelMix(
+    public func channelMix(
         red: ColorChannel = .red,
         green: ColorChannel = .green,
         blue: ColorChannel = .blue,
