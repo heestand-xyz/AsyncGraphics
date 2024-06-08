@@ -14,13 +14,21 @@ extension Graphic {
         let size: SizeUniform
     }
     
-    public func pixel(u: CGFloat, v: CGFloat, options: EffectOptions = []) async throws -> PixelColor {
+    public func pixel(
+        u: CGFloat,
+        v: CGFloat,
+        options: EffectOptions = []
+    ) async throws -> PixelColor {
         let x: Int = Int(round(CGFloat(width - 1) * u))
         let y: Int = Int(round(CGFloat(height - 1) * v))
         return try await pixel(x: x, y: y, options: options)
     }
     
-    public func pixel(x: Int, y: Int, options: EffectOptions = []) async throws -> PixelColor {
+    public func pixel(
+        x: Int,
+        y: Int,
+        options: EffectOptions = []
+    ) async throws -> PixelColor {
         let x: Int = min(max(x, 0), Int(width) - 1)
         let y: Int = min(max(y, 0), Int(height) - 1)
         let origin = CGPoint(x: x, y: y)
@@ -30,12 +38,18 @@ extension Graphic {
         return try await graphic.pixelColors[0][0]
     }
     
-    public func row(v: CGFloat, options: EffectOptions = []) async throws -> Graphic {
+    public func row(
+        v: CGFloat,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         let index: Int = Int(round(CGFloat(height - 1) * v))
         return try await row(index, options: options)
     }
     
-    public func row(_ index: Int, options: EffectOptions = []) async throws -> Graphic {
+    public func row(
+        _ index: Int,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         let index: Int = min(max(index, 0), Int(height) - 1)
         let origin = CGPoint(x: 0, y: index)
         let size = CGSize(width: width, height: 1)
@@ -43,12 +57,18 @@ extension Graphic {
         return try await crop(to: frame, options: options)
     }
     
-    public func column(u: CGFloat, options: EffectOptions = []) async throws -> Graphic {
+    public func column(
+        u: CGFloat,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         let index: Int = Int(round(CGFloat(width - 1) * u))
         return try await column(index, options: options)
     }
     
-    public func column(_ index: Int, options: EffectOptions = []) async throws -> Graphic {
+    public func column(
+        _ index: Int,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         let index: Int = min(max(index, 0), Int(width) - 1)
         let origin = CGPoint(x: index, y: 0)
         let size = CGSize(width: 1, height: height)
@@ -56,7 +76,10 @@ extension Graphic {
         return try await crop(to: frame, options: options)
     }
     
-    public func crop(to frame: CGRect, options: EffectOptions = []) async throws -> Graphic {
+    public func crop(
+        to frame: CGRect,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         let resolution: CGSize = frame.size
         
@@ -76,10 +99,7 @@ extension Graphic {
                 colorSpace: colorSpace,
                 bits: bits
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
 }

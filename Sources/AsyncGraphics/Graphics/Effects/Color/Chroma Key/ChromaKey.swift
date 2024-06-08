@@ -50,10 +50,7 @@ extension Graphic {
                 edgeDesaturation: Float(parameters.edgeDesaturation),
                 alphaCrop: Float(parameters.alphaCrop)
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
 }

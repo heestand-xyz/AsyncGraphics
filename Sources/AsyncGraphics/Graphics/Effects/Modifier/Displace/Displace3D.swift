@@ -13,11 +13,13 @@ extension Graphic3D {
         let placement: UInt32
     }
     
-    public func displaced(with graphic: Graphic3D,
-                          offset: Double,
-                          origin: PixelColor = .rawGray,
-                          placement: Graphic.Placement = .fill,
-                          options: EffectOptions = []) async throws -> Graphic3D {
+    public func displaced(
+        with graphic: Graphic3D,
+        offset: Double,
+        origin: PixelColor = .rawGray,
+        placement: Graphic.Placement = .fill,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
         let relativeOffset: Double = offset / Double(height)
         
@@ -37,9 +39,7 @@ extension Graphic3D {
                 ),
                 placement: placement.index
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode
-            )
+            options: options.renderOptions
         )
     }
 }

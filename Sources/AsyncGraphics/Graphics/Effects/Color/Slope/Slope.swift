@@ -12,9 +12,11 @@ extension Graphic {
         let origin: ColorUniform
     }
     
-    public func slope(amplitude: CGFloat = 1.0,
-                      origin: PixelColor = .rawGray,
-                      options: EffectOptions = []) async throws -> Graphic {
+    public func slope(
+        amplitude: CGFloat = 1.0,
+        origin: PixelColor = .rawGray,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Slope",
@@ -24,10 +26,7 @@ extension Graphic {
                 amplitude: Float(amplitude),
                 origin: origin.uniform
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
 }

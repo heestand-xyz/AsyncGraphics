@@ -12,9 +12,11 @@ extension Graphic {
         let foregroundColor: ColorUniform
     }
     
-    public func colorMap(from backgroundColor: PixelColor,
-                         to foregroundColor: PixelColor,
-                         options: EffectOptions = []) async throws -> Graphic {
+    public func colorMap(
+        from backgroundColor: PixelColor,
+        to foregroundColor: PixelColor,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Color Map",
@@ -23,10 +25,7 @@ extension Graphic {
             uniforms: ColorMapUniforms(
                 backgroundColor: backgroundColor.uniform,
                 foregroundColor: foregroundColor.uniform),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
 }

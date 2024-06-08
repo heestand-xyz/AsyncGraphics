@@ -15,14 +15,24 @@ extension Graphic3D {
         let size: VectorUniform
     }
     
-    public func voxel(u: CGFloat, v: CGFloat, w: CGFloat, options: EffectOptions = []) async throws -> PixelColor {
+    public func voxel(
+        u: CGFloat,
+        v: CGFloat,
+        w: CGFloat,
+        options: EffectOptions = []
+    ) async throws -> PixelColor {
         let x: Int = Int(round(CGFloat(width - 1) * u))
         let y: Int = Int(round(CGFloat(height - 1) * v))
         let z: Int = Int(round(CGFloat(depth - 1) * w))
         return try await voxel(x: x, y: y, z: z, options: options)
     }
     
-    public func voxel(x: Int, y: Int, z: Int, options: EffectOptions = []) async throws -> PixelColor {
+    public func voxel(
+        x: Int,
+        y: Int,
+        z: Int,
+        options: EffectOptions = []
+    ) async throws -> PixelColor {
         let x: Int = min(max(x, 0), Int(width) - 1)
         let y: Int = min(max(y, 0), Int(height) - 1)
         let z: Int = min(max(z, 0), Int(depth) - 1)
@@ -33,7 +43,10 @@ extension Graphic3D {
         return try await graphic.voxelColors[0][0][0]
     }
     
-    public func crop(to frame: Rect3D, options: EffectOptions = []) async throws -> Graphic3D {
+    public func crop(
+        to frame: Rect3D,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
         let resolution: Size3D = frame.size
         
@@ -57,9 +70,7 @@ extension Graphic3D {
                 colorSpace: colorSpace,
                 bits: bits
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode
-            )
+            options: options.renderOptions
         )
     }
 }

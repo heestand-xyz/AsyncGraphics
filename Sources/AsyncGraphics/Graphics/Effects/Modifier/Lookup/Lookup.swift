@@ -21,10 +21,12 @@ extension Graphic {
         case vertical
     }
     
-    public func lookup(with graphic: Graphic,
-                       axis: LookupAxis,
-                       sampleCoordinate: CGFloat = 0.5,
-                       options: EffectOptions = []) async throws -> Graphic {
+    public func lookup(
+        with graphic: Graphic,
+        axis: LookupAxis,
+        sampleCoordinate: CGFloat = 0.5,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         let holdEdgeFraction: CGFloat = {
             switch axis {
@@ -48,10 +50,7 @@ extension Graphic {
                 holdEdgeFraction: Float(holdEdgeFraction),
                 sampleCoordinate: Float(sampleCoordinate)
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
 }

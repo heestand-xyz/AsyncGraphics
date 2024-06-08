@@ -51,7 +51,8 @@ extension Graphic {
             tintColor: tintColor,
             backgroundColor: backgroundColor,
             resolution: resolution,
-            options: options)
+            options: options
+        )
     }
     
     public static func sampleLine(
@@ -99,7 +100,8 @@ extension Graphic {
                 resolution: resolution,
                 colorSpace: graphic.colorSpace,
                 bits: graphic.bits
-            )
+            ),
+            options: options.renderOptions
         )
     }
 }

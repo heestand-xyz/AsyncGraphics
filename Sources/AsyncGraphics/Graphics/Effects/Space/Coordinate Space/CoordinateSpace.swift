@@ -36,10 +36,12 @@ extension Graphic {
     ///   - conversion: The type of coordinate space conversion
     ///   - rotation: Only used for `.equiToDome`
     ///   - fraction: The amount of conversion, `0.0` is no conversion and `1.0` is full conversion.
-    public func coordinateSpace(_ conversion: CoordinateSpaceConversion,
-                                rotation: CGVector = .zero,
-                                fraction: CGFloat = 1.0,
-                                options: EffectOptions = []) async throws -> Graphic {
+    public func coordinateSpace(
+        _ conversion: CoordinateSpaceConversion,
+        rotation: CGVector = .zero,
+        fraction: CGFloat = 1.0,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Coordinate Space",
@@ -51,10 +53,7 @@ extension Graphic {
                 rotationY: Float(rotation.dy),
                 fraction: Float(fraction)
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
 }

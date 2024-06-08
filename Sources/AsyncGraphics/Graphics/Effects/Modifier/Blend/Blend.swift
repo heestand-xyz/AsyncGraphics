@@ -57,24 +57,6 @@ extension Graphic {
         }
     }
     
-    public func blended(
-        with graphic: Graphic,
-        blendingMode: BlendMode,
-        placement: Placement = .fit,
-        alignment: Alignment = .center,
-        options: EffectOptions = []
-    ) async throws -> Graphic {
-        
-        try await blended(
-            with: graphic,
-            blendingMode: blendingMode,
-            placement: placement,
-            alignment: alignment,
-            options: options,
-            targetSourceTexture: false
-        )
-    }
-    
     public mutating func blend(
         with graphic: Graphic,
         blendingMode: BlendMode,
@@ -88,18 +70,16 @@ extension Graphic {
             blendingMode: blendingMode,
             placement: placement,
             alignment: alignment,
-            options: options,
-            targetSourceTexture: true
+            options: options.union(.replace)
         )
     }
     
-    private func blended(
+    public func blended(
         with graphic: Graphic,
         blendingMode: BlendMode,
         placement: Placement = .fit,
         alignment: Alignment = .center,
-        options: EffectOptions = [],
-        targetSourceTexture: Bool
+        options: EffectOptions = []
     ) async throws -> Graphic {
         
         try await Renderer.render(
@@ -119,36 +99,7 @@ extension Graphic {
                 horizontalAlignment: alignment.horizontalIndex,
                 verticalAlignment: alignment.verticalIndex
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter,
-                targetSourceTexture: targetSourceTexture
-            )
-        )
-    }
-    
-    public func transformBlended(
-        with graphic: Graphic,
-        blendingMode: BlendMode,
-        placement: Placement = .fit,
-        alignment: Alignment = .center,
-        translation: CGPoint = .zero,
-        rotation: Angle = .zero,
-        scale: CGFloat = 1.0,
-        size: CGSize? = nil,
-        options: EffectOptions = []
-    ) async throws -> Graphic {
-        try await transformBlended(
-            with: graphic,
-            blendingMode: blendingMode,
-            placement: placement,
-            alignment: alignment,
-            translation: translation,
-            rotation: rotation,
-            scale: scale,
-            size: size,
-            options: options,
-            targetSourceTexture: false
+            options: options.renderOptions
         )
     }
     
@@ -172,12 +123,11 @@ extension Graphic {
             rotation: rotation,
             scale: scale,
             size: size,
-            options: options,
-            targetSourceTexture: true
+            options: options.union(.replace)
         )
     }
     
-    private func transformBlended(
+    public func transformBlended(
         with graphic: Graphic,
         blendingMode: BlendMode,
         placement: Placement = .fit,
@@ -186,8 +136,7 @@ extension Graphic {
         rotation: Angle = .zero,
         scale: CGFloat = 1.0,
         size: CGSize? = nil,
-        options: EffectOptions = [],
-        targetSourceTexture: Bool
+        options: EffectOptions = []
     ) async throws -> Graphic {
         
         let relativeTranslation: CGPoint = translation / resolution.height
@@ -210,27 +159,8 @@ extension Graphic {
                 horizontalAlignment: alignment.horizontalIndex,
                 verticalAlignment: alignment.verticalIndex
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter,
-                targetSourceTexture: targetSourceTexture
-            )
+            options: options.renderOptions
         )
-    }
-    
-    public static func mask(
-        foreground foregroundGraphic: Graphic,
-        background backgroundGraphic: Graphic,
-        mask maskGraphic: Graphic,
-        placement: Placement = .fit,
-        options: EffectOptions = []
-    ) async throws -> Graphic {
-        
-        let alphaGraphic = try await maskGraphic.luminanceToAlpha()
-        
-        let graphic = try await alphaGraphic.blended(with: foregroundGraphic, blendingMode: .multiply, placement: placement)
-        
-        return try await backgroundGraphic.blended(with: graphic, blendingMode: .over, placement: placement)
     }
 }
 

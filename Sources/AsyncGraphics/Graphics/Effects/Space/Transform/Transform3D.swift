@@ -15,39 +15,92 @@ extension Graphic3D {
         let size: VectorUniform
     }
     
-    public func translated(_ translation: Point3D,
-                           options: EffectOptions = []) async throws -> Graphic3D {
-        try await transformed(translation: translation, options: options)
+    public func translated(
+        _ translation: Point3D,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
+        try await transformed(
+            translation: translation,
+            options: options
+        )
     }
     
-    public func translated(x: Double = 0.0, y: Double = 0.0, z: Double = 0.0,
-                           options: EffectOptions = []) async throws -> Graphic3D {
-        try await transformed(translation: Point3D(x: x, y: y, z: z), options: options)
+    public func translated(
+        x: Double = 0.0,
+        y: Double = 0.0,
+        z: Double = 0.0,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
+        try await transformed(
+            translation: Point3D(
+                x: x,
+                y: y,
+                z: z
+            ),
+            options: options
+        )
     }
     
-    public func rotated(_ rotation: Angle3D,
-                        options: EffectOptions = []) async throws -> Graphic3D {
-        try await transformed(rotation: rotation, options: options)
+    public func rotated(
+        _ rotation: Angle3D,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
+        try await transformed(
+            rotation: rotation,
+            options: options
+        )
     }
     
-    public func rotated(x: Angle = .zero, y: Angle = .zero, z: Angle = .zero,
-                        options: EffectOptions = []) async throws -> Graphic3D {
-        try await transformed(rotation: .angles(x: x, y: y, z: z), options: options)
+    public func rotated(
+        x: Angle = .zero,
+        y: Angle = .zero,
+        z: Angle = .zero,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
+        try await transformed(
+            rotation: .angles(
+                x: x,
+                y: y,
+                z: z
+            ),
+            options: options
+        )
     }
     
-    public func scaled(_ scale: Double,
-                       options: EffectOptions = []) async throws -> Graphic3D {
-        try await transformed(scale: scale, options: options)
+    public func scaled(
+        _ scale: Double,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
+        try await transformed(
+            scale: scale,
+            options: options
+        )
     }
     
-    public func scaled(_ scale: Point3D,
-                       options: EffectOptions = []) async throws -> Graphic3D {
-        try await transformed(scaleSize: scale, options: options)
+    public func scaled(
+        _ scale: Point3D,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
+        try await transformed(
+            scaleSize: scale,
+            options: options
+        )
     }
     
-    public func scaled(x: Double = 1.0, y: Double = 1.0, z: Double = 1.0,
-                       options: EffectOptions = []) async throws -> Graphic3D {
-        try await transformed(scaleSize: Point3D(x: x, y: y, z: z), options: options)
+    public func scaled(
+        x: Double = 1.0,
+        y: Double = 1.0,
+        z: Double = 1.0,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
+        try await transformed(
+            scaleSize: Point3D(
+                x: x,
+                y: y,
+                z: z
+            ),
+            options: options
+        )
     }
     
     public func transformed(
@@ -70,9 +123,7 @@ extension Graphic3D {
                 scale: Float(scale),
                 size: scaleSize.uniform
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode
-            )
+            options: options.renderOptions
         )
     }
 }

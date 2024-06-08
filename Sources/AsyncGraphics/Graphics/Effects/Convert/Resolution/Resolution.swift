@@ -15,7 +15,10 @@ extension Graphic {
         let outputResolution: SizeUniform
     }
     
-    public func resized(in resolution: CGSize, options: EffectOptions = []) async throws -> Graphic {
+    public func resized(
+        in resolution: CGSize,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         let relativeWidth: CGFloat = width / resolution.width
         let relativeHeight: CGFloat = height / resolution.height
@@ -25,7 +28,11 @@ extension Graphic {
             height: relativeWidth < relativeHeight ? resolution.height : height * (resolution.width / width)
         )
         
-        return try await self.resized(to: derivedResolution, placement: .stretch, options: options)
+        return try await self.resized(
+            to: derivedResolution,
+            placement: .stretch,
+            options: options
+        )
     }
     
     @EnumMacro
@@ -36,7 +43,12 @@ extension Graphic {
         case pixelated
     }
     
-    public func resized(to resolution: CGSize, placement: Placement = .fit, interpolation: ResolutionInterpolation, options: EffectOptions = []) async throws -> Graphic {
+    public func resized(
+        to resolution: CGSize,
+        placement: Placement = .fit,
+        interpolation: ResolutionInterpolation,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         switch interpolation {
         case .linear:
             return try await resized(to: resolution, placement: placement, options: options)
@@ -51,7 +63,11 @@ extension Graphic {
         }
     }
     
-    public func resized(to resolution: CGSize, placement: Placement = .fit, options: EffectOptions = []) async throws -> Graphic {
+    public func resized(
+        to resolution: CGSize,
+        placement: Placement = .fit,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Resolution",
@@ -66,10 +82,7 @@ extension Graphic {
                 colorSpace: colorSpace,
                 bits: bits
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
     
@@ -78,13 +91,20 @@ extension Graphic {
         case bilinear
     }
     
-    public func resized(to resolution: CGSize, placement: Placement = .fit, method: ResizeMethod) async throws -> Graphic {
+    public func resized(
+        to resolution: CGSize,
+        placement: Placement = .fit,
+        method: ResizeMethod
+    ) async throws -> Graphic {
         let placeResolution = self.resolution.place(in: resolution, placement: placement.sizePlacement)
         return try await resizedStretched(to: placeResolution, method: method)
             .resized(to: resolution, placement: placement)
     }
     
-    public func resizedStretched(to resolution: CGSize, method: ResizeMethod) async throws -> Graphic {
+    public func resizedStretched(
+        to resolution: CGSize,
+        method: ResizeMethod
+    ) async throws -> Graphic {
 
         let targetTexture: MTLTexture = try await .empty(resolution: resolution, bits: bits, usage: .write)
         

@@ -52,10 +52,7 @@ extension Graphic {
                 fraction: 0.0,
                 color: PixelColor.clear.uniform
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
 }

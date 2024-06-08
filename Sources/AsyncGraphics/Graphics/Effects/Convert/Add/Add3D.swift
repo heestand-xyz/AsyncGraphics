@@ -11,17 +11,22 @@ extension Graphic3D {
         let brightness: Float
     }
     
-    public func add(axis: Axis = .z,
-                    brightness: CGFloat = 1.0) async throws -> Graphic {
+    public func add(
+        axis: Axis = .z,
+        brightness: CGFloat = 1.0,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
-        let resolution: CGSize = CGSize(
+        let resolution = CGSize(
             width: axis == .x ? resolution.depth : resolution.width,
             height: axis == .y ? resolution.depth : resolution.height)
         
         return try await Renderer.render(
             name: "Add 3D",
             shader: .name("add3d"),
-            graphics: [bits(._8)],
+            graphics: [
+                withBits(.bit8)
+            ],
             uniforms: Add3DUniforms(
                 axis: axis.index,
                 brightness: Float(brightness)
@@ -30,7 +35,8 @@ extension Graphic3D {
                 resolution: resolution,
                 colorSpace: colorSpace,
                 bits: bits
-            )
+            ),
+            options: options.renderOptions
         )
     }
 }

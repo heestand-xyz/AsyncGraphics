@@ -42,10 +42,13 @@ extension Graphic {
         }
     }
     
-    public func channelMix(red: ColorChannel = .red,
-                           green: ColorChannel = .green,
-                           blue: ColorChannel = .blue,
-                           alpha: ColorChannel = .alpha) async throws -> Graphic {
+    private func channelMix(
+        red: ColorChannel = .red,
+        green: ColorChannel = .green,
+        blue: ColorChannel = .blue,
+        alpha: ColorChannel = .alpha,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Channel Mix",
@@ -68,7 +71,8 @@ extension Graphic {
                     blue: blue == .mono ? 1.0 : 0.0,
                     alpha: alpha == .mono ? 1.0 : 0.0
                 )
-            )
+            ),
+            options: options.renderOptions
         )
     }
 }

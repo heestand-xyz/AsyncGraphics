@@ -33,9 +33,11 @@ extension Graphic {
     /// ```
     ///
     /// Available variables are:  `sampler`, `texture`, `u`, `v`, `uv`, `color`.
-    public func metal(code: String,
-                      resolution: CGSize? = nil,
-                      options: EffectOptions = []) async throws -> Graphic {
+    public func metal(
+        code: String,
+        resolution: CGSize? = nil,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         guard let metalBaseURL = Bundle.module.url(forResource: "DirectMetal.metal", withExtension: "txt") else {
             throw DirectMetalError.metalFileNotFound
@@ -56,10 +58,7 @@ extension Graphic {
                 colorSpace: colorSpace,
                 bits: bits
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
 }

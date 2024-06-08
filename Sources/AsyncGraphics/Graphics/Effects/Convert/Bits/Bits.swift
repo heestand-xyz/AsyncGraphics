@@ -40,7 +40,10 @@ extension Graphic {
     /// **16 bits** has colors beyond black and white with more precision.
     ///
     /// **32 bits** has the most amount of precision.
-    public func withBits(_ bits: Bits) async throws -> Graphic {
+    public func withBits(
+        _ bits: Bits,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         if self.bits == bits.tmBits {
             return self
@@ -54,7 +57,8 @@ extension Graphic {
                 resolution: resolution,
                 colorSpace: colorSpace,
                 bits: bits.tmBits
-            )
+            ),
+            options: options.renderOptions
         )
     }
 }

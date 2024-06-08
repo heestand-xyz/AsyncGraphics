@@ -94,6 +94,19 @@ extension Graphic {
             contains(.interpolateNearest) ? .nearest : .linear
         }
         
+        /// Use this when assigning the modified ``Graphic`` to the source ``Graphic``, when replacing the original ``Graphic`` with the new.
+        ///
+        /// This option can render `2x` faster.
+        public static let replace = EffectOptions(rawValue: 1 << 5)
+
+        var renderOptions: Renderer.Options {
+            Renderer.Options(
+                addressMode: addressMode,
+                filter: filter,
+                targetSourceTexture: contains(.replace)
+            )
+        }
+        
         public init(rawValue: Int) {
             self.rawValue = rawValue
         }

@@ -24,27 +24,55 @@ extension Graphic {
         case right
     }
     
-    public func mirroredHorizontally() async throws -> Graphic {
+    public func mirroredHorizontally(
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
-        try await transpose(flip: .x, flop: .none)
+        try await transpose(
+            flip: .x,
+            flop: .none,
+            options: options
+        )
     }
     
-    public func mirroredVertically() async throws -> Graphic {
+    public func mirroredVertically(
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
-        try await transpose(flip: .y, flop: .none)
+        try await transpose(
+            flip: .y,
+            flop: .none,
+            options: options
+        )
     }
     
-    public func rotatedLeft() async throws -> Graphic {
+    public func rotatedLeft(
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
-        try await transpose(flip: .none, flop: .left)
+        try await transpose(
+            flip: .none,
+            flop: .left,
+            options: options
+        )
     }
     
-    public func rotatedRight() async throws -> Graphic {
+    public func rotatedRight(
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
-        try await transpose(flip: .none, flop: .right)
+        try await transpose(
+            flip: .none,
+            flop: .right,
+            options: options
+        )
     }
     
-    private func transpose(flip: Flip, flop: Flop) async throws -> Graphic {
+    private func transpose(
+        flip: Flip,
+        flop: Flop,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         let resolution: CGSize = flop != .none ? CGSize(width: resolution.height, height: resolution.width) : resolution
         
@@ -60,7 +88,8 @@ extension Graphic {
                 resolution: resolution,
                 colorSpace: colorSpace,
                 bits: bits
-            )
+            ),
+            options: options.renderOptions
         )
     }
 }

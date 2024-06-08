@@ -15,35 +15,45 @@ extension Graphic {
         let dist: Float
     }
     
-    public func edge(amplitude: CGFloat = 1.0,
-                     distance: CGFloat = 1.0,
-                     isTransparent: Bool = false,
-                     options: EffectOptions = []) async throws -> Graphic {
+    public func edge(
+        amplitude: CGFloat = 1.0,
+        distance: CGFloat = 1.0,
+        isTransparent: Bool = false,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
-        try await edge(amplitude: amplitude,
-                       distance: distance,
-                       isColored: false,
-                       isTransparent: isTransparent,
-                       options: options)
+        try await edge(
+            amplitude: amplitude,
+            distance: distance,
+            isColored: false,
+            isTransparent: isTransparent,
+            options: options
+        )
     }
     
-    public func coloredEdge(amplitude: CGFloat = 1.0,
-                            distance: CGFloat = 1.0,
-                            isTransparent: Bool = false,
-                            options: EffectOptions = []) async throws -> Graphic {
+    public func coloredEdge(
+        amplitude: CGFloat = 1.0,
+        distance: CGFloat = 1.0,
+        isTransparent: Bool = false,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
-        try await edge(amplitude: amplitude,
-                       distance: distance,
-                       isColored: true,
-                       isTransparent: isTransparent,
-                       options: options)
+        try await edge(
+            amplitude: amplitude,
+            distance: distance,
+            isColored: true,
+            isTransparent: isTransparent,
+            options: options
+        )
     }
     
-    func edge(amplitude: CGFloat = 1.0,
-              distance: CGFloat = 1.0,
-              isColored: Bool = false,
-              isTransparent: Bool = false,
-              options: EffectOptions = []) async throws -> Graphic {
+    func edge(
+        amplitude: CGFloat = 1.0,
+        distance: CGFloat = 1.0,
+        isColored: Bool = false,
+        isTransparent: Bool = false,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Edge",
@@ -57,10 +67,7 @@ extension Graphic {
                 amplitude: Float(amplitude),
                 dist: Float(distance)
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
 }

@@ -136,10 +136,7 @@ extension Graphic {
                 lumaGamma: Float(lumaGamma),
                 position: relativePosition.uniform
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
 }

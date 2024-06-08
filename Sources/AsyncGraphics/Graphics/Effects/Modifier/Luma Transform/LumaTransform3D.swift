@@ -133,9 +133,7 @@ extension Graphic3D {
                 size: scaleSize.uniform,
                 lumaGamma: Float(lumaGamma)
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode
-            )
+            options: options.renderOptions
         )
     }
 }

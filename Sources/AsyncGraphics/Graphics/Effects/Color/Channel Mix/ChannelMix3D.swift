@@ -15,10 +15,13 @@ extension Graphic3D {
         let mono: ColorUniform
     }
     
-    public func channelMix(red: Graphic.ColorChannel = .red,
-                           green: Graphic.ColorChannel = .green,
-                           blue: Graphic.ColorChannel = .blue,
-                           alpha: Graphic.ColorChannel = .alpha) async throws -> Graphic3D {
+    public func channelMix(
+        red: Graphic.ColorChannel = .red,
+        green: Graphic.ColorChannel = .green,
+        blue: Graphic.ColorChannel = .blue,
+        alpha: Graphic.ColorChannel = .alpha,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
         try await Renderer.render(
             name: "Channel Mix 3D",
@@ -41,7 +44,8 @@ extension Graphic3D {
                     blue: blue == .mono ? 1.0 : 0.0,
                     alpha: alpha == .mono ? 1.0 : 0.0
                 )
-            )
+            ),
+            options: options.renderOptions
         )
     }
 }

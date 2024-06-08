@@ -10,8 +10,10 @@ extension Graphic {
         let fraction: Float
     }
     
-    public func quantize(_ fraction: CGFloat,
-                         options: EffectOptions = []) async throws -> Graphic {
+    public func quantize(
+        _ fraction: CGFloat,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Quantize",
@@ -20,10 +22,7 @@ extension Graphic {
             uniforms: QuantizeUniforms(
                 fraction: Float(fraction)
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
 }

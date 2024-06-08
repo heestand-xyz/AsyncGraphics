@@ -12,9 +12,11 @@ extension Graphic3D {
         let gamma: Float
     }
     
-    public func gradientLookup(stops: [Graphic.GradientStop],
-                               gamma: CGFloat = 1.0,
-                               options: EffectOptions = []) async throws -> Graphic3D {
+    public func gradientLookup(
+        stops: [Graphic.GradientStop],
+        gamma: CGFloat = 1.0,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         try await Renderer.render(
             name: "Gradient Lookup 3D",
             shader: .name("gradientLookup3d"),
@@ -34,9 +36,7 @@ extension Graphic3D {
                 fraction: 0.0,
                 color: PixelColor.clear.uniform
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode
-            )
+            options: options.renderOptions
         )
     }
 }

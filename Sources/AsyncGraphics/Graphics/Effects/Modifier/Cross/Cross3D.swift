@@ -11,10 +11,12 @@ extension Graphic3D {
         let placement: Int32
     }
     
-    public func cross(with graphic: Graphic3D,
-                      fraction: CGFloat,
-                      placement: Graphic.Placement = .fit,
-                      options: EffectOptions = []) async throws -> Graphic3D {
+    public func cross(
+        with graphic: Graphic3D,
+        fraction: CGFloat,
+        placement: Graphic.Placement = .fit,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
         try await Renderer.render(
             name: "Cross 3D",
@@ -27,9 +29,7 @@ extension Graphic3D {
                 fraction: Float(fraction),
                 placement: Int32(placement.index)
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode
-            )
+            options: options.renderOptions
         )
     }
 }

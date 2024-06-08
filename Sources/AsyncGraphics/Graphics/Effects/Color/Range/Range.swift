@@ -34,7 +34,8 @@ extension Graphic {
                 inHigh: Float(referenceHigh),
                 outLow: Float(targetLow),
                 outHigh: Float(targetHigh)
-            )
+            ),
+            options: options.renderOptions
         )
     }
 }

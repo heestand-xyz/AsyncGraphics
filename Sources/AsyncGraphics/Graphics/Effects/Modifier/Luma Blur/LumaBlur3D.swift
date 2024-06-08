@@ -115,9 +115,7 @@ extension Graphic3D {
                 position: relativePosition.uniform,
                 lumaGamma: Float(lumaGamma)
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode
-            )
+            options: options.renderOptions
         )
     }
 }

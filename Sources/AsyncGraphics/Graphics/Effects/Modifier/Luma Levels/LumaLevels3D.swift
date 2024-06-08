@@ -262,9 +262,7 @@ extension Graphic3D {
                 offset: Float(offset),
                 lumaGamma: Float(lumaGamma)
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode
-            )
+            options: options.renderOptions
         )
     }
 }

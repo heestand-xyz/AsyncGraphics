@@ -107,10 +107,7 @@ extension Graphic {
                 tintColor: tintColor.uniform,
                 lumaGamma: Float(lumaGamma)
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
 }

@@ -157,10 +157,7 @@ extension Graphic {
                 angle: angle.uniform,
                 lumaGamma: Float(lumaGamma)
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
 }

@@ -80,59 +80,80 @@ extension Graphic3D {
     }
     
     /// Horizontal Stack
-    public func hStacked(with graphic: Graphic3D,
-                         yAlignment: Alignment3D.Y = .center,
-                         zAlignment: Alignment3D.Z = .center,
-                         spacing: Double = 0.0,
-                         padding: Double = 0.0,
-                         backgroundColor: PixelColor = .clear) async throws -> Graphic3D {
+    public func hStacked(
+        with graphic: Graphic3D,
+        yAlignment: Alignment3D.Y = .center,
+        zAlignment: Alignment3D.Z = .center,
+        spacing: Double = 0.0,
+        padding: Double = 0.0,
+        backgroundColor: PixelColor = .clear,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
-        try await stacked(with: graphic,
-                          axis: .horizontal,
-                          alignment: Alignment3D(x: .center, y: yAlignment, z: zAlignment),
-                          spacing: spacing,
-                          padding: padding,
-                          backgroundColor: backgroundColor)
+        try await stacked(
+            with: graphic,
+            axis: .horizontal,
+            alignment: Alignment3D(x: .center, y: yAlignment, z: zAlignment),
+            spacing: spacing,
+            padding: padding,
+            backgroundColor: backgroundColor,
+            options: options
+        )
     }
     
     /// Vertical Stack
-    public func vStacked(with graphic: Graphic3D,
-                         xAlignment: Alignment3D.X = .center,
-                         zAlignment: Alignment3D.Z = .center,
-                         spacing: Double = 0.0,
-                         padding: Double = 0.0,
-                         backgroundColor: PixelColor = .clear) async throws -> Graphic3D {
+    public func vStacked(
+        with graphic: Graphic3D,
+        xAlignment: Alignment3D.X = .center,
+        zAlignment: Alignment3D.Z = .center,
+        spacing: Double = 0.0,
+        padding: Double = 0.0,
+        backgroundColor: PixelColor = .clear,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
-        try await stacked(with: graphic,
-                          axis: .vertical,
-                          alignment: Alignment3D(x: xAlignment, y: .center, z: zAlignment),
-                          spacing: spacing,
-                          padding: padding,
-                          backgroundColor: backgroundColor)
+        try await stacked(
+            with: graphic,
+            axis: .vertical,
+            alignment: Alignment3D(x: xAlignment, y: .center, z: zAlignment),
+            spacing: spacing,
+            padding: padding,
+            backgroundColor: backgroundColor,
+            options: options
+        )
     }
     
     /// Depth Stack
-    public func dStacked(with graphic: Graphic3D,
-                         xAlignment: Alignment3D.X = .center,
-                         yAlignment: Alignment3D.Y = .center,
-                         spacing: Double = 0.0,
-                         padding: Double = 0.0,
-                         backgroundColor: PixelColor = .clear) async throws -> Graphic3D {
+    public func dStacked(
+        with graphic: Graphic3D,
+        xAlignment: Alignment3D.X = .center,
+        yAlignment: Alignment3D.Y = .center,
+        spacing: Double = 0.0,
+        padding: Double = 0.0,
+        backgroundColor: PixelColor = .clear,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
-        try await stacked(with: graphic,
-                          axis: .depth,
-                          alignment: Alignment3D(x: xAlignment, y: yAlignment, z: .center),
-                          spacing: spacing,
-                          padding: padding,
-                          backgroundColor: backgroundColor)
+        try await stacked(
+            with: graphic,
+            axis: .depth,
+            alignment: Alignment3D(x: xAlignment, y: yAlignment, z: .center),
+            spacing: spacing,
+            padding: padding,
+            backgroundColor: backgroundColor,
+            options: options
+        )
     }
     
-    private func stacked(with graphic: Graphic3D,
-                         axis: StackAxis,
-                         alignment: Alignment3D = .center,
-                         spacing: Double = 0.0,
-                         padding: Double = 0.0,
-                         backgroundColor: PixelColor = .clear) async throws -> Graphic3D {
+    private func stacked(
+        with graphic: Graphic3D,
+        axis: StackAxis,
+        alignment: Alignment3D = .center,
+        spacing: Double = 0.0,
+        padding: Double = 0.0,
+        backgroundColor: PixelColor = .clear,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
         let leadingResolution: Size3D = resolution
         let trailingResolution: Size3D = graphic.resolution
@@ -208,7 +229,8 @@ extension Graphic3D {
                 resolution: finalResolution,
                 colorSpace: colorSpace,
                 bits: bits
-            )
+            ),
+            options: options.renderOptions
         )
     }
 }

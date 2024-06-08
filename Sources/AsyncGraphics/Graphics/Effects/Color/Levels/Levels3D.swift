@@ -18,58 +18,107 @@ extension Graphic3D {
     }
     
     /// Default is 1.0
-    public func brightness(_ brightness: CGFloat) async throws -> Graphic3D {
+    public func brightness(
+        _ brightness: CGFloat,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
-        try await levels(brightness: brightness)
+        try await levels(
+            brightness: brightness,
+            options: options
+        )
     }
     
     /// Default is 0.0
-    public func darkness(_ darkness: CGFloat) async throws -> Graphic3D {
+    public func darkness(
+        _ darkness: CGFloat,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
-        try await levels(darkness: darkness)
+        try await levels(
+            darkness: darkness,
+            options: options
+        )
     }
     
     /// Default is 0.0
-    public func contrast(_ contrast: CGFloat) async throws -> Graphic3D {
+    public func contrast(
+        _ contrast: CGFloat,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
-        try await levels(contrast: contrast)
+        try await levels(
+            contrast: contrast,
+            options: options
+        )
     }
     
     /// Default is 1.0
-    public func gamma(_ gamma: CGFloat) async throws -> Graphic3D {
+    public func gamma(
+        _ gamma: CGFloat,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
-        try await levels(gamma: gamma)
+        try await levels(
+            gamma: gamma,
+            options: options
+        )
     }
     
-    public func inverted() async throws -> Graphic3D {
+    public func inverted(
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
-        try await levels(invert: true)
+        try await levels(
+            invert: true,
+            options: options
+        )
     }
     
-    public func smoothed() async throws -> Graphic3D {
+    public func smoothed(
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
-        try await levels(smooth: true)
+        try await levels(
+            smooth: true,
+            options: options
+        )
     }
     
-    public func opacity(_ opacity: CGFloat) async throws -> Graphic3D {
+    public func opacity(
+        _ opacity: CGFloat,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
-        try await levels(opacity: opacity)
+        try await levels(
+            opacity: opacity,
+            options: options
+        )
     }
     
     /// Default is 0.0
-    public func exposureOffset(_ offset: CGFloat) async throws -> Graphic3D {
+    public func exposureOffset(
+        _ offset: CGFloat,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
-        try await levels(offset: offset)
+        try await levels(
+            offset: offset,
+            options: options
+        )
     }
     
-    public func levels(brightness: CGFloat = 1.0,
-                       darkness: CGFloat = 0.0,
-                       contrast: CGFloat = 0.0,
-                       gamma: CGFloat = 1.0,
-                       invert: Bool = false,
-                       smooth: Bool = false,
-                       opacity: CGFloat = 1.0,
-                       offset: CGFloat = 0.0) async throws -> Graphic3D {
+    public func levels(
+        brightness: CGFloat = 1.0,
+        darkness: CGFloat = 0.0,
+        contrast: CGFloat = 0.0,
+        gamma: CGFloat = 1.0,
+        invert: Bool = false,
+        smooth: Bool = false,
+        opacity: CGFloat = 1.0,
+        offset: CGFloat = 0.0,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
         try await Renderer.render(
             name: "Levels 3D",
@@ -84,7 +133,8 @@ extension Graphic3D {
                 smooth: smooth,
                 opacity: Float(opacity),
                 offset: Float(offset)
-            )
+            ),
+            options: options.renderOptions
         )
     }
 }

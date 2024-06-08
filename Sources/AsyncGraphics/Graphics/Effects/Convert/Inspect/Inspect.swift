@@ -17,18 +17,20 @@ extension Graphic {
         let contentResolution: SizeUniform
     }
     
-    public func inspect(scale: CGFloat = 1.0,
-                        offset: CGPoint = .zero,
-                        borderWidth: CGFloat = 1.0,
-                        borderOpacity: CGFloat = 0.25,
-                        borderFadeRange: ClosedRange<CGFloat> = 25...50,
-                        placement: Placement = .fit,
-                        containerResolution: CGSize,
-                        contentResolution: CGSize,
-                        checkerTransparency: Bool = false,
-                        checkerSize: CGFloat = 100,
-                        checkerOpacity: CGFloat = 0.5,
-                        options: EffectOptions = .interpolateNearest) async throws -> Graphic {
+    public func inspect(
+        scale: CGFloat = 1.0,
+        offset: CGPoint = .zero,
+        borderWidth: CGFloat = 1.0,
+        borderOpacity: CGFloat = 0.25,
+        borderFadeRange: ClosedRange<CGFloat> = 25...50,
+        placement: Placement = .fit,
+        containerResolution: CGSize,
+        contentResolution: CGSize,
+        checkerTransparency: Bool = false,
+        checkerSize: CGFloat = 100,
+        checkerOpacity: CGFloat = 0.5,
+        options: EffectOptions = .interpolateNearest
+    ) async throws -> Graphic {
         try await Renderer.render(
             name: "Inspect",
             shader: .name("inspect"),

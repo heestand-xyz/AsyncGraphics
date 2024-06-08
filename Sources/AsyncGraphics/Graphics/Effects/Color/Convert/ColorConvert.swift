@@ -29,7 +29,8 @@ extension Graphic {
     
     public func colorConvert(
         _ conversion: ColorConversion,
-        channel: ColorConvertChannel = .all
+        channel: ColorConvertChannel = .all,
+        options: EffectOptions = []
     ) async throws -> Graphic {
         
         try await Renderer.render(
@@ -39,7 +40,8 @@ extension Graphic {
             uniforms: ColorConvertUniforms(
                 conversion: conversion.index,
                 index: channel.index
-            )
+            ),
+            options: options.renderOptions
         )
     }
 }

@@ -13,10 +13,12 @@ extension Graphic {
         let backgroundColor: ColorUniform
     }
     
-    public func threshold(_ fraction: CGFloat = 0.5,
-                          color: PixelColor = .white,
-                          backgroundColor: PixelColor = .black,
-                          options: EffectOptions = []) async throws -> Graphic {
+    public func threshold(
+        _ fraction: CGFloat = 0.5,
+        color: PixelColor = .white,
+        backgroundColor: PixelColor = .black,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Threshold",
@@ -27,10 +29,7 @@ extension Graphic {
                 foregroundColor: color.uniform,
                 backgroundColor: backgroundColor.uniform
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
 }

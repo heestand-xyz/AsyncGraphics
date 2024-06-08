@@ -8,9 +8,12 @@ extension Graphic {
         let spacing: Float
     }
     
-    func vStacked(with graphic: Graphic,
-                  alignment: VStackAlignment = .center,
-                  spacing: CGFloat = 0.0) async throws -> Graphic {
+    func vStacked(
+        with graphic: Graphic,
+        alignment: VStackAlignment = .center,
+        spacing: CGFloat = 0.0,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         let resolution = CGSize(width: max(resolution.width, graphic.resolution.width),
                                 height: resolution.height + spacing + graphic.resolution.height)
@@ -31,13 +34,17 @@ extension Graphic {
                 resolution: resolution,
                 colorSpace: colorSpace,
                 bits: bits
-            )
+            ),
+            options: options.renderOptions
         )
     }
     
-    func hStacked(with graphic: Graphic,
-                  alignment: HStackAlignment = .center,
-                  spacing: CGFloat = 0.0) async throws -> Graphic {
+    func hStacked(
+        with graphic: Graphic,
+        alignment: HStackAlignment = .center,
+        spacing: CGFloat = 0.0,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         let resolution = CGSize(width: resolution.width + spacing + graphic.resolution.width,
                                 height: max(resolution.height, graphic.resolution.height))
@@ -57,7 +64,8 @@ extension Graphic {
                 resolution: resolution,
                 colorSpace: colorSpace,
                 bits: bits
-            )
+            ),
+            options: options.renderOptions
         )
     }
 }

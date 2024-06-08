@@ -12,8 +12,10 @@ extension Graphic {
         var thing: Bool = false
     }
     
-    public func remap(with graphic: Graphic,
-                      options: EffectOptions = []) async throws -> Graphic {
+    public func remap(
+        with graphic: Graphic,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Remap",
@@ -23,10 +25,7 @@ extension Graphic {
                 self
             ],
             uniforms: RemapUniforms(),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
 }

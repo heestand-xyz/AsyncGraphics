@@ -26,40 +26,69 @@ extension Graphic {
         case zoom
     }
     
-    public func rainbowBlurredCircle(radius: CGFloat,
-                                     angle: Angle = .zero,
-                                     light: CGFloat = 1.0,
-                                     sampleCount: Int = 100,
-                                     options: EffectOptions = []) async throws -> Graphic {
+    public func rainbowBlurredCircle(
+        radius: CGFloat,
+        angle: Angle = .zero,
+        light: CGFloat = 1.0,
+        sampleCount: Int = 100,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
-        try await rainbowBlurred(type: .circle, radius: radius, angle: angle, light: light, sampleCount: sampleCount, options: options)
+        try await rainbowBlurred(
+            type: .circle,
+            radius: radius,
+            angle: angle,
+            light: light,
+            sampleCount: sampleCount,
+            options: options
+        )
     }
     
-    public func rainbowBlurredZoom(radius: CGFloat,
-                                   position: CGPoint? = nil,
-                                   light: CGFloat = 1.0,
-                                   sampleCount: Int = 100,
-                                   options: EffectOptions = []) async throws -> Graphic {
+    public func rainbowBlurredZoom(
+        radius: CGFloat,
+        position: CGPoint? = nil,
+        light: CGFloat = 1.0,
+        sampleCount: Int = 100,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
-        try await rainbowBlurred(type: .zoom, radius: radius, position: position, light: light, sampleCount: sampleCount, options: options)
+        try await rainbowBlurred(
+            type: .zoom,
+            radius: radius,
+            position: position,
+            light: light,
+            sampleCount: sampleCount,
+            options: options
+        )
     }
     
-    public func rainbowBlurredAngle(radius: CGFloat,
-                                    angle: Angle,
-                                    light: CGFloat = 1.0,
-                                    sampleCount: Int = 100,
-                                    options: EffectOptions = []) async throws -> Graphic {
+    public func rainbowBlurredAngle(
+        radius: CGFloat,
+        angle: Angle,
+        light: CGFloat = 1.0,
+        sampleCount: Int = 100,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
-        try await rainbowBlurred(type: .angle, radius: radius, angle: angle, light: light, sampleCount: sampleCount, options: options)
+        try await rainbowBlurred(
+            type: .angle,
+            radius: radius,
+            angle: angle,
+            light: light,
+            sampleCount: sampleCount,
+            options: options
+        )
     }
     
-    private func rainbowBlurred(type: RainbowBlurType,
-                                radius: CGFloat,
-                                position: CGPoint? = nil,
-                                angle: Angle = .zero,
-                                light: CGFloat = 1.0,
-                                sampleCount: Int = 100,
-                                options: EffectOptions = []) async throws -> Graphic {
+    private func rainbowBlurred(
+        type: RainbowBlurType,
+        radius: CGFloat,
+        position: CGPoint? = nil,
+        angle: Angle = .zero,
+        light: CGFloat = 1.0,
+        sampleCount: Int = 100,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         let position: CGPoint = position ?? resolution.asPoint / 2
         let relativePosition: CGPoint = (position - resolution / 2) / height
@@ -78,10 +107,7 @@ extension Graphic {
                 light: Float(light),
                 position: relativePosition.uniform
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
 }

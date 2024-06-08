@@ -19,7 +19,10 @@ extension Graphic3D {
     /// **16 bits** has colors beyond black and white with more precision.
     ///
     /// **32 bits** has the most amount of precision.
-    public func withBits(_ bits: Graphic.Bits) async throws -> Graphic3D {
+    public func withBits(
+        _ bits: Graphic.Bits,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
         if self.bits == bits.tmBits {
             return self
@@ -33,7 +36,8 @@ extension Graphic3D {
                 resolution: resolution,
                 colorSpace: colorSpace,
                 bits: bits.tmBits
-            )
+            ),
+            options: options.renderOptions
         )
     }
 }

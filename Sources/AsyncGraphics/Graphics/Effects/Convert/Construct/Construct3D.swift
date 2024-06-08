@@ -22,7 +22,10 @@ extension Graphic3D {
         }
     }
     
-    public static func construct(graphics: [Graphic]) async throws -> Graphic3D {
+    public static func construct(
+        graphics: [Graphic],
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         if graphics.isEmpty {
             throw ConstructError.noGraphics
         }
@@ -40,7 +43,8 @@ extension Graphic3D {
                 bits: graphics.first!.bits
             ),
             options: Renderer.Options(
-                isArray: true
+                isArray: true,
+                targetSourceTexture: options.contains(.replace)
             )
         )
     }

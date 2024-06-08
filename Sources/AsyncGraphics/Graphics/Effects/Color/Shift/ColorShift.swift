@@ -14,13 +14,18 @@ extension Graphic {
         let tintColor: ColorUniform
     }
     
-    public func monochrome() async throws -> Graphic {
+    public func monochrome(
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
-        try await saturated(0.0)
+        try await saturated(0.0, options: options)
     }
     
     /// `1.0` is *default*
-    public func saturated(_ saturation: CGFloat) async throws -> Graphic {
+    public func saturated(
+        _ saturation: CGFloat,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Saturation",
@@ -30,12 +35,16 @@ extension Graphic {
                 hue: 0.0,
                 saturation: Float(saturation),
                 tintColor: PixelColor.white.uniform
-            )
+            ),
+            options: options.renderOptions
         )
     }
     
     /// `0.0` is *default*, `0.5` is `180` degrees of hue shift
-    public func hue(_ hue: Angle) async throws -> Graphic {
+    public func hue(
+        _ hue: Angle,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Hue",
@@ -45,11 +54,15 @@ extension Graphic {
                 hue: hue.uniform,
                 saturation: 1.0,
                 tintColor: PixelColor.white.uniform
-            )
+            ),
+            options: options.renderOptions
         )
     }
     
-    public func tinted(_ color: PixelColor) async throws -> Graphic {
+    public func tinted(
+        _ color: PixelColor,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Tint",
@@ -59,13 +72,17 @@ extension Graphic {
                 hue: 0.0,
                 saturation: 1.0,
                 tintColor: color.uniform
-            )
+            ),
+            options: options.renderOptions
         )
     }
     
-    func colorShift(hue: Angle = .zero,
-                    saturation: CGFloat = 1.0,
-                    tint color: PixelColor = .white) async throws -> Graphic {
+    func colorShift(
+        hue: Angle = .zero,
+        saturation: CGFloat = 1.0,
+        tint color: PixelColor = .white,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Color Shift",
@@ -75,7 +92,8 @@ extension Graphic {
                 hue: hue.uniform,
                 saturation: Float(saturation),
                 tintColor: color.uniform
-            )
+            ),
+            options: options.renderOptions
         )
     }
 }

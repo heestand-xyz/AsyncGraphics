@@ -16,12 +16,14 @@ extension Graphic {
         let position: PointUniform
     }
     
-    public func kaleidoscope(count: Int = 12,
-                             mirror: Bool = true,
-                             position: CGPoint? = nil,
-                             rotation: Angle = .zero,
-                             scale: CGFloat = 1.0,
-                             options: EffectOptions = .edgeMirror) async throws -> Graphic {
+    public func kaleidoscope(
+        count: Int = 12,
+        mirror: Bool = true,
+        position: CGPoint? = nil,
+        rotation: Angle = .zero,
+        scale: CGFloat = 1.0,
+        options: EffectOptions = .edgeMirror
+    ) async throws -> Graphic {
         
         let position: CGPoint = position ?? (resolution.asPoint / 2)
         let relativePosition: CGPoint = (position - resolution / 2) / resolution.height
@@ -37,10 +39,7 @@ extension Graphic {
                 scale: Float(scale),
                 position: relativePosition.uniform
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
 }

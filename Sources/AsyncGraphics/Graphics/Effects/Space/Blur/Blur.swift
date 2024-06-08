@@ -29,7 +29,9 @@ extension Graphic {
     }
     
     /// Gaussian Blur
-    public func blurred(radius: CGFloat) async throws -> Graphic {
+    public func blurred(
+        radius: CGFloat
+    ) async throws -> Graphic {
         
         let targetTexture: MTLTexture = try await .empty(resolution: resolution, bits: bits, usage: .write)
         
@@ -55,12 +57,19 @@ extension Graphic {
             commandBuffer.commit()
         }
         
-        return Graphic(name: "Blur (Gaussian)", texture: targetTexture, bits: bits, colorSpace: colorSpace)
+        return Graphic(
+            name: "Blur (Gaussian)",
+            texture: targetTexture,
+            bits: bits,
+            colorSpace: colorSpace
+        )
     }
     
-    public func blurredBox(radius: CGFloat,
-                           sampleCount: Int = 100,
-                           options: EffectOptions = [.edgeStretch]) async throws -> Graphic {
+    public func blurredBox(
+        radius: CGFloat,
+        sampleCount: Int = 100,
+        options: EffectOptions = [.edgeStretch]
+    ) async throws -> Graphic {
         
         let relativeRadius: CGFloat = radius / height
         
@@ -75,17 +84,16 @@ extension Graphic {
                 angle: 0.0,
                 position: CGPoint.zero.uniform
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
     
-    public func blurredZoom(radius: CGFloat,
-                            position: CGPoint? = nil,
-                            sampleCount: Int = 100,
-                            options: EffectOptions = [.edgeStretch]) async throws -> Graphic {
+    public func blurredZoom(
+        radius: CGFloat,
+        position: CGPoint? = nil,
+        sampleCount: Int = 100,
+        options: EffectOptions = [.edgeStretch]
+    ) async throws -> Graphic {
         
         let position: CGPoint = position ?? resolution.asPoint / 2
         let relativePosition: CGPoint = (position - resolution / 2) / height
@@ -103,17 +111,16 @@ extension Graphic {
                 angle: 0.0,
                 position: relativePosition.uniform
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
     
-    public func blurredAngle(radius: CGFloat,
-                             angle: Angle,
-                             sampleCount: Int = 100,
-                             options: EffectOptions = [.edgeStretch]) async throws -> Graphic {
+    public func blurredAngle(
+        radius: CGFloat,
+        angle: Angle,
+        sampleCount: Int = 100,
+        options: EffectOptions = [.edgeStretch]
+    ) async throws -> Graphic {
         
         let relativeRadius: CGFloat = radius / height
         
@@ -128,15 +135,14 @@ extension Graphic {
                 angle: angle.uniform,
                 position: CGPoint.zero.uniform
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
     
-    public func blurredRandom(radius: CGFloat,
-                              options: EffectOptions = [.edgeStretch]) async throws -> Graphic {
+    public func blurredRandom(
+        radius: CGFloat,
+        options: EffectOptions = [.edgeStretch]
+    ) async throws -> Graphic {
         
         let relativeRadius: CGFloat = radius / height
         
@@ -151,10 +157,7 @@ extension Graphic {
                 angle: 0.0,
                 position: CGPoint.zero.uniform
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
 }

@@ -22,10 +22,12 @@ extension Graphic3D {
         case z
     }
     
-    public func lookup(with graphic: Graphic3D,
-                       axis: Lookup3DAxis,
-                       sampleCoordinate: CGFloat = 0.5,
-                       options: EffectOptions = []) async throws -> Graphic3D {
+    public func lookup(
+        with graphic: Graphic3D,
+        axis: Lookup3DAxis,
+        sampleCoordinate: CGFloat = 0.5,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
         let holdEdgeFraction: CGFloat = {
             switch axis {
@@ -51,9 +53,7 @@ extension Graphic3D {
                 holdEdgeFraction: Float(holdEdgeFraction),
                 sampleCoordinate: Float(sampleCoordinate)
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode
-            )
+            options: options.renderOptions
         )
     }
 }

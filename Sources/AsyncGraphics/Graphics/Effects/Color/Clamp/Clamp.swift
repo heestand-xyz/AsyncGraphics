@@ -40,7 +40,8 @@ extension Graphic {
                 type: type.index,
                 low: Float(low),
                 high: Float(high)
-            )
+            ),
+            options: options.renderOptions
         )
     }
 }

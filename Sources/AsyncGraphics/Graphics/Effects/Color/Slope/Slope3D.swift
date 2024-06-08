@@ -12,9 +12,11 @@ extension Graphic3D {
         let origin: ColorUniform
     }
     
-    public func slope(amplitude: CGFloat = 1.0,
-                      origin: PixelColor = .rawGray,
-                      options: EffectOptions = []) async throws -> Graphic3D {
+    public func slope(
+        amplitude: CGFloat = 1.0,
+        origin: PixelColor = .rawGray,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
         try await Renderer.render(
             name: "Slope 3D",
@@ -24,9 +26,7 @@ extension Graphic3D {
                 amplitude: Float(amplitude),
                 origin: origin.uniform
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode
-            )
+            options: options.renderOptions
         )
     }
 }

@@ -31,7 +31,8 @@ extension Graphic3D {
                 type: type.index,
                 low: Float(low),
                 high: Float(high)
-            )
+            ),
+            options: options.renderOptions
         )
     }
 }

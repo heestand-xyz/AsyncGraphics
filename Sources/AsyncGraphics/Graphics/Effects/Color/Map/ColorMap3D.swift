@@ -11,9 +11,11 @@ extension Graphic3D {
         let foregroundColor: ColorUniform
     }
     
-    public func colorMap(from backgroundColor: PixelColor,
-                         to foregroundColor: PixelColor,
-                         options: EffectOptions = []) async throws -> Graphic3D {
+    public func colorMap(
+        from backgroundColor: PixelColor,
+        to foregroundColor: PixelColor,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
         try await Renderer.render(
             name: "Color Map 3D",
@@ -22,9 +24,7 @@ extension Graphic3D {
             uniforms: ColorMap3DUniforms(
                 backgroundColor: backgroundColor.uniform,
                 foregroundColor: foregroundColor.uniform),
-            options: Renderer.Options(
-                addressMode: options.addressMode
-            )
+            options: options.renderOptions
         )
     }
 }

@@ -16,9 +16,11 @@ extension Graphic {
     /// Recommended sharpness value are between 0.0 and 1.0. Higher values are allowed.
     ///
     /// The distance is in pixels, default to one pixel.
-    public func sharpen(_ sharpness: CGFloat,
-                        distance: CGFloat = 1.0,
-                        options: EffectOptions = []) async throws -> Graphic {
+    public func sharpen(
+        _ sharpness: CGFloat,
+        distance: CGFloat = 1.0,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         try await Renderer.render(
             name: "Sharpen",
@@ -28,10 +30,7 @@ extension Graphic {
                 sharpness: Float(sharpness),
                 distance: Float(distance)
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
 }

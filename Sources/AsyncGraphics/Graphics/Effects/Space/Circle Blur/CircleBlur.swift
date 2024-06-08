@@ -21,12 +21,14 @@ extension Graphic {
         let light: Float
     }
     
-    public func blurredCircle(radius: CGFloat,
-                              sampleCount: Int = 100,
-                              brightnessRange: ClosedRange<CGFloat> = 0.0...1.0,
-                              saturationRange: ClosedRange<CGFloat> = 0.0...1.0,
-                              light: CGFloat = 1.0,
-                              options: EffectOptions = .edgeStretch) async throws -> Graphic {
+    public func blurredCircle(
+        radius: CGFloat,
+        sampleCount: Int = 100,
+        brightnessRange: ClosedRange<CGFloat> = 0.0...1.0,
+        saturationRange: ClosedRange<CGFloat> = 0.0...1.0,
+        light: CGFloat = 1.0,
+        options: EffectOptions = .edgeStretch
+    ) async throws -> Graphic {
         
         let relativeRadius: CGFloat = radius / height
         
@@ -43,10 +45,7 @@ extension Graphic {
                 saturationHigh: Float(saturationRange.upperBound),
                 light: Float(light)
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode,
-                filter: options.filter
-            )
+            options: options.renderOptions
         )
     }
 }

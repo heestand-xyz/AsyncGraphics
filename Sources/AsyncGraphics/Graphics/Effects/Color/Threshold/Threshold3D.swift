@@ -13,10 +13,12 @@ extension Graphic3D {
         let backgroundColor: ColorUniform
     }
     
-    public func threshold(_ fraction: CGFloat = 0.5,
-                          color: PixelColor = .white,
-                          backgroundColor: PixelColor = .clear,
-                          options: EffectOptions = []) async throws -> Graphic3D {
+    public func threshold(
+        _ fraction: CGFloat = 0.5,
+        color: PixelColor = .white,
+        backgroundColor: PixelColor = .clear,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
         try await Renderer.render(
             name: "Threshold 3D",
@@ -27,9 +29,7 @@ extension Graphic3D {
                 foregroundColor: color.uniform,
                 backgroundColor: backgroundColor.uniform
             ),
-            options: Renderer.Options(
-                addressMode: options.addressMode
-            )
+            options: options.renderOptions
         )
     }
 }

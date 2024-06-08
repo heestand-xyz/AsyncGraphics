@@ -15,7 +15,8 @@ extension Graphic {
         bottomRight: CGPoint? = nil,
         perspective: Bool = true,
         subdivisions: Int = 32,
-        backgroundColor: PixelColor = .clear
+        backgroundColor: PixelColor = .clear,
+        options: EffectOptions = []
     ) async throws -> Graphic {
        
         let relativeTopLeft: CGPoint = (topLeft ?? .zero) / resolution
@@ -41,7 +42,8 @@ extension Graphic {
             graphics: [self],
             vertices: .direct(vertices, type: .triangle),
             options: Renderer.Options(
-                clearColor: backgroundColor
+                clearColor: backgroundColor,
+                targetSourceTexture: options.contains(.replace)
             )
         )
     }
