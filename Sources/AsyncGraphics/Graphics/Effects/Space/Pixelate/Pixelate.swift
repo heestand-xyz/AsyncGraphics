@@ -26,7 +26,7 @@ extension Graphic {
             uniforms: PixelateUniforms(
                 fraction: Float(fraction)
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

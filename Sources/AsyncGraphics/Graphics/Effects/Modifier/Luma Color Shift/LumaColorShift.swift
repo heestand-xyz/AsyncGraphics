@@ -107,7 +107,7 @@ extension Graphic {
                 tintColor: tintColor.uniform,
                 lumaGamma: Float(lumaGamma)
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
 }

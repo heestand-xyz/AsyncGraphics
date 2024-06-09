@@ -26,7 +26,7 @@ extension Graphic3D {
                 amplitude: Float(amplitude),
                 origin: origin.uniform
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
 }

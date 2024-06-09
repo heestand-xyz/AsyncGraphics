@@ -115,7 +115,7 @@ extension Graphic3D {
                 position: relativePosition.uniform,
                 lumaGamma: Float(lumaGamma)
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

@@ -84,7 +84,7 @@ extension Graphic {
                 angle: 0.0,
                 position: CGPoint.zero.uniform
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
     
@@ -111,7 +111,7 @@ extension Graphic {
                 angle: 0.0,
                 position: relativePosition.uniform
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
     
@@ -135,7 +135,7 @@ extension Graphic {
                 angle: angle.uniform,
                 position: CGPoint.zero.uniform
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
     
@@ -157,7 +157,7 @@ extension Graphic {
                 angle: 0.0,
                 position: CGPoint.zero.uniform
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

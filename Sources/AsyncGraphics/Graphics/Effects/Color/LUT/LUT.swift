@@ -56,7 +56,11 @@ extension Graphic {
         return try await applyLUT(with: lut, layout: layout)
     }
     
-    public func applyLUT(with graphic: Graphic, layout: LUTLayout? = nil) async throws -> Graphic {
+    public func applyLUT(
+        with graphic: Graphic,
+        layout: LUTLayout? = nil,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
         var layout: LUTLayout! = layout
         if layout == nil {
@@ -101,7 +105,8 @@ extension Graphic {
                 count: Int32(count)
             ),
             options: Renderer.Options(
-                filter: .nearest
+                filter: .nearest,
+                targetSourceTexture: options.contains(.replace)
             )
         )
     }

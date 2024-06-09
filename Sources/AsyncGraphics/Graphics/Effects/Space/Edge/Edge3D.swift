@@ -63,7 +63,7 @@ extension Graphic3D {
                 amplitude: Float(amplitude),
                 dist: Float(distance)
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

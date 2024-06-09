@@ -101,7 +101,7 @@ extension Graphic {
                 colorSpace: graphic.colorSpace,
                 bits: graphic.bits
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

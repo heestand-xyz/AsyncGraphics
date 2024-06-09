@@ -72,7 +72,7 @@ extension Graphic {
                     alpha: alpha == .mono ? 1.0 : 0.0
                 )
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
 }

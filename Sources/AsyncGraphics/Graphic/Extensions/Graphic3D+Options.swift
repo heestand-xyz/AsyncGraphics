@@ -79,12 +79,20 @@ extension Graphic3D {
         /// Use this when assigning the modified ``Graphic`` to the source ``Graphic``, when replacing the original ``Graphic`` with the new.
         ///
         /// This option can render `2x` faster.
+        /// 
+        /// This option can only be used on color effects, not distortion effects.
+        /// Please don't use this option if the effect changes the resolution. 
         public static let replace = EffectOptions(rawValue: 1 << 2)
 
-        var renderOptions: Renderer.Options {
+        var colorRenderOptions: Renderer.Options {
             Renderer.Options(
-                addressMode: addressMode,
                 targetSourceTexture: contains(.replace)
+            )
+        }
+        
+        var spatialRenderOptions: Renderer.Options {
+            Renderer.Options(
+                addressMode: addressMode
             )
         }
         

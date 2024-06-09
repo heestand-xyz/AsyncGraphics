@@ -50,7 +50,7 @@ extension Graphic {
                 holdEdgeFraction: Float(holdEdgeFraction),
                 sampleCoordinate: Float(sampleCoordinate)
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

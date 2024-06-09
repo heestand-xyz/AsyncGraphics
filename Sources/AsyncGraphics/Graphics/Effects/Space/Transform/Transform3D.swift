@@ -123,7 +123,7 @@ extension Graphic3D {
                 scale: Float(scale),
                 size: scaleSize.uniform
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

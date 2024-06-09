@@ -55,13 +55,15 @@ extension Graphic {
     /// Particles **alpha** is based on `color` multiplied by the input pixel's **alpha** channel, if `particleOptions` `channelAlphaEnabled` is selected.
     ///
     /// If `particleOptions` `clipChannelAlpha` is selected,  then particles with alpha less than `1.0` will be hidden.
-    public func uvParticles(particleScale: CGFloat = 1.0,
-                            particleColor: PixelColor = .white,
-                            backgroundColor: PixelColor = .black,
-                            resolution: CGSize,
-                            sampleCount: UVParticleSampleCount = .one,
-                            particleOptions: UVParticleOptions = UVParticleOptions(),
-                            options: ContentOptions = []) async throws -> Graphic {
+    public func uvParticles(
+        particleScale: CGFloat = 1.0,
+        particleColor: PixelColor = .white,
+        backgroundColor: PixelColor = .black,
+        resolution: CGSize,
+        sampleCount: UVParticleSampleCount = .one,
+        particleOptions: UVParticleOptions = UVParticleOptions(),
+        options: ContentOptions = []
+    ) async throws -> Graphic {
         
         try await Renderer.render(
             name: "UV Particles",

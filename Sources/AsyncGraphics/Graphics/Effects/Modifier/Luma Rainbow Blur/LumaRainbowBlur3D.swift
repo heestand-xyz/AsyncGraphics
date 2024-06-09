@@ -112,7 +112,7 @@ extension Graphic3D {
                 lumaGamma: Float(lumaGamma),
                 position: relativePosition.uniform
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

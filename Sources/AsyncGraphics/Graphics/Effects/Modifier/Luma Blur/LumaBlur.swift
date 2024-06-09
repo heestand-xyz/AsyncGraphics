@@ -157,7 +157,7 @@ extension Graphic {
                 angle: angle.uniform,
                 lumaGamma: Float(lumaGamma)
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

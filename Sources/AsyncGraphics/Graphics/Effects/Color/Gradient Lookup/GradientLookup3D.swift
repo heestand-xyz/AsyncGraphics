@@ -36,7 +36,7 @@ extension Graphic3D {
                 fraction: 0.0,
                 color: PixelColor.clear.uniform
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
 }

@@ -110,7 +110,7 @@ extension Graphic3D {
                 tintColor: tintColor.uniform,
                 lumaGamma: Float(lumaGamma)
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
 }

@@ -158,7 +158,7 @@ extension Graphic {
                 opacity: Float(opacity),
                 offset: Float(offset)
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
 }

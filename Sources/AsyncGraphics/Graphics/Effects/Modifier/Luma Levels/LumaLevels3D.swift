@@ -262,7 +262,7 @@ extension Graphic3D {
                 offset: Float(offset),
                 lumaGamma: Float(lumaGamma)
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
 }

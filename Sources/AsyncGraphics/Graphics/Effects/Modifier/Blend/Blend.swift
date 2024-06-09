@@ -99,7 +99,7 @@ extension Graphic {
                 horizontalAlignment: alignment.horizontalIndex,
                 verticalAlignment: alignment.verticalIndex
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
     
@@ -159,7 +159,7 @@ extension Graphic {
                 horizontalAlignment: alignment.horizontalIndex,
                 verticalAlignment: alignment.verticalIndex
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
 }

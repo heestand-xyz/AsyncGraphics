@@ -132,7 +132,7 @@ extension Graphic {
                 size: scaleSize.uniform,
                 lumaGamma: Float(lumaGamma)
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

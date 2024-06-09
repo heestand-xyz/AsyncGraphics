@@ -230,7 +230,7 @@ extension Graphic3D {
                 colorSpace: colorSpace,
                 bits: bits
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

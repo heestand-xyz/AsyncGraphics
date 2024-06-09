@@ -32,8 +32,7 @@ extension Graphic3D {
                 resolution: resolution,
                 colorSpace: colorSpace,
                 bits: bits
-            ),
-            options: options.renderOptions
+            )
         )
     }
 }

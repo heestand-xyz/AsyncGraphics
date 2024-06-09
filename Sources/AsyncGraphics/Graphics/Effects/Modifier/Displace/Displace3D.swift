@@ -39,7 +39,7 @@ extension Graphic3D {
                 ),
                 placement: placement.index
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

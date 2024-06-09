@@ -35,7 +35,7 @@ extension Graphic3D {
                 outLow: Float(targetLow),
                 outHigh: Float(targetHigh)
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
 }

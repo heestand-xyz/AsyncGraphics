@@ -36,7 +36,7 @@ extension Graphic3D {
                 saturation: Float(saturation),
                 tintColor: PixelColor.white.uniform
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
     
@@ -55,7 +55,7 @@ extension Graphic3D {
                 saturation: 1.0,
                 tintColor: PixelColor.white.uniform
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
     
@@ -73,7 +73,7 @@ extension Graphic3D {
                 saturation: 1.0,
                 tintColor: color.uniform
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
     
@@ -93,7 +93,7 @@ extension Graphic3D {
                 saturation: Float(saturation),
                 tintColor: color.uniform
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
 }

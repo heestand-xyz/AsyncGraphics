@@ -99,7 +99,7 @@ extension Graphic {
                 colorSpace: colorSpace,
                 bits: bits
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

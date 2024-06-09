@@ -134,7 +134,7 @@ extension Graphic3D {
                 opacity: Float(opacity),
                 offset: Float(offset)
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
 }

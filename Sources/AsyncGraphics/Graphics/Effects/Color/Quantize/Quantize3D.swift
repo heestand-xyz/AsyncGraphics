@@ -22,7 +22,7 @@ extension Graphic3D {
             uniforms: Quantize3DUniforms(
                 fraction: Float(fraction)
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
 }

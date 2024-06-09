@@ -41,7 +41,7 @@ extension Graphic {
                 conversion: conversion.index,
                 index: channel.index
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
 }

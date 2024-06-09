@@ -88,8 +88,7 @@ extension Graphic {
                 resolution: resolution,
                 colorSpace: colorSpace,
                 bits: bits
-            ),
-            options: options.renderOptions
+            )
         )
     }
 }

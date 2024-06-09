@@ -45,7 +45,7 @@ extension Graphic {
                 saturationHigh: Float(saturationRange.upperBound),
                 light: Float(light)
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

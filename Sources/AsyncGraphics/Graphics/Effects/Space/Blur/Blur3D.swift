@@ -47,7 +47,7 @@ extension Graphic3D {
                 direction: VectorUniform.zero,
                 position: VectorUniform.zero
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
     
@@ -74,7 +74,7 @@ extension Graphic3D {
                 direction: VectorUniform.zero,
                 position: relativePosition.uniform
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
     
@@ -98,7 +98,7 @@ extension Graphic3D {
                 direction: direction.uniform,
                 position: VectorUniform.zero
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
     
@@ -120,7 +120,7 @@ extension Graphic3D {
                 direction: VectorUniform.zero,
                 position: VectorUniform.zero
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

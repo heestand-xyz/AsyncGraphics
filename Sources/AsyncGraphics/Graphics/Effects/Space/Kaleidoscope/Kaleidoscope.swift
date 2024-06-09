@@ -39,7 +39,7 @@ extension Graphic {
                 scale: Float(scale),
                 position: relativePosition.uniform
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

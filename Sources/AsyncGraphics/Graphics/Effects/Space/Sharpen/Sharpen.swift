@@ -30,7 +30,7 @@ extension Graphic {
                 sharpness: Float(sharpness),
                 distance: Float(distance)
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

@@ -53,7 +53,7 @@ extension Graphic {
                 rotationY: Float(rotation.dy),
                 fraction: Float(fraction)
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

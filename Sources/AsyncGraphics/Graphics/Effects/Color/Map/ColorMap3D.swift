@@ -24,7 +24,7 @@ extension Graphic3D {
             uniforms: ColorMap3DUniforms(
                 backgroundColor: backgroundColor.uniform,
                 foregroundColor: foregroundColor.uniform),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
 }

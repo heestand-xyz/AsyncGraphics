@@ -45,7 +45,7 @@ extension Graphic3D {
                     alpha: alpha == .mono ? 1.0 : 0.0
                 )
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
 }

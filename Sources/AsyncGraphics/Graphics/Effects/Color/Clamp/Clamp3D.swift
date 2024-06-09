@@ -32,7 +32,7 @@ extension Graphic3D {
                 low: Float(low),
                 high: Float(high)
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
 }

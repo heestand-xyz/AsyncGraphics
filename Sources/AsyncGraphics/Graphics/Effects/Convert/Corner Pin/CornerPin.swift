@@ -42,8 +42,7 @@ extension Graphic {
             graphics: [self],
             vertices: .direct(vertices, type: .triangle),
             options: Renderer.Options(
-                clearColor: backgroundColor,
-                targetSourceTexture: options.contains(.replace)
+                clearColor: backgroundColor
             )
         )
     }

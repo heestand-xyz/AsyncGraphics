@@ -22,7 +22,7 @@ extension Graphic {
             uniforms: QuantizeUniforms(
                 fraction: Float(fraction)
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
 }

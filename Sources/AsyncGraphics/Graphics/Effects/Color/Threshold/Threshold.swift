@@ -29,7 +29,7 @@ extension Graphic {
                 foregroundColor: color.uniform,
                 backgroundColor: backgroundColor.uniform
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
 }

@@ -29,7 +29,7 @@ extension Graphic {
                 fraction: Float(fraction),
                 placement: Int32(placement.index)
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
 }

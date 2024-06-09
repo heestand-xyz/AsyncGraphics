@@ -67,7 +67,7 @@ extension Graphic {
                 amplitude: Float(amplitude),
                 dist: Float(distance)
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

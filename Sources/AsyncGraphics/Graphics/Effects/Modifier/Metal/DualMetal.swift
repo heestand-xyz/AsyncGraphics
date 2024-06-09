@@ -64,7 +64,7 @@ extension Graphic {
                 self,
                 graphic
             ],
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

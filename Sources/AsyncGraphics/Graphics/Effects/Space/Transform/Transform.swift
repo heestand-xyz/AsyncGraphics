@@ -101,7 +101,7 @@ extension Graphic {
                 scale: Float(scale),
                 size: relativeSize.uniform
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

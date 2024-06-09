@@ -41,7 +41,7 @@ extension Graphic {
                 low: Float(low),
                 high: Float(high)
             ),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
 }

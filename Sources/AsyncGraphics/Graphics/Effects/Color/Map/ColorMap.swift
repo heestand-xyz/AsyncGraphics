@@ -25,7 +25,7 @@ extension Graphic {
             uniforms: ColorMapUniforms(
                 backgroundColor: backgroundColor.uniform,
                 foregroundColor: foregroundColor.uniform),
-            options: options.renderOptions
+            options: options.colorRenderOptions
         )
     }
 }

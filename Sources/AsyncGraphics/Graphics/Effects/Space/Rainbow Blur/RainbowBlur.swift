@@ -107,7 +107,7 @@ extension Graphic {
                 light: Float(light),
                 position: relativePosition.uniform
             ),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }

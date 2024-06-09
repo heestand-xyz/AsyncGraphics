@@ -25,7 +25,7 @@ extension Graphic {
                 self
             ],
             uniforms: RemapUniforms(),
-            options: options.renderOptions
+            options: options.spatialRenderOptions
         )
     }
 }
