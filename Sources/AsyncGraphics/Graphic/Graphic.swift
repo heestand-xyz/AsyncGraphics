@@ -107,8 +107,8 @@ extension Graphic {
     }
     
     public var cgImage: CGImage {
-        get throws {
-            try TextureMap.cgImage(texture: texture, colorSpace: colorSpace, bits: bits)
+        get async throws {
+            try await TextureMap.cgImage(texture: mirroredVertically().texture, colorSpace: colorSpace, bits: bits)
         }
     }
     

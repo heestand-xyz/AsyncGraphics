@@ -28,7 +28,7 @@ extension Graphic {
     
     private func rawPersonSegmentationMask() async throws -> Graphic {
         
-        let cgImage: CGImage = try cgImage
+        let cgImage: CGImage = try await cgImage
         
         let maskPixelBuffer: CVPixelBuffer = try await withCheckedThrowingContinuation { continuation in
            
@@ -53,7 +53,6 @@ extension Graphic {
         }
         let maskGraphic: Graphic = try await .pixelBuffer(maskPixelBuffer)
             .channelMix(green: .red, blue: .red, alpha: .red)
-            .mirroredVertically()
         
         return maskGraphic
     }
