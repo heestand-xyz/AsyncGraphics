@@ -55,7 +55,7 @@ extension Renderer {
         }
     }
 
-    static func vertexQuadBuffer() throws -> MTLBuffer {
+    static func makeVertexQuadBuffer() throws -> MTLBuffer {
         let a = Vertex(x: -1.0, y: -1.0, u: 0.0, v: 1.0)
         let b = Vertex(x: 1.0, y: -1.0, u: 1.0, v: 1.0)
         let c = Vertex(x: -1.0, y: 1.0, u: 0.0, v: 0.0)

@@ -13,6 +13,9 @@ import Spatial
 
 public struct Renderer {
     
+    /// Experimental
+    public static var optimizationMode: Bool = false
+    
     /// Hardcoded. Defined as ARRMAX in shaders.
     private static let uniformArrayMaxLimit: Int = 128
     
@@ -37,6 +40,30 @@ public struct Renderer {
     /// This is the `customMetalLibrary` if available, otherwise it is the `defaultMetalLibrary`.
     public static var metalLibrary: MTLLibrary? {
         customMetalLibrary ?? defaultMetalLibrary
+    }
+    
+    static let storeQueue = DispatchQueue(
+        label: "AsyncGraphics",
+        qos: .background,
+        attributes: .concurrent
+    
+    )
+    private static var storedCommandQueue: MTLCommandQueue?
+    static var storedRenderPipelines: [PipelineProxy: MTLRenderPipelineState] = [:]
+    static var storedComputePipelines: [Pipeline3DProxy: MTLComputePipelineState] = [:]
+    static let storedVertexQuadBuffer: MTLBuffer? = try? makeVertexQuadBuffer()
+    
+    public static func commandQueue() -> MTLCommandQueue? {
+        if optimizationMode {
+            if let storedCommandQueue: MTLCommandQueue {
+                return storedCommandQueue
+            } else {
+                storedCommandQueue = metalDevice.makeCommandQueue()
+                return storedCommandQueue
+            }
+        } else {
+            return metalDevice.makeCommandQueue()
+        }
     }
     
     /// Basic
@@ -248,7 +275,7 @@ public struct Renderer {
                     depthTexture = metalDevice.makeTexture(descriptor: depthTextureDescriptor)
                 }
                 
-                guard let commandQueue = metalDevice.makeCommandQueue() else {
+                guard let commandQueue = commandQueue() else {
                     throw RendererError.failedToMakeCommandQueue
                 }
                 
@@ -274,28 +301,19 @@ public struct Renderer {
                 do {
                     
                     // MARK: Pipeline
-                     
-                    let function: MTLFunction = try {
-                        switch shader {
-                        case .code(let code, let name):
-                            return try self.shader(name: name, code: code)
-                        default:
-                            return try self.shader(name: shader.fragmentName)
-                        }
-                    }()
                     
                     if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
-                                                
-                        let vertexFunction = try self.shader(name: shader.vertexName)
                         
                         let pipeline: MTLRenderPipelineState = try pipeline(
-                            fragmentFunction: function,
-                            vertexFunction: vertexFunction,
-                            additive: options.additive,
-                            depth: options.depth,
-                            stencil: options.stencil,
-                            bits: bits,
-                            sampleCount: sampleCount)
+                            proxy: PipelineProxy(
+                                shader: shader,
+                                additive: options.additive,
+                                depth: options.depth,
+                                stencil: options.stencil,
+                                bits: bits,
+                                sampleCount: sampleCount
+                            )
+                        )
                         renderCommandEncoder.setRenderPipelineState(pipeline)
                         
                         if options.depth {
@@ -311,7 +329,11 @@ public struct Renderer {
                         
                     } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
                         
-                        let pipeline3d: MTLComputePipelineState = try pipeline3d(function: function)
+                        let pipeline3d: MTLComputePipelineState = try pipeline3d(
+                            proxy: Pipeline3DProxy(
+                                shader: shader
+                            )
+                        )
                         computeCommandEncoder.setComputePipelineState(pipeline3d)
                     }
                     
@@ -467,7 +489,11 @@ public struct Renderer {
                                 vertexBuffer = try buffer(count: count)
                             }
                         } else {
-                            vertexBuffer = try vertexQuadBuffer()
+                            if optimizationMode, let buffer = storedVertexQuadBuffer {
+                                vertexBuffer = buffer
+                            } else {
+                                vertexBuffer = try makeVertexQuadBuffer()
+                            }
                         }
                         
                         renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)

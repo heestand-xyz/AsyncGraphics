@@ -6,7 +6,7 @@ import Metal
 
 extension Renderer {
     
-    enum Shader {
+    enum Shader: Hashable {
         case name(String)
         case custom(fragment: String, vertex: String)
         case code(String, name: String)
