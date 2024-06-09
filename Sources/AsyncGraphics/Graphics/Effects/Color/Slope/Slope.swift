@@ -26,7 +26,7 @@ extension Graphic {
                 amplitude: Float(amplitude),
                 origin: origin.uniform
             ),
-            options: options.colorRenderOptions
+            options: options.spatialRenderOptions
         )
     }
 }
