@@ -17,10 +17,7 @@ extension Graphic {
         content: () -> Content
     ) async throws -> Graphic {
         let renderer = await ImageRenderer<Content>(content: content())
-        guard let cgImage: CGImage = await renderer.cgImage else {
-            throw ViewError.viewRenderFailed
-        }
-        return try .texture(TextureMap.textureViaContext(cgImage: cgImage))
+        return try await view(renderer: renderer)
     }
     
     public static func view<Content: View>(
@@ -34,9 +31,14 @@ extension Graphic {
                        height: resolution.height,
                        alignment: alignment)
         )
+        return try await view(renderer: renderer)
+    }
+    
+    private static func view<Content: View>(renderer: ImageRenderer<Content>) async throws -> Graphic {
         guard let cgImage: CGImage = await renderer.cgImage else {
             throw ViewError.viewRenderFailed
         }
-        return try .texture(TextureMap.textureViaContext(cgImage: cgImage))
+        return try await .image(cgImage)
+//        return try .texture(TextureMap.textureViaContext(cgImage: cgImage))
     }
 }

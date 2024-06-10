@@ -237,7 +237,6 @@ public struct Renderer {
         var graphic: G = try await withCheckedThrowingContinuation { continuation in
             
             do {
-                
                 let targetTexture: MTLTexture
                 if options.targetSourceTexture {
                     guard let texture: MTLTexture = graphics.first?.texture else {

@@ -39,63 +39,113 @@ extension Graphic {
         }
     }
     
+    public struct ImageOptions: OptionSet, Hashable {
+        
+        public let rawValue: Int
+        
+        /// Correct Color
+        ///
+        /// Applies color space correction and convert monochrome images to RGBA
+        public static let colorCorrection = ImageOptions(rawValue: 1 << 0)
+        
+        /// Correct Orientation
+        ///
+        /// Not available on `macOS`
+        public static let orientationCorrection = ImageOptions(rawValue: 1 << 1)
+        
+        public static var `default`: ImageOptions {
+            [.colorCorrection, .orientationCorrection]
+        }
+        
+        public init(rawValue: Int) {
+            self.rawValue = rawValue
+        }
+    }
+    
     /// UIImage / NSImage
-    public static func image(_ image: TMImage) async throws -> Graphic {
+    public static func image(
+        _ image: TMImage,
+        options: ImageOptions = .default
+    ) async throws -> Graphic {
         
         let bits: TMBits = try image.bits
-        
         let colorSpace: TMColorSpace = try image.colorSpace
-        let isMonochrome = colorSpace.isMonochrome
         
         let texture: MTLTexture = try image.texture
-        
         var graphic = Graphic(name: "Image", texture: texture, bits: bits, colorSpace: colorSpace)
         
-        let linearSRGB = CGColorSpace(name: CGColorSpace.linearSRGB)!
-        if colorSpace == .sRGB, bits == ._8 {
-            graphic = try await graphic.convertColorSpace(from: .custom(linearSRGB), to: .sRGB)
-        } else if colorSpace == .displayP3, bits == ._8 {
-            /// Disable as it's hazy on some images
-//            graphic = try await graphic.convertColorSpace(from: .custom(linearSRGB), to: .displayP3)
-        }
-
-        if isMonochrome {
-            graphic = try await graphic.channelMix(green: .red, blue: .red, alpha: .green).assignColorSpace(.sRGB)
-        } else {
-            /// Fix for different texture pixel formats
-            graphic = try await graphic.brightness(1.0)
+        if options.contains(.colorCorrection) {
+            
+            let linearSRGB = CGColorSpace(name: CGColorSpace.linearSRGB)!
+            if colorSpace == .sRGB, bits == ._8 {
+                graphic = try await graphic.convertColorSpace(from: .custom(linearSRGB), to: .sRGB)
+            } else if colorSpace == .displayP3, bits == ._8 {
+                /// Disabled as it's hazy on some images
+                //            graphic = try await graphic.convertColorSpace(from: .custom(linearSRGB), to: .displayP3)
+            }
+            
+            if colorSpace.isMonochrome {
+                graphic = try await graphic.channelMix(
+                    green: .red,
+                    blue: .red,
+                    alpha: .green
+                )
+                .assignColorSpace(.sRGB)
+            } else {
+                /// Fix for different texture pixel formats
+                graphic = try await graphic
+                    .brightness(1.0)
+            }
         }
         
-        #if canImport(UIKit)
-        graphic = try await graphic.rotate(to: image.imageOrientation)
-        #endif
+#if canImport(UIKit)
+        if options.contains(.orientationCorrection) {
+            graphic = try await graphic.rotate(to: image.imageOrientation)
+        }
+#endif
         
         return graphic
     }
     
-    public static func image(_ cgImage: CGImage) async throws -> Graphic {
+    public static func image(
+        _ cgImage: CGImage,
+        options: ImageOptions = .default
+    ) async throws -> Graphic {
         let image = try TextureMap.image(cgImage: cgImage)
-        return try await .image(image)
+        return try await .image(image, options: options)
     }
     
-    public static func image(_ ciImage: CIImage) async throws -> Graphic {
+    public static func image(
+        _ ciImage: CIImage,
+        options: ImageOptions = .default
+    ) async throws -> Graphic {
         let image = try TextureMap.image(ciImage: ciImage)
-        return try await .image(image)
+        return try await .image(image, options: options)
     }
     
-    public static func image(named name: String) async throws -> Graphic {
+    public static func image(
+        named name: String,
+        options: ImageOptions = .default
+    ) async throws -> Graphic {
         
         try await image(named: name, in: .main)
     }
     
-    public static func image(named name: String, in bundle: Bundle) async throws -> Graphic {
+    public static func image(
+        named name: String,
+        in bundle: Bundle,
+        options: ImageOptions = .default
+    ) async throws -> Graphic {
         
         let image = try bundle.image(named: name)
         
-        return try await .image(image)
+        return try await .image(image, options: options)
     }
     
-    public static func image(url: URL) async throws -> Graphic {
+    public static func image(
+        url: URL,
+        options: ImageOptions = .default
+    ) async throws -> Graphic {
         
         if isRAWImage(url: url) {
             return try await rawImage(url: url)
@@ -107,16 +157,19 @@ extension Graphic {
             throw ImageError.imageNotFound
         }
         
-        return try await .image(image)
+        return try await .image(image, options: options)
     }
     
-    public static func image(data: Data) async throws -> Graphic {
+    public static func image(
+        data: Data,
+        options: ImageOptions = .default
+    ) async throws -> Graphic {
         
         guard let image = TMImage(data: data) else {
             throw ImageError.imageDataCorrupt
         }
         
-        return try await .image(image)
+        return try await .image(image, options: options)
     }
     
     public static func isRAWImage(url: URL) -> Bool {
