@@ -236,28 +236,35 @@ public struct Renderer {
         
         var graphic: G = try await withCheckedThrowingContinuation { continuation in
             
+            func makeTargetTexture() throws -> MTLTexture {
+                if let resolution: CGSize = resolution as? CGSize {
+                    return try .empty(
+                        resolution: resolution,
+                        bits: bits,
+                        sampleCount: sampleCount)
+                } else if let resolution: Size3D = resolution as? Size3D {
+                    return try .empty3d(
+                        resolution: resolution,
+                        bits: bits,
+                        usage: .write)
+                }
+                fatalError("Unknown Graphicable")
+            }
+            
             do {
                 let targetTexture: MTLTexture
                 if options.targetSourceTexture {
                     guard let texture: MTLTexture = graphics.first?.texture else {
                         throw RendererError.noTargetTextureFound
                     }
-                    targetTexture = texture
+                    if texture.usage.contains(.renderTarget) {
+                        targetTexture = texture
+                    } else {
+                        print("AsyncGraphics - Renderer - Warning: Target source texture's render target usage not present. Falling back to new texture.")
+                        targetTexture = try makeTargetTexture()
+                    }
                 } else {
-                    targetTexture = try {
-                        if let resolution: CGSize = resolution as? CGSize {
-                            return try .empty(
-                                resolution: resolution,
-                                bits: bits,
-                                sampleCount: sampleCount)
-                        } else if let resolution: Size3D = resolution as? Size3D {
-                            return try .empty3d(
-                                resolution: resolution,
-                                bits: bits,
-                                usage: .write)
-                        }
-                        fatalError("Unknown Graphicable")
-                    }()
+                    targetTexture = try makeTargetTexture()
                 }
                 
                 var depthTexture: MTLTexture?
