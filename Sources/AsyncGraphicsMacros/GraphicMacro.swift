@@ -126,8 +126,7 @@ public struct GraphicMacro: MemberMacro, MemberAttributeMacro {
         in context: Context
     ) throws -> [AttributeSyntax] where Declaration : DeclGroupSyntax, MemberDeclaration : DeclSyntaxProtocol, Context : MacroExpansionContext {
         
-        guard let className = declaration.as(ClassDeclSyntax.self)?.name.text,
-              let variable = member.as(VariableDeclSyntax.self)?.bindings.first,
+        guard let variable = member.as(VariableDeclSyntax.self)?.bindings.first,
               let typeAnnotation = variable.typeAnnotation,
               let name = variable.pattern.as(IdentifierPatternSyntax.self)?.identifier.text,
               let identifier = typeAnnotation.type.as(IdentifierTypeSyntax.self) else {
