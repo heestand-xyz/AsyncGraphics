@@ -99,7 +99,11 @@ extension Graphic {
                 horizontalAlignment: alignment.horizontalIndex,
                 verticalAlignment: alignment.verticalIndex
             ),
-            options: options.colorRenderOptions
+            options: Renderer.Options(
+                addressMode: options.addressMode, 
+                filter: options.filter,
+                targetSourceTexture: options.contains(.replace)
+            )
         )
     }
     
@@ -159,7 +163,7 @@ extension Graphic {
                 horizontalAlignment: alignment.horizontalIndex,
                 verticalAlignment: alignment.verticalIndex
             ),
-            options: options.colorRenderOptions
+            options: options.spatialRenderOptions
         )
     }
 }
