@@ -7,10 +7,6 @@ extension AGGraph {
                 fixedWidth: width != nil ? width! * .pixelsPerPoint : nil,
                 fixedHeight: height != nil ? height! * .pixelsPerPoint : nil)
     }
-    
-//    public func frame(maxWidth: CGFloat? = nil, maxHeight: CGFloat? = nil) -> any AGGraph {
-//        // ...
-//    }
 }
 
 public struct AGFrame: AGSingleParentGraph {
