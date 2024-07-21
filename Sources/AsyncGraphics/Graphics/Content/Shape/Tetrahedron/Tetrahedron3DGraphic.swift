@@ -25,7 +25,7 @@ extension CodableGraphic3D.Content.Shape {
         
         public var surface: GraphicMetadata<Bool> = .init(value: .fixed(false))
         public var surfaceWidth: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
-                                                                  maximum: .fixed(10.0),
+                                                                  maximum: .fixed(2.0),
                                                                   options: .spatial)
         
         public func render(
