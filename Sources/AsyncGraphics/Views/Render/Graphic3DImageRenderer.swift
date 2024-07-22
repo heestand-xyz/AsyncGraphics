@@ -1,4 +1,5 @@
 import Foundation
+import Spatial
 import SwiftUI
 import Spatial
 import Observation
@@ -19,7 +20,8 @@ public final class Graphic3DImageRenderer {
     
     public var interpolation: Graphic.ViewInterpolation = .linear
     
-    var resolution: Size3D?
+    public internal(set) var resolution: Size3D?
+    public var cropFrame: Rect3D?
     
     var viewSize: CGSize?
     
