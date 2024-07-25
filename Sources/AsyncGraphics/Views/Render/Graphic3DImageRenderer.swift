@@ -166,7 +166,7 @@ public final class Graphic3DImageRenderer {
             for (index, graphic) in viewGraphics.enumerated() {
                 
                 group.addTask {
-                    let tmImage: TMImage = try await graphic.image
+                    let tmImage: TMImage = try await graphic.rawImage
                     let image = Image(tmImage: tmImage)
                     progressManager?.increment(state: .converting)
                     return (index, image)

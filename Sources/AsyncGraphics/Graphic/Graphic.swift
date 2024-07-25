@@ -99,6 +99,23 @@ extension Graphic {
         }
     }
     
+    /// UIImage / NSImage
+    ///
+    /// Raw image is just using an alternative way of converting the graphic to an image. It is a bit faster.
+    public var rawImage: TMImage {
+        get async throws {
+            try await withCheckedThrowingContinuation { continuation in
+                do {
+                    let cgImage = try TextureMap.copyCGImage(texture: texture)
+                    let image = TMImage(cgImage: cgImage, size: resolution)
+                    continuation.resume(returning: image)
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+    
     /// SwiftUI Image
     public var imageForSwiftUI: Image {
         get async throws {
