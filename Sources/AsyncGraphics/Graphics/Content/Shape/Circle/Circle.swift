@@ -88,7 +88,7 @@ extension Graphic {
                 radius: Float(relativeRadius),
                 position: relativePosition.uniform,
                 edgeRadius: Float(relativeLineWidth),
-                foregroundColor: backgroundColor.uniform,
+                foregroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform,
                 edgeColor: color.uniform,
                 backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform,
                 resolution: resolution.uniform,

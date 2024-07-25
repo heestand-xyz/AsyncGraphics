@@ -60,6 +60,7 @@ float4 radiusColor(float radius,
 
                 float fraction = (radius - (targetRadius - onePixel / 2)) / onePixel;
 
+                // TODO: Check `premultiply`
                 if (premultiply) {
                     return foregroundColor * (1.0 - fraction) + backgroundColor * fraction;
                 } else {
@@ -67,6 +68,7 @@ float4 radiusColor(float radius,
                 }
             } else {
                 
+                // TODO: Check `premultiply`
                 if (premultiply) {
                     return backgroundColor;
                 } else {

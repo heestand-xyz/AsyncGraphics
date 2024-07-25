@@ -132,7 +132,7 @@ extension Graphic3D {
                 length: Float(relativeLength),
                 position: relativePosition.uniform,
                 surfaceWidth: Float(relativeSurfaceWidth),
-                foregroundColor: backgroundColor.uniform,
+                foregroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform,
                 edgeColor: color.uniform,
                 backgroundColor: options.pureTranslucentBackgroundColor(backgroundColor, color: color).uniform,
                 tileOrigin: tile.uvOrigin,
