@@ -791,6 +791,9 @@
         }
       }
     },
+    "option.blendMode.overWithAlpha" : {
+
+    },
     "option.blendMode.power" : {
       "localizations" : {
         "en" : {

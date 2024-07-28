@@ -14,6 +14,7 @@ extension Graphic {
     public enum BlendMode: String, GraphicEnum {
         
         case over
+        case overWithAlpha
         case under
         case screen
         case lighten
@@ -41,6 +42,7 @@ extension Graphic {
         var rawIndex: UInt32 {
             switch self {
             case .over: return 0
+            case .overWithAlpha: return 25
             case .under: return 1
             case .screen: return 18
             case .lighten: return 19
