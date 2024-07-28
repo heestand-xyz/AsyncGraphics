@@ -29,6 +29,7 @@ public struct Graphic3DImageRenderView: View {
                                     if let cropFrame: Rect3D = renderer.cropFrame {
                                         renderer.images[index]
                                             .resizable()
+                                            .allowedDynamicRange(renderer.extendedDynamicRange ? .high : .standard)
                                             .mask {
                                                 mask(
                                                     size: contentGeometry.size,
@@ -39,6 +40,7 @@ public struct Graphic3DImageRenderView: View {
                                     } else {
                                         renderer.images[index]
                                             .resizable()
+                                            .allowedDynamicRange(renderer.extendedDynamicRange ? .high : .standard)
                                     }
                                 }
                                 .offset(z: {

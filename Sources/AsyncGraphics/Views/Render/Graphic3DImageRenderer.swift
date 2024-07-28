@@ -19,7 +19,9 @@ public final class Graphic3DImageRenderer {
     public var scale: CGFloat = Graphic3DImageRenderer.defaultScale
     
     public var interpolation: Graphic.ViewInterpolation = .linear
-    
+
+    public var extendedDynamicRange: Bool = false
+
     public internal(set) var resolution: Size3D?
     public var cropFrame: Rect3D?
     
@@ -166,7 +168,11 @@ public final class Graphic3DImageRenderer {
             for (index, graphic) in viewGraphics.enumerated() {
                 
                 group.addTask {
-                    let tmImage: TMImage = try await graphic.rawImage
+                    let tmImage: TMImage = if graphic.bits == ._8 {
+                        try await graphic.rawImage
+                    } else {
+                        try await graphic.image
+                    }
                     let image = Image(tmImage: tmImage)
                     progressManager?.increment(state: .converting)
                     return (index, image)
