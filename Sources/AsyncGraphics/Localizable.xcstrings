@@ -792,7 +792,14 @@
       }
     },
     "option.blendMode.overWithAlpha" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Over with Alpha"
+          }
+        }
+      }
     },
     "option.blendMode.power" : {
       "localizations" : {
