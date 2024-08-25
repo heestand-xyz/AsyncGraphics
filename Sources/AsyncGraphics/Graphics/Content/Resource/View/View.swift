@@ -1,6 +1,8 @@
 import SwiftUI
 import TextureMap
 
+extension ImageRenderer: @retroactive Sendable where Content: Sendable {}
+
 extension Graphic {
     
     enum ViewError: LocalizedError {
