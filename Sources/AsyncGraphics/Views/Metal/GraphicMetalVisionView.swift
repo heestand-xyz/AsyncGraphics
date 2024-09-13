@@ -149,7 +149,6 @@ extension GraphicMetalVisionView {
         }
         
         commandBuffer.addCompletedHandler { [weak self] _ in
-            print("----<<< draw done!")
             self?.didRender(graphic.id)
             completion(true)
             return
