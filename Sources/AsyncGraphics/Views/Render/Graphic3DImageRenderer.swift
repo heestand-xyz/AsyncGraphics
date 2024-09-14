@@ -168,11 +168,13 @@ public final class Graphic3DImageRenderer {
             for (index, graphic) in viewGraphics.enumerated() {
                 
                 group.addTask {
-                    let tmImage: TMImage = if graphic.bits == ._8 {
-                        try await graphic.rawImage
-                    } else {
-                        try await graphic.image
-                    }
+                    // Faster but crashes sometimes
+//                    let tmImage: TMImage = if graphic.bits == ._8 {
+//                        try await graphic.rawImage
+//                    } else {
+//                        try await graphic.image
+//                    }
+                    let tmImage: TMImage = try await graphic.image
                     let image = Image(tmImage: tmImage)
                     progressManager?.increment(state: .converting)
                     return (index, image)
