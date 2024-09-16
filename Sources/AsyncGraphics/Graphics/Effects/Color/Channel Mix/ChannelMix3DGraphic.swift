@@ -10,6 +10,10 @@ extension CodableGraphic3D.Effect.Color {
             "Mix red, green, blue and alpha channels."
         }
         
+        public var tags: [String] {
+            ["Swizzle"]
+        }
+        
         public var red: GraphicEnumMetadata<Graphic.ColorChannel> = .init(value: .red,
                                                                           docs: "The source of the red channel.")
         

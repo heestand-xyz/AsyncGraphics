@@ -7,6 +7,10 @@ extension CodableGraphic.Effect.Color {
     @GraphicMacro
     public final class Threshold: ColorEffectGraphicProtocol {
 
+        public var docs: String {
+            "Divide the graphic into two regions: one with a value below the threshold (background), and one with a value above (foreground)."
+        }
+        
         public var fraction: GraphicMetadata<CGFloat> = .init(value: .fixed(0.5))
         
         public var foregroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))

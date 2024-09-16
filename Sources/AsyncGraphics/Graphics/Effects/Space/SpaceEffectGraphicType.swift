@@ -7,6 +7,11 @@ public enum SpaceEffectGraphicType: String, CodableGraphicTypeProtocol {
     case circleBlur
     case edge
     case transform
+    case kaleidoscope
+    case rainbowBlur
+    case pixelate
+    case sharpen
+    case morph
 }
 
 extension SpaceEffectGraphicType {
@@ -21,6 +26,16 @@ extension SpaceEffectGraphicType {
             "square"
         case .transform:
             "arrow.up.left.and.down.right.and.arrow.up.right.and.down.left"
+        case .kaleidoscope:
+            "hexagon"
+        case .rainbowBlur:
+            "rainbow"
+        case .pixelate:
+            "squareshape.split.3x3"
+        case .sharpen:
+            "circle.lefthalf.filled"
+        case .morph:
+            "seal"
         }
     }
 }

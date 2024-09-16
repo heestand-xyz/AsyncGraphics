@@ -7,6 +7,14 @@ extension CodableGraphic.Effect.Space {
     @GraphicMacro
     public final class CircleBlur: SpaceEffectGraphicProtocol {
         
+        public var docs: String {
+            "Circle blur a graphic."
+        }
+        
+        public var tags: [String] {
+            ["Lens Blur"]
+        }
+        
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.1),
                                                             maximum: .resolutionMinimum(fraction: 0.5),
                                                             options: .spatial)

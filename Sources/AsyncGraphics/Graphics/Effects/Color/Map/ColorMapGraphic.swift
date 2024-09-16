@@ -8,7 +8,7 @@ extension CodableGraphic.Effect.Color {
     public final class ColorMap: ColorEffectGraphicProtocol {
         
         public var docs: String {
-            "Maps the colors with a 2 stop gradient."
+            "Map colors with a 2 stop gradient, from background to foreground."
         }
         
         public var foregroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))

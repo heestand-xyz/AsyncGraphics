@@ -8,6 +8,14 @@ extension CodableGraphic3D.Effect.Modifier {
     @GraphicMacro
     public final class LumaTransform: ModifierEffectGraphic3DProtocol {
         
+        public var docs: String {
+            "Transform the first graphic based on the second graphic's luminance."
+        }
+        
+        public var tags: [String] {
+            ["Luminance"]
+        }
+        
         public var translation: GraphicMetadata<Point3D> = .init(value: .zero,
                                                                  minimum: .resolutionMaximum(fraction: -0.5),
                                                                  maximum: .resolutionMaximum(fraction: 0.5),

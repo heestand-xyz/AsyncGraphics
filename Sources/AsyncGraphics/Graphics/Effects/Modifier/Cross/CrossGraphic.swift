@@ -6,6 +6,14 @@ extension CodableGraphic.Effect.Modifier {
     @GraphicMacro
     public final class Cross: ModifierEffectGraphicProtocol {
         
+        public var docs: String {
+            "Average two graphics together."
+        }
+        
+        public var tags: [String] {
+            ["Average"]
+        }
+        
         public var fraction: GraphicMetadata<CGFloat> = .init(value: .fixed(0.5))
         
         public var placement: GraphicEnumMetadata<Graphic.Placement> = .init(value: .fill)

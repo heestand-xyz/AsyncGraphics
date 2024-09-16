@@ -11,6 +11,10 @@ extension CodableGraphic.Effect.Color {
             "Green screen background removal."
         }
         
+        public var tags: [String] {
+            ["Green Screen", "Background Removal"]
+        }
+        
         public var color: GraphicMetadata<PixelColor> = .init(value: .fixed(.rawGreen),
                                                               docs: "Key color to remove.")
         

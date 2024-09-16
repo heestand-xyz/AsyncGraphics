@@ -7,6 +7,14 @@ extension CodableGraphic3D.Effect.Modifier {
     @GraphicMacro
     public final class LumaBlur: ModifierEffectGraphic3DProtocol {
         
+        public var docs: String {
+            "Blur the first graphic based on the second graphic's luminance."
+        }
+        
+        public var tags: [String] {
+            ["Luminance"]
+        }
+        
         public var style: GraphicEnumMetadata<Graphic3D.LumaBlur3DType> = .init(value: .box)
         
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.1),

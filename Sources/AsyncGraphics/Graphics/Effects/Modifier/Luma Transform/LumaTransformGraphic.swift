@@ -7,6 +7,14 @@ extension CodableGraphic.Effect.Modifier {
     @GraphicMacro
     public final class LumaTransform: ModifierEffectGraphicProtocol {
         
+        public var docs: String {
+            "Transform the first graphic based on the second graphic's luminance."
+        }
+        
+        public var tags: [String] {
+            ["Luminance"]
+        }
+        
         public var translation: GraphicMetadata<CGPoint> = .init(value: .zero,
                                                                  minimum: .resolutionMaximum(fraction: -0.5),
                                                                  maximum: .resolutionMaximum(fraction: 0.5),

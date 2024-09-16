@@ -7,6 +7,10 @@ extension CodableGraphic.Effect.Space {
     @GraphicMacro
     public final class Edge: SpaceEffectGraphicProtocol {
         
+        public var docs: String {
+            "Highlight the edges of a graphic."
+        }
+        
         public var amplitude: GraphicMetadata<CGFloat> = .init(value: .one,
                                                                maximum: .fixed(2.0),
                                                                options: .spatial)

@@ -9,6 +9,10 @@ extension CodableGraphic3D.Effect.Space {
     @GraphicMacro
     public final class Transform: SpaceEffectGraphic3DProtocol {
         
+        public var tags: [String] {
+            ["Translation", "Offset", "Position", "Size", "Scale", "Rotation"]
+        }
+        
         public var translation: GraphicMetadata<Point3D> = .init(value: .zero,
                                                                  minimum: .resolutionMaximum(fraction: -0.5),
                                                                  maximum: .resolutionMaximum(fraction: 0.5),

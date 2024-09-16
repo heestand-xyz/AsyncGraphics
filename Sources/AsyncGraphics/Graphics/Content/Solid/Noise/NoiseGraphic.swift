@@ -6,6 +6,14 @@ extension CodableGraphic.Content.Solid {
     @GraphicMacro
     public final class Noise: SolidContentGraphicProtocol {
         
+        public var docs: String {
+            "Generate random, cloudy or smooth noise."
+        }
+        
+        public var tags: [String] {
+            ["Cloud", "Random"]
+        }
+        
         public var octaves: GraphicMetadata<Int> = .init(value: .fixed(1),
                                                          minimum: .fixed(1),
                                                          maximum: .fixed(10),

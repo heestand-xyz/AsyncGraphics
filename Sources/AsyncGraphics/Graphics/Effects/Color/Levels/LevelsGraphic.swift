@@ -7,6 +7,10 @@ extension CodableGraphic.Effect.Color {
     @GraphicMacro
     public final class Levels: ColorEffectGraphicProtocol {
         
+        public var tags: [String] {
+            ["Brightness", "Darkness", "Contrast", "Gamma", "Invert", "Opacity"]
+        }
+        
         public var brightness: GraphicMetadata<CGFloat> = .init(value: .one,
                                                                 maximum: .fixed(2.0))
         public var darkness: GraphicMetadata<CGFloat> = .init(value: .zero)

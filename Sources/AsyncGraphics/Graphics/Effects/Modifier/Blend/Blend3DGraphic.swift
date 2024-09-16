@@ -7,6 +7,14 @@ extension CodableGraphic3D.Effect.Modifier {
     @GraphicMacro
     public final class Blend: ModifierEffectGraphic3DProtocol {
         
+        public var docs: String {
+            "Blend two graphics together."
+        }
+        
+        public var tags: [String] {
+            Graphic.BlendMode.allCases.map(\.name)
+        }
+        
         public var blendingMode: GraphicEnumMetadata<Graphic.BlendMode> = .init(value: .add)
         
         public var placement: GraphicEnumMetadata<Graphic.Placement> = .init(value: .fill)

@@ -9,7 +9,7 @@ extension CodableGraphic3D.Effect.Color {
     public final class ColorMap: ColorEffectGraphic3DProtocol {
         
         public var docs: String {
-            "Maps the colors with a 2 stop gradient."
+            "Map colors with a 2 stop gradient, from background to foreground."
         }
         
         public var foregroundColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.white))

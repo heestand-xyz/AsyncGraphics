@@ -7,6 +7,10 @@ extension CodableGraphic.Effect.Modifier {
     @GraphicMacro
     public final class Displace: ModifierEffectGraphicProtocol {
         
+        public var docs: String {
+            "Displace the first graphic with the seconds graphics red (x) and green (y) colors."
+        }
+        
         public var offset: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.1),
                                                             options: .spatial)
         

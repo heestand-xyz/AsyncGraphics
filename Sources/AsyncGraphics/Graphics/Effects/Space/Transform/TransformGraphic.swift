@@ -7,6 +7,10 @@ extension CodableGraphic.Effect.Space {
     @GraphicMacro
     public final class Transform: SpaceEffectGraphicProtocol {
         
+        public var tags: [String] {
+            ["Translation", "Offset", "Position", "Size", "Scale", "Rotation"]
+        }
+        
         public var translation: GraphicMetadata<CGPoint> = .init(value: .zero,
                                                                  minimum: .resolutionMaximum(fraction: -0.5),
                                                                  maximum: .resolutionMaximum(fraction: 0.5),

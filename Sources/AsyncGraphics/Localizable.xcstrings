@@ -441,6 +441,21 @@
         }
       }
     },
+    "graphic.effect.space.kaleidoscope" : {
+
+    },
+    "graphic.effect.space.morph" : {
+
+    },
+    "graphic.effect.space.pixelate" : {
+
+    },
+    "graphic.effect.space.rainbowBlur" : {
+
+    },
+    "graphic.effect.space.sharpen" : {
+
+    },
     "graphic.effect.space.transform" : {
       "localizations" : {
         "en" : {
@@ -1441,6 +1456,12 @@
         }
       }
     },
+    "option.morphType.maximum" : {
+
+    },
+    "option.morphType.minimum" : {
+
+    },
     "option.multiBlendMode.add" : {
       "localizations" : {
         "en" : {
@@ -1660,6 +1681,15 @@
           }
         }
       }
+    },
+    "option.rainbowBlurType.angle" : {
+
+    },
+    "option.rainbowBlurType.circle" : {
+
+    },
+    "option.rainbowBlurType.zoom" : {
+
     },
     "option.resolutionInterpolation.bilinear" : {
       "localizations" : {
@@ -2311,6 +2341,9 @@
         }
       }
     },
+    "property.mirror" : {
+
+    },
     "property.octaves" : {
       "localizations" : {
         "en" : {
@@ -2560,6 +2593,9 @@
           }
         }
       }
+    },
+    "property.sharpness" : {
+
     },
     "property.size" : {
       "localizations" : {

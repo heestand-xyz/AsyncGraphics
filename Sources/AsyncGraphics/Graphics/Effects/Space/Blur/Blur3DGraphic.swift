@@ -6,6 +6,14 @@ extension CodableGraphic3D.Effect.Space {
     @GraphicMacro
     public final class Blur: SpaceEffectGraphic3DProtocol {
         
+        public var docs: String {
+            "Blur a graphic."
+        }
+        
+        public var tags: [String] {
+            Graphic3D.Blur3DType.allCases.map(\.name)
+        }
+        
         public var style: GraphicEnumMetadata<Graphic3D.Blur3DType> = .init(value: .box)
 
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.1),

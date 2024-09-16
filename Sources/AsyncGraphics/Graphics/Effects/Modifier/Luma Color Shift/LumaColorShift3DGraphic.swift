@@ -8,6 +8,14 @@ extension CodableGraphic3D.Effect.Modifier {
     @GraphicMacro
     public final class LumaColorShift: ModifierEffectGraphic3DProtocol {
         
+        public var docs: String {
+            "Shift colors in the first graphic based on the second graphic's luminance."
+        }
+        
+        public var tags: [String] {
+            ["Luminance"]
+        }
+        
         public var saturation: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
                                                                 maximum: .fixed(2.0))
         

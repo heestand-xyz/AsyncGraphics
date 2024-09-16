@@ -6,6 +6,14 @@ extension CodableGraphic.Effect.Modifier {
     @GraphicMacro
     public final class LumaRainbowBlur: ModifierEffectGraphicProtocol {
         
+        public var docs: String {
+            "Rainbow blur the first graphic based on the second graphic's luminance."
+        }
+        
+        public var tags: [String] {
+            ["Luminance"]
+        }
+        
         public var style: GraphicEnumMetadata<Graphic.LumaRainbowBlurType> = .init(value: .circle)
         
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.1),

@@ -11,6 +11,10 @@ extension CodableGraphic.Effect.Color {
             "Background removal."
         }
         
+        public var tags: [String] {
+            ["Background Removal"]
+        }
+        
         public var isMask: GraphicMetadata<Bool> = .init(value: .fixed(false))
         
         public func render(

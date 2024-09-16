@@ -8,6 +8,7 @@ public struct GraphicMacro: MemberMacro, MemberAttributeMacro {
         "type",
         "properties",
         "docs",
+        "tags",
     ]
     
     public static func expansion(

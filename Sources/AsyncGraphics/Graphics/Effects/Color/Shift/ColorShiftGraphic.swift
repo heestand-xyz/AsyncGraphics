@@ -7,6 +7,14 @@ extension CodableGraphic.Effect.Color {
     @GraphicMacro
     public final class ColorShift: ColorEffectGraphicProtocol {
         
+        public var docs: String {
+            "Shift colors in a graphic."
+        }
+        
+        public var tags: [String] {
+            ["Hue", "Saturation", "Tint"]
+        }
+        
         public var hue: GraphicMetadata<Angle> = .init()
         
         public var saturation: GraphicMetadata<CGFloat> = .init(value: .one,

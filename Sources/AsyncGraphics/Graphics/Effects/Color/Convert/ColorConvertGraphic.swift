@@ -14,6 +14,10 @@ extension CodableGraphic.Effect.Color {
             """
         }
         
+        public var tags: [String] {
+            ["RGB", "HSV", "Channels"]
+        }
+        
         public var conversion: GraphicEnumMetadata<Graphic.ColorConversion> = .init(value: .rgbToHSV)
         
         public var channel: GraphicEnumMetadata<Graphic.ColorConvertChannel> = .init(value: .all)

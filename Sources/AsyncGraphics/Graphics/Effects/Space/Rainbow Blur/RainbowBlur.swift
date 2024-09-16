@@ -20,7 +20,8 @@ extension Graphic {
         let position: PointUniform
     }
     
-    private enum RainbowBlurType: UInt32 {
+    @EnumMacro
+    public enum RainbowBlurType: String, GraphicEnum {
         case circle
         case angle
         case zoom
@@ -80,7 +81,7 @@ extension Graphic {
         )
     }
     
-    private func rainbowBlurred(
+    func rainbowBlurred(
         type: RainbowBlurType,
         radius: CGFloat,
         position: CGPoint? = nil,
@@ -100,7 +101,7 @@ extension Graphic {
             shader: .name("rainbowBlur"),
             graphics: [self],
             uniforms: RainbowBlurUniforms(
-                type: type.rawValue,
+                type: type.index,
                 count: UInt32(sampleCount),
                 radius: Float(relativeRadius),
                 angle: angle.uniform,

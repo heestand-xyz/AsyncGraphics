@@ -21,12 +21,13 @@ extension Graphic {
         try await morphed(type: .maximum, size: size)
     }
     
-    private enum MorphType {
+    @EnumMacro
+    public enum MorphType: String, GraphicEnum {
         case minimum
         case maximum
     }
     
-    private func morphed(type: MorphType, size: CGSize) async throws -> Graphic {
+    func morphed(type: MorphType, size: CGSize) async throws -> Graphic {
         
         let targetTexture: MTLTexture = try await .empty(resolution: resolution, bits: bits, usage: .write)
         

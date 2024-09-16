@@ -7,6 +7,14 @@ extension CodableGraphic.Effect.Color {
     @GraphicMacro
     public final class Slope: ColorEffectGraphicProtocol {
 
+        public var docs: String {
+            "Calculate the slope between neighboring pixels by generating a normal map. 16 or 32 bit recommended."
+        }
+        
+        public var tags: [String] {
+            ["Normal Map"]
+        }
+        
         public var amplitude: GraphicMetadata<CGFloat> = .init(value: .fixed(100.0),
                                                                maximum: .fixed(100.0))
         

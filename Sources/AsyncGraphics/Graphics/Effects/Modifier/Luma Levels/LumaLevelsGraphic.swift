@@ -7,6 +7,14 @@ extension CodableGraphic.Effect.Modifier {
     @GraphicMacro
     public final class LumaLevels: ModifierEffectGraphicProtocol {
         
+        public var docs: String {
+            "Level the first graphic based on the second graphic's luminance."
+        }
+        
+        public var tags: [String] {
+            ["Luminance"]
+        }
+        
         public var brightness: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
                                                                 maximum: .fixed(2.0))
         

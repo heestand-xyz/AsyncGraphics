@@ -5,6 +5,7 @@ public protocol CodableGraphic3DProtocol {
     static var type: CodableGraphic3DType { get }
     
     var docs: String { get }
+    var tags: [String] { get }
     
     var properties: [any AnyGraphicProperty] { get }
         
@@ -29,6 +30,7 @@ extension CodableGraphic3DProtocol {
 extension CodableGraphic3DProtocol {
     
     public var docs: String { "" }
+    public var tags: [String] { [] }
 }
 
 extension CodableGraphic3DProtocol {

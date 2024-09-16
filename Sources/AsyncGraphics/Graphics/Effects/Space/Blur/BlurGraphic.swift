@@ -6,6 +6,14 @@ extension CodableGraphic.Effect.Space {
     @GraphicMacro
     public final class Blur: SpaceEffectGraphicProtocol {
         
+        public var docs: String {
+            "Blur a graphic. Gaussian blur is the fastest."
+        }
+        
+        public var tags: [String] {
+            Graphic.BlurType.allCases.map(\.name)
+        }
+        
         public var style: GraphicEnumMetadata<Graphic.BlurType> = .init(value: .gaussian)
         
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.1),
