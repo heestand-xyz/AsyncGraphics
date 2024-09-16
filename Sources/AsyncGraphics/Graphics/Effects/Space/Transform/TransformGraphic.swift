@@ -25,8 +25,6 @@ extension CodableGraphic.Effect.Space {
                                                          maximum: .resolution,
                                                          options: .spatial)
         
-        public var isTransparent: GraphicMetadata<Bool> = .init(value: .fixed(false))
-        
         public func render(
             with graphic: Graphic,
             options: Graphic.EffectOptions = []
