@@ -21,7 +21,7 @@ let package = Package(
         .package(url: "https://github.com/heestand-xyz/TextureMap", from: "1.0.4"),
         .package(url: "https://github.com/heestand-xyz/PixelColor", from: "2.2.2"),
         .package(url: "https://github.com/heestand-xyz/CoreGraphicsExtensions", from: "1.8.1"),
-        .package(url: "https://github.com/heestand-xyz/SpatialExtensions", from: "0.1.2"),
+        .package(url: "https://github.com/heestand-xyz/SpatialExtensions", from: "0.1.3"),
         .package(url: "https://github.com/heestand-xyz/VideoFrames", from: "1.1.1"),
         .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.1.0"),
         .package(url: "https://github.com/apple/swift-syntax", from: "509.0.0"),
