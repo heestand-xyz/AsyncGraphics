@@ -40,6 +40,9 @@ public enum GraphicMetadataValue<T: GraphicValue>: Codable {
         }
     }
     
+    case width
+    case height
+    case depth
     case resolution
     case resolutionAlignment(Alignment)
     case resolutionMinimum(fraction: CGFloat)
@@ -53,6 +56,22 @@ public enum GraphicMetadataValue<T: GraphicValue>: Codable {
             return T.one
         case .fixed(let value):
             return value
+        case .width:
+            if T.self == CGFloat.self {
+                return resolution.width as! T
+            } else if T.self == Double.self {
+                return Double(resolution.width) as! T
+            }
+            fatalError("Width Not Supported")
+        case .height:
+            if T.self == CGFloat.self {
+                return resolution.height as! T
+            } else if T.self == Double.self {
+                return Double(resolution.height) as! T
+            }
+            fatalError("Height Not Supported")
+        case .depth:
+            fatalError("Depth Not Supported")
         case .resolution:
             if T.self == CGPoint.self {
                 return CGPoint(x: resolution.width,
@@ -87,6 +106,27 @@ public enum GraphicMetadataValue<T: GraphicValue>: Codable {
             return T.one
         case .fixed(let value):
             return value
+        case .width:
+            if T.self == CGFloat.self {
+                return resolution.width as! T
+            } else if T.self == Double.self {
+                return Double(resolution.width) as! T
+            }
+            fatalError("Width Not Supported")
+        case .height:
+            if T.self == CGFloat.self {
+                return resolution.height as! T
+            } else if T.self == Double.self {
+                return Double(resolution.height) as! T
+            }
+            fatalError("Height Not Supported")
+        case .depth:
+            if T.self == CGFloat.self {
+                return resolution.depth as! T
+            } else if T.self == Double.self {
+                return Double(resolution.depth) as! T
+            }
+            fatalError("Depth Not Supported")
         case .resolution:
             if T.self == Size3D.self {
                 return resolution as! T

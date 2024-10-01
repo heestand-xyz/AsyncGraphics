@@ -301,6 +301,16 @@
         }
       }
     },
+    "graphic.effect.convert.crop" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crop"
+          }
+        }
+      }
+    },
     "graphic.effect.convert.resolution" : {
       "localizations" : {
         "en" : {
@@ -2187,6 +2197,66 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fraction"
+          }
+        }
+      }
+    },
+    "property.fromBottom" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From Bottom"
+          }
+        }
+      }
+    },
+    "property.fromFar" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From Far"
+          }
+        }
+      }
+    },
+    "property.fromLeft" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From Left"
+          }
+        }
+      }
+    },
+    "property.fromNear" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From Near"
+          }
+        }
+      }
+    },
+    "property.fromRight" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From Right"
+          }
+        }
+      }
+    },
+    "property.fromTop" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From Top"
           }
         }
       }
