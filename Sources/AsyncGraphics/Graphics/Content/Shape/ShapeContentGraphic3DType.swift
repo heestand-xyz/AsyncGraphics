@@ -30,3 +30,23 @@ extension ShapeContentGraphic3DType {
         }
     }
 }
+
+extension ShapeContentGraphic3DType {
+    
+    public var complexity: GraphicComplexity {
+        switch self {
+        case .sphere:
+                .basic
+        case .box:
+                .basic
+        case .cylinder:
+                .basic
+        case .torus:
+                .basic
+        case .cone:
+                .basic
+        case .tetrahedron:
+                .basic
+        }
+    }
+}

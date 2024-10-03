@@ -21,3 +21,17 @@ extension SpaceEffectGraphic3DType {
         }
     }
 }
+
+extension SpaceEffectGraphic3DType {
+    
+    public var complexity: GraphicComplexity {
+        switch self {
+        case .blur:
+                .basic
+        case .edge:
+                .basic
+        case .transform:
+                .basic
+        }
+    }
+}

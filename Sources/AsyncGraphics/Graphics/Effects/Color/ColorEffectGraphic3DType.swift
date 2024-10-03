@@ -42,3 +42,31 @@ extension ColorEffectGraphic3DType {
         }
     }
 }
+
+extension ColorEffectGraphic3DType {
+    
+    public var complexity: GraphicComplexity {
+        switch self {
+        case .channelMix:
+                .advanced
+        case .range:
+                .advanced
+        case .clamp:
+                .advanced
+        case .colorMap:
+                .basic
+        case .colorShift:
+                .basic
+        case .gradientLookup:
+                .basic
+        case .levels:
+                .basic
+        case .quantize:
+                .basic
+        case .slope:
+                .advanced
+        case .threshold:
+                .basic
+        }
+    }
+}

@@ -30,6 +30,18 @@ extension CodableGraphic3DType {
     }
 }
 
+extension CodableGraphic3DType {
+    
+    public var complexity: GraphicComplexity {
+        switch self {
+        case .content(let content):
+            content.complexity
+        case .effect(let effect):
+            effect.complexity
+        }
+    }
+}
+
 extension CodableGraphic3DType: CaseIterable {
     
     public static var allCases: [CodableGraphic3DType] {

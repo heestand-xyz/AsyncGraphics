@@ -21,3 +21,17 @@ extension SolidContentGraphicType {
         }
     }
 }
+
+extension SolidContentGraphicType {
+    
+    public var complexity: GraphicComplexity {
+        switch self {
+        case .color:
+                .basic
+        case .gradient:
+                .basic
+        case .noise:
+                .basic
+        }
+    }
+}

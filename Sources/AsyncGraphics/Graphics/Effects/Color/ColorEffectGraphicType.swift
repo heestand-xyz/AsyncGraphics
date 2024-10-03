@@ -51,3 +51,37 @@ extension ColorEffectGraphicType {
         }
     }
 }
+
+extension ColorEffectGraphicType {
+    
+    public var complexity: GraphicComplexity {
+        switch self {
+        case .channelMix:
+                .advanced
+        case .chromaKey:
+                .basic
+        case .range:
+                .advanced
+        case .clamp:
+                .advanced
+        case .colorConvert:
+                .advanced
+        case .colorMap:
+                .basic
+        case .colorShift:
+                .basic
+        case .gradientLookup:
+                .basic
+        case .levels:
+                .basic
+        case .quantize:
+                .basic
+        case .personSegmentation:
+                .basic
+        case .slope:
+                .advanced
+        case .threshold:
+                .basic
+        }
+    }
+}

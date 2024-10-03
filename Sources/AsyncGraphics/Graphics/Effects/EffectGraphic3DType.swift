@@ -39,6 +39,22 @@ extension EffectGraphic3DType {
     }
 }
 
+extension EffectGraphic3DType {
+    
+    public var complexity: GraphicComplexity {
+        switch self {
+        case .color(let color):
+            color.complexity
+        case .space(let space):
+            space.complexity
+        case .modifier(let modifier):
+            modifier.complexity
+        case .convert(let convert):
+            convert.complexity
+        }
+    }
+}
+
 extension EffectGraphic3DType: CaseIterable {
     
     public static var allCases: [EffectGraphic3DType] {

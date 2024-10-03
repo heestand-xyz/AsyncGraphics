@@ -29,6 +29,18 @@ extension ContentGraphic3DType {
     }
 }
 
+extension ContentGraphic3DType {
+    
+    public var complexity: GraphicComplexity {
+        switch self {
+        case .shape(let shape):
+            shape.complexity
+        case .solid(let solid):
+            solid.complexity
+        }
+    }
+}
+
 extension ContentGraphic3DType: CaseIterable {
     
     public static var allCases: [ContentGraphic3DType] {

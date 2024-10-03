@@ -30,6 +30,18 @@ extension CodableGraphicType {
     }
 }
 
+extension CodableGraphicType {
+    
+    public var complexity: GraphicComplexity {
+        switch self {
+        case .content(let content):
+            content.complexity
+        case .effect(let effect):
+            effect.complexity
+        }
+    }
+}
+
 extension CodableGraphicType: CaseIterable {
     
     public static var allCases: [CodableGraphicType] {

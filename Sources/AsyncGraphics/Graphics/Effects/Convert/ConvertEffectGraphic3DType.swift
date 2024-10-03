@@ -18,3 +18,15 @@ extension ConvertEffectGraphic3DType {
         }
     }
 }
+
+extension ConvertEffectGraphic3DType {
+    
+    public var complexity: GraphicComplexity {
+        switch self {
+        case .bits:
+                .advanced
+        case .crop:
+                .basic
+        }
+    }
+}

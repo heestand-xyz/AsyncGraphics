@@ -29,6 +29,18 @@ extension ContentGraphicType {
     }
 }
 
+extension ContentGraphicType {
+    
+    public var complexity: GraphicComplexity {
+        switch self {
+        case .shape(let shape):
+            shape.complexity
+        case .solid(let solid):
+            solid.complexity
+        }
+    }
+}
+
 extension ContentGraphicType: CaseIterable {
     
     public static var allCases: [ContentGraphicType] {

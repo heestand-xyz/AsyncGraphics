@@ -39,3 +39,29 @@ extension SpaceEffectGraphicType {
         }
     }
 }
+
+extension SpaceEffectGraphicType {
+    
+    public var complexity: GraphicComplexity {
+        switch self {
+        case .blur:
+                .basic
+        case .circleBlur:
+                .basic
+        case .edge:
+                .basic
+        case .transform:
+                .basic
+        case .kaleidoscope:
+                .basic
+        case .rainbowBlur:
+                .basic
+        case .pixelate:
+                .basic
+        case .sharpen:
+                .advanced
+        case .morph:
+                .advanced
+        }
+    }
+}

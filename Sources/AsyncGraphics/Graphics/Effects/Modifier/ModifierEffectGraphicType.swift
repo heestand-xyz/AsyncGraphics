@@ -42,3 +42,31 @@ extension ModifierEffectGraphicType {
         }
     }
 }
+
+extension ModifierEffectGraphicType {
+    
+    public var complexity: GraphicComplexity {
+        switch self {
+        case .mask:
+                .basic
+        case .cross:
+                .basic
+        case .blend:
+                .basic
+        case .displace:
+                .basic
+        case .lookup:
+                .advanced
+        case .lumaLevels:
+                .advanced
+        case .lumaColorShift:
+                .advanced
+        case .lumaBlur:
+                .advanced
+        case .lumaRainbowBlur:
+                .advanced
+        case .lumaTransform:
+                .advanced
+        }
+    }
+}

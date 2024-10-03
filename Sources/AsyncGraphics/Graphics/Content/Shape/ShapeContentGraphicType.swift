@@ -30,3 +30,23 @@ extension ShapeContentGraphicType {
         }
     }
 }
+
+extension ShapeContentGraphicType {
+    
+    public var complexity: GraphicComplexity {
+        switch self {
+        case .circle:
+                .basic
+        case .rectangle:
+                .basic
+        case .polygon:
+                .basic
+        case .star:
+                .basic
+        case .arc:
+                .basic
+        case .line:
+                .basic
+        }
+    }
+}

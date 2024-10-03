@@ -24,3 +24,19 @@ extension ConvertEffectGraphicType {
         }
     }
 }
+
+extension ConvertEffectGraphicType {
+    
+    public var complexity: GraphicComplexity {
+        switch self {
+        case .resolution:
+                .basic
+        case .bits:
+                .advanced
+        case .cornerPin:
+                .basic
+        case .crop:
+                .basic
+        }
+    }
+}
