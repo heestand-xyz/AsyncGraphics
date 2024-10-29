@@ -25,6 +25,7 @@ public struct AsyncGraphicView: View {
     }
     
     /// The default resolution is derived from the view's geometry size multiplied by pixels per point.
+    /// If the resolution is nil, the graphic will re-render whenever the view size changes.
     public init(
         resolution: CGSize? = nil,
         _ graphic: @escaping (CGSize) async throws -> Graphic
@@ -40,18 +41,39 @@ public struct AsyncGraphicView: View {
                     GraphicView(graphic: graphic)
                 } else if let resolution {
                     Color.clear
-                        .aspectRatio(resolution, contentMode: .fit)
                 }
             }
             .task {
                 do {
-                    let resolution: CGSize = resolution ?? geometry.size * CGFloat.pixelsPerPoint
+                    let resolution: CGSize = resolution ?? (geometry.size * CGFloat.pixelsPerPoint)
                     graphic = try await graphicBlock(resolution)
                 } catch {
                     print("AsyncGraphics - AsyncGraphicView - Failed to Render:", error)
                 }
             }
+            .onChange(of: geometry.size) { newSize in
+                guard resolution == nil else { return }
+                Task {
+                    do {
+                        let resolution: CGSize = newSize * CGFloat.pixelsPerPoint
+                        graphic = try await graphicBlock(resolution)
+                    } catch {
+                        print("AsyncGraphics - AsyncGraphicView - Failed to Re-render:", error)
+                    }
+                }
+            }
         }
-        .aspectRatio(graphic?.resolution.aspectRatio, contentMode: .fit)
+        .aspectRatio(resolution: resolution)
+    }
+}
+
+extension View {
+    @ViewBuilder
+    fileprivate func aspectRatio(resolution: CGSize?) -> some View {
+        if let resolution: CGSize {
+            self.aspectRatio(resolution, contentMode: .fit)
+        } else {
+            self
+        }
     }
 }
