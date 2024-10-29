@@ -130,9 +130,22 @@ LUT
 
 In AsyncGraphics there are a couple ways to present a graphic.
 
-- [AGView](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/agview) to declarativly view [AGGraph](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/aggraph)s
+- [AGView](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/agview) to declaratively view [AGGraph](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/aggraph)s
 - [GraphicView](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphicview) to imperatively view [Graphic](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic)s
+- [AsyncGraphicView](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/asyncgraphicview) to imperatively view [Graphic](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic)s asynchronously.
 - [Graphic3DView](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic3dview) to view [Graphic3D](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic3d/)s
+
+```swift
+import AsyncGraphics
+
+struct ContentView: View {
+    var body: some View {
+        AsyncGraphicView { resolution in
+            try await .circle(resolution: resolution)
+        }
+    }
+}
+```
 
 # Examples
 
@@ -279,7 +292,3 @@ Colors are represented with the `PixelColor` type.<br>
 `import PixelColor` to create custom colors with hex values.
 
 [PixelColor](https://github.com/heestand-xyz/PixelColor) on GitHub.
-
-## About
-
-AsyncGraphics is a work in progress project, there is more features to come! Feel free to submit a PR!
