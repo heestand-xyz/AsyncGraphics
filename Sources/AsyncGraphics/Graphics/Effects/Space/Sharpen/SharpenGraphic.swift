@@ -18,7 +18,8 @@ extension CodableGraphic.Effect.Space {
         public var sharpness: GraphicMetadata<CGFloat> = .init()
         
         public var distance: GraphicMetadata<CGFloat> = .init(value: .one,
-                                                              maximum: .fixed(2.0))
+                                                              maximum: .fixed(2.0),
+                                                              options: .spatial)
         
         public func render(
             with graphic: Graphic,

@@ -8,19 +8,23 @@ extension CodableGraphic.Effect.Convert {
         
         public var fromLeft: GraphicMetadata<CGFloat> = .init(
             value: .fixed(0),
-            maximum: .width)
+            maximum: .width,
+            options: .spatial)
         
         public var fromRight: GraphicMetadata<CGFloat> = .init(
             value: .fixed(0),
-            maximum: .width)
+            maximum: .width,
+            options: .spatial)
         
         public var fromTop: GraphicMetadata<CGFloat> = .init(
             value: .fixed(0),
-            maximum: .height)
+            maximum: .height,
+            options: .spatial)
         
         public var fromBottom: GraphicMetadata<CGFloat> = .init(
             value: .fixed(0),
-            maximum: .height)
+            maximum: .height,
+            options: .spatial)
         
         public var placement: GraphicEnumMetadata<Graphic.Placement> = .init(value: .fit)
         

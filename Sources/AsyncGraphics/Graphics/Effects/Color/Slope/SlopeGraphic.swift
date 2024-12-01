@@ -16,7 +16,8 @@ extension CodableGraphic.Effect.Color {
         }
         
         public var amplitude: GraphicMetadata<CGFloat> = .init(value: .fixed(100.0),
-                                                               maximum: .fixed(100.0))
+                                                               maximum: .fixed(100.0),
+                                                               options: .spatial)
         
         public var originColor: GraphicMetadata<PixelColor> = .init(value: .fixed(.rawGray))
         

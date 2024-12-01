@@ -12,7 +12,7 @@ extension CodableGraphic.Effect.Space {
         
         public var mirror: GraphicMetadata<Bool> = .init()
         
-        public var position: GraphicMetadata<CGPoint> = .init()
+        public var position: GraphicMetadata<CGPoint> = .init(options: .spatial)
         
         public var rotation: GraphicMetadata<Angle> = .init()
         
