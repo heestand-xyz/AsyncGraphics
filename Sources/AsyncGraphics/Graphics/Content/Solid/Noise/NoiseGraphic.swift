@@ -25,6 +25,7 @@ extension CodableGraphic.Content.Solid {
                                                             options: .spatial)
         
         public var depthOffset: GraphicMetadata<CGFloat> = .init(maximum: .resolutionMaximum(fraction: 0.5),
+                                                                 options: .spatial,
                                                                  docs: "An offset in the motion dimension.")
         
         public var scale: GraphicMetadata<CGFloat> = .init(value: .one,
