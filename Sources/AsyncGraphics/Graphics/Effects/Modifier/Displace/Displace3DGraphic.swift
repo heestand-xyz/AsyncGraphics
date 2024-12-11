@@ -15,7 +15,7 @@ extension CodableGraphic3D.Effect.Modifier {
         public var offset: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.1),
                                                             options: .spatial)
         
-        public var origin: GraphicMetadata<PixelColor> = .init(value: .fixed(.gray))
+        public var origin: GraphicMetadata<PixelColor> = .init(value: .fixed(.rawGray))
         
         public var placement: GraphicEnumMetadata<Graphic.Placement> = .init(value: .fill)
 
