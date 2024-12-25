@@ -2,6 +2,7 @@ import CoreGraphics
 
 extension AGGraph {
     
+    @MainActor
     public func offset(x: CGFloat = 0.0, y: CGFloat = 0.0) -> any AGGraph {
         AGOffset(child: self, offset: CGPoint(x: x * .pixelsPerPoint,
                                               y: y * .pixelsPerPoint))

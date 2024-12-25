@@ -36,6 +36,7 @@ public struct AGCircle: AGGraph {
 
 extension AGCircle {
     
+    @MainActor
     public func strokeBorder(lineWidth: CGFloat = 1.0) -> AGCircle {
         var circle: AGCircle = self
         circle.lineWidth = lineWidth * .pixelsPerPoint

@@ -2,6 +2,7 @@ import CoreGraphics
 
 extension AGGraph {
     
+    @MainActor
     public func blur(radius: CGFloat) -> any AGGraph {
         AGBlur(child: self, radius: radius * .pixelsPerPoint)
     }

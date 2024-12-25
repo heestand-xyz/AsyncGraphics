@@ -29,6 +29,7 @@ public struct AGRectangle: AGGraph {
 
 extension AGRectangle {
     
+    @MainActor
     public func strokeBorder(lineWidth: CGFloat = 1.0) -> AGRectangle {
         var circle: AGRectangle = self
         circle.lineWidth = lineWidth * .pixelsPerPoint

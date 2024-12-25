@@ -10,6 +10,7 @@ public struct AGRoundedRectangle: AGGraph {
    
     let cornerRadius: CGFloat
     
+    @MainActor
     public init(cornerRadius: CGFloat) {
         self.cornerRadius = cornerRadius * .pixelsPerPoint
     }
@@ -36,6 +37,7 @@ public struct AGRoundedRectangle: AGGraph {
 
 extension AGRoundedRectangle {
     
+    @MainActor
     public func strokeBorder(lineWidth: CGFloat = 1.0) -> AGRoundedRectangle {
         var circle: AGRoundedRectangle = self
         circle.lineWidth = lineWidth * .pixelsPerPoint

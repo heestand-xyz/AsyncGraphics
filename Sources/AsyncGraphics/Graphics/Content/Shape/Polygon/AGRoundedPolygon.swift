@@ -9,6 +9,7 @@ public struct AGRoundedPolygon: AGGraph {
     let count: Int
     let cornerRadius: CGFloat
     
+    @MainActor
     public init(count: Int, cornerRadius: CGFloat) {
         self.count = count
         self.cornerRadius = cornerRadius * .pixelsPerPoint

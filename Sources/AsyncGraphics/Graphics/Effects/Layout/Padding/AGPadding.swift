@@ -2,10 +2,12 @@ import CoreGraphics
 
 extension AGGraph {
     
+    @MainActor
     public func padding(_ length: CGFloat) -> any AGGraph {
         padding(.all, length)
     }
     
+    @MainActor
     public func padding(_ edgeInsets: Graphic.EdgeInsets, _ length: CGFloat = 16) -> any AGGraph {
         AGPadding(child: self, edgeInsets: edgeInsets, padding: length * .pixelsPerPoint)
     }

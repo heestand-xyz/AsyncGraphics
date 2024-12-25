@@ -2,6 +2,7 @@ import CoreGraphics
 
 extension AGGraph {
     
+    @MainActor
     public func frame(width: CGFloat? = nil, height: CGFloat? = nil) -> any AGGraph {
         AGFrame(child: self,
                 fixedWidth: width != nil ? width! * .pixelsPerPoint : nil,

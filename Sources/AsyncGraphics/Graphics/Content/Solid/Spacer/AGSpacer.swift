@@ -4,6 +4,7 @@ public struct AGSpacer: AGGraph {
     
     let minLength: CGFloat
     
+    @MainActor
     public init(minLength: CGFloat = 8) {
         self.minLength = minLength * .pixelsPerPoint
     }

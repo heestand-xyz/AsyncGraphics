@@ -9,6 +9,7 @@ public struct AGVStack: AGParentGraph {
     let alignment: Graphic.VStackAlignment
     let spacing: CGFloat
     
+    @MainActor
     public init(alignment: Graphic.VStackAlignment = .center,
                 spacing: CGFloat = 8,
                 @AGGraphBuilder with graphs: @escaping () -> [any AGGraph]) {

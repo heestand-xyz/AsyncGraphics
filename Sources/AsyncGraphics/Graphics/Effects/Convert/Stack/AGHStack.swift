@@ -10,6 +10,7 @@ public struct AGHStack: AGParentGraph {
     let alignment: Graphic.HStackAlignment
     let spacing: CGFloat
     
+    @MainActor
     public init(alignment: Graphic.HStackAlignment = .center,
                 spacing: CGFloat = 8,
                 @AGGraphBuilder with graphs: @escaping () -> [any AGGraph]) {

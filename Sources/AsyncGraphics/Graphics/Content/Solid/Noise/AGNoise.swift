@@ -11,6 +11,7 @@ public struct AGNoise: AGGraph {
     let colored: Bool
     let random: Bool
     
+    @MainActor
     public init(offset: CGPoint = .zero,
                 depth: CGFloat = 0.0,
                 scale: CGFloat = 1.0,

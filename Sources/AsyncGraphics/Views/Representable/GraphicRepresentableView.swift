@@ -64,17 +64,18 @@ extension GraphicRepresentableView: NSViewRepresentable {
     }
 }
 
-#elseif os(iOS)
+#elseif os(visionOS)
 
 extension GraphicRepresentableView: UIViewRepresentable {
     
-    func makeUIView(context: Context) -> GraphicMetalView {
-        GraphicMetalView(interpolation: interpolation,
-                         extendedDynamicRange: extendedDynamicRange,
-                         didRender: didRender)
+    func makeUIView(context: Context) -> GraphicMetalVisionView {
+        GraphicMetalVisionView(interpolation: interpolation,
+                               extendedDynamicRange: extendedDynamicRange,
+                               autoDraw: true,
+                               didRender: didRender)
     }
     
-    func updateUIView(_ view: GraphicMetalView, context: Context) {
+    func updateUIView(_ view: GraphicMetalVisionView, context: Context) {
         if view.extendedDynamicRange != extendedDynamicRange {
             view.set(extendedDynamicRange: extendedDynamicRange)
         }
@@ -88,18 +89,17 @@ extension GraphicRepresentableView: UIViewRepresentable {
     }
 }
 
-#elseif os(visionOS)
+#else
 
 extension GraphicRepresentableView: UIViewRepresentable {
     
-    func makeUIView(context: Context) -> GraphicMetalVisionView {
-        GraphicMetalVisionView(interpolation: interpolation,
-                               extendedDynamicRange: extendedDynamicRange,
-                               autoDraw: true,
-                               didRender: didRender)
+    func makeUIView(context: Context) -> GraphicMetalView {
+        GraphicMetalView(interpolation: interpolation,
+                         extendedDynamicRange: extendedDynamicRange,
+                         didRender: didRender)
     }
     
-    func updateUIView(_ view: GraphicMetalVisionView, context: Context) {
+    func updateUIView(_ view: GraphicMetalView, context: Context) {
         if view.extendedDynamicRange != extendedDynamicRange {
             view.set(extendedDynamicRange: extendedDynamicRange)
         }
