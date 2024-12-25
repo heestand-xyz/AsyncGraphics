@@ -18,7 +18,7 @@ extension Graphic {
         let resolution: SizeUniform
     }
     
-    public struct UVColorParticleOptions: OptionSet {
+    public struct UVColorParticleOptions: OptionSet, Sendable {
         
         public let rawValue: Int
         

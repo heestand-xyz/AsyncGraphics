@@ -7,7 +7,7 @@ public struct AGView: View {
    
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     
-    @StateObject private var renderer = AGGraphRenderer()
+    @State private var renderer = AGGraphRenderer()
     
     private let graph: () -> any AGGraph
     
@@ -52,21 +52,21 @@ public struct AGView: View {
                     .onAppear {
                         resolution = proxy.size * .pixelsPerPoint
                     }
-                    .onChange(of: proxy.size) { newValue in
+                    .onChange(of: proxy.size) { _, newValue in
                         resolution = proxy.size * .pixelsPerPoint
                     }
             }
         }
-        .onChange(of: colorScheme) { _ in
+        .onChange(of: colorScheme) {
             render()
         }
-        .onChange(of: resolution) { resolution in
+        .onChange(of: resolution) { _, resolution in
             render(at: resolution)
         }
-        .onChange(of: graph().hashValue) { _ in
+        .onChange(of: graph().hashValue) {
             render()
         }
-        .onChange(of: renderer.details(for: graph(), at: resolution ?? .one)) { details in
+        .onChange(of: renderer.details(for: graph(), at: resolution ?? .one)) { _, details in
             render(details: details)
         }
     }

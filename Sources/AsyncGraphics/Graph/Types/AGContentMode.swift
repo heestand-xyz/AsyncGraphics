@@ -1,5 +1,5 @@
 
-public enum AGContentMode {
+public enum AGContentMode: Sendable {
     case fit
     case fill
 }

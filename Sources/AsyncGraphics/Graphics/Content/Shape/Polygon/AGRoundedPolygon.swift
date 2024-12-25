@@ -14,11 +14,13 @@ public struct AGRoundedPolygon: AGGraph {
         self.cornerRadius = cornerRadius * .pixelsPerPoint
     }
     
+    @MainActor
     public func resolution(at proposedResolution: CGSize,
                            for specification: AGSpecification) -> CGSize {
         .one.place(in: proposedResolution, placement: .fit)
     }
     
+    @MainActor
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)

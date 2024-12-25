@@ -21,7 +21,7 @@ extension Graphic3D {
         return try await Renderer.render(
             name: "Trace",
             shader: .name("trace"),
-            graphics: [bits(._8)],
+            graphics: [withBits(.bit8)],
             uniforms: Trace3DUniforms(
                 reversed: reversed,
                 alphaThreshold: Float(alphaThreshold),

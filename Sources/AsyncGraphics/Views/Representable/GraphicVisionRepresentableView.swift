@@ -10,7 +10,7 @@ struct GraphicVisionRepresentableView: UIViewRepresentable {
     
     let interpolation: Graphic.ViewInterpolation
     let extendedDynamicRange: Bool
-    let renderInView: (@escaping (Graphic) async -> Bool) -> ()
+    let renderInView: (@escaping @Sendable (Graphic) async -> Bool) -> ()
     
     func makeUIView(context: Context) -> GraphicMetalVisionView {
         let view = GraphicMetalVisionView(interpolation: interpolation,

@@ -30,7 +30,7 @@ extension Graphic {
         
         let cgImage: CGImage = try await cgImage
         
-        let maskPixelBuffer: CVPixelBuffer = try await withCheckedThrowingContinuation { continuation in
+        let maskPixelBuffer: SendablePixelBuffer = try await withCheckedThrowingContinuation { continuation in
            
             let request = VNGeneratePersonSegmentationRequest { (request, error) in
                 
@@ -41,7 +41,7 @@ extension Graphic {
                     return
                 }
                 
-                continuation.resume(returning: observation.pixelBuffer)
+                continuation.resume(returning: observation.pixelBuffer.send())
             }
 
             let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
@@ -51,7 +51,7 @@ extension Graphic {
                 continuation.resume(throwing: error)
             }
         }
-        let maskGraphic: Graphic = try await .pixelBuffer(maskPixelBuffer)
+        let maskGraphic: Graphic = try await .pixelBuffer(maskPixelBuffer.receive())
             .channelMix(green: .red, blue: .red, alpha: .red)
         
         return maskGraphic

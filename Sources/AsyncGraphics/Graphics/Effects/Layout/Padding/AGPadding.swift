@@ -31,6 +31,7 @@ public struct AGPadding: AGSingleParentGraph {
                height: proposedResolution.height - verticalPadding)
     }
     
+    @MainActor
     public func resolution(at proposedResolution: CGSize,
                            for specification: AGSpecification) -> CGSize {
         let paddingResolution: CGSize = paddingResolution(at: proposedResolution)
@@ -39,6 +40,7 @@ public struct AGPadding: AGSingleParentGraph {
                       height: graphResolution.height + verticalPadding)
     }
     
+    @MainActor
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         let paddingResolution: CGSize = paddingResolution(at: proposedResolution)

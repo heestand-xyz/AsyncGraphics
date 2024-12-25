@@ -197,14 +197,14 @@ extension PixelColor: GraphicValue {
         PixelColor(red: Double.lerp(at: fraction, from: leading.red, to: trailing.red),
                    green: Double.lerp(at: fraction, from: leading.green, to: trailing.green),
                    blue: Double.lerp(at: fraction, from: leading.blue, to: trailing.blue),
-                   alpha: Double.lerp(at: fraction, from: leading.alpha, to: trailing.alpha))
+                   opacity: Double.lerp(at: fraction, from: leading.opacity, to: trailing.opacity))
     }
     
     public func scaled(by scale: CGFloat) -> Self {
         PixelColor(red: red.scaled(by: scale),
                    green: green.scaled(by: scale),
                    blue: blue.scaled(by: scale),
-                   alpha: alpha.scaled(by: scale))
+                   opacity: opacity.scaled(by: scale))
     }
 }
 
@@ -249,7 +249,7 @@ extension Size3D: GraphicValue {
 
 extension Angle3D: GraphicValue {
     
-    public static var one = Angle3D(
+    public static let one = Angle3D(
         x: Angle2D(degrees: 360),
         y: Angle2D(degrees: 360),
         z: Angle2D(degrees: 360)

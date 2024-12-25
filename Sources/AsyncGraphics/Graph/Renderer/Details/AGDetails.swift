@@ -1,7 +1,8 @@
 import CoreGraphics
 import PixelColor
 
-public struct AGDetails: Equatable {
+@MainActor
+public struct AGDetails: Equatable, Sendable {
     var color: PixelColor = .primary
     let resources: AGResources
     let specification: AGSpecification

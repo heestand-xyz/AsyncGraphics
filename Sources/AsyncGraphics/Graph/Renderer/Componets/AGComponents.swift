@@ -1,4 +1,4 @@
-public struct AGComponents {
+public struct AGComponents: Sendable {
     var blendMode: Graphic.BlendMode?
 }
 

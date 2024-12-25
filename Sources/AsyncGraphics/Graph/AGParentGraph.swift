@@ -14,6 +14,7 @@ extension AGParentGraph {
 
 extension AGParentGraph {
     
+    @MainActor
     public func resolution(at proposedResolution: CGSize,
                            for specification: AGSpecification) -> CGSize {
         guard let child = children.first else { return proposedResolution }

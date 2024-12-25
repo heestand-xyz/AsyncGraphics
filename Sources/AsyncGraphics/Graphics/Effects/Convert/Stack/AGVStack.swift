@@ -22,6 +22,7 @@ public struct AGVStack: AGParentGraph {
                height: (proposedResolution.height - spacing * CGFloat(graphs.all.count - 1)) / CGFloat(graphs.all.count))
     }
     
+    @MainActor
     private func leftoverResolution(graph: any AGGraph, index: Int,
                                     at proposedResolution: CGSize,
                                     for specification: AGSpecification) -> CGSize {
@@ -47,6 +48,7 @@ public struct AGVStack: AGParentGraph {
         return CGSize(width: proposedResolution.width, height: height)
     }
     
+    @MainActor
     public func resolution(at proposedResolution: CGSize,
                            for specification: AGSpecification) -> CGSize {
         var width: CGFloat = 0.0
@@ -61,6 +63,7 @@ public struct AGVStack: AGParentGraph {
         return CGSize(width: width, height: height)
     }
     
+    @MainActor
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         guard !graphs.isEmpty else {

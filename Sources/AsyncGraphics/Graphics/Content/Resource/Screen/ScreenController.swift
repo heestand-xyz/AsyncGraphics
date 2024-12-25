@@ -5,11 +5,11 @@
 #if os(macOS)
 
 import Metal
-import AVKit
+@preconcurrency import AVKit
 
 // TODO: Update to ScreenCaptureKit
 
-class ScreenController: NSObject {
+final class ScreenController: NSObject, Sendable {
     
     enum ScreenError: LocalizedError {
         
@@ -35,6 +35,7 @@ class ScreenController: NSObject {
         }
     }
     
+    @MainActor
     var graphicsHandler: ((Graphic) -> ())?
         
     private let captureSession: AVCaptureSession
@@ -98,7 +99,9 @@ extension ScreenController: AVCaptureVideoDataOutputSampleBufferDelegate {
               let graphic: Graphic = try? .texture(texture)
         else { return }
     
-        graphicsHandler?(graphic)
+        Task { @MainActor in
+            graphicsHandler?(graphic)
+        }
     }
 }
 

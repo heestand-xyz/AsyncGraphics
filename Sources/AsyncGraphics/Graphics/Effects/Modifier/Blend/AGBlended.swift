@@ -22,6 +22,7 @@ public struct AGBlended: AGSingleParentGraph {
         return components
     }
     
+    @MainActor
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)

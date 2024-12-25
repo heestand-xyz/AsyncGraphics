@@ -14,6 +14,7 @@ public struct AGBlend: AGSingleModifierParentGraph {
     
     let blendMode: Graphic.BlendMode
     
+    @MainActor
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)

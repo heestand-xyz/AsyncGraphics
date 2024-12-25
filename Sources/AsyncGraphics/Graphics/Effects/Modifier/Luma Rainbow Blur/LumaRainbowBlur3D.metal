@@ -29,8 +29,6 @@ kernel void lumaRainbowBlur3d(const device Uniforms& uniforms [[ buffer(0) ]],
     
     float pi = M_PI_F;
     
-    int max_res = 16384 - 1;
-        
     uint width = targetTexture.get_width();
     uint height = targetTexture.get_height();
     uint depth = targetTexture.get_depth();
@@ -58,13 +56,11 @@ kernel void lumaRainbowBlur3d(const device Uniforms& uniforms [[ buffer(0) ]],
     lum = pow(lum, 1 / max(0.001, uniforms.lumaGamma));
     
     float aspectRatio = float(leadingWidth) / float(leadingHeight);
-    float depthAspectRatio = float(leadingDepth) / float(leadingHeight);
     
     int res = uniforms.count;
     
     float3 p = uniforms.position;
-    float angle = uniforms.angle * pi * 2;
-
+    
     float4 c = 0.0;
     float amounts = 0.0;
     if (uniforms.type == 0) {

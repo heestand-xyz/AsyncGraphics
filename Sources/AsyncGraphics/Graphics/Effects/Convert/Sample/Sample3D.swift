@@ -39,28 +39,28 @@ extension Graphic3D {
         return Graphic(name: "Sample", texture: texture, bits: bits, colorSpace: colorSpace)
     }
     
-    public struct SampleProgress {
+    public struct SampleProgress: Sendable {
         public let index: Int
         public let count: Int
         public var fraction: CGFloat {
             CGFloat(index) / CGFloat(count - 1)
         }
-        class Manager {
+        actor Manager: Sendable {
             private let count: Int
             private var index: Int = 0
-            private let progress: (SampleProgress) -> ()
-            init(count: Int, progress: @escaping (SampleProgress) -> ()) {
+            private let progress: @Sendable (SampleProgress) async -> ()
+            init(count: Int, progress: @escaping @Sendable (SampleProgress) async -> ()) {
                 self.count = count
                 self.progress = progress
             }
-            func increment() {
-                progress(SampleProgress(index: index, count: count))
+            func increment() async {
+                await progress(SampleProgress(index: index, count: count))
                 index += 1
             }
         }
     }
     
-    public func samples(/*axis: Axis = .z*/progress: ((SampleProgress) -> ())? = nil) async throws -> [Graphic] {
+    public func samples(/*axis: Axis = .z*/progress: (@Sendable (SampleProgress) async -> ())? = nil) async throws -> [Graphic] {
         
         let axis: Axis = .z
         
@@ -84,7 +84,7 @@ extension Graphic3D {
             for index in 0..<count {
                 group.addTask {
                     let graphic: Graphic = try await self.sample(index: index/*, axis: axis*/)
-                    progressManager?.increment()
+                    await progressManager?.increment()
                     return (index, graphic)
                 }
             }

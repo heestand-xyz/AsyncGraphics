@@ -13,7 +13,7 @@ extension Graphic {
         var options = GraphicVideoPlayer.Options()
         options.loop = loop
         options.volume = volume
-        let videoPlayer = try await GraphicVideoPlayer(url: url, options: options)
+        let videoPlayer = await GraphicVideoPlayer(url: url, options: options)
         
         return playVideo(with: videoPlayer)
     }
@@ -26,11 +26,15 @@ extension Graphic {
         return AsyncStream<Graphic> { stream in
             
             stream.onTermination = { @Sendable _ in
-                videoController.cancel()
+                Task { @MainActor in
+                    videoController.cancel()
+                }
             }
             
-            videoController.graphicsHandler = { graphic in
-                stream.yield(graphic)
+            Task { @MainActor in
+                videoController.graphicsHandler = { graphic in
+                    stream.yield(graphic)
+                }
             }
         }
     }
@@ -38,19 +42,16 @@ extension Graphic {
 
 extension Graphic {
     
-    /// Async _direct_ stream of a video
+    /// Async stream of a video.
     ///
-    /// This stream will continue as soon as the async block is done
-    public static func processVideo(url: URL) async throws -> AsyncThrowingStream<Graphic, Error> {
-//        let videoPlayer = GraphicVideoPlayer(url: url)
-//        let info = VideoInfo(duration: videoPlayer.info.duration,
-//                             fps: videoPlayer.info.frameRate,
-//                             size: videoPlayer.info.resolution)
-        let frames: AsyncThrowingStream<_Image, Error> = try await convertVideoToFrames(from: url)
+    /// This stream will finish as soon as all the frames have been processed.
+    ///
+    /// The steam does not account for the video frame rate.
+    public static func processVideo(url: URL) -> AsyncThrowingStream<Graphic, Error> {
         return AsyncThrowingStream<Graphic, Error> { stream in
             Task {
                 do {
-                    for try await image in frames {
+                    for try await image in try await convertVideoToFrames(from: url) {
                         let graphic: Graphic = try await .image(image)
                         stream.yield(graphic)
                     }

@@ -9,7 +9,7 @@ import AppKit
 
 public struct AGImage: AGGraph {
     
-    enum Source: Hashable {
+    enum Source: Hashable, @unchecked Sendable {
         case name(String)
         case raw(TMImage)
     }
@@ -26,6 +26,7 @@ public struct AGImage: AGGraph {
         source = .raw(image)
     }
     
+    @MainActor
     public func resolution(at proposedResolution: CGSize,
                            for specification: AGSpecification) -> CGSize {
         guard let imageResolution: CGSize = specification.resourceResolutions.image[source]
@@ -42,6 +43,7 @@ public struct AGImage: AGGraph {
         }
     }
     
+    @MainActor
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)

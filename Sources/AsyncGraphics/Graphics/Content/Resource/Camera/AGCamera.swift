@@ -14,6 +14,7 @@ public struct AGCamera: AGGraph {
         self.position = position
     }
     
+    @MainActor
     public func resolution(at proposedResolution: CGSize,
                            for specification: AGSpecification) -> CGSize {
         guard let cameraResolution: CGSize = specification.resourceResolutions.camera[position]
@@ -28,6 +29,7 @@ public struct AGCamera: AGGraph {
         }
     }
     
+    @MainActor
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)

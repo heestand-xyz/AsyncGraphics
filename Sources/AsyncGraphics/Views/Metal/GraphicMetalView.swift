@@ -15,8 +15,10 @@ final class GraphicMetalView: MTKView, GraphicMetalViewable {
     
     let interpolation: Graphic.ViewInterpolation
     
+    @MainActor
     var extendedDynamicRange: Bool
     
+    @MainActor
     let didRender: (UUID) -> ()
  
     init(interpolation: Graphic.ViewInterpolation,

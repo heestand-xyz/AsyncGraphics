@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct GraphicMetadataOptions: OptionSet, Codable {
+public struct GraphicMetadataOptions: OptionSet, Codable, Sendable {
     
     public let rawValue: Int
     

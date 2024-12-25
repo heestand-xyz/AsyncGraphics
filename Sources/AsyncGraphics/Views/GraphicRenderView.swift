@@ -8,10 +8,10 @@ import CoreGraphicsExtensions
 /// SwiftUI view for rendering and displaying ``Graphic``s.
 public struct GraphicRenderView: View {
     
-    @ObservedObject private var renderer: GraphicViewRenderer
+    @Bindable private var renderer: GraphicViewRenderer
     
     public init(renderer: GraphicViewRenderer) {
-        _renderer = ObservedObject(wrappedValue: renderer)
+        self.renderer = renderer
     }
     
     public var body: some View {
@@ -23,7 +23,7 @@ public struct GraphicRenderView: View {
                     GraphicRepresentableView(graphic: graphic,
                                              viewResolution: viewResolution,
                                              interpolation: renderer.interpolation,
-                                             extendedDynamicRange: renderer.extendedDynamicRange,
+                                             extendedDynamicRange: false,
                                              preProcessed: true) { _ in }
                         .aspectRatio(graphic.resolution,
                                      contentMode: .fit)
@@ -32,7 +32,7 @@ public struct GraphicRenderView: View {
             .onAppear {
                 renderer.viewSize = geometry.size
             }
-            .onChange(of: geometry.size) { newSize in
+            .onChange(of: geometry.size) { _, newSize in
                 renderer.viewSize = newSize
             }
         }

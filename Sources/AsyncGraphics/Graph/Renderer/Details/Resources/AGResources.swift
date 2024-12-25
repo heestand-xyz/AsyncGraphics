@@ -1,5 +1,5 @@
 
-struct AGResources: Equatable {
+struct AGResources: Equatable, Sendable {
     #if !os(visionOS)
     let cameraGraphics: [Graphic.CameraPosition: Graphic]
     #endif

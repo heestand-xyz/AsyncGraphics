@@ -10,6 +10,7 @@ public struct AGVideo: AGGraph {
         self.videoPlayer = videoPlayer
     }
     
+    @MainActor
     public func resolution(at proposedResolution: CGSize,
                            for specification: AGSpecification) -> CGSize {
         guard let videoResolution: CGSize = videoPlayer.info?.resolution else {
@@ -27,6 +28,7 @@ public struct AGVideo: AGGraph {
         }
     }
     
+    @MainActor
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)

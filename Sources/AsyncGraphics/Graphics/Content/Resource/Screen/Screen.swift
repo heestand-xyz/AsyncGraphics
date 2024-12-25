@@ -18,11 +18,14 @@ extension Graphic {
             
             await withCheckedContinuation { continuation in
                 
-                screenController.graphicsHandler = { graphic in
-                    
-                    screenController.graphicsHandler = nil
-                    
-                    continuation.resume(returning: graphic)
+                Task { @MainActor in
+
+                    screenController.graphicsHandler = { graphic in
+                        
+                        screenController.graphicsHandler = nil
+                        
+                        continuation.resume(returning: graphic)
+                    }
                 }
             }
         }, onCancel: {

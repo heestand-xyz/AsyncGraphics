@@ -2,7 +2,7 @@
 //  Created by Anton Heestand on 2022-05-03.
 //
 
-import AVFoundation
+@preconcurrency import AVFoundation
 import TextureMap
 
 @available(*, deprecated, renamed: "GraphicVideoRecorder")
@@ -17,9 +17,9 @@ public typealias GraphicRecorder = GraphicVideoRecorder
 /// When done, call ``stop()-4i1ev``.
 ///
 /// > All appended ``Graphic``s need to have the same resolution.
-public class GraphicVideoRecorder {
+public actor GraphicVideoRecorder: Sendable {
     
-    struct AV {
+    struct AV: Sendable {
         let writer: AVAssetWriter
         let input: AVAssetWriterInput
         let adaptor: AVAssetWriterInputPixelBufferAdaptor
@@ -30,7 +30,7 @@ public class GraphicVideoRecorder {
     private let fps: Double
     private let kbps: Int
     
-    public enum VideoCodec: String, CaseIterable {
+    public enum VideoCodec: String, CaseIterable, Sendable {
         case h264
         case proRes
         public var type: AVVideoCodecType {
@@ -49,7 +49,7 @@ public class GraphicVideoRecorder {
     }
     private let codec: VideoCodec
     
-    public enum VideoFormat: String, CaseIterable {
+    public enum VideoFormat: String, CaseIterable, Sendable {
         case mov
         case mp4
         public var type: AVFileType {
@@ -172,7 +172,7 @@ public class GraphicVideoRecorder {
             appending = false
         }
         
-        guard let av: AV = await MainActor.run(body: { av }) else {
+        guard let av: AV else {
             throw RecordError.startNotCalled
         }
         
@@ -200,9 +200,7 @@ public class GraphicVideoRecorder {
             throw RecordError.appendFailed
         }
         
-        await MainActor.run {
-            frameIndex += 1
-        }
+        frameIndex += 1
     }
  
     public func stop() async throws -> Data {
@@ -225,7 +223,7 @@ public class GraphicVideoRecorder {
             stopping = false
         }
         
-        guard let av: AV = av else {
+        guard let av: AV else {
             throw RecordError.startNotCalled
         }
         

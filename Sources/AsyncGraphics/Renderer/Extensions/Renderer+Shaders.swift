@@ -6,6 +6,7 @@ import Metal
 
 extension Renderer {
     
+    @RenderActor
     static func shader(name: String) throws -> MTLFunction {
         guard let metalLibrary else {
             throw RendererError.metalLibraryNotFound

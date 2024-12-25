@@ -24,7 +24,7 @@ extension Graphic {
     ///
     /// Reduction to a singe pixel
     public func reduce(by sampleMethod: ReduceMethod) async throws -> PixelColor {
-        try await bits(._32)
+        try await withBits(.bit32)
             .reduction(by: sampleMethod, axis: .horizontal)
             .rotatedLeft()
             .reduction(by: sampleMethod, axis: .horizontal)
@@ -57,7 +57,7 @@ extension Graphic {
     
     private func reduction(by sampleMethod: ReduceMethod, axis sampleAxis: ReduceAxis) async throws -> Graphic {
                 
-        let texture: MTLTexture = try await withCheckedThrowingContinuation { continuation in
+        let texture: SendableTexture = try await withCheckedThrowingContinuation { continuation in
             
             do {
                 
@@ -77,7 +77,7 @@ extension Graphic {
                 
                 commandBuffer.addCompletedHandler { _ in
                     
-                    continuation.resume(returning: texture)
+                    continuation.resume(returning: texture.send())
                 }
                 
                 commandBuffer.commit()
@@ -88,7 +88,7 @@ extension Graphic {
             }
         }
         
-        return Graphic(name: "Reduce", texture: texture, bits: bits, colorSpace: colorSpace)
+        return Graphic(name: "Reduce", texture: texture.receive(), bits: bits, colorSpace: colorSpace)
     }
     
     private func resolution(in sampleAxis: ReduceAxis) -> CGSize {

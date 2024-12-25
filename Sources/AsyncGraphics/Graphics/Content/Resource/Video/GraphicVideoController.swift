@@ -5,7 +5,7 @@
 import CoreGraphics
 import AVFoundation
 
-class GraphicVideoController: NSObject, GraphicVideoPlayerDelegate {
+final class GraphicVideoController: NSObject, GraphicVideoPlayerDelegate, Sendable {
     
     enum VideoControllerError: LocalizedError {
         case hasNoNewPixelBuffer
@@ -22,10 +22,13 @@ class GraphicVideoController: NSObject, GraphicVideoPlayerDelegate {
     
     private let videoPlayer: GraphicVideoPlayer
     
+    @MainActor
     private var timer: Timer?
     
-    private let videoOutput: AVPlayerItemVideoOutput
-        
+    @MainActor
+    private var videoOutput: AVPlayerItemVideoOutput?
+    
+    @MainActor
     var graphicsHandler: ((Graphic) -> ())? {
         didSet {
             forceGoTo(time: videoPlayer.time)
@@ -38,26 +41,31 @@ class GraphicVideoController: NSObject, GraphicVideoPlayerDelegate {
         
         self.videoPlayer = videoPlayer
         
-        let attributes = [
-            kCVPixelBufferPixelFormatTypeKey as String : Int(kCVPixelFormatType_32BGRA)
-        ]
-        videoOutput = AVPlayerItemVideoOutput(pixelBufferAttributes: attributes)
-        
-        videoPlayer.item.add(videoOutput)
-                    
         super.init()
-        
-        videoPlayer.delegate = self
+
+        Task { @MainActor in
+            let attributes = [
+                kCVPixelBufferPixelFormatTypeKey as String : Int(kCVPixelFormatType_32BGRA)
+            ]
+            let videoOutput = AVPlayerItemVideoOutput(pixelBufferAttributes: attributes)
+            self.videoOutput = videoOutput
+            videoPlayer.item.add(videoOutput)
+            videoPlayer.delegate = self
+        }      
     }
     
+    @MainActor
     func cancel() {
         graphicsHandler = nil
-        videoPlayer.pause()
+        Task { @MainActor in
+            videoPlayer.pause()
+        }
         timer?.invalidate()
     }
     
     // MARK: Read Buffer
     
+    @MainActor
     func play(time: CMTime) {
         do {
             try goTo(time: time)
@@ -66,12 +74,13 @@ class GraphicVideoController: NSObject, GraphicVideoPlayerDelegate {
         }
     }
     
+    @MainActor
     private func goTo(time: CMTime) throws {
         
-        guard videoOutput.hasNewPixelBuffer(forItemTime: time) else {
+        guard videoOutput?.hasNewPixelBuffer(forItemTime: time) == true else {
             throw VideoControllerError.hasNoNewPixelBuffer
         }
-        guard let pixelBuffer = videoOutput.copyPixelBuffer(forItemTime: time, itemTimeForDisplay: nil) else {
+        guard let pixelBuffer = videoOutput?.copyPixelBuffer(forItemTime: time, itemTimeForDisplay: nil) else {
             throw VideoControllerError.copyPixelBufferFailed
         }
         
@@ -81,6 +90,7 @@ class GraphicVideoController: NSObject, GraphicVideoPlayerDelegate {
         graphicsHandler?(graphic)
     }
     
+    @MainActor
     private func forceGoTo(time: CMTime, attemptCount: Int = 10, attemptDelay: Double = 0.1) {
         do {
             try goTo(time: time)

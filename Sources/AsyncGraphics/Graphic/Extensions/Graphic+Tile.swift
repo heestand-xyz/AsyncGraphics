@@ -9,9 +9,9 @@ import Foundation
 
 extension Graphic {
     
-    public struct Tile: Hashable {
+    public struct Tile: Hashable, Sendable {
         
-        public struct Point: Hashable {
+        public struct Point: Hashable, Sendable {
             public var x: Int
             public var y: Int
             public init(x: Int, y: Int) {
@@ -21,7 +21,7 @@ extension Graphic {
             public static let zero = Point(x: 0, y: 0)
         }
         
-        public struct Size: Hashable {
+        public struct Size: Hashable, Sendable {
             public var width: Int
             public var height: Int
             public init(width: Int, height: Int) {

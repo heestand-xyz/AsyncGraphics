@@ -1,4 +1,4 @@
-private struct AGGroupChain {
+private struct AGGroupChain: Sendable {
     let singleParentGraphs: [any AGSingleParentGraph]
     let group: AGGroup?
 }

@@ -5,7 +5,7 @@
 import Foundation
 import Spatial
 import CoreGraphics
-import Metal
+@preconcurrency import Metal
 import TextureMap
 import PixelColor
 
@@ -90,7 +90,7 @@ extension Graphic3D {
             return PixelColor(red: channels[0],
                               green: channels[1],
                               blue: channels[2],
-                              alpha: channels[3])
+                              opacity: channels[3])
         }
     }
     
@@ -144,7 +144,7 @@ extension Graphic3D {
                         let color = PixelColor(red: red,
                                                green: green,
                                                blue: blue,
-                                               alpha: alpha)
+                                               opacity: alpha)
                         
                         rows.append(color)
                     }

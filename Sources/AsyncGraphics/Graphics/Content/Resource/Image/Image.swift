@@ -39,7 +39,7 @@ extension Graphic {
         }
     }
     
-    public struct ImageOptions: OptionSet, Hashable {
+    public struct ImageOptions: OptionSet, Hashable, Sendable {
         
         public let rawValue: Int
         

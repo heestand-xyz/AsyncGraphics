@@ -10,11 +10,13 @@ public struct AGGraphic: AGGraph {
         self.graphic = graphic
     }
     
+    @MainActor
     public func resolution(at proposedResolution: CGSize,
                            for specification: AGSpecification) -> CGSize {
         graphic.resolution
     }
     
+    @MainActor
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         graphic

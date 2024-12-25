@@ -5,6 +5,7 @@ import CoreGraphicsExtensions
 
 #if os(visionOS)
 
+@MainActor
 @Observable
 public final class Graphic3DViewRenderer {
     
@@ -34,7 +35,7 @@ public final class Graphic3DViewRenderer {
     }
     private var display: Display?
     
-    var renderInView: [Int: (Graphic) async -> Bool] = [:]
+    var renderInView: [Int: @Sendable (Graphic) async -> Bool] = [:]
     
     public init() {}
     
@@ -74,10 +75,10 @@ public final class Graphic3DViewRenderer {
                         
                         var graphic: Graphic = graphic
                         
-                        switch self.interpolation {
+                        switch await self.interpolation {
                         case .linear, .nearestNeighbor:
                             var options: Graphic.EffectOptions = []
-                            if self.interpolation == .nearestNeighbor {
+                            if await self.interpolation == .nearestNeighbor {
                                 options.insert(.interpolateNearest)
                             }
                             graphic = try await graphic
@@ -85,7 +86,7 @@ public final class Graphic3DViewRenderer {
                                          placement: .stretch,
                                          options: options)
                         case .lanczos, .bilinear:
-                            let method: Graphic.ResizeMethod = self.interpolation == .lanczos ? .lanczos : .bilinear
+                            let method: Graphic.ResizeMethod = await self.interpolation == .lanczos ? .lanczos : .bilinear
                             graphic = try await graphic
                                 .resized(to: viewResolution,
                                          placement: .stretch,

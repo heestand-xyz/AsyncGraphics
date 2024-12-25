@@ -20,7 +20,7 @@ extension Graphic {
         let resolution: SizeUniform
     }
     
-    public struct UVParticleOptions: OptionSet {
+    public struct UVParticleOptions: OptionSet, Sendable {
         
         public let rawValue: Int
         

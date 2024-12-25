@@ -35,16 +35,16 @@ extension Graphic {
                                         format: VideoFormat = .mov,
                                         codec: VideoCodec = .h264) async throws -> URL {
         
-        let images: [TMImage] = try await withThrowingTaskGroup(of: (Int, TMImage).self) { group in
+        let images: [SendableImage] = try await withThrowingTaskGroup(of: (Int, SendableImage).self) { group in
             
             for (index, graphic) in graphics.enumerated() {
                 group.addTask {
                     let image: TMImage = try await graphic.image
-                    return (index, image)
+                    return (index, image.send())
                 }
             }
             
-            var images: [(Int, TMImage)] = []
+            var images: [(Int, SendableImage)] = []
             
             for try await (index, image) in group {
                 images.append((index, image))
@@ -67,7 +67,7 @@ extension Graphic {
         let url: URL = folderURL.appendingPathComponent("\(name)")
         
         try await convertFramesToVideo(
-            images: images,
+            images: images.map({ $0.receive() }),
             fps: fps,
             kbps: kbps,
             format: format,

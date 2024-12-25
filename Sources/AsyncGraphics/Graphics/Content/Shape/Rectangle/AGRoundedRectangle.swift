@@ -14,6 +14,7 @@ public struct AGRoundedRectangle: AGGraph {
         self.cornerRadius = cornerRadius * .pixelsPerPoint
     }
     
+    @MainActor
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)

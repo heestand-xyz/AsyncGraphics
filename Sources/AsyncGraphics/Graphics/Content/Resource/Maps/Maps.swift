@@ -34,7 +34,7 @@ extension Graphic {
         }
     }
     
-    public struct MapOptions: OptionSet {
+    public struct MapOptions: OptionSet, Sendable {
         
         public let rawValue: Int
         

@@ -41,7 +41,7 @@ public struct GraphicView: View {
             }
         }
         .aspectRatio(graphic.resolution, contentMode: .fit)
-        .onChange(of: graphic) { newGraphic in
+        .onChange(of: graphic) { _, newGraphic in
             renderUpdate?(.inProgress(id: newGraphic.id))
         }
     }

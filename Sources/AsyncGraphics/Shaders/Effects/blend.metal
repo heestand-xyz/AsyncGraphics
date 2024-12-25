@@ -35,9 +35,6 @@ float4 blend(int mode, float4 leading, float4 trailing) {
     float minAlpha = min(leading.a, trailing.a);
     float subtractionAlpha = leading.a - trailing.a;
     float differenceAlpha = abs(subtractionAlpha);
-    float leadingEdgesAlpha = 1.0 - abs(leading.a * 2.0 - 1.0);
-    float trailingEdgesAlpha = 1.0 - abs(trailing.a * 2.0 - 1.0);
-    float intersectionAlpha = min(leadingEdgesAlpha, trailingEdgesAlpha);
     
     float4 color;
     switch (mode) {

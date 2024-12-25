@@ -20,14 +20,13 @@ extension Renderer {
         let shader: Shader
     }
         
+    @RenderActor
     static func pipeline(
         proxy: PipelineProxy
     ) throws -> MTLRenderPipelineState {
         
-        if optimizationMode {
-            if let pipeline: MTLRenderPipelineState = storeQueue.sync(execute: {
-                storedRenderPipelines[proxy]
-            }) {
+        if optimization.contains(.cachePipelineState) {
+            if let pipeline: MTLRenderPipelineState = storedRenderPipelines[proxy] {
                 return pipeline
             }
         }
@@ -54,10 +53,8 @@ extension Renderer {
             sampleCount: proxy.sampleCount
         )
         
-        if optimizationMode {
-            storeQueue.async(flags: .barrier) {
-                storedRenderPipelines[proxy] = pipeline
-            }
+        if optimization.contains(.cachePipelineState) {
+            storedRenderPipelines[proxy] = pipeline
         }
         
         return pipeline
@@ -103,14 +100,13 @@ extension Renderer {
         return try metalDevice.makeRenderPipelineState(descriptor: pipeline)
     }
     
+    @RenderActor
     static func pipeline3d(
         proxy: Pipeline3DProxy
     ) throws -> MTLComputePipelineState {
         
-        if optimizationMode {
-            if let pipeline: MTLComputePipelineState = storeQueue.sync(execute: {
-                storedComputePipelines[proxy]
-            }) {
+        if optimization.contains(.cachePipelineState) {
+            if let pipeline: MTLComputePipelineState = storedComputePipelines[proxy] {
                 return pipeline
             }
         }
@@ -128,10 +124,8 @@ extension Renderer {
             function: computeFunction
         )
         
-        if optimizationMode {
-            storeQueue.async(flags: .barrier) {
-                storedComputePipelines[proxy] = pipeline
-            }
+        if optimization.contains(.cachePipelineState) {
+            storedComputePipelines[proxy] = pipeline
         }
         
         return pipeline

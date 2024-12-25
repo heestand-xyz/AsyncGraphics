@@ -10,9 +10,9 @@ import Spatial
 
 extension Graphic3D {
     
-    public struct Tile: Hashable {
+    public struct Tile: Hashable, Sendable {
         
-        public struct Point: Hashable {
+        public struct Point: Hashable, Sendable {
             public var x: Int
             public var y: Int
             public var z: Int
@@ -24,7 +24,7 @@ extension Graphic3D {
             public static let zero = Point(x: 0, y: 0, z: 0)
         }
         
-        public struct Size: Hashable {
+        public struct Size: Hashable, Sendable {
             public var width: Int
             public var height: Int
             public var depth: Int

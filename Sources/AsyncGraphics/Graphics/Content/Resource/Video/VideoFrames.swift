@@ -46,8 +46,9 @@ extension Graphic {
         let graphics: [Graphic] = try await withThrowingTaskGroup(of: (Int, Graphic).self) { group in
         
             for (index, image) in images.enumerated() {
+                let sendableImage: SendableImage = image.send()
                 group.addTask {
-                    let graphic: Graphic = try await .image(image)
+                    let graphic: Graphic = try await .image(sendableImage.receive())
                     return (index, graphic)
                 }
             }

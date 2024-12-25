@@ -1,8 +1,6 @@
 import SwiftUI
 import TextureMap
 
-extension ImageRenderer: @retroactive Sendable where Content: Sendable {}
-
 extension Graphic {
     
     enum ViewError: LocalizedError {
@@ -15,19 +13,21 @@ extension Graphic {
         }
     }
     
+    @MainActor
     public static func view<Content: View>(
         content: () -> Content
     ) async throws -> Graphic {
-        let renderer = await ImageRenderer<Content>(content: content())
+        let renderer = ImageRenderer<Content>(content: content())
         return try await view(renderer: renderer)
     }
     
+    @MainActor
     public static func view<Content: View>(
         resolution: CGSize,
         alignment: SwiftUI.Alignment = .center,
         content: () -> Content
     ) async throws -> Graphic {
-        let renderer = await ImageRenderer(
+        let renderer = ImageRenderer(
             content: content()
                 .frame(width: resolution.width,
                        height: resolution.height,
@@ -36,8 +36,9 @@ extension Graphic {
         return try await view(renderer: renderer)
     }
     
+    @MainActor
     private static func view<Content: View>(renderer: ImageRenderer<Content>) async throws -> Graphic {
-        guard let cgImage: CGImage = await renderer.cgImage else {
+        guard let cgImage: CGImage = renderer.cgImage else {
             throw ViewError.viewRenderFailed
         }
         return try await .image(cgImage)

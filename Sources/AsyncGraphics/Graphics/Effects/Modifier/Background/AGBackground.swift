@@ -14,6 +14,7 @@ public struct AGBackground: AGSingleModifierParentGraph {
     var child: any AGGraph
     var modifierChild: any AGGraph
     
+    @MainActor
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)

@@ -17,7 +17,7 @@ extension Renderer {
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = texture
         renderPassDescriptor.colorAttachments[0].loadAction = .clear
-        renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColor(red: clearColor.red, green: clearColor.green, blue: clearColor.blue, alpha: clearColor.alpha)
+        renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColor(red: clearColor.red, green: clearColor.green, blue: clearColor.blue, alpha: clearColor.opacity)
         if let depthTexture: MTLTexture {
             renderPassDescriptor.depthAttachment.texture = depthTexture
             renderPassDescriptor.depthAttachment.loadAction = .clear

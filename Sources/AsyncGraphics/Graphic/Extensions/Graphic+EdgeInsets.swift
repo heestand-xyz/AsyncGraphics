@@ -2,7 +2,7 @@ import Foundation
 
 extension Graphic {
     
-    public struct EdgeInsets: OptionSet {
+    public struct EdgeInsets: OptionSet, Sendable {
         
         public let rawValue: Int
         

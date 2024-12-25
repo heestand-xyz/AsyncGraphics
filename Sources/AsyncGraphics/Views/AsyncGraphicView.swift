@@ -39,7 +39,7 @@ public struct AsyncGraphicView: View {
             ZStack {
                 if let graphic {
                     GraphicView(graphic: graphic)
-                } else if let resolution {
+                } else {
                     Color.clear
                 }
             }
@@ -51,7 +51,7 @@ public struct AsyncGraphicView: View {
                     print("AsyncGraphics - AsyncGraphicView - Failed to Render:", error)
                 }
             }
-            .onChange(of: geometry.size) { newSize in
+            .onChange(of: geometry.size) { _, newSize in
                 guard resolution == nil else { return }
                 Task {
                     do {

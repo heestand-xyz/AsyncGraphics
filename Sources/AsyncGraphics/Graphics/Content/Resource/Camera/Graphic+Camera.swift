@@ -3,14 +3,14 @@
 //
 
 import Metal
-import AVKit
+@preconcurrency import AVKit
 
 @available(*, deprecated, renamed: "Graphic.Camera")
 typealias CameraController = Graphic.Camera
 
 extension Graphic {
     
-    public class Camera: NSObject {
+    public final class Camera: NSObject, Sendable {
         
         enum CameraError: LocalizedError {
             
@@ -33,6 +33,7 @@ extension Graphic {
             }
         }
         
+        @MainActor
         var graphicsHandler: ((Graphic) -> ())?
         
         let position: AVCaptureDevice.Position
@@ -54,7 +55,7 @@ extension Graphic {
 
             #if os(macOS)
             if external {
-                let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.externalUnknown],
+                let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.external],
                                                                         mediaType: .video,
                                                                         position: position)
                 for iDevice in discoverySession.devices {
@@ -192,6 +193,8 @@ extension Graphic.Camera: AVCaptureVideoDataOutputSampleBufferDelegate {
               let graphic: Graphic = try? .texture(texture)
         else { return }
     
-        graphicsHandler?(graphic)
+        Task { @MainActor in
+            graphicsHandler?(graphic)
+        }
     }
 }

@@ -8,7 +8,7 @@ import PixelColor
 
 extension Graphic {
     
-    public struct ContentOptions: OptionSet, Hashable {
+    public struct ContentOptions: OptionSet, Hashable, Sendable {
         
         public let rawValue: Int
         
@@ -48,8 +48,8 @@ extension Graphic {
 
         func pureTranslucentBackgroundColor(_ backgroundColor: PixelColor, color: PixelColor) -> PixelColor {
             if contains(.pureTranslucentColor) {
-                if backgroundColor.alpha == 0.0 {
-                    return color.withAlpha(of: 0.0)
+                if backgroundColor.opacity == 0.0 {
+                    return color.withOpacity(of: 0.0)
                 }
             }
             return backgroundColor
@@ -59,7 +59,7 @@ extension Graphic {
         }
     }
     
-    public struct EffectOptions: OptionSet, Hashable {
+    public struct EffectOptions: OptionSet, Hashable, Sendable {
         
         public let rawValue: Int
         

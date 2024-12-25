@@ -18,7 +18,7 @@ extension PixelColor {
         ColorUniform(red: Float(red),
                      green: Float(green),
                      blue: Float(blue),
-                     alpha: Float(alpha))
+                     alpha: Float(opacity))
     }
 }
 

@@ -2,15 +2,17 @@
 //  Created by Anton Heestand on 2023-02-28.
 //
 
-import AVKit
+@preconcurrency import AVKit
 import Combine
 
 protocol GraphicVideoPlayerDelegate: AnyObject {
+    @MainActor
     func play(time: CMTime)
 }
 
 /// Please call ``setup()`` or set ``info-swift.property`` before playing.
-public class GraphicVideoPlayer: ObservableObject {
+@Observable
+public final class GraphicVideoPlayer: Sendable {
     
     let id = UUID()
     
@@ -30,13 +32,13 @@ public class GraphicVideoPlayer: ObservableObject {
         }
     }
     
-    public struct Options {
+    public struct Options: Sendable {
         public var loop: Bool = false
         public var volume: Double = 1.0
         public init() {}
     }
     
-    public struct Info {
+    public struct Info: Sendable {
         /// Frames per second
         public let frameRate: Double
         /// Durations in seconds
@@ -49,6 +51,7 @@ public class GraphicVideoPlayer: ObservableObject {
         public let resolution: CGSize
     }
     
+    @MainActor
     weak var delegate: GraphicVideoPlayerDelegate?
     
     let asset: AVURLAsset
@@ -57,17 +60,23 @@ public class GraphicVideoPlayer: ObservableObject {
     
     let url: URL
     
+    @MainActor
     public var options: Options {
         didSet {
             updatedOptions()
         }
     }
     
+    @MainActor
     private var timer: Timer?
     
-    @Published private var _playing: Bool = false
+    @MainActor
+    private var _playing: Bool = false
+    @MainActor
     public var playing: Bool {
-        get { _playing }
+        get {
+            _playing
+        }
         set {
             if newValue {
                 play()
@@ -77,19 +86,25 @@ public class GraphicVideoPlayer: ObservableObject {
         }
     }
     
+    @MainActor
     private var seeking: Bool = false
+    @MainActor
     private var wasPlaying: Bool = false
     
-    @Published public var info: Info?
+    @MainActor
+    public private(set) var info: Info?
     
     public var time: CMTime {
         player.currentTime()
     }
     
-    @Published public private(set) var seconds: Double = 0.0
-    @Published public private(set) var frameIndex: Int = 0
+    @MainActor
+    public private(set) var seconds: Double = 0.0
+    @MainActor
+    public private(set) var frameIndex: Int = 0
     
     /// Please call ``setup()`` or set ``info-swift.property`` before playing.
+    @MainActor
     public convenience init(named name: String,
                             fileExtension: String = "mov",
                             in bundle: Bundle = .main,
@@ -101,6 +116,7 @@ public class GraphicVideoPlayer: ObservableObject {
     }
     
     /// Please call ``setup()`` or set ``info-swift.property`` before playing.
+    @MainActor
     public init(url: URL, options: Options = .init()) {
         
         let asset = AVURLAsset(url: url)
@@ -148,15 +164,18 @@ public class GraphicVideoPlayer: ObservableObject {
             fatalError(VideoPlayerError.resolutionNotFound.localizedDescription)
         }
         
-        info = Info(frameRate: frameRate,
-                    duration: duration,
-                    resolution: resolution)
+        await MainActor.run {
+            info = Info(frameRate: frameRate,
+                        duration: duration,
+                        resolution: resolution)
+        }
     }
     
     deinit {
-        stop()
+        player.pause()
     }
     
+    @MainActor
     private func playFrame() {
         guard let info: Info else {
             print("AsyncGraphics - GraphicVideoPlayer - Can't play - Please call setup or set info first.")
@@ -167,6 +186,7 @@ public class GraphicVideoPlayer: ObservableObject {
         frameIndex = Int(time.seconds * info.frameRate)
     }
     
+    @MainActor
     private func startTimer() {
         guard let info: Info else {
             print("AsyncGraphics - GraphicVideoPlayer - Can't start timer - Please call setup or set info first.")
@@ -174,10 +194,13 @@ public class GraphicVideoPlayer: ObservableObject {
         }
         playFrame()
         timer = .scheduledTimer(withTimeInterval: 1.0 / Double(info.frameRate), repeats: true) { [weak self] _ in
-            self?.playFrame()
+            Task { @MainActor in
+                self?.playFrame()
+            }
         }
     }
     
+    @MainActor
     private func stopTimer() {
         timer?.invalidate()
         timer = nil
@@ -187,29 +210,32 @@ public class GraphicVideoPlayer: ObservableObject {
         NotificationCenter.default.addObserver(self, selector: #selector(didReachEnd), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: item)
     }
     
+    @MainActor
     private func updatedOptions() {
         player.volume = Float(options.volume)
         player.actionAtItemEnd = options.loop ? .none : .pause
     }
     
+    @MainActor
     public func play() {
         player.play()
         startTimer()
-        _playing = true
     }
     
+    @MainActor
     public func pause() {
         player.pause()
         stopTimer()
-        _playing = false
     }
     
+    @MainActor
     public func stop() {
         pause()
         player.seek(to: .zero)
         playFrame()
     }
     
+    @MainActor
     public func seek(to frameIndex: Int) {
         guard let info: Info else {
             print("AsyncGraphics - GraphicVideoPlayer - Can't seek - Please call setup or set info first.")
@@ -218,6 +244,7 @@ public class GraphicVideoPlayer: ObservableObject {
         seek(to: CMTime(value: CMTimeValue(frameIndex), timescale: CMTimeScale(info.frameRate)))
     }
     
+    @MainActor
     public func seek(to seconds: Double) {
         guard let info: Info else {
             print("AsyncGraphics - GraphicVideoPlayer - Can't seek - Please call setup or set info first.")
@@ -226,12 +253,14 @@ public class GraphicVideoPlayer: ObservableObject {
         seek(to: CMTime(seconds: seconds, preferredTimescale: CMTimeScale(info.frameRate * 1_000)))
     }
     
+    @MainActor
     public func startSeek() {
         wasPlaying = playing
         pause()
         seeking = true
     }
     
+    @MainActor
     public func seek(to time: CMTime) {
         if !seeking {
             startSeek()
@@ -240,6 +269,7 @@ public class GraphicVideoPlayer: ObservableObject {
         playFrame()
     }
     
+    @MainActor
     public func stopSeek() {
         if wasPlaying {
             play()
@@ -249,8 +279,10 @@ public class GraphicVideoPlayer: ObservableObject {
     }
     
     @objc private func didReachEnd() {
-        guard options.loop else { return }
-        player.seek(to: .zero)
+        Task { @MainActor in
+            guard options.loop else { return }
+            player.seek(to: .zero)
+        }
     }
 }
 

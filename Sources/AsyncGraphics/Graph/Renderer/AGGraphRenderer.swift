@@ -1,27 +1,29 @@
 import Foundation
 import Combine
 
-public final class AGGraphRenderer: ObservableObject {
+@MainActor
+@Observable
+public final class AGGraphRenderer: Sendable {
     
     #if !os(visionOS)
     
     var activeCameraPositions: Set<Graphic.CameraPosition> = []
     var activeCameraTasks: [Graphic.CameraPosition: Task<Void, Error>] = [:]
     var activeCameraMaximumResolutions: [Graphic.CameraPosition: CGSize] = [:]
-    @Published var activeCameraGraphics: [Graphic.CameraPosition: Graphic] = [:]
-    @Published var activeCameraResolutions: [Graphic.CameraPosition: CGSize] = [:]
+    var activeCameraGraphics: [Graphic.CameraPosition: Graphic] = [:]
+    var activeCameraResolutions: [Graphic.CameraPosition: CGSize] = [:]
     
     #endif
     
     var activeVideoPlayers: Set<GraphicVideoPlayer> = []
     var activeVideoTasks: [GraphicVideoPlayer: Task<Void, Error>] = [:]
     var activeVideoMaximumResolutions: [GraphicVideoPlayer: CGSize] = [:]
-    @Published var activeVideoGraphics: [GraphicVideoPlayer: Graphic] = [:]
+    var activeVideoGraphics: [GraphicVideoPlayer: Graphic] = [:]
     
     var activeImageSources: Set<AGImage.Source> = []
     var activeImageMaximumResolutions: [AGImage.Source: CGSize] = [:]
-    @Published var activeImageGraphics: [AGImage.Source: Graphic] = [:]
-    @Published var activeImageResolutions: [AGImage.Source: CGSize] = [:]
+    var activeImageGraphics: [AGImage.Source: Graphic] = [:]
+    var activeImageResolutions: [AGImage.Source: CGSize] = [:]
     
     public init() { }
 }
@@ -231,6 +233,7 @@ extension AGGraphRenderer {
 
 extension AGGraphRenderer {
     
+    @MainActor
     private func startVideo(with videoPlayer: GraphicVideoPlayer) {
         print("AsyncGraphics - Graph - Video - Start")
         let task = Task {
@@ -263,6 +266,7 @@ extension AGGraphRenderer {
 
 extension AGGraphRenderer {
     
+    @MainActor
     private func startImage(with imageSource: AGImage.Source) {
         print("AsyncGraphics - Graph - Video - Start")
         Task {
@@ -346,6 +350,7 @@ extension AGGraphRenderer {
     
     #if !os(visionOS)
     
+    @MainActor
     private func cameraMaximumResolutions(for graph: any AGGraph, at proposedResolution: CGSize, for specification: AGSpecification) -> [Graphic.CameraPosition: CGSize] {
         var maximumResolutions: [Graphic.CameraPosition: CGSize] = [:]
         if let camera = graph as? AGCamera {
@@ -370,6 +375,7 @@ extension AGGraphRenderer {
     
     #endif
     
+    @MainActor
     private func videoMaximumResolutions(for graph: any AGGraph, at proposedResolution: CGSize, for specification: AGSpecification) -> [GraphicVideoPlayer: CGSize] {
         var maximumResolutions: [GraphicVideoPlayer: CGSize] = [:]
         if let video = graph as? AGVideo {
@@ -392,6 +398,7 @@ extension AGGraphRenderer {
         return maximumResolutions
     }
     
+    @MainActor
     private func imageMaximumResolutions(for graph: any AGGraph, at proposedResolution: CGSize, for specification: AGSpecification) -> [AGImage.Source: CGSize] {
         var maximumResolutions: [AGImage.Source: CGSize] = [:]
         if let image = graph as? AGImage {

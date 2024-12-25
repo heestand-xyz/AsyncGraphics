@@ -109,7 +109,7 @@ extension Graphic3D {
         count: Tile.Size,
         padding: CGFloat = 0.0,
         resolution: Size3D,
-        render: @escaping (Tile) async throws -> Graphic3D
+        render: @escaping @Sendable (Tile) async throws -> Graphic3D
     ) async throws -> Graphic3D {
         
         guard count.width > 0,

@@ -1,12 +1,14 @@
 import CoreGraphics
 
-public protocol AGGraph: Hashable {
+public protocol AGGraph: Hashable, Sendable {
     
     var components: AGComponents { get }
     
+    @MainActor
     func resolution(at proposedResolution: CGSize,
                     for specification: AGSpecification) -> CGSize
     
+    @MainActor
     func render(at proposedResolution: CGSize,
                 details: AGDetails) async throws -> Graphic
 }
@@ -20,6 +22,7 @@ extension AGGraph {
 
 extension AGGraph {
     
+    @MainActor
     public func resolution(at proposedResolution: CGSize,
                            for specification: AGSpecification) -> CGSize {
         proposedResolution

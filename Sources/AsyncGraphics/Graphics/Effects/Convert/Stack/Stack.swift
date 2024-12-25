@@ -27,13 +27,13 @@ extension Graphic {
         let resolution: SizeUniform
     }
     
-    enum StackAxis: Int {
+    enum StackAxis: Int, Sendable {
         case horizontal = 0
         case vertical = 1
     }
     
     /// Depth Stack Alignment
-    public enum ZStackAlignment: Int {
+    public enum ZStackAlignment: Int, Sendable {
         case center
         case leading
         case trailing
@@ -66,26 +66,26 @@ extension Graphic {
     }
     
     /// Vertical Stack Alignment
-    public enum VStackAlignment: Int {
+    public enum VStackAlignment: Int, Sendable {
         case leading = -1
         case center = 0
         case trailing = 1
     }
     
     /// Horizontal Stack Alignment
-    public enum HStackAlignment: Int {
+    public enum HStackAlignment: Int, Sendable {
         case bottom = -1
         case center = 0
         case top = 1
     }
     
-    private enum StackAlignment: Int {
+    private enum StackAlignment: Int, Sendable {
         case leftBottom = -1
         case center = 0
         case rightTop = 1
     }
     
-    public struct BlendedGraphic {
+    public struct BlendedGraphic: Sendable {
         let graphic: Graphic
         let blendMode: BlendMode
         public init(graphic: Graphic, blendMode: BlendMode) {

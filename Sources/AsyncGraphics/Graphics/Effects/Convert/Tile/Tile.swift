@@ -94,7 +94,7 @@ extension Graphic {
         count: Tile.Size,
         padding: CGFloat = 0.0,
         resolution: CGSize,
-        render: @escaping (Tile) async throws -> Graphic
+        render: @escaping @Sendable (Tile) async throws -> Graphic
     ) async throws -> Graphic {
         
         guard count.width > 0,

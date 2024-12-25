@@ -14,6 +14,7 @@ public struct AGForEach: AGParentGraph {
         self.graphs = range.map { graph($0) }
     }
     
+    @MainActor
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         let resolution: CGSize = resolution(at: proposedResolution, for: details.specification)

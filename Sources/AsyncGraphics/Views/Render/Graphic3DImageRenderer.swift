@@ -8,6 +8,7 @@ import TextureMap
 
 #if os(visionOS)
 
+@MainActor
 @Observable
 public final class Graphic3DImageRenderer {
     
@@ -46,7 +47,7 @@ public final class Graphic3DImageRenderer {
     public init() {}
     
     public func display(graphic3D: Graphic3D,
-                        progress: ((Progress) -> ())? = nil) async throws {
+                        progress: (@Sendable (Progress) -> ())? = nil) async throws {
         
         if resolution != graphic3D.resolution {
             await MainActor.run {
@@ -79,11 +80,11 @@ public final class Graphic3DImageRenderer {
             self.count = count
             self.state = state
         }
-        class Manager {
+        actor Manager {
             private let count: Int
             private var index: Int = 0
-            private let progress: (Progress) -> ()
-            init(count: Int, progress: @escaping (Progress) -> ()) {
+            private let progress: @Sendable (Progress) -> ()
+            init(count: Int, progress: @escaping @Sendable (Progress) -> ()) {
                 self.count = count
                 self.progress = progress
             }
@@ -103,7 +104,7 @@ public final class Graphic3DImageRenderer {
     }
     
     private func render(graphic3D: Graphic3D,
-                        progress: ((Progress) -> ())? = nil) async throws {
+                        progress: (@Sendable (Progress) -> ())? = nil) async throws {
 
         guard let viewResolution: CGSize else {
             throw RenderError.viewNotReady
@@ -114,10 +115,10 @@ public final class Graphic3DImageRenderer {
         } else { nil }
         
         var viewGraphics: [Graphic] = try await graphic3D.samples { progress in
-            progressManager?.set(index: progress.index, state: .sampling)
+            await progressManager?.set(index: progress.index, state: .sampling)
         }
         
-        progressManager?.reset(state: .interpolating)
+        await progressManager?.reset(state: .interpolating)
         
         if interpolation != .linear {
     
@@ -131,14 +132,14 @@ public final class Graphic3DImageRenderer {
                         
                         var graphic: Graphic = graphic
                         
-                        switch self.interpolation {
+                        switch await self.interpolation {
                         case .nearestNeighbor:
                             graphic = try await graphic
                                 .resized(to: viewResolution,
                                          placement: .stretch,
                                          options: .interpolateNearest)
                         case .lanczos, .bilinear:
-                            let method: Graphic.ResizeMethod = self.interpolation == .lanczos ? .lanczos : .bilinear
+                            let method: Graphic.ResizeMethod = await self.interpolation == .lanczos ? .lanczos : .bilinear
                             graphic = try await graphic
                                 .resized(to: viewResolution,
                                          placement: .stretch,
@@ -147,7 +148,7 @@ public final class Graphic3DImageRenderer {
                             break
                         }
                         
-                        progressManager?.increment(state: .interpolating)
+                        await progressManager?.increment(state: .interpolating)
                         
                         return (index, graphic)
                     }
@@ -161,7 +162,7 @@ public final class Graphic3DImageRenderer {
             }
         }
         
-        progressManager?.reset(state: .converting)
+        await progressManager?.reset(state: .converting)
         
         let images: [Image] = try await withThrowingTaskGroup(of: (Int, Image).self) { group in
             
@@ -176,7 +177,7 @@ public final class Graphic3DImageRenderer {
 //                    }
                     let tmImage: TMImage = try await graphic.image
                     let image = Image(tmImage: tmImage)
-                    progressManager?.increment(state: .converting)
+                    await progressManager?.increment(state: .converting)
                     return (index, image)
                 }
             }
@@ -188,9 +189,7 @@ public final class Graphic3DImageRenderer {
             return images.compactMap { $0 }
         }
         
-        await MainActor.run {
-            self.images = images
-        }
+        self.images = images
         
         display = Display(id: graphic3D.id,
                           resolution: viewGraphics.first!.resolution)
@@ -199,7 +198,9 @@ public final class Graphic3DImageRenderer {
     public func hide() {
         resolution = nil
         display = nil
-        images = []
+        Task { @MainActor in
+            images = []
+        }
     }
 }
 

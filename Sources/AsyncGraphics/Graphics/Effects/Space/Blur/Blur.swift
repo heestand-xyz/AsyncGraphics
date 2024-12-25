@@ -33,7 +33,7 @@ extension Graphic {
         radius: CGFloat
     ) async throws -> Graphic {
         
-        let targetTexture: MTLTexture = try await .empty(resolution: resolution, bits: bits, usage: .write)
+        let targetTexture: MTLTexture = try .empty(resolution: resolution, bits: bits, usage: .write)
         
         guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else {
             throw Renderer.RendererError.failedToMakeCommandQueue

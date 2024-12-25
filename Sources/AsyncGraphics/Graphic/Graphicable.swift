@@ -5,7 +5,7 @@
 import Metal
 import TextureMap
 
-protocol Graphicable {
+protocol Graphicable: Sendable {
     
     var id: UUID { get }
     

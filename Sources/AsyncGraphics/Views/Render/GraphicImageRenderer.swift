@@ -5,20 +5,22 @@ import Observation
 import CoreGraphicsExtensions
 import TextureMap
 
-public final class GraphicImageRenderer: ObservableObject {
+@MainActor
+@Observable
+public final class GraphicImageRenderer: Sendable {
     
 #if os(visionOS)
     public static let defaultScale: CGFloat = 1.0
 #else
     public static let defaultScale: CGFloat = .pixelsPerPoint
 #endif
-    @Published public var scale: CGFloat = GraphicImageRenderer.defaultScale
+    public var scale: CGFloat = GraphicImageRenderer.defaultScale
     
-    @Published public var interpolation: Graphic.ViewInterpolation = .linear
+    public var interpolation: Graphic.ViewInterpolation = .linear
     
-    @Published var resolution: CGSize?
+    var resolution: CGSize?
     
-    @Published var viewSize: CGSize?
+    var viewSize: CGSize?
     
     var viewResolution: CGSize? {
         guard let viewSize: CGSize else { return nil }
@@ -34,7 +36,7 @@ public final class GraphicImageRenderer: ObservableObject {
     }
     private var display: Display?
     
-    @Published var image: Image?
+    var image: Image?
     
     public init() {}
     
@@ -64,14 +66,14 @@ public final class GraphicImageRenderer: ObservableObject {
             
         if interpolation != .linear {
             
-            switch self.interpolation {
+            switch interpolation {
             case .nearestNeighbor:
                 graphic = try await graphic
                     .resized(to: viewResolution,
                              placement: .stretch,
                              options: .interpolateNearest)
             case .lanczos, .bilinear:
-                let method: Graphic.ResizeMethod = self.interpolation == .lanczos ? .lanczos : .bilinear
+                let method: Graphic.ResizeMethod = interpolation == .lanczos ? .lanczos : .bilinear
                 graphic = try await graphic
                     .resized(to: viewResolution,
                              placement: .stretch,
@@ -83,7 +85,8 @@ public final class GraphicImageRenderer: ObservableObject {
         
         try Task.checkCancellation()
         
-        let image = Image(tmImage: try await graphic.image)
+        let tmImage: TMImage = try await graphic.sendableImage.receive()
+        let image = Image(tmImage: tmImage)
         
         try Task.checkCancellation()
         

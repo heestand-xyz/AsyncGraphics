@@ -1,7 +1,7 @@
 
 extension Graphic {
     
-    public enum ViewInterpolation {
+    public enum ViewInterpolation: Sendable {
         case nearestNeighbor
         case linear
         case lanczos

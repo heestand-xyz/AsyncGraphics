@@ -14,6 +14,7 @@ public struct AGZStack: AGParentGraph {
         self.graphs = graphs()
     }
     
+    @MainActor
     public func resolution(at proposedResolution: CGSize,
                            for specification: AGSpecification) -> CGSize {
         var width: CGFloat = 0.0
@@ -27,6 +28,7 @@ public struct AGZStack: AGParentGraph {
         return CGSize(width: width, height: height)
     }
     
+    @MainActor
     public func render(at proposedResolution: CGSize,
                        details: AGDetails) async throws -> Graphic {
         guard !graphs.isEmpty else {

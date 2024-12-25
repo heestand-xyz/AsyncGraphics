@@ -23,7 +23,7 @@ extension Graphic3D {
         case depth = 2
     }
     
-    public struct Alignment3D: Codable, Hashable {
+    public struct Alignment3D: Codable, Hashable, Sendable {
         
         @EnumMacro
         public enum X: String, GraphicEnum {
