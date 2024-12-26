@@ -8,7 +8,7 @@ import TextureMap
 
 extension Graphic {
     
-    public struct VideoDetails {
+    public struct VideoDetails: Sendable {
         public let resolution: CGSize
         public let frameCount: Int
         /// In seconds

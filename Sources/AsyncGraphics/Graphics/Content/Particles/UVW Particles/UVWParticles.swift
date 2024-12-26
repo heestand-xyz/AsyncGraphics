@@ -20,7 +20,7 @@
 //        let resolution: VectorUniform
 //    }
 //    
-//    public struct UVWParticleOptions: OptionSet {
+//    public struct UVWParticleOptions: OptionSet, Sendable {
 //        
 //        public let rawValue: Int
 //        

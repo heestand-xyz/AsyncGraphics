@@ -440,11 +440,8 @@ public struct Renderer {
                 
                 let size = MemoryLayout<U>.size
                 
-                let uniformsBuffer: any MTLBuffer = try withUnsafePointer(to: &uniforms) { pointer in
-                    guard let buffer = metalDevice.makeBuffer(bytes: UnsafeRawPointer(pointer), length: size) else {
-                        throw RendererError.failedToMakeUniformBuffer
-                    }
-                    return buffer
+                guard let uniformsBuffer = metalDevice.makeBuffer(bytes: &uniforms, length: size) else {
+                    throw RendererError.failedToMakeUniformBuffer
                 }
                 
                 if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
@@ -482,17 +479,11 @@ public struct Renderer {
                 let size: Int = MemoryLayout<AU>.size * Self.uniformArrayMaxLimit
                 let activeSize: Int = MemoryLayout<Bool>.size * Self.uniformArrayMaxLimit
                 
-                let arrayUniformsBuffer: any MTLBuffer = try withUnsafePointer(to: &fixedArrayUniforms) { pointer in
-                    guard let buffer = metalDevice.makeBuffer(bytes: UnsafeRawPointer(pointer), length: size) else {
-                        throw RendererError.failedToMakeArrayUniformBuffer
-                    }
-                    return buffer
+                guard let arrayUniformsBuffer = metalDevice.makeBuffer(bytes: &fixedArrayUniforms, length: size) else {
+                    throw RendererError.failedToMakeArrayUniformBuffer
                 }
-                let activeArrayUniformsBuffer: any MTLBuffer = try withUnsafePointer(to: &fixedActiveArrayUniforms) { pointer in
-                    guard let buffer = metalDevice.makeBuffer(bytes: UnsafeRawPointer(pointer), length: activeSize) else {
-                        throw RendererError.failedToMakeArrayUniformBuffer
-                    }
-                    return buffer
+                guard let activeArrayUniformsBuffer = metalDevice.makeBuffer(bytes: &fixedActiveArrayUniforms, length: activeSize) else {
+                    throw RendererError.failedToMakeArrayUniformBuffer
                 }
                 
                 if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
@@ -515,11 +506,8 @@ public struct Renderer {
                 
                 let size = MemoryLayout<VU>.size
                 
-                let uniformsBuffer: any MTLBuffer = try withUnsafePointer(to: &uniforms) { pointer in
-                    guard let buffer = metalDevice.makeBuffer(bytes: UnsafeRawPointer(pointer), length: size) else {
-                        throw RendererError.failedToMakeVertexUniformBuffer
-                    }
-                    return buffer
+                guard let uniformsBuffer = metalDevice.makeBuffer(bytes: &uniforms, length: size) else {
+                    throw RendererError.failedToMakeVertexUniformBuffer
                 }
                 
                 if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {

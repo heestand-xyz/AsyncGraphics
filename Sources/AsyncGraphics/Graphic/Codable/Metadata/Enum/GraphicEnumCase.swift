@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct GraphicEnumCase: Codable, Identifiable {
+public struct GraphicEnumCase: Codable, Identifiable, Sendable {
     
     public let rawValue: String
     public let name: String

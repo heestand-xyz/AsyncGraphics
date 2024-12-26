@@ -1,6 +1,6 @@
 import CoreGraphics
 
-public struct GraphicEnumMetadata<T: GraphicEnum>: Codable where T.RawValue == String {
+public struct GraphicEnumMetadata<T: GraphicEnum>: Codable, Sendable where T.RawValue == String {
     
     public var value: T
     public var defaultValue: T

@@ -16,7 +16,7 @@ extension Graphic {
         let alphaCrop: Float
     }
     
-    public struct ChromaKeyParameters {
+    public struct ChromaKeyParameters: Sendable {
         public var range: CGFloat = 0.1
         public var softness: CGFloat = 0.1
         public var edgeDesaturation: CGFloat = 0.5
