@@ -71,13 +71,13 @@ extension Graphic {
         layerCount: Int = 10,
         options: EffectOptions = [.edgeStretch]
     ) async throws -> Graphic {
-        var graphic: Graphic = self
+        var blurredGraphic: Graphic = self
         var radius: CGFloat = radius
         for _ in 0..<layerCount {
-            graphic = try await graphic.blurredLayeredSinglePass(radius: radius)
+            blurredGraphic = try await blurredGraphic.blurredLayeredSinglePass(radius: radius, options: options)
             radius /= 2.0
         }
-        return graphic
+        return blurredGraphic
     }
     
     public func blurredLayeredSinglePass(

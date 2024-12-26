@@ -1434,6 +1434,9 @@
         }
       }
     },
+    "option.lumaBlurType.layered" : {
+
+    },
     "option.lumaBlurType.random" : {
       "localizations" : {
         "en" : {

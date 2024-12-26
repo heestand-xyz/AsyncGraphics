@@ -32,6 +32,10 @@ extension CodableGraphic.Effect.Modifier {
                                                              minimum: .fixed(1),
                                                              maximum: .fixed(100))
         
+        public var layerCount: GraphicMetadata<Int> = .init(value: .fixed(10),
+                                                            minimum: .fixed(1),
+                                                            maximum: .fixed(10))
+        
         public var placement: GraphicEnumMetadata<Graphic.Placement> = .init(value: .fill)
 
         public func render(
@@ -40,16 +44,29 @@ extension CodableGraphic.Effect.Modifier {
             options: Graphic.EffectOptions = [.edgeStretch]
         ) async throws -> Graphic {
            
-            try await graphic.lumaBlurred(
-                with: modifierGraphic,
-                type: style.value,
-                radius: radius.value.eval(at: graphic.resolution),
-                position: position.value.eval(at: graphic.resolution),
-                angle: rotation.value.eval(at: graphic.resolution),
-                lumaGamma: lumaGamma.value.eval(at: graphic.resolution),
-                sampleCount: sampleCount.value.eval(at: graphic.resolution),
-                placement: placement.value,
-                options: options)
+            if style.value == .layered {
+    
+                try await graphic.lumaBlurredLayered(
+                    with: modifierGraphic,
+                    radius: radius.value.eval(at: graphic.resolution),
+                    lumaGamma: lumaGamma.value.eval(at: graphic.resolution),
+                    layerCount: layerCount.value.eval(at: graphic.resolution),
+                    placement: placement.value,
+                    options: options)
+                
+            } else {
+                
+                try await graphic.lumaBlurred(
+                    with: modifierGraphic,
+                    type: style.value,
+                    radius: radius.value.eval(at: graphic.resolution),
+                    position: position.value.eval(at: graphic.resolution),
+                    angle: rotation.value.eval(at: graphic.resolution),
+                    lumaGamma: lumaGamma.value.eval(at: graphic.resolution),
+                    sampleCount: sampleCount.value.eval(at: graphic.resolution),
+                    placement: placement.value,
+                    options: options)
+            }
         }
         
         public func isVisible(property: Property, at resolution: CGSize) -> Bool {
@@ -68,6 +85,8 @@ extension CodableGraphic.Effect.Modifier {
                 true
             case .placement:
                 true
+            case .layerCount:
+                style.value == .layered
             }
         }
         

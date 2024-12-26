@@ -24,25 +24,50 @@ extension Graphic {
         case angle
         case zoom
         case random
+        case layered
     }
     
-    // TODO: Implement Core Image Version
-//    enum LumaBlurError: LocalizedError {
-//        case filterNotFound
-//    }
-//    
-//    public func lumaBlurred(
-//        with graphic: Graphic,
-//        radius: CGFloat
-//    ) async throws -> Graphic {
-//        guard let maskedVariableBlur = CIFilter(name: "CIMaskedVariableBlur") else {
-//            throw LumaBlurError.filterNotFound
-//        }
-//        maskedVariableBlur.setValue(inputImage, forKey: kCIInputImageKey)
-//        maskedVariableBlur.setValue(10, forKey: kCIInputRadiusKey)
-//        maskedVariableBlur.setValue(radialMask.outputImage, forKey: "inputMask")
-//        let selectivelyFocusedCIImage = maskedVariableBlur.outputImage
-//    }
+    public func lumaBlurredLayered(
+        with graphic: Graphic,
+        radius: CGFloat,
+        lumaGamma: CGFloat = 1.0,
+        layerCount: Int = 10,
+        placement: Placement = .fit,
+        options: EffectOptions = [.edgeStretch]
+    ) async throws -> Graphic {
+        var blurredGraphic: Graphic = self
+        var radius: CGFloat = radius
+        for _ in 0..<layerCount {
+            blurredGraphic = try await blurredGraphic.lumaBlurredLayeredSinglePass(
+                with: graphic,
+                radius: radius,
+                lumaGamma: lumaGamma,
+                placement: placement,
+                options: options
+            )
+            radius /= 2.0
+        }
+        return blurredGraphic
+    }
+    
+    public func lumaBlurredLayeredSinglePass(
+        with graphic: Graphic,
+        radius: CGFloat,
+        lumaGamma: CGFloat = 1.0,
+        placement: Placement = .fit,
+        options: EffectOptions = [.edgeStretch]
+    ) async throws -> Graphic {
+        
+        try await lumaBlurred(
+            with: graphic,
+            type: .layered,
+            radius: radius,
+            lumaGamma: lumaGamma,
+            sampleCount: 1,
+            placement: placement,
+            options: options
+        )
+    }
     
     public func lumaBlurredBox(
         with graphic: Graphic,
@@ -50,7 +75,7 @@ extension Graphic {
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
-        options: EffectOptions = []
+        options: EffectOptions = [.edgeStretch]
     ) async throws -> Graphic {
         
         try await lumaBlurred(
@@ -71,7 +96,7 @@ extension Graphic {
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
-        options: EffectOptions = []
+        options: EffectOptions = [.edgeStretch]
     ) async throws -> Graphic {
         
         try await lumaBlurred(
@@ -93,7 +118,7 @@ extension Graphic {
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
-        options: EffectOptions = []
+        options: EffectOptions = [.edgeStretch]
     ) async throws -> Graphic {
         
         try await lumaBlurred(
@@ -113,7 +138,7 @@ extension Graphic {
         radius: CGFloat,
         lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
-        options: EffectOptions = []
+        options: EffectOptions = [.edgeStretch]
     ) async throws -> Graphic {
         
         try await lumaBlurred(
@@ -133,7 +158,7 @@ extension Graphic {
         lumaGamma: CGFloat = 1.0,
         sampleCount: Int = 100,
         placement: Placement = .fit,
-        options: EffectOptions = []
+        options: EffectOptions = [.edgeStretch]
     ) async throws -> Graphic {
             
         let relativeRadius: CGFloat = radius / height

@@ -119,6 +119,27 @@ fragment float4 lumaBlur(VertexOut out [[stage_in]],
         float2 ruv = uv + (float2(ru, rv) - 0.5) * uniforms.radius * lum * 0.001;
         ca = leadingTexture.sample(sampler, ruv);
         
+    } else if (uniforms.type == 4) {
+        
+        // Layered (One Pass)
+        
+        float2 offsets[9] = {
+            float2(-1, -1), float2(0, -1), float2(1, -1),
+            float2(-1,  0), float2(0,  0), float2(1,  0),
+            float2(-1,  1), float2(0,  1), float2(1,  1)
+        };
+        
+        float weights[9] = { 1.0 / 16, 2.0 / 16, 1.0 / 16,
+                             2.0 / 16, 4.0 / 16, 2.0 / 16,
+                             1.0 / 16, 2.0 / 16, 1.0 / 16 };
+        int centerIndex = 4;
+        
+        ca *= weights[centerIndex];
+        for (int i = 0; i < 9; i++) {
+            if (i == centerIndex) { continue; }
+            float2 offset = offsets[i] * uniforms.radius * lum;
+            ca += leadingTexture.sample(sampler, uv + offset) * weights[i];
+        }
     }
     
     ca /= amounts;
