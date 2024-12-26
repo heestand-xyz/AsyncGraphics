@@ -9,7 +9,7 @@ import TextureMap
 
 extension Graphic {
     
-    public enum MapType {
+    public enum MapType: Sendable {
         case standard
         case mutedStandard
         case satellite

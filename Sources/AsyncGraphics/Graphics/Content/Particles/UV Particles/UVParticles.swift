@@ -33,7 +33,7 @@ extension Graphic {
         }
     }
     
-    public enum UVParticleSampleCount: Int {
+    public enum UVParticleSampleCount: Int, Sendable {
         case one = 1
         case two = 2
         case four = 4

@@ -86,7 +86,7 @@ extension Graphic {
         )
     }
     
-    public enum ResizeMethod {
+    public enum ResizeMethod: Sendable {
         case lanczos
         case bilinear
     }

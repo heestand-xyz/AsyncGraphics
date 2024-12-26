@@ -8,12 +8,12 @@ import PixelColor
 
 extension Graphic {
     
-    public enum ReduceAxis {
+    public enum ReduceAxis: Sendable {
         case horizontal
         case vertical
     }
     
-    public enum ReduceMethod {
+    public enum ReduceMethod: Sendable {
         case average
         case minimum
         case maximum
