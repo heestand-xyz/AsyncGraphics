@@ -97,23 +97,7 @@ fragment float4 blur(VertexOut out [[stage_in]],
             }
         }
         
-    }
-//    else if (type == 4) {
-//
-//        // Circular
-//
-//        for (int x = -count; x <= count; ++x) {
-//            if (x != 0) {
-//                float amount = pow(1.0 - x / (count + 1), 0.5);
-//                float xu = u + (float(x) / count) * cos(atan2(v - 0.5 - position.y, (u - 0.5) * aspect - position.x) + pi / 2) * radius / aspect;
-//                float yv = v + (float(x) / count) * sin(atan2(v - 0.5 - position.y, (u - 0.5) * aspect - position.x) + pi / 2) * radius;
-//                color += texture.sample(sampler, float2(xu, yv)) * amount;
-//                amounts += amount;
-//            }
-//        }
-//
-//    }
-    else if (type == 4) {
+    } else if (type == 4) {
         
         // Random
         
@@ -123,6 +107,27 @@ fragment float4 blur(VertexOut out [[stage_in]],
         float rv = loki_rnd_v.rand();
         float2 ruv = uv + (float2(ru, rv) - 0.5) * radius * float2(1.0, aspect);
         color = texture.sample(sampler, ruv);
+    } else if (type == 5) {
+        
+        // Layered (One Pass)
+        
+        float2 offsets[9] = {
+            float2(-1, -1), float2(0, -1), float2(1, -1),
+            float2(-1,  0), float2(0,  0), float2(1,  0),
+            float2(-1,  1), float2(0,  1), float2(1,  1)
+        };
+        
+        float weights[9] = { 1.0 / 16, 2.0 / 16, 1.0 / 16,
+                             2.0 / 16, 4.0 / 16, 2.0 / 16,
+                             1.0 / 16, 2.0 / 16, 1.0 / 16 };
+        int centerIndex = 4;
+        
+        color *= weights[centerIndex];
+        for (int i = 0; i < 9; i++) {
+            if (i == centerIndex) { continue; }
+            float2 offset = offsets[i] * radius;
+            color += texture.sample(sampler, uv + offset) * weights[i];
+        }
     }
     
     color /= amounts;

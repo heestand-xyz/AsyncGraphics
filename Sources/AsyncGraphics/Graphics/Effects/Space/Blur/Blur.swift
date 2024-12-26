@@ -26,6 +26,7 @@ extension Graphic {
         case angle
         case zoom
         case random
+        case layered
     }
     
     /// Gaussian Blur
@@ -62,6 +63,42 @@ extension Graphic {
             texture: targetTexture,
             bits: bits,
             colorSpace: colorSpace
+        )
+    }
+    
+    public func blurredLayered(
+        radius: CGFloat,
+        layerCount: Int = 10,
+        options: EffectOptions = [.edgeStretch]
+    ) async throws -> Graphic {
+        var graphic: Graphic = self
+        var radius: CGFloat = radius
+        for _ in 0..<layerCount {
+            graphic = try await graphic.blurredLayeredSinglePass(radius: radius)
+            radius /= 2.0
+        }
+        return graphic
+    }
+    
+    public func blurredLayeredSinglePass(
+        radius: CGFloat,
+        options: EffectOptions = [.edgeStretch]
+    ) async throws -> Graphic {
+        
+        let relativeRadius: CGFloat = radius / height
+        
+        return try await Renderer.render(
+            name: "Blur (Layered)",
+            shader: .name("blur"),
+            graphics: [self],
+            uniforms: BlurUniforms(
+                type: BlurType.layered.index,
+                radius: Float(relativeRadius),
+                count: 1,
+                angle: 0.0,
+                position: CGPoint.zero.uniform
+            ),
+            options: options.spatialRenderOptions
         )
     }
     
