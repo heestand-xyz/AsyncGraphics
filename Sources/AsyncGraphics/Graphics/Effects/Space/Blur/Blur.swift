@@ -71,6 +71,7 @@ extension Graphic {
         layerCount: Int = 10,
         options: EffectOptions = [.edgeStretch]
     ) async throws -> Graphic {
+        if layerCount < 1 { return self }
         var blurredGraphic: Graphic = self
         var radius: CGFloat = radius
         for _ in 0..<layerCount {

@@ -14,7 +14,7 @@ extension CodableGraphic.Effect.Modifier {
             ["Luminance"]
         }
         
-        public var style: GraphicEnumMetadata<Graphic.LumaBlurType> = .init(value: .box)
+        public var style: GraphicEnumMetadata<Graphic.LumaBlurType> = .init(value: .layered)
         
         public var radius: GraphicMetadata<CGFloat> = .init(value: .resolutionMinimum(fraction: 0.1),
                                                             maximum: .resolutionMinimum(fraction: 0.5),
