@@ -8,11 +8,11 @@ extension Graphic {
         let count: Int32
     }
     
-    public enum LUTFormat: String, Codable, CaseIterable {
+    public enum LUTFormat: String, Codable, CaseIterable, Sendable {
         case cube
     }
     
-    public enum LUTLayout: String, Codable {
+    public enum LUTLayout: String, Codable, Sendable {
         /// This layout has a one by one aspect ratio
         case square
         /// This layout has a `width` that is equal to `heigh * height`

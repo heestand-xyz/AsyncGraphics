@@ -13,7 +13,7 @@ extension Graphic {
         let fraction: Float
     }
     
-    public enum CoordinateSpaceConversion: String, Codable, Identifiable, CaseIterable {
+    public enum CoordinateSpaceConversion: String, Codable, Identifiable, CaseIterable, Sendable {
         case domeToEqui
         case equiToDome
         case cubeToEqui

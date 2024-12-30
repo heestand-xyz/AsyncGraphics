@@ -162,6 +162,15 @@ extension Graphic {
         }
     }
     
+    /// Sendable wrapped UIImage / NSImage with trasparency.
+    ///
+    /// Get the image by calling `.receive()`
+    public var sendableImageWithTransparency: SendableImage {
+        get async throws {
+            try await imageWithTransparency.send()
+        }
+    }
+    
     public func writeImage(to url: URL, xdr: Bool = false) async throws {
         let image: TMImage = try await image
         try TextureMap.write(image: image, to: url, bits: bits, colorSpace: xdr ? .xdr : colorSpace)
@@ -172,6 +181,16 @@ extension Graphic {
     public var xdrImage: TMImage {
         get async throws {
             try await assignColorSpace(.xdr).image
+        }
+    }
+    
+    /// Sendable wrapped XDR UIImage / NSImage.
+    /// (Use with 16 or 32 bit graphics)
+    /// 
+    /// Get the image by calling `.receive()`
+    public var sendableXDRImage: SendableImage {
+        get async throws {
+            try await xdrImage.send()
         }
     }
 }
