@@ -15,7 +15,7 @@ extension Graphic {
     
     @MainActor
     public static func view<Content: View>(
-        content: () -> Content
+        content: @MainActor () -> Content
     ) async throws -> Graphic {
         let renderer = ImageRenderer<Content>(content: content())
         return try await view(renderer: renderer)
@@ -25,7 +25,7 @@ extension Graphic {
     public static func view<Content: View>(
         resolution: CGSize,
         alignment: SwiftUI.Alignment = .center,
-        content: () -> Content
+        content: @MainActor () -> Content
     ) async throws -> Graphic {
         let renderer = ImageRenderer(
             content: content()
