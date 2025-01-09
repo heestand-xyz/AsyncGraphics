@@ -76,12 +76,8 @@ extension Graphic {
         
         if options.contains(.colorCorrection) {
             
-            let linearSRGB = CGColorSpace(name: CGColorSpace.linearSRGB)!
-            if colorSpace == .sRGB, bits == ._8 {
-                graphic = try await graphic.convertColorSpace(from: .custom(linearSRGB), to: .sRGB)
-            } else if colorSpace == .displayP3, bits == ._8 {
-                /// Disabled as it's hazy on some images
-                //            graphic = try await graphic.convertColorSpace(from: .custom(linearSRGB), to: .displayP3)
+            if colorSpace != .linearSRGB, bits == ._8 {
+                graphic = try await graphic.convertColorSpace(from: .linearSRGB, to: colorSpace)
             }
             
             if colorSpace.isMonochrome {
@@ -90,7 +86,7 @@ extension Graphic {
                     blue: .red,
                     alpha: .green
                 )
-                .assignColorSpace(.sRGB)
+                .assignColorSpace(.nonLinearSRGB)
             } else {
                 /// Fix for different texture pixel formats
                 graphic = try await graphic
