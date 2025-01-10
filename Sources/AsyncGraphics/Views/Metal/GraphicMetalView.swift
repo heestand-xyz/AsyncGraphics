@@ -113,13 +113,9 @@ extension GraphicMetalView: MTKViewDelegate {
         
         guard let graphic: Graphic = graphic else { return }
         let sourceTexture: MTLTexture = graphic.texture
-        print("Source", sourceTexture.width, sourceTexture.height, sourceTexture.usage)
-        print("Source pixel format: \(sourceTexture.pixelFormat)")
         
         guard let drawable: CAMetalDrawable = currentDrawable else { return }
         let destinationTexture: MTLTexture = drawable.texture
-        print("Destination", destinationTexture.width, destinationTexture.height, destinationTexture.usage)
-        print("Destination pixel format: \(destinationTexture.pixelFormat)")
         
         guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else { return }
         guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else { return }
@@ -155,9 +151,7 @@ extension GraphicMetalView: MTKViewDelegate {
         
         metalQueue.async {
             
-            print("--> IN")
             commandBuffer.addCompletedHandler { [weak self] _ in
-                print("--> OUT")
                 let id: UUID = graphic.id
                 guard let self else { return }
                 Task { @MainActor in
