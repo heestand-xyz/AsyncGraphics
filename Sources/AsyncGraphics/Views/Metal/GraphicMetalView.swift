@@ -4,9 +4,9 @@
 
 #if !os(visionOS)
 
-import MetalKit
+@preconcurrency import MetalKit
 import MetalPerformanceShaders
-import QuartzCore.CoreAnimation
+@preconcurrency import QuartzCore.CoreAnimation
 import TextureMap
 
 final class GraphicMetalView: MTKView, GraphicMetalViewable {
@@ -20,7 +20,9 @@ final class GraphicMetalView: MTKView, GraphicMetalViewable {
     
     @MainActor
     let didRender: (UUID) -> ()
- 
+    
+    private let metalQueueKey = DispatchSpecificKey<String>()
+    
     init(interpolation: Graphic.ViewInterpolation,
          extendedDynamicRange: Bool,
          didRender: @escaping (UUID) -> ()) {
@@ -32,7 +34,7 @@ final class GraphicMetalView: MTKView, GraphicMetalViewable {
         super.init(frame: .zero, device: Renderer.metalDevice)
         
         clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 0.0)
-        colorPixelFormat = extendedDynamicRange ? .rgba16Float : .rgba8Unorm // .bgra10_xr (Display P3)
+        colorPixelFormat = pixelFormat()
         framebufferOnly = false
         autoResizeDrawable = true
         enableSetNeedsDisplay = true
@@ -55,6 +57,17 @@ final class GraphicMetalView: MTKView, GraphicMetalViewable {
     }
 }
 
+// MARK: - Pixel Format
+
+extension GraphicMetalView {
+    private func pixelFormat() -> MTLPixelFormat {
+        extendedDynamicRange ? .rgba16Float : .rgba8Unorm
+        // .bgra10_xr (Display P3)
+    }
+}
+
+// MARK: - XDR
+
 extension GraphicMetalView {
     
     func set(extendedDynamicRange: Bool) {
@@ -67,9 +80,12 @@ extension GraphicMetalView {
     }
 }
 
+// MARK: - Render
+
 extension GraphicMetalView {
     
-    func render(graphic: Graphic) async {
+    @MainActor
+    func render(graphic: Graphic) {
                 
         self.graphic = graphic
         
@@ -85,34 +101,42 @@ extension GraphicMetalView {
     #endif
 }
 
+// MARK: - Draw
+
 extension GraphicMetalView: MTKViewDelegate {
     
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
     
     func draw(in view: MTKView) {
+        let metalQueue = DispatchQueue(label: "GraphicMetalView")
+        metalQueue.setSpecific(key: metalQueueKey, value: "GraphicMetalView")
         
         guard let graphic: Graphic = graphic else { return }
-        let texture: MTLTexture = graphic.texture
+        let sourceTexture: MTLTexture = graphic.texture
+        print("Source", sourceTexture.width, sourceTexture.height, sourceTexture.usage)
+        print("Source pixel format: \(sourceTexture.pixelFormat)")
         
         guard let drawable: CAMetalDrawable = currentDrawable else { return }
-        let targetTexture: MTLTexture = drawable.texture
+        let destinationTexture: MTLTexture = drawable.texture
+        print("Destination", destinationTexture.width, destinationTexture.height, destinationTexture.usage)
+        print("Destination pixel format: \(destinationTexture.pixelFormat)")
         
-        guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else { return } // EXC_BREAKPOINT
+        guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else { return }
         guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else { return }
-
+        
         if !extendedDynamicRange,
            graphic.bits == ._8,
-           targetTexture.pixelFormat == .rgba8Unorm,
-           targetTexture.width == texture.width,
-           targetTexture.height == texture.height,
+           destinationTexture.pixelFormat == .rgba8Unorm,
+           destinationTexture.width == sourceTexture.width,
+           destinationTexture.height == sourceTexture.height,
            let blitEncoder = commandBuffer.makeBlitCommandEncoder() {
-           
-            blitEncoder.copy(from: texture,
+            
+            blitEncoder.copy(from: sourceTexture,
                              sourceSlice: 0,
                              sourceLevel: 0,
                              sourceOrigin: MTLOrigin(x: 0, y: 0, z: 0),
-                             sourceSize: MTLSizeMake(texture.width, texture.height, 1),
-                             to: targetTexture,
+                             sourceSize: MTLSizeMake(sourceTexture.width, sourceTexture.height, 1),
+                             to: destinationTexture,
                              destinationSlice: 0,
                              destinationLevel: 0,
                              destinationOrigin: MTLOrigin(x: 0, y: 0, z: 0))
@@ -126,14 +150,90 @@ extension GraphicMetalView: MTKViewDelegate {
             } else {
                 scaleKernel = MPSImageLanczosScale(device: Renderer.metalDevice)
             }
-            scaleKernel.encode(commandBuffer: commandBuffer, sourceTexture: texture, destinationTexture: targetTexture)
+            scaleKernel.encode(commandBuffer: commandBuffer, sourceTexture: sourceTexture, destinationTexture: destinationTexture)
         }
         
-        commandBuffer.addCompletedHandler { [weak self] _ in
-            self?.didRender(graphic.id)
+        metalQueue.async {
+            
+            print("--> IN")
+            commandBuffer.addCompletedHandler { [weak self] _ in
+                print("--> OUT")
+                let id: UUID = graphic.id
+                guard let self else { return }
+                Task { @MainActor in
+                    self.didRender(id)
+                }
+            }
+            commandBuffer.present(drawable)
+            commandBuffer.commit()
         }
-        commandBuffer.present(drawable)
-        commandBuffer.commit()
+    }
+}
+
+// MARK: - Draw with Shader
+
+extension GraphicMetalView {
+    
+    @available(*, deprecated)
+    private func drawWithShader() {
+        Task {
+            guard let graphic = graphic else { return }
+            guard let drawable = currentDrawable else { return }
+            guard let commandQueue = await Renderer.commandQueue() else { return }
+            guard let commandBuffer = commandQueue.makeCommandBuffer() else { return }
+
+            let passDescriptor = MTLRenderPassDescriptor()
+            passDescriptor.colorAttachments[0].texture = drawable.texture
+            passDescriptor.colorAttachments[0].clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 0)
+            passDescriptor.colorAttachments[0].loadAction = .clear
+            passDescriptor.colorAttachments[0].storeAction = .store
+            
+            guard let encoder = commandBuffer.makeRenderCommandEncoder(descriptor: passDescriptor) else { return }
+        
+            do {
+                encoder.setFragmentTexture(graphic.texture, index: 0)
+
+                let pipeline = try await pipeline()
+                encoder.setRenderPipelineState(pipeline)
+
+                let sampler: MTLSamplerState = try Renderer.sampler(addressMode: .clampToZero, filter: .linear)
+                encoder.setFragmentSamplerState(sampler, index: 0)
+
+                let vertexBuffer: MTLBuffer
+                if await Renderer.optimization.contains(.cacheQuadVertexBuffer),
+                   let buffer = Renderer.storedVertexQuadBuffer {
+                    vertexBuffer = buffer
+                } else {
+                    vertexBuffer = try Renderer.makeVertexQuadBuffer()
+                }
+                encoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+                
+                encoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 6)
+                
+                encoder.endEncoding()
+                commandBuffer.addCompletedHandler { [weak self] _ in
+                    self?.didRender(graphic.id)
+                }
+                commandBuffer.present(drawable)
+                commandBuffer.commit()
+            } catch {
+                encoder.endEncoding()
+                print("AsyncGraphic GraphicMetalView Error: \(error)")
+            }
+        }
+    }
+    
+    @available(*, deprecated)
+    @RenderActor
+    private func pipeline() async throws -> MTLRenderPipelineState {
+        let pipeline = MTLRenderPipelineDescriptor()
+        pipeline.label = "GraphicMetalView"
+        pipeline.fragmentFunction = try Renderer.shader(name: "fragmentPassthrough")
+        pipeline.vertexFunction = try Renderer.shader(name: "vertexPassthrough")
+        pipeline.colorAttachments[0].pixelFormat = await pixelFormat()
+        pipeline.colorAttachments[0].isBlendingEnabled = true
+        pipeline.colorAttachments[0].destinationRGBBlendFactor = .blendAlpha
+        return try await Renderer.metalDevice.makeRenderPipelineState(descriptor: pipeline)
     }
 }
 
