@@ -47,10 +47,10 @@ fragment float4 floodFill(VertexOut out [[stage_in]],
     float4 leftColor = leadingTexture.sample(sampler, uv + float2(-1.0 / resolution.x,  0.0) * stepDistance);
     float4 rightColor = leadingTexture.sample(sampler, uv + float2( 1.0 / resolution.x,  0.0) * stepDistance);
     
-    bool isUpFilled   = (maskUpColor.r   > 0.5) && (distance(upColor,   sourceColor) < uniforms.threshold);
-    bool isDownFilled = (maskDownColor.r > 0.5) && (distance(downColor, sourceColor) < uniforms.threshold);
-    bool isLeftFilled = (maskLeftColor.r > 0.5) && (distance(leftColor, sourceColor) < uniforms.threshold);
-    bool isRightFilled= (maskRightColor.r> 0.5) && (distance(rightColor,sourceColor) < uniforms.threshold);
+    bool isUpFilled   = (maskUpColor.r   > 0.5) && (distance(upColor,   sourceColor) <= uniforms.threshold);
+    bool isDownFilled = (maskDownColor.r > 0.5) && (distance(downColor, sourceColor) <= uniforms.threshold);
+    bool isLeftFilled = (maskLeftColor.r > 0.5) && (distance(leftColor, sourceColor) <= uniforms.threshold);
+    bool isRightFilled= (maskRightColor.r> 0.5) && (distance(rightColor,sourceColor) <= uniforms.threshold);
     
     if (isUpFilled || isDownFilled || isLeftFilled || isRightFilled) {
         return float4(1.0);
