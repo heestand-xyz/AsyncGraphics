@@ -76,8 +76,8 @@ extension Graphic {
         
         if options.contains(.colorCorrection) {
             
-            if colorSpace != .linearSRGB, bits == ._8 {
-                graphic = try await graphic.convertColorSpace(from: .linearSRGB, to: colorSpace)
+            if colorSpace == .nonLinearSRGB, bits == ._8 {
+                graphic = try await graphic.convertColorSpace(from: .linearSRGB, to: .nonLinearSRGB)
             }
             
             if colorSpace.isMonochrome {
@@ -86,11 +86,11 @@ extension Graphic {
                     blue: .red,
                     alpha: .green
                 )
-                .assignColorSpace(.nonLinearSRGB)
+                .assignColorSpace(.sRGB)
             } else {
                 /// Fix for different texture pixel formats
                 graphic = try await graphic
-                    .brightness(1.0)
+                    .brightness(1.0) /// Has no visual effect
             }
         }
         
