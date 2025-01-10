@@ -360,7 +360,7 @@ extension Graphic: Equatable {
 @available(iOS 14.0, tvOS 14, macOS 11, *)
 extension Graphic {
     
-    public func isPixelsEqual(to graphic: Graphic) async throws -> Bool {
+    public func isPixelsEqual(to graphic: Graphic, threshold: CGFloat = 0.000_1) async throws -> Bool {
         
         guard resolution == graphic.resolution else {
             return false
@@ -370,6 +370,6 @@ extension Graphic {
         
         let color = try await difference.averagePixelColor
                 
-        return color.brightness < 0.000_1
+        return color.brightness <= threshold
     }
 }
