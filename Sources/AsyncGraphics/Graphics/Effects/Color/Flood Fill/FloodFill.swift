@@ -19,7 +19,7 @@ extension Graphic {
         let distance: Float
     }
     
-    public func floodFillOnGPU2(
+    public func floodFillRecursively(
         position: CGPoint,
         threshold: CGFloat = 0.5,
         color: PixelColor = .white,
@@ -60,7 +60,7 @@ extension Graphic {
                     if color == .white, backgroundColor == .black {
                         try await loop(newMaskGraphic)
                     } else {
-                        try await loop(try await maskGraphic.colorMap(from: backgroundColor, to: color))
+                        try await loop(try await newMaskGraphic.colorMap(from: backgroundColor, to: color))
                     }
                 }
                 defer {
@@ -79,7 +79,7 @@ extension Graphic {
         return try await maskGraphic.colorMap(from: backgroundColor, to: color)
     }
     
-    public func floodFillOnGPU1(
+    public func floodFillAccurately(
         position: CGPoint,
         threshold: CGFloat = 0.5,
         color: PixelColor = .white,
@@ -98,7 +98,7 @@ extension Graphic {
         for step in levels.reversed() {
             let power: Int = Int(pow(CGFloat(step), 2.0))
             let powerDistance: CGFloat = CGFloat(power)
-            maskGraphic = try await floodFillOnGPU(
+            maskGraphic = try await floodFill(
                 with: maskGraphic,
                 position: position,
                 threshold: threshold,
@@ -113,7 +113,7 @@ extension Graphic {
         return maskGraphic
     }
     
-    private func floodFillOnGPU(
+    private func floodFill(
         position: CGPoint,
         threshold: CGFloat = 0.5,
         color: PixelColor = .white,
@@ -129,7 +129,7 @@ extension Graphic {
             backgroundColor: .black,
             resolution: resolution
         )
-        return try await floodFillOnGPU(
+        return try await floodFill(
             with: maskGraphic,
             position: position,
             threshold: threshold,
@@ -142,7 +142,7 @@ extension Graphic {
         )
     }
     
-    private func floodFillOnGPU(
+    private func floodFill(
         with maskGraphic: Graphic,
         position: CGPoint,
         threshold: CGFloat = 0.5,
@@ -154,7 +154,7 @@ extension Graphic {
         loop: ((Graphic) async throws -> ())? = nil
     ) async throws -> Graphic {
         var maskGraphic: Graphic = maskGraphic
-        for _ in 0..<maximumIterations {
+        for index in 0..<maximumIterations {
             let newMaskGraphic: Graphic = try await Renderer.render(
                 name: "Flood Fill",
                 shader: .name("floodFill"),
@@ -176,15 +176,17 @@ extension Graphic {
                 if color == .white, backgroundColor == .black {
                     try await loop(newMaskGraphic)
                 } else {
-                    try await loop(try await maskGraphic.colorMap(from: backgroundColor, to: color))
+                    try await loop(try await newMaskGraphic.colorMap(from: backgroundColor, to: color))
                 }
             }
             defer {
                 maskGraphic = newMaskGraphic
             }
-//            if try await newMaskGraphic.isPixelsEqual(to: maskGraphic, threshold: 0.0) {
-//                break
-//            }
+            if index % 10 == 0 {
+                if try await newMaskGraphic.isPixelsEqual(to: maskGraphic, threshold: 0.0) {
+                    break
+                }
+            }
         }
         if color == .white, backgroundColor == .black {
             return maskGraphic
@@ -192,7 +194,7 @@ extension Graphic {
         return try await maskGraphic.colorMap(from: backgroundColor, to: color)
     }
     
-    public func floodFillOnCPU(
+    public func floodFillPrecisely(
         position: CGPoint,
         threshold: CGFloat = 0.5,
         color: PixelColor = .white,
@@ -200,7 +202,7 @@ extension Graphic {
         options: ContentOptions = []
     ) async throws -> Graphic {
         var pixels = try await pixelColors
-        try floodFill(
+        try floodFillPrecisely(
             pixels: &pixels,
             resolution: resolution,
             position: position,
@@ -215,7 +217,7 @@ extension Graphic {
         case positionOutOfBounds
     }
     
-    private func floodFill(
+    public func floodFillPrecisely(
         pixels: inout [[PixelColor]],
         resolution: CGSize,
         position: CGPoint,
