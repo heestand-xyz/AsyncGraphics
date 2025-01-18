@@ -11,7 +11,7 @@ extension Graphic {
     /// Export a video to Data
     public static func exportVideoToData(with graphics: [Graphic],
                                          fps: Double = 30.0,
-                                         kbps: Int = 1_000,
+                                         kbps: Int = 10_000,
                                          format: VideoFormat = .mov,
                                          codec: VideoCodec = .h264) async throws -> Data {
         
@@ -31,7 +31,7 @@ extension Graphic {
     /// Export a video to a URL
     public static func exportVideoToURL(with graphics: [Graphic],
                                         fps: Double = 30.0,
-                                        kbps: Int = 1_000,
+                                        kbps: Int = 10_000,
                                         format: VideoFormat = .mov,
                                         codec: VideoCodec = .h264) async throws -> URL {
         
@@ -83,7 +83,7 @@ extension Array where Element == Graphic {
     
     /// Export a video to Data
     public func exportVideoToData(fps: Double = 30.0,
-                                  kbps: Int = 1_000,
+                                  kbps: Int = 10_000,
                                   format: VideoFormat = .mov,
                                   codec: VideoCodec = .h264) async throws -> Data {
         

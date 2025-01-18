@@ -33,17 +33,20 @@ public actor GraphicVideoRecorder: Sendable {
     public enum VideoCodec: String, CaseIterable, Sendable {
         case h264
         case proRes
+        case hevc
         public var type: AVVideoCodecType {
             switch self {
             case .h264: 
                 return .h264
             case .proRes:
-                #if os(visionOS)
-                print("AsyncGraphics - Warning: ProRes not supported on visionOS. Falling back to h264.")
-                return .h264
-                #else
+                #if !os(visionOS)
                 return .proRes4444
+                #else
+                print("AsyncGraphics - Warning: ProRes not supported on visionOS. Falling back to HEVC.")
+                return .hevc
                 #endif
+            case .hevc:
+                return .hevc
             }
         }
     }
@@ -105,7 +108,7 @@ public actor GraphicVideoRecorder: Sendable {
         }
     }
 
-    public init(fps: Double = 30.0, kbps: Int = 10_000, format: VideoFormat = .mov, codec: VideoCodec = .h264, resolution: CGSize) {
+    public init(fps: Double = 30.0, kbps: Int = 10_000, format: VideoFormat = .mov, codec: VideoCodec = .hevc, resolution: CGSize) {
         self.fps = fps
         self.kbps = kbps
         self.format = format
