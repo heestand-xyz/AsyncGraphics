@@ -62,6 +62,13 @@ extension Graphic {
         }
     }
     
+    public static func image(
+        sendable sendableImage: TMSendableImage,
+        options: ImageOptions = .default
+    ) async throws -> Graphic {
+        try await .image(sendableImage.receive(), options: options)
+    }
+    
     /// UIImage / NSImage
     public static func image(
         _ image: TMImage,
