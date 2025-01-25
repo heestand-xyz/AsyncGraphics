@@ -85,6 +85,13 @@ extension Graphic {
         return try await (leftGraphic, rightGraphic)
     }
     
+    public static func stereoscopicGraphics(source: CGImageSource) async throws -> (left: Graphic, right: Graphic) {
+        let (leftImage, rightImage): (TMImage, TMImage) = try stereoscopicImages(source: source)
+        let (leftSendableImage, rightSendableImage): (TMSendableImage, TMSendableImage) = (leftImage.send(), rightImage.send())
+        async let (leftGraphic, rightGraphic): (Graphic, Graphic) = (.image(sendable: leftSendableImage), .image(sendable: rightSendableImage))
+        return try await (leftGraphic, rightGraphic)
+    }
+    
     public static func stereoscopicImages(url: URL) throws -> (left: TMImage, right: TMImage) {
         let imageSource: CGImageSource = try TextureMap.cgImageSource(url: url)
         return try stereoscopicImages(source: imageSource)

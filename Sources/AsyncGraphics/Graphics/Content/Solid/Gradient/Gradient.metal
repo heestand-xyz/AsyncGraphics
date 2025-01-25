@@ -64,8 +64,10 @@ fragment float4 gradient(VertexOut out [[stage_in]],
     FractionAndZero fz = fractionAndZero(fraction, uniforms.extend);
     fraction = fz.fraction;
     
-    if (uniforms.gamma != 1.0) {
-        fraction = pow(min(max(fraction, 0.0), 1.0), 1 / max(0.000001, uniforms.gamma));
+    if (uniforms.gamma != 1.0 && uniforms.gamma != 0.0) {
+        if (fraction > 0.0001 && fraction < 0.9999) {
+            fraction = pow(fraction, 1.0 / uniforms.gamma);
+        }
     }
     
     float4 c = 0;
