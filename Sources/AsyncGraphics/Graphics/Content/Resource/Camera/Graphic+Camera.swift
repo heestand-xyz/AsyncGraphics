@@ -71,10 +71,8 @@ extension Graphic {
                 throw CameraError.captureDeviceNotSupported
             }
             
-            if #available(macOS 12.3, *) {
-                AVCaptureDevice.centerStageControlMode = .app
-                AVCaptureDevice.isCenterStageEnabled = centerStage
-            }
+            AVCaptureDevice.centerStageControlMode = .app
+            AVCaptureDevice.isCenterStageEnabled = centerStage
             
             try self.init(device: device, quality: preset)
         }
@@ -167,8 +165,8 @@ extension Graphic {
             if captureSession.isRunning { return }
             captureSession.addInput(videoInput)
             captureSession.addOutput(videoOutput)
-            DispatchQueue.global().async { [weak self] in
-                self?.captureSession.startRunning()
+            Task { @MainActor in
+                captureSession.startRunning()
             }
         }
         
