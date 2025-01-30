@@ -33,7 +33,11 @@ extension Graphic {
             do {
                 try handler.perform([request])
                 if let results = request.results {
-                    let observations = results.map(Observation.init)
+                    let observations = results
+                        .map(Observation.init)
+                        .sorted {
+                            $0.face.boundingBox.center.x < $1.face.boundingBox.center.x
+                        }
                     continuation.resume(returning: observations)
                 } else {
                     continuation.resume(returning: [])
@@ -51,12 +55,12 @@ extension Graphic {
         let graphics: [Graphic] = try await frames.asyncMap { frame in
             try await crop(to: frame)
         }
-        return zip(observations, graphics).map { observation, graphic in
+        return zip(observations, zip(graphics, frames)).map {
             FaceDetection(
                 originalResolution: resolution,
-                frame: observation.face.boundingBox,
-                graphic: graphic,
-                observation: observation.face
+                frame: $1.1,
+                graphic: $1.0,
+                observation: $0.face
             )
         }
     }
