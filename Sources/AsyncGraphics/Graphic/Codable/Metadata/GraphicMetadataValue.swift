@@ -48,6 +48,31 @@ public enum GraphicMetadataValue<T: GraphicValue>: Codable {
     case resolutionMinimum(fraction: CGFloat)
     case resolutionMaximum(fraction: CGFloat)
     
+    public var isFixed: Bool {
+        switch self {
+        case .zero:
+            true
+        case .one:
+            true
+        case .fixed:
+            true
+        case .width:
+            false
+        case .height:
+            false
+        case .depth:
+            false
+        case .resolution:
+            false
+        case .resolutionAlignment:
+            false
+        case .resolutionMinimum:
+            false
+        case .resolutionMaximum:
+            false
+        }
+    }
+    
     public func eval(at resolution: CGSize) -> T {
         switch self {
         case .zero:
