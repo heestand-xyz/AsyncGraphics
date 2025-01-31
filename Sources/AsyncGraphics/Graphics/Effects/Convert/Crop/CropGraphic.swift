@@ -26,10 +26,6 @@ extension CodableGraphic.Effect.Convert {
             maximum: .height,
             options: .spatial)
         
-        public var placement: GraphicEnumMetadata<Graphic.Placement> = .init(value: .fit)
-        
-        public var interpolation: GraphicEnumMetadata<Graphic.ResolutionInterpolation> = .init(value: .linear)
-
         public func render(
             with graphic: Graphic,
             options: Graphic.EffectOptions = []

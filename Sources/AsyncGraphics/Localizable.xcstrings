@@ -311,6 +311,16 @@
         }
       }
     },
+    "graphic.effect.convert.frameCrop" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frame Crop"
+          }
+        }
+      }
+    },
     "graphic.effect.convert.resolution" : {
       "localizations" : {
         "en" : {
@@ -982,7 +992,14 @@
       }
     },
     "option.blurType.layered" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Layered"
+          }
+        }
+      }
     },
     "option.blurType.random" : {
       "localizations" : {
@@ -1435,7 +1452,14 @@
       }
     },
     "option.lumaBlurType.layered" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Layered"
+          }
+        }
+      }
     },
     "option.lumaBlurType.random" : {
       "localizations" : {
@@ -2207,6 +2231,16 @@
         }
       }
     },
+    "property.frame" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frame"
+          }
+        }
+      }
+    },
     "property.fromBottom" : {
       "localizations" : {
         "en" : {
@@ -2408,7 +2442,14 @@
       }
     },
     "property.layerCount" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Layer Count"
+          }
+        }
+      }
     },
     "property.leadingPoint" : {
       "localizations" : {

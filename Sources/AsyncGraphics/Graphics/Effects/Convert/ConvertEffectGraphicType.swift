@@ -7,6 +7,7 @@ public enum ConvertEffectGraphicType: String, CodableGraphicTypeProtocol {
     case bits
     case cornerPin
     case crop
+    case frameCrop
 }
 
 extension ConvertEffectGraphicType {
@@ -20,6 +21,8 @@ extension ConvertEffectGraphicType {
         case .cornerPin:
             "skew"
         case .crop:
+            "crop"
+        case .frameCrop:
             "crop"
         }
     }
@@ -37,6 +40,8 @@ extension ConvertEffectGraphicType {
                 .basic
         case .crop:
                 .basic
+        case .frameCrop:
+                .advanced
         }
     }
 }
