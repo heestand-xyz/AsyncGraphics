@@ -361,6 +361,16 @@
         }
       }
     },
+    "graphic.effect.modifier.frameBlend" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frame Blend"
+          }
+        }
+      }
+    },
     "graphic.effect.modifier.lookup" : {
       "localizations" : {
         "en" : {
@@ -427,6 +437,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mask"
+          }
+        }
+      }
+    },
+    "graphic.effect.modifier.transformBlend" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transform Blend"
           }
         }
       }

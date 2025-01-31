@@ -107,6 +107,26 @@ extension Graphic {
         )
     }
     
+    public mutating func frameBlend(
+        with graphic: Graphic,
+        blendingMode: BlendMode,
+        placement: Placement = .fit,
+        alignment: Alignment = .center,
+        frame: CGRect,
+        rotation: Angle = .zero,
+        options: EffectOptions = []
+    ) async throws {
+        self = try await frameBlended(
+            with: graphic,
+            blendingMode: blendingMode,
+            placement: placement,
+            alignment: alignment,
+            frame: frame,
+            rotation: rotation,
+            options: options.union(.replace)
+        )
+    }
+    
     public mutating func transformBlend(
         with graphic: Graphic,
         blendingMode: BlendMode,
@@ -128,6 +148,39 @@ extension Graphic {
             scale: scale,
             size: size,
             options: options.union(.replace)
+        )
+    }
+    
+    public func frameBlended(
+        with graphic: Graphic,
+        blendingMode: BlendMode,
+        placement: Placement = .fit,
+        alignment: Alignment = .center,
+        frame: CGRect,
+        rotation: Angle = .zero,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
+        let size: CGSize = switch placement {
+        case .stretch:
+            frame.size
+        case .fit:
+            resolution.place(in: frame.size, placement: .fill)
+        case .fill:
+            resolution.place(in: frame.size, placement: .fit)
+        case .fixed:
+            resolution
+        }
+        let translation: CGPoint = (frame.center - resolution / 2) / resolution.place(in: .one, placement: .fill)
+        return try await transformBlended(
+            with: graphic,
+            blendingMode: blendingMode,
+            placement: placement,
+            alignment: alignment,
+            translation: translation,
+            rotation: rotation,
+            scale: 1.0,
+            size: size,
+            options: options
         )
     }
     

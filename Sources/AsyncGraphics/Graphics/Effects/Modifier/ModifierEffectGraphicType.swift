@@ -6,6 +6,8 @@ public enum ModifierEffectGraphicType: String, CodableGraphicTypeProtocol {
     case mask
     case cross
     case blend
+    case frameBlend
+    case transformBlend
     case displace
     case lookup
     case lumaLevels
@@ -23,7 +25,7 @@ extension ModifierEffectGraphicType {
             "circle.rectangle.dashed"
         case .cross:
             "arrow.triangle.merge"
-        case .blend:
+        case .blend, .frameBlend, .transformBlend:
             "camera.filters"
         case .displace:
             "circle.dotted.and.circle"
@@ -53,6 +55,10 @@ extension ModifierEffectGraphicType {
                 .basic
         case .blend:
                 .basic
+        case .frameBlend:
+                .advanced
+        case .transformBlend:
+                .advanced
         case .displace:
                 .basic
         case .lookup:
