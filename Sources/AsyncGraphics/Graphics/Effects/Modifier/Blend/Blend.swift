@@ -11,7 +11,7 @@ extension Graphic {
     private struct BlendUniforms {
         let blendingMode: Int32
         let placement: Int32
-        let translation: PointUniform
+        let offset: PointUniform
         let rotation: Float
         let scale: Float
         let size: SizeUniform
@@ -92,7 +92,7 @@ extension Graphic {
             uniforms: BlendUniforms(
                 blendingMode: Int32(blendingMode.rawIndex),
                 placement: Int32(placement.index),
-                translation: .zero,
+                offset: .zero,
                 rotation: 0.0,
                 scale: 1.0,
                 size: .one,
@@ -127,6 +127,7 @@ extension Graphic {
         )
     }
     
+    @available(*, deprecated, renamed: "transformBlend(with:blendingMode:placement:alignment:offset:rotation:scale:size:options:)", message: "Translation has been renamed to offset with a new calculation for non fixed placements.")
     public mutating func transformBlend(
         with graphic: Graphic,
         blendingMode: BlendMode,
@@ -138,12 +139,36 @@ extension Graphic {
         size: CGSize? = nil,
         options: EffectOptions = []
     ) async throws {
+        try await transformBlend(
+            with: graphic,
+            blendingMode: blendingMode,
+            placement: placement,
+            alignment: alignment,
+            offset: translation,
+            rotation: rotation,
+            scale: scale,
+            size: size,
+            options: options
+        )
+    }
+    
+    public mutating func transformBlend(
+        with graphic: Graphic,
+        blendingMode: BlendMode,
+        placement: Placement = .fit,
+        alignment: Alignment = .center,
+        offset: CGPoint = .zero,
+        rotation: Angle = .zero,
+        scale: CGFloat = 1.0,
+        size: CGSize? = nil,
+        options: EffectOptions = []
+    ) async throws {
         self = try await transformBlended(
             with: graphic,
             blendingMode: blendingMode,
             placement: placement,
             alignment: alignment,
-            translation: translation,
+            offset: offset,
             rotation: rotation,
             scale: scale,
             size: size,
@@ -170,13 +195,13 @@ extension Graphic {
         case .fixed:
             resolution
         }
-        let translation: CGPoint = (frame.center - resolution / 2) / resolution.place(in: .one, placement: .fill)
+        let offset: CGPoint = frame.center - resolution / 2
         return try await transformBlended(
             with: graphic,
             blendingMode: blendingMode,
             placement: placement,
             alignment: alignment,
-            translation: translation,
+            offset: offset,
             rotation: rotation,
             scale: 1.0,
             size: size,
@@ -184,6 +209,7 @@ extension Graphic {
         )
     }
     
+    @available(*, deprecated, renamed: "transformBlended(with:blendingMode:placement:alignment:offset:rotation:scale:size:options:)", message: "Translation has been renamed to offset with a new calculation for non fixed placements.")
     public func transformBlended(
         with graphic: Graphic,
         blendingMode: BlendMode,
@@ -195,8 +221,32 @@ extension Graphic {
         size: CGSize? = nil,
         options: EffectOptions = []
     ) async throws -> Graphic {
+        try await transformBlended(
+            with: graphic,
+            blendingMode: blendingMode,
+            placement: placement,
+            alignment: alignment,
+            offset: translation,
+            rotation: rotation,
+            scale: scale,
+            size: size,
+            options: options
+        )
+    }
+    
+    public func transformBlended(
+        with graphic: Graphic,
+        blendingMode: BlendMode,
+        placement: Placement = .fit,
+        alignment: Alignment = .center,
+        offset: CGPoint = .zero,
+        rotation: Angle = .zero,
+        scale: CGFloat = 1.0,
+        size: CGSize? = nil,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
         
-        let relativeTranslation: CGPoint = translation / resolution.height
+        let relativeOffset: CGPoint = offset / resolution.height
         let relativeSize: CGSize = (size ?? resolution) / resolution
 
         return try await Renderer.render(
@@ -209,7 +259,7 @@ extension Graphic {
             uniforms: BlendUniforms(
                 blendingMode: Int32(blendingMode.rawIndex),
                 placement: Int32(placement.index),
-                translation: relativeTranslation.uniform,
+                offset: relativeOffset.uniform,
                 rotation: rotation.uniform,
                 scale: Float(scale),
                 size: relativeSize.uniform,

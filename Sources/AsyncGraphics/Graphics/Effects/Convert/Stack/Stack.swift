@@ -137,7 +137,7 @@ extension Graphic {
                 with: graphic,
                 blendingMode: blendMode,
                 placement: .fixed,
-                translation: offset,
+                offset: offset,
                 options: options
             )
         }

@@ -46,7 +46,7 @@ public struct Renderer {
     }
     
     @RenderActor
-    public static var optimization: Optimization = []
+    public static var optimization: Optimization = .all
     
     /// Hardcoded. Defined as ARRMAX in shaders.
     private static let uniformArrayMaxLimit: Int = 128

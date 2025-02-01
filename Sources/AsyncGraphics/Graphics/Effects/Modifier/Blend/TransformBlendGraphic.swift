@@ -20,7 +20,7 @@ extension CodableGraphic.Effect.Modifier {
 
         public var alignment: GraphicEnumMetadata<Graphic.Alignment> = .init(value: .center)
         
-        public var translation: GraphicMetadata<CGPoint> = .init(
+        public var offset: GraphicMetadata<CGPoint> = .init(
             value: .fixed(.zero),
             minimum: .resolutionMaximum(fraction: -0.5),
             maximum: .resolutionMaximum(fraction: 0.5),
@@ -49,7 +49,7 @@ extension CodableGraphic.Effect.Modifier {
                 blendingMode: blendingMode.value,
                 placement: placement.value,
                 alignment: alignment.value,
-                translation: translation.value.eval(at: graphic.resolution),
+                offset: offset.value.eval(at: graphic.resolution),
                 rotation: rotation.value.eval(at: graphic.resolution),
                 scale: scale.value.eval(at: graphic.resolution),
                 size: size.value.eval(at: graphic.resolution),

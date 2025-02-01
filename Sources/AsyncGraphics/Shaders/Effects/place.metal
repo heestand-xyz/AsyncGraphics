@@ -53,37 +53,34 @@ float2 place(int place, float2 uv, uint leadingWidth, uint leadingHeight, uint t
     return float2(u, v);
 }
 
-// Deprecated
-float unitPlace(int place, uint leadingWidth, uint leadingHeight, uint trailingWidth, uint trailingHeight) {
+float2 translationScale(int place, uint leadingWidth, uint leadingHeight, uint trailingWidth, uint trailingHeight) {
     
-    float aspect_a = float(leadingWidth) / float(leadingHeight);
-    float aspect_b = float(trailingWidth) / float(trailingHeight);
+    float leadingAspect = float(leadingWidth) / float(leadingHeight);
+    float trailingAspect = float(trailingWidth) / float(trailingHeight);
     
     float unit = 1.0;
+    float2 scale = 1.0;
     
     switch (place) {
         case 0: // Stretch
+            scale = float2(trailingAspect / leadingAspect, 1.0);
             break;
         case 1: // Aspect Fit
-            if (aspect_b > aspect_a) {
-                unit /= aspect_a;
-                unit *= aspect_b;
-                unit += ((aspect_a - aspect_b) / 2) / aspect_a;
+            if (trailingAspect > leadingAspect) {
+                scale = trailingAspect / leadingAspect;
             }
             break;
         case 2: // Aspect Fill
-            if (aspect_b < aspect_a) {
-                unit *= aspect_b;
-                unit /= aspect_a;
-                unit += ((1.0 / aspect_b - 1.0 / aspect_a) / 2) * aspect_b;
+            if (trailingAspect < leadingAspect) {
+                scale = trailingAspect / leadingAspect;
             }
             break;
         case 3: // Fixed
-            unit = float(leadingHeight) / float(trailingHeight);
+            scale = float(leadingHeight) / float(trailingHeight);
             break;
     }
     
-    return unit;
+    return scale;
 }
 
 float2 transformPlace(int placement,
@@ -92,7 +89,7 @@ float2 transformPlace(int placement,
                       uint leadingHeight,
                       uint trailingWidth,
                       uint trailingHeight,
-                      float2 translation,
+                      float2 offset,
                       float2 scale,
                       float rotation,
                       int horizontalAlignment,
@@ -107,10 +104,10 @@ float2 transformPlace(int placement,
     float trailingAspect = float(trailingWidth) / float(trailingHeight);
 
     float2 uvPlacement = place(placement, uv, leadingWidth, leadingHeight, trailingWidth, trailingHeight);
-    float unit = unitPlace(placement, leadingWidth, leadingHeight, trailingWidth, trailingHeight);
+    float2 offsetScale = translationScale(placement, leadingWidth, leadingHeight, trailingWidth, trailingHeight);
         
-    float x = (uvPlacement.x - 0.5) * trailingAspect - translation.x * unit;
-    float y = uvPlacement.y - 0.5 - translation.y * unit;
+    float x = (uvPlacement.x - 0.5) * trailingAspect - offset.x * offsetScale.x;
+    float y = uvPlacement.y - 0.5 - offset.y * offsetScale.y;
     float angle = atan2(y, x) - (rotation * pi * 2);
     float radius = sqrt(pow(x, 2) + pow(y, 2));
     float2 uvTransform;
