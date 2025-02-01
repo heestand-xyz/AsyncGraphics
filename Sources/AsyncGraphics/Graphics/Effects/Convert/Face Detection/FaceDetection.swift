@@ -12,7 +12,7 @@ extension Graphic {
     
     public struct FaceDetection: Sendable {
         /// Original graphic resolution
-        public let originalResolution: CGSize
+        public let resolution: CGSize
         /// Frame relative to the original resolution
         public let frame: CGRect
         /// Cropped graphic with the face
@@ -57,7 +57,7 @@ extension Graphic {
         }
         return zip(observations, zip(graphics, frames)).map {
             FaceDetection(
-                originalResolution: resolution,
+                resolution: resolution,
                 frame: $1.1,
                 graphic: $1.0,
                 observation: $0.face
