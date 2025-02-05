@@ -101,10 +101,18 @@ extension Graphic {
             .resized(to: resolution, placement: placement)
     }
     
+    enum ResizeError: Error {
+        case resolutionToLow
+    }
+    
     public func resizedStretched(
         to resolution: CGSize,
         method: ResizeMethod
     ) async throws -> Graphic {
+        
+        guard resolution.width > 1, resolution.height > 1 else {
+            throw ResizeError.resolutionToLow
+        }
 
         let targetTexture: MTLTexture = try .empty(resolution: resolution, bits: bits, usage: .write)
         
