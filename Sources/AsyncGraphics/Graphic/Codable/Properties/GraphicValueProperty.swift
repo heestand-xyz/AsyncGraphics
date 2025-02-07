@@ -30,6 +30,7 @@ extension GraphicValueProperty {
             type: type,
             key: key,
             name: name,
+            docs: wrappedValue.docs,
             value: wrappedValue.value,
             defaultValue: wrappedValue.defaultValue,
             minimumValue: wrappedValue.minimumValue,

@@ -5,6 +5,7 @@ public class AnyGraphicEnumProperty: AnyGraphicProperty {
     
     public let key: String
     public let name: String
+    public let docs: String
     
     public let rawValue: String
     public let defaultRawValue: String
@@ -15,6 +16,7 @@ public class AnyGraphicEnumProperty: AnyGraphicProperty {
     init<T: GraphicEnum>(
         key: String,
         name: String,
+        docs: String,
         value: T,
         defaultValue: T,
         allCases: [GraphicEnumCase],
@@ -23,6 +25,7 @@ public class AnyGraphicEnumProperty: AnyGraphicProperty {
         
         self.key = key
         self.name = name
+        self.docs = docs
         
         rawValue = value.rawValue
         defaultRawValue = defaultValue.rawValue

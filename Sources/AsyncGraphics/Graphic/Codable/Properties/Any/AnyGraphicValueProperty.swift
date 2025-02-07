@@ -7,6 +7,7 @@ public class AnyGraphicValueProperty: AnyGraphicProperty {
     
     public let key: String
     public let name: String
+    public let docs: String
     
     public let value: String
     public let defaultValue: String
@@ -20,6 +21,7 @@ public class AnyGraphicValueProperty: AnyGraphicProperty {
     init<T: GraphicValue>(type: GraphicValueType,
                           key: String,
                           name: String,
+                          docs: String,
                           value: GraphicMetadataValue<T>,
                           defaultValue: GraphicMetadataValue<T>,
                           minimumValue: GraphicMetadataValue<T>,
@@ -31,6 +33,7 @@ public class AnyGraphicValueProperty: AnyGraphicProperty {
         
         self.key = key
         self.name = name
+        self.docs = docs
         
         self.value = Self.encode(value)
         self.defaultValue = Self.encode(defaultValue)

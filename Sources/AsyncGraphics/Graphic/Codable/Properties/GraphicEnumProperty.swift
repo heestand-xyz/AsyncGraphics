@@ -33,6 +33,7 @@ extension GraphicEnumProperty {
         AnyGraphicEnumProperty(
             key: key,
             name: name,
+            docs: wrappedValue.docs,
             value: wrappedValue.value,
             defaultValue: wrappedValue.defaultValue,
             allCases: allCases
