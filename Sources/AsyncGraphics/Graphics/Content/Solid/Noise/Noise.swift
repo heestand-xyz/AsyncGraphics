@@ -39,7 +39,7 @@ extension Graphic {
             shader: .name("noise"),
             uniforms: NoiseUniforms(
                 seed: Int32(seed),
-                octaves: UInt32(octaves),
+                octaves: UInt32(max(1, octaves)),
                 position: VectorUniform(
                     x: Float(relativeOffset.x),
                     y: Float(relativeOffset.y),
