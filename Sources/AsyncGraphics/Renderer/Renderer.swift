@@ -22,7 +22,7 @@ public struct Renderer {
     /// *Experimental* performance optimisations.
     @available(*, unavailable, renamed: "optimization")
     @RenderActor
-    public static var optimizationMode: Bool = false
+    public static var optimizationMode: Bool = true
     
     public struct Optimization: OptionSet, Hashable, Sendable {
         
@@ -45,6 +45,7 @@ public struct Renderer {
         }
     }
     
+    /// By default all optimizations are enabled.
     @RenderActor
     public static var optimization: Optimization = .all
     
@@ -232,7 +233,7 @@ public struct Renderer {
         )
     }
     
-    /// Main
+    /// **Main** with static uniforms buffer
     private static func render<U, AU, VU, G: Graphicable>(
         name: String,
         shader: Shader,
@@ -241,6 +242,92 @@ public struct Renderer {
         arrayUniforms: [AU],
         emptyArrayUniform: AU,
         vertexUniforms: VU,
+        vertices: Vertices? = nil,
+        metadata: Metadata? = nil,
+        options: Options = Options()
+    ) async throws -> G {
+        
+        var uniformsBuffer: MTLBuffer?
+        if uniforms is EmptyUniforms == false {
+            var uniforms: U = uniforms
+            let size = MemoryLayout<U>.size
+            guard let buffer = metalDevice.makeBuffer(bytes: &uniforms, length: size) else {
+                throw RendererError.failedToMakeUniformBuffer
+            }
+            uniformsBuffer = buffer
+        }
+        
+        var arrayUniformsBuffer: MTLBuffer?
+        var activeArrayUniformsBuffer: MTLBuffer?
+        if !arrayUniforms.isEmpty {
+            
+            var fixedArrayUniforms: [AU] = arrayUniforms
+            var fixedActiveArrayUniforms: [Bool] = Array(repeating: true, count: arrayUniforms.count)
+            
+            if arrayUniforms.count <= Self.uniformArrayMaxLimit {
+                for _ in arrayUniforms.count..<Self.uniformArrayMaxLimit {
+                    fixedArrayUniforms.append(emptyArrayUniform)
+                    fixedActiveArrayUniforms.append(false)
+                }
+            } else {
+                let originalCount = arrayUniforms.count
+                let overflow = originalCount - Self.uniformArrayMaxLimit
+                for _ in 0..<overflow {
+                    fixedArrayUniforms.removeLast()
+                    fixedActiveArrayUniforms.removeLast()
+                }
+                print("AsyncGraphics - Renderer - Max limit of uniform arrays exceeded. Trailing values will be truncated. \(originalCount) / \(Self.uniformArrayMaxLimit)")
+            }
+            
+            let size: Int = MemoryLayout<AU>.size * Self.uniformArrayMaxLimit
+            let activeSize: Int = MemoryLayout<Bool>.size * Self.uniformArrayMaxLimit
+            
+            guard let buffer = metalDevice.makeBuffer(bytes: &fixedArrayUniforms, length: size) else {
+                throw RendererError.failedToMakeArrayUniformBuffer
+            }
+            arrayUniformsBuffer = buffer
+            
+            guard let activeBuffer = metalDevice.makeBuffer(bytes: &fixedActiveArrayUniforms, length: activeSize) else {
+                throw RendererError.failedToMakeArrayUniformBuffer
+            }
+            activeArrayUniformsBuffer = activeBuffer
+        }
+        
+        let hasVertices: Bool = vertexUniforms is EmptyUniforms == false
+        
+        var vertexUniformsBuffer: MTLBuffer?
+        if hasVertices {
+            var uniforms: VU = vertexUniforms
+            let size = MemoryLayout<VU>.size
+            guard let buffer = metalDevice.makeBuffer(bytes: &uniforms, length: size) else {
+                throw RendererError.failedToMakeVertexUniformBuffer
+            }
+            vertexUniformsBuffer = buffer
+        }
+        
+        return try await render(
+            name: name,
+            shader: shader,
+            graphics: graphics,
+            uniformsBuffer: uniformsBuffer,
+            arrayUniformsBuffer: arrayUniformsBuffer,
+            activeArrayUniformsBuffer: activeArrayUniformsBuffer,
+            vertexUniformsBuffer: vertexUniformsBuffer,
+            vertices: vertices,
+            metadata: metadata,
+            options: options
+        )
+    }
+    
+    /// **Main**
+    static func render<G: Graphicable>(
+        name: String,
+        shader: Shader,
+        graphics: [Graphicable] = [],
+        uniformsBuffer: MTLBuffer? = nil,
+        arrayUniformsBuffer: MTLBuffer? = nil,
+        activeArrayUniformsBuffer: MTLBuffer? = nil,
+        vertexUniformsBuffer: MTLBuffer? = nil,
         vertices: Vertices? = nil,
         metadata: Metadata? = nil,
         options: Options = Options()
@@ -260,8 +347,6 @@ public struct Renderer {
             }
         
         let arrayTexture: MTLTexture? = options.isArray ? try await graphics.map(\.texture).texture(type: .typeArray) : nil
-        
-        let hasVertices: Bool = vertexUniforms is EmptyUniforms == false
         
         let sampleCount: Int = options.sampleCount
         
@@ -434,15 +519,7 @@ public struct Renderer {
             
             // MARK: Uniforms
 
-            if uniforms is EmptyUniforms == false {
-                
-                var uniforms: U = uniforms
-                
-                let size = MemoryLayout<U>.size
-                
-                guard let uniformsBuffer = metalDevice.makeBuffer(bytes: &uniforms, length: size) else {
-                    throw RendererError.failedToMakeUniformBuffer
-                }
+            if let uniformsBuffer {
                 
                 if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                     
@@ -456,36 +533,8 @@ public struct Renderer {
             
             // MARK: Array Uniforms
             
-            if !arrayUniforms.isEmpty {
-            
-                var fixedArrayUniforms: [AU] = arrayUniforms
-                var fixedActiveArrayUniforms: [Bool] = Array(repeating: true, count: arrayUniforms.count)
-                
-                if arrayUniforms.count <= Self.uniformArrayMaxLimit {
-                    for _ in arrayUniforms.count..<Self.uniformArrayMaxLimit {
-                        fixedArrayUniforms.append(emptyArrayUniform)
-                        fixedActiveArrayUniforms.append(false)
-                    }
-                } else {
-                    let originalCount = arrayUniforms.count
-                    let overflow = originalCount - Self.uniformArrayMaxLimit
-                    for _ in 0..<overflow {
-                        fixedArrayUniforms.removeLast()
-                        fixedActiveArrayUniforms.removeLast()
-                    }
-                    print("AsyncGraphics - Renderer - Max limit of uniform arrays exceeded. Trailing values will be truncated. \(originalCount) / \(Self.uniformArrayMaxLimit)")
-                }
-                
-                let size: Int = MemoryLayout<AU>.size * Self.uniformArrayMaxLimit
-                let activeSize: Int = MemoryLayout<Bool>.size * Self.uniformArrayMaxLimit
-                
-                guard let arrayUniformsBuffer = metalDevice.makeBuffer(bytes: &fixedArrayUniforms, length: size) else {
-                    throw RendererError.failedToMakeArrayUniformBuffer
-                }
-                guard let activeArrayUniformsBuffer = metalDevice.makeBuffer(bytes: &fixedActiveArrayUniforms, length: activeSize) else {
-                    throw RendererError.failedToMakeArrayUniformBuffer
-                }
-                
+            if let arrayUniformsBuffer, let activeArrayUniformsBuffer {
+               
                 if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                     
                     renderCommandEncoder.setFragmentBuffer(arrayUniformsBuffer, offset: 0, index: 1)
@@ -500,19 +549,11 @@ public struct Renderer {
             
             // MARK: Vertex Uniforms
             
-            if hasVertices {
-                
-                var uniforms: VU = vertexUniforms
-                
-                let size = MemoryLayout<VU>.size
-                
-                guard let uniformsBuffer = metalDevice.makeBuffer(bytes: &uniforms, length: size) else {
-                    throw RendererError.failedToMakeVertexUniformBuffer
-                }
+            if let vertexUniformsBuffer {
                 
                 if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                     
-                    renderCommandEncoder.setVertexBuffer(uniformsBuffer, offset: 0, index: 1)
+                    renderCommandEncoder.setVertexBuffer(vertexUniformsBuffer, offset: 0, index: 1)
                 }
             }
             
