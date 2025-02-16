@@ -10,6 +10,7 @@ A Graphic3D is a 3d image, made up out of voxels. It's backed by a `MTLTexture`.
 
 ### Metadata
 
+- ``id``
 - ``bits``
 - ``colorSpace``
 
@@ -22,6 +23,7 @@ A Graphic3D is a 3d image, made up out of voxels. It's backed by a `MTLTexture`.
 
 ### Bits
 
+- ``withBits(_:options:)``
 - ``bits(_:)``
 
 ### Options
@@ -31,6 +33,9 @@ A Graphic3D is a 3d image, made up out of voxels. It's backed by a `MTLTexture`.
 
 ### Voxels
 
+- ``voxelCount``
+- ``voxel(x:y:z:options:)``
+- ``voxel(u:v:w:options:)``
 - ``firstVoxelColor``
 - ``averageVoxelColor``
 - ``voxelColors``
@@ -60,50 +65,52 @@ A Graphic3D is a 3d image, made up out of voxels. It's backed by a `MTLTexture`.
 
 ### Box
 
-- ``box(size:origin:cornerRadius:color:backgroundColor:resolution:options:)``
-- ``box(size:position:cornerRadius:color:backgroundColor:resolution:options:)``
-- ``surfaceBox(size:origin:cornerRadius:surfaceWidth:color:backgroundColor:resolution:options:)``
-- ``surfaceBox(size:position:cornerRadius:surfaceWidth:color:backgroundColor:resolution:options:)``
+- ``box(size:origin:cornerRadius:color:backgroundColor:resolution:tile:options:)``
+- ``box(size:position:cornerRadius:color:backgroundColor:resolution:tile:options:)``
+- ``surfaceBox(size:origin:cornerRadius:surfaceWidth:color:backgroundColor:resolution:tile:options:)``
+- ``surfaceBox(size:position:cornerRadius:surfaceWidth:color:backgroundColor:resolution:tile:options:)``
 
 ### Sphere
 
-- ``sphere(radius:position:color:backgroundColor:resolution:options:)``
-- ``surfaceSphere(radius:position:surfaceWidth:color:backgroundColor:resolution:options:)``
+- ``sphere(radius:position:color:backgroundColor:resolution:tile:options:)``
+- ``surfaceSphere(radius:position:surfaceWidth:color:backgroundColor:resolution:tile:options:)``
 
 ### Cone
 
-- ``cone(axis:length:leadingRadius:trailingRadius:position:color:backgroundColor:resolution:options:)``
-- ``surfaceCone(axis:length:leadingRadius:trailingRadius:position:surfaceWidth:color:backgroundColor:resolution:options:)``
+- ``cone(axis:length:leadingRadius:trailingRadius:position:color:backgroundColor:resolution:tile:options:)``
+- ``surfaceCone(axis:length:leadingRadius:trailingRadius:position:surfaceWidth:color:backgroundColor:resolution:tile:options:)``
 
 ### Cylinder
 
-- ``cylinder(axis:length:radius:cornerRadius:position:color:backgroundColor:resolution:options:)``
-- ``surfaceCylinder(axis:length:radius:cornerRadius:position:surfaceWidth:color:backgroundColor:resolution:options:)``
+- ``cylinder(axis:length:radius:cornerRadius:position:color:backgroundColor:resolution:tile:options:)``
+- ``surfaceCylinder(axis:length:radius:cornerRadius:position:surfaceWidth:color:backgroundColor:resolution:tile:options:)``
 
 ### Tetrahedron
 
-- ``tetrahedron(axis:radius:position:color:backgroundColor:resolution:options:)``
-- ``surfaceTetrahedron(axis:radius:position:surfaceWidth:color:backgroundColor:resolution:options:)``
+- ``tetrahedron(axis:radius:position:color:backgroundColor:resolution:tile:options:)``
+- ``surfaceTetrahedron(axis:radius:position:surfaceWidth:color:backgroundColor:resolution:tile:options:)``
 
 ### Torus
 
-- ``torus(axis:radius:revolvingRadius:position:color:backgroundColor:resolution:options:)``
-- ``surfaceTorus(axis:radius:revolvingRadius:position:surfaceWidth:color:backgroundColor:resolution:options:)``
+- ``torus(axis:radius:revolvingRadius:position:color:backgroundColor:resolution:tile:options:)``
+- ``surfaceTorus(axis:radius:revolvingRadius:position:surfaceWidth:color:backgroundColor:resolution:tile:options:)``
 
 ### Gradient
 
-- ``gradient(direction:stops:position:scale:offset:extend:gamma:resolution:options:)``
+- ``gradient(direction:stops:position:scale:offset:extend:gamma:resolution:tile:options:)``
+- ``Gradient3DDirection``
 
 ### Noise
-- ``noise(offset:depth:scale:octaves:seed:resolution:options:)``
-- ``coloredNoise(offset:depth:scale:octaves:seed:resolution:options:)``
-- ``randomNoise(seed:resolution:options:)``
-- ``randomColoredNoise(seed:resolution:options:)``
-- ``transparantNoise(offset:depth:scale:octaves:seed:resolution:options:)``
+- ``noise(offset:depth:scale:octaves:seed:resolution:tile:options:)``
+- ``coloredNoise(offset:depth:scale:octaves:seed:resolution:tile:options:)``
+- ``randomNoise(seed:resolution:tile:options:)``
+- ``randomColoredNoise(seed:resolution:tile:options:)``
+- ``transparantNoise(offset:depth:scale:octaves:seed:resolution:tile:options:)``
 
 ### Metal
 
 - ``metal(code:resolution:options:)``
+- ``SolidMetal3DError``
 
 ### Map
 
@@ -132,33 +139,29 @@ Use blending modes to combine two 3d graphics.
 ### Luma Transform
 
 - ``lumaOffset(with:translation:lumaGamma:placement:options:)``
-- ``lumaOffset(with:x:y:lumaGamma:placement:options:)``
-- ``lumaTranslated(with:translation:lumaGamma:placement:options:)``
-- ``lumaTranslated(with:x:y:lumaGamma:placement:options:)``
+- ``lumaOffset(with:x:y:z:lumaGamma:placement:options:)``
 - ``lumaRotated(with:rotation:lumaGamma:placement:options:)``
 - ``lumaScaled(with:scale:lumaGamma:placement:options:)``
-- ``lumaScaled(with:x:y:lumaGamma:placement:options:)``
+- ``lumaScaled(with:x:y:z:lumaGamma:placement:options:)``
 
 ### Stack
 
-- ``hStack(with:alignment:spacing:padding:backgroundColor:resolution:)``
-- ``vStack(with:alignment:spacing:padding:backgroundColor:resolution:)``
-- ``dStack(with:alignment:spacing:padding:backgroundColor:resolution:)``
-- ``HStackAlignment``
-- ``VStackAlignment``
-- ``DStackAlignment``
+- ``hStacked(with:yAlignment:zAlignment:spacing:padding:backgroundColor:options:)``
+- ``vStacked(with:xAlignment:zAlignment:spacing:padding:backgroundColor:options:)``
+- ``dStacked(with:xAlignment:yAlignment:spacing:padding:backgroundColor:options:)``
+- ``Alignment3D``
 
 ### Levels
 
-- ``brightness(_:)``
-- ``darkness(_:)``
-- ``contrast(_:)``
-- ``gamma(_:)``
-- ``inverted()``
-- ``smoothed()``
-- ``opacity(_:)``
-- ``exposureOffset(_:)``
-- ``levels(brightness:darkness:contrast:gamma:invert:smooth:opacity:offset:)``
+- ``brightness(_:options:)``
+- ``darkness(_:options:)``
+- ``contrast(_:options:)``
+- ``gamma(_:options:)``
+- ``inverted(options:)``
+- ``smoothed(options:)``
+- ``opacity(_:options:)``
+- ``exposureOffset(_:options:)``
+- ``levels(brightness:darkness:contrast:gamma:invert:smooth:opacity:offset:options:)``
 
 ### Luma Levels
 
@@ -177,10 +180,10 @@ Use blending modes to combine two 3d graphics.
 
 ### Color Shift
 
-- ``saturated(_:)``
-- ``monochrome()``
-- ``hue(_:)``
-- ``tinted(_:)``
+- ``saturated(_:options:)``
+- ``monochrome(options:)``
+- ``hue(_:options:)``
+- ``tinted(_:options:)``
 
 ### Luma Color Shift
 
@@ -195,18 +198,21 @@ Use blending modes to combine two 3d graphics.
 - ``blurredZoom(radius:position:sampleCount:options:)``
 - ``blurredDirection(radius:direction:sampleCount:options:)``
 - ``blurredRandom(radius:options:)``
+- ``Blur3DType``
 
 ### Luma Blur
 
 - ``lumaBlurredBox(with:radius:lumaGamma:sampleCount:placement:options:)``
 - ``lumaBlurredZoom(with:radius:position:lumaGamma:sampleCount:placement:options:)``
 - ``lumaBlurredRandom(with:radius:lumaGamma:placement:options:)``
+- ``LumaBlur3DType``
 
 ### Luma Rainbow Blur
 
 - ``lumaRainbowBlurredCircle(with:radius:angle:light:lumaGamma:sampleCount:placement:options:)``
-- ``lumaRainbowBlurredAngle(with:radius:angle:light:lumaGamma:sampleCount:placement:options:)``
 - ``lumaRainbowBlurredZoom(with:radius:position:light:lumaGamma:sampleCount:placement:options:)``
+- ``lumaBlurredRandom(with:radius:lumaGamma:placement:options:)``
+- ``LumaRainbowBlur3DType``
 
 ### Displace
 
@@ -233,11 +239,15 @@ Fade two graphics by crossing them with opacity.
 
 ### Channel Mix
 
-- ``channelMix(red:green:blue:alpha:)``
+- ``channelMix(red:green:blue:alpha:options:)``
 
 ### Clamp
 
 - ``clamp(_:low:high:includeAlpha:options:)``
+
+### Crop
+
+- ``crop(to:options:)``
 
 ### Color Map
 
@@ -246,6 +256,7 @@ Fade two graphics by crossing them with opacity.
 ### Lookup
 
 - ``lookup(with:axis:sampleCoordinate:options:)``
+- ``Lookup3DAxis``
 
 ### Gradient Lookup
 
@@ -255,28 +266,57 @@ Fade two graphics by crossing them with opacity.
 
 - ``quantize(_:options:)``
 
+### Range
+
+- ``range(referenceLow:referenceHigh:targetLow:targetHigh:includeAlpha:options:)``
+
 ### Sample
 
 Sample a ``Graphic`` from a Graphic3D.
 
-- ``add(axis:brightness:)``
-- ``average(axis:)``
+- ``add(axis:brightness:options:)``
+- ``average(axis:options:)``
 - ``sample(fraction:)``
 - ``sample(index:)``
 - ``samples(progress:)``
+- ``SampleProgress``
 
 ### Trace
 
 Trace opaque voxels. 
 
-- ``trace(axis:alphaThreshold:)``
+- ``trace(axis:reversed:alphaThreshold:)``
 
 ### Orbit
 
 - ``orbit(backgroundColor:rotationX:rotationY:resolution:)``
 
+### Polar
+
+- ``polar(radius:resolution:options:)``
+
 ### Conversion
 
 - ``luminanceToAlpha()``
+- ``luminanceToAlphaWithColor()``
 - ``alphaToLuminance()``
 - ``alphaToLuminanceWithAlpha()``
+
+### Tiles
+
+- ``tiled(count:padding:resolution:render:)``
+- ``tiledConcurrently(count:padding:resolution:render:)``
+- ``Tile``
+- ``TileError``
+
+### Axis
+
+- ``Axis``
+
+### Construct
+
+- ``construct(graphics:options:)``
+
+### Empty
+
+- ``empty()``

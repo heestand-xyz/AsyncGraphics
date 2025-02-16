@@ -33,8 +33,6 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 ### References
 
 - <doc:Resources>
-- <doc:Visuals>
-- <doc:Effects>
 - <doc:Metal>
 - <doc:LUTs>
 
@@ -46,9 +44,14 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 - ``AsyncGraphicView``
 - ``GraphicRenderView``
 
-### View Renderers
+### Renderers
 
 - ``GraphicViewRenderer``
+- ``GraphicImageRenderer``
+
+### Render Views
+
+- ``GraphicImageRenderView``
 
 ### Graphs
 
@@ -110,11 +113,6 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 ### Loop
 
 - ``AGForEach``
-
-### Renderer
-
-- ``Renderer``
-- ``AGGraphRenderer``
 
 ### Other AGs
 
@@ -188,6 +186,9 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 - ``ModifierEffectGraphicProtocol``
 - ``ModifierEffectGraphic3DProtocol``
 
+- ``ConvertEffectGraphicProtocol``
+- ``ConvertEffectGraphic3DProtocol``
+
 ### Codable Types
 
 - ``CodableGraphicType``
@@ -195,6 +196,15 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 
 - ``ContentGraphicType``
 - ``ContentGraphic3DType``
+
+- ``ShapeContentGraphicType``
+- ``ShapeContentGraphic3DType``
+
+- ``SolidContentGraphicType``
+- ``SolidContentGraphic3DType``
+
+- ``EffectGraphicType``
+- ``EffectGraphic3DType``
 
 - ``ColorEffectGraphicType``
 - ``ColorEffectGraphic3DType``
@@ -205,11 +215,22 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 - ``ModifierEffectGraphicType``
 - ``ModifierEffectGraphic3DType``
 
-- ``EffectGraphicType``
-- ``EffectGraphic3DType``
+- ``ConvertEffectGraphicType``
+- ``ConvertEffectGraphic3DType``
 
-- ``ShapeContentGraphicType``
-- ``ShapeContentGraphic3DType``
+### Images
 
-- ``SolidContentGraphicType``
-- ``SolidContentGraphic3DType``
+- ``SendableImage``
+
+### Renderer
+
+- ``Renderer``
+- ``AGGraphRenderer``
+
+### Render Actor
+
+- ``RenderActor``
+
+### Complexity
+
+- ``GraphicComplexity``

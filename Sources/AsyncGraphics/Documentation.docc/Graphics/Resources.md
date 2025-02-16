@@ -22,11 +22,9 @@ Live screen or camera footage can also be converted into a stream of ``Graphic``
 
 ### Import an Image
 
-- ``Graphic/image(named:in:)``
-- ``Graphic/image(url:)``
-- ``Graphic/image(_:)-6435w``
-- ``Graphic/image(_:)-7tsh0``
-- ``Graphic/image(_:)-1mubl``
+- ``Graphic/image(named:options:)``
+- ``Graphic/image(url:options:)``
+- ``Graphic/image(data:options:)``
 
 ### Import a Video
 

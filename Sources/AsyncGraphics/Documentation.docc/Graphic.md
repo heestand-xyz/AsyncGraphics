@@ -27,10 +27,11 @@ To edit colors `import PixelColor`, a swift package (a dependency of AsyncGraphi
 - ``firstPixelColor``
 - ``averagePixelColor``
 - ``pixelColors``
-- ``isPixelsEqual(to:)``
+- ``isPixelsEqual(to:threshold:)``
 - ``pixels(_:options:)``
 - ``pixel(x:y:options:)``
 - ``pixel(u:v:options:)``
+- ``subPixel(u:v:)``
 
 ### Channels
 
@@ -50,21 +51,41 @@ To edit colors `import PixelColor`, a swift package (a dependency of AsyncGraphi
 ### Image
 
 - ``image``
+- ``imageForSwiftUI``
+- ``rawImage``
+- ``sendableImage``
 - ``imageWithTransparency``
+- ``sendableImageWithTransparency``
 - ``cgImage``
 - ``ciImage``
-- ``image(named:)``
-- ``image(named:in:)``
-- ``image(url:)``
-- ``image(_:)-6435w``
-- ``image(_:)-7tsh0``
-- ``image(_:)-1mubl``
+- ``image(named:options:)``
+- ``image(named:in:options:)``
+- ``image(url:options:)``
+- ``image(data:options:)``
+- ``image(sendable:options:)``
+- ``image(_:options:)-1k0fx``
+- ``image(_:options:)-78gjp``
+- ``image(_:options:)-6lxrv``
 - ``pngData``
 - ``xdrImage``
+- ``sendableXDRImage``
 - ``writeImage(to:xdr:)``
 - ``isRAWImage(url:)``
 - ``rawImage(url:)-1dcqq``
 - ``rawImage(url:)-8w81k``
+- ``ImageOptions``
+
+### Stereoscopic
+
+- ``isStereoscopic(image:)``
+- ``isStereoscopic(source:)``
+- ``isStereoscopicImage(url:)``
+- ``stereoscopicImages(url:)``
+- ``stereoscopicImages(image:)``
+- ``stereoscopicImages(source:)``
+- ``stereoscopicGraphics(url:)``
+- ``stereoscopicGraphics(image:)``
+- ``stereoscopicGraphics(source:)``
 
 ### Video
 
@@ -107,12 +128,19 @@ Resize a graphic.
 - ``resizedStretched(to:method:)``
 - ``resized(in:options:)``
 - ``resized(to:placement:options:)``
+- ``resized(to:placement:interpolation:options:)``
 - ``resized(by:)``
 - ``ResizeMethod``
+- ``ResolutionInterpolation``
 
 ### Graph
 
 - ``graph(resolution:renderer:graph:)``
+
+### Map
+
+- ``mapImage(_:)``
+- ``mapTexture(_:)``
 
 ### Camera
 
@@ -138,41 +166,35 @@ Create a graphic with a solid color.
 
 - ``color(_:resolution:options:)``
 
-### Text
-
-- ``text(_:font:position:horizontalAlignment:verticalAlignment:color:backgroundColor:resolution:options:)``
-- ``TextFont``
-- ``TextHorizontalAlignment``
-- ``TextVerticalAlignment``
-
 ### Rectangle
 
-- ``rectangle(size:position:cornerRadius:color:backgroundColor:resolution:options:)``
-- ``rectangle(frame:cornerRadius:color:backgroundColor:resolution:options:)``
-- ``strokedRectangle(size:position:cornerRadius:lineWidth:color:backgroundColor:resolution:options:)``
-- ``strokedRectangle(frame:cornerRadius:lineWidth:color:backgroundColor:resolution:options:)``
+- ``rectangle(size:position:cornerRadius:color:backgroundColor:resolution:tile:options:)``
+- ``rectangle(frame:cornerRadius:color:backgroundColor:resolution:tile:options:)``
+- ``strokedRectangle(size:position:cornerRadius:lineWidth:color:backgroundColor:resolution:tile:options:)``
+- ``strokedRectangle(frame:cornerRadius:lineWidth:color:backgroundColor:resolution:tile:options:)``
 
 ### Circle
 
-- ``circle(radius:position:color:backgroundColor:resolution:options:)``
-- ``strokedCircle(radius:position:lineWidth:color:backgroundColor:resolution:options:)``
+- ``circle(radius:position:color:backgroundColor:resolution:tile:options:)``
+- ``strokedCircle(radius:position:lineWidth:color:backgroundColor:resolution:tile:options:)``
 
 ### Polygon
 
-- ``polygon(count:radius:position:rotation:cornerRadius:color:backgroundColor:resolution:options:)``
+- ``polygon(count:radius:position:rotation:cornerRadius:color:backgroundColor:resolution:tile:options:)``
 
 ### Arc
 
-- ``arc(angle:length:radius:position:color:backgroundColor:resolution:options:)``
-- ``strokedArc(angle:length:radius:position:lineWidth:color:backgroundColor:resolution:options:)``
+- ``arc(angle:length:radius:position:color:backgroundColor:resolution:tile:options:)``
+- ``strokedArc(angle:length:radius:position:lineWidth:color:backgroundColor:resolution:tile:options:)``
 
 ### Star
 
-- ``star(count:innerRadius:outerRadius:position:rotation:cornerRadius:color:backgroundColor:resolution:options:)``
+- ``star(count:innerRadius:outerRadius:position:rotation:cornerRadius:color:backgroundColor:resolution:tile:options:)``
 
 ### Line
 
-- ``line(leadingPoint:trailingPoint:lineWidth:cap:color:backgroundColor:resolution:options:)``
+- ``line(leadingPoint:trailingPoint:lineWidth:cap:color:backgroundColor:resolution:tile:options:)``
+- ``line(from:to:lineWidth:cap:color:backgroundColor:resolution:tile:options:)``
 - ``LineCap``
 
 ### Sample Line
@@ -182,17 +204,17 @@ Create a graphic with a solid color.
 
 ### Gradient
 
-- ``gradient(direction:stops:position:scale:offset:extend:gamma:resolution:options:)``
+- ``gradient(direction:stops:position:scale:offset:extend:gamma:resolution:tile:options:)``
 - ``GradientDirection``
 - ``GradientStop``
 - ``GradientExtend``
 
 ### Noise
 
-- ``noise(offset:depth:scale:octaves:seed:resolution:options:)``
-- ``coloredNoise(offset:depth:scale:octaves:seed:resolution:options:)``
-- ``randomNoise(seed:resolution:options:)``
-- ``randomColoredNoise(seed:resolution:options:)``
+- ``noise(offset:depth:scale:octaves:seed:resolution:tile:options:)``
+- ``coloredNoise(offset:depth:scale:octaves:seed:resolution:tile:options:)``
+- ``randomNoise(seed:resolution:tile:options:)``
+- ``randomColoredNoise(seed:resolution:tile:options:)``
 
 ### Particles
 
@@ -211,17 +233,22 @@ Use blending modes to combine two or more graphics.
 - ``blend(with:blendingMode:)``
 - ``blend(with:blendingMode:placement:alignment:options:)``
 - ``blended(with:blendingMode:placement:alignment:options:)``
+- ``frameBlend(with:blendingMode:placement:alignment:frame:rotation:options:)``
+- ``frameBlended(with:blendingMode:placement:alignment:frame:rotation:options:)``
+- ``transformBlend(with:blendingMode:placement:alignment:translation:rotation:scale:size:options:)``
+- ``transformBlended(with:blendingMode:placement:alignment:translation:rotation:scale:size:options:)``
+- ``transformBlend(with:blendingMode:placement:alignment:offset:rotation:scale:size:options:)``
+- ``transformBlended(with:blendingMode:placement:alignment:offset:rotation:scale:size:options:)``
 - ``add(with:)``
 - ``average(with:)``
-- ``mask(placement:options:foreground:background:mask:)``
 - ``mask(foreground:background:mask:placement:options:)``
+- ``BlendMode``
+- ``MultiBlendMode``
 
 ### Transform
 
 - ``offset(_:options:)``
-- ``translated(_:options:)``
 - ``offset(x:y:options:)``
-- ``translated(x:y:options:)``
 - ``rotated(_:options:)``
 - ``scaled(_:options:)``
 - ``sized(width:height:options:)``
@@ -232,56 +259,54 @@ Use blending modes to combine two or more graphics.
 
 - ``lumaOffset(with:translation:lumaGamma:placement:options:)``
 - ``lumaOffset(with:x:y:lumaGamma:placement:options:)``
-- ``lumaTranslated(with:translation:lumaGamma:placement:options:)``
-- ``lumaTranslated(with:x:y:lumaGamma:placement:options:)``
 - ``lumaRotated(with:rotation:lumaGamma:placement:options:)``
 - ``lumaScaled(with:scale:lumaGamma:placement:options:)``
 - ``lumaScaled(with:x:y:lumaGamma:placement:options:)``
 
-### Transform with Blend
-
-- ``transformBlended(with:blendingMode:placement:alignment:translation:rotation:scale:size:options:)``
-
 ### Mirror
 
-- ``mirroredHorizontally()``
-- ``mirroredVertically()``
+- ``mirroredHorizontally(options:)``
+- ``mirroredVertically(options:)``
 
 ### Rotate
 
-- ``rotatedLeft()``
-- ``rotatedRight()``
+- ``rotatedLeft(options:)``
+- ``rotatedRight(options:)``
 
 ### Stack
 
-- ``hStacked(with:alignment:spacing:)``
-- ``hStackedFixed(with:alignment:spacing:padding:backgroundColor:resolution:)``
-- ``hStack(with:alignment:spacing:padding:backgroundColor:resolution:)``
-- ``vStacked(with:alignment:spacing:)``
-- ``vStackedFixed(with:alignment:spacing:padding:backgroundColor:resolution:)``
-- ``vStack(with:alignment:spacing:padding:backgroundColor:resolution:)``
-- ``zStacked(with:alignment:)``
-- ``zBlendStacked(with:alignment:)``
+- ``hStacked(with:alignment:spacing:options:)``
+- ``hStackedFixed(with:alignment:spacing:padding:backgroundColor:resolution:options:)``
+- ``hStack(with:alignment:spacing:padding:backgroundColor:resolution:options:)``
+- ``vStacked(with:alignment:spacing:options:)``
+- ``vStackedFixed(with:alignment:spacing:padding:backgroundColor:resolution:options:)``
+- ``vStack(with:alignment:spacing:padding:backgroundColor:resolution:options:)``
+- ``zStacked(with:alignment:options:)``
+- ``zBlendStacked(with:alignment:options:)``
 - ``HStackAlignment``
 - ``VStackAlignment``
 - ``ZStackAlignment``
 - ``BlendedGraphic``
 
+### Range
+
+- ``range(referenceLow:referenceHigh:targetLow:targetHigh:includeAlpha:options:)``
+
 ### Levels
 
-- ``brightness(_:)``
-- ``darkness(_:)``
-- ``contrast(_:)``
-- ``gamma(_:)``
-- ``inverted()``
-- ``smoothed()``
-- ``opacity(_:)``
-- ``exposureOffset(_:)``
-- ``add(_:)``
-- ``subtract(_:)``
-- ``multiply(_:)``
-- ``divide(_:)``
-- ``levels(brightness:darkness:contrast:gamma:invert:smooth:opacity:offset:)``
+- ``brightness(_:options:)``
+- ``darkness(_:options:)``
+- ``contrast(_:options:)``
+- ``gamma(_:options:)``
+- ``inverted(options:)``
+- ``smoothed(options:)``
+- ``opacity(_:options:)``
+- ``exposureOffset(_:options:)``
+- ``add(_:options:)``
+- ``subtract(_:options:)``
+- ``multiply(_:options:)``
+- ``divide(_:options:)``
+- ``levels(brightness:darkness:contrast:gamma:invert:smooth:opacity:offset:options:)``
 
 ### Luma Levels
 
@@ -300,10 +325,10 @@ Use blending modes to combine two or more graphics.
 
 ### Color Shift
 
-- ``monochrome()``
-- ``saturated(_:)``
-- ``hue(_:)``
-- ``tinted(_:)``
+- ``monochrome(options:)``
+- ``saturated(_:options:)``
+- ``hue(_:options:)``
+- ``tinted(_:options:)``
 - ``colorMap(from:to:options:)``
 
 ### Luma Color Shift
@@ -315,9 +340,13 @@ Use blending modes to combine two or more graphics.
 
 ### Color Convert
 
-- ``colorConvert(_:channel:)``
+- ``colorConvert(_:channel:options:)``
 - ``ColorConversion``
 - ``ColorConvertChannel``
+
+### Sepia
+
+- ``sepia(color:gamma:options:)``
 
 ### Threshold
 
@@ -338,10 +367,11 @@ Use blending modes to combine two or more graphics.
 
 ### Channels
 
-- ``channelMix(red:green:blue:alpha:)``
+- ``channelMix(red:green:blue:alpha:options:)``
 - ``alphaToLuminance()``
 - ``alphaToLuminanceWithAlpha()``
 - ``luminanceToAlpha()``
+- ``luminanceToAlphaWithColor()``
 - ``ColorChannel``
 
 ### Blur
@@ -352,6 +382,9 @@ Use blending modes to combine two or more graphics.
 - ``blurredZoom(radius:position:sampleCount:options:)``
 - ``blurredAngle(radius:angle:sampleCount:options:)``
 - ``blurredRandom(radius:options:)``
+- ``blurredLayered(radius:layerCount:options:)``
+- ``blurredLayeredSinglePass(radius:options:)``
+- ``BlurType``
 
 ### Luma Blur
 
@@ -359,18 +392,23 @@ Use blending modes to combine two or more graphics.
 - ``lumaBlurredZoom(with:radius:position:lumaGamma:sampleCount:placement:options:)``
 - ``lumaBlurredAngle(with:radius:angle:lumaGamma:sampleCount:placement:options:)``
 - ``lumaBlurredRandom(with:radius:lumaGamma:placement:options:)``
+- ``lumaBlurredLayered(with:radius:lumaGamma:layerCount:placement:options:)``
+- ``lumaBlurredLayeredSinglePass(with:radius:lumaGamma:placement:options:)``
+- ``LumaBlurType``
 
 ### Rainbow Blur
 
 - ``rainbowBlurredCircle(radius:angle:light:sampleCount:options:)``
 - ``rainbowBlurredAngle(radius:angle:light:sampleCount:options:)``
 - ``rainbowBlurredZoom(radius:position:light:sampleCount:options:)``
+- ``RainbowBlurType``
 
 ### Luma Rainbow Blur
 
 - ``lumaRainbowBlurredCircle(with:radius:angle:light:lumaGamma:sampleCount:placement:options:)``
 - ``lumaRainbowBlurredAngle(with:radius:angle:light:lumaGamma:sampleCount:placement:options:)``
 - ``lumaRainbowBlurredZoom(with:radius:position:light:lumaGamma:sampleCount:placement:options:)``
+- ``LumaRainbowBlurType``
 
 ### Pixelate
 
@@ -423,7 +461,7 @@ Fade two graphics by crossing them with opacity.
 
 ### Corner Pin
 
-- ``cornerPinned(topLeft:topRight:bottomLeft:bottomRight:perspective:subdivisions:backgroundColor:)``
+- ``cornerPinned(topLeft:topRight:bottomLeft:bottomRight:perspective:subdivisions:backgroundColor:options:)``
 
 ### Chroma Key
 
@@ -447,15 +485,29 @@ Fade two graphics by crossing them with opacity.
 
 - ``morphedMinimum(size:)``
 - ``morphedMaximum(size:)``
+- ``MorphType``
+
+### Face Detection
+
+- ``detectFaces()``
+- ``FaceDetection``
+
+### Flood Fill
+
+- ``floodFillAccurately(position:threshold:color:backgroundColor:levels:maximumIterations:options:loop:)``
+- ``floodFillRecursively(position:threshold:color:backgroundColor:levels:maximumIterations:options:loop:)``
+- ``floodFillPrecisely(position:threshold:color:backgroundColor:options:)``
+- ``floodFillPrecisely(pixels:resolution:position:threshold:color:backgroundColor:)``
 
 ### Metal
 
 Write metal shader code.
 
-- ``metal(code:resolution:options:)``
-- ``metal(code:options:)``
+- ``metal(code:resolution:options:)-swift.method``
+- ``metal(code:resolution:options:)-swift.type.method``
 - ``metal(with:code:options:)-swift.method``
 - ``metal(with:code:options:)-swift.type.method``
+- ``rawMetal(with:code:functionName:uniformsBuffer:resolution:options:)``
 - ``SolidMetalError``
 - ``DirectMetalError``
 - ``DualMetalError``
@@ -465,12 +517,12 @@ Write metal shader code.
 
 - ``uv(resolution:options:)``
 
-- ``
-
 ### Reduce
 
 - ``reduce(by:)``
 - ``reduce(by:axis:)``
+- ``reduceToRow(by:)``
+- ``reduceToColumn(by:)``
 - ``ReduceMethod``
 - ``ReduceAxis``
 
@@ -483,7 +535,7 @@ Write metal shader code.
 
 - ``writeLUT(layout:)``
 
-- ``applyLUT(with:layout:)``
+- ``applyLUT(with:layout:options:)``
 - ``applyLUT(url:)``
 - ``applyLUT(named:format:)``
 - ``applyLUT(named:in:format:)``
@@ -511,9 +563,9 @@ Write metal shader code.
 
 ### Bits
 
+- ``withBits(_:options:)``
 - ``bits(_:)``
-- ``standardBit()``
-- ``highBit()``
+- ``Bits-swift.enum``
 
 ### Color Space
 
@@ -530,7 +582,42 @@ Write metal shader code.
 
 - ``inspect(scale:offset:borderWidth:borderOpacity:borderFadeRange:placement:containerResolution:contentResolution:checkerTransparency:checkerSize:checkerOpacity:options:)``
 
+### Alignment
+
+- ``Alignment``
+
+### Placement
+
+- ``Placement``
+
+### Interpolation
+
+- ``ViewInterpolation``
+
+### Tile
+
+- ``tiled(count:padding:resolution:render:)``
+- ``tiledConcurrently(count:padding:resolution:render:)``
+- ``Tile``
+- ``TileError``
+
+### Extend Mode
+
+- ``ExtendMode``
+
+### Copy
+
+- ``copy()``
+
+### Empty
+
+- ``empty()``
+
 ### Options
 
 - ``ContentOptions``
 - ``EffectOptions``
+
+### Debug
+
+- ``quickLookDebugActive``

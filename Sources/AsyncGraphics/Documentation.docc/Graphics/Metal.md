@@ -14,11 +14,11 @@ Please check out the big PDF from Apple: [Metal Shading Language Specification](
 
 ### Solid (0 Inputs)
 
-- ``Graphic/metal(code:resolution:options:)``
+- ``Graphic/metal(code:resolution:options:)-swift.type.method``
 
 ### Direct (1 Inputs)
 
-- ``Graphic/metal(code:options:)``
+- ``Graphic/metal(code:resolution:options:)-swift.method``
 
 ### Dual (2 Inputs)
 
