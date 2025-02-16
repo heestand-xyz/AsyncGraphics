@@ -1222,16 +1222,44 @@
       }
     },
     "option.extendMode.loop" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loop"
+          }
+        }
+      }
     },
     "option.extendMode.mirror" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mirror"
+          }
+        }
+      }
     },
     "option.extendMode.stretch" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stretch"
+          }
+        }
+      }
     },
     "option.extendMode.zero" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zero"
+          }
+        }
+      }
     },
     "option.gradient3DDirection.radial" : {
       "localizations" : {
@@ -2244,7 +2272,14 @@
       }
     },
     "property.extendMode" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extend Mode"
+          }
+        }
+      }
     },
     "property.foregroundColor" : {
       "localizations" : {
