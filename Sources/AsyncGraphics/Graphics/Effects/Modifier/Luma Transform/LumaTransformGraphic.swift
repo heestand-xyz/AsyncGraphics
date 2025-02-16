@@ -37,6 +37,11 @@ extension CodableGraphic.Effect.Modifier {
                                                                maximum: .fixed(2.0),
                                                                docs: "Adjustment of light on the modifier graphic.")
         
+        public var extendMode: GraphicEnumMetadata<Graphic.ExtendMode> = .init(
+            value: .zero,
+            docs: "Pixels outside the main bounds will use the extend mode when sampled. This will mainly affect pixels on the edges."
+        )
+        
         public func render(
             with graphic: Graphic,
             modifier modifierGraphic: Graphic,
@@ -51,7 +56,7 @@ extension CodableGraphic.Effect.Modifier {
                 scaleSize: scaleSize.value.eval(at: graphic.resolution),
                 lumaGamma: lumaGamma.value.eval(at: graphic.resolution),
                 placement: placement.value,
-                options: options
+                options: options.union(extendMode.value.options)
             )
         }
         

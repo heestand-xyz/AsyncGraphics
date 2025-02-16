@@ -31,9 +31,14 @@ extension CodableGraphic.Effect.Space {
                                                              minimum: .fixed(1),
                                                              maximum: .fixed(100))
         
+        public var extendMode: GraphicEnumMetadata<Graphic.ExtendMode> = .init(
+            value: .stretch,
+            docs: "Pixels outside the main bounds will use the extend mode when sampled. This will mainly affect pixels on the edges."
+        )
+        
         public func render(
             with graphic: Graphic,
-            options: Graphic.EffectOptions = [.edgeStretch]
+            options: Graphic.EffectOptions = []
         ) async throws -> Graphic {
            
             try await graphic.rainbowBlurred(
@@ -43,7 +48,7 @@ extension CodableGraphic.Effect.Space {
                 angle: rotation.value.eval(at: graphic.resolution),
                 light: light.value.eval(at: graphic.resolution),
                 sampleCount: sampleCount.value.eval(at: graphic.resolution),
-                options: options)
+                options: options.union(extendMode.value.options))
         }
         
         public func isVisible(property: Property, at resolution: CGSize) -> Bool {
@@ -59,6 +64,8 @@ extension CodableGraphic.Effect.Space {
             case .light:
                 true
             case .sampleCount:
+                true
+            case .extendMode:
                 true
             }
         }

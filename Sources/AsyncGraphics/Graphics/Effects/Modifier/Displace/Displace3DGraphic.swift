@@ -18,11 +18,16 @@ extension CodableGraphic3D.Effect.Modifier {
         public var origin: GraphicMetadata<PixelColor> = .init(value: .fixed(.rawGray))
         
         public var placement: GraphicEnumMetadata<Graphic.Placement> = .init(value: .fill)
-
+        
+        public var extendMode: GraphicEnumMetadata<Graphic.ExtendMode> = .init(
+            value: .stretch,
+            docs: "Voxels outside the main bounds will use the extend mode when sampled. This will mainly affect voxels on the edges."
+        )
+        
         public func render(
             with graphic: Graphic3D,
             modifier modifierGraphic: Graphic3D,
-            options: Graphic3D.EffectOptions = [.edgeStretch]
+            options: Graphic3D.EffectOptions = []
         ) async throws -> Graphic3D {
            
             try await graphic.displaced(
@@ -30,7 +35,7 @@ extension CodableGraphic3D.Effect.Modifier {
                 offset: offset.value.eval(at: graphic.resolution),
                 origin: origin.value.eval(at: graphic.resolution),
                 placement: placement.value,
-                options: options
+                options: options.union(extendMode.value.options3D)
             )
         }
         

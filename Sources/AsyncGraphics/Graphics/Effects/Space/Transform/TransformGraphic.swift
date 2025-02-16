@@ -25,6 +25,11 @@ extension CodableGraphic.Effect.Space {
                                                          maximum: .resolution,
                                                          options: .spatial)
         
+        public var extendMode: GraphicEnumMetadata<Graphic.ExtendMode> = .init(
+            value: .zero,
+            docs: "Pixels outside the main bounds will use the extend mode when sampled. This will mainly affect pixels on the edges."
+        )
+        
         public func render(
             with graphic: Graphic,
             options: Graphic.EffectOptions = []
@@ -35,7 +40,7 @@ extension CodableGraphic.Effect.Space {
                 rotation: rotation.value.eval(at: graphic.resolution),
                 scale: scale.value.eval(at: graphic.resolution),
                 size: size.value.eval(at: graphic.resolution),
-                options: options
+                options: options.union(extendMode.value.options)
             )
         }
         

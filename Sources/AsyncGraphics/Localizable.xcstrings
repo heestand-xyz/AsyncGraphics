@@ -1221,6 +1221,18 @@
         }
       }
     },
+    "option.extendMode.loop" : {
+
+    },
+    "option.extendMode.mirror" : {
+
+    },
+    "option.extendMode.stretch" : {
+
+    },
+    "option.extendMode.zero" : {
+
+    },
     "option.gradient3DDirection.radial" : {
       "localizations" : {
         "en" : {
@@ -2230,6 +2242,9 @@
           }
         }
       }
+    },
+    "property.extendMode" : {
+
     },
     "property.foregroundColor" : {
       "localizations" : {

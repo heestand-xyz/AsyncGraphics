@@ -30,9 +30,14 @@ extension CodableGraphic3D.Effect.Space {
                                                              minimum: .fixed(1),
                                                              maximum: .fixed(10))
         
+        public var extendMode: GraphicEnumMetadata<Graphic.ExtendMode> = .init(
+            value: .stretch,
+            docs: "Voxels outside the main bounds will use the extend mode when sampled. This will mainly affect voxels on the edges."
+        )
+        
         public func render(
             with graphic: Graphic3D,
-            options: Graphic3D.EffectOptions = [.edgeStretch]
+            options: Graphic3D.EffectOptions = []
         ) async throws -> Graphic3D {
            
             switch style.value {
@@ -41,7 +46,7 @@ extension CodableGraphic3D.Effect.Space {
                 try await graphic.blurredBox(
                     radius: radius.value.eval(at: graphic.resolution),
                     sampleCount: sampleCount.value.eval(at: graphic.resolution),
-                    options: options)
+                    options: options.union(extendMode.value.options3D))
                 
             case .direction:
                 
@@ -49,7 +54,7 @@ extension CodableGraphic3D.Effect.Space {
                     radius: radius.value.eval(at: graphic.resolution),
                     direction: direction.value.eval(at: graphic.resolution),
                     sampleCount: sampleCount.value.eval(at: graphic.resolution),
-                    options: options)
+                    options: options.union(extendMode.value.options3D))
                 
             case .zoom:
                 
@@ -57,13 +62,13 @@ extension CodableGraphic3D.Effect.Space {
                     radius: radius.value.eval(at: graphic.resolution),
                     position: position.value.eval(at: graphic.resolution),
                     sampleCount: sampleCount.value.eval(at: graphic.resolution),
-                    options: options)
+                    options: options.union(extendMode.value.options3D))
                 
             case .random:
                 
                 try await graphic.blurredRandom(
                     radius: radius.value.eval(at: graphic.resolution),
-                    options: options)
+                    options: options.union(extendMode.value.options3D))
             }
         }
         
@@ -79,6 +84,8 @@ extension CodableGraphic3D.Effect.Space {
                 style.value == .direction
             case .sampleCount:
                 style.value != .random
+            case .extendMode:
+                true
             }
         }
         

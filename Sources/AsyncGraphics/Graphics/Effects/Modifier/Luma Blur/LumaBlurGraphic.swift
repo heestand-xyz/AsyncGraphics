@@ -37,11 +37,16 @@ extension CodableGraphic.Effect.Modifier {
                                                             maximum: .fixed(10))
         
         public var placement: GraphicEnumMetadata<Graphic.Placement> = .init(value: .fill)
-
+        
+        public var extendMode: GraphicEnumMetadata<Graphic.ExtendMode> = .init(
+            value: .stretch,
+            docs: "Pixels outside the main bounds will use the extend mode when sampled. This will mainly affect pixels on the edges."
+        )
+        
         public func render(
             with graphic: Graphic,
             modifier modifierGraphic: Graphic,
-            options: Graphic.EffectOptions = [.edgeStretch]
+            options: Graphic.EffectOptions = []
         ) async throws -> Graphic {
            
             if style.value == .layered {
@@ -52,7 +57,7 @@ extension CodableGraphic.Effect.Modifier {
                     lumaGamma: lumaGamma.value.eval(at: graphic.resolution),
                     layerCount: layerCount.value.eval(at: graphic.resolution),
                     placement: placement.value,
-                    options: options)
+                    options: options.union(extendMode.value.options))
                 
             } else {
                 
@@ -65,7 +70,7 @@ extension CodableGraphic.Effect.Modifier {
                     lumaGamma: lumaGamma.value.eval(at: graphic.resolution),
                     sampleCount: sampleCount.value.eval(at: graphic.resolution),
                     placement: placement.value,
-                    options: options)
+                    options: options.union(extendMode.value.options))
             }
         }
         
@@ -87,6 +92,8 @@ extension CodableGraphic.Effect.Modifier {
                 true
             case .layerCount:
                 style.value == .layered
+            case .extendMode:
+                true
             }
         }
         

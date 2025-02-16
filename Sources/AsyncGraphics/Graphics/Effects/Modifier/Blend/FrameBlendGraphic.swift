@@ -28,6 +28,11 @@ extension CodableGraphic.Effect.Modifier {
         public var rotation: GraphicMetadata<Angle> = .init(
             value: .fixed(.zero))
         
+        public var extendMode: GraphicEnumMetadata<Graphic.ExtendMode> = .init(
+            value: .zero,
+            docs: "Pixels outside the main bounds will use the extend mode when sampled. This will mainly affect pixels on the edges."
+        )
+        
         public func render(
             with graphic: Graphic,
             modifier modifierGraphic: Graphic,
@@ -41,7 +46,7 @@ extension CodableGraphic.Effect.Modifier {
                 alignment: alignment.value,
                 frame: frame.value.eval(at: graphic.resolution),
                 rotation: rotation.value.eval(at: graphic.resolution),
-                options: options
+                options: options.union(extendMode.value.options)
             )
         }
         

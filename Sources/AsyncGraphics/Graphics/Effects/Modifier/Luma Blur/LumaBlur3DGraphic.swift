@@ -32,11 +32,16 @@ extension CodableGraphic3D.Effect.Modifier {
                                                              maximum: .fixed(10))
         
         public var placement: GraphicEnumMetadata<Graphic.Placement> = .init(value: .fill)
-
+        
+        public var extendMode: GraphicEnumMetadata<Graphic.ExtendMode> = .init(
+            value: .stretch,
+            docs: "Voxels outside the main bounds will use the extend mode when sampled. This will mainly affect voxels on the edges."
+        )
+        
         public func render(
             with graphic: Graphic3D,
             modifier modifierGraphic: Graphic3D,
-            options: Graphic3D.EffectOptions = [.edgeStretch]
+            options: Graphic3D.EffectOptions = []
         ) async throws -> Graphic3D {
             
             try await graphic.lumaBlurred(
@@ -47,7 +52,7 @@ extension CodableGraphic3D.Effect.Modifier {
                 lumaGamma: lumaGamma.value.eval(at: graphic.resolution),
                 sampleCount: sampleCount.value.eval(at: graphic.resolution),
                 placement: placement.value,
-                options: options)
+                options: options.union(extendMode.value.options3D))
         }
         
         public func isVisible(property: Property, at resolution: CGSize) -> Bool {
@@ -63,6 +68,8 @@ extension CodableGraphic3D.Effect.Modifier {
             case .lumaGamma:
                 true
             case .placement:
+                true
+            case .extendMode:
                 true
             }
         }

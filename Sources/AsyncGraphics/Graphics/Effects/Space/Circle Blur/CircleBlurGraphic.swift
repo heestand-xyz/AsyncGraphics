@@ -32,9 +32,14 @@ extension CodableGraphic.Effect.Space {
         public var light: GraphicMetadata<CGFloat> = .init(value: .one,
                                                            maximum: .fixed(2.0))
         
+        public var extendMode: GraphicEnumMetadata<Graphic.ExtendMode> = .init(
+            value: .stretch,
+            docs: "Pixels outside the main bounds will use the extend mode when sampled. This will mainly affect pixels on the edges."
+        )
+        
         public func render(
             with graphic: Graphic,
-            options: Graphic.EffectOptions = [.edgeStretch]
+            options: Graphic.EffectOptions = []
         ) async throws -> Graphic {
             
              try await graphic.blurredCircle(
@@ -43,7 +48,7 @@ extension CodableGraphic.Effect.Space {
                 brightnessRange: brightnessLow.value.eval(at: graphic.resolution)...brightnessHigh.value.eval(at: graphic.resolution),
                 saturationRange: saturationLow.value.eval(at: graphic.resolution)...saturationHigh.value.eval(at: graphic.resolution),
                 light: light.value.eval(at: graphic.resolution),
-                options: options)
+                options: options.union(extendMode.value.options))
         }
         
         @VariantMacro

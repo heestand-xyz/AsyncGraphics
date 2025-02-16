@@ -32,9 +32,14 @@ extension CodableGraphic.Effect.Space {
                                                             minimum: .fixed(1),
                                                             maximum: .fixed(10))
         
+        public var extendMode: GraphicEnumMetadata<Graphic.ExtendMode> = .init(
+            value: .stretch,
+            docs: "Pixels outside the main bounds will use the extend mode when sampled. This will mainly affect pixels on the edges."
+        )
+        
         public func render(
             with graphic: Graphic,
-            options: Graphic.EffectOptions = [.edgeStretch]
+            options: Graphic.EffectOptions = []
         ) async throws -> Graphic {
            
             switch style.value {
@@ -48,7 +53,7 @@ extension CodableGraphic.Effect.Space {
                 try await graphic.blurredBox(
                     radius: radius.value.eval(at: graphic.resolution),
                     sampleCount: sampleCount.value.eval(at: graphic.resolution),
-                    options: options)
+                    options: options.union(extendMode.value.options))
                 
             case .angle:
                 
@@ -56,7 +61,7 @@ extension CodableGraphic.Effect.Space {
                     radius: radius.value.eval(at: graphic.resolution),
                     angle: rotation.value.eval(at: graphic.resolution),
                     sampleCount: sampleCount.value.eval(at: graphic.resolution),
-                    options: options)
+                    options: options.union(extendMode.value.options))
                 
             case .zoom:
                 
@@ -64,20 +69,20 @@ extension CodableGraphic.Effect.Space {
                     radius: radius.value.eval(at: graphic.resolution),
                     position: position.value.eval(at: graphic.resolution),
                     sampleCount: sampleCount.value.eval(at: graphic.resolution),
-                    options: options)
+                    options: options.union(extendMode.value.options))
                 
             case .random:
                 
                 try await graphic.blurredRandom(
                     radius: radius.value.eval(at: graphic.resolution),
-                    options: options)
+                    options: options.union(extendMode.value.options))
                 
             case .layered:
                 
                 try await graphic.blurredLayered(
                     radius: radius.value.eval(at: graphic.resolution),
                     layerCount: layerCount.value.eval(at: graphic.resolution),
-                    options: options)
+                    options: options.union(extendMode.value.options))
             }
         }
         
@@ -95,6 +100,8 @@ extension CodableGraphic.Effect.Space {
                 style.value != .random
             case .layerCount:
                 style.value == .layered
+            case .extendMode:
+                style.value != .gaussian
             }
         }
         

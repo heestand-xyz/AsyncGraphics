@@ -72,8 +72,13 @@ extension Graphic3D {
         /// Pixels sampled outside of uv coordinates 0.0 and 1.0 will be stretched
         public static let edgeStretch = EffectOptions(rawValue: 1 << 1)
         
+        /// Edge sampling method of loop
+        ///
+        /// Pixels sampled outside of uv coordinates 0.0 and 1.0 will be looped
+        public static let edgeLoop = EffectOptions(rawValue: 1 << 2)
+        
         var addressMode: MTLSamplerAddressMode {
-            contains(.edgeMirror) ? .mirrorRepeat : contains(.edgeStretch) ? .clampToEdge : .clampToZero
+            contains(.edgeMirror) ? .mirrorRepeat : contains(.edgeLoop) ? .repeat : contains(.edgeStretch) ? .clampToEdge : .clampToZero
         }
         
         /// Use this when assigning the modified ``Graphic`` to the source ``Graphic``, when replacing the original ``Graphic`` with the new.
@@ -82,7 +87,7 @@ extension Graphic3D {
         /// 
         /// This option can only be used on color effects, not distortion effects.
         /// Please don't use this option if the effect changes the resolution. 
-        public static let replace = EffectOptions(rawValue: 1 << 2)
+        public static let replace = EffectOptions(rawValue: 1 << 3)
 
         var colorRenderOptions: Renderer.Options {
             Renderer.Options(

@@ -36,11 +36,16 @@ extension CodableGraphic.Effect.Modifier {
                                                              maximum: .fixed(100))
         
         public var placement: GraphicEnumMetadata<Graphic.Placement> = .init(value: .fill)
-
+        
+        public var extendMode: GraphicEnumMetadata<Graphic.ExtendMode> = .init(
+            value: .stretch,
+            docs: "Pixels outside the main bounds will use the extend mode when sampled. This will mainly affect pixels on the edges."
+        )
+        
         public func render(
             with graphic: Graphic,
             modifier modifierGraphic: Graphic,
-            options: Graphic.EffectOptions = [.edgeStretch]
+            options: Graphic.EffectOptions = []
         ) async throws -> Graphic {
            
             try await graphic.lumaRainbowBlurred(
@@ -53,7 +58,7 @@ extension CodableGraphic.Effect.Modifier {
                 lumaGamma: lumaGamma.value.eval(at: graphic.resolution),
                 sampleCount: sampleCount.value.eval(at: graphic.resolution),
                 placement: placement.value,
-                options: options)
+                options: options.union(extendMode.value.options))
         }
         
         public func isVisible(property: Property, at resolution: CGSize) -> Bool {
@@ -73,6 +78,8 @@ extension CodableGraphic.Effect.Modifier {
             case .sampleCount:
                 true
             case .placement:
+                true
+            case .extendMode:
                 true
             }
         }
