@@ -12,7 +12,8 @@ extension Graphic {
                                 functionName: String,
                                 uniformsBuffer: MTLBuffer? = nil,
                                 resolution: CGSize,
-                                options: ContentOptions = []) async throws -> Graphic {
+                                contentOptions: ContentOptions = [],
+                                effectOptions: EffectOptions = []) async throws -> Graphic {
         
         return try await Renderer.render(
             name: "Raw Metal",
@@ -21,9 +22,10 @@ extension Graphic {
             uniformsBuffer: uniformsBuffer,
             metadata: Renderer.Metadata(
                 resolution: resolution,
-                colorSpace: options.colorSpace,
-                bits: options.bits
-            )
+                colorSpace: contentOptions.colorSpace,
+                bits: contentOptions.bits
+            ),
+            options: effectOptions.spatialRenderOptions
         )
     }
 }
