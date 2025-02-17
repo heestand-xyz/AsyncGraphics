@@ -110,7 +110,7 @@ extension Graphic {
     
     /// UIImage / NSImage
     ///
-    /// Raw image is just using an alternative way of converting the graphic to an image. It is a bit faster.
+    /// Raw image is just using an alternative way of converting the graphic to an image. It is faster than ``image``. Only for 8 bit graphics.
     public var rawImage: TMImage {
         get async throws {
             try await withCheckedThrowingContinuation { continuation in

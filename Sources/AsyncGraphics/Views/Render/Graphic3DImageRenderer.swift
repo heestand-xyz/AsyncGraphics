@@ -105,7 +105,7 @@ public final class Graphic3DImageRenderer {
     
     private func render(graphic3D: Graphic3D,
                         progress: (@Sendable (Progress) -> ())? = nil) async throws {
-
+        print("----> 1")
         guard let viewResolution: CGSize else {
             throw RenderError.viewNotReady
         }
@@ -117,8 +117,9 @@ public final class Graphic3DImageRenderer {
         var viewGraphics: [Graphic] = try await graphic3D.samples { progress in
             await progressManager?.set(index: progress.index, state: .sampling)
         }
-        
+        print("----> 2")
         await progressManager?.reset(state: .interpolating)
+        print("----> 3")
         
         if interpolation != .linear {
     
@@ -161,21 +162,27 @@ public final class Graphic3DImageRenderer {
                 return graphics.compactMap { $0 }
             }
         }
-        
         await progressManager?.reset(state: .converting)
         
+        let needsCustomOptimization: Bool = viewGraphics.first?.bits != ._8
+        let currentOptimization = await Renderer.optimization
+        if needsCustomOptimization {
+            await RenderActor.run {
+                Renderer.optimization.remove(.cacheCommandQueue)
+            }
+        }
         let images: [Image] = try await withThrowingTaskGroup(of: (Int, Image).self) { group in
             
             for (index, graphic) in viewGraphics.enumerated() {
                 
                 group.addTask {
-                    // Faster but crashes sometimes
-//                    let tmImage: TMImage = if graphic.bits == ._8 {
-//                        try await graphic.rawImage
-//                    } else {
-//                        try await graphic.image
-//                    }
-                    let tmImage: TMImage = try await graphic.image
+                    let tmImage: TMImage = if graphic.bits == ._8 {
+                        // Faster, but has crashed in the past...
+                        try await graphic.rawImage
+                    } else {
+                        // Custom optimization needed here.
+                        try await graphic.image
+                    }
                     let image = Image(tmImage: tmImage)
                     await progressManager?.increment(state: .converting)
                     return (index, image)
@@ -188,11 +195,17 @@ public final class Graphic3DImageRenderer {
             }
             return images.compactMap { $0 }
         }
+        if needsCustomOptimization {
+            await RenderActor.run {
+                Renderer.optimization = currentOptimization
+            }
+        }
         
         self.images = images
-        
+        print("----> X")
         display = Display(id: graphic3D.id,
                           resolution: viewGraphics.first!.resolution)
+        print("----> Y")
     }
     
     public func hide() {

@@ -15,6 +15,10 @@ import Spatial
 @globalActor
 public actor RenderActor {
     public static let shared = RenderActor()
+    @discardableResult
+    public static func run<T: Sendable>(_ operation: @escaping @RenderActor () async -> T) async -> T {
+        await operation()
+    }
 }
 
 public struct Renderer {
@@ -28,6 +32,7 @@ public struct Renderer {
         
         public let rawValue: Int
         
+        /// Remove this option if you run a lot of parallel renders.
         public static let cacheCommandQueue = Optimization(rawValue: 1 << 0)
         public static let cacheQuadVertexBuffer = Optimization(rawValue: 1 << 1)
         public static let cachePipelineState = Optimization(rawValue: 1 << 2)
@@ -246,7 +251,6 @@ public struct Renderer {
         metadata: Metadata? = nil,
         options: Options = Options()
     ) async throws -> G {
-        
         var uniformsBuffer: MTLBuffer?
         if uniforms is EmptyUniforms == false {
             var uniforms: U = uniforms
@@ -387,7 +391,6 @@ public struct Renderer {
         } else {
             targetTexture = try makeTargetTexture()
         }
-        
         var depthTexture: MTLTexture?
         if options.depth, let size = resolution as? CGSize {
             
@@ -401,11 +404,9 @@ public struct Renderer {
 
             depthTexture = metalDevice.makeTexture(descriptor: depthTextureDescriptor)
         }
-        
         guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {
             throw RendererError.failedToMakeCommandBuffer
         }
-        
         let commandEncoder: MTLCommandEncoder
         if !is3D {
             let renderCommandEncoder: MTLRenderCommandEncoder = try self.commandEncoder(
@@ -420,13 +421,11 @@ public struct Renderer {
             }
             commandEncoder = computeCommandEncoder
         }
-        
         do {
         
             // MARK: Pipeline
             
             if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
-                
                 let pipeline: MTLRenderPipelineState = try await pipeline(
                     proxy: PipelineProxy(
                         shader: shader,
@@ -438,7 +437,6 @@ public struct Renderer {
                     )
                 )
                 renderCommandEncoder.setRenderPipelineState(pipeline)
-                
                 if options.depth {
                     
                     let depthStateDescriptor = MTLDepthStencilDescriptor()
@@ -459,15 +457,12 @@ public struct Renderer {
                 )
                 computeCommandEncoder.setComputePipelineState(pipeline3d)
             }
-            
             // MARK: Textures
             
             if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
                 computeCommandEncoder.setTexture(targetTexture, index: 0)
             }
-            
             if !graphics.isEmpty {
-                
                 if let arrayTexture: MTLTexture = arrayTexture {
                     
                     if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
@@ -497,7 +492,6 @@ public struct Renderer {
                         }
                     }
                 }
-                
                 // MARK: Sampler
                 
                 let sampler: MTLSamplerState = try sampler(addressMode: options.addressMode,
@@ -516,7 +510,6 @@ public struct Renderer {
                     computeCommandEncoder.setSamplerState(sampler, index: 0)
                 }
             }
-            
             // MARK: Uniforms
 
             if let uniformsBuffer {
@@ -530,7 +523,6 @@ public struct Renderer {
                     computeCommandEncoder.setBuffer(uniformsBuffer, offset: 0, index: 0)
                 }
             }
-            
             // MARK: Array Uniforms
             
             if let arrayUniformsBuffer, let activeArrayUniformsBuffer {
@@ -546,7 +538,6 @@ public struct Renderer {
                     computeCommandEncoder.setBuffer(activeArrayUniformsBuffer, offset: 0, index: 2)
                 }
             }
-            
             // MARK: Vertex Uniforms
             
             if let vertexUniformsBuffer {
@@ -556,7 +547,6 @@ public struct Renderer {
                     renderCommandEncoder.setVertexBuffer(vertexUniformsBuffer, offset: 0, index: 1)
                 }
             }
-            
             // MARK: Vertex
             
             if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
@@ -580,7 +570,6 @@ public struct Renderer {
                 
                 renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
             }
-            
             // MARK: Draw
             
             if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
@@ -606,7 +595,6 @@ public struct Renderer {
                 
                 computeCommandEncoder.dispatchThreadgroups(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadGroup)
             }
-            
             commandEncoder.endEncoding()
             
         } catch {
@@ -617,7 +605,6 @@ public struct Renderer {
         try Task.checkCancellation()
         
         // MARK: Render
-          
         var graphic: G = try await withCheckedThrowingContinuation { continuation in
         
             commandBuffer.addCompletedHandler { _ in
@@ -633,13 +620,11 @@ public struct Renderer {
             
             commandBuffer.commit()
         }
-        
         if sampleCount > 1 {
             
             let graphic2d = graphic as! Graphic
             graphic = try await graphic2d.downSample() as! G
         }
-        
         try Task.checkCancellation()
         
         return graphic
