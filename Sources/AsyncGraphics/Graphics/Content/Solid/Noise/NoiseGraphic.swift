@@ -19,12 +19,14 @@ extension CodableGraphic.Content.Solid {
                                                          maximum: .fixed(10),
                                                          docs: "A value between 1 and 10, the lower the smoother, the higher the more cloudy detail.")
         
-        public var offset: GraphicMetadata<CGPoint> = .init(value: .zero,
+        public var offset: GraphicMetadata<CGPoint> = .init(value: .resolutionZero,
                                                             minimum: .resolutionMaximum(fraction: -0.5),
                                                             maximum: .resolutionMaximum(fraction: 0.5),
                                                             options: .spatial)
         
-        public var depthOffset: GraphicMetadata<CGFloat> = .init(maximum: .resolutionMaximum(fraction: 0.5),
+        public var depthOffset: GraphicMetadata<CGFloat> = .init(value: .resolutionZero,
+                                                                 minimum: .resolutionZero,
+                                                                 maximum: .resolutionMaximum(fraction: 1.0),
                                                                  options: .spatial,
                                                                  docs: "An offset in the motion dimension.")
         
