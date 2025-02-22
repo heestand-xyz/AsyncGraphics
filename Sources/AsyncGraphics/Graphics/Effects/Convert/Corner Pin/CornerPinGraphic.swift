@@ -9,37 +9,37 @@ extension CodableGraphic.Effect.Convert {
         
         public var topLeft: GraphicMetadata<CGPoint> = .init(
             value: .resolutionAlignment(.topLeading),
-            minimum: .zero,
+            minimum: .resolutionZero,
             maximum: .resolution,
             options: .spatial)
         
         public var topRight: GraphicMetadata<CGPoint> = .init(
             value: .resolutionAlignment(.topTrailing),
-            minimum: .zero,
+            minimum: .resolutionZero,
             maximum: .resolution,
             options: .spatial)
         
         public var bottomLeft: GraphicMetadata<CGPoint> = .init(
             value: .resolutionAlignment(.bottomLeading),
-            minimum: .zero,
+            minimum: .resolutionZero,
             maximum: .resolution,
             options: .spatial)
         
         public var bottomRight: GraphicMetadata<CGPoint> = .init(
             value: .resolutionAlignment(.bottomTrailing),
-            minimum: .zero,
+            minimum: .resolutionZero,
             maximum: .resolution,
             options: .spatial)
         
         public var perspective: GraphicMetadata<Bool> = .init(
             value: .fixed(true),
-            options: .spatial)
+            docs: "Calculates a perspective correct corner pin. Useful when projection mapping from an angle.")
         
         public var subdivisions: GraphicMetadata<Int> = .init(
             value: .fixed(32),
             minimum: .fixed(8),
             maximum: .fixed(64),
-            options: .spatial)
+            docs: "A higher value increases the quality of the perspective.")
         
         public var backgroundColor: GraphicMetadata<PixelColor> = .init(
             value: .fixed(.clear))
