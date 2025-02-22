@@ -10,22 +10,26 @@ extension CodableGraphic.Effect.Convert {
         public var topLeft: GraphicMetadata<CGPoint> = .init(
             value: .resolutionAlignment(.topLeading),
             minimum: .zero,
-            maximum: .resolution)
+            maximum: .resolution,
+            options: .spatial)
         
         public var topRight: GraphicMetadata<CGPoint> = .init(
             value: .resolutionAlignment(.topTrailing),
             minimum: .zero,
-            maximum: .resolution)
+            maximum: .resolution,
+            options: .spatial)
         
         public var bottomLeft: GraphicMetadata<CGPoint> = .init(
             value: .resolutionAlignment(.bottomLeading),
             minimum: .zero,
-            maximum: .resolution)
+            maximum: .resolution,
+            options: .spatial)
         
         public var bottomRight: GraphicMetadata<CGPoint> = .init(
             value: .resolutionAlignment(.bottomTrailing),
             minimum: .zero,
-            maximum: .resolution)
+            maximum: .resolution,
+            options: .spatial)
         
         public var perspective: GraphicMetadata<Bool> = .init(
             value: .fixed(true),
