@@ -1131,6 +1131,9 @@
         }
       }
     },
+    "option.colorChannel.luma" : {
+
+    },
     "option.colorChannel.mono" : {
       "localizations" : {
         "en" : {
@@ -1140,6 +1143,9 @@
           }
         }
       }
+    },
+    "option.colorChannel.one" : {
+
     },
     "option.colorChannel.red" : {
       "localizations" : {
@@ -1160,6 +1166,9 @@
           }
         }
       }
+    },
+    "option.colorChannel.zero" : {
+
     },
     "option.colorConversion.hsvToRGB" : {
       "localizations" : {
