@@ -3,7 +3,7 @@ import CoreGraphics
 extension AGGraph {
     
     public func luminanceToAlpha() -> any AGGraph {
-        AGChannelMix(child: self, red: .mono, green: .mono, blue: .mono, alpha: .mono)
+        AGChannelMix(child: self, red: .luminance, green: .luminance, blue: .luminance, alpha: .luminance)
     }
 }
 

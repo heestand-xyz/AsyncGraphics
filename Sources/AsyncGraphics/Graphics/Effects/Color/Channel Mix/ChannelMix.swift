@@ -24,7 +24,7 @@ extension Graphic {
         case alpha
         case zero
         case one
-        case luma
+        case luminance
         @available(*, deprecated, renamed: "zero")
         case clear
         @available(*, deprecated, renamed: "one")
@@ -33,7 +33,7 @@ extension Graphic {
         case mono
         
         public static var allCases: [Graphic.ColorChannel] {
-            [.red, .green, .blue, .alpha, .zero, .one, .luma]
+            [.red, .green, .blue, .alpha, .zero, .one, .luminance]
         }
             
         public var color: PixelColor {
@@ -76,10 +76,10 @@ extension Graphic {
                     alpha: alpha == .one ? 1.0 : 0.0
                 ),
                 isLuma: ColorUniform(
-                    red: red == .luma ? 1.0 : 0.0,
-                    green: green == .luma ? 1.0 : 0.0,
-                    blue: blue == .luma ? 1.0 : 0.0,
-                    alpha: alpha == .luma ? 1.0 : 0.0
+                    red: red == .luminance ? 1.0 : 0.0,
+                    green: green == .luminance ? 1.0 : 0.0,
+                    blue: blue == .luminance ? 1.0 : 0.0,
+                    alpha: alpha == .luminance ? 1.0 : 0.0
                 )
             ),
             options: options.colorRenderOptions
@@ -98,10 +98,10 @@ extension Graphic {
     }
     
     public func luminanceToAlpha() async throws -> Graphic {
-        try await monochrome().channelMix(red: .luma, green: .luma, blue: .luma, alpha: .luma)
+        try await monochrome().channelMix(red: .luminance, green: .luminance, blue: .luminance, alpha: .luminance)
     }
     
     public func luminanceToAlphaWithColor() async throws -> Graphic {
-        try await channelMix(red: .red, green: .green, blue: .blue, alpha: .luma)
+        try await channelMix(red: .red, green: .green, blue: .blue, alpha: .luminance)
     }
 }

@@ -33,16 +33,16 @@ extension Graphic3D {
                 blue: blue.color.uniform,
                 alpha: alpha.color.uniform,
                 white: ColorUniform(
-                    red: red == .white ? 1.0 : 0.0,
-                    green: green == .white ? 1.0 : 0.0,
-                    blue: blue == .white ? 1.0 : 0.0,
-                    alpha: alpha == .white ? 1.0 : 0.0
+                    red: red == .one ? 1.0 : 0.0,
+                    green: green == .one ? 1.0 : 0.0,
+                    blue: blue == .one ? 1.0 : 0.0,
+                    alpha: alpha == .one ? 1.0 : 0.0
                 ),
                 mono: ColorUniform(
-                    red: red == .mono ? 1.0 : 0.0,
-                    green: green == .mono ? 1.0 : 0.0,
-                    blue: blue == .mono ? 1.0 : 0.0,
-                    alpha: alpha == .mono ? 1.0 : 0.0
+                    red: red == .luminance ? 1.0 : 0.0,
+                    green: green == .luminance ? 1.0 : 0.0,
+                    blue: blue == .luminance ? 1.0 : 0.0,
+                    alpha: alpha == .luminance ? 1.0 : 0.0
                 )
             ),
             options: options.colorRenderOptions
@@ -53,7 +53,7 @@ extension Graphic3D {
 extension Graphic3D {
     
     public func alphaToLuminance() async throws -> Graphic3D {
-        try await channelMix(red: .alpha, green: .alpha, blue: .alpha, alpha: .white)
+        try await channelMix(red: .alpha, green: .alpha, blue: .alpha, alpha: .one)
     }
     
     public func alphaToLuminanceWithAlpha() async throws -> Graphic3D {
@@ -61,10 +61,10 @@ extension Graphic3D {
     }
     
     public func luminanceToAlpha() async throws -> Graphic3D {
-        try await monochrome().channelMix(red: .mono, green: .mono, blue: .mono, alpha: .mono)
+        try await monochrome().channelMix(red: .luminance, green: .luminance, blue: .luminance, alpha: .luminance)
     }
     
     public func luminanceToAlphaWithColor() async throws -> Graphic3D {
-        try await channelMix(red: .red, green: .green, blue: .blue, alpha: .mono)
+        try await channelMix(red: .red, green: .green, blue: .blue, alpha: .luminance)
     }
 }
