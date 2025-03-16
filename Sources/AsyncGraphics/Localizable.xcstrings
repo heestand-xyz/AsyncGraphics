@@ -1131,7 +1131,7 @@
         }
       }
     },
-    "option.colorChannel.luma" : {
+    "option.colorChannel.luminance" : {
 
     },
     "option.colorChannel.mono" : {
