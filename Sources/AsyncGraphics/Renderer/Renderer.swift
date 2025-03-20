@@ -16,8 +16,8 @@ import Spatial
 public actor RenderActor {
     public static let shared = RenderActor()
     @discardableResult
-    public static func run<T: Sendable>(_ operation: @escaping @RenderActor () async -> T) async -> T {
-        await operation()
+    public static func run<T: Sendable>(_ operation: @escaping @RenderActor () async throws -> T) async rethrows -> T {
+        try await operation()
     }
 }
 
