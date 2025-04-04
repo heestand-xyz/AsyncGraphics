@@ -7,9 +7,9 @@ extension CodableGraphic.Effect.Convert {
     public final class Resolution: ConvertEffectGraphicProtocol {
         
         public var resolution: GraphicMetadata<CGSize> = .init(
-            value: .fixed(CGSize(width: 1000, height: 1000)),
-            minimum: .fixed(CGSize(width: 1, height: 1)),
-            maximum: .fixed(CGSize(width: 16_384, height: 16_384)),
+            value: .resolution,
+            minimum: .one,
+            maximum: .resolution,
             options: .spatial)
         
         public var placement: GraphicEnumMetadata<Graphic.Placement> = .init(value: .fit)

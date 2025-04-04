@@ -1132,7 +1132,14 @@
       }
     },
     "option.colorChannel.luminance" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luminance"
+          }
+        }
+      }
     },
     "option.colorChannel.mono" : {
       "localizations" : {
@@ -1145,7 +1152,14 @@
       }
     },
     "option.colorChannel.one" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One"
+          }
+        }
+      }
     },
     "option.colorChannel.red" : {
       "localizations" : {
@@ -1168,7 +1182,14 @@
       }
     },
     "option.colorChannel.zero" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zero"
+          }
+        }
+      }
     },
     "option.colorConversion.hsvToRGB" : {
       "localizations" : {
