@@ -36,12 +36,14 @@ public struct Renderer {
         public static let cacheCommandQueue = Optimization(rawValue: 1 << 0)
         public static let cacheQuadVertexBuffer = Optimization(rawValue: 1 << 1)
         public static let cachePipelineState = Optimization(rawValue: 1 << 2)
+        public static let cacheSampler = Optimization(rawValue: 1 << 3)
         
         public static var all: Optimization {
             [
                 .cacheCommandQueue,
                 .cacheQuadVertexBuffer,
                 .cachePipelineState,
+                .cacheSampler,
             ]
         }
         
@@ -60,6 +62,13 @@ public struct Renderer {
     @RenderActor
     public static var recycleGraphic: Graphic?
     
+    private struct SamplerKey: Hashable, Sendable {
+        let addressMode: MTLSamplerAddressMode
+        let filter: MTLSamplerMinMagFilter
+    }
+    @RenderActor
+    private static var samplerCache: [SamplerKey: MTLSamplerState] = [:]
+
     /// Hardcoded. Defined as ARRMAX in shaders.
     private static let uniformArrayMaxLimit: Int = 128
     
@@ -508,8 +517,19 @@ public struct Renderer {
                 }
                 // MARK: Sampler
                 
-                let sampler: MTLSamplerState = try sampler(addressMode: options.addressMode,
-                                                           filter: options.filter)
+                let samplerKey = SamplerKey(addressMode: options.addressMode, filter: options.filter)
+                let sampler: MTLSamplerState
+                if optimization.contains(.cacheSampler),
+                   let cached = await samplerCache[samplerKey] {
+                    sampler = cached
+                } else {
+                    sampler = try self.sampler(addressMode: options.addressMode, filter: options.filter)
+                    if optimization.contains(.cacheSampler) {
+                        await RenderActor.run {
+                            samplerCache[samplerKey] = sampler
+                        }
+                    }
+                }
                 
                 if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
                     
