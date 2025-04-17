@@ -24,7 +24,8 @@ extension Graphic {
     ) async throws -> Graphic {
         
         try await levels(
-            brightness: brightness
+            brightness: brightness,
+            options: options
         )
     }
     
@@ -34,7 +35,10 @@ extension Graphic {
         options: EffectOptions = []
     ) async throws -> Graphic {
         
-        try await levels(darkness: darkness)
+        try await levels(
+            darkness: darkness,
+            options: options
+        )
     }
     
     /// Default is 0.0
@@ -43,7 +47,10 @@ extension Graphic {
         options: EffectOptions = []
     ) async throws -> Graphic {
         
-        try await levels(contrast: contrast)
+        try await levels(
+            contrast: contrast,
+            options: options
+        )
     }
     
     /// Default is 1.0
@@ -52,17 +59,26 @@ extension Graphic {
         options: EffectOptions = []
     ) async throws -> Graphic {
         
-        try await levels(gamma: gamma)
+        try await levels(
+            gamma: gamma,
+            options: options
+        )
     }
     
     public func inverted(options: EffectOptions = []) async throws -> Graphic {
         
-        try await levels(invert: true)
+        try await levels(
+            invert: true,
+            options: options
+        )
     }
     
     public func smoothed(options: EffectOptions = []) async throws -> Graphic {
         
-        try await levels(smooth: true)
+        try await levels(
+            smooth: true,
+            options: options
+        )
     }
     
     public func opacity(

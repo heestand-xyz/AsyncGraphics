@@ -54,6 +54,12 @@ public struct Renderer {
     @RenderActor
     public static var optimization: Optimization = .all
     
+    /// Recycle an old graphic.
+    ///
+    /// Please don't use the graphic after setting it here, as it will be overwritten on next render with the same resolution and bits.
+    @RenderActor
+    public static var recycleGraphic: Graphic?
+    
     /// Hardcoded. Defined as ARRMAX in shaders.
     private static let uniformArrayMaxLimit: Int = 128
     
@@ -387,6 +393,14 @@ public struct Renderer {
             } else {
                 print("AsyncGraphics - Renderer - Warning: Target source texture's render target usage not present. Falling back to new texture.")
                 targetTexture = try makeTargetTexture()
+            }
+        } else if let recycleGraphic: Graphic = await recycleGraphic,
+                  let resolution = resolution as? CGSize,
+                  recycleGraphic.resolution == resolution,
+                  recycleGraphic.bits == bits {
+            targetTexture = recycleGraphic.texture
+            await RenderActor.run {
+                self.recycleGraphic = nil                
             }
         } else {
             targetTexture = try makeTargetTexture()
