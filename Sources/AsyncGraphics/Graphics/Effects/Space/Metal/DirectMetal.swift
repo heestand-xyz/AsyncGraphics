@@ -27,9 +27,14 @@ extension Graphic {
     /// uint height = texture.get_height();
     /// ```
     ///
-    /// Return a `float4` color.
+    /// Return a `float4` color:
     /// ```
     /// return color * 2.0;
+    /// ```
+    ///
+    /// Sample a `float4` color:
+    /// ```
+    /// return texture.sample(sampler, float2(u, v));
     /// ```
     ///
     /// Available variables are:  `sampler`, `texture`, `u`, `v`, `uv`, `color`.
