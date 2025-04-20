@@ -98,8 +98,15 @@ public struct Renderer {
         customMetalLibrary ?? defaultMetalLibrary
     }
     
+    private struct CommandQueuePack: Sendable {
+        let id: UUID
+        let commandQueue: MTLCommandQueue
+        static let maxUseCount: Int = 64
+        var useCount: Int = 0
+    }
+    
     @RenderActor
-    private static var storedCommandQueue: MTLCommandQueue?
+    private static var storedCommandQueuePacks: [CommandQueuePack] = []
     @RenderActor
     static var storedRenderPipelines: [PipelineProxy: MTLRenderPipelineState] = [:]
     @RenderActor
@@ -107,14 +114,24 @@ public struct Renderer {
     static let storedVertexQuadBuffer: MTLBuffer? = try? makeVertexQuadBuffer()
     
     @RenderActor
-    public static func commandQueue() -> MTLCommandQueue? {
-        if optimization.contains(.cacheCommandQueue) {
-            if let storedCommandQueue: MTLCommandQueue {
-                return storedCommandQueue
-            } else {
-                storedCommandQueue = metalDevice.makeCommandQueue()
-                return storedCommandQueue
+    public static func commandQueue(_ useCallback: ((@RenderActor @escaping () -> Void) -> Void)? = nil) -> MTLCommandQueue? {
+        if optimization.contains(.cacheCommandQueue), let useCallback {
+            if storedCommandQueuePacks.isEmpty || !storedCommandQueuePacks.contains(where: { $0.useCount < CommandQueuePack.maxUseCount }) {
+                guard let commandQueue: MTLCommandQueue = metalDevice.makeCommandQueue() else { return nil }
+                let pack = CommandQueuePack(id: UUID(), commandQueue: commandQueue)
+                storedCommandQueuePacks.append(pack)
             }
+            guard let packIndex: Int = storedCommandQueuePacks.firstIndex(where: { $0.useCount < CommandQueuePack.maxUseCount }) else { return nil }
+            storedCommandQueuePacks[packIndex].useCount += 1
+            let packID: UUID = storedCommandQueuePacks[packIndex].id
+            useCallback {
+                guard let packIndex: Int = storedCommandQueuePacks.firstIndex(where: { $0.id == packID }) else { return }
+                storedCommandQueuePacks[packIndex].useCount -= 1
+                if storedCommandQueuePacks[packIndex].useCount == 0 {
+                    storedCommandQueuePacks.remove(at: packIndex)
+                }
+            }
+            return storedCommandQueuePacks[packIndex].commandQueue
         } else {
             return metalDevice.makeCommandQueue()
         }
@@ -373,10 +390,6 @@ public struct Renderer {
         
         let optimization: Optimization = await optimization
         
-        guard let commandQueue: MTLCommandQueue = await commandQueue() else {
-            throw RendererError.failedToMakeCommandQueue
-        }
-        
         func makeTargetTexture() throws -> MTLTexture {
             if let resolution: CGSize = resolution as? CGSize {
                 return try .empty(
@@ -427,9 +440,20 @@ public struct Renderer {
 
             depthTexture = metalDevice.makeTexture(descriptor: depthTextureDescriptor)
         }
+        
+        var commandQueueDone: (@RenderActor () -> Void)?
+        guard let commandQueue: MTLCommandQueue = await commandQueue({
+            commandQueueDone = $0
+        }) else {
+            throw RendererError.failedToMakeCommandQueue
+        }
+        
         guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {
+            await commandQueueDone?()
             throw RendererError.failedToMakeCommandBuffer
         }
+        await commandQueueDone?()
+        
         let commandEncoder: MTLCommandEncoder
         if !is3D {
             let renderCommandEncoder: MTLRenderCommandEncoder = try self.commandEncoder(
