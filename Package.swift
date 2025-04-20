@@ -22,7 +22,7 @@ let package = Package(
         .package(url: "https://github.com/heestand-xyz/PixelColor", from: "3.2.0"),
         .package(url: "https://github.com/heestand-xyz/CoreGraphicsExtensions", from: "2.0.1"),
         .package(url: "https://github.com/heestand-xyz/SpatialExtensions", from: "1.0.0"),
-        .package(url: "https://github.com/heestand-xyz/VideoFrames", from: "2.0.0"),
+        .package(url: "https://github.com/heestand-xyz/VideoFrames", from: "2.1.0"),
         .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.1.0"),
         .package(url: "https://github.com/apple/swift-syntax", from: "510.0.0"),
     ],
