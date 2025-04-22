@@ -19,7 +19,12 @@ fragment float4 lumaSample(VertexOut out [[stage_in]],
     float v = out.texCoord[1];
     float2 uv = float2(u, v);
     
-    float sample = sampleTexture.sample(sampler, uv).r;
+    int sampleCount = sourceTexture.get_depth();
+    float sampleDepth = 1.0 / float(sampleCount);
+    
+    float3 colorSample = sampleTexture.sample(sampler, uv).rgb;
+    float sample = (colorSample.r + colorSample.g + colorSample.b) / 3.0;
+    sample = mix(sampleDepth / 2, 1.0 - sampleDepth / 2, sample);
     
     float3 uvw = float3(u, v, sample);
     float4 color = sourceTexture.sample(sampler, uvw);
