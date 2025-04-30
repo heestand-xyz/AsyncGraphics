@@ -17,7 +17,7 @@ public typealias GraphicRecorder = GraphicVideoRecorder
 /// When done, call ``stop()-4i1ev``.
 ///
 /// > All appended ``Graphic``s need to have the same resolution.
-public actor GraphicVideoRecorder: Sendable {
+public actor GraphicVideoRecorder: GraphicVideoRecordable {
     
     struct AV: Sendable {
         let writer: AVAssetWriter
@@ -68,7 +68,7 @@ public actor GraphicVideoRecorder: Sendable {
     
     private var frameIndex: Int = 0
     
-    public var recording: Bool = false
+    public private(set) var recording: Bool = false
     private var appending: Bool = false
     private var stopping: Bool = false
     
@@ -191,6 +191,7 @@ public actor GraphicVideoRecorder: Sendable {
             throw RecordError.mismatchResolution
         }
         
+        // TODO: Optimize flipping of axis and colors...
         let graphic = try await graphic
             .mirroredVertically()
             .channelMix(red: .blue, blue: .red)

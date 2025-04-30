@@ -97,6 +97,18 @@ extension Graphic {
         let image: TMImage = try await videoFrame(at: frameIndex, from: url, info: info)
         return try await .image(image)
     }
+    
+    /// Import Stereoscopic Video Frame
+    ///
+    /// If info is `nil` (default), frame count, frame rate and resolution will be automatically calculate based on the video at the url.
+    ///
+    /// Pass info to override frame count, frame rate and resolution.
+    ///
+    /// `Import VideoFrames` to access `VideoInfo`
+    public static func importStereoscopicVideoFrame(at frameIndex: Int, url: URL, info: VideoInfo? = nil) async throws -> (left: Graphic, right: Graphic) {
+        let (leftImage, rightImage) = try await stereoscopicVideoFrame(at: frameIndex, from: url, info: info)
+        return try await (.image(leftImage), .image(rightImage))
+    }
 }
 
 
