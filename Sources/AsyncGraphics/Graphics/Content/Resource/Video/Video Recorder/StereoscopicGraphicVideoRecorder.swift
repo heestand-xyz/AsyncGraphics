@@ -46,10 +46,23 @@ public actor StereoscopicGraphicVideoRecorder: GraphicVideoRecordable {
         public var horizontalFOV: Double = 60.0
         /// A horizontal presentation adjustment to apply as a fraction of the image width (-1...1).
         public var disparityAdjustment: Double = 0.0
-        @MainActor
         public static let `default` = SpatialMetadata()
+        /// Spatial Metadata
+        /// - Parameters:
+        ///   - baselineInMillimeters: The baseline (distance between the centers of the two cameras), in millimeters.
+        ///   - horizontalFOV: The horizontal field of view of each camera, in degrees.
+        ///   - disparityAdjustment: A horizontal presentation adjustment to apply as a fraction of the image width (-1...1).
+        public init(
+            baselineInMillimeters: Double = 64,
+            horizontalFOV: Double = 60,
+            disparityAdjustment: Double = 0.0
+        ) {
+            self.baselineInMillimeters = baselineInMillimeters
+            self.horizontalFOV = horizontalFOV
+            self.disparityAdjustment = disparityAdjustment
+        }
     }
-    public var spatialMetadata: SpatialMetadata?
+    private let spatialMetadata: SpatialMetadata
     
     enum RecordError: LocalizedError {
         
@@ -102,7 +115,7 @@ public actor StereoscopicGraphicVideoRecorder: GraphicVideoRecordable {
         }
     }
 
-    public init(fps: Double = 30.0, kbps: Int = 10_000, spatialMetadata: SpatialMetadata? = nil, resolution: CGSize) {
+    public init(fps: Double = 30.0, kbps: Int = 10_000, spatialMetadata: SpatialMetadata = .default, resolution: CGSize) {
         self.fps = fps
         self.kbps = kbps
         self.spatialMetadata = spatialMetadata
@@ -137,21 +150,18 @@ public actor StereoscopicGraphicVideoRecorder: GraphicVideoRecordable {
             AVVideoAverageBitRateKey as CFString: bps
         ]
 
-        if let spatialMetadata {
+        let baselineInMicrometers = UInt32(1000.0 * spatialMetadata.baselineInMillimeters)
+        let encodedHorizontalFOV = UInt32(1000.0 * spatialMetadata.horizontalFOV)
+        let encodedDisparityAdjustment = Int32(10_000.0 * spatialMetadata.disparityAdjustment)
 
-            let baselineInMicrometers = UInt32(1000.0 * spatialMetadata.baselineInMillimeters)
-            let encodedHorizontalFOV = UInt32(1000.0 * spatialMetadata.horizontalFOV)
-            let encodedDisparityAdjustment = Int32(10_000.0 * spatialMetadata.disparityAdjustment)
-
-            if #available(iOS 18.0, macOS 15.0, visionOS 2.0, *) {
-                multiviewCompressionProperties[kVTCompressionPropertyKey_ProjectionKind] = kCMFormatDescriptionProjectionKind_Rectilinear
-            }
-            multiviewCompressionProperties[kVTCompressionPropertyKey_StereoCameraBaseline] = baselineInMicrometers
-            if #available(iOS 17.4, macOS 14.4, visionOS 1.1, *) {
-                multiviewCompressionProperties[kVTCompressionPropertyKey_HorizontalFieldOfView] = encodedHorizontalFOV
-            }
-            multiviewCompressionProperties[kVTCompressionPropertyKey_HorizontalDisparityAdjustment] = encodedDisparityAdjustment
+        if #available(iOS 18.0, macOS 15.0, visionOS 2.0, *) {
+            multiviewCompressionProperties[kVTCompressionPropertyKey_ProjectionKind] = kCMFormatDescriptionProjectionKind_Rectilinear
         }
+        multiviewCompressionProperties[kVTCompressionPropertyKey_StereoCameraBaseline] = baselineInMicrometers
+        if #available(iOS 17.4, macOS 14.4, visionOS 1.1, *) {
+            multiviewCompressionProperties[kVTCompressionPropertyKey_HorizontalFieldOfView] = encodedHorizontalFOV
+        }
+        multiviewCompressionProperties[kVTCompressionPropertyKey_HorizontalDisparityAdjustment] = encodedDisparityAdjustment
     
         let settings: [String: Any] = [
             AVVideoCodecKey: AVVideoCodecType.hevc,
