@@ -11,26 +11,22 @@ import CoreGraphicsExtensions
 public struct AsyncGraphicView: View {
     
     private let resolution: CGSize?
+    private let interpolation: Graphic.ViewInterpolation
+    private let extendedDynamicRange: Bool
     private let graphicBlock: (CGSize) async throws -> Graphic
     @State private var graphic: Graphic?
-    
-    @available(*, deprecated, renamed: "init(resolution:_:)",
-                message: "The new init's graphic closure has a new resolution argument.")
-    public init(
-        resolution: CGSize? = nil,
-        graphic: @escaping () async throws -> Graphic
-    ) {
-        self.resolution = resolution
-        self.graphicBlock = { _ in try await graphic() }
-    }
     
     /// The default resolution is derived from the view's geometry size multiplied by pixels per point.
     /// If the resolution is nil, the graphic will re-render whenever the view size changes.
     public init(
         resolution: CGSize? = nil,
+        interpolation: Graphic.ViewInterpolation = .lanczos,
+        extendedDynamicRange: Bool = false,
         _ graphic: @escaping (CGSize) async throws -> Graphic
     ) {
         self.resolution = resolution
+        self.interpolation = interpolation
+        self.extendedDynamicRange = extendedDynamicRange
         self.graphicBlock = graphic
     }
     
@@ -38,7 +34,11 @@ public struct AsyncGraphicView: View {
         GeometryReader { geometry in
             ZStack {
                 if let graphic {
-                    GraphicView(graphic: graphic)
+                    GraphicView(
+                        graphic: graphic,
+                        interpolation: interpolation,
+                        extendedDynamicRange: extendedDynamicRange
+                    )
                 } else {
                     Color.clear
                 }
