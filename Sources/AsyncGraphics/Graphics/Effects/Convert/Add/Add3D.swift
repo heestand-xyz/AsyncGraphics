@@ -25,7 +25,7 @@ extension Graphic3D {
             name: "Add 3D",
             shader: .name("add3d"),
             graphics: [
-                withBits(.bit8)
+                self
             ],
             uniforms: Add3DUniforms(
                 axis: axis.index,
