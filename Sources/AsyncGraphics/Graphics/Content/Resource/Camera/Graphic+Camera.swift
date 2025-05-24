@@ -42,6 +42,9 @@ extension Graphic {
         private let videoOutput: AVCaptureVideoDataOutput
         private let captureSession: AVCaptureSession
         
+        @MainActor
+        public var subjectAreaChange: (() -> Void)?
+        
 #if !os(visionOS)
         public convenience init(_ position: AVCaptureDevice.Position,
                                 with deviceType: AVCaptureDevice.DeviceType = .builtInWideAngleCamera,
@@ -83,6 +86,12 @@ extension Graphic {
             self.position = device.position
             self.device = device
             
+            do {
+                try device.lockForConfiguration()
+                device.isSubjectAreaChangeMonitoringEnabled = true
+                device.unlockForConfiguration()
+            } catch {}
+            
             captureSession = AVCaptureSession()
             
             guard captureSession.canSetSessionPreset(preset) else {
@@ -109,6 +118,13 @@ extension Graphic {
             super.init()
             
             videoOutput.setSampleBufferDelegate(self, queue: queue)
+            
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(subjectAreaDidChange),
+                name: .AVCaptureDeviceSubjectAreaDidChange,
+                object: device
+            )
         }
 #else
         public init(device: AVCaptureDevice) throws {
@@ -140,15 +156,28 @@ extension Graphic {
         }
 #endif
         
+        @objc
+        private func subjectAreaDidChange() {
+            Task { @MainActor in
+                subjectAreaChange?()
+            }
+        }
+        
         deinit {
+            NotificationCenter.default.removeObserver(self)
             stop()
         }
         
 #if !os(visionOS)
-        /// Relative focus point
+        /// Focus on a normalized focus point.
+        ///
+        /// Listen to focus change by setting callback of ``subjectAreaChange`` on the ``Camera``.
         ///
         /// **Apple:** This property’s CGPoint value uses a coordinate system where {0,0} is the top-left of the picture area and {1,1} is the bottom-right. This coordinate system is always relative to a landscape device orientation with the home button on the right, regardless of the actual device orientation.
-        public func focus(at point: CGPoint, mode: AVCaptureDevice.FocusMode = .continuousAutoFocus) {
+        public func focus(
+            at point: CGPoint,
+            mode: AVCaptureDevice.FocusMode = .continuousAutoFocus
+        ) {
             guard device.isFocusPointOfInterestSupported else { return }
             guard (try? device.lockForConfiguration()) != nil else { return }
             device.focusPointOfInterest = point
@@ -156,7 +185,7 @@ extension Graphic {
             device.unlockForConfiguration()
         }
 #endif
-        
+
         /// Start Camera
         ///
         /// Starts the capture session.
@@ -165,7 +194,7 @@ extension Graphic {
             if captureSession.isRunning { return }
             captureSession.addInput(videoInput)
             captureSession.addOutput(videoOutput)
-            Task { @MainActor in
+            Task {
                 captureSession.startRunning()
             }
         }
