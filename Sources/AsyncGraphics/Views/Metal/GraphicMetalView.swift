@@ -21,7 +21,10 @@ final class GraphicMetalView: MTKView, GraphicMetalViewable {
     @MainActor
     let didRender: (UUID) -> ()
     
+    private var metalQueue: DispatchQueue?
     private let metalQueueKey = DispatchSpecificKey<String>()
+    
+    private var commandQueue: MTLCommandQueue?
     
     init(interpolation: Graphic.ViewInterpolation,
          extendedDynamicRange: Bool,
@@ -32,6 +35,11 @@ final class GraphicMetalView: MTKView, GraphicMetalViewable {
         self.didRender = didRender
         
         super.init(frame: .zero, device: Renderer.metalDevice)
+        
+        metalQueue = DispatchQueue(label: "GraphicMetalView")
+        metalQueue?.setSpecific(key: metalQueueKey, value: "GraphicMetalView")
+        
+        commandQueue = Renderer.metalDevice.makeCommandQueue()
         
         clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 0.0)
         colorPixelFormat = pixelFormat()
@@ -108,16 +116,15 @@ extension GraphicMetalView: MTKViewDelegate {
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
     
     func draw(in view: MTKView) {
-        let metalQueue = DispatchQueue(label: "GraphicMetalView")
-        metalQueue.setSpecific(key: metalQueueKey, value: "GraphicMetalView")
-        
+        guard let metalQueue else { return }
+
         guard let graphic: Graphic = graphic else { return }
         let sourceTexture: MTLTexture = graphic.texture
         
         guard let drawable: CAMetalDrawable = currentDrawable else { return }
         let destinationTexture: MTLTexture = drawable.texture
         
-        guard let commandQueue = Renderer.metalDevice.makeCommandQueue() else { return }
+        guard let commandQueue else { return }
         guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else { return }
         
         if !extendedDynamicRange,
