@@ -86,11 +86,13 @@ extension Graphic {
             self.position = device.position
             self.device = device
             
+#if os(iOS)
             do {
                 try device.lockForConfiguration()
                 device.isSubjectAreaChangeMonitoringEnabled = true
                 device.unlockForConfiguration()
             } catch {}
+#endif
             
             captureSession = AVCaptureSession()
             
@@ -119,12 +121,14 @@ extension Graphic {
             
             videoOutput.setSampleBufferDelegate(self, queue: queue)
             
+#if os(iOS)
             NotificationCenter.default.addObserver(
                 self,
                 selector: #selector(subjectAreaDidChange),
                 name: .AVCaptureDeviceSubjectAreaDidChange,
                 object: device
             )
+#endif
         }
 #else
         public init(device: AVCaptureDevice) throws {
