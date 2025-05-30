@@ -28,14 +28,18 @@ extension Graphic {
             .resized(to: resolution, placement: .stretch)
     }
     
+    private struct Observation: @unchecked Sendable {
+        let saliency: VNSaliencyImageObservation
+    }
+    
     /// Detect raw attention or objectness of a graphic, as a monochrome heat map, without resizing resolution of result.
     @available(iOS 18.0, tvOS 18.0, macOS 15.0, visionOS 2.0, *)
     public func rawSaliency(of saliencyType: SaliencyType) async throws -> Graphic {
         
-        let observation: SaliencyImageObservation = try await saliencyObservation(of: saliencyType)
+        let observation: Observation = try await saliencyObservation(of: saliencyType)
         
-        let maskGraphic: Graphic = try await .image(observation.heatMap.cgImage)
-            .channelMix(green: .red, blue: .red, alpha: .red)
+        let maskGraphic: Graphic = try await .pixelBuffer(observation.saliency.pixelBuffer)
+            .channelMix(red: .green, blue: .green, alpha: .one)
         
         return maskGraphic
     }
@@ -44,15 +48,20 @@ extension Graphic {
     @available(iOS 18.0, tvOS 18.0, macOS 15.0, visionOS 2.0, *)
     public func saliencyFrames(of saliencyType: SaliencyType) async throws -> [CGRect] {
         
-        let observation: SaliencyImageObservation = try await saliencyObservation(of: saliencyType)
+        let observation: Observation = try await saliencyObservation(of: saliencyType)
         
-        return observation.salientObjects.map { object in
-            object.boundingBox.cgRect * resolution
-        }
+        return observation.saliency.salientObjects?.map { object in
+            CGRect(
+                x: object.boundingBox.minX,
+                y: 1.0 - object.boundingBox.maxY,
+                width: object.boundingBox.width,
+                height: object.boundingBox.height
+            ) * resolution
+        } ?? []
     }
     
     @available(iOS 18.0, tvOS 18.0, macOS 15.0, visionOS 2.0, *)
-    private func saliencyObservation(of saliencyType: SaliencyType) async throws -> SaliencyImageObservation {
+    private func saliencyObservation(of saliencyType: SaliencyType) async throws -> Observation {
         
         let cgImage: CGImage = try await cgImage
         
@@ -63,11 +72,11 @@ extension Graphic {
                     continuation.resume(throwing: error)
                     return
                 }
-                guard let observation = request.results?.first as? SaliencyImageObservation else {
+                guard let observation = request.results?.first as? VNSaliencyImageObservation else {
                     continuation.resume(throwing: SaliencyError.noResults)
                     return
                 }
-                continuation.resume(returning: observation)
+                continuation.resume(returning: Observation(saliency: observation))
             }
             
             let request: VNRequest = switch saliencyType {
