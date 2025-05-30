@@ -20,13 +20,15 @@ extension Graphic {
                           placement: .stretch)
     }
     
+    /// Person segmentation mask.
     public func personSegmentationMask() async throws -> Graphic {
         
         try await rawPersonSegmentationMask()
             .resized(to: resolution, placement: .stretch)
     }
     
-    private func rawPersonSegmentationMask() async throws -> Graphic {
+    /// Raw person segmentation mask without resizing resolution of result.
+    public func rawPersonSegmentationMask() async throws -> Graphic {
         
         let cgImage: CGImage = try await cgImage
         
@@ -34,7 +36,10 @@ extension Graphic {
            
             let request = VNGeneratePersonSegmentationRequest { (request, error) in
                 
-                guard error == nil else { return }
+                if let error {
+                    continuation.resume(throwing: error)
+                    return
+                }
 
                 guard let observation = request.results?.first as? VNPixelBufferObservation else {
                     continuation.resume(throwing: PersonSegmentationError.noResults)

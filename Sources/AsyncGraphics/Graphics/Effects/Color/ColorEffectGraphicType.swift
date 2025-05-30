@@ -14,6 +14,7 @@ public enum ColorEffectGraphicType: String, CodableGraphicTypeProtocol {
     case levels
     case quantize
     case personSegmentation
+    case saliency
     case slope
     case threshold
 }
@@ -44,6 +45,8 @@ extension ColorEffectGraphicType {
             "righttriangle.split.diagonal"
         case .personSegmentation:
             "person.and.background.dotted"
+        case .saliency:
+            "allergens"
         case .slope:
             "righttriangle"
         case .threshold:
@@ -78,6 +81,8 @@ extension ColorEffectGraphicType {
                 .basic
         case .personSegmentation:
                 .basic
+        case .saliency:
+                .advanced
         case .slope:
                 .advanced
         case .threshold:

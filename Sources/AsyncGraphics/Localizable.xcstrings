@@ -261,6 +261,16 @@
         }
       }
     },
+    "graphic.effect.color.saliency" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saliency"
+          }
+        }
+      }
+    },
     "graphic.effect.color.slope" : {
       "localizations" : {
         "en" : {
@@ -1931,6 +1941,26 @@
         }
       }
     },
+    "option.saliencyType.attention" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attention"
+          }
+        }
+      }
+    },
+    "option.saliencyType.objectness" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Objectness"
+          }
+        }
+      }
+    },
     "option.x.center" : {
       "localizations" : {
         "en" : {
@@ -2811,6 +2841,16 @@
         }
       }
     },
+    "property.saliencyType" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saliency Type"
+          }
+        }
+      }
+    },
     "property.sampleCoordinate" : {
       "localizations" : {
         "en" : {
@@ -3047,6 +3087,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Angle"
+          }
+        }
+      }
+    },
+    "variant.attention" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attention"
           }
         }
       }
@@ -3487,6 +3537,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Monchrome"
+          }
+        }
+      }
+    },
+    "variant.objectness" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Objectness"
           }
         }
       }
