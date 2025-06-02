@@ -39,6 +39,7 @@ public struct GraphicView: View {
                                      extendedDynamicRange: extendedDynamicRange) { id in
                 renderUpdate?(.done(id: id))
             }
+            .id(extendedDynamicRange) // XDR force update
         }
         .aspectRatio(graphic.resolution, contentMode: .fit)
         .onChange(of: graphic) { _, newGraphic in
