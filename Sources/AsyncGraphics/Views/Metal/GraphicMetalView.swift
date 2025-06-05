@@ -180,7 +180,7 @@ extension GraphicMetalView {
         Task {
             guard let graphic = graphic else { return }
             guard let drawable = currentDrawable else { return }
-            guard let commandQueue = await Renderer.commandQueue() else { return }
+            guard let commandQueue else { return }
             guard let commandBuffer = commandQueue.makeCommandBuffer() else { return }
 
             let passDescriptor = MTLRenderPassDescriptor()

@@ -98,43 +98,57 @@ public struct Renderer {
         customMetalLibrary ?? defaultMetalLibrary
     }
     
-    private struct CommandQueuePack: Sendable {
-        let id: UUID
-        let commandQueue: MTLCommandQueue
-        static let maxUseCount: Int = 64
-        var useCount: Int = 0
-    }
-    
-    @RenderActor
-    private static var storedCommandQueuePacks: [CommandQueuePack] = []
     @RenderActor
     static var storedRenderPipelines: [PipelineProxy: MTLRenderPipelineState] = [:]
     @RenderActor
     static var storedComputePipelines: [Pipeline3DProxy: MTLComputePipelineState] = [:]
     static let storedVertexQuadBuffer: MTLBuffer? = try? makeVertexQuadBuffer()
     
-    @RenderActor
-    public static func commandQueue(_ useCallback: ((@RenderActor @escaping () -> Void) -> Void)? = nil) -> MTLCommandQueue? {
-        if optimization.contains(.cacheCommandQueue), let useCallback {
-            if storedCommandQueuePacks.isEmpty || !storedCommandQueuePacks.contains(where: { $0.useCount < CommandQueuePack.maxUseCount }) {
-                guard let commandQueue: MTLCommandQueue = metalDevice.makeCommandQueue() else { return nil }
-                let pack = CommandQueuePack(id: UUID(), commandQueue: commandQueue)
-                storedCommandQueuePacks.append(pack)
-            }
-            guard let packIndex: Int = storedCommandQueuePacks.firstIndex(where: { $0.useCount < CommandQueuePack.maxUseCount }) else { return nil }
-            storedCommandQueuePacks[packIndex].useCount += 1
-            let packID: UUID = storedCommandQueuePacks[packIndex].id
-            useCallback {
-                guard let packIndex: Int = storedCommandQueuePacks.firstIndex(where: { $0.id == packID }) else { return }
-                storedCommandQueuePacks[packIndex].useCount -= 1
-                if storedCommandQueuePacks[packIndex].useCount == 0 {
-                    storedCommandQueuePacks.remove(at: packIndex)
-                }
-            }
-            return storedCommandQueuePacks[packIndex].commandQueue
-        } else {
-            return metalDevice.makeCommandQueue()
+    actor CommandQueueActor {
+        
+        private struct Pack: Sendable {
+            let id: UUID
+            let commandQueue: MTLCommandQueue
+            static let maxUseCount: Int = 64
+            var useCount: Int = 0
         }
+        
+        private var packs: [Pack] = []
+        
+        func use() -> (UUID, MTLCommandQueue)? {
+            if packs.isEmpty || !packs.contains(where: { $0.useCount < Pack.maxUseCount }) {
+                guard let commandQueue: MTLCommandQueue = metalDevice.makeCommandQueue() else { return nil }
+                let pack = Pack(id: UUID(), commandQueue: commandQueue)
+                packs.append(pack)
+            }
+            guard let packIndex: Int = packs.firstIndex(where: { $0.useCount < Pack.maxUseCount }) else { return nil }
+            packs[packIndex].useCount += 1
+            let packID: UUID = packs[packIndex].id
+            let commandQueue: MTLCommandQueue = packs[packIndex].commandQueue
+            return (packID, commandQueue)
+        }
+        
+        func used(id: UUID) {
+            guard let packIndex: Int = packs.firstIndex(where: { $0.id == id }) else { return }
+            packs[packIndex].useCount -= 1
+            if packs[packIndex].useCount == 0 {
+                packs.remove(at: packIndex)
+            }
+        }
+    }
+    static let commandQueueActor = CommandQueueActor()
+    
+    public static func useCommandQueue() async -> (UUID?, MTLCommandQueue?) {
+        if await optimization.contains(.cacheCommandQueue) {
+            guard let (id, commandQueue) = await commandQueueActor.use() else { return (nil, nil) }
+            return (id, commandQueue)
+        } else {
+            return (nil, metalDevice.makeCommandQueue())
+        }
+    }
+    
+    public static func usedCommandQueue(id: UUID) async {
+        await commandQueueActor.used(id: id)
     }
     
     /// Basic
@@ -441,18 +455,19 @@ public struct Renderer {
             depthTexture = metalDevice.makeTexture(descriptor: depthTextureDescriptor)
         }
         
-        var commandQueueDone: (@RenderActor () -> Void)?
-        guard let commandQueue: MTLCommandQueue = await commandQueue({
-            commandQueueDone = $0
-        }) else {
+        let (commandQueueID, commandQueue): (UUID?, MTLCommandQueue?) = await useCommandQueue()
+        guard let commandQueue else {
             throw RendererError.failedToMakeCommandQueue
         }
-        
         guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {
-            await commandQueueDone?()
+            if let commandQueueID: UUID {
+                await usedCommandQueue(id: commandQueueID)
+            }
             throw RendererError.failedToMakeCommandBuffer
         }
-        await commandQueueDone?()
+        if let commandQueueID: UUID {
+            await usedCommandQueue(id: commandQueueID)
+        }
         
         let commandEncoder: MTLCommandEncoder
         if !is3D {
