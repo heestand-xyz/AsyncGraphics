@@ -7,9 +7,10 @@ public struct AGZStack: AGParentGraph {
     let graphs: [any AGGraph]
     
     let alignment: Graphic.ZStackAlignment
-    
+
+    @MainActor 
     public init(alignment: Graphic.ZStackAlignment = .center,
-                @AGGraphBuilder with graphs: @escaping () -> [any AGGraph]) {
+                @AGGraphBuilder with graphs: @MainActor @escaping () -> [any AGGraph]) {
         self.alignment = alignment
         self.graphs = graphs()
     }

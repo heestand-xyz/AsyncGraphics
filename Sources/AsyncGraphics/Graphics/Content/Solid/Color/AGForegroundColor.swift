@@ -6,7 +6,11 @@ extension AGGraph {
     
     @available(iOS 14, macOS 11, *)
     public func foregroundColor(_ color: Color) -> AGForegroundColor {
-        AGForegroundColor(graph: self, color: PixelColor(color))
+        foregroundColor(PixelColor(color))
+    }
+
+    public func foregroundColor(_ pixelColor: PixelColor) -> AGForegroundColor {
+        AGForegroundColor(graph: self, color: pixelColor)
     }
 }
 

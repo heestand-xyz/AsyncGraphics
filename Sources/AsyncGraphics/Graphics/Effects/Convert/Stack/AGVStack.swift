@@ -12,7 +12,7 @@ public struct AGVStack: AGParentGraph {
     @MainActor
     public init(alignment: Graphic.VStackAlignment = .center,
                 spacing: CGFloat = 8,
-                @AGGraphBuilder with graphs: @escaping () -> [any AGGraph]) {
+                @AGGraphBuilder with graphs: @MainActor @escaping () -> [any AGGraph]) {
         self.alignment = alignment
         self.spacing = spacing * .pixelsPerPoint
         self.graphs = graphs()

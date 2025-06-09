@@ -10,8 +10,9 @@ public struct AGView: View {
     @State private var renderer = AGGraphRenderer()
     
     private let graph: () -> any AGGraph
-    
-    public init(_ graph: @escaping () -> any AGGraph) {
+
+    @MainActor
+    public init(_ graph: @MainActor @escaping () -> any AGGraph) {
         self.graph = graph
     }
     
