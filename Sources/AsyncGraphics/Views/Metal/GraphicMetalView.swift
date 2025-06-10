@@ -213,7 +213,9 @@ extension GraphicMetalView {
                 
                 encoder.endEncoding()
                 commandBuffer.addCompletedHandler { [weak self] _ in
-                    self?.didRender(graphic.id)
+                    Task { @MainActor in
+                        self?.didRender(graphic.id)
+                    }
                 }
                 commandBuffer.present(drawable)
                 commandBuffer.commit()
