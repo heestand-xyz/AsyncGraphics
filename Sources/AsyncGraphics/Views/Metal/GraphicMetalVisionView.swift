@@ -149,8 +149,10 @@ extension GraphicMetalVisionView {
         }
         
         commandBuffer.addCompletedHandler { [weak self] _ in
-            self?.didRender(graphic.id)
-            completion(true)
+            Task { @MainActor in
+                self?.didRender(graphic.id)
+                completion(true)
+            }
             return
         }
         commandBuffer.present(drawable)
