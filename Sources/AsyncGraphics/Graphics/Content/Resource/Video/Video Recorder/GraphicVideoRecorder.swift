@@ -27,7 +27,7 @@ public actor GraphicVideoRecorder: GraphicVideoRecordable {
     }
     var av: AV?
     
-    private let fps: Double
+    private let fps: Double?
     private let kbps: Int
     
     public enum VideoCodec: String, CaseIterable, Sendable {
@@ -83,6 +83,7 @@ public actor GraphicVideoRecorder: GraphicVideoRecordable {
         case writerFailed
         case appendFailed
         case currentlyAppending
+        case noFrameRateProvided
         
         var errorDescription: String? {
             switch self {
@@ -104,11 +105,13 @@ public actor GraphicVideoRecorder: GraphicVideoRecordable {
                 return "AsyncGraphics - GraphicVideoRecorder - Append Failed"
             case .currentlyAppending:
                 return "AsyncGraphics - GraphicVideoRecorder - Currently Appending"
+            case .noFrameRateProvided:
+                return "AsyncGraphics - GraphicVideoRecorder - No Frame Rate (FPS) Provided"
             }
         }
     }
 
-    public init(fps: Double = 30.0, kbps: Int = 10_000, format: VideoFormat = .mov, codec: VideoCodec = .hevc, resolution: CGSize) {
+    public init(fps: Double? = 30.0, kbps: Int = 10_000, format: VideoFormat = .mov, codec: VideoCodec = .hevc, resolution: CGSize) {
         self.fps = fps
         self.kbps = kbps
         self.format = format
@@ -162,6 +165,19 @@ public actor GraphicVideoRecorder: GraphicVideoRecordable {
     }
     
     public func append(graphic: Graphic) async throws {
+        guard let fps else {
+            throw RecordError.noFrameRateProvided
+        }
+        let time: CMTime = CMTimeMake(value: Int64(frameIndex * 1_000), timescale: Int32(fps * 1_000))
+        try await append(graphic: graphic, at: time)
+    }
+    
+    public func append(graphic: Graphic, at time: TimeInterval) async throws {
+        let time: CMTime = CMTimeMake(value: Int64(time * 1_000), timescale: Int32(1_000))
+        try await append(graphic: graphic, at: time)
+    }
+    
+    public func append(graphic: Graphic, at time: CMTime) async throws {
         
         if stopping { return }
         if !recording { return }
@@ -198,8 +214,6 @@ public actor GraphicVideoRecorder: GraphicVideoRecordable {
 
         let pixelBuffer: CVPixelBuffer = try TextureMap.pixelBuffer(texture: graphic.texture, colorSpace: graphic.colorSpace)
         
-        let time: CMTime = CMTimeMake(value: Int64(frameIndex * 1_000), timescale: Int32(fps * 1_000.0))
-
         guard av.adaptor.append(pixelBuffer, withPresentationTime: time) else {
             throw RecordError.appendFailed
         }
