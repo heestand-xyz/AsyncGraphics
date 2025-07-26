@@ -17,6 +17,7 @@ public enum ColorEffectGraphicType: String, CodableGraphicTypeProtocol {
     case saliency
     case slope
     case threshold
+    case bayerDither
 }
 
 extension ColorEffectGraphicType {
@@ -51,6 +52,8 @@ extension ColorEffectGraphicType {
             "righttriangle"
         case .threshold:
             "circle.lefthalf.filled"
+        case .bayerDither:
+            "circle.bottomrighthalf.pattern.checkered"
         }
     }
 }
@@ -87,6 +90,8 @@ extension ColorEffectGraphicType {
                 .advanced
         case .threshold:
                 .basic
+        case .bayerDither:
+                .advanced
         }
     }
 }

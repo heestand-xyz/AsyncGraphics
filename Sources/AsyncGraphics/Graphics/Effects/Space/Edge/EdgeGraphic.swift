@@ -15,8 +15,7 @@ extension CodableGraphic.Effect.Space {
                                                                maximum: .fixed(2.0))
         
         public var distance: GraphicMetadata<CGFloat> = .init(value: .one,
-                                                              maximum: .fixed(2.0),
-                                                              options: .spatial)
+                                                              maximum: .fixed(2.0))
                 
         public var isColored: GraphicMetadata<Bool> = .init(value: .fixed(false))
         
