@@ -471,17 +471,6 @@
         }
       }
     },
-    "graphic.effect.space.bayerDither" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bayer Dither"
-          }
-        }
-      }
-    },
     "graphic.effect.space.blur" : {
       "localizations" : {
         "en" : {
@@ -2588,6 +2577,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Transparent"
+          }
+        }
+      }
+    },
+    "property.keepResolution" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep Resolution"
           }
         }
       }

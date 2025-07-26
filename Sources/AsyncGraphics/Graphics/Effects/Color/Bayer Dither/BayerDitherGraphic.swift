@@ -20,7 +20,7 @@ extension CodableGraphic.Effect.Color {
         
         public var levels: GraphicMetadata<Int> = .init(value: .fixed(2),
                                                         minimum: .fixed(2),
-                                                        maximum: .fixed(256))
+                                                        maximum: .fixed(10))
         
         public var monochrome: GraphicMetadata<Bool> = .init(value: .fixed(false))
         

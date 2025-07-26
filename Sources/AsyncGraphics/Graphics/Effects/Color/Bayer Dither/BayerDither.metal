@@ -43,10 +43,12 @@ fragment float4 bayerDither(VertexOut out [[stage_in]],
     
     if (uniforms.monochrome) {
         float luminance = dot(color.rgb, float3(0.299, 0.587, 0.114));
-        float quant = floor(luminance * uniforms.levels + threshold) / (uniforms.levels - 1);
+        float bias = (threshold - 0.5) * uniforms.strength;
+        float quant = floor(luminance * uniforms.levels + bias) / (uniforms.levels - 1);
         return float4(float3(quant), color.a);
     } else {
-        float3 quantized = floor(color.rgb * uniforms.levels + threshold) / (uniforms.levels - 1);
+        float3 bias = (threshold - 0.5) * uniforms.strength;
+        float3 quantized = floor(color.rgb * uniforms.levels + bias) / (uniforms.levels - 1);
         return float4(quantized, color.a);
     }
 }
