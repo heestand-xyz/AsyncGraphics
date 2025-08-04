@@ -1841,6 +1841,18 @@
         }
       }
     },
+    "option.opticalFlowAccuracy.high" : {
+
+    },
+    "option.opticalFlowAccuracy.low" : {
+
+    },
+    "option.opticalFlowAccuracy.medium" : {
+
+    },
+    "option.opticalFlowAccuracy.veryHigh" : {
+
+    },
     "option.placement.fill" : {
       "localizations" : {
         "en" : {

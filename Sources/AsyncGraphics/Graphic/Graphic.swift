@@ -201,7 +201,7 @@ extension Graphic {
     
     public var pixelBuffer: CVPixelBuffer {
         get throws {
-            try TextureMap.pixelBuffer(texture: texture, colorSpace: colorSpace)
+            try TextureMap.pixelBuffer(texture: texture)
         }
     }
     
