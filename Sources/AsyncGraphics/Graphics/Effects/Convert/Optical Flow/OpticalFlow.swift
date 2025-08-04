@@ -5,9 +5,6 @@
 //  Created by Anton Heestand on 2025-08-04.
 //
 
-// FIXME: `VNGenerateOpticalFlowRequest` is technically supported on macOS, tho crashes on `try handler.perform([request])`.
-#if !os(macOS)
-
 import Vision
 import TextureMap
 import CoreVideo
@@ -40,6 +37,8 @@ extension Graphic {
         }
     }
     
+    // FIXME: `VNGenerateOpticalFlowRequest` is technically supported on macOS, tho crashes on `try handler.perform([request])`.
+#if !os(macOS)
     public static func opticalFlow(
         withPrevious source: Graphic,
         withCurrent target: Graphic,
@@ -70,6 +69,5 @@ extension Graphic {
         )
         .channelMix(red: .red, green: .green, blue: .zero, alpha: .one)
     }
-}
-
 #endif
+}
