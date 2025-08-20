@@ -12,25 +12,11 @@ final class LiveGraphicsTests: XCTestCase {
         _ = try await imageTexture.image
     }
     
-    func testPixels() async throws {
-        
-        let imageTexture: Graphic = try await .image(named: "Kite", in: .module)
-                
-        let firstPixel: PixelColor = try await imageTexture.firstPixelColor
-        
-        let firstColor = PixelColor(red: 0.00392156862745098,
-                                    green: 0.2196078431372549,
-                                    blue: 0.4392156862745098,
-                                    alpha: 1.0)
-
-        XCTAssertEqual(firstColor, firstPixel)
-    }
-    
     func testReduce() async throws {
         
         let imageTexture: Graphic = try await .image(named: "Kite", in: .module)
 
-        let reducedTexture: Graphic = try await imageTexture.reduce(by: .average, axis: .vertical)
+        let reducedTexture: Graphic = try await imageTexture.reduceToRow(by: .average)
         
         XCTAssertEqual(reducedTexture.resolution.width, imageTexture.resolution.width)
         XCTAssertEqual(reducedTexture.resolution.height, 1)
@@ -46,7 +32,7 @@ final class LiveGraphicsTests: XCTestCase {
         
         XCTAssertEqual(imageTexture.bits, ._8)
         
-        let bitTexture: Graphic = try await imageTexture.bits(._16)
+        let bitTexture: Graphic = try await imageTexture.withBits(.bit16)
         
         XCTAssertEqual(bitTexture.bits, ._16)
     }

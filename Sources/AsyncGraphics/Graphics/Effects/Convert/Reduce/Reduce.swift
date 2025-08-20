@@ -2,7 +2,7 @@
 //  Created by Anton Heestand on 2022-04-02.
 //
 
-import MetalPerformanceShaders
+@preconcurrency import MetalPerformanceShaders
 import TextureMap
 import PixelColor
 
@@ -75,7 +75,7 @@ extension Graphic {
                 
                 kernel.encode(commandBuffer: commandBuffer, sourceTexture: self.texture, destinationTexture: texture)
                 
-                commandBuffer.addCompletedHandler { _ in
+                commandBuffer.addCompletedHandler { [texture] _ in
                     
                     continuation.resume(returning: texture.send())
                 }

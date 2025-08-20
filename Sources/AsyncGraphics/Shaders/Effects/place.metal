@@ -58,7 +58,6 @@ float2 translationScale(int place, uint leadingWidth, uint leadingHeight, uint t
     float leadingAspect = float(leadingWidth) / float(leadingHeight);
     float trailingAspect = float(trailingWidth) / float(trailingHeight);
     
-    float unit = 1.0;
     float2 scale = 1.0;
     
     switch (place) {

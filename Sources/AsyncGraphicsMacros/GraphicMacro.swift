@@ -46,8 +46,7 @@ public struct GraphicMacro: MemberMacro, MemberAttributeMacro {
         
         var variables: [String] = []
         for member in block.members {
-            guard let item = member.as(MemberBlockItemSyntax.self)?.decl,
-                  let variable = item.as(VariableDeclSyntax.self)?.bindings.first,
+            guard let variable = member.decl.as(VariableDeclSyntax.self)?.bindings.first,
                   let id = variable.pattern.as(IdentifierPatternSyntax.self) else {
                 continue
             }

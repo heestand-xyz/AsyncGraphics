@@ -38,11 +38,10 @@ public struct GraphicTypeMacro: MemberMacro {
         
         var enumCases: [String] = []
         for member in block.members {
-            guard let item = member.as(MemberBlockItemSyntax.self)?.decl,
-                  let enumCase = item.as(EnumCaseDeclSyntax.self)?.elements.first,
-                  let name = enumCase.as(EnumCaseElementSyntax.self)?.name.text else {
+            guard let enumCase = member.decl.as(EnumCaseDeclSyntax.self)?.elements.first else {
                 continue
             }
+            let name: String = enumCase.name.text
             enumCases.append(name)
         }
         

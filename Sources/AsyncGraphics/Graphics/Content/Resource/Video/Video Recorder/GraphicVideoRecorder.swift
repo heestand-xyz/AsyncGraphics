@@ -19,7 +19,7 @@ public typealias GraphicRecorder = GraphicVideoRecorder
 /// > All appended ``Graphic``s need to have the same resolution.
 public actor GraphicVideoRecorder: GraphicVideoRecordable {
     
-    struct AV: Sendable {
+    struct AV: @unchecked Sendable {
         let writer: AVAssetWriter
         let input: AVAssetWriterInput
         let adaptor: AVAssetWriterInputPixelBufferAdaptor
@@ -212,7 +212,7 @@ public actor GraphicVideoRecorder: GraphicVideoRecordable {
             .mirroredVertically()
             .channelMix(red: .blue, blue: .red)
 
-        let pixelBuffer: CVPixelBuffer = try TextureMap.pixelBuffer(texture: graphic.texture, colorSpace: graphic.colorSpace)
+        let pixelBuffer: CVPixelBuffer = try TextureMap.pixelBuffer(texture: graphic.texture)
         
         guard av.adaptor.append(pixelBuffer, withPresentationTime: time) else {
             throw RecordError.appendFailed

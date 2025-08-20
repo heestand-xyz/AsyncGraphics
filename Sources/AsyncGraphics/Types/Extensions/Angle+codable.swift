@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension Angle: Codable {
+extension Angle: @retroactive Decodable, @retroactive Encodable {
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
