@@ -7,7 +7,7 @@ import PixelColor
 
 extension Graphic3D {
     
-    private struct Displace3DUniforms {
+    private struct Displace3DUniforms: Uniforms {
         let offset: Float
         let origin: VectorUniform
         let placement: UInt32

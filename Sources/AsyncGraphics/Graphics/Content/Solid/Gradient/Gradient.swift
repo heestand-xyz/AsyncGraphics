@@ -8,7 +8,7 @@ import PixelColor
 
 extension Graphic {
     
-    private struct GradientUniforms {
+    private struct GradientUniforms: Uniforms {
         let type: UInt32
         let extend: UInt32
         let scale: Float
@@ -21,7 +21,7 @@ extension Graphic {
         let tileSize: SizeUniform
     }
     
-    struct GradientColorStopUniforms {
+    struct GradientColorStopUniforms: Uniforms {
         let fraction: Float
         let color: ColorUniform
     }

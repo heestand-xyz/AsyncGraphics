@@ -4,7 +4,7 @@
 
 extension Graphic {
     
-    private struct BlendsUniforms {
+    private struct BlendsUniforms: Uniforms {
         let mode: Int
     }
     

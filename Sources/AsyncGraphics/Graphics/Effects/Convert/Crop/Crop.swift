@@ -9,7 +9,7 @@ import PixelColor
 
 extension Graphic {
     
-    private struct CropUniforms {
+    private struct CropUniforms: Uniforms {
         let origin: PointUniform
         let size: SizeUniform
     }

@@ -12,7 +12,7 @@ import TextureMap
 
 extension Graphic3D {
     
-    private struct Blur3DUniforms {
+    private struct Blur3DUniforms: Uniforms {
         let type: UInt32
         let radius: Float
         let count: UInt32

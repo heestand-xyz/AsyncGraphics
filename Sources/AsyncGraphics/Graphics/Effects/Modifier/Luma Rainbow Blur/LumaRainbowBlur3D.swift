@@ -12,7 +12,7 @@ import TextureMap
 
 extension Graphic3D {
     
-    private struct LumaRainbowBlur3DUniforms {
+    private struct LumaRainbowBlur3DUniforms: Uniforms {
         let type: UInt32
         let placement: UInt32
         let count: UInt32

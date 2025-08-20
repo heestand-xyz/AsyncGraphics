@@ -3,7 +3,7 @@ import PixelColor
 
 extension Graphic {
     
-    private struct InspectUniforms {
+    private struct InspectUniforms: Uniforms {
         let checkerTransparency: Bool
         let checkerSize: Float
         let checkerOpacity: Float

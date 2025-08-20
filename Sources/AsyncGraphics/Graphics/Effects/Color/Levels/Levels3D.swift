@@ -6,7 +6,7 @@ import CoreGraphics
 
 extension Graphic3D {
     
-    private struct Levels3DUniforms {
+    private struct Levels3DUniforms: Uniforms {
         let brightness: Float
         let darkness: Float
         let contrast: Float

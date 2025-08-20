@@ -9,7 +9,7 @@ import PixelColor
 
 extension Graphic {
     
-    private struct PolygonUniforms {
+    private struct PolygonUniforms: Uniforms {
         let radius: Float
         let position: PointUniform
         let rotation: Float

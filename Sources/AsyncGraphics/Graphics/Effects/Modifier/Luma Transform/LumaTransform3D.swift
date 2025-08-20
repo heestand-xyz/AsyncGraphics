@@ -7,7 +7,7 @@ import Spatial
 
 extension Graphic3D {
     
-    private struct LumaTransform3DUniforms {
+    private struct LumaTransform3DUniforms: Uniforms {
         let placement: UInt32
         let translation: VectorUniform
         let rotation: VectorUniform

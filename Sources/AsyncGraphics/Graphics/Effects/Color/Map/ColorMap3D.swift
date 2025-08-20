@@ -6,7 +6,7 @@ import PixelColor
 
 extension Graphic3D {
     
-    private struct ColorMap3DUniforms {
+    private struct ColorMap3DUniforms: Uniforms {
         let backgroundColor: ColorUniform
         let foregroundColor: ColorUniform
     }

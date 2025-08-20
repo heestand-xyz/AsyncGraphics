@@ -7,7 +7,7 @@ import PixelColor
 
 extension Graphic3D {
     
-    private struct Cylinder3DUniforms {
+    private struct Cylinder3DUniforms: Uniforms {
         let axis: UInt32
         let premultiply: Bool
         let antiAlias: Bool

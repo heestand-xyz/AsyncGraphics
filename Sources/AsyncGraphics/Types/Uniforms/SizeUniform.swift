@@ -4,7 +4,7 @@
 
 import CoreGraphics
 
-struct SizeUniform {
+struct SizeUniform: Uniforms {
     
     let width: Float
     let height: Float

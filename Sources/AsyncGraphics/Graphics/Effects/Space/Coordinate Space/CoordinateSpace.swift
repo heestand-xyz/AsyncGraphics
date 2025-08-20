@@ -6,7 +6,7 @@ import CoreGraphics
 
 extension Graphic {
     
-    private struct CoordinateSpaceUniforms {
+    private struct CoordinateSpaceUniforms: Uniforms {
         let conversion: UInt32
         let rotationX: Float
         let rotationY: Float

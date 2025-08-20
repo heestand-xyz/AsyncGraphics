@@ -6,7 +6,7 @@ import CoreGraphics
 
 extension Graphic {
     
-    private struct LevelsUniforms {
+    private struct LevelsUniforms: Uniforms {
         let brightness: Float
         let darkness: Float
         let contrast: Float

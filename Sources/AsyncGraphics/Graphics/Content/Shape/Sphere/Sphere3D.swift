@@ -7,7 +7,7 @@ import PixelColor
 
 extension Graphic3D {
     
-    private struct Sphere3DUniforms {
+    private struct Sphere3DUniforms: Uniforms {
         let premultiply: Bool
         let antiAlias: Bool
         let radius: Float

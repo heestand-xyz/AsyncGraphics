@@ -7,7 +7,7 @@ import PixelColor
 
 extension Graphic {
     
-    private struct ColorMapUniforms {
+    private struct ColorMapUniforms: Uniforms {
         let backgroundColor: ColorUniform
         let foregroundColor: ColorUniform
     }

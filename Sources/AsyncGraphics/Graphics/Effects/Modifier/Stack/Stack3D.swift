@@ -9,7 +9,7 @@ import PixelColor
 
 extension Graphic3D {
     
-    private struct Stack3DUniforms {
+    private struct Stack3DUniforms: Uniforms {
         let backgroundColor: ColorUniform
         let leadingCenter: VectorUniform
         let leadingSize: VectorUniform

@@ -10,7 +10,7 @@ import CoreGraphicsExtensions
 
 extension Graphic {
     
-    private struct ResolutionUniforms {
+    private struct ResolutionUniforms: Uniforms {
         let placement: Int32
         let outputResolution: SizeUniform
     }

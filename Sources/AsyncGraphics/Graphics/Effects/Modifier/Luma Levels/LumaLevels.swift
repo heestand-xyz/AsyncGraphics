@@ -8,7 +8,7 @@ import PixelColor
 
 extension Graphic {
     
-    private struct LumaLevelsUniforms {
+    private struct LumaLevelsUniforms: Uniforms {
         let placement: UInt32
         let brightness: Float
         let darkness: Float

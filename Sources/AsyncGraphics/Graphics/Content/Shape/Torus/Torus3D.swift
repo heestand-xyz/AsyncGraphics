@@ -7,7 +7,7 @@ import PixelColor
 
 extension Graphic3D {
     
-    private struct Torus3DUniforms {
+    private struct Torus3DUniforms: Uniforms {
         let axis: UInt32
         let premultiply: Bool
         let antiAlias: Bool

@@ -8,7 +8,7 @@ import CoreGraphicsExtensions
 
 extension Graphic {
     
-    private struct KaleidoscopeUniforms {
+    private struct KaleidoscopeUniforms: Uniforms {
         let mirror: Bool
         let divisions: UInt32
         let rotation: Float

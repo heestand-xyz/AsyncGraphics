@@ -2,7 +2,7 @@ import Foundation
 
 extension Graphic {
     
-    private struct ABStackUniforms {
+    private struct ABStackUniforms: Uniforms {
         let axis: Int32
         let alignment: Int32
         let spacing: Float

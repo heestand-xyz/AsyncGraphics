@@ -8,7 +8,7 @@ import PixelColor
 
 extension Graphic {
     
-    private struct GradientLookupUniforms {
+    private struct GradientLookupUniforms: Uniforms {
         let gamma: Float
     }
     

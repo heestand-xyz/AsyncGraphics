@@ -10,7 +10,7 @@ import PixelColor
 
 extension Graphic {
     
-    private struct FloodFillUniforms {
+    private struct FloodFillUniforms: Uniforms {
         let seedColor: ColorUniform
         let foregroundColor: ColorUniform
         let backgroundColor: ColorUniform

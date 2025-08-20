@@ -7,7 +7,7 @@ import SwiftUI
 
 extension Graphic {
     
-    private struct PolarUniforms {
+    private struct PolarUniforms: Uniforms {
         let radius: Float
         let width: Float
         let leadingAngle: Float

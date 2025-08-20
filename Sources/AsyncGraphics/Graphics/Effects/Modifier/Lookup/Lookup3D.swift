@@ -8,7 +8,7 @@ import PixelColor
 
 extension Graphic3D {
     
-    private struct Lookup3DUniforms {
+    private struct Lookup3DUniforms: Uniforms {
         let axis: UInt32
         let holdEdge: Bool
         let holdEdgeFraction: Float

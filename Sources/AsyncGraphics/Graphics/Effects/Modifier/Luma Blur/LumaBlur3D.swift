@@ -9,7 +9,7 @@ import CoreGraphicsExtensions
 
 extension Graphic3D {
     
-    private struct LumaBlur3DUniforms {
+    private struct LumaBlur3DUniforms: Uniforms {
         let type: UInt32
         let placement: UInt32
         let count: UInt32

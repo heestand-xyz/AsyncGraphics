@@ -9,7 +9,7 @@ import CoreGraphics
 
 extension Graphic {
     
-    private struct BayerDitherUniforms {
+    private struct BayerDitherUniforms: Uniforms {
         let monochrome: Bool
         let levels: UInt32
         let strength: Float

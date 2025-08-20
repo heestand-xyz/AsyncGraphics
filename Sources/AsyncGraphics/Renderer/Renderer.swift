@@ -152,7 +152,7 @@ public struct Renderer {
     }
     
     /// Basic
-    static func render<U, G: Graphicable>(
+    static func render<U: Uniforms, G: Graphicable>(
         name: String,
         shader: Shader,
         graphics: [Graphicable] = [],
@@ -175,7 +175,7 @@ public struct Renderer {
     }
     
     /// Array
-    static func render<U, AU, G: Graphicable>(
+    static func render<U: Uniforms, AU, G: Graphicable>(
         name: String,
         shader: Shader,
         graphics: [Graphicable] = [],
@@ -200,7 +200,7 @@ public struct Renderer {
     }
     
     /// Camera
-    static func render<U>(
+    static func render<U: Uniforms>(
         name: String,
         shader: Shader,
         graphics: [Graphicable] = [],
@@ -259,7 +259,7 @@ public struct Renderer {
     }
     
     /// Vertex
-    static func render<U, VU, G: Graphicable>(
+    static func render<U: Uniforms, VU: Uniforms, G: Graphicable>(
         name: String,
         shader: Shader,
         graphics: [Graphicable] = [],
@@ -285,7 +285,7 @@ public struct Renderer {
     }
     
     /// **Main** with static uniforms buffer
-    private static func render<U, AU, VU, G: Graphicable>(
+    private static func render<U: Uniforms, AU, VU: Uniforms, G: Graphicable>(
         name: String,
         shader: Shader,
         graphics: [Graphicable] = [],

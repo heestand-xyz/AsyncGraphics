@@ -9,7 +9,7 @@ import PixelColor
 
 extension Graphic {
     
-    private struct SampleLineUniforms {
+    private struct SampleLineUniforms: Uniforms {
         let sampleDistance: Float
         let leadingPoint: PointUniform
         let trailingPoint: PointUniform

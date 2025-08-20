@@ -11,7 +11,7 @@ import TextureMap
 
 extension Graphic {
     
-    private struct RainbowBlurUniforms {
+    private struct RainbowBlurUniforms: Uniforms {
         let type: UInt32
         let count: UInt32
         let radius: Float

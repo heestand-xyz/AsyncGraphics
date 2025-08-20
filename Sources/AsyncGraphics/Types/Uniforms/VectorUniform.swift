@@ -5,7 +5,7 @@
 import Spatial
 import SpatialExtensions
 
-struct VectorUniform {
+struct VectorUniform: Uniforms {
     
     let x: Float
     let y: Float

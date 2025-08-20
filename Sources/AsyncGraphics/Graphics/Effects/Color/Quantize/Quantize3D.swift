@@ -6,7 +6,7 @@ import CoreGraphics
 
 extension Graphic3D {
     
-    private struct Quantize3DUniforms {
+    private struct Quantize3DUniforms: Uniforms {
         let fraction: Float
     }
     

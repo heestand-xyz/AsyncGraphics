@@ -4,7 +4,7 @@ import TextureMap
 
 extension Graphic {
     
-    private struct LUTUniforms {
+    private struct LUTUniforms: Uniforms {
         let count: Int32
     }
     

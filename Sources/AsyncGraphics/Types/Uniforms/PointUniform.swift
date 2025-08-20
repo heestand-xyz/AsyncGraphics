@@ -4,7 +4,7 @@
 
 import CoreGraphics
 
-struct PointUniform {
+struct PointUniform: Uniforms {
     
     let x: Float
     let y: Float

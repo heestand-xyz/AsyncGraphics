@@ -7,7 +7,7 @@ import PixelColor
 
 extension Graphic {
     
-    private struct ThresholdUniforms {
+    private struct ThresholdUniforms: Uniforms {
         let fraction: Float
         let foregroundColor: ColorUniform
         let backgroundColor: ColorUniform

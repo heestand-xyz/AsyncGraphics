@@ -7,7 +7,7 @@ import PixelColor
 
 extension Graphic {
     
-    private struct ChromaKeyUniforms {
+    private struct ChromaKeyUniforms: Uniforms {
         let premultiply: Bool
         let keyColor: ColorUniform
         let range: Float

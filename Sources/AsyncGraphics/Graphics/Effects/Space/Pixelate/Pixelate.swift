@@ -6,7 +6,7 @@ import CoreGraphics
 
 extension Graphic {
     
-    private struct PixelateUniforms {
+    private struct PixelateUniforms: Uniforms {
         let fraction: Float
     }
     

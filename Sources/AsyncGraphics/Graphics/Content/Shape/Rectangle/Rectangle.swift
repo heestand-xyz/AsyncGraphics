@@ -8,7 +8,7 @@ import PixelColor
 
 extension Graphic {
     
-    private struct RectangleUniforms {
+    private struct RectangleUniforms: Uniforms {
         let premultiply: Bool
         let antiAlias: Bool
         let size: SizeUniform

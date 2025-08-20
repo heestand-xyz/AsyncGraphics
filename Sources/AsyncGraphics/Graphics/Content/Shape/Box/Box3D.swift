@@ -7,7 +7,7 @@ import PixelColor
 
 extension Graphic3D {
     
-    private struct Box3DUniforms {
+    private struct Box3DUniforms: Uniforms {
         let premultiply: Bool
         let antiAlias: Bool
         let size: VectorUniform

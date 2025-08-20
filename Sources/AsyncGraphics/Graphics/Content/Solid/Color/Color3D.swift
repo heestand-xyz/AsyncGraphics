@@ -9,7 +9,7 @@ import PixelColor
 
 extension Graphic3D {
     
-    private struct Color3DUniforms {
+    private struct Color3DUniforms: Uniforms {
         let premultiply: Bool
         let color: ColorUniform
     }

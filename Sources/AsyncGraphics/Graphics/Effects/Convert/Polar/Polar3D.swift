@@ -7,7 +7,7 @@ import SwiftUI
 
 extension Graphic3D {
     
-    private struct Polar3DUniforms {
+    private struct Polar3DUniforms: Uniforms {
         let radius: Float
     }
     

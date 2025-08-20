@@ -10,7 +10,7 @@ import PixelColor
 
 extension Graphic3D {
     
-    private struct Crop3DUniforms {
+    private struct Crop3DUniforms: Uniforms {
         let origin: VectorUniform
         let size: VectorUniform
     }

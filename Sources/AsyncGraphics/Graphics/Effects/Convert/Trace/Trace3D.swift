@@ -6,7 +6,7 @@ import CoreGraphics
 
 extension Graphic3D {
     
-    private struct Trace3DUniforms {
+    private struct Trace3DUniforms: Uniforms {
         let reversed: Bool
         let alphaThreshold: Float
         let axis: UInt32

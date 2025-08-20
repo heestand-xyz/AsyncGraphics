@@ -8,7 +8,7 @@ import PixelColor
 
 extension Graphic {
     
-    private struct RemapUniforms {
+    private struct RemapUniforms: Uniforms {
         var thing: Bool = false
     }
     

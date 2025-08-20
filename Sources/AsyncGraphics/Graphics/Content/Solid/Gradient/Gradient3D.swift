@@ -9,7 +9,7 @@ import PixelColor
 
 extension Graphic3D {
     
-    private struct Gradient3DUniforms {
+    private struct Gradient3DUniforms: Uniforms {
         let type: UInt32
         let extend: UInt32
         let scale: Float

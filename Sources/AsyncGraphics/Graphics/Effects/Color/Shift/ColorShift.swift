@@ -8,7 +8,7 @@ import SwiftUI
 
 extension Graphic {
     
-    private struct ColorShiftUniforms {
+    private struct ColorShiftUniforms: Uniforms {
         let hue: Float
         let saturation: Float
         let tintColor: ColorUniform

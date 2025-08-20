@@ -6,7 +6,7 @@ import CoreGraphics
 
 extension Graphic {
     
-    private struct EdgeUniforms {
+    private struct EdgeUniforms: Uniforms {
         let isColored: Bool
         let isTransparent: Bool
         let includeAlpha: Bool

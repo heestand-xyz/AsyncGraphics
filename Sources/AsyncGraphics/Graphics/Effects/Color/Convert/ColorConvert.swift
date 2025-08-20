@@ -8,7 +8,7 @@ import SwiftUI
 
 extension Graphic {
     
-    private struct ColorConvertUniforms {
+    private struct ColorConvertUniforms: Uniforms {
         let conversion: UInt32
         let index: UInt32
     }

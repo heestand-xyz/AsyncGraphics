@@ -8,7 +8,7 @@ import PixelColor
 
 extension Graphic {
     
-    private struct LumaColorShiftUniforms {
+    private struct LumaColorShiftUniforms: Uniforms {
         let placement: UInt32
         let hue: Float
         let saturation: Float

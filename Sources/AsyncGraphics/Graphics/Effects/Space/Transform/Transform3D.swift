@@ -8,7 +8,7 @@ import SwiftUI
 
 extension Graphic3D {
     
-    private struct Transform3DUniforms {
+    private struct Transform3DUniforms: Uniforms {
         let translation: VectorUniform
         let rotation: VectorUniform
         let scale: Float

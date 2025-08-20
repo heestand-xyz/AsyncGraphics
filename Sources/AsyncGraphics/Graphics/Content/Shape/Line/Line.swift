@@ -9,7 +9,7 @@ import PixelColor
 
 extension Graphic {
     
-    private struct LineUniforms {
+    private struct LineUniforms: Uniforms {
         let premultiply: Bool
         let cap: UInt32
         let lineWidth: Float

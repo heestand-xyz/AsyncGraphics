@@ -8,7 +8,7 @@ import CoreGraphicsExtensions
 
 extension Graphic {
     
-    private struct TransformUniforms {
+    private struct TransformUniforms: Uniforms {
         let translation: PointUniform
         let rotation: Float
         let scale: Float

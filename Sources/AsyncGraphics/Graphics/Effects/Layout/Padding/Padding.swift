@@ -3,7 +3,7 @@ import PixelColor
 
 extension Graphic {
     
-    private struct PaddingUniforms {
+    private struct PaddingUniforms: Uniforms {
         let onLeading: Bool
         let onTrailing: Bool
         let onTop: Bool

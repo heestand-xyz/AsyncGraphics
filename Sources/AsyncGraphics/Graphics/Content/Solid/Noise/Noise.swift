@@ -7,7 +7,7 @@ import CoreGraphicsExtensions
 
 extension Graphic {
     
-    private struct NoiseUniforms {
+    private struct NoiseUniforms: Uniforms {
         let seed: Int32
         let octaves: UInt32
         let position: VectorUniform

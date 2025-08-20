@@ -8,7 +8,7 @@ import CoreGraphicsExtensions
 
 extension Graphic {
     
-    private struct BlendUniforms {
+    private struct BlendUniforms: Uniforms {
         let blendingMode: Int32
         let placement: Int32
         let offset: PointUniform

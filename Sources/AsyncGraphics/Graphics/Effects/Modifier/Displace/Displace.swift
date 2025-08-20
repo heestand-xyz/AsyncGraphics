@@ -8,7 +8,7 @@ import PixelColor
 
 extension Graphic {
     
-    private struct DisplaceUniforms {
+    private struct DisplaceUniforms: Uniforms {
         let offset: Float
         let origin: PointUniform
         let placement: UInt32

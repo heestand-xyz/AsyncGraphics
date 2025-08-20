@@ -8,7 +8,7 @@ import SwiftUI
 
 extension Graphic3D {
     
-    private struct ColorShift3DUniforms {
+    private struct ColorShift3DUniforms: Uniforms {
         let hue: Float
         let saturation: Float
         let tintColor: ColorUniform

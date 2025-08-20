@@ -8,11 +8,11 @@ import PixelColor
 
 extension Graphic {
     
-    private struct UVColorParticlesColorUniform {
+    private struct UVColorParticlesColorUniforms: Uniforms {
         let color: ColorUniform
     }
     
-    private struct UVColorParticlesVertexUniform {
+    private struct UVColorParticlesVertexUniforms: Uniforms {
         let multiplyParticleSize: Bool
         let particleScale: Float
         let resolution: SizeUniform
@@ -54,10 +54,10 @@ extension Graphic {
             name: "UV Color Particles",
             shader: .custom(fragment: "fragmentColor", vertex: "uvColorParticles"),
             graphics: [self, graphic],
-            uniforms: UVColorParticlesColorUniform(
+            uniforms: UVColorParticlesColorUniforms(
                 color: PixelColor.white.uniform
             ),
-            vertexUniforms: UVColorParticlesVertexUniform(
+            vertexUniforms: UVColorParticlesVertexUniforms(
                 multiplyParticleSize: particleOptions.contains(.channelScale),
                 particleScale: Float(particleScale),
                 resolution: self.resolution.uniform

@@ -6,7 +6,7 @@ import CoreGraphics
 
 extension Graphic3D {
     
-    private struct Average3DUniforms {
+    private struct Average3DUniforms: Uniforms {
         let axis: UInt32
     }
     

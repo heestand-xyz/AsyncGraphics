@@ -11,7 +11,7 @@ import TextureMap
 
 extension Graphic {
     
-    private struct CircleBlurUniforms {
+    private struct CircleBlurUniforms: Uniforms {
         let count: UInt32
         let radius: Float
         let brightnessLow: Float

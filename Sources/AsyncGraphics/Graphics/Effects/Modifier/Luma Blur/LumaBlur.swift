@@ -8,7 +8,7 @@ import CoreGraphicsExtensions
 
 extension Graphic {
     
-    private struct LumaBlurUniforms {
+    private struct LumaBlurUniforms: Uniforms {
         let type: UInt32
         let placement: UInt32
         let count: UInt32

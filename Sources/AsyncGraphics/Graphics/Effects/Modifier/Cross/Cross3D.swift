@@ -6,7 +6,7 @@ import CoreGraphics
 
 extension Graphic3D {
     
-    private struct Cross3DUniforms {
+    private struct Cross3DUniforms: Uniforms {
         let fraction: Float
         let placement: Int32
     }

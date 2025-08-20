@@ -6,7 +6,7 @@ import CoreGraphics
 
 extension Graphic {
     
-    private struct SharpenUniforms {
+    private struct SharpenUniforms: Uniforms {
         let sharpness: Float
         let distance: Float
     }

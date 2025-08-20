@@ -6,7 +6,7 @@ import PixelColor
 
 extension Graphic {
     
-    private struct ChannelMixUniforms {
+    private struct ChannelMixUniforms: Uniforms {
         let red: ColorUniform
         let green: ColorUniform
         let blue: ColorUniform

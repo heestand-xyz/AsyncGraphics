@@ -8,7 +8,7 @@ import PixelColor
 
 extension Graphic {
     
-    private struct ColorUniforms {
+    private struct ColorUniforms: Uniforms {
         let color: ColorUniform
     }
     

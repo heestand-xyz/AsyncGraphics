@@ -9,7 +9,7 @@ import PixelColor
 
 extension Graphic {
     
-    private struct StarUniforms {
+    private struct StarUniforms: Uniforms {
         let premultiply: Bool
         let count: UInt32
         let innerRadius: Float

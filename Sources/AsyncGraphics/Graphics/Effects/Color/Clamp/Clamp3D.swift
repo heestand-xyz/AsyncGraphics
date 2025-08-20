@@ -7,7 +7,7 @@ import PixelColor
 
 extension Graphic3D {
     
-    private struct Clamp3DUniforms {
+    private struct Clamp3DUniforms: Uniforms {
         let includeAlpha: Bool
         let type: UInt32
         let low: Float

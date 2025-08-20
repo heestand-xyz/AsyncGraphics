@@ -6,7 +6,7 @@ import Metal
 
 extension Graphic3D {
     
-    private struct Blend3DUniforms {
+    private struct Blend3DUniforms: Uniforms {
         let blendingMode: Int32
         let placement: Int32
     }

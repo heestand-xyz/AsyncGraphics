@@ -8,7 +8,7 @@ import PixelColor
 
 extension Graphic3D {
     
-    private struct GradientLookup3DUniforms {
+    private struct GradientLookup3DUniforms: Uniforms {
         let gamma: Float
     }
     

@@ -9,7 +9,7 @@ import SwiftUI
 
 extension Graphic {
 
-    private struct ArcUniforms {
+    private struct ArcUniforms: Uniforms {
         let premultiply: Bool
         let antiAlias: Bool
         let angleCenter: Float

@@ -8,7 +8,7 @@ import CoreGraphicsExtensions
 
 extension Graphic {
     
-    private struct LumaTransformUniforms {
+    private struct LumaTransformUniforms: Uniforms {
         let placement: UInt32
         let translation: PointUniform
         let rotation: Float

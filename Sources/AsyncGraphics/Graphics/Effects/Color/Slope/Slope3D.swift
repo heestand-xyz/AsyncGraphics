@@ -7,7 +7,7 @@ import PixelColor
 
 extension Graphic3D {
     
-    private struct Slope3DUniforms {
+    private struct Slope3DUniforms: Uniforms {
         let amplitude: Float
         let origin: ColorUniform
     }

@@ -6,7 +6,7 @@ import CoreGraphics
 
 extension Graphic3D {
     
-    private struct Add3DUniforms {
+    private struct Add3DUniforms: Uniforms {
         let axis: UInt32
         let brightness: Float
     }

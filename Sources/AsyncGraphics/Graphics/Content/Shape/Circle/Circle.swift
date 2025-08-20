@@ -8,7 +8,7 @@ import PixelColor
 
 extension Graphic {
     
-    private struct CircleUniforms {
+    private struct CircleUniforms: Uniforms {
         let premultiply: Bool
         let antiAlias: Bool
         let radius: Float

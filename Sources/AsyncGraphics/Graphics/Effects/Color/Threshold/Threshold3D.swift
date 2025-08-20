@@ -7,7 +7,7 @@ import PixelColor
 
 extension Graphic3D {
     
-    private struct Threshold3DUniforms {
+    private struct Threshold3DUniforms: Uniforms {
         let fraction: Float
         let foregroundColor: ColorUniform
         let backgroundColor: ColorUniform

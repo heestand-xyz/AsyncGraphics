@@ -6,7 +6,7 @@ import Spatial
 
 extension Graphic3D {
     
-    private struct Noise3DUniforms {
+    private struct Noise3DUniforms: Uniforms {
         let colored: Bool
         let random: Bool
         let includeAlpha: Bool

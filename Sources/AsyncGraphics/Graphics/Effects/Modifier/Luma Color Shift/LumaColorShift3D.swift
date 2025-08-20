@@ -9,7 +9,7 @@ import PixelColor
 
 extension Graphic3D {
     
-    private struct LumaColorShift3DUniforms {
+    private struct LumaColorShift3DUniforms: Uniforms {
         let placement: UInt32
         let hue: Float
         let saturation: Float

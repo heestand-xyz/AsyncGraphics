@@ -11,7 +11,7 @@ import TextureMap
 
 extension Graphic {
     
-    private struct LumaRainbowBlurUniforms {
+    private struct LumaRainbowBlurUniforms: Uniforms {
         let type: UInt32
         let placement: UInt32
         let count: UInt32

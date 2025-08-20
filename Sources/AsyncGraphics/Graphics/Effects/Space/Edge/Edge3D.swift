@@ -4,7 +4,7 @@
 
 extension Graphic3D {
     
-    private struct Edge3DUniforms {
+    private struct Edge3DUniforms: Uniforms {
         let isColored: Bool
         let isTransparent: Bool
         let includeAlpha: Bool

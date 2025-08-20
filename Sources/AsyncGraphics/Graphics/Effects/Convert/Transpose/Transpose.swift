@@ -6,7 +6,7 @@ import CoreGraphics
 
 extension Graphic {
     
-    private struct TransposeUniforms {
+    private struct TransposeUniforms: Uniforms {
         let flip: UInt32
         let flop: UInt32
     }

@@ -6,12 +6,12 @@ import Spatial
 
 extension Renderer {
     
-    struct EmptyUniforms {}
+    struct EmptyUniforms: Uniforms {}
 }
 
 extension Renderer {
 
-    struct CameraUniforms {
+    struct CameraUniforms: Uniforms {
         let projectionMatrix: matrix_float4x4
         let modelViewMatrix: matrix_float4x4
     }
