@@ -25,7 +25,6 @@ See the [**Graphic**](https://heestand-xyz.github.io/AsyncGraphics-Docs/document
 [Camera](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/camera(at:lens:quality:)),
 [Maps](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/maps(type:latitude:longitude:span:resolution:mapoptions:options:)),
 [Screen](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/screen(at:)),
-[Text](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/text(_:font:center:horizontalalignment:verticalalignment:color:backgroundcolor:resolution:options:)),
 [View](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic/view(content:))
 
 **Shapes**:
