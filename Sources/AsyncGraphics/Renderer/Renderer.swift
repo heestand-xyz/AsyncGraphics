@@ -175,7 +175,7 @@ public struct Renderer {
     }
     
     /// Array
-    static func render<U: Uniforms, AU, G: Graphicable>(
+    static func render<U: Uniforms, AU: Uniforms, G: Graphicable>(
         name: String,
         shader: Shader,
         graphics: [Graphicable] = [],
@@ -285,7 +285,7 @@ public struct Renderer {
     }
     
     /// **Main** with static uniforms buffer
-    private static func render<U: Uniforms, AU, VU: Uniforms, G: Graphicable>(
+    private static func render<U: Uniforms, AU: Uniforms, VU: Uniforms, G: Graphicable>(
         name: String,
         shader: Shader,
         graphics: [Graphicable] = [],

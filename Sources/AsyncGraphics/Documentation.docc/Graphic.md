@@ -120,7 +120,7 @@ SwiftUI to Graphic
 - ``view(content:)``
 - ``view(resolution:alignment:content:)``
 
-### Resolution
+### Resize
 
 Resize a graphic.
 
@@ -365,7 +365,7 @@ Use blending modes to combine two or more graphics.
 
 - ``gradientLookup(stops:gamma:options:)``
 
-### Channels
+### Channel Mix
 
 - ``channelMix(red:green:blue:alpha:options:)``
 - ``alphaToLuminance()``
