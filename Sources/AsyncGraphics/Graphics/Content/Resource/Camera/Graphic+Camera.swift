@@ -45,6 +45,20 @@ extension Graphic {
         @MainActor
         public var subjectAreaChange: (() -> Void)?
         
+        public var isCenterStageSupported: Bool {
+            device.formats.contains { format in
+                format.isCenterStageSupported
+            }
+        }
+        
+        @MainActor
+        public var isCenterStageEnabled: Bool = AVCaptureDevice.isCenterStageEnabled {
+            didSet {
+                guard AVCaptureDevice.centerStageControlMode != .user else { return }
+                AVCaptureDevice.isCenterStageEnabled = isCenterStageEnabled
+            }
+        }
+        
 #if !os(visionOS)
         public convenience init(_ position: AVCaptureDevice.Position,
                                 with deviceType: AVCaptureDevice.DeviceType = .builtInWideAngleCamera,
@@ -73,11 +87,10 @@ extension Graphic {
             if device == nil {
                 throw CameraError.captureDeviceNotSupported
             }
-            
-            AVCaptureDevice.centerStageControlMode = .app
-            AVCaptureDevice.isCenterStageEnabled = centerStage
-            
             try self.init(device: device, quality: preset)
+            
+            AVCaptureDevice.isCenterStageEnabled = centerStage
+            isCenterStageEnabled = centerStage
         }
         
         public init(device: AVCaptureDevice,
@@ -85,6 +98,8 @@ extension Graphic {
             
             self.position = device.position
             self.device = device
+            
+            AVCaptureDevice.centerStageControlMode = .app
             
 #if os(iOS)
             do {
