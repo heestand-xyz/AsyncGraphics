@@ -45,6 +45,8 @@ extension Graphic {
         @MainActor
         public var subjectAreaChange: (() -> Void)?
         
+#if !os(visionOS)
+        
         public var isCenterStageSupported: Bool {
             device.formats.contains { format in
                 format.isCenterStageSupported
@@ -59,7 +61,6 @@ extension Graphic {
             }
         }
         
-#if !os(visionOS)
         public convenience init(_ position: AVCaptureDevice.Position,
                                 with deviceType: AVCaptureDevice.DeviceType = .builtInWideAngleCamera,
                                 quality preset: AVCaptureSession.Preset = .high,
