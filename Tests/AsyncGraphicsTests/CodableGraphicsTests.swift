@@ -23,17 +23,47 @@ final class CodableGraphicsTests: XCTestCase {
     
     func testRender() async throws {
         
+        let resolution = CGSize(width: 1000, height: 1000)
+        let testContentA: Graphic = try await .circle(resolution: resolution)
+        let testContentB: Graphic = try await .polygon(count: 3, resolution: resolution)
+        
         for type in CodableGraphicType.allCases {
+            print("Testing 2D Render of \(type.name)")
             let instance: CodableGraphicProtocol = type.instance()
             if let content = instance as? ContentGraphicProtocol {
                 _ = try await content.render(at: resolution, options: [])
+            } else if let effect = instance as? EffectGraphicProtocol {
+                if let colorEffect = effect as? ColorEffectGraphicProtocol {
+                    _ = try await colorEffect.render(with: testContentA, options: [])
+                } else if let spaceEffect = effect as? SpaceEffectGraphicProtocol {
+                    _ = try await spaceEffect.render(with: testContentA, options: [])
+                } else if let convertEffect = effect as? ConvertEffectGraphicProtocol {
+                    _ = try await convertEffect.render(with: testContentA, options: [])
+                } else if let modifierEffect = effect as? ModifierEffectGraphicProtocol {
+                    _ = try await modifierEffect.render(with: testContentA, modifier: testContentB, options: [])
+                }
             }
         }
         
+        let resolution3D = Size3D(width: 100, height: 100, depth: 100)
+        let testContent3DA: Graphic3D = try await .sphere(resolution: resolution3D)
+        let testContent3DB: Graphic3D = try await .tetrahedron(resolution: resolution3D)
+        
         for type in CodableGraphic3DType.allCases {
+            print("Testing 3D Render of \(type.name)")
             let instance: CodableGraphic3DProtocol = type.instance()
             if let content = instance as? ContentGraphic3DProtocol {
                 _ = try await content.render(at: resolution3D, options: [])
+            } else if let effect = instance as? EffectGraphic3DProtocol {
+                if let colorEffect = effect as? ColorEffectGraphic3DProtocol {
+                    _ = try await colorEffect.render(with: testContent3DA, options: [])
+                } else if let spaceEffect = effect as? SpaceEffectGraphic3DProtocol {
+                    _ = try await spaceEffect.render(with: testContent3DA, options: [])
+                } else if let convertEffect = effect as? ConvertEffectGraphic3DProtocol {
+                    _ = try await convertEffect.render(with: testContent3DA, options: [])
+                } else if let modifierEffect = effect as? ModifierEffectGraphic3DProtocol {
+                    _ = try await modifierEffect.render(with: testContent3DA, modifier: testContent3DB, options: [])
+                }
             }
         }
     }
