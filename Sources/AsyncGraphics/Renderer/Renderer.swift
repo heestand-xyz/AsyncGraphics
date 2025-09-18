@@ -311,26 +311,28 @@ public struct Renderer {
         var activeArrayUniformsBuffer: MTLBuffer?
         if !arrayUniforms.isEmpty {
             
+            let uniformArrayMaxLimit: Int = options.overrideUniformArrayMaxLimit ?? Self.uniformArrayMaxLimit
+            
             var fixedArrayUniforms: [AU] = arrayUniforms
             var fixedActiveArrayUniforms: [Bool] = Array(repeating: true, count: arrayUniforms.count)
             
-            if arrayUniforms.count <= Self.uniformArrayMaxLimit {
-                for _ in arrayUniforms.count..<Self.uniformArrayMaxLimit {
+            if arrayUniforms.count <= uniformArrayMaxLimit {
+                for _ in arrayUniforms.count..<uniformArrayMaxLimit {
                     fixedArrayUniforms.append(emptyArrayUniform)
                     fixedActiveArrayUniforms.append(false)
                 }
             } else {
                 let originalCount = arrayUniforms.count
-                let overflow = originalCount - Self.uniformArrayMaxLimit
+                let overflow = originalCount - uniformArrayMaxLimit
                 for _ in 0..<overflow {
                     fixedArrayUniforms.removeLast()
                     fixedActiveArrayUniforms.removeLast()
                 }
-                print("AsyncGraphics - Renderer - Max limit of uniform arrays exceeded. Trailing values will be truncated. \(originalCount) / \(Self.uniformArrayMaxLimit)")
+                print("AsyncGraphics - Renderer - Max limit of uniform arrays exceeded. Trailing values will be truncated. \(originalCount) / \(uniformArrayMaxLimit)")
             }
             
-            let size: Int = MemoryLayout<AU>.size * Self.uniformArrayMaxLimit
-            let activeSize: Int = MemoryLayout<Bool>.size * Self.uniformArrayMaxLimit
+            let size: Int = MemoryLayout<AU>.size * uniformArrayMaxLimit
+            let activeSize: Int = MemoryLayout<Bool>.size * uniformArrayMaxLimit
             
             guard let buffer = metalDevice.makeBuffer(bytes: &fixedArrayUniforms, length: size) else {
                 throw RendererError.failedToMakeArrayUniformBuffer

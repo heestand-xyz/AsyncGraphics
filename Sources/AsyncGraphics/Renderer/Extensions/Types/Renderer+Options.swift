@@ -18,5 +18,6 @@ extension Renderer {
         var stencil: Bool = false
         var sampleCount: Int = 1
         var targetSourceTexture: Bool = false
+        var overrideUniformArrayMaxLimit: Int? = nil
     }
 }

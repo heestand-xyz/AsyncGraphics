@@ -97,7 +97,7 @@ float4 blend(int mode, float4 leading, float4 trailing) {
             color = min(leading, trailing);
             break;
         case 10: // Gamma
-            color = pow(leading, 1 / trailing);
+            color = pow(leading, 1.0 / trailing);
             break;
         case 11: // Power
             color = pow(leading, trailing);
