@@ -86,7 +86,7 @@ fragment float4 sprites(VertexOut out [[stage_in]],
                                             sprite.horizontalAlignment,
                                             sprite.verticalAlignment);
         float4 sampleColor = textures.sample(s, uvPlacement, textureIndex);
-        sampleColor *= sprite.tint;
+        sampleColor *= float4(sprite.tint.rgb * sprite.tint.a, sprite.tint.a);
         colors = blend(sprite.blendingMode, colors, sampleColor);
     }
     
