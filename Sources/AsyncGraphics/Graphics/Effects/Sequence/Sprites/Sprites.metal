@@ -27,8 +27,7 @@ struct SpriteUniforms {
     int placement;
     packed_float4 tint;
     packed_float2 position;
-    packed_float2 size;
-    float scale;
+    packed_float2 scale;
     float rotation;
     int horizontalAlignment;
     int verticalAlignment;
@@ -70,7 +69,7 @@ fragment float4 sprites(VertexOut out [[stage_in]],
         uint textureIndex = index % textureCount;
         uint spriteIndex = index % spriteCount;
         SpriteUniforms sprite = sprites[spriteIndex];
-        float2 scale = sprite.size * sprite.scale * aspectSize / textureAspectSize;
+        float2 scale = sprite.scale * aspectSize / textureAspectSize;
         if (scale.x <= 0.0 || scale.y <= 0.0) {
             return 0.0;
         }

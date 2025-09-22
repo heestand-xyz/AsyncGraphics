@@ -20,7 +20,7 @@ extension Graphic {
     public struct Sprite: Sendable {
         let position: CGPoint
         let size: CGSize?
-        let scale: CGFloat
+        let scale: CGSize
         let rotation: Angle
         let tint: PixelColor
         let blendingMode: BlendMode
@@ -29,7 +29,7 @@ extension Graphic {
         public init(
             position: CGPoint,
             size: CGSize? = nil,
-            scale: CGFloat = 1.0,
+            scale: CGSize = .one,
             rotation: Angle = .zero,
             tint: PixelColor = .white,
             blendingMode: BlendMode = .over,
@@ -55,8 +55,7 @@ extension Graphic {
                 placement: Int32(placement.index),
                 tint: tint.uniform,
                 position: (position / resolution).uniform,
-                size: ((size ?? graphicResolution) / resolution).uniform,
-                scale: Float(scale),
+                size: (((size ?? graphicResolution) / resolution) * scale).uniform,
                 rotation: Float(rotation.degrees / 360),
                 horizontalAlignment: alignment.horizontalIndex,
                 verticalAlignment: alignment.verticalIndex
@@ -70,7 +69,6 @@ extension Graphic {
         let tint: ColorUniform
         let position: PointUniform
         let size: SizeUniform
-        let scale: Float
         let rotation: Float
         let horizontalAlignment: Int32
         let verticalAlignment: Int32
