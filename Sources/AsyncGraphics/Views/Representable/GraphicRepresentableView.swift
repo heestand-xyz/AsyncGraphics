@@ -16,9 +16,16 @@ struct GraphicRepresentableView {
     private func render(in view: GraphicMetalViewable) async throws {
         var graphic: Graphic = graphic
         if !preProcessed {
-            if graphic.colorSpace != .sRGB {
-                graphic = try await graphic
-                    .applyColorSpace(.sRGB)
+            if extendedDynamicRange {
+                if graphic.colorSpace != .displayP3 {
+                    graphic = try await graphic
+                        .convertColorSpace(from: .displayP3, to: .linearDisplayP3)
+                }
+            } else {
+                if graphic.colorSpace != .sRGB {
+                    graphic = try await graphic
+                        .applyColorSpace(.sRGB)
+                }
             }
             if [.nearestNeighbor, .linear].contains(interpolation) {
                 var options: Graphic.EffectOptions = []
