@@ -11,6 +11,7 @@ struct VertexOut {
 };
 
 struct Uniforms {
+    bool premultiply;
     packed_float4 color;
 };
 
@@ -18,6 +19,9 @@ fragment float4 color(VertexOut out [[stage_in]],
                       const device Uniforms& uniforms [[ buffer(0) ]]) {
 
     float4 color = uniforms.color;
+    if (uniforms.premultiply) {
+        color = float4(color.rgb * color.a, color.a);
+    }
     
     return color;
 }

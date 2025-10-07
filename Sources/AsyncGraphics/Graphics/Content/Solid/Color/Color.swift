@@ -9,6 +9,7 @@ import PixelColor
 extension Graphic {
     
     private struct ColorUniforms: Uniforms {
+        let premultiply: Bool
         let color: ColorUniform
     }
     
@@ -19,7 +20,10 @@ extension Graphic {
         try await Renderer.render(
             name: "Color",
             shader: .name("color"),
-            uniforms: ColorUniforms(color: color.uniform),
+            uniforms: ColorUniforms(
+                premultiply: options.premultiply,
+                color: color.uniform
+            ),
             metadata: Renderer.Metadata(
                 resolution: resolution,
                 colorSpace: options.colorSpace,

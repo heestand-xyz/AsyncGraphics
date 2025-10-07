@@ -22,6 +22,7 @@ extension Graphic {
             contains(.bit32) ? ._32 : contains(.bit16) ? ._16 : ._8
         }
         
+        /// Skip alpha premultiplication
         public static let pureAlpha = ContentOptions(rawValue: 1 << 2)
         
         var premultiply: Bool {
