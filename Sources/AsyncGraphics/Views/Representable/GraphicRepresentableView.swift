@@ -17,10 +17,11 @@ struct GraphicRepresentableView {
         var graphic: Graphic = graphic
         if !preProcessed {
             if extendedDynamicRange {
-                if graphic.colorSpace != .displayP3 {
-                    graphic = try await graphic
-                        .convertColorSpace(from: .displayP3, to: .linearDisplayP3)
-                }
+                // When converting from displayP3 to linearDisplayP3, it's linear, tho XDR fails...
+//                if graphic.colorSpace != .displayP3 {
+//                    graphic = try await graphic
+//                        .convertColorSpace(from: .displayP3, to: .linearDisplayP3)
+//                }
             } else {
                 if graphic.colorSpace != .sRGB {
                     graphic = try await graphic

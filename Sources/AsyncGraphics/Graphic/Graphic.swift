@@ -80,12 +80,15 @@ extension Graphic {
     enum ImageDataError: LocalizedError {
         
         case pngDataNotFound
+        case tiffDataNotFound
         case mappingFailed
         
         var errorDescription: String? {
             switch self {
             case .pngDataNotFound:
                 return "AsyncGraphics - Image - PNG Data Not Found"
+            case .tiffDataNotFound:
+                return "AsyncGraphics - Image - TIFF Data Not Found"
             case .mappingFailed:
                 return "AsyncGraphics - Image - Mapping Failed"
             }
@@ -144,12 +147,19 @@ extension Graphic {
         }
     }
     
-    /// UIImage / NSImage
     public var pngData: Data {
         get async throws {
             guard let pngData =  try await image.pngData()
             else { throw ImageDataError.pngDataNotFound }
             return pngData
+        }
+    }
+    
+    public var tiffData: Data {
+        get async throws {
+            guard let tiffData =  try await image.tiffData()
+            else { throw ImageDataError.tiffDataNotFound }
+            return tiffData
         }
     }
     
