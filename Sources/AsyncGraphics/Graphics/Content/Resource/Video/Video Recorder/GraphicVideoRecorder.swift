@@ -207,12 +207,12 @@ public actor GraphicVideoRecorder: GraphicVideoRecordable {
             throw RecordError.mismatchResolution
         }
         
-        // TODO: Optimize flipping of axis and colors...
         let graphic = try await graphic
-            .mirroredVertically()
             .channelMix(red: .blue, blue: .red)
 
-        let pixelBuffer: CVPixelBuffer = try TextureMap.pixelBuffer(texture: graphic.texture)
+        let pixelBuffer: CVPixelBuffer = try TextureMap.pixelBuffer(
+            texture: graphic.texture
+        )
         
         guard av.adaptor.append(pixelBuffer, withPresentationTime: time) else {
             throw RecordError.appendFailed
