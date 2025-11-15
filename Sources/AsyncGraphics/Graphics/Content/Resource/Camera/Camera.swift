@@ -7,28 +7,6 @@ import AVKit
 
 extension Graphic {
     
-    public enum CameraPosition: Hashable, Sendable {
-        case front
-        case back
-        case external
-        public mutating func flip() {
-            self = flipped()
-        }
-        public func flipped() -> CameraPosition {
-            self == .front ? .back : .front
-        }
-        var av: AVCaptureDevice.Position {
-            switch self {
-            case .front:
-                return .front
-            case .back:
-                return .back
-            case .external:
-                return .unspecified
-            }
-        }
-    }
-    
 #if !os(visionOS)
     /// Async live stream from the camera
     public static func camera(device: AVCaptureDevice,
