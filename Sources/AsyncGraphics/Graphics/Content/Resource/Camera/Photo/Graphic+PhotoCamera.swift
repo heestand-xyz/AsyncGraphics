@@ -5,6 +5,8 @@
 //  Created by Anton Heestand on 2025-11-15.
 //
 
+#if os(iOS)
+
 import Foundation
 @preconcurrency import AVKit
 
@@ -29,6 +31,7 @@ extension Graphic {
             case captureDeviceInputFailure(Error)
             case imageConversionToGraphicFailed(Error)
             case configureOfCameraFailed
+            case noImageCapture
             case captureFailed(Error)
             case cancelled
             var errorDescription: String? {
@@ -51,6 +54,8 @@ extension Graphic {
                     "Photo Camera - Image conversion to graphic failed: \(error.localizedDescription)"
                 case .configureOfCameraFailed:
                     "Photo Camera - Configure of camera failed."
+                case .noImageCapture:
+                    "Photo Camera - No image capture."
                 case .captureFailed(let error):
                     "Photo Camera - Capture failed: \(error.localizedDescription)"
                 case .cancelled:
@@ -115,6 +120,94 @@ extension Graphic {
             self.output = output
         }
         
+        // MARK: - Capture
+        
+        @concurrent func capture(
+            for device: AVCaptureDevice,
+            at preset: AVCaptureSession.Preset,
+            focusPoint: CGPoint? = nil
+        ) async throws(PhotoCameraError) -> Graphic {
+            
+            let orientation: UIDeviceOrientation = await UIDevice.current.orientation
+            
+            do {
+                try await setup(device, preset: preset)
+            } catch {
+                await cleanup()
+                throw error
+            }
+            
+            guard let captureSession: AVCaptureSession = await captureSession else {
+                await cleanup()
+                throw .captureSessionNotFound
+            }
+            
+            guard let output: AVCapturePhotoOutput = await output else {
+                await cleanup()
+                throw .outputNotFound
+            }
+            let photoSettings = AVCapturePhotoSettings(
+                rawPixelFormatType: 0,
+                processedFormat: [AVVideoCodecKey : AVVideoCodecType.hevc]
+            )
+            if #available(iOS 18.0, *), output.isShutterSoundSuppressionSupported {
+                photoSettings.isShutterSoundSuppressionEnabled = true
+            }
+            
+            if let focusPoint, device.isFocusPointOfInterestSupported {
+                do {
+                    try device.lockForConfiguration()
+                } catch {
+                    await cleanup()
+                    throw .configureOfCameraFailed
+                }
+                device.focusPointOfInterest = await orient(point: focusPoint, at: orientation)
+                device.focusMode = .locked
+                device.unlockForConfiguration()
+            }
+            
+            if Task.isCancelled {
+                await cleanup()
+                throw .cancelled
+            }
+            
+            let helper = Helper()
+            
+            var capturedImages: [UIImage] = []
+            helper.capturedImage = { image in
+                capturedImages.append(image)
+            }
+            
+            let captureError: Error? = await withCheckedContinuation { continuation in
+                helper.captureDone = { error in
+                    continuation.resume(returning: error)
+                }
+                captureSession.startRunning()
+                output.capturePhoto(with: photoSettings, delegate: helper)
+            }
+            
+            if let captureError {
+                await cleanup()
+                throw .captureFailed(captureError)
+            }
+            
+            guard let capturedImage: UIImage = capturedImages.first else {
+                throw .noImageCapture
+            }
+            
+            var graphic: Graphic
+            do {
+                graphic = try await .image(capturedImage)
+                graphic = try await orient(graphic: graphic, at: orientation)
+            } catch {
+                await cleanup()
+                throw .imageConversionToGraphicFailed(error)
+            }
+            
+            await cleanup()
+            return graphic
+        }
+        
         // MARK: - Capture Bracketed
         
         @concurrent func captureBracketed(
@@ -123,7 +216,9 @@ extension Graphic {
             exposureOffsets: [Float] = [-1.0, 0.0, 1.0],
             focusPoint: CGPoint? = nil
         ) async throws(PhotoCameraError) -> [Graphic] {
-            
+
+            let orientation: UIDeviceOrientation = await UIDevice.current.orientation
+
             do {
                 try await setup(device, preset: preset)
             } catch {
@@ -151,6 +246,9 @@ extension Graphic {
                 processedFormat: [AVVideoCodecKey : AVVideoCodecType.hevc],
                 bracketedSettings: exposureSettings
             )
+            if #available(iOS 18.0, *), output.isShutterSoundSuppressionSupported {
+                photoSettings.isShutterSoundSuppressionEnabled = true
+            }
             photoSettings.isLensStabilizationEnabled = output.isLensStabilizationDuringBracketedCaptureSupported
             
             if let focusPoint, device.isFocusPointOfInterestSupported {
@@ -160,7 +258,7 @@ extension Graphic {
                     await cleanup()
                     throw .configureOfCameraFailed
                 }
-                device.focusPointOfInterest = focusPoint
+                device.focusPointOfInterest = await orient(point: focusPoint, at: orientation)
                 device.focusMode = .locked
                 device.unlockForConfiguration()
             }
@@ -176,9 +274,7 @@ extension Graphic {
             helper.capturedImage = { image in
                 capturedImages.append(image)
             }
-            
-            let orientation: UIDeviceOrientation = await UIDevice.current.orientation
-            
+                        
             let captureError: Error? = await withCheckedContinuation { continuation in
                 helper.captureDone = { error in
                     continuation.resume(returning: error)
@@ -220,6 +316,19 @@ extension Graphic {
                 try await graphic.rotated(.degrees(180))
             default:
                 graphic
+            }
+        }
+        
+        private func orient(point: CGPoint, at orientation: UIDeviceOrientation) -> CGPoint {
+            switch orientation {
+            case .landscapeLeft:
+                point
+            case .landscapeRight:
+                CGPoint(x: 1.0 - point.x, y: 1.0 - point.y)
+            case .portraitUpsideDown:
+                CGPoint(x: 1.0 - point.y, y: point.x)
+            default:
+                CGPoint(x: point.y, y: 1.0 - point.x)
             }
         }
         
@@ -271,3 +380,4 @@ extension Graphic.PhotoCamera {
     }
 }
 
+#endif
