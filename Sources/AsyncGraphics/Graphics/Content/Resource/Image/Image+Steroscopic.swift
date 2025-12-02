@@ -191,11 +191,43 @@ extension Graphic {
         return try await (leftGraphic, rightGraphic)
     }
     
-    public static func stereoscopicGraphics(source: CGImageSource) async throws -> (left: Graphic, right: Graphic) {
+    public static func stereoscopicGraphics(
+        source: CGImageSource,
+        imageOrientation: CGImagePropertyOrientation? = nil
+    ) async throws -> (left: Graphic, right: Graphic) {
         let (leftImage, rightImage): (TMImage, TMImage) = try stereoscopicImages(source: source)
         let (leftSendableImage, rightSendableImage): (TMSendableImage, TMSendableImage) = (leftImage.send(), rightImage.send())
-        async let (leftGraphic, rightGraphic): (Graphic, Graphic) = (.image(sendable: leftSendableImage), .image(sendable: rightSendableImage))
-        return try await (leftGraphic, rightGraphic)
+        async let (leftGraphicTask, rightGraphicTask): (Graphic, Graphic) = (.image(sendable: leftSendableImage), .image(sendable: rightSendableImage))
+        var (leftGraphic, rightGraphic): (Graphic, Graphic) = try await (leftGraphicTask, rightGraphicTask)
+        if let imageOrientation {
+            leftGraphic = try await leftGraphic.oriented(imageOrientation)
+            rightGraphic = try await rightGraphic.oriented(imageOrientation)
+        }
+        return (leftGraphic, rightGraphic)
+    }
+    
+    private func oriented(_ imageOrientation: CGImagePropertyOrientation) async throws -> Graphic {
+        switch imageOrientation {
+        case .up:
+            self
+        case .upMirrored:
+            try await mirroredHorizontally()
+        case .down:
+            try await rotated(.degrees(180))
+        case .downMirrored:
+            try await rotated(.degrees(180))
+                .mirroredHorizontally()
+        case .right:
+            try await rotatedLeft()
+        case .rightMirrored:
+            try await rotatedLeft()
+                .mirroredHorizontally()
+        case .left:
+            try await rotatedRight()
+        case .leftMirrored:
+            try await rotatedRight()
+                .mirroredHorizontally()
+        }
     }
     
     public static func stereoscopicImages(url: URL) throws -> (left: TMImage, right: TMImage) {
