@@ -15,6 +15,8 @@ struct Uniforms {
     bool smooth;
     float opacity;
     float offset;
+    bool premultiply;
+    float3 padding;
 };
 
 kernel void levels3d(const device Uniforms& uniforms [[ buffer(0) ]],
@@ -64,7 +66,9 @@ kernel void levels3d(const device Uniforms& uniforms [[ buffer(0) ]],
     
     color += uniforms.offset;
     
-    color *= uniforms.opacity;
+    if (uniforms.premultiply) {
+        color *= uniforms.opacity;
+    }
     
     targetTexture.write(float4(color.rgb, alpha), pos);
 }

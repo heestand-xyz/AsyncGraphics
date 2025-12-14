@@ -81,13 +81,19 @@ extension Graphic3D {
             contains(.edgeMirror) ? .mirrorRepeat : contains(.edgeLoop) ? .repeat : contains(.edgeStretch) ? .clampToEdge : .clampToZero
         }
         
+        public static let pureAlpha = EffectOptions(rawValue: 1 << 3)
+        
+        var premultiply: Bool {
+            !contains(.pureAlpha)
+        }
+        
         /// Use this when assigning the modified ``Graphic`` to the source ``Graphic``, when replacing the original ``Graphic`` with the new.
         ///
         /// This option can render `2x` faster.
         /// 
         /// This option can only be used on color effects, not distortion effects.
         /// Please don't use this option if the effect changes the resolution. 
-        public static let replace = EffectOptions(rawValue: 1 << 3)
+        public static let replace = EffectOptions(rawValue: 1 << 4)
 
         var colorRenderOptions: Renderer.Options {
             Renderer.Options(

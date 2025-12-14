@@ -20,6 +20,8 @@ struct Uniforms {
     bool smooth;
     float opacity;
     float offset;
+    bool premultiply;
+    float3 padding;
 };
 
 fragment float4 levels(VertexOut out [[stage_in]],
@@ -59,7 +61,9 @@ fragment float4 levels(VertexOut out [[stage_in]],
     
     color += uniforms.offset;
     
-    color *= uniforms.opacity;
+    if (uniforms.premultiply) {
+        color *= uniforms.opacity;
+    }
     
     return float4(color.rgb, alpha);
 }

@@ -15,6 +15,8 @@ extension Graphic {
         let smooth: Bool
         let opacity: Float
         let offset: Float
+        let premultiply: Bool
+        let padding: SIMD3<Float> = .zero
     }
     
     /// Default is 1.0
@@ -172,7 +174,8 @@ extension Graphic {
                 invert: invert,
                 smooth: smooth,
                 opacity: Float(opacity),
-                offset: Float(offset)
+                offset: Float(offset),
+                premultiply: options.premultiply
             ),
             options: options.colorRenderOptions
         )
