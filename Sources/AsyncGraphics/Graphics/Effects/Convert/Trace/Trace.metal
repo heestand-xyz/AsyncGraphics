@@ -42,7 +42,7 @@ fragment float4 trace(VertexOut out [[stage_in]],
         
         float3 crd = 0.0;
         switch (uniforms.axis) {
-            case 0: crd = float3(fraction, u, v); break;
+            case 0: crd = float3(fraction, v, u); break;
             case 1: crd = float3(u, fraction, v); break;
             case 2: crd = float3(u, v, fraction); break;
         }
