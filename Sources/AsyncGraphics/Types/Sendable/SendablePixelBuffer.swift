@@ -7,7 +7,7 @@
 
 import Vision
 
-struct SendablePixelBuffer: @unchecked Sendable {
+public struct SendablePixelBuffer: @unchecked Sendable {
     
     private let pixelBuffer: CVPixelBuffer
     
@@ -17,13 +17,13 @@ struct SendablePixelBuffer: @unchecked Sendable {
 }
 
 extension SendablePixelBuffer {
-    func receive() -> CVPixelBuffer {
+    public func receive() -> CVPixelBuffer {
         pixelBuffer
     }
 }
 
 extension CVPixelBuffer {
-    func send() -> SendablePixelBuffer {
+    public func send() -> SendablePixelBuffer {
         SendablePixelBuffer(pixelBuffer: self)
     }
 }

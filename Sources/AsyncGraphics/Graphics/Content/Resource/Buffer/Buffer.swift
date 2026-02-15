@@ -24,8 +24,16 @@ extension Graphic {
         }
     }
     
+    public static func sendablePixelBuffer(_ sendablePixelBuffer: SendablePixelBuffer) throws -> Graphic {
+        try pixelBuffer(sendablePixelBuffer.receive())
+    }
+    
     public static func pixelBuffer(_ pixelBuffer: CVPixelBuffer) throws -> Graphic {
         try texture(TextureMap.texture(pixelBuffer: pixelBuffer))
+    }
+    
+    public static func sendableSampleBuffer(_ sendableSampleBuffer: SendableSampleBuffer) async throws -> Graphic {
+        try await sampleBuffer(sendableSampleBuffer.receive())
     }
     
     public static func sampleBuffer(_ sampleBuffer: CMSampleBuffer) async throws -> Graphic {
