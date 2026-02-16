@@ -68,16 +68,25 @@ kernel void tetrahedron3d(const device Uniforms& uniforms [[ buffer(0) ]],
     float depthAspectRatio = float(depth) / float(height);
     
     float x = (u - 0.5) * aspectRatio - uniforms.position.x;
-    float y = (v - 0.5) - uniforms.position.y;
+    float y = ((1.0 - v) - 0.5) - uniforms.position.y;
     float z = (w - 0.5) * depthAspectRatio - uniforms.position.z;
-//    switch (uniforms.axis) {
-//        case 0: // x
-//            break;
-//        case 1: // y
-//            break;
-//        case 2: // z
-//            break;
-//    }
+    float swapped = 0.0;
+    switch (uniforms.axis) {
+        case 0: // x
+            swapped = z;
+            z = x;
+            x = swapped;
+            break;
+        case 1: // y
+            swapped = z;
+            z = -y;
+            y = -swapped;
+            break;
+        case 2: // z
+            break;
+        default:
+            break;
+    }
     
     float3 point = float3(x, y, z);
     
