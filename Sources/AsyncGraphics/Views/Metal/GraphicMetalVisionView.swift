@@ -7,6 +7,7 @@
 import MetalKit
 import MetalPerformanceShaders
 import QuartzCore.CoreAnimation
+import CoreGraphics
 import TextureMap
 
 final class GraphicMetalVisionView: UIView, GraphicMetalViewable {
@@ -53,11 +54,24 @@ final class GraphicMetalVisionView: UIView, GraphicMetalViewable {
 
 extension GraphicMetalVisionView {
     
+    private func pixelFormat(for bits: TMBits?) -> MTLPixelFormat {
+        if extendedDynamicRange {
+            return .rgba16Float
+        }
+        if let bits, bits > ._8 {
+            return .rgba16Float
+        }
+        return .rgba8Unorm
+    }
+    
     func set(extendedDynamicRange: Bool) {
+        self.extendedDynamicRange = extendedDynamicRange
+        metalLayer.pixelFormat = pixelFormat(for: graphic?.bits)
+        let colorSpace = CGColorSpace(name: extendedDynamicRange ? CGColorSpace.extendedLinearDisplayP3 : CGColorSpace.sRGB)
+        metalLayer.colorspace = colorSpace
         if #available(macOS 10.11, iOS 16.0, *) {
             metalLayer.wantsExtendedDynamicRangeContent = extendedDynamicRange
         }
-        self.extendedDynamicRange = extendedDynamicRange
     }
 }
 
@@ -79,6 +93,7 @@ extension GraphicMetalVisionView {
     
     func render(graphic: Graphic, completion: @escaping (Bool) -> ()) {
                 
+        metalLayer.pixelFormat = pixelFormat(for: graphic.bits)
         metalLayer.drawableSize = graphic.resolution
         self.graphic = graphic
         

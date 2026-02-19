@@ -7,6 +7,7 @@
 @preconcurrency import MetalKit
 import MetalPerformanceShaders
 @preconcurrency import QuartzCore.CoreAnimation
+import CoreGraphics
 import TextureMap
 
 final class GraphicMetalView: MTKView, GraphicMetalViewable {
@@ -79,12 +80,15 @@ extension GraphicMetalView {
 extension GraphicMetalView {
     
     func set(extendedDynamicRange: Bool) {
+        self.extendedDynamicRange = extendedDynamicRange
+        colorPixelFormat = pixelFormat()
+        let colorSpace = CGColorSpace(name: extendedDynamicRange ? CGColorSpace.extendedLinearDisplayP3 : CGColorSpace.sRGB)
+        (layer as! CAMetalLayer).colorspace = colorSpace
 #if !os(tvOS)
         if #available(macOS 10.11, iOS 16.0, *) {
             (layer as! CAMetalLayer).wantsExtendedDynamicRangeContent = extendedDynamicRange
         }
 #endif
-        self.extendedDynamicRange = extendedDynamicRange
     }
 }
 

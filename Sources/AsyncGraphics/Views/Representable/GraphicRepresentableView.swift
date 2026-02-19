@@ -3,6 +3,8 @@
 //
 
 import SwiftUI
+import CoreGraphics
+import TextureMap
 
 struct GraphicRepresentableView {
     
@@ -17,11 +19,35 @@ struct GraphicRepresentableView {
         var graphic: Graphic = graphic
         if !preProcessed {
             if extendedDynamicRange {
-                // When converting from displayP3 to linearDisplayP3, it's linear, tho XDR fails...
-//                if graphic.colorSpace != .displayP3 {
-//                    graphic = try await graphic
-//                        .convertColorSpace(from: .displayP3, to: .linearDisplayP3)
-//                }
+                let extendedLinearDisplayP3: TMColorSpace = .custom(
+                    CGColorSpace(name: CGColorSpace.extendedLinearDisplayP3)!
+                )
+                if graphic.colorSpace != extendedLinearDisplayP3 {
+                    switch graphic.colorSpace {
+                    case .nonLinearSRGB:
+                        let extendedSRGB: TMColorSpace = .custom(
+                            CGColorSpace(name: CGColorSpace.extendedSRGB)!
+                        )
+                        graphic = graphic
+                            .assignColorSpace(extendedSRGB)
+                        graphic = try await graphic
+                            .applyColorSpace(extendedLinearDisplayP3)
+                    case .linearSRGB:
+                        let extendedLinearSRGB: TMColorSpace = .custom(
+                            CGColorSpace(name: CGColorSpace.extendedLinearSRGB)!
+                        )
+                        graphic = graphic
+                            .assignColorSpace(extendedLinearSRGB)
+                        graphic = try await graphic
+                            .applyColorSpace(extendedLinearDisplayP3)
+                    case .linearDisplayP3:
+                        graphic = graphic
+                            .assignColorSpace(extendedLinearDisplayP3)
+                    default:
+                        graphic = try await graphic
+                            .applyColorSpace(extendedLinearDisplayP3)
+                    }
+                }
             } else {
                 if graphic.colorSpace != .sRGB {
                     graphic = try await graphic
