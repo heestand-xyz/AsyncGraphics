@@ -49,6 +49,7 @@ extension Graphic {
     }
    
     private enum MapsError: LocalizedError {
+        case invalidResolution
         case invalidSpan(Angle)
         case invalidRegion
         case snapshotFailed
@@ -81,8 +82,12 @@ extension Graphic {
         
         mapSnapshotOptions.mapType = type.mapType
         
-        guard span.degrees > 0.0
-        else { throw MapsError.invalidSpan(span) }
+        guard resolution.width > 0, resolution.height > 0 else {
+            throw MapsError.invalidResolution
+        }
+        guard span.degrees > 0.0 else {
+            throw MapsError.invalidSpan(span)
+        }
         
         let center = CLLocationCoordinate2D(latitude: latitude.degrees,
                                             longitude: longitude.degrees)
