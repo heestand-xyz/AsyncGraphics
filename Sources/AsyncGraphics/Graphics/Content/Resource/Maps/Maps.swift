@@ -56,6 +56,8 @@ extension Graphic {
         case imageDataConversionFailed
         var errorDescription: String? {
             switch self {
+            case .invalidResolution:
+                return "AsyncGraphics - Maps - Invalid Resolution"
             case .invalidSpan(let angle):
                 return "AsyncGraphics - Maps - Invalid Span (\(angle.degrees)°)"
             case .invalidRegion:
