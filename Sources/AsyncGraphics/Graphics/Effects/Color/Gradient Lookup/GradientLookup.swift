@@ -33,7 +33,23 @@ extension Graphic {
         gamma: CGFloat = 1.0,
         options: EffectOptions = []
     ) async throws -> Graphic {
-        try await Renderer.render(
+        
+        var colorStops: [GradientColorStopUniforms] = stops.map { stop in
+            GradientColorStopUniforms(
+                fraction: Float(stop.location),
+                color: stop.color.uniform
+            )
+        }
+        
+        if !colorStops.contains(where: { $0.fraction == 0.0 }) {
+            colorStops.insert(GradientColorStopUniforms(fraction: 0.0, color: colorStops.sorted(by: { $0.fraction < $1.fraction }).first?.color ?? .clear), at: 0)
+        }
+        
+        if !colorStops.contains(where: { $0.fraction == 1.0 }) {
+            colorStops.append(GradientColorStopUniforms(fraction: 1.0, color: colorStops.sorted(by: { $0.fraction < $1.fraction }).last?.color ?? .clear))
+        }
+        
+        return try await Renderer.render(
             name: "Gradient Lookup",
             shader: .name("gradientLookup"),
             graphics: [
@@ -42,12 +58,7 @@ extension Graphic {
             uniforms: GradientLookupUniforms(
                 gamma: Float(gamma)
             ),
-            arrayUniforms: stops.map { stop in
-                GradientColorStopUniforms(
-                    fraction: Float(stop.location),
-                    color: stop.color.uniform
-                )
-            },
+            arrayUniforms: colorStops,
             emptyArrayUniform: GradientColorStopUniforms(
                 fraction: 0.0,
                 color: PixelColor.clear.uniform
