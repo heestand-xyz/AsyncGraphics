@@ -187,10 +187,21 @@ extension Graphic {
     }
     
     /// XDR UIImage / NSImage
-    /// (Use with 16 or 32 bit graphics)
+    ///
+    /// Only useful with 16 or 32 bit graphics.
     public var xdrImage: TMImage {
         get async throws {
             try await assignColorSpace(.xdr).image
+        }
+    }
+    
+    /// XDR SwiftUI Image
+    ///
+    /// Only useful with 16 or 32 bit graphics.
+    public var xdrImageForSwiftUI: Image {
+        get async throws {
+            Image(tmImage: try await xdrImage)
+                .allowedDynamicRange(.high)
         }
     }
     
