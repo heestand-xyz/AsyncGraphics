@@ -1,0 +1,121 @@
+#include <metal_stdlib>
+using namespace metal;
+
+struct LocationFromDepthCameraUniforms {
+    float4x4 inverseViewMatrix;
+    float3 position;
+    float aspectRatio;
+    float near;
+    float far;
+    float fieldOfViewRadians;
+    float curvature;
+    float orthographicHeight;
+    float projectionOffset;
+    uint isOrthographic;
+    float2 padding;
+};
+
+inline float3 locationFromDepthApexWorldPosition(LocationFromDepthCameraUniforms camera) {
+    float4 worldPosition = camera.inverseViewMatrix * float4(0.0f, 0.0f, camera.projectionOffset, 1.0f);
+    return worldPosition.xyz / worldPosition.w;
+}
+
+inline float locationFromDepthEffectiveCurvature(LocationFromDepthCameraUniforms camera) {
+    float absoluteFieldOfView = fabs(camera.fieldOfViewRadians);
+    float lowFieldOfViewFactor = smoothstep(0.0f, M_PI_F / 3.0f, absoluteFieldOfView);
+    float highFieldOfViewFloor = smoothstep((5.0f * M_PI_F) / 6.0f, M_PI_F, absoluteFieldOfView);
+    return max(camera.curvature * lowFieldOfViewFactor, highFieldOfViewFloor);
+}
+
+inline float locationFromDepthProjectedRadius(float theta, LocationFromDepthCameraUniforms camera) {
+    float halfFieldOfView = fabs(camera.fieldOfViewRadians) * 0.5f;
+    if (halfFieldOfView <= 1e-6f) { return 0.0f; }
+
+    float sphericalRadius = theta / halfFieldOfView;
+    float effectiveCurvature = locationFromDepthEffectiveCurvature(camera);
+    if (effectiveCurvature >= 0.999999f) {
+        return sphericalRadius;
+    }
+
+    float limitedHalfFieldOfView = min(halfFieldOfView, (M_PI_F * 0.5f) - 1e-4f);
+    float rectangularRadius = tan(theta) / tan(limitedHalfFieldOfView);
+    return mix(rectangularRadius, sphericalRadius, effectiveCurvature);
+}
+
+inline float locationFromDepthThetaForRadius(float radius, LocationFromDepthCameraUniforms camera) {
+    float halfFieldOfView = fabs(camera.fieldOfViewRadians) * 0.5f;
+    if (halfFieldOfView <= 1e-6f) { return 0.0f; }
+
+    float lower = 0.0f;
+    float upper = locationFromDepthEffectiveCurvature(camera) >= 0.999999f
+        ? halfFieldOfView
+        : min(fabs(camera.fieldOfViewRadians), (M_PI_F * 0.5f) - 1e-4f);
+    for (uint index = 0; index < 24u; ++index) {
+        float middle = (lower + upper) * 0.5f;
+        float middleRadius = locationFromDepthProjectedRadius(middle, camera);
+        if (middleRadius < radius) {
+            lower = middle;
+        } else {
+            upper = middle;
+        }
+    }
+    return (lower + upper) * 0.5f;
+}
+
+inline float2 locationFromDepthPixelToNDC(float2 uv) {
+    return float2(
+        uv.x * 2.0f - 1.0f,
+        1.0f - uv.y * 2.0f
+    );
+}
+
+inline float3 locationFromDepthWorldDirection(float2 uv, LocationFromDepthCameraUniforms camera, thread bool& isValid) {
+    float2 ndc = locationFromDepthPixelToNDC(uv);
+    float radius = length(ndc);
+    if (locationFromDepthEffectiveCurvature(camera) >= 0.999999f && radius > 1.0f + 1e-4f) {
+        isValid = false;
+        return float3(0.0f);
+    }
+
+    float theta = locationFromDepthThetaForRadius(radius, camera);
+    float phi = radius > 1e-6f ? atan2(ndc.y, ndc.x) : 0.0f;
+    float sinTheta = sin(theta);
+    float3 squareCameraDirection = float3(cos(phi) * sinTheta, sin(phi) * sinTheta, -cos(theta));
+    float3 cameraDirection = normalize(float3(
+        squareCameraDirection.x * camera.aspectRatio,
+        squareCameraDirection.y,
+        squareCameraDirection.z
+    ));
+    float3 worldDirection = (camera.inverseViewMatrix * float4(cameraDirection, 0.0f)).xyz;
+    isValid = true;
+    return normalize(worldDirection);
+}
+
+inline float4 locationFromDepthWorldPosition(float2 uv, float depth01, LocationFromDepthCameraUniforms camera, thread bool& isValid) {
+    if (camera.isOrthographic > 0u) {
+        float2 ndc = locationFromDepthPixelToNDC(uv);
+        float halfHeight = camera.orthographicHeight * 0.5f;
+        float halfWidth = halfHeight * camera.aspectRatio;
+        float cameraDepth = -(camera.near + (camera.far - camera.near) * depth01);
+        float3 cameraPosition = float3(
+            ndc.x * halfWidth,
+            ndc.y * halfHeight,
+            cameraDepth
+        );
+        float4 worldPosition = camera.inverseViewMatrix * float4(cameraPosition, 1.0f);
+        isValid = true;
+        return float4(worldPosition.xyz / worldPosition.w, 1.0f);
+    }
+
+    bool hasValidDirection = false;
+    float3 worldDirection = locationFromDepthWorldDirection(uv, camera, hasValidDirection);
+    if (!hasValidDirection) {
+        isValid = false;
+        return float4(0.0f);
+    }
+
+    isValid = true;
+    float distanceToApex = camera.near + (camera.far - camera.near) * depth01;
+    float3 worldPosition = locationFromDepthApexWorldPosition(camera) + worldDirection * distanceToApex;
+    return float4(worldPosition, 1.0f);
+}

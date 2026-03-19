@@ -1,5 +1,5 @@
 //
-//  LocationFromDepth.metal
+//  LocationFromDepthPerspective.metal
 //  AsyncGraphics
 //
 //  Created by Anton Heestand with AI on 2026-02-19.
@@ -7,6 +7,8 @@
 
 #include <metal_stdlib>
 using namespace metal;
+
+#include "LocationFromDepthCameraProjection.metalh"
 
 struct VertexOut {
     float4 position [[position]];
@@ -17,7 +19,11 @@ struct Uniforms {
     float4x4 inverseViewProjectionMatrix;
 };
 
-fragment float4 locationFromDepth(
+struct CameraUniforms {
+    LocationFromDepthCameraUniforms camera;
+};
+
+fragment float4 locationFromDepthPerspective(
     VertexOut out [[stage_in]],
     texture2d<float> depthTexture [[texture(0)]],
     const device Uniforms& uniforms [[buffer(0)]],
@@ -54,4 +60,29 @@ fragment float4 locationFromDepth(
     }
 
     return float4(worldPosition, 1.0);
+}
+
+fragment float4 locationFromDepthCamera(
+    VertexOut out [[stage_in]],
+    texture2d<float> depthTexture [[texture(0)]],
+    const device CameraUniforms& uniforms [[buffer(0)]],
+    sampler sampler [[sampler(0)]]
+) {
+    float2 uv = out.texCoord;
+    float depth = depthTexture.sample(sampler, uv).r;
+
+    bool isValid = false;
+    float4 worldPosition = locationFromDepthWorldPosition(uv, depth, uniforms.camera, isValid);
+    if (!isValid) {
+        return float4(0.0f);
+    }
+
+    if (!isfinite(worldPosition.x)
+        || !isfinite(worldPosition.y)
+        || !isfinite(worldPosition.z)
+        || !isfinite(worldPosition.w)) {
+        return float4(0.0f);
+    }
+
+    return worldPosition;
 }

@@ -14,6 +14,20 @@ extension Graphic {
         let inverseViewProjectionMatrix: matrix_float4x4
     }
 
+    private struct LocationFromDepthCameraUniforms: Uniforms {
+        let inverseViewMatrix: matrix_float4x4
+        let position: SIMD3<Float>
+        let aspectRatio: Float
+        let near: Float
+        let far: Float
+        let fieldOfViewRadians: Float
+        let curvature: Float
+        let orthographicHeight: Float
+        let projectionOffset: Float
+        let isOrthographic: UInt32
+        let padding: SIMD2<Float> = .zero
+    }
+
     private struct LocationFromDepthOrthographicUniforms: Uniforms {
         let cameraWorldMatrix: matrix_float4x4
         let near: Float
@@ -58,11 +72,50 @@ extension Graphic {
     ) async throws -> Graphic {
 
         try await Renderer.render(
-            name: "Location from Depth",
-            shader: .name("locationFromDepth"),
+            name: "Location from Depth Perspective",
+            shader: .name("locationFromDepthPerspective"),
             graphics: [self],
             uniforms: LocationFromDepthPerspectiveUniforms(
                 inverseViewProjectionMatrix: inverseViewProjectionMatrix
+            ),
+            metadata: Renderer.Metadata(
+                resolution: resolution,
+                colorSpace: .linearSRGB,
+                bits: ._32
+            ),
+            options: options.spatialRenderOptions
+        )
+    }
+
+    public func locationFromDepth(
+        cameraWorldMatrix: matrix_float4x4,
+        cameraPosition: SIMD3<Float>,
+        aspectRatio: Float,
+        near: Float,
+        far: Float,
+        fieldOfViewRadians: Float,
+        curvature: Float,
+        orthographicHeight: Float = 0.0,
+        projectionOffset: Float = 0.0,
+        isOrthographic: Bool = false,
+        options: EffectOptions = []
+    ) async throws -> Graphic {
+
+        try await Renderer.render(
+            name: "Location from Depth Camera With Curvature",
+            shader: .name("locationFromDepthWithCurvature"),
+            graphics: [self],
+            uniforms: LocationFromDepthCameraUniforms(
+                inverseViewMatrix: cameraWorldMatrix,
+                position: cameraPosition,
+                aspectRatio: aspectRatio,
+                near: near,
+                far: far,
+                fieldOfViewRadians: fieldOfViewRadians,
+                curvature: curvature,
+                orthographicHeight: orthographicHeight,
+                projectionOffset: projectionOffset,
+                isOrthographic: isOrthographic ? 1 : 0
             ),
             metadata: Renderer.Metadata(
                 resolution: resolution,
