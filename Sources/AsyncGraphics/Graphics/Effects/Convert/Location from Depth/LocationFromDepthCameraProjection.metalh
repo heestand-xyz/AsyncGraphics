@@ -12,7 +12,7 @@ struct LocationFromDepthCameraUniforms {
     float orthographicHeight;
     float projectionOffset;
     uint isOrthographic;
-    float2 padding;
+    float4 padding;
 };
 
 inline float3 locationFromDepthApexWorldPosition(LocationFromDepthCameraUniforms camera) {
@@ -45,11 +45,13 @@ inline float locationFromDepthProjectedRadius(float theta, LocationFromDepthCame
 inline float locationFromDepthThetaForRadius(float radius, LocationFromDepthCameraUniforms camera) {
     float halfFieldOfView = fabs(camera.fieldOfViewRadians) * 0.5f;
     if (halfFieldOfView <= 1e-6f) { return 0.0f; }
+    float effectiveCurvature = locationFromDepthEffectiveCurvature(camera);
+    if (effectiveCurvature >= 0.999999f) {
+        return radius * halfFieldOfView;
+    }
 
     float lower = 0.0f;
-    float upper = locationFromDepthEffectiveCurvature(camera) >= 0.999999f
-        ? halfFieldOfView
-        : min(fabs(camera.fieldOfViewRadians), (M_PI_F * 0.5f) - 1e-4f);
+    float upper = min(fabs(camera.fieldOfViewRadians), (M_PI_F * 0.5f) - 1e-4f);
     for (uint index = 0; index < 24u; ++index) {
         float middle = (lower + upper) * 0.5f;
         float middleRadius = locationFromDepthProjectedRadius(middle, camera);
@@ -72,10 +74,6 @@ inline float2 locationFromDepthPixelToNDC(float2 uv) {
 inline float3 locationFromDepthWorldDirection(float2 uv, LocationFromDepthCameraUniforms camera, thread bool& isValid) {
     float2 ndc = locationFromDepthPixelToNDC(uv);
     float radius = length(ndc);
-    if (locationFromDepthEffectiveCurvature(camera) >= 0.999999f && radius > 1.0f + 1e-4f) {
-        isValid = false;
-        return float3(0.0f);
-    }
 
     float theta = locationFromDepthThetaForRadius(radius, camera);
     float phi = radius > 1e-6f ? atan2(ndc.y, ndc.x) : 0.0f;

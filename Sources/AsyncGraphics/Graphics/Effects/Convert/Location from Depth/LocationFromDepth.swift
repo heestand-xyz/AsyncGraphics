@@ -14,7 +14,7 @@ extension Graphic {
         let inverseViewProjectionMatrix: matrix_float4x4
     }
 
-    private struct LocationFromDepthCameraUniforms: Uniforms {
+    private struct LocationFromDepthWithCurvatureUniforms: Uniforms {
         let inverseViewMatrix: matrix_float4x4
         let position: SIMD3<Float>
         let aspectRatio: Float
@@ -25,7 +25,7 @@ extension Graphic {
         let orthographicHeight: Float
         let projectionOffset: Float
         let isOrthographic: UInt32
-        let padding: SIMD2<Float> = .zero
+        let padding: SIMD4<Float> = .zero
     }
 
     private struct LocationFromDepthOrthographicUniforms: Uniforms {
@@ -102,10 +102,10 @@ extension Graphic {
     ) async throws -> Graphic {
 
         try await Renderer.render(
-            name: "Location from Depth Camera With Curvature",
+            name: "Location from Depth with Curvature",
             shader: .name("locationFromDepthWithCurvature"),
             graphics: [self],
-            uniforms: LocationFromDepthCameraUniforms(
+            uniforms: LocationFromDepthWithCurvatureUniforms(
                 inverseViewMatrix: cameraWorldMatrix,
                 position: cameraPosition,
                 aspectRatio: aspectRatio,
