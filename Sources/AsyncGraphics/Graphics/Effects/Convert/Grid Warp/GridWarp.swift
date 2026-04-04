@@ -6,6 +6,7 @@
 //
 
 import CoreGraphics
+import CoreGraphicsExtensions
 
 extension Graphic {
     
@@ -17,6 +18,24 @@ extension Graphic {
             public var y: CGFloat
             public var u: CGFloat
             public var v: CGFloat
+            public var point: CGPoint {
+                get {
+                    CGPoint(x: x, y: y)
+                }
+                set {
+                    x = newValue.x
+                    y = newValue.y
+                }
+            }
+            public var uv: CGPoint {
+                get {
+                    CGPoint(x: u, y: v)
+                }
+                set {
+                    u = newValue.x
+                    v = newValue.y
+                }
+            }
             var rendererVertex: Renderer.Vertex {
                 Renderer.Vertex(x: x * 2.0 - 1.0, y: (1.0 - y) * 2.0 - 1.0, u: u, v: v)
             }
@@ -56,7 +75,7 @@ extension Graphic {
             }
         }
         /// Vertices for polygons. Grouped by 3 vertices per polygon.
-        public var flatVertices: [[Vertex]] {
+        public func flatVertices(diagonalIntersection: Bool) -> [[Vertex]] {
             var flatVertices: [[Vertex]] = []
             for (y, vertexRow) in vertices.enumerated() {
                 guard y < vertices.count - 1 else { continue }
@@ -68,29 +87,45 @@ extension Graphic {
                     let bottomVertex = nextVertexRow[x]
                     guard nextVertexRow.indices.contains(x + 1) else { continue }
                     let bottomRightVertex = nextVertexRow[x + 1]
-                    let centerVetex = Vertex(
-                        x: (vertex.x + rightVertex.x + bottomVertex.x + bottomRightVertex.x) / 4,
-                        y: (vertex.y + rightVertex.y + bottomVertex.y + bottomRightVertex.y) / 4,
-                        u: (vertex.u + rightVertex.u + bottomVertex.u + bottomRightVertex.u) / 4,
-                        v: (vertex.v + rightVertex.v + bottomVertex.v + bottomRightVertex.v) / 4,
+                    let pointCenter: CGPoint = if diagonalIntersection {
+                        intersection(
+                            line1a: vertex.point,
+                            line1b: bottomRightVertex.point,
+                            line2a: rightVertex.point,
+                            line2b: bottomVertex.point
+                        )
+                    } else {
+                        average(
+                            vertex.point,
+                            rightVertex.point,
+                            bottomVertex.point,
+                            bottomRightVertex.point,
+                        )
+                    }
+                    let uvCenter: CGPoint = average(
+                        vertex.uv,
+                        rightVertex.uv,
+                        bottomVertex.uv,
+                        bottomRightVertex.uv,
                     )
+                    let centerVertex = Vertex(at: pointCenter, uv: uvCenter)
                     flatVertices.append([
-                        centerVetex,
+                        centerVertex,
                         bottomVertex,
                         vertex,
                     ])
                     flatVertices.append([
-                        centerVetex,
+                        centerVertex,
                         vertex,
                         rightVertex,
                     ])
                     flatVertices.append([
-                        centerVetex,
+                        centerVertex,
                         rightVertex,
                         bottomRightVertex,
                     ])
                     flatVertices.append([
-                        centerVetex,
+                        centerVertex,
                         bottomRightVertex,
                         bottomVertex,
                     ])
@@ -98,16 +133,51 @@ extension Graphic {
             }
             return flatVertices
         }
+        
+        private func average(
+            _ p1: CGPoint, _ p2: CGPoint,
+            _ p3: CGPoint, _ p4: CGPoint
+        ) -> CGPoint {
+            (p1 + p2 + p3 + p4) / 4
+        }
+        
+        private func intersection(
+            line1a p1: CGPoint, line1b p2: CGPoint,
+            line2a p3: CGPoint, line2b p4: CGPoint
+        ) -> CGPoint {
+
+            let a1 = p2.y - p1.y
+            let b1 = p1.x - p2.x
+            let c1 = a1 * p1.x + b1 * p1.y
+
+            let a2 = p4.y - p3.y
+            let b2 = p3.x - p4.x
+            let c2 = a2 * p3.x + b2 * p3.y
+
+            let det = a1 * b2 - a2 * b1
+            guard abs(det) > .ulpOfOne else {
+                return average(p1, p2, p3, p4)
+            }
+
+            return CGPoint(
+                x: (b2 * c1 - b1 * c2) / det,
+                y: (a1 * c2 - a2 * c1) / det
+            )
+        }
     }
     
     /// Warp graphic with a grid.
-    public func warp(grid: Grid) async throws -> Graphic {
+    ///
+    /// Perspective uses diagonal intersection instead of averaging to determine each quad center.
+    public func warp(grid: Grid, perspective: Bool = false) async throws -> Graphic {
         try await Renderer.render(
             name: "Grid Warp",
             shader: .passthrough,
             graphics: [self],
             vertices: .direct(
-                grid.flatVertices.flatMap({ $0 }).map(\.rendererVertex),
+                grid.flatVertices(
+                    diagonalIntersection: perspective
+                ).flatMap({ $0 }).map(\.rendererVertex),
                 type: .triangle
             )
         )
