@@ -74,9 +74,11 @@ extension Graphic {
                 vertices.append(vertexRow)
             }
         }
-        /// Vertices for polygons. Grouped by 3 vertices per polygon.
-        public func flatVertices(diagonalIntersection: Bool) -> [[Vertex]] {
-            var flatVertices: [[Vertex]] = []
+        /// Flat vertices for polygons.
+        ///
+        /// Grouped by 3 vertices per polygon.
+        func flatVertices(perspective: Bool, subdivisions: Int?) -> [Renderer.Vertex] {
+            var flatVertices: [Renderer.Vertex] = []
             for (y, vertexRow) in vertices.enumerated() {
                 guard y < vertices.count - 1 else { continue }
                 let nextVertexRow: [Vertex] = vertices[y + 1]
@@ -87,48 +89,65 @@ extension Graphic {
                     let bottomVertex = nextVertexRow[x]
                     guard nextVertexRow.indices.contains(x + 1) else { continue }
                     let bottomRightVertex = nextVertexRow[x + 1]
-                    let pointCenter: CGPoint = if diagonalIntersection {
-                        intersection(
-                            line1a: vertex.point,
-                            line1b: bottomRightVertex.point,
-                            line2a: rightVertex.point,
-                            line2b: bottomVertex.point
+                    if let subdivisions: Int {
+                        let cornerPinVertices: [[Renderer.Vertex]] = Graphic.cornerPinVertices(
+                            topLeft: Graphic.uvFlipY(vertex.point),
+                            topRight: Graphic.uvFlipY(rightVertex.point),
+                            bottomLeft: Graphic.uvFlipY(bottomVertex.point),
+                            bottomRight: Graphic.uvFlipY(bottomRightVertex.point),
+                            topLeftUV: vertex.uv,
+                            topRightUV: rightVertex.uv,
+                            bottomLeftUV: bottomVertex.uv,
+                            bottomRightUV: bottomRightVertex.uv,
+                            perspective: perspective,
+                            subdivisions: subdivisions
                         )
+                        let flatCornerPinVertices: [Renderer.Vertex] = Graphic.mapVertices(cornerPinVertices, subdivisions: subdivisions)
+                        flatVertices.append(contentsOf: flatCornerPinVertices)
                     } else {
-                        average(
-                            vertex.point,
-                            rightVertex.point,
-                            bottomVertex.point,
-                            bottomRightVertex.point,
+                        let pointCenter: CGPoint = if perspective {
+                            intersection(
+                                line1a: vertex.point,
+                                line1b: bottomRightVertex.point,
+                                line2a: rightVertex.point,
+                                line2b: bottomVertex.point
+                            )
+                        } else {
+                            average(
+                                vertex.point,
+                                rightVertex.point,
+                                bottomVertex.point,
+                                bottomRightVertex.point,
+                            )
+                        }
+                        let uvCenter: CGPoint = average(
+                            vertex.uv,
+                            rightVertex.uv,
+                            bottomVertex.uv,
+                            bottomRightVertex.uv,
                         )
+                        let centerVertex = Vertex(at: pointCenter, uv: uvCenter)
+                        flatVertices.append(contentsOf: [
+                            centerVertex.rendererVertex,
+                            bottomVertex.rendererVertex,
+                            vertex.rendererVertex,
+                        ])
+                        flatVertices.append(contentsOf: [
+                            centerVertex.rendererVertex,
+                            vertex.rendererVertex,
+                            rightVertex.rendererVertex,
+                        ])
+                        flatVertices.append(contentsOf: [
+                            centerVertex.rendererVertex,
+                            rightVertex.rendererVertex,
+                            bottomRightVertex.rendererVertex,
+                        ])
+                        flatVertices.append(contentsOf: [
+                            centerVertex.rendererVertex,
+                            bottomRightVertex.rendererVertex,
+                            bottomVertex.rendererVertex,
+                        ])
                     }
-                    let uvCenter: CGPoint = average(
-                        vertex.uv,
-                        rightVertex.uv,
-                        bottomVertex.uv,
-                        bottomRightVertex.uv,
-                    )
-                    let centerVertex = Vertex(at: pointCenter, uv: uvCenter)
-                    flatVertices.append([
-                        centerVertex,
-                        bottomVertex,
-                        vertex,
-                    ])
-                    flatVertices.append([
-                        centerVertex,
-                        vertex,
-                        rightVertex,
-                    ])
-                    flatVertices.append([
-                        centerVertex,
-                        rightVertex,
-                        bottomRightVertex,
-                    ])
-                    flatVertices.append([
-                        centerVertex,
-                        bottomRightVertex,
-                        bottomVertex,
-                    ])
                 }
             }
             return flatVertices
@@ -169,15 +188,18 @@ extension Graphic {
     /// Warp graphic with a grid.
     ///
     /// Perspective uses diagonal intersection instead of averaging to determine each quad center.
-    public func warp(grid: Grid, perspective: Bool = false) async throws -> Graphic {
+    ///
+    /// When subdivisions are provided a corner pin on each quad will be performed.
+    public func warp(grid: Grid, perspective: Bool = false, subdivisions: Int? = nil) async throws -> Graphic {
         try await Renderer.render(
             name: "Grid Warp",
             shader: .passthrough,
             graphics: [self],
             vertices: .direct(
                 grid.flatVertices(
-                    diagonalIntersection: perspective
-                ).flatMap({ $0 }).map(\.rendererVertex),
+                    perspective: perspective,
+                    subdivisions: subdivisions
+                ),
                 type: .triangle
             )
         )

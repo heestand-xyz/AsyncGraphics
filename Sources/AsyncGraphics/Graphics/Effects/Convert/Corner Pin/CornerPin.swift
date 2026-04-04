@@ -50,15 +50,19 @@ extension Graphic {
 
 extension Graphic {
     
-    private static func uvFlipY(_ point: CGPoint) -> CGPoint {
+    static func uvFlipY(_ point: CGPoint) -> CGPoint {
         CGPoint(x: point.x, y: 1.0 - point.y)
     }
     
-    private static func cornerPinVertices(
+    static func cornerPinVertices(
         topLeft: CGPoint,
         topRight: CGPoint,
         bottomLeft: CGPoint,
         bottomRight: CGPoint,
+        topLeftUV: CGPoint = .zero,
+        topRightUV: CGPoint = CGPoint(x: 1.0, y: 0.0),
+        bottomLeftUV: CGPoint = CGPoint(x: 0.0, y: 1.0),
+        bottomRightUV: CGPoint = CGPoint(x: 1.0, y: 1.0),
         perspective: Bool,
         subdivisions: Int
     ) -> [[Renderer.Vertex]] {
@@ -111,6 +115,9 @@ extension Graphic {
             for y in 0...subdivisions {
                 let u = CGFloat(x) / CGFloat(subdivisions)
                 let v = CGFloat(y) / CGFloat(subdivisions)
+                let uvBottom = add(scale(bottomLeftUV, by: 1.0 - u), scale(bottomRightUV, by: u))
+                let uvTop = add(scale(topLeftUV, by: 1.0 - u), scale(topRightUV, by: u))
+                let uv = add(scale(uvBottom, by: 1.0 - v), scale(uvTop, by: v))
                 let pos: CGPoint
                 if perspective {
                     pos = CGPoint(x: (a*u + b*v + c) / (g*u+h*v+1), y: (d*u + e*v + f) / (g*u+h*v+1))
@@ -119,10 +126,12 @@ extension Graphic {
                     let top = add(scale(topLeft, by: 1.0 - u), scale(topRight, by: u))
                     pos = add(scale(bottom, by: 1.0 - v), scale(top, by: v))
                 }
-                let vert = Renderer.Vertex(x: CGFloat(pos.x * 2 - 1),
-                                           y: CGFloat(pos.y * 2 - 1),
-                                           u: CGFloat(u),
-                                           v: CGFloat(1.0 - v))
+                let vert = Renderer.Vertex(
+                    x: CGFloat(pos.x * 2 - 1),
+                    y: CGFloat(pos.y * 2 - 1),
+                    u: CGFloat(uv.x),
+                    v: CGFloat(uv.y)
+                )
                 col_verts.append(vert)
             }
             verts.append(col_verts)
@@ -140,7 +149,7 @@ extension Graphic {
         CGPoint(x: pointA.x + pointB.x, y: pointA.y + pointB.y)
     }
     
-    private static func mapVertices(_ vertices: [[Renderer.Vertex]], subdivisions: Int) -> [Renderer.Vertex] {
+    static func mapVertices(_ vertices: [[Renderer.Vertex]], subdivisions: Int) -> [Renderer.Vertex] {
         var verticesMap: [Renderer.Vertex] = []
         for x in 0..<subdivisions {
             for y in 0..<subdivisions {
