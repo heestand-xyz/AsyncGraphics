@@ -19,10 +19,57 @@ extension Graphic {
         options: EffectOptions = []
     ) async throws -> Graphic {
        
-        let relativeTopLeft: CGPoint = (topLeft ?? .zero) / resolution
-        let relativeTopRight: CGPoint = (topRight ?? CGPoint(x: resolution.width, y: 0.0)) / resolution
-        let relativeBottomLeft: CGPoint = (bottomLeft ?? CGPoint(x: 0.0, y: resolution.height)) / resolution
-        let relativeBottomRight: CGPoint = (bottomRight ?? resolution.asPoint) / resolution
+        var relativeTopLeft: CGPoint = (topLeft ?? .zero) / resolution
+        var relativeTopRight: CGPoint = (topRight ?? CGPoint(x: resolution.width, y: 0.0)) / resolution
+        var relativeBottomLeft: CGPoint = (bottomLeft ?? CGPoint(x: 0.0, y: resolution.height)) / resolution
+        var relativeBottomRight: CGPoint = (bottomRight ?? resolution.asPoint) / resolution
+        
+        let overlapNudge = CGPoint(
+            x: 1.0 / resolution.width,
+            y: 1.0 / resolution.height
+        )
+        Self.nudgeCornerPinPointsIfOverlapping(
+            &relativeTopLeft,
+            &relativeTopRight,
+            firstDirection: CGPoint(x: -1.0, y: -1.0),
+            secondDirection: CGPoint(x: 1.0, y: -1.0),
+            by: overlapNudge
+        )
+        Self.nudgeCornerPinPointsIfOverlapping(
+            &relativeTopLeft,
+            &relativeBottomLeft,
+            firstDirection: CGPoint(x: -1.0, y: -1.0),
+            secondDirection: CGPoint(x: -1.0, y: 1.0),
+            by: overlapNudge
+        )
+        Self.nudgeCornerPinPointsIfOverlapping(
+            &relativeTopLeft,
+            &relativeBottomRight,
+            firstDirection: CGPoint(x: -1.0, y: -1.0),
+            secondDirection: CGPoint(x: 1.0, y: 1.0),
+            by: overlapNudge
+        )
+        Self.nudgeCornerPinPointsIfOverlapping(
+            &relativeTopRight,
+            &relativeBottomLeft,
+            firstDirection: CGPoint(x: 1.0, y: -1.0),
+            secondDirection: CGPoint(x: -1.0, y: 1.0),
+            by: overlapNudge
+        )
+        Self.nudgeCornerPinPointsIfOverlapping(
+            &relativeTopRight,
+            &relativeBottomRight,
+            firstDirection: CGPoint(x: 1.0, y: -1.0),
+            secondDirection: CGPoint(x: 1.0, y: 1.0),
+            by: overlapNudge
+        )
+        Self.nudgeCornerPinPointsIfOverlapping(
+            &relativeBottomLeft,
+            &relativeBottomRight,
+            firstDirection: CGPoint(x: -1.0, y: 1.0),
+            secondDirection: CGPoint(x: 1.0, y: 1.0),
+            by: overlapNudge
+        )
         
         let vertices: [Renderer.Vertex] = Self.mapVertices(
             Self.cornerPinVertices(
@@ -115,16 +162,16 @@ extension Graphic {
             for y in 0...subdivisions {
                 let u = CGFloat(x) / CGFloat(subdivisions)
                 let v = CGFloat(y) / CGFloat(subdivisions)
-                let uvBottom = add(scale(bottomLeftUV, by: 1.0 - u), scale(bottomRightUV, by: u))
-                let uvTop = add(scale(topLeftUV, by: 1.0 - u), scale(topRightUV, by: u))
-                let uv = add(scale(uvBottom, by: 1.0 - v), scale(uvTop, by: v))
+                let uvBottom = bottomLeftUV * (1.0 - u) + bottomRightUV * u
+                let uvTop = topLeftUV * (1.0 - u) + topRightUV * u
+                let uv = uvBottom * (1.0 - v) + uvTop * v
                 let pos: CGPoint
                 if perspective {
                     pos = CGPoint(x: (a*u + b*v + c) / (g*u+h*v+1), y: (d*u + e*v + f) / (g*u+h*v+1))
                 } else {
-                    let bottom = add(scale(bottomLeft, by: 1.0 - u), scale(bottomRight, by: u))
-                    let top = add(scale(topLeft, by: 1.0 - u), scale(topRight, by: u))
-                    pos = add(scale(bottom, by: 1.0 - v), scale(top, by: v))
+                    let bottom = bottomLeft * (1.0 - u) + bottomRight * u
+                    let top = topLeft * (1.0 - u) + topRight * u
+                    pos = bottom * (1.0 - v) + top * v
                 }
                 let vert = Renderer.Vertex(
                     x: CGFloat(pos.x * 2 - 1),
@@ -141,12 +188,16 @@ extension Graphic {
         
     }
     
-    private static func scale(_ point: CGPoint, by scale: CGFloat) -> CGPoint {
-        CGPoint(x: point.x * scale, y: point.y * scale)
-    }
-    
-    private static func add(_ pointA: CGPoint, _ pointB: CGPoint) -> CGPoint {
-        CGPoint(x: pointA.x + pointB.x, y: pointA.y + pointB.y)
+    private static func nudgeCornerPinPointsIfOverlapping(
+        _ firstPoint: inout CGPoint,
+        _ secondPoint: inout CGPoint,
+        firstDirection: CGPoint,
+        secondDirection: CGPoint,
+        by nudge: CGPoint
+    ) {
+        guard firstPoint == secondPoint else { return }
+        firstPoint += firstDirection * nudge
+        secondPoint += secondDirection * nudge
     }
     
     static func mapVertices(_ vertices: [[Renderer.Vertex]], subdivisions: Int) -> [Renderer.Vertex] {
