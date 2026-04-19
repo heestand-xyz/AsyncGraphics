@@ -660,15 +660,13 @@ public struct Renderer {
                     fatalError("Non 3D Compute Encoding Not Supported")
                 }
                 
-                let threadsPerThreadGroup = MTLSize(width: 8,
-                                                    height: 8,
-                                                    depth: 8)
-                
-                let threadsPerGrid: MTLSize = MTLSize(width: Int(resolution.width),
-                                                      height: Int(resolution.height),
-                                                      depth: Int(resolution.depth))
-                
-                computeCommandEncoder.dispatchThreadgroups(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadGroup)
+                let threadsPerThreadgroup = MTLSize(width: 8, height: 8, depth: 8)
+                let threadgroups = MTLSize(
+                    width: (Int(resolution.width) + threadsPerThreadgroup.width - 1) / threadsPerThreadgroup.width,
+                    height: (Int(resolution.height) + threadsPerThreadgroup.height - 1) / threadsPerThreadgroup.height,
+                    depth: (Int(resolution.depth) + threadsPerThreadgroup.depth - 1) / threadsPerThreadgroup.depth
+                )
+                computeCommandEncoder.dispatchThreadgroups(threadgroups, threadsPerThreadgroup: threadsPerThreadgroup)
             }
             commandEncoder.endEncoding()
             
