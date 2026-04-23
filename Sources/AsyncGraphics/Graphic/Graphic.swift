@@ -79,16 +79,25 @@ extension Graphic {
     
     enum ImageDataError: LocalizedError {
         
+        case exrDataNotFound
         case pngDataNotFound
         case tiffDataNotFound
+        case jpegDataNotFound
+        case heicDataNotFound
         case mappingFailed
         
         var errorDescription: String? {
             switch self {
+            case .exrDataNotFound:
+                return "AsyncGraphics - Image - EXR Data Not Found"
             case .pngDataNotFound:
                 return "AsyncGraphics - Image - PNG Data Not Found"
             case .tiffDataNotFound:
                 return "AsyncGraphics - Image - TIFF Data Not Found"
+            case .jpegDataNotFound:
+                return "AsyncGraphics - Image - JPEG Data Not Found"
+            case .heicDataNotFound:
+                return "AsyncGraphics - Image - HEIC Data Not Found"
             case .mappingFailed:
                 return "AsyncGraphics - Image - Mapping Failed"
             }
@@ -147,20 +156,52 @@ extension Graphic {
         }
     }
     
+    /// EXR Data
+    public var exrData: Data {
+        get async throws {
+            guard let exrData = try await image.exrData()
+            else { throw ImageDataError.exrDataNotFound }
+            return exrData
+        }
+    }
+    
+    /// PNG Data
     public var pngData: Data {
         get async throws {
-            guard let pngData =  try await image.pngData()
+            guard let pngData = try await image.pngData()
             else { throw ImageDataError.pngDataNotFound }
             return pngData
         }
     }
     
+    /// TIFF Data
     public var tiffData: Data {
         get async throws {
-            guard let tiffData =  try await image.tiffData()
+            guard let tiffData = try await image.tiffData()
             else { throw ImageDataError.tiffDataNotFound }
             return tiffData
         }
+    }
+    
+    /// JPEG Data
+    public func jpegData(compressionQuality: CGFloat = 1.0) async throws -> Data {
+        guard let jpegData = try await image.jpegData(compressionQuality: compressionQuality)
+        else { throw ImageDataError.jpegDataNotFound }
+        return jpegData
+    }
+    
+    /// HEIC Data
+    ///
+    /// Compression quality is used for macOS only.
+    public func heicData(compressionQuality: CGFloat = 1.0) async throws -> Data {
+#if os(macOS)
+        guard let heicData = try await image.heicData(compressionQuality: compressionQuality)
+        else { throw ImageDataError.heicDataNotFound }
+#else
+        guard let heicData = try await image.heicData()
+        else { throw ImageDataError.heicDataNotFound }
+#endif
+        return heicData
     }
     
     /// UIImage / NSImage with better support for saving as a transparent png file.
