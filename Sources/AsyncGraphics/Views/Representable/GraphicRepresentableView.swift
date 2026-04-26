@@ -6,14 +6,14 @@ import SwiftUI
 import CoreGraphics
 import TextureMap
 
-struct GraphicRepresentableView {
+struct GraphicRepresentableView: Sendable {
     
     let graphic: Graphic
     let viewResolution: CGSize
     let interpolation: Graphic.ViewInterpolation
     let extendedDynamicRange: Bool
     var preProcessed: Bool = false
-    let didRender: (UUID) -> ()
+    let didRender: @Sendable (UUID) -> ()
     
     private func render(in view: GraphicMetalViewable) async throws {
         var graphic: Graphic = graphic
