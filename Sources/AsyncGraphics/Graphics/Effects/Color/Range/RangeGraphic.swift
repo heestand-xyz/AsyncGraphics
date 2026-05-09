@@ -27,6 +27,8 @@ extension CodableGraphic.Effect.Color {
              try await graphic.range(
                 referenceLow: referenceLow.value.eval(at: graphic.resolution),
                 referenceHigh: referenceHigh.value.eval(at: graphic.resolution),
+                targetLow: targetLow.value.eval(at: graphic.resolution),
+                targetHigh: targetHigh.value.eval(at: graphic.resolution),
                 includeAlpha: includeAlpha.value.eval(at: graphic.resolution),
                 options: options)
         }
