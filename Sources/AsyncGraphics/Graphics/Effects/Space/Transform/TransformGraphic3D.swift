@@ -23,8 +23,6 @@ extension CodableGraphic3D.Effect.Space {
         public var scale: GraphicMetadata<CGFloat> = .init(value: .one,
                                                            maximum: .fixed(2.0))
         
-        public var isTransparent: GraphicMetadata<Bool> = .init(value: .fixed(false))
-        
         public var extendMode: GraphicEnumMetadata<Graphic.ExtendMode> = .init(
             value: .stretch,
             docs: "Voxels outside the main bounds will use the extend mode when sampled. This will mainly affect voxels on the edges."
