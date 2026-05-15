@@ -114,7 +114,7 @@ extension GraphicMetalVisionView {
 
 extension GraphicMetalVisionView {
         
-    func draw(completion: @escaping (Bool) -> ()) {
+    func draw(completion: @Sendable @escaping (Bool) -> ()) {
         guard let graphic: Graphic = graphic else {
             completion(false)
             return
