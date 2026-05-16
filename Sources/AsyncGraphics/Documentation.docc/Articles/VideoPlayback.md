@@ -24,7 +24,7 @@ import AsyncGraphics
 
 struct ContentView: View {
    
-    @StateObject private var videoPlayer: GraphicVideoPlayer = {
+    @State private var videoPlayer: GraphicVideoPlayer = {
         let url = Bundle.main.url(forResource: "Video", withExtension: "mov")!
         var options = GraphicVideoPlayer.Options()
         options.loop = true
