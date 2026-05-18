@@ -126,7 +126,7 @@ float4 blends(int mode, float2 uv, texture2d_array<float> textures, sampler s) {
                     c -= ci;
                 }
                 break;
-            case 8: // Max
+            case 8: // Max (lighten)
                 ci = textures.sample(s, uv, i);
                 if (i == 0) {
                     c = ci;
@@ -134,7 +134,7 @@ float4 blends(int mode, float2 uv, texture2d_array<float> textures, sampler s) {
                     c = max(c, ci);
                 }
                 break;
-            case 9: // Min
+            case 9: // Min (darken)
                 ci = textures.sample(s, uv, i);
                 if (i == 0) {
                     c = ci;

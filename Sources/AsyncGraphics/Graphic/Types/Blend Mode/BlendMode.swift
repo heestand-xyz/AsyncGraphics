@@ -28,7 +28,9 @@ extension Graphic {
         case differenceWithAlpha
         case subtract
         case subtractWithAlpha
+        /// RGB is same as ``lighten``
         case maximum
+        /// RGB is same as ``darken``
         case minimum
         case gamma
         case power
