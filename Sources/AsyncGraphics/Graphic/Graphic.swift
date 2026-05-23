@@ -5,6 +5,7 @@
 import Foundation
 import SwiftUI
 import CoreGraphics
+import ImageIO
 @preconcurrency import Metal
 import TextureMap
 import PixelColor
@@ -192,16 +193,12 @@ extension Graphic {
     
     /// HEIC Data
     ///
-    /// Compression quality is used for macOS only.
+    /// 16 and 32 bit graphics are encoded with 10-bit HEIF.
     public func heicData(compressionQuality: CGFloat = 1.0) async throws -> Data {
-#if os(macOS)
-        guard let heicData = try await image.heicData(compressionQuality: compressionQuality)
-        else { throw ImageDataError.heicDataNotFound }
-#else
-        guard let heicData = try await image.heicData()
-        else { throw ImageDataError.heicDataNotFound }
-#endif
-        return heicData
+        try await heifData(
+            colorSpace: colorSpace,
+            compressionQuality: compressionQuality
+        )
     }
     
     /// UIImage / NSImage with better support for saving as a transparent png file.
@@ -223,8 +220,75 @@ extension Graphic {
     }
     
     public func writeImage(to url: URL, xdr: Bool = false) async throws {
-        let image: TMImage = try await image
-        try TextureMap.write(image: image, to: url, bits: bits, colorSpace: xdr ? .xdr : colorSpace)
+        let colorSpace: TMColorSpace = xdr ? .xdr : colorSpace
+        let ciImage: CIImage = try await ciImage(colorSpace: colorSpace)
+        let fileExtension: String = url.pathExtension.lowercased()
+        if fileExtension == "heic" || fileExtension == "heif" {
+            try writeHEIF(ciImage: ciImage, to: url, colorSpace: colorSpace)
+        } else {
+            try TextureMap.write(ciImage: ciImage, to: url, bits: bits, colorSpace: colorSpace)
+        }
+    }
+    
+    private func heifData(
+        colorSpace: TMColorSpace,
+        compressionQuality: CGFloat
+    ) async throws -> Data {
+        let ciImage: CIImage = try await ciImage(colorSpace: colorSpace)
+        let context = CIContext(options: nil)
+        let options: [CIImageRepresentationOption: Any] = [
+            kCGImageDestinationLossyCompressionQuality as CIImageRepresentationOption: compressionQuality
+        ]
+        
+        if bits >= ._16 {
+            return try context.heif10Representation(
+                of: ciImage,
+                colorSpace: colorSpace.cgColorSpace,
+                options: options
+            )
+        }
+        
+        guard let data: Data = context.heifRepresentation(
+            of: ciImage,
+            format: bits.ciFormat,
+            colorSpace: colorSpace.cgColorSpace,
+            options: options
+        ) else {
+            throw ImageDataError.heicDataNotFound
+        }
+        
+        return data
+    }
+    
+    private func writeHEIF(
+        ciImage: CIImage,
+        to url: URL,
+        colorSpace: TMColorSpace
+    ) throws {
+        let context = CIContext(options: nil)
+        if bits >= ._16 {
+            try context.writeHEIF10Representation(
+                of: ciImage,
+                to: url,
+                colorSpace: colorSpace.cgColorSpace,
+                options: [:]
+            )
+        } else {
+            try context.writeHEIFRepresentation(
+                of: ciImage,
+                to: url,
+                format: bits.ciFormat,
+                colorSpace: colorSpace.cgColorSpace,
+                options: [:]
+            )
+        }
+    }
+    
+    private func ciImage(colorSpace: TMColorSpace) async throws -> CIImage {
+        try await TextureMap.ciImage(
+            texture: mirroredVertically().texture,
+            colorSpace: colorSpace
+        )
     }
     
     /// XDR UIImage / NSImage
