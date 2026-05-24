@@ -36,8 +36,8 @@ extension Graphic {
            
             let request = VNGeneratePersonSegmentationRequest { (request, error) in
                 
-                if let error {
-                    continuation.resume(throwing: error)
+                guard error == nil else {
+                    // Continuation returns later.
                     return
                 }
 
