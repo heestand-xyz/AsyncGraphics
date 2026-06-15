@@ -219,7 +219,11 @@ extension Graphic {
         }
     }
     
-    public func writeImage(to url: URL, xdr: Bool = false) async throws {
+    public func writeImage(to url: URL) async throws {
+        try await writeImage(to: url, xdr: bits > ._8)
+    }
+    
+    public func writeImage(to url: URL, xdr: Bool) async throws {
         let colorSpace: TMColorSpace = xdr ? .xdr : colorSpace
         let ciImage: CIImage = try await ciImage(colorSpace: colorSpace)
         let fileExtension: String = url.pathExtension.lowercased()
