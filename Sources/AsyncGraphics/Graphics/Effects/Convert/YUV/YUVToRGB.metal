@@ -2,7 +2,6 @@
 //  Created by Anton Heestand on 2017-11-28.
 //  Copyright © 2017 Anton Heestand. All rights reserved.
 //
-
 #include <metal_stdlib>
 using namespace metal;
 
@@ -11,25 +10,33 @@ struct VertexOut {
     float2 texCoord;
 };
 
-// BT.709 YUV to RGB conversion matrix
-constant float3x3 yuvToRGBMatrix = float3x3(
-    1.075,  1.075,  1.075,  // Y
-    0.000, -0.392,  2.017,  // U
-    1.596, -0.813,  0.000   // V
-);
+struct Uniforms {
+    bool fullRange;
+};
 
 fragment float4 yuvToRGB(VertexOut out [[stage_in]],
-                          texture2d<float> yTexture [[ texture(0) ]],
-                          texture2d<float> uvTexture [[ texture(1) ]],
-                          sampler sampler [[ sampler(0) ]]) {
+                         const device Uniforms& uniforms [[buffer(0)]],
+                         texture2d<float> yTexture [[texture(0)]],
+                         texture2d<float> uvTexture [[texture(1)]],
+                         sampler sampler [[sampler(0)]]) {
     
-    float2 uv = float2(out.texCoord[0], out.texCoord[1]);
+    float2 uv = out.texCoord;
     
-    float yColor = yTexture.sample(sampler, uv).r;
-    float y = yColor; //(yColor - (16.0 / 255.0)) * (255.0 / (235.0 - 16.0));
-    float2 uvColor = uvTexture.sample(sampler, uv).rg;
-    float u = uvColor.r - 0.5;
-    float v = uvColor.g - 0.5;
-    float3 rgb = yuvToRGBMatrix * float3(y, u, v);
-    return float4(rgb, 1.0);
+    float y = yTexture.sample(sampler, uv).r;
+    
+    if (!uniforms.fullRange) {
+        y = (y - 16.0 / 255.0) * (255.0 / 219.0);
+    }
+    
+    float2 cbcr = uvTexture.sample(sampler, uv).rg;
+    float cb = cbcr.x - 0.5;
+    float cr = cbcr.y - 0.5;
+    
+    // BT.709 YCbCr -> RGB
+    float3 rgb;
+    rgb.r = y + 1.5748 * cr;
+    rgb.g = y - 0.1873 * cb - 0.4681 * cr;
+    rgb.b = y + 1.8556 * cb;
+    
+    return float4(saturate(rgb), 1.0);
 }

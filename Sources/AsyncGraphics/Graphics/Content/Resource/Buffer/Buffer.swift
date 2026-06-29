@@ -40,13 +40,14 @@ extension Graphic {
         guard let pixelBuffer: CVPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
         else { throw BufferError.cmSampleBufferGetImageBufferFailed }
         let osType: OSType = CVPixelBufferGetPixelFormatType(pixelBuffer)
-        let isVUV: Bool = osType == OSType(875704438)
-        if isVUV {
+        let isYUV: Bool = osType == kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange || osType == kCVPixelFormatType_420YpCbCr8BiPlanarFullRange
+        let isFullRange = osType == kCVPixelFormatType_420YpCbCr8BiPlanarFullRange
+        if isYUV {
             let yTexture: MTLTexture = try TextureMap.texture(pixelBuffer: pixelBuffer, planeIndex: 0)
             let uvTexture: MTLTexture = try TextureMap.texture(pixelBuffer: pixelBuffer, planeIndex: 1)
             let yGraphic: Graphic = try .texture(yTexture)
             let uvGraphic: Graphic = try .texture(uvTexture)
-            return try await .rgb(y: yGraphic, uv: uvGraphic)
+            return try await .rgb(y: yGraphic, uv: uvGraphic, fullRange: isFullRange)
         } else {
             let texture: MTLTexture = try TextureMap.texture(pixelBuffer: pixelBuffer)
             var graphic: Graphic = try .texture(texture)

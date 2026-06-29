@@ -6,17 +6,22 @@ import CoreGraphics
 
 extension Graphic {
     
+    private struct RGBYUVUniforms: Uniforms {
+        let fullRange: Bool
+    }
+    
     /// YUV (420v) to RGB
     ///
     /// `y` in red, `uv` in red and green channels.
     ///
     /// Resolution, color space and bits is derived from the `y` graphic.
-    public static func rgb(y: Graphic, uv: Graphic) async throws -> Graphic {
+    public static func rgb(y: Graphic, uv: Graphic, fullRange: Bool = false) async throws -> Graphic {
         
         try await Renderer.render(
             name: "YUVToRGB",
             shader: .name("yuvToRGB"),
             graphics: [y, uv],
+            uniforms: RGBYUVUniforms(fullRange: fullRange),
             metadata: Renderer.Metadata(
                 resolution: y.resolution,
                 colorSpace: y.colorSpace,
