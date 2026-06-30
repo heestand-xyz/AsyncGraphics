@@ -377,8 +377,8 @@ extension Graphic {
     }
     
     public static func idealLayoutOfLUT(size: Int) -> LUTLayout {
-        
-        if isPowerOfTwo(size) {
+        let blockCount = Int(Double(size).squareRoot().rounded())
+        if blockCount * blockCount == size, isPowerOfTwo(blockCount) {
             return .square
         } else {
             return .linear
