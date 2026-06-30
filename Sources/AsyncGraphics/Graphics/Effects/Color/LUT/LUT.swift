@@ -486,7 +486,7 @@ extension Graphic {
             throw LUTError.tooSmallSize
         }
         
-        guard size <= 64 else {
+        guard size <= 65 else {
             throw LUTError.tooLargeSize
         }
         
