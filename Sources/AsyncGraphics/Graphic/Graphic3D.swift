@@ -174,8 +174,36 @@ extension Graphic3D {
     
     public static func empty() throws -> Graphic3D {
         let pixel: [UInt8] = [0,0,0,0]
-        let texture: MTLTexture = try TextureMap.texture3d(channels: pixel, resolution: Size3D(width: 1, height: 1, depth: 1), on: Renderer.metalDevice)
+        let texture: MTLTexture = try TextureMap.texture3d(
+            channels: pixel,
+            resolution: Size3D(width: 1, height: 1, depth: 1),
+            on: Renderer.metalDevice
+        )
         return Graphic3D(name: "Empty", texture: texture, bits: ._8, colorSpace: .sRGB)
+    }
+}
+
+// MARK: - Unit
+
+extension Graphic3D {
+    
+    public static func unitUVW() throws -> Graphic3D {
+        let pixel: [UInt8] = [
+            0, 0, 0, 1,
+            1, 0, 0, 1,
+            0, 1, 0, 1,
+            1, 1, 0, 1,
+            0, 0, 1, 1,
+            1, 0, 1, 1,
+            0, 1, 1, 1,
+            1, 1, 1, 1,
+        ]
+        let texture: MTLTexture = try TextureMap.texture3d(
+            channels: pixel,
+            resolution: Size3D(width: 2, height: 2, depth: 2),
+            on: Renderer.metalDevice
+        )
+        return Graphic3D(name: "Unit UVW", texture: texture, bits: ._8, colorSpace: .sRGB)
     }
 }
 
