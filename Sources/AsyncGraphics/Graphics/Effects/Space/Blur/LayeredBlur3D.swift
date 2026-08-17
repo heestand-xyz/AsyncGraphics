@@ -13,7 +13,7 @@ extension Graphic3D {
     public func blurredLayered(
         radius: CGFloat,
         layerCount: Int = 10,
-        options: EffectOptions = []
+        options: EffectOptions = [.edgeStretch]
     ) async throws -> Graphic3D {
         guard layerCount > 0 else { return self }
 
@@ -31,7 +31,7 @@ extension Graphic3D {
 
     public func blurredLayeredSinglePass(
         radius: CGFloat,
-        options: EffectOptions = []
+        options: EffectOptions = [.edgeStretch]
     ) async throws -> Graphic3D {
         let relativeRadius: CGFloat = radius / CGFloat(height)
 
