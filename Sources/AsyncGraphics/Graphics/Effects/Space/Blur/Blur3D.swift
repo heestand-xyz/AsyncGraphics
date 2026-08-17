@@ -26,6 +26,7 @@ extension Graphic3D {
         case direction
         case zoom
         case random
+        case layered
     }
     
     public func blurredBox(
@@ -124,4 +125,3 @@ extension Graphic3D {
         )
     }
 }
-

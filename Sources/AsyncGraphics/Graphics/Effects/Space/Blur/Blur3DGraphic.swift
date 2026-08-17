@@ -29,6 +29,10 @@ extension CodableGraphic3D.Effect.Space {
         public var sampleCount: GraphicMetadata<Int> = .init(value: .fixed(10),
                                                              minimum: .fixed(1),
                                                              maximum: .fixed(10))
+
+        public var layerCount: GraphicMetadata<Int> = .init(value: .fixed(10),
+                                                            minimum: .fixed(1),
+                                                            maximum: .fixed(10))
         
         public var extendMode: GraphicEnumMetadata<Graphic.ExtendMode> = .init(
             value: .stretch,
@@ -69,6 +73,12 @@ extension CodableGraphic3D.Effect.Space {
                 try await graphic.blurredRandom(
                     radius: radius.value.eval(at: graphic.resolution),
                     options: options.union(extendMode.value.options3D))
+            case .layered:
+
+                try await graphic.blurredLayered(
+                    radius: radius.value.eval(at: graphic.resolution),
+                    layerCount: layerCount.value.eval(at: graphic.resolution),
+                    options: options.union(extendMode.value.options3D))
             }
         }
         
@@ -84,6 +94,8 @@ extension CodableGraphic3D.Effect.Space {
                 style.value == .direction
             case .sampleCount:
                 style.value != .random
+            case .layerCount:
+                style.value == .layered
             case .extendMode:
                 true
             }
