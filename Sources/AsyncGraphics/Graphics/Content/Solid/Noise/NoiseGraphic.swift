@@ -34,7 +34,7 @@ extension CodableGraphic.Content.Solid {
                                                            maximum: .fixed(2.0))
         
         public var isRandom: GraphicMetadata<Bool> = .init(value: .fixed(false),
-                                                           docs: "Every pixel get's a random tho persistent color, change the seed to animate.")
+                                                           docs: "Every pixel gets a random but persistent color, change the seed to animate.")
         public var isColored: GraphicMetadata<Bool> = .init(value: .fixed(false))
         
         public var seed: GraphicMetadata<Int> = .init(value: .fixed(0),

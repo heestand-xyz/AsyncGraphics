@@ -2336,7 +2336,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Coerner Radius"
+            "value" : "Corner Radius"
           }
         }
       }
@@ -2657,7 +2657,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stroeked"
+            "value" : "Stroked"
           }
         }
       }
@@ -3517,7 +3517,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Horizonal"
+            "value" : "Horizontal"
           }
         }
       }
@@ -3687,7 +3687,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Monchrome"
+            "value" : "Monochrome"
           }
         }
       }
