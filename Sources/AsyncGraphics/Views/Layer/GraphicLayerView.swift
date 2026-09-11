@@ -9,6 +9,15 @@ import SwiftUI
 
 public struct GraphicLayerView: View {
     
+    /// Color convert the graphic to the layer's color space before it is drawn.
+    ///
+    /// A graphic whose color space already matches the layer is drawn directly.
+    /// Every other graphic is converted with an `MPSImageConversion` pass on each drawn frame.
+    ///
+    /// Disabled while the cost of that per frame pass is being evaluated.
+    /// A graphic in a different color space is drawn with its raw channels until this is enabled.
+    public nonisolated(unsafe) static var isColorConversionEnabled: Bool = true
+    
     private let graphic: Graphic
     /// Linear interpolation when `true`, pixelated when `false`.
     private let interpolate: Bool

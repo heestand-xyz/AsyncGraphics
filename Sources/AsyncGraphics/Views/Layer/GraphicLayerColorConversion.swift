@@ -28,6 +28,11 @@ final class GraphicLayerColorConversion {
     }
 
     func texture(for graphic: Graphic, extendedDynamicRange: Bool, commandBuffer: MTLCommandBuffer) -> MTLTexture {
+        guard GraphicLayerView.isColorConversionEnabled else {
+            // Release the conversion resources while the feature is disabled.
+            if conversion != nil { reset() }
+            return graphic.texture
+        }
         if GraphicLayerColorSpace.isPrepared(graphic, extendedDynamicRange: extendedDynamicRange) {
             // Release a conversion texture when the source no longer needs it.
             if conversion != nil { reset() }
