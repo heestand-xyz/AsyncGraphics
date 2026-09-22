@@ -42,11 +42,16 @@ extension CodableGraphic.Effect.Space {
             options: Graphic.EffectOptions = []
         ) async throws -> Graphic {
             
-             try await graphic.blurredCircle(
+            let brightnessLow = brightnessLow.value.eval(at: graphic.resolution)
+            let brightnessHigh = brightnessHigh.value.eval(at: graphic.resolution)
+            let saturationLow = saturationLow.value.eval(at: graphic.resolution)
+            let saturationHigh = saturationHigh.value.eval(at: graphic.resolution)
+
+            return try await graphic.blurredCircle(
                 radius: radius.value.eval(at: graphic.resolution),
                 sampleCount: sampleCount.value.eval(at: graphic.resolution),
-                brightnessRange: brightnessLow.value.eval(at: graphic.resolution)...brightnessHigh.value.eval(at: graphic.resolution),
-                saturationRange: saturationLow.value.eval(at: graphic.resolution)...saturationHigh.value.eval(at: graphic.resolution),
+                brightnessRange: brightnessLow...max(brightnessLow, brightnessHigh),
+                saturationRange: saturationLow...max(saturationLow, saturationHigh),
                 light: light.value.eval(at: graphic.resolution),
                 options: options.union(extendMode.value.options))
         }
