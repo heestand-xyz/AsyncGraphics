@@ -13,6 +13,7 @@ struct Uniforms {
     bool colored;
     bool random;
     bool includeAlpha;
+    bool premultiply;
     int seed;
     uint octaves;
     packed_float3 position;
@@ -95,5 +96,9 @@ kernel void noise3d(const device Uniforms& uniforms [[ buffer(0) ]],
     
     float4 c = float4(r, g, b, a);
     
+    if (uniforms.premultiply) {
+        c.rgb *= c.a;
+    }
+
     targetTexture.write(c, pos);
 }

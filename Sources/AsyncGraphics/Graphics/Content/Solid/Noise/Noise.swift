@@ -15,6 +15,7 @@ extension Graphic {
         let colored: Bool
         let random: Bool
         let includeAlpha: Bool
+        let premultiply: Bool
         let resolution: SizeUniform
         let tileOrigin: PointUniform
         let tileSize: SizeUniform
@@ -26,6 +27,7 @@ extension Graphic {
                              scale: CGFloat = 1.0,
                              octaves: Int = 1,
                              seed: Int = 1,
+                             includeAlpha: Bool = false,
                              resolution: CGSize,
                              tile: Tile = .one,
                              options: ContentOptions = []) async throws -> Graphic {
@@ -48,7 +50,8 @@ extension Graphic {
                 zoom: Float(scale),
                 colored: false,
                 random: false,
-                includeAlpha: false,
+                includeAlpha: includeAlpha,
+                premultiply: options.premultiply,
                 resolution: resolution.uniform,
                 tileOrigin: tile.uvOrigin,
                 tileSize: tile.uvSize
@@ -67,6 +70,7 @@ extension Graphic {
                                     scale: CGFloat = 1.0,
                                     octaves: Int = 1,
                                     seed: Int = 1,
+                                    includeAlpha: Bool = false,
                                     resolution: CGSize,
                                     tile: Tile = .one,
                                     options: ContentOptions = []) async throws -> Graphic {
@@ -89,7 +93,8 @@ extension Graphic {
                 zoom: Float(scale),
                 colored: true,
                 random: false,
-                includeAlpha: false,
+                includeAlpha: includeAlpha,
+                premultiply: options.premultiply,
                 resolution: resolution.uniform,
                 tileOrigin: tile.uvOrigin,
                 tileSize: tile.uvSize
@@ -103,6 +108,7 @@ extension Graphic {
     }
     
     public static func randomNoise(seed: Int = 1,
+                                   includeAlpha: Bool = false,
                                    resolution: CGSize,
                                    tile: Tile = .one,
                                    options: ContentOptions = []) async throws -> Graphic {
@@ -117,7 +123,8 @@ extension Graphic {
                 zoom: 0.0,
                 colored: false,
                 random: true,
-                includeAlpha: false,
+                includeAlpha: includeAlpha,
+                premultiply: options.premultiply,
                 resolution: resolution.uniform,
                 tileOrigin: tile.uvOrigin,
                 tileSize: tile.uvSize
@@ -131,6 +138,7 @@ extension Graphic {
     }
     
     public static func randomColoredNoise(seed: Int = 1,
+                                          includeAlpha: Bool = false,
                                           resolution: CGSize,
                                           tile: Tile = .one,
                                           options: ContentOptions = []) async throws -> Graphic {
@@ -145,7 +153,8 @@ extension Graphic {
                 zoom: 0.0,
                 colored: true,
                 random: true,
-                includeAlpha: false,
+                includeAlpha: includeAlpha,
+                premultiply: options.premultiply,
                 resolution: resolution.uniform,
                 tileOrigin: tile.uvOrigin,
                 tileSize: tile.uvSize

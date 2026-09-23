@@ -10,6 +10,7 @@ extension Graphic3D {
         let colored: Bool
         let random: Bool
         let includeAlpha: Bool
+        let premultiply: Bool
         let seed: Int32
         let octaves: UInt32
         let position: VectorUniform
@@ -25,6 +26,7 @@ extension Graphic3D {
                              scale: Double = 1.0,
                              octaves: Int = 1,
                              seed: Int = 1,
+                             includeAlpha: Bool = false,
                              resolution: Size3D,
                              tile: Tile = .one,
                              options: ContentOptions = []) async throws -> Graphic3D {
@@ -39,7 +41,8 @@ extension Graphic3D {
             uniforms: Noise3DUniforms(
                 colored: false,
                 random: false,
-                includeAlpha: false,
+                includeAlpha: includeAlpha,
+                premultiply: options.premultiply,
                 seed: Int32(seed),
                 octaves: UInt32(octaves),
                 position: relativeOffset.uniform,
@@ -77,6 +80,7 @@ extension Graphic3D {
                 colored: false,
                 random: false,
                 includeAlpha: true,
+                premultiply: false,
                 seed: Int32(seed),
                 octaves: UInt32(octaves),
                 position: relativeOffset.uniform,
@@ -99,6 +103,7 @@ extension Graphic3D {
                                     scale: Double = 1.0,
                                     octaves: Int = 1,
                                     seed: Int = 1,
+                                    includeAlpha: Bool = false,
                                     resolution: Size3D,
                                     tile: Tile = .one,
                                     options: ContentOptions = []) async throws -> Graphic3D {
@@ -113,7 +118,8 @@ extension Graphic3D {
             uniforms: Noise3DUniforms(
                 colored: true,
                 random: false,
-                includeAlpha: false,
+                includeAlpha: includeAlpha,
+                premultiply: options.premultiply,
                 seed: Int32(seed),
                 octaves: UInt32(octaves),
                 position: relativeOffset.uniform,
@@ -131,6 +137,7 @@ extension Graphic3D {
     }
     
     public static func randomNoise(seed: Int = 1,
+                                   includeAlpha: Bool = false,
                                    resolution: Size3D,
                                    tile: Tile = .one,
                                    options: ContentOptions = []) async throws -> Graphic3D {
@@ -141,7 +148,8 @@ extension Graphic3D {
             uniforms: Noise3DUniforms(
                 colored: false,
                 random: true,
-                includeAlpha: false,
+                includeAlpha: includeAlpha,
+                premultiply: options.premultiply,
                 seed: Int32(seed),
                 octaves: 0,
                 position: .zero,
@@ -159,6 +167,7 @@ extension Graphic3D {
     }
     
     public static func randomColoredNoise(seed: Int = 1,
+                                          includeAlpha: Bool = false,
                                           resolution: Size3D,
                                           tile: Tile = .one,
                                           options: ContentOptions = []) async throws -> Graphic3D {
@@ -169,7 +178,8 @@ extension Graphic3D {
             uniforms: Noise3DUniforms(
                 colored: true,
                 random: true,
-                includeAlpha: false,
+                includeAlpha: includeAlpha,
+                premultiply: options.premultiply,
                 seed: Int32(seed),
                 octaves: 0,
                 position: .zero,

@@ -26,6 +26,7 @@ struct Uniforms {
     bool colored;
     bool random;
     bool includeAlpha;
+    bool premultiply;
     packed_float2 resolution;
     packed_float2 tileOrigin;
     packed_float2 tileSize;
@@ -89,5 +90,9 @@ fragment float4 noise(VertexOut out [[stage_in]],
     float alpha = uniforms.includeAlpha ? noiseAlpha : 1.0;
     float4 color = float4(red, green, blue, alpha);
     
+    if (uniforms.premultiply) {
+        color.rgb *= color.a;
+    }
+
     return color;
 }
