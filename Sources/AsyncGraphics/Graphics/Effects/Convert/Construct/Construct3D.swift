@@ -10,6 +10,10 @@ import Spatial
 
 extension Graphic3D {
     
+    private struct Construct3DUniforms: Uniforms {
+        let axis: UInt32
+    }
+    
     enum ConstructError: LocalizedError {
         
         case noGraphics
@@ -24,6 +28,7 @@ extension Graphic3D {
     
     public static func construct(
         graphics: [Graphic],
+        axis: Axis = .z,
         options: EffectOptions = []
     ) async throws -> Graphic3D {
         if graphics.isEmpty {
@@ -33,11 +38,12 @@ extension Graphic3D {
             name: "Construct 3D",
             shader: .name("construct3d"),
             graphics: graphics,
+            uniforms: Construct3DUniforms(axis: axis.index),
             metadata: Renderer.Metadata(
                 resolution: Size3D(
-                    width: graphics.first!.width,
-                    height: graphics.first!.height,
-                    depth: Double(graphics.count)
+                    width: axis == .x ? Double(graphics.count) : graphics.first!.width,
+                    height: axis == .y ? Double(graphics.count) : graphics.first!.height,
+                    depth: axis == .x ? graphics.first!.width : axis == .y ? graphics.first!.height : Double(graphics.count)
                 ),
                 colorSpace: graphics.first!.colorSpace,
                 bits: graphics.first!.bits

@@ -10,6 +10,11 @@ import PixelColor
 
 extension Graphic3D {
     
+    private struct SamplePlane3DUniforms: Uniforms {
+        let axis: UInt32
+        let index: UInt32
+    }
+
     private struct Sample3DUniforms: Uniforms {
         let location: VectorUniform
     }
@@ -76,10 +81,8 @@ extension Graphic3D {
     /// Fraction 0.0 is the first plane
     ///
     /// Fraction 1.0 is the last plane
-    public func sample(fraction: Double/*, axis: Axis = .z*/) async throws -> Graphic {
-        
-        let axis: Axis = .z
-        
+    public func sample(fraction: Double, axis: Axis = .z) async throws -> Graphic {
+                
         let index: Int = {
             switch axis {
             case .x:
@@ -91,12 +94,28 @@ extension Graphic3D {
             }
         }()
         
-        return try await sample(index: index/*, axis: axis*/)
+        return try await sample(index: index, axis: axis)
     }
     
-    public func sample(index: Int/*, axis: Axis = .z*/) async throws -> Graphic {
-        
-        let axis: Axis = .z
+    public func sample(index: Int, axis: Axis = .z) async throws -> Graphic {
+        let length = axis == .x ? width : axis == .y ? height : depth
+        guard index >= 0, index < Int(length) else {
+            throw SubVoxelError.voxelLocationOutOfBounds
+        }
+        if axis != .z {
+            return try await Renderer.render(
+                name: "Sample Plane 3D",
+                shader: .name("samplePlane3d"),
+                graphics: [self],
+                uniforms: SamplePlane3DUniforms(axis: axis.index, index: UInt32(index)),
+                metadata: Renderer.Metadata(
+                    resolution: CGSize(width: axis == .x ? depth : width,
+                                       height: axis == .y ? depth : height),
+                    colorSpace: colorSpace,
+                    bits: bits
+                )
+            )
+        }
         
         let texture = try await texture.sample3d(index: index, axis: axis.tmAxis, bits: bits)
         
