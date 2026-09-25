@@ -12,6 +12,7 @@ using namespace metal;
 struct Uniforms {
     int blendingMode;
     int placement;
+    packed_float3 alignment;
 };
 
 kernel void blend3d(const device Uniforms& uniforms [[ buffer(0) ]],
@@ -41,6 +42,10 @@ kernel void blend3d(const device Uniforms& uniforms [[ buffer(0) ]],
     uint trailingHeight = trailingTexture.get_height();
     uint trailingDepth = trailingTexture.get_depth();
     float3 uvwPlacement = place3d(uniforms.placement, uvw, leadingWidth, leadingHeight, leadingDepth, trailingWidth, trailingHeight, trailingDepth);
+    // place3d is centered and affine. Its origin is half the unused (or cropped) extent.
+    float3 placementOrigin = place3d(uniforms.placement, float3(0.0), leadingWidth, leadingHeight, leadingDepth, trailingWidth, trailingHeight, trailingDepth);
+    uvwPlacement += placementOrigin * float3(uniforms.alignment);
+
     
     float4 leadingColor = leadingTexture.sample(sampler, uvw);
     float4 trailingColor = trailingTexture.sample(sampler, uvwPlacement);

@@ -3,36 +3,47 @@
 //
 
 import Metal
+import Spatial
+import SpatialExtensions
 
 extension Graphic3D {
     
     private struct Blend3DUniforms: Uniforms {
         let blendingMode: Int32
         let placement: Int32
+        let alignment: VectorUniform
     }
     
-    mutating public func blend(with graphic: Graphic3D,
-                               blendingMode: Graphic.BlendMode,
-                               placement: Graphic.Placement = .fit,
-                               options: EffectOptions = []) async throws {
+    mutating public func blend(
+        with graphic: Graphic3D,
+        blendingMode: Graphic.BlendMode,
+        placement: Graphic.Placement = .fit,
+        alignment: Alignment3D = .center,
+        options: EffectOptions = []
+    ) async throws {
         self = try await blended(
             with: graphic,
             blendingMode: blendingMode,
             placement: placement,
+            alignment: alignment,
             targetSourceTexture: true,
             options: options
         )
     }
     
-    public func blended(with graphic: Graphic3D,
-                        blendingMode: Graphic.BlendMode,
-                        placement: Graphic.Placement = .fit,
-                        options: EffectOptions = []) async throws -> Graphic3D {
+    public func blended(
+        with graphic: Graphic3D,
+        blendingMode: Graphic.BlendMode,
+        placement: Graphic.Placement = .fit,
+        alignment: Alignment3D = .center,
+        options: EffectOptions = []
+    ) async throws -> Graphic3D {
         
         try await blended(
             with: graphic,
             blendingMode: blendingMode,
             placement: placement,
+            alignment: alignment,
             targetSourceTexture: false,
             options: options
         )
@@ -42,6 +53,7 @@ extension Graphic3D {
         with graphic: Graphic3D,
         blendingMode: Graphic.BlendMode,
         placement: Graphic.Placement,
+        alignment: Alignment3D,
         targetSourceTexture: Bool,
         options: EffectOptions = []
     ) async throws -> Graphic3D {
@@ -55,7 +67,10 @@ extension Graphic3D {
             ],
             uniforms: Blend3DUniforms(
                 blendingMode: Int32(blendingMode.rawIndex),
-                placement: Int32(placement.index)
+                placement: Int32(placement.index),
+                alignment: Point3D(x: Double(alignment.x.vector),
+                                   y: Double(alignment.y.vector),
+                                   z: Double(alignment.z.vector)).uniform
             ),
             options: Renderer.Options(
                 addressMode: options.addressMode,
@@ -64,6 +79,8 @@ extension Graphic3D {
         )
     }
 }
+
+// MARK: - Operators
 
 extension Graphic3D {
     

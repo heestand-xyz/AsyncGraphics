@@ -23,6 +23,7 @@ extension Graphic3D {
         case depth = 2
     }
     
+    /// Volume coordinates increase to the right, upward, and toward the viewer.
     public struct Alignment3D: Codable, Hashable, Sendable {
         
         @EnumMacro
@@ -47,9 +48,9 @@ extension Graphic3D {
             case bottom
             public var vector: Int {
                 switch self {
-                case .top: -1
+                case .top: 1
                 case .center: 0
-                case .bottom: 1
+                case .bottom: -1
                 }
             }
         }
@@ -101,7 +102,7 @@ extension Graphic3D {
         )
     }
     
-    /// Vertical Stack
+    /// Vertical Stack, placing this volume above the supplied volume.
     public func vStacked(
         with graphic: Graphic3D,
         xAlignment: Alignment3D.X = .center,
@@ -181,7 +182,7 @@ extension Graphic3D {
                         z: finalResolution.depth / 2 + max(0.0, (trailingResolution.depth / 2 - leadingResolution.depth / 2)) * CGFloat(alignment.z.vector))
             case .vertical:
                 Point3D(x: finalResolution.width / 2 + max(0.0, (trailingResolution.width / 2 - leadingResolution.width / 2)) * CGFloat(alignment.x.vector),
-                        y: padding + leadingResolution.height / 2,
+                        y: finalResolution.height - padding - leadingResolution.height / 2,
                         z: finalResolution.depth / 2 + max(0.0, (trailingResolution.depth / 2 - leadingResolution.depth / 2)) * CGFloat(alignment.z.vector))
             case .depth:
                 Point3D(x: finalResolution.width / 2 + max(0.0, (trailingResolution.width / 2 - leadingResolution.width / 2)) * CGFloat(alignment.x.vector),
@@ -199,7 +200,7 @@ extension Graphic3D {
                         z: finalResolution.depth / 2 + max(0.0, (leadingResolution.depth / 2 - trailingResolution.depth / 2)) * CGFloat(alignment.z.vector))
             case .vertical:
                 Point3D(x: finalResolution.width / 2 + max(0.0, (leadingResolution.width / 2 - trailingResolution.width / 2)) * CGFloat(alignment.x.vector),
-                        y: finalResolution.height - padding - trailingResolution.height / 2,
+                        y: padding + trailingResolution.height / 2,
                         z: finalResolution.depth / 2 + max(0.0, (leadingResolution.depth / 2 - trailingResolution.depth / 2)) * CGFloat(alignment.z.vector))
             case .depth:
                 Point3D(x: finalResolution.width / 2 + max(0.0, (leadingResolution.width / 2 - trailingResolution.width / 2)) * CGFloat(alignment.x.vector),

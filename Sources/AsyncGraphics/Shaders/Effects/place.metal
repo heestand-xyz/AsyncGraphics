@@ -193,200 +193,22 @@ float2 transformPlace(int placement,
     return uvAlignment;
 }
 
-float3 place3d(int place, float3 uvw, uint leadingWidth, uint leadingHeight, uint leadingDepth, uint trailingWidth, uint trailingHeight, uint trailingDepth) {
-    
-    float aspect_a = float(leadingWidth) / float(leadingHeight);
-    float aspect_b = float(trailingWidth) / float(trailingHeight);
-    
-    float vertical_aspect_a = float(leadingDepth) / float(leadingHeight);
-    float vertical_aspect_b = float(trailingDepth) / float(trailingHeight);
-    
-    float horizontal_aspect_a = float(leadingDepth) / float(leadingWidth);
-    float horizontal_aspect_b = float(trailingDepth) / float(trailingWidth);
-     
-//    float leadingMinimum = min(min(float(leadingWidth), float(leadingHeight)), float(leadingDepth));
-//    float leadingMaximum = max(max(float(leadingWidth), float(leadingHeight)), float(leadingDepth));
-//    float trailingMinimum = min(min(float(trailingWidth), float(trailingHeight)), float(trailingDepth));
-//    float trailingMaximum = max(max(float(trailingWidth), float(trailingHeight)), float(trailingDepth));
-
-    float u = uvw.x;
-    float v = uvw.y;
-    float w = uvw.z;
-
-    switch (place) {
+float3 place3d(int placement, float3 uvw, uint leadingWidth, uint leadingHeight, uint leadingDepth, uint trailingWidth, uint trailingHeight, uint trailingDepth) {
+    float3 leadingSize = float3(leadingWidth, leadingHeight, leadingDepth);
+    float3 trailingSize = float3(trailingWidth, trailingHeight, trailingDepth);
+    float3 ratio = leadingSize / trailingSize;
+    float3 scale = 1.0;
+    switch (placement) {
         case 0: // Stretch
-            break;
+            return uvw;
         case 1: // Aspect Fit
-            if (aspect_b > aspect_a) {
-                if (horizontal_aspect_b > horizontal_aspect_a) {
-                    u -= 0.5;
-                    u /= horizontal_aspect_a;
-                    u *= horizontal_aspect_b;
-                    u += 0.5;
-                    v -= 0.5;
-                    v /= aspect_a * horizontal_aspect_a;
-                    v *= aspect_b * horizontal_aspect_b;
-                    v += 0.5;
-                } else if (horizontal_aspect_b < horizontal_aspect_a) {
-                    v -= 0.5;
-                    v /= aspect_a;
-                    v *= aspect_b;
-                    v += 0.5;
-                    w -= 0.5;
-                    w /= horizontal_aspect_b;
-                    w *= horizontal_aspect_a;
-                    w += 0.5;
-                } else {
-                    v -= 0.5;
-                    v /= aspect_a;
-                    v *= aspect_b;
-                    v += 0.5;
-                }
-            } else if (aspect_b < aspect_a) {
-                if (vertical_aspect_b > vertical_aspect_a) {
-                    u -= 0.5;
-                    u /= aspect_b * vertical_aspect_a;
-                    u *= aspect_a * vertical_aspect_b;
-                    u += 0.5;
-                    v -= 0.5;
-                    v /= vertical_aspect_a;
-                    v *= vertical_aspect_b;
-                    v += 0.5;
-                } else if (vertical_aspect_b < vertical_aspect_a) {
-                    u -= 0.5;
-                    u /= aspect_b;
-                    u *= aspect_a;
-                    u += 0.5;
-                    w -= 0.5;
-                    w /= vertical_aspect_b;
-                    w *= vertical_aspect_a;
-                    w += 0.5;
-                } else {
-                    u -= 0.5;
-                    u /= aspect_b;
-                    u *= aspect_a;
-                    u += 0.5;
-                }
-            } else {
-                if (vertical_aspect_b > vertical_aspect_a) {
-                    u -= 0.5;
-                    u /= vertical_aspect_a;
-                    u *= vertical_aspect_b;
-                    u += 0.5;
-                    v -= 0.5;
-                    v /= vertical_aspect_a;
-                    v *= vertical_aspect_b;
-                    v += 0.5;
-                } else if (vertical_aspect_b < vertical_aspect_a) {
-                    w -= 0.5;
-                    w /= vertical_aspect_b;
-                    w *= vertical_aspect_a;
-                    w += 0.5;
-                }
-            }
+            scale = min(min(ratio.x, ratio.y), ratio.z);
             break;
         case 2: // Aspect Fill
-            // TODO: Work on Fill
-//            if (aspect_b > aspect_a) {
-//                if (horizontal_aspect_b < horizontal_aspect_a) {
-//                    // DONE
-//                    u -= 0.5;
-//                    u /= horizontal_aspect_a;
-//                    u *= horizontal_aspect_b;
-//                    u += 0.5;
-//                    v -= 0.5;
-//                    v /= aspect_a * horizontal_aspect_a;
-//                    v *= aspect_b * horizontal_aspect_b;
-//                    v += 0.5;
-//                    
-////                    u = 0.5;
-//                } else if (horizontal_aspect_b > horizontal_aspect_a) {
-//                    // DONE
-//                    u -= 0.5;
-//                    u /= aspect_b;
-//                    u *= aspect_a;
-//                    u += 0.5;
-//                    w -= 0.5;
-//                    w /= vertical_aspect_b;
-//                    w *= vertical_aspect_a;
-//                    w += 0.5;
-//                    
-////                    v = 0.5;
-//                } else {
-//                    // DONE
-//                    u -= 0.5;
-//                    u /= aspect_b;
-//                    u *= aspect_a;
-//                    u += 0.5;
-////                    w -= 0.5;
-////                    w /= vertical_aspect_b;
-////                    w *= vertical_aspect_a;
-////                    w += 0.5;
-//                    
-////                    w = 0.5;
-//                }
-//            } else if (aspect_b < aspect_a) {
-//                if (vertical_aspect_b < vertical_aspect_a) {
-//                    // CHECK
-//                    v -= 0.5;
-//                    v /= aspect_a;
-//                    v *= aspect_b;
-//                    v += 0.5;
-//                    w -= 0.5;
-//                    w /= horizontal_aspect_b;
-//                    w *= horizontal_aspect_a;
-//                    w += 0.5;
-//                } else if (vertical_aspect_b > vertical_aspect_a) {
-//                    // DONE
-//                    v -= 0.5;
-//                    v /= aspect_a;
-//                    v *= aspect_b;
-//                    v += 0.5;
-//                    w -= 0.5;
-//                    w /= horizontal_aspect_b;
-//                    w *= horizontal_aspect_a;
-//                    w += 0.5;
-//                    
-////                    v = 0.5;
-//                } else {
-//                    // CHECK
-//                    v -= 0.5;
-//                    v /= aspect_a;
-//                    v *= aspect_b;
-//                    v += 0.5;
-////                    w -= 0.5;
-////                    w /= horizontal_aspect_b;
-////                    w *= horizontal_aspect_a;
-////                    w += 0.5;
-//                    
-////                    w = 0.5;
-//                }
-//            } else {
-//                if (vertical_aspect_b < vertical_aspect_a) {
-//                    // DONE
-//                    u -= 0.5;
-//                    u /= vertical_aspect_a;
-//                    u *= vertical_aspect_b;
-//                    u += 0.5;
-//                    v -= 0.5;
-//                    v /= vertical_aspect_a;
-//                    v *= vertical_aspect_b;
-//                    v += 0.5;
-//                } else if (vertical_aspect_b > vertical_aspect_a) {
-//                    // DONE
-//                    w -= 0.5;
-//                    w /= vertical_aspect_b;
-//                    w *= vertical_aspect_a;
-//                    w += 0.5;
-//                }
-//            }
+            scale = max(max(ratio.x, ratio.y), ratio.z);
             break;
         case 3: // Fixed
-            u = 0.5 + ((u - 0.5) * leadingWidth) / trailingWidth;
-            v = 0.5 + ((v - 0.5) * leadingHeight) / trailingHeight;
-            w = 0.5 + ((w - 0.5) * leadingDepth) / trailingDepth;
             break;
     }
-    
-    return float3(u, v, w);
+    return (uvw - 0.5) * ratio / scale + 0.5;
 }
