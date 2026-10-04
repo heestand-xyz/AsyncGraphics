@@ -29,12 +29,14 @@ extension Graphic {
     ///   - lens: Ultra wide, wide or tele camera.
     ///   - quality: Default to photo quality.
     ///   - focusPoint: An optional normalized focus point of interest. {0,0} is the top-left of the picture area and {1,1} is the bottom-right. *The focus point will automatically be oriented base on device rotation.*
+    ///   - preserveHDR: Decode HDR gain maps into a 16-bit float graphic. Defaults to false.
     /// - Returns: An array of graphics.
     public static func capturePhoto(
         at position: AVCaptureDevice.Position,
         lens: AVCaptureDevice.DeviceType = .builtInWideAngleCamera,
         quality: AVCaptureSession.Preset = .photo,
-        focusPoint: CGPoint? = nil
+        focusPoint: CGPoint? = nil,
+        preserveHDR: Bool = false
     ) async throws -> Graphic {
 
         guard let device: AVCaptureDevice = .default(
@@ -48,7 +50,8 @@ extension Graphic {
         return try await capturePhoto(
             device: device,
             quality: quality,
-            focusPoint: focusPoint
+            focusPoint: focusPoint,
+            preserveHDR: preserveHDR
         )
     }
     
@@ -57,11 +60,13 @@ extension Graphic {
     ///   - device: The camera to use.
     ///   - quality: Default to photo quality.
     ///   - focusPoint: An optional normalized focus point of interest. {0,0} is the top-left of the picture area and {1,1} is the bottom-right. *The focus point will automatically be oriented base on device rotation.*
+    ///   - preserveHDR: Decode HDR gain maps into a 16-bit float graphic. Defaults to false.
     /// - Returns: An array of graphics.
     public static func capturePhoto(
         device: AVCaptureDevice,
         quality: AVCaptureSession.Preset = .photo,
-        focusPoint: CGPoint? = nil
+        focusPoint: CGPoint? = nil,
+        preserveHDR: Bool = false
     ) async throws -> Graphic {
         
         let photoCamera = PhotoCamera()
@@ -69,7 +74,8 @@ extension Graphic {
         return try await photoCamera.capture(
             for: device,
             at: quality,
-            focusPoint: focusPoint
+            focusPoint: focusPoint,
+            preserveHDR: preserveHDR
         )
     }
     

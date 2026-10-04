@@ -8,6 +8,9 @@
 #if os(iOS)
 
 import Foundation
+import CoreImage
+import Metal
+import TextureMap
 @preconcurrency import AVKit
 
 extension Graphic {
@@ -125,7 +128,8 @@ extension Graphic {
         @concurrent func capture(
             for device: AVCaptureDevice,
             at preset: AVCaptureSession.Preset,
-            focusPoint: CGPoint? = nil
+            focusPoint: CGPoint? = nil,
+            preserveHDR: Bool = false
         ) async throws(PhotoCameraError) -> Graphic {
             
             let orientation: UIDeviceOrientation = await UIDevice.current.orientation
@@ -146,10 +150,17 @@ extension Graphic {
                 await cleanup()
                 throw .outputNotFound
             }
-            let photoSettings = AVCapturePhotoSettings(
-                rawPixelFormatType: 0,
-                processedFormat: [AVVideoCodecKey : AVVideoCodecType.hevc]
-            )
+            let codec: AVVideoCodecType = output.availablePhotoCodecTypes.contains(.hevc) ? .hevc : .jpeg
+            let photoSettings = AVCapturePhotoSettings(format: [AVVideoCodecKey: codec])
+            output.maxPhotoQualityPrioritization = .quality
+            photoSettings.photoQualityPrioritization = .quality
+            if #available(iOS 16.0, *),
+               let dimensions = device.activeFormat.supportedMaxPhotoDimensions.max(by: {
+                   Int64($0.width) * Int64($0.height) < Int64($1.width) * Int64($1.height)
+               }) {
+                output.maxPhotoDimensions = dimensions
+                photoSettings.maxPhotoDimensions = dimensions
+            }
             if #available(iOS 18.0, *), output.isShutterSoundSuppressionSupported {
                 photoSettings.isShutterSoundSuppressionEnabled = true
             }
@@ -173,9 +184,9 @@ extension Graphic {
             
             let helper = Helper()
             
-            var capturedImages: [UIImage] = []
-            helper.capturedImage = { image in
-                capturedImages.append(image)
+            var capturedData: Data?
+            helper.capturedData = { data in
+                capturedData = data
             }
             
             let captureError: Error? = await withCheckedContinuation { continuation in
@@ -191,13 +202,20 @@ extension Graphic {
                 throw .captureFailed(captureError)
             }
             
-            guard let capturedImage: UIImage = capturedImages.first else {
+            guard let capturedData else {
+                await cleanup()
                 throw .noImageCapture
             }
             
             var graphic: Graphic
             do {
-                graphic = try await .image(capturedImage)
+                if preserveHDR {
+                    graphic = try await hdrGraphic(from: capturedData)
+                } else if let image = UIImage(data: capturedData) {
+                    graphic = try await .image(image)
+                } else {
+                    throw PhotoCameraError.noImageCapture
+                }
                 graphic = try await orient(graphic: graphic, at: orientation)
             } catch {
                 await cleanup()
@@ -208,8 +226,26 @@ extension Graphic {
             return graphic
         }
         
-        // MARK: - Capture Bracketed
+        // MARK: - HDR Decoding
+
+        private func hdrGraphic(from data: Data) async throws -> Graphic {
+            guard let image = CIImage(data: data, options: [
+                .applyOrientationProperty: true,
+                .expandToHDR: true
+            ]), let colorSpace = CGColorSpace(name: CGColorSpace.extendedLinearDisplayP3) else {
+                throw PhotoCameraError.noImageCapture
+            }
+            // Float textures retain gain-map highlights above 1.0.
+            let texture: MTLTexture = try .empty(resolution: image.extent.size, bits: ._16, usage: .write)
+            let context = CIContext(mtlDevice: Renderer.metalDevice)
+            context.render(image, to: texture, commandBuffer: nil, bounds: image.extent, colorSpace: colorSpace)
+            let graphic = Graphic(name: "Photo", texture: texture, bits: ._16, colorSpace: .custom(colorSpace))
+            // Core Image renders with a bottom-left origin; Graphic uses a top-left origin.
+            return try await graphic.mirroredVertically()
+        }
         
+        // MARK: - Capture Bracketed
+
         @concurrent func captureBracketed(
             for device: AVCaptureDevice,
             at preset: AVCaptureSession.Preset,
@@ -356,15 +392,22 @@ extension Graphic.PhotoCamera {
     final class Helper: NSObject, AVCapturePhotoCaptureDelegate {
         
         var capturedImage: ((UIImage) -> Void)?
+        var capturedData: ((Data) -> Void)?
         var captureDone: ((Error?) -> Void)?
+        private var processingError: Error?
         
         func photoOutput(
             _ output: AVCapturePhotoOutput,
             didFinishProcessingPhoto photo: AVCapturePhoto,
             error: Error?
         ) {
+            if let error {
+                processingError = error
+                return
+            }
             if let imageData: Data = photo.fileDataRepresentation() {
-                if let image: UIImage = UIImage(data: imageData){
+                capturedData?(imageData)
+                if capturedImage != nil, let image: UIImage = UIImage(data: imageData) {
                     capturedImage?(image)
                 }
             }
@@ -375,7 +418,7 @@ extension Graphic.PhotoCamera {
             didFinishCaptureFor resolvedSettings: AVCaptureResolvedPhotoSettings,
             error: Error?
         ) {
-            captureDone?(error)
+            captureDone?(error ?? processingError)
         }
     }
 }
