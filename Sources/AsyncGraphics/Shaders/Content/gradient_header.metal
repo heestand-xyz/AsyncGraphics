@@ -32,6 +32,6 @@ struct ColorStopArray {
 };
 
 FractionAndZero fractionAndZero(float fraction, int extend);
-float4 gradient(float fraction, array<ColorStopArray, ARRMAX> inArr, array<bool, ARRMAX> inArrActive);
+float4 gradient(float fraction, array<ColorStopArray, ARRMAX> inArr, array<bool, ARRMAX> inArrActive, bool smooth = false);
 
 #endif

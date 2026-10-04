@@ -3092,6 +3092,9 @@
         }
       }
     },
+    "property.smooth" : {
+
+    },
     "property.softness" : {
       "localizations" : {
         "en" : {

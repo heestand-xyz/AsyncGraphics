@@ -16,6 +16,7 @@ extension Graphic {
         let position: PointUniform
         let gamma: Float
         let premultiply: Bool
+        let smooth: Bool
         let resolution: SizeUniform
         let tileOrigin: PointUniform
         let tileSize: SizeUniform
@@ -53,6 +54,7 @@ extension Graphic {
         case mirror
     }
     
+    /// Set `smooth` to ease between each pair of color stops with cosine interpolation.
     public static func gradient(direction: GradientDirection,
                                 stops: [GradientStop] = [
                                     GradientStop(at: 0.0, color: .black),
@@ -63,6 +65,7 @@ extension Graphic {
                                 offset: CGFloat = 0.0,
                                 extend: GradientExtend = .zero,
                                 gamma: CGFloat = 1.0,
+                                smooth: Bool = false,
                                 resolution: CGSize,
                                 tile: Tile = .one,
                                 options: ContentOptions = []) async throws -> Graphic {
@@ -96,6 +99,7 @@ extension Graphic {
                 position: relativePosition.uniform,
                 gamma: Float(gamma),
                 premultiply: options.premultiply,
+                smooth: smooth,
                 resolution: resolution.uniform,
                 tileOrigin: tile.uvOrigin,
                 tileSize: tile.uvSize

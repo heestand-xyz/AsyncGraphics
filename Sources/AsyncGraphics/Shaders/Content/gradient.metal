@@ -52,7 +52,7 @@ FractionAndZero fractionAndZero(float fraction, int extend) {
     
 }
 
-float4 gradient(float fraction, array<ColorStopArray, ARRMAX> inArr, array<bool, ARRMAX> inArrActive) {
+float4 gradient(float fraction, array<ColorStopArray, ARRMAX> inArr, array<bool, ARRMAX> inArrActive, bool smooth) {
     
     array<ColorStop, 7> color_stops;
     for (int i = 0; i < 7; ++i) {
@@ -87,6 +87,9 @@ float4 gradient(float fraction, array<ColorStopArray, ARRMAX> inArr, array<bool,
         stop_fraction = 1.0;
     }
 
+    if (smooth) {
+        stop_fraction = 0.5 - 0.5 * cos(M_PI_F * stop_fraction);
+    }
     float4 c = mix(low_color_stop.color, high_color_stop.color, stop_fraction);
     
     return c;

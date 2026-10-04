@@ -24,6 +24,9 @@ extension CodableGraphic.Content.Solid {
         public var gamma: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
                                                            maximum: .fixed(2.0),
                                                            docs: "Adjustment of light.")
+
+        public var smooth: GraphicMetadata<Bool> = .init(value: .fixed(false),
+                                                        docs: "Cosine interpolation between color stops.")
         
         public var extend: GraphicEnumMetadata<Graphic.GradientExtend> = .init(value: .zero,
                                                                                docs: "Property for what to do with values extending above 1.0 and below 0.0. This property has no effect until position, scale or offset are modified.")
@@ -41,6 +44,7 @@ extension CodableGraphic.Content.Solid {
                 offset: offset.value.eval(at: resolution),
                 extend: extend.value,
                 gamma: gamma.value.eval(at: resolution),
+                smooth: smooth.value.eval(at: resolution),
                 resolution: resolution,
                 options: options)
         }

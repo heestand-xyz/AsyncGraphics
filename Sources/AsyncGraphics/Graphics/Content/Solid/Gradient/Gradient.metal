@@ -21,6 +21,7 @@ struct Uniforms {
     packed_float2 position;
     float gamma;
     bool premultiply;
+    bool smooth;
     packed_float2 resolution;
     packed_float2 tileOrigin;
     packed_float2 tileSize;
@@ -72,7 +73,7 @@ fragment float4 gradient(VertexOut out [[stage_in]],
     
     float4 c = 0;
     if (!fz.zero) {
-        c = gradient(fraction, colorStops, actives);
+        c = gradient(fraction, colorStops, actives, uniforms.smooth);
     }
     
     if (!fz.zero && uniforms.premultiply) {
