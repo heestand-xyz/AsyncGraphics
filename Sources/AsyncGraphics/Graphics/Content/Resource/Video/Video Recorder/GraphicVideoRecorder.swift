@@ -271,6 +271,9 @@ public actor GraphicVideoRecorder: GraphicVideoRecordable {
     }
     
     public func cancel() {
+        if av?.writer.status == .writing {
+            av?.writer.cancelWriting()
+        }
         cleanup()
     }
     

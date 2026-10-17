@@ -319,6 +319,9 @@ public actor StereoscopicGraphicVideoRecorder: GraphicVideoRecordable {
     }
     
     public func cancel() {
+        if av?.writer.status == .writing {
+            av?.writer.cancelWriting()
+        }
         cleanup()
     }
     
