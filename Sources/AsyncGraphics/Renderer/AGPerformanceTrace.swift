@@ -34,10 +34,10 @@ public final class AGPerformanceTrace: Sendable {
     private let logger: Logger
     public let category: String
 
-    public init(category: String) {
+    public init(category: String, subsystem: String = "AsyncGraphics.Performance") {
         self.category = category
-        signposter = OSSignposter(subsystem: "FlowNodes.Performance", category: category)
-        logger = Logger(subsystem: "FlowNodes.Performance", category: category)
+        signposter = OSSignposter(subsystem: subsystem, category: category)
+        logger = Logger(subsystem: subsystem, category: category)
     }
 
     public var isEnabled: Bool {
@@ -49,6 +49,18 @@ public final class AGPerformanceTrace: Sendable {
         state.withLock { state in
             guard state.enabled else { return }
             state.counts[name, default: 0] += amount
+        }
+    }
+
+    /// Record an externally measured elapsed duration without creating a signpost.
+    /// Use a fixed set of names, as with `count`, to keep aggregation bounded.
+    public func record(_ name: String, milliseconds: Double) {
+        guard milliseconds.isFinite, milliseconds >= 0 else { return }
+        state.withLock { state in
+            guard state.enabled else { return }
+            state.metrics[name, default: Metric()].count += 1
+            state.metrics[name, default: Metric()].milliseconds += milliseconds
+            state.metrics[name, default: Metric()].maximum = max(state.metrics[name, default: Metric()].maximum, milliseconds)
         }
     }
 
@@ -104,16 +116,30 @@ public final class AGPerformanceTrace: Sendable {
 
     /// The host calls this periodically. No timer, task, or per-event console output.
     public func report() {
-        let snapshot: State? = state.withLock { state in
+        report(ifElapsed: 0)
+    }
+
+    /// Emit at most once per interval, even when several callers request a report.
+    /// Active intervals are useful output; a report with no activity is omitted.
+    public func report(ifElapsed seconds: Double) {
+        guard seconds.isFinite, seconds >= 0 else { return }
+        let report: (State, UInt64)? = state.withLock { state in
             guard state.enabled else { return nil }
+            let now = DispatchTime.now().uptimeNanoseconds
+            let elapsed = Double(now - state.lastReport) / 1_000_000_000
+            guard elapsed >= seconds else { return nil }
+            guard !state.counts.isEmpty || !state.metrics.isEmpty || state.active.values.contains(where: { $0 > 0 }) else {
+                state.lastReport = now
+                return nil
+            }
             let snapshot = state
             state.counts.removeAll(keepingCapacity: true)
             state.metrics.removeAll(keepingCapacity: true)
-            state.lastReport = DispatchTime.now().uptimeNanoseconds
-            return snapshot
+            state.lastReport = now
+            return (snapshot, now)
         }
-        guard let snapshot else { return }
-        let seconds = Double(DispatchTime.now().uptimeNanoseconds - snapshot.lastReport) / 1_000_000_000
+        guard let (snapshot, now) = report else { return }
+        let seconds = Double(now - snapshot.lastReport) / 1_000_000_000
         let counts = snapshot.counts.sorted { $0.key < $1.key }.map { "\($0.key)=\($0.value)" }
         let metrics = snapshot.metrics.sorted { $0.key < $1.key }.map { name, metric in
             "\(name){n=\(metric.count),sum_ms=\(String(format: "%.2f", metric.milliseconds)),max_ms=\(String(format: "%.2f", metric.maximum))}"

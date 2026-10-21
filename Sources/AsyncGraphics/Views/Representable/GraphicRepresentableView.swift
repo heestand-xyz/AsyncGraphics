@@ -90,10 +90,21 @@ extension GraphicRepresentableView: NSViewRepresentable {
     }
     
     func updateNSView(_ view: GraphicMetalView, context: Context) {
+#if DEBUG
+        AGPerformanceTrace.presentation.count("representable.updates")
+        let updateInterval = AGPerformanceTrace.presentation.begin("Representable update sync")
+        defer { AGPerformanceTrace.presentation.end(updateInterval) }
+#endif
         if view.extendedDynamicRange != extendedDynamicRange {
             view.set(extendedDynamicRange: extendedDynamicRange)
         }
+#if DEBUG
+        let queueInterval = AGPerformanceTrace.presentation.begin("Representable task queue")
+#endif
         Task {
+#if DEBUG
+            AGPerformanceTrace.presentation.end(queueInterval)
+#endif
             do {
                 try await render(in: view)
             } catch {
@@ -115,10 +126,21 @@ extension GraphicRepresentableView: UIViewRepresentable {
     }
     
     func updateUIView(_ view: GraphicMetalVisionView, context: Context) {
+#if DEBUG
+        AGPerformanceTrace.presentation.count("representable.updates")
+        let updateInterval = AGPerformanceTrace.presentation.begin("Representable update sync")
+        defer { AGPerformanceTrace.presentation.end(updateInterval) }
+#endif
         if view.extendedDynamicRange != extendedDynamicRange {
             view.set(extendedDynamicRange: extendedDynamicRange)
         }
+#if DEBUG
+        let queueInterval = AGPerformanceTrace.presentation.begin("Representable task queue")
+#endif
         Task {
+#if DEBUG
+            AGPerformanceTrace.presentation.end(queueInterval)
+#endif
             do {
                 try await render(in: view)
             } catch {
@@ -139,10 +161,21 @@ extension GraphicRepresentableView: UIViewRepresentable {
     }
     
     func updateUIView(_ view: GraphicMetalView, context: Context) {
+#if DEBUG
+        AGPerformanceTrace.presentation.count("representable.updates")
+        let updateInterval = AGPerformanceTrace.presentation.begin("Representable update sync")
+        defer { AGPerformanceTrace.presentation.end(updateInterval) }
+#endif
         if view.extendedDynamicRange != extendedDynamicRange {
             view.set(extendedDynamicRange: extendedDynamicRange)
         }
+#if DEBUG
+        let queueInterval = AGPerformanceTrace.presentation.begin("Representable task queue")
+#endif
         Task {
+#if DEBUG
+            AGPerformanceTrace.presentation.end(queueInterval)
+#endif
             do {
                 try await render(in: view)
             } catch {

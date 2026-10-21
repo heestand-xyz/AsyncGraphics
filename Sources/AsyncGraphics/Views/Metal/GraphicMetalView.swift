@@ -9,6 +9,9 @@ import MetalPerformanceShaders
 @preconcurrency import QuartzCore.CoreAnimation
 import CoreGraphics
 import TextureMap
+#if DEBUG
+import os
+#endif
 
 final class GraphicMetalView: MTKView, GraphicMetalViewable {
     
@@ -23,6 +26,10 @@ final class GraphicMetalView: MTKView, GraphicMetalViewable {
     let didRender: (UUID) -> ()
     
     private var commandQueue: MTLCommandQueue?
+#if DEBUG
+    // Presented handlers run outside the main actor. Keep cadence state per view.
+    private let lastPresentedTime = OSAllocatedUnfairLock(initialState: 0.0)
+#endif
     
     init(interpolation: Graphic.ViewInterpolation,
          extendedDynamicRange: Bool,
@@ -92,7 +99,12 @@ extension GraphicMetalView {
     
     @MainActor
     func render(graphic: Graphic) {
-                
+#if DEBUG
+        AGPerformanceTrace.presentation.count("metal.renderRequests")
+        if self.graphic?.id == graphic.id {
+            AGPerformanceTrace.presentation.count("metal.unchangedGraphicRequests")
+        }
+#endif
         self.graphic = graphic
         
         draw()
@@ -115,6 +127,7 @@ extension GraphicMetalView: MTKViewDelegate {
     
     func draw(in view: MTKView) {
 #if DEBUG
+        AGPerformanceTrace.presentation.count("metal.drawCalls")
         let performanceInterval = AGPerformanceTrace.presentation.begin("Drawable and draw sync")
         defer { AGPerformanceTrace.presentation.end(performanceInterval) }
 #endif
@@ -122,7 +135,19 @@ extension GraphicMetalView: MTKViewDelegate {
         guard let graphic: Graphic = graphic else { return }
         let sourceTexture: MTLTexture = graphic.texture
         
-        guard let drawable: CAMetalDrawable = currentDrawable else { return }
+#if DEBUG
+        let drawableInterval = AGPerformanceTrace.presentation.begin("Drawable acquisition")
+#endif
+        let nextDrawable = currentDrawable
+#if DEBUG
+        AGPerformanceTrace.presentation.end(drawableInterval)
+#endif
+        guard let drawable: CAMetalDrawable = nextDrawable else {
+#if DEBUG
+            AGPerformanceTrace.presentation.count("drawable.unavailable")
+#endif
+            return
+        }
         let destinationTexture: MTLTexture = drawable.texture
         
         guard let commandQueue else { return }
@@ -165,6 +190,33 @@ extension GraphicMetalView: MTKViewDelegate {
                 self.didRender(id)
             }
         }
+#if DEBUG
+        let trace = AGPerformanceTrace.presentation
+        if trace.isEnabled {
+            let submittedAt = CACurrentMediaTime()
+            let lastPresentedTime = lastPresentedTime
+            drawable.addPresentedHandler { presented in
+                trace.count("drawable.presentedCallbacks")
+                let presentedAt = presented.presentedTime
+                guard presentedAt > 0 else {
+                    trace.count("drawable.notPresented")
+                    return
+                }
+                trace.count("drawable.presented")
+                trace.record("Drawable submission to presentation", milliseconds: (presentedAt - submittedAt) * 1_000)
+                let previous = lastPresentedTime.withLock { previous in
+                    let value = previous
+                    previous = max(previous, presentedAt)
+                    return value
+                }
+                if previous > 0, presentedAt >= previous {
+                    trace.record("Drawable presented cadence", milliseconds: (presentedAt - previous) * 1_000)
+                } else if previous > 0 {
+                    trace.count("drawable.presentedOutOfOrder")
+                }
+            }
+        }
+#endif
         commandBuffer.present(drawable)
 #if DEBUG
         AGPerformanceTrace.presentation.trackGPU(commandBuffer, detail: "Preview \(destinationTexture.width)x\(destinationTexture.height)")
