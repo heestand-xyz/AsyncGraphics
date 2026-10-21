@@ -11,6 +11,7 @@ extension Graphic {
     
     private struct LineUniforms: Uniforms {
         let premultiply: Bool
+        let antiAlias: Bool
         let cap: UInt32
         let lineWidth: Float
         let leadingPoint: PointUniform
@@ -72,6 +73,7 @@ extension Graphic {
             shader: .name("line"),
             uniforms: LineUniforms(
                 premultiply: options.premultiply,
+                antiAlias: options.antiAlias,
                 cap: cap.index,
                 lineWidth: Float(relativeLineWidth),
                 leadingPoint: relativeLeadingPoint.uniform,
@@ -88,5 +90,25 @@ extension Graphic {
                 bits: options.bits
             )
         )
+    }
+
+    /// An open polyline with optional rounded bends and conventional stroke caps.
+    /// Points and stroke dimensions are expressed in output pixels.
+    public static func line(points: [CGPoint],
+                            cornerRadius: CGFloat = 0.0,
+                            stroke: StrokeStyle = StrokeStyle(),
+                            color: PixelColor = .white,
+                            backgroundColor: PixelColor = .black,
+                            resolution: CGSize,
+                            tile: Tile = .one,
+                            options: ContentOptions = []) async throws -> Graphic {
+        let path = try roundedPolylinePath(points: points, cornerRadius: cornerRadius, closed: false)
+        return try await .path(path,
+                               stroke: stroke,
+                               color: color,
+                               backgroundColor: backgroundColor,
+                               resolution: resolution,
+                               tile: tile,
+                               options: options)
     }
 }

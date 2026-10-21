@@ -6,7 +6,7 @@
 #include <metal_stdlib>
 using namespace metal;
 
-#import "../../../../Shaders/Content/radius_header.metal"
+#import "../../../../Shaders/Content/shape_coverage_header.metal"
 
 struct VertexOut {
     float4 position [[position]];
@@ -35,25 +35,20 @@ fragment float4 circle(VertexOut out [[stage_in]],
     u = u * uniforms.tileSize.x + uniforms.tileOrigin.x;
     v = v * uniforms.tileSize.y + uniforms.tileOrigin.y;
 
-    float onePixel = 1.0 / max(uniforms.resolution.x, uniforms.resolution.y);
-    
-    float4 foregroundColor = uniforms.foregroundColor;
-    float4 edgeColor = uniforms.edgeColor;
-    float4 backgroundColor = uniforms.backgroundColor;
-    
-    float edgeRadius = max(uniforms.edgeRadius, 0.0);
-    
-    float aspectRatio = uniforms.resolution.x / uniforms.resolution.y;
-            
-    float x = (u - 0.5) * aspectRatio - uniforms.position.x;
-    float y = (v - 0.5) - uniforms.position.y;
-    float radius = sqrt(pow(x, 2) + pow(y, 2));
-    
-    float4 color = radiusColor(radius, uniforms.radius, edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
-    
-    if (uniforms.premultiply) {
-        color = float4(color.rgb * color.a, color.a);
+    float height = uniforms.resolution.y;
+    float2 point = (float2(u, v) - 0.5) * float2(uniforms.resolution)
+        - float2(uniforms.position) * height;
+    float radius = uniforms.radius * height;
+    float lineWidth = max(uniforms.edgeRadius, 0.0) * height;
+    float distance = length(point) - radius;
+
+    if (lineWidth > 0.0) {
+        float coverage = radius - lineWidth / 2.0 > 0.0
+            ? agShapeStrokeCoverage(distance, lineWidth, uniforms.antiAlias)
+            : agShapeCoverage(distance - lineWidth / 2.0, uniforms.antiAlias);
+        return agShapeColor(coverage, uniforms.edgeColor, uniforms.backgroundColor, uniforms.premultiply);
     }
-    
-    return color;
+
+    float coverage = radius > 0.0 ? agShapeCoverage(distance, uniforms.antiAlias) : 0.0;
+    return agShapeColor(coverage, uniforms.foregroundColor, uniforms.backgroundColor, uniforms.premultiply);
 }

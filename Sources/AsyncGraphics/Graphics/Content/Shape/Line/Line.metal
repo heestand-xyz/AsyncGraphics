@@ -7,19 +7,8 @@
 //
 
 #include <metal_stdlib>
+#include "../../../../Shaders/Content/shape_coverage_header.metal"
 using namespace metal;
-
-float lineSign(float2 p1, float2 p2, float2 p3) {
-    return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
-}
-
-bool linePointInTriangle(float2 pt, float2 v1, float2 v2, float2 v3) {
-    bool b1, b2, b3;
-    b1 = lineSign(pt, v1, v2) < 0.0f;
-    b2 = lineSign(pt, v2, v3) < 0.0f;
-    b3 = lineSign(pt, v3, v1) < 0.0f;
-    return (b1 == b2) && (b2 == b3);
-}
 
 struct VertexOut{
     float4 position [[position]];
@@ -28,6 +17,7 @@ struct VertexOut{
 
 struct Uniforms{
     bool premultiply;
+    bool antiAlias;
     int cap;
     float lineWidth;
     packed_float2 leadingPoint;
@@ -42,63 +32,43 @@ struct Uniforms{
 fragment float4 line(VertexOut out [[stage_in]],
                      const device Uniforms& uniforms [[ buffer(0) ]],
                      sampler s [[ sampler(0) ]]) {
-    float pi = M_PI_F;
-    
-    float width = uniforms.resolution.x;
-    float height = uniforms.resolution.y;
-    float aspectRatio = width / height;
-    
-    float u = out.texCoord[0];
-    float v = out.texCoord[1];
-    u = u * uniforms.tileSize.x + uniforms.tileOrigin.x;
-    v = v * uniforms.tileSize.y + uniforms.tileOrigin.y;
-    
-    float4 ac = uniforms.foregroundColor;
-    float4 bc = uniforms.backgroundColor;
+    float2 resolution = uniforms.resolution;
+    float2 uv = out.texCoord * float2(uniforms.tileSize) + float2(uniforms.tileOrigin);
+    float2 point = uv * resolution;
+    float2 leading = float2(uniforms.leadingPoint) * resolution.y + resolution / 2.0;
+    float2 trailing = float2(uniforms.trailingPoint) * resolution.y + resolution / 2.0;
+    float lineWidth = uniforms.lineWidth * resolution.y;
+    float2 vector = trailing - leading;
+    float segmentLength = length(vector);
+    float2 direction = segmentLength > 0.0 ? vector / segmentLength : float2(1.0, 0.0);
+    float2 normal = float2(-direction.y, direction.x);
+    float2 relative = point - (leading + trailing) / 2.0;
+    float2 local = float2(dot(relative, direction), dot(relative, normal));
 
-    float4 c = bc;
-    
-    float x = (u - 0.5) * aspectRatio;
-    float y = v - 0.5;
-    float2 p = float2(x, y);
-    
-    float2 leading = float2(uniforms.leadingPoint.x, uniforms.leadingPoint.y);
-    float2 trailing = float2(uniforms.trailingPoint.x, uniforms.trailingPoint.y);
-    float angle = atan2(trailing.y - leading.y, trailing.x - leading.x);
-    float scale = uniforms.lineWidth / 2.0;
-    int cap = int(uniforms.cap);
-    
-    float2 leadingUp = float2(leading.x + cos(angle + pi / 2) * scale, leading.y + sin(angle + pi / 2) * scale);
-    float2 leadingDown = float2(leading.x + cos(angle - pi / 2) * scale, leading.y + sin(angle - pi / 2) * scale);
-    float2 trailingUp = float2(trailing.x + cos(angle + pi / 2) * scale, trailing.y + sin(angle + pi / 2) * scale);
-    float2 trailingDown = float2(trailing.x + cos(angle - pi / 2) * scale, trailing.y + sin(angle - pi / 2) * scale);
-    
-    bool firstTriangle = linePointInTriangle(p, leadingUp, leadingDown, trailingUp);
-    bool secondTriangle = linePointInTriangle(p, leadingDown, trailingUp, trailingDown);
-    
-    if (firstTriangle || secondTriangle) {
-        c = ac;
-    }
-    
-    if (cap == 1) {
-        float leadingCircle = sqrt(pow(leading.x - p.x, 2) + pow(leading.y - p.y, 2));
-        float trailingCircle = sqrt(pow(trailing.x - p.x, 2) + pow(trailing.y - p.y, 2));
-        if (leadingCircle < scale || trailingCircle < scale) {
-            c = ac;
-        }
-    } else if (cap == 2) {
-        float2 leadingOut = float2(leading.x + cos(angle + pi) * scale, leading.y + sin(angle + pi) * scale);
-        float2 trailingOut = float2(trailing.x + cos(angle) * scale, trailing.y + sin(angle) * scale);
-        bool leadingTriangle = linePointInTriangle(p, leadingUp, leadingDown, leadingOut);
-        bool trailingTriangle = linePointInTriangle(p, trailingUp, trailingDown, trailingOut);
-        if (leadingTriangle || trailingTriangle) {
-            c = ac;
+    float coverage = 0.0;
+    if (lineWidth > 0.0) {
+        if (uniforms.cap == 1) {
+            float projection = clamp(dot(point - leading, direction), 0.0, segmentLength);
+            float distance = length(point - leading - direction * projection);
+            if (uniforms.antiAlias) {
+                // The unsigned distance has a cusp on the centerline. Its
+                // derivative can vanish across a pixel pair for thin strokes.
+                float antialiasWidth = max(fwidth(local.y), 0.0001);
+                coverage = agShapeCoverageWithWidth(distance - lineWidth / 2.0, antialiasWidth)
+                    - agShapeCoverageWithWidth(distance + lineWidth / 2.0, antialiasWidth);
+            } else {
+                coverage = distance < lineWidth / 2.0 ? 1.0 : 0.0;
+            }
+        } else if (uniforms.cap == 2) {
+            float sideCoverage = agShapeStrokeCoverage(local.y, lineWidth, uniforms.antiAlias);
+            float capDistance = (abs(local.x) + abs(local.y) - segmentLength / 2.0 - lineWidth / 2.0) / sqrt(2.0);
+            coverage = sideCoverage * agShapeCoverage(capDistance, uniforms.antiAlias);
+        } else if (segmentLength > 0.0) {
+            // Legacy LineCap.square stops at the endpoints, like a butt cap.
+            float sideCoverage = agShapeStrokeCoverage(local.y, lineWidth, uniforms.antiAlias);
+            float endCoverage = agShapeCoverage(abs(local.x) - segmentLength / 2.0, uniforms.antiAlias);
+            coverage = sideCoverage * endCoverage;
         }
     }
-    
-    if (uniforms.premultiply) {
-        c = float4(c.r * c.a, c.g * c.a, c.b * c.a, c.a);
-    }
-    
-    return c;
+    return agShapeColor(coverage, uniforms.foregroundColor, uniforms.backgroundColor, uniforms.premultiply);
 }

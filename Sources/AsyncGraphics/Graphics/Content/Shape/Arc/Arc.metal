@@ -6,7 +6,7 @@
 #include <metal_stdlib>
 using namespace metal;
 
-#import "../../../../Shaders/Content/radius_header.metal"
+#import "../../../../Shaders/Content/shape_coverage_header.metal"
 
 struct VertexOut {
     float4 position [[position]];
@@ -29,50 +29,57 @@ struct Uniforms {
     packed_float2 tileSize;
 };
 
+inline float arcSegmentDistance(float2 point, float2 end) {
+    float fraction = clamp(dot(point, end) / max(dot(end, end), 0.000001), 0.0, 1.0);
+    return length(point - end * fraction);
+}
+
+inline float arcSectorDistance(float2 point, float radius, float halfAngle) {
+    float radialDistance = length(point) - radius;
+    if (halfAngle >= M_PI_F) {
+        return radialDistance;
+    }
+
+    float angle = atan2(point.y, point.x);
+    float closestAngle = clamp(angle, -halfAngle, halfAngle);
+    float2 closestArcPoint = float2(cos(closestAngle), sin(closestAngle)) * radius;
+    float2 upperEnd = float2(cos(halfAngle), sin(halfAngle)) * radius;
+    float2 lowerEnd = float2(upperEnd.x, -upperEnd.y);
+    float boundaryDistance = min(length(point - closestArcPoint),
+                                 min(arcSegmentDistance(point, upperEnd), arcSegmentDistance(point, lowerEnd)));
+    bool inside = radialDistance < 0.0 && abs(angle) < halfAngle;
+    return inside ? -boundaryDistance : boundaryDistance;
+}
+
 fragment float4 arc(VertexOut out [[stage_in]],
                     const device Uniforms& uniforms [[ buffer(0) ]]) {
-    float pi = M_PI_F;
-    
-    float width = uniforms.resolution.x;
+    float2 uv = out.texCoord * float2(uniforms.tileSize) + float2(uniforms.tileOrigin);
     float height = uniforms.resolution.y;
-    float aspectRatio = width / height;
+    float2 point = (uv - 0.5) * float2(uniforms.resolution) - float2(uniforms.position) * height;
+    float center = uniforms.angleCenter * M_PI_F * 2.0;
+    float sine = sin(center);
+    float cosine = cos(center);
+    point = float2(point.x * cosine + point.y * sine, -point.x * sine + point.y * cosine);
+    float halfAngle = min(uniforms.angleLength * M_PI_F, M_PI_F);
+    float radius = uniforms.radius * height;
+    float lineWidth = max(uniforms.edgeRadius, 0.0) * height;
 
-    float u = out.texCoord[0];
-    float v = out.texCoord[1];
-    u = u * uniforms.tileSize.x + uniforms.tileOrigin.x;
-    v = v * uniforms.tileSize.y + uniforms.tileOrigin.y;
-    float onePixel = 1.0 / max(width, height);
+    if (halfAngle <= 0.0) {
+        return agShapeColor(0.0, uniforms.foregroundColor, uniforms.backgroundColor, uniforms.premultiply);
+    }
 
-    float4 foregroundColor = uniforms.foregroundColor;
-    float4 edgeColor = uniforms.edgeColor;
-    float4 backgroundColor = uniforms.backgroundColor;
-    
-    float xRadius = (u - 0.5) * aspectRatio - uniforms.position.x;
-    float yRadius = (v - 0.5) - uniforms.position.y;
-    float radius = sqrt(pow(xRadius, 2) + pow(yRadius, 2));
-    
-    float currentAngle = atan2(yRadius, xRadius);
-    
-    float angleCenter = uniforms.angleCenter * pi * 2;
-    float angleLength = uniforms.angleLength * pi * 2;
-    
-    float angle = currentAngle - angleCenter;
-    while (angle < -pi) {
-        angle += pi * 2;
+    if (lineWidth > 0.0) {
+        float outerRadius = radius + lineWidth / 2.0;
+        float innerRadius = radius - lineWidth / 2.0;
+        float outerCoverage = outerRadius > 0.0
+            ? agShapeCoverage(arcSectorDistance(point, outerRadius, halfAngle), uniforms.antiAlias) : 0.0;
+        float innerCoverage = innerRadius > 0.0
+            ? agShapeCoverage(arcSectorDistance(point, innerRadius, halfAngle), uniforms.antiAlias) : 0.0;
+        return agShapeColor(max(outerCoverage - innerCoverage, 0.0),
+                            uniforms.edgeColor, uniforms.backgroundColor, uniforms.premultiply);
     }
-    while (angle > pi) {
-        angle -= pi * 2;
-    }
-    
-    float4 color = backgroundColor;
-    
-    if (angleLength != 0.0 && angle >= -angleLength / 2 && angle <= angleLength / 2) {
-        color = radiusColor(radius, uniforms.radius, uniforms.edgeRadius, foregroundColor, edgeColor, backgroundColor, uniforms.antiAlias, uniforms.premultiply, onePixel);
-    }
-    
-    if (uniforms.premultiply) {
-        color = float4(color.rgb * color.a, color.a);
-    }
-    
-    return color;
+
+    float coverage = radius > 0.0
+        ? agShapeCoverage(arcSectorDistance(point, radius, halfAngle), uniforms.antiAlias) : 0.0;
+    return agShapeColor(coverage, uniforms.foregroundColor, uniforms.backgroundColor, uniforms.premultiply);
 }
