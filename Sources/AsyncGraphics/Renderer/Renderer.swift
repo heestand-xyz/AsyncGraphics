@@ -129,9 +129,12 @@ public struct Renderer {
         }
         
         func used(id: UUID) {
-            guard let packIndex: Int = packs.firstIndex(where: { $0.id == id }) else { return }
+            guard let packIndex: Int = packs.firstIndex(where: { $0.id == id }),
+                  packs[packIndex].useCount > 0 else { return }
             packs[packIndex].useCount -= 1
-            if packs[packIndex].useCount == 0 {
+            // Keep one idle queue for the next render, without retaining overflow queues.
+            if packs[packIndex].useCount == 0,
+               packs.contains(where: { $0.id != id && $0.useCount == 0 }) {
                 packs.remove(at: packIndex)
             }
         }
@@ -391,6 +394,124 @@ public struct Renderer {
         var preparationInterval = AGPerformanceTrace.rendering.begin("Prepare and encode async", detail: name)
         defer { AGPerformanceTrace.rendering.end(preparationInterval) }
 #endif
+        let resolvedMetadata = try resolveMetadata(metadata, graphics: graphics)
+        let resolution = resolvedMetadata.resolution
+        let colorSpace = resolvedMetadata.colorSpace
+        let bits = resolvedMetadata.bits
+        
+        let arrayTexture: MTLTexture? = options.isArray ? try await graphics.map(\.texture).texture(type: .typeArray) : nil
+        let sampleCount: Int = options.sampleCount
+        let is3D: Bool = resolution is Size3D
+        let optimization: Optimization = await optimization
+        let (targetTexture, depthTexture) = try await prepareRenderTextures(
+            resolution: resolution,
+            bits: bits,
+            sampleCount: sampleCount,
+            graphics: graphics,
+            options: options
+        )
+        
+        let (commandQueueID, commandQueue): (UUID?, MTLCommandQueue?) = await useCommandQueue()
+        guard let commandQueue else {
+            throw RendererError.failedToMakeCommandQueue
+        }
+        var graphic: G
+        do {
+            guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {
+                throw RendererError.failedToMakeCommandBuffer
+            }
+        
+            let commandEncoder: MTLCommandEncoder
+            if !is3D {
+                let renderCommandEncoder: MTLRenderCommandEncoder = try self.commandEncoder(
+                    texture: targetTexture,
+                    depthTexture: depthTexture,
+                    clearColor: options.clearColor,
+                    commandBuffer: commandBuffer)
+                commandEncoder = renderCommandEncoder
+            } else {
+                guard let computeCommandEncoder: MTLComputeCommandEncoder = commandBuffer.makeComputeCommandEncoder() else {
+                    throw RendererError.failedToMakeComputeCommandEncoder
+                }
+                commandEncoder = computeCommandEncoder
+            }
+            do {
+        
+                try await configurePipeline(
+                    commandEncoder: commandEncoder,
+                    shader: shader,
+                    bits: bits,
+                    sampleCount: sampleCount,
+                    options: options
+                )
+                try await bindTexturesAndSampler(
+                    commandEncoder: commandEncoder,
+                    targetTexture: targetTexture,
+                    arrayTexture: arrayTexture,
+                    graphics: graphics,
+                    shader: shader,
+                    optimization: optimization,
+                    options: options
+                )
+                bindUniformBuffers(
+                    commandEncoder: commandEncoder,
+                    uniformsBuffer: uniformsBuffer,
+                    arrayUniformsBuffer: arrayUniformsBuffer,
+                    activeArrayUniformsBuffer: activeArrayUniformsBuffer,
+                    vertexUniformsBuffer: vertexUniformsBuffer
+                )
+                try encodeDraw(
+                    commandEncoder: commandEncoder,
+                    vertices: vertices,
+                    resolution: resolution,
+                    optimization: optimization
+                )
+                commandEncoder.endEncoding()
+            
+            } catch {
+                commandEncoder.endEncoding()
+                throw error
+            }
+        
+            try Task.checkCancellation()
+        
+#if DEBUG
+            AGPerformanceTrace.rendering.end(preparationInterval)
+            preparationInterval = nil
+#endif
+            // MARK: Render
+            graphic = try await submitAndWait(
+                commandBuffer: commandBuffer,
+                name: name,
+                targetTexture: targetTexture,
+                bits: bits,
+                colorSpace: colorSpace
+            )
+        } catch {
+            // Encoding failures and pre-commit cancellation must return the lease too.
+            if let commandQueueID {
+                await usedCommandQueue(id: commandQueueID)
+            }
+            throw error
+        }
+        // submitAndWait returns only after the GPU has finished this buffer.
+        if let commandQueueID {
+            await usedCommandQueue(id: commandQueueID)
+        }
+        if sampleCount > 1 {
+            
+            let graphic2d = graphic as! Graphic
+            graphic = try await graphic2d.downSample() as! G
+        }
+        try Task.checkCancellation()
+        
+        return graphic
+    }
+    
+    private static func resolveMetadata(
+        _ metadata: Metadata?,
+        graphics: [Graphicable]
+    ) throws -> Metadata {
         guard let resolution: MultiDimensionalResolution = metadata?.resolution ?? {
             if let graphic = graphics.first as? Graphic {
                 return graphic.resolution
@@ -400,18 +521,20 @@ public struct Renderer {
             return nil
         }(),
         let colorSpace: TMColorSpace = metadata?.colorSpace ?? graphics.first?.colorSpace,
-            let bits: TMBits = metadata?.bits ?? graphics.first?.bits else {
-                throw RendererError.badMetadata
-            }
-        
-        let arrayTexture: MTLTexture? = options.isArray ? try await graphics.map(\.texture).texture(type: .typeArray) : nil
-        
-        let sampleCount: Int = options.sampleCount
-        
-        let is3D: Bool = resolution is Size3D
-        
-        let optimization: Optimization = await optimization
-        
+        let bits: TMBits = metadata?.bits ?? graphics.first?.bits else {
+            throw RendererError.badMetadata
+        }
+
+        return Metadata(resolution: resolution, colorSpace: colorSpace, bits: bits)
+    }
+
+    private static func prepareRenderTextures(
+        resolution: MultiDimensionalResolution,
+        bits: TMBits,
+        sampleCount: Int,
+        graphics: [Graphicable],
+        options: Options
+    ) async throws -> (MTLTexture, MTLTexture?) {
         func makeTargetTexture() throws -> MTLTexture {
             if let resolution: CGSize = resolution as? CGSize {
                 return try .empty(
@@ -426,7 +549,7 @@ public struct Renderer {
             }
             fatalError("Unknown Graphicable")
         }
-        
+
         let targetTexture: MTLTexture
         if options.targetSourceTexture {
             guard let texture: MTLTexture = graphics.first?.texture else {
@@ -444,275 +567,266 @@ public struct Renderer {
                   recycleGraphic.bits == bits {
             targetTexture = recycleGraphic.texture
             await RenderActor.run {
-                self.recycleGraphic = nil                
+                self.recycleGraphic = nil
             }
         } else {
             targetTexture = try makeTargetTexture()
         }
         var depthTexture: MTLTexture?
         if options.depth, let size = resolution as? CGSize {
-            
+
             let depthTextureDescriptor = MTLTextureDescriptor.texture2DDescriptor(
                 pixelFormat: options.stencil ? .depth32Float_stencil8 : .depth32Float,
                 width: Int(size.width),
                 height: Int(size.height),
                 mipmapped: false)
-            
+
             depthTextureDescriptor.usage = [.renderTarget, .shaderRead]
 
             depthTexture = metalDevice.makeTexture(descriptor: depthTextureDescriptor)
         }
-        
-        let (commandQueueID, commandQueue): (UUID?, MTLCommandQueue?) = await useCommandQueue()
-        guard let commandQueue else {
-            throw RendererError.failedToMakeCommandQueue
-        }
-        guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {
-            if let commandQueueID: UUID {
-                await usedCommandQueue(id: commandQueueID)
-            }
-            throw RendererError.failedToMakeCommandBuffer
-        }
-        if let commandQueueID: UUID {
-            await usedCommandQueue(id: commandQueueID)
-        }
-        
-        let commandEncoder: MTLCommandEncoder
-        if !is3D {
-            let renderCommandEncoder: MTLRenderCommandEncoder = try self.commandEncoder(
-                texture: targetTexture,
-                depthTexture: depthTexture,
-                clearColor: options.clearColor,
-                commandBuffer: commandBuffer)
-            commandEncoder = renderCommandEncoder
-        } else {
-            guard let computeCommandEncoder: MTLComputeCommandEncoder = commandBuffer.makeComputeCommandEncoder() else {
-                throw RendererError.failedToMakeComputeCommandEncoder
-            }
-            commandEncoder = computeCommandEncoder
-        }
-        do {
-        
-            // MARK: Pipeline
-            
-            if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
-                let pipeline: MTLRenderPipelineState = try await pipeline(
-                    proxy: PipelineProxy(
-                        shader: shader,
-                        additive: options.additive,
-                        depth: options.depth,
-                        stencil: options.stencil,
-                        bits: bits,
-                        sampleCount: sampleCount
-                    )
-                )
-                renderCommandEncoder.setRenderPipelineState(pipeline)
-                if options.depth {
-                    
-                    let depthStateDescriptor = MTLDepthStencilDescriptor()
-                    depthStateDescriptor.depthCompareFunction = .less
-                    depthStateDescriptor.isDepthWriteEnabled = true
-                    
-                    let depthState: MTLDepthStencilState = metalDevice.makeDepthStencilState(descriptor: depthStateDescriptor)!
 
-                    renderCommandEncoder.setDepthStencilState(depthState)
-                }
-                
-            } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
-                
-                let pipeline3d: MTLComputePipelineState = try await pipeline3d(
-                    proxy: Pipeline3DProxy(
-                        shader: shader
-                    )
+        return (targetTexture, depthTexture)
+    }
+
+    private static func configurePipeline(
+        commandEncoder: MTLCommandEncoder,
+        shader: Shader,
+        bits: TMBits,
+        sampleCount: Int,
+        options: Options
+    ) async throws {
+        // MARK: Pipeline
+
+        if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
+            let pipeline: MTLRenderPipelineState = try await pipeline(
+                proxy: PipelineProxy(
+                    shader: shader,
+                    additive: options.additive,
+                    depth: options.depth,
+                    stencil: options.stencil,
+                    bits: bits,
+                    sampleCount: sampleCount
                 )
-                computeCommandEncoder.setComputePipelineState(pipeline3d)
+            )
+            renderCommandEncoder.setRenderPipelineState(pipeline)
+            if options.depth {
+
+                let depthStateDescriptor = MTLDepthStencilDescriptor()
+                depthStateDescriptor.depthCompareFunction = .less
+                depthStateDescriptor.isDepthWriteEnabled = true
+
+                let depthState: MTLDepthStencilState = metalDevice.makeDepthStencilState(descriptor: depthStateDescriptor)!
+
+                renderCommandEncoder.setDepthStencilState(depthState)
             }
-            // MARK: Textures
-            
-            if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
-                computeCommandEncoder.setTexture(targetTexture, index: 0)
-            }
-            if !graphics.isEmpty {
-                if let arrayTexture: MTLTexture = arrayTexture {
-                    
+
+        } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
+
+            let pipeline3d: MTLComputePipelineState = try await pipeline3d(
+                proxy: Pipeline3DProxy(
+                    shader: shader
+                )
+            )
+            computeCommandEncoder.setComputePipelineState(pipeline3d)
+        }
+    }
+
+    private static func bindTexturesAndSampler(
+        commandEncoder: MTLCommandEncoder,
+        targetTexture: MTLTexture,
+        arrayTexture: MTLTexture?,
+        graphics: [Graphicable],
+        shader: Shader,
+        optimization: Optimization,
+        options: Options
+    ) async throws {
+        if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
+            computeCommandEncoder.setTexture(targetTexture, index: 0)
+        }
+        if !graphics.isEmpty {
+            if let arrayTexture: MTLTexture = arrayTexture {
+
+                if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
+
+                    renderCommandEncoder.setFragmentTexture(arrayTexture, index: 0)
+
+                } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
+
+                    computeCommandEncoder.setTexture(arrayTexture, index: 1)
+                }
+
+            } else {
+
+                for (index, graphic) in graphics.enumerated() {
+
                     if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
-                        
-                        renderCommandEncoder.setFragmentTexture(arrayTexture, index: 0)
-                        
-                    } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
-                        
-                        computeCommandEncoder.setTexture(arrayTexture, index: 1)
-                    }
-                    
-                } else {
-                
-                    for (index, graphic) in graphics.enumerated() {
-                        
-                        if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
-                            
-                            if case .custom = shader {
-                                renderCommandEncoder.setVertexTexture(graphic.texture, index: index)
-                            } else {
-                                renderCommandEncoder.setFragmentTexture(graphic.texture, index: index)
-                            }
-                            
-                        } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
-                            
-                            computeCommandEncoder.setTexture(graphic.texture, index: index + 1)
-                        }
-                    }
-                }
-                // MARK: Sampler
-                
-                let samplerKey = SamplerKey(addressMode: options.addressMode, filter: options.filter)
-                let sampler: MTLSamplerState
-                if optimization.contains(.cacheSampler),
-                   let cached = await samplerCache[samplerKey] {
-                    sampler = cached
-                } else {
-                    sampler = try self.sampler(addressMode: options.addressMode, filter: options.filter)
-                    if optimization.contains(.cacheSampler) {
-                        await RenderActor.run {
-                            samplerCache[samplerKey] = sampler
-                        }
-                    }
-                }
-                
-                if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
-                    
-                    if case .custom = shader {
-                        renderCommandEncoder.setVertexSamplerState(sampler, index: 0)
-                    } else {
-                        renderCommandEncoder.setFragmentSamplerState(sampler, index: 0)
-                    }
-                    
-                } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
-                    
-                    computeCommandEncoder.setSamplerState(sampler, index: 0)
-                }
-            }
-            // MARK: Uniforms
 
-            if let uniformsBuffer {
-                
-                if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
-                    
-                    renderCommandEncoder.setFragmentBuffer(uniformsBuffer, offset: 0, index: 0)
-                    
-                } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
-                    
-                    computeCommandEncoder.setBuffer(uniformsBuffer, offset: 0, index: 0)
-                }
-            }
-            // MARK: Array Uniforms
-            
-            if let arrayUniformsBuffer, let activeArrayUniformsBuffer {
-               
-                if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
-                    
-                    renderCommandEncoder.setFragmentBuffer(arrayUniformsBuffer, offset: 0, index: 1)
-                    renderCommandEncoder.setFragmentBuffer(activeArrayUniformsBuffer, offset: 0, index: 2)
-                    
-                } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
-                    
-                    computeCommandEncoder.setBuffer(arrayUniformsBuffer, offset: 0, index: 1)
-                    computeCommandEncoder.setBuffer(activeArrayUniformsBuffer, offset: 0, index: 2)
-                }
-            }
-            // MARK: Vertex Uniforms
-            
-            if let vertexUniformsBuffer {
-                
-                if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
-                    
-                    renderCommandEncoder.setVertexBuffer(vertexUniformsBuffer, offset: 0, index: 1)
-                }
-            }
-            // MARK: Vertex
-            
-            if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
-                
-                let vertexBuffer: MTLBuffer
-                if let vertices {
-                    switch vertices {
-                    case .direct(let vertices, _):
-                        vertexBuffer = try buffer(vertices: vertices)
-                    case .indirect(let count, _):
-                        vertexBuffer = try buffer(count: count)
+                        if case .custom = shader {
+                            renderCommandEncoder.setVertexTexture(graphic.texture, index: index)
+                        } else {
+                            renderCommandEncoder.setFragmentTexture(graphic.texture, index: index)
+                        }
+
+                    } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
+
+                        computeCommandEncoder.setTexture(graphic.texture, index: index + 1)
                     }
+                }
+            }
+            // MARK: Sampler
+
+            let samplerKey = SamplerKey(addressMode: options.addressMode, filter: options.filter)
+            let sampler: MTLSamplerState
+            if optimization.contains(.cacheSampler),
+               let cached = await samplerCache[samplerKey] {
+                sampler = cached
+            } else {
+                sampler = try self.sampler(addressMode: options.addressMode, filter: options.filter)
+                if optimization.contains(.cacheSampler) {
+                    await RenderActor.run {
+                        samplerCache[samplerKey] = sampler
+                    }
+                }
+            }
+
+            if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
+
+                if case .custom = shader {
+                    renderCommandEncoder.setVertexSamplerState(sampler, index: 0)
                 } else {
-                    if optimization.contains(.cacheQuadVertexBuffer),
-                       let buffer = storedVertexQuadBuffer {
-                        vertexBuffer = buffer
-                    } else {
-                        vertexBuffer = try makeVertexQuadBuffer()
-                    }
+                    renderCommandEncoder.setFragmentSamplerState(sampler, index: 0)
                 }
-                
-                renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
-            }
-            // MARK: Draw
-            
-            if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
-             
-                renderCommandEncoder.drawPrimitives(type: vertices?.type ?? .triangle,
-                                                    vertexStart: 0,
-                                                    vertexCount: vertices?.count ?? 6,
-                                                    instanceCount: 1)
-                
+
             } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
-                
-                guard let resolution: Size3D = resolution as? Size3D else {
-                    fatalError("Non 3D Compute Encoding Not Supported")
-                }
-                
-                let threadsPerThreadgroup = MTLSize(width: 8, height: 8, depth: 8)
-                let threadgroups = MTLSize(
-                    width: (Int(resolution.width) + threadsPerThreadgroup.width - 1) / threadsPerThreadgroup.width,
-                    height: (Int(resolution.height) + threadsPerThreadgroup.height - 1) / threadsPerThreadgroup.height,
-                    depth: (Int(resolution.depth) + threadsPerThreadgroup.depth - 1) / threadsPerThreadgroup.depth
-                )
-                computeCommandEncoder.dispatchThreadgroups(threadgroups, threadsPerThreadgroup: threadsPerThreadgroup)
+
+                computeCommandEncoder.setSamplerState(sampler, index: 0)
             }
-            commandEncoder.endEncoding()
-            
-        } catch {
-            commandEncoder.endEncoding()
-            throw error
         }
-        
-        try Task.checkCancellation()
-        
-#if DEBUG
-        AGPerformanceTrace.rendering.end(preparationInterval)
-        preparationInterval = nil
-#endif
-        // MARK: Render
-        var graphic: G = try await withCheckedThrowingContinuation { continuation in
-        
+    }
+
+    private static func bindUniformBuffers(
+        commandEncoder: MTLCommandEncoder,
+        uniformsBuffer: MTLBuffer?,
+        arrayUniformsBuffer: MTLBuffer?,
+        activeArrayUniformsBuffer: MTLBuffer?,
+        vertexUniformsBuffer: MTLBuffer?
+    ) {
+        // MARK: Uniforms
+
+        if let uniformsBuffer {
+
+            if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
+
+                renderCommandEncoder.setFragmentBuffer(uniformsBuffer, offset: 0, index: 0)
+
+            } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
+
+                computeCommandEncoder.setBuffer(uniformsBuffer, offset: 0, index: 0)
+            }
+        }
+        // MARK: Array Uniforms
+
+        if let arrayUniformsBuffer, let activeArrayUniformsBuffer {
+
+            if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
+
+                renderCommandEncoder.setFragmentBuffer(arrayUniformsBuffer, offset: 0, index: 1)
+                renderCommandEncoder.setFragmentBuffer(activeArrayUniformsBuffer, offset: 0, index: 2)
+
+            } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
+
+                computeCommandEncoder.setBuffer(arrayUniformsBuffer, offset: 0, index: 1)
+                computeCommandEncoder.setBuffer(activeArrayUniformsBuffer, offset: 0, index: 2)
+            }
+        }
+        // MARK: Vertex Uniforms
+
+        if let vertexUniformsBuffer {
+
+            if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
+
+                renderCommandEncoder.setVertexBuffer(vertexUniformsBuffer, offset: 0, index: 1)
+            }
+        }
+    }
+
+    private static func encodeDraw(
+        commandEncoder: MTLCommandEncoder,
+        vertices: Vertices?,
+        resolution: MultiDimensionalResolution,
+        optimization: Optimization
+    ) throws {
+        // MARK: Vertex
+
+        if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
+
+            let vertexBuffer: MTLBuffer
+            if let vertices {
+                switch vertices {
+                case .direct(let vertices, _):
+                    vertexBuffer = try buffer(vertices: vertices)
+                case .indirect(let count, _):
+                    vertexBuffer = try buffer(count: count)
+                }
+            } else {
+                if optimization.contains(.cacheQuadVertexBuffer),
+                   let buffer = storedVertexQuadBuffer {
+                    vertexBuffer = buffer
+                } else {
+                    vertexBuffer = try makeVertexQuadBuffer()
+                }
+            }
+
+            renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        }
+        // MARK: Draw
+
+        if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
+
+            renderCommandEncoder.drawPrimitives(type: vertices?.type ?? .triangle,
+                                                vertexStart: 0,
+                                                vertexCount: vertices?.count ?? 6,
+                                                instanceCount: 1)
+
+        } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
+
+            guard let resolution: Size3D = resolution as? Size3D else {
+                fatalError("Non 3D Compute Encoding Not Supported")
+            }
+
+            let threadsPerThreadgroup = MTLSize(width: 8, height: 8, depth: 8)
+            let threadgroups = MTLSize(
+                width: (Int(resolution.width) + threadsPerThreadgroup.width - 1) / threadsPerThreadgroup.width,
+                height: (Int(resolution.height) + threadsPerThreadgroup.height - 1) / threadsPerThreadgroup.height,
+                depth: (Int(resolution.depth) + threadsPerThreadgroup.depth - 1) / threadsPerThreadgroup.depth
+            )
+            computeCommandEncoder.dispatchThreadgroups(threadgroups, threadsPerThreadgroup: threadsPerThreadgroup)
+        }
+    }
+
+    private static func submitAndWait<G: Graphicable>(
+        commandBuffer: MTLCommandBuffer,
+        name: String,
+        targetTexture: MTLTexture,
+        bits: TMBits,
+        colorSpace: TMColorSpace
+    ) async throws -> G {
+        return try await withCheckedThrowingContinuation { continuation in
             commandBuffer.addCompletedHandler { _ in
-                
                 let graphic = G(id: UUID(),
                                 name: name,
                                 texture: targetTexture,
                                 bits: bits,
                                 colorSpace: colorSpace)
-                
+
                 continuation.resume(returning: graphic)
             }
-            
+
 #if DEBUG
             AGPerformanceTrace.rendering.trackGPU(commandBuffer, detail: "\(name) \(targetTexture.width)x\(targetTexture.height)x\(targetTexture.depth)")
 #endif
             commandBuffer.commit()
         }
-        if sampleCount > 1 {
-            
-            let graphic2d = graphic as! Graphic
-            graphic = try await graphic2d.downSample() as! G
-        }
-        try Task.checkCancellation()
-        
-        return graphic
     }
 }
