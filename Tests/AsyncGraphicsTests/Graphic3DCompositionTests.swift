@@ -62,7 +62,8 @@ struct Graphic3DCompositionTests {
         #expect(fitColors[3][3][3].opacity > 0.99)
         let fill = try await background.blended(with: foreground, blendingMode: .over, placement: .fill)
         let fillColors = try await fill.voxelColors
-        let first = fillColors[0][0][0]
+        // Keep the short axes away from the linearly filtered transparent border.
+        let first = fillColors[axis == 2 ? 0 : 4][axis == 1 ? 0 : 4][axis == 0 ? 0 : 4]
         let channel = [first.red, first.green, first.blue][axis]
         // The long axis is cropped to the center quarter (the old Fill acted like Stretch).
         #expect(abs(channel - 0.390625) < 0.02)
@@ -85,9 +86,9 @@ struct Graphic3DCompositionTests {
 
     @Test("Graphic3D: Stacks preserve order, gaps, and perpendicular alignment", arguments: [0, 1, 2])
     func axisStacks(axis: Int) async throws {
-        let red = try await Graphic3D.color(.red, resolution: Size3D(width: 2, height: 2, depth: 2))
-        let green = try await Graphic3D.color(.green, resolution: Size3D(width: 4, height: 4, depth: 4))
-        let blue = try await Graphic3D.color(.blue, resolution: Size3D(width: 2, height: 2, depth: 2))
+        let red = try await Graphic3D.color(.rawRed, resolution: Size3D(width: 2, height: 2, depth: 2))
+        let green = try await Graphic3D.color(.rawGreen, resolution: Size3D(width: 4, height: 4, depth: 4))
+        let blue = try await Graphic3D.color(.rawBlue, resolution: Size3D(width: 2, height: 2, depth: 2))
         let result: Graphic3D
         switch axis {
         case 0: result = try await Graphic3D.hStacked(with: [red, green, blue], yAlignment: .top, zAlignment: .far, spacing: 1)
@@ -114,12 +115,13 @@ struct Graphic3DCompositionTests {
     @Test("Graphic3D: Layers preserve precision and apply the selected blend after the first volume")
     func layers() async throws {
         let white = try await Graphic3D.color(.white, resolution: Size3D(width: 4, height: 4, depth: 4), options: .bit16)
-        let red = try await Graphic3D.color(.red, resolution: Size3D(width: 2, height: 2, depth: 2), options: .bit16)
+        let red = try await Graphic3D.color(.rawRed, resolution: Size3D(width: 2, height: 2, depth: 2), options: .bit16)
         let result = try await Graphic3D.layered(with: [white, red], blendingMode: .multiply,
                                                alignment: Graphic3D.Alignment3D(x: .trailing, y: .bottom, z: .near))
-        let voxels = try await result.voxelColors
         #expect(result.bits == white.bits)
         #expect(result.resolution == white.resolution)
+        // TextureMap does not support direct half-float CPU readback on macOS.
+        let voxels = try await result.withBits(.bit32).voxelColors
         // Multiply also multiplies alpha; samples outside the smaller volume are clear.
         #expect(voxels[0][0][0].opacity < 0.01)
         #expect(voxels[3][0][3].red > 0.99)
