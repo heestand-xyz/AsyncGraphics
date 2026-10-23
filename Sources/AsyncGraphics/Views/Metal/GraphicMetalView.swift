@@ -26,7 +26,7 @@ final class GraphicMetalView: MTKView, GraphicMetalViewable {
     let didRender: (UUID) -> ()
     
     private var commandQueue: MTLCommandQueue?
-#if DEBUG
+#if DEBUG && !targetEnvironment(simulator)
     // Presented handlers run outside the main actor. Keep cadence state per view.
     private let lastPresentedTime = OSAllocatedUnfairLock(initialState: 0.0)
 #endif
@@ -190,7 +190,8 @@ extension GraphicMetalView: MTKViewDelegate {
                 self.didRender(id)
             }
         }
-#if DEBUG
+        // The Simulator SDK has no presented handlers.
+#if DEBUG && !targetEnvironment(simulator)
         let trace = AGPerformanceTrace.presentation
         if trace.isEnabled {
             let submittedAt = CACurrentMediaTime()
