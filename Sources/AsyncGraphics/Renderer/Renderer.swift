@@ -62,13 +62,6 @@ public struct Renderer {
     @RenderActor
     public static var recycleGraphic: Graphic?
     
-    private struct SamplerKey: Hashable, Sendable {
-        let addressMode: MTLSamplerAddressMode
-        let filter: MTLSamplerMinMagFilter
-    }
-    @RenderActor
-    private static var samplerCache: [SamplerKey: MTLSamplerState] = [:]
-
     /// Hardcoded. Defined as ARRMAX in shaders.
     private static let uniformArrayMaxLimit: Int = 128
     
@@ -142,7 +135,12 @@ public struct Renderer {
     static let commandQueueActor = CommandQueueActor()
     
     public static func useCommandQueue() async -> (UUID?, MTLCommandQueue?) {
-        if await optimization.contains(.cacheCommandQueue) {
+        let optimization = await optimization
+        return await useCommandQueue(optimization: optimization)
+    }
+
+    static func useCommandQueue(optimization: Optimization) async -> (UUID?, MTLCommandQueue?) {
+        if optimization.contains(.cacheCommandQueue) {
             guard let (id, commandQueue) = await commandQueueActor.use() else { return (nil, nil) }
             return (id, commandQueue)
         } else {
@@ -402,16 +400,25 @@ public struct Renderer {
         let arrayTexture: MTLTexture? = options.isArray ? try await graphics.map(\.texture).texture(type: .typeArray) : nil
         let sampleCount: Int = options.sampleCount
         let is3D: Bool = resolution is Size3D
-        let optimization: Optimization = await optimization
-        let (targetTexture, depthTexture) = try await prepareRenderTextures(
+        let resources = try await prepareRenderResources(
+            shader: shader,
+            bits: bits,
+            sampleCount: sampleCount,
+            is3D: is3D,
+            recycleResolution: resolution as? CGSize,
+            hasGraphics: !graphics.isEmpty,
+            options: options
+        )
+        let (targetTexture, depthTexture) = try prepareRenderTextures(
             resolution: resolution,
             bits: bits,
             sampleCount: sampleCount,
             graphics: graphics,
+            recycledTexture: resources.recycledTexture,
             options: options
         )
         
-        let (commandQueueID, commandQueue): (UUID?, MTLCommandQueue?) = await useCommandQueue()
+        let (commandQueueID, commandQueue): (UUID?, MTLCommandQueue?) = await useCommandQueue(optimization: resources.optimization)
         guard let commandQueue else {
             throw RendererError.failedToMakeCommandQueue
         }
@@ -437,21 +444,18 @@ public struct Renderer {
             }
             do {
         
-                try await configurePipeline(
+                configurePipeline(
                     commandEncoder: commandEncoder,
-                    shader: shader,
-                    bits: bits,
-                    sampleCount: sampleCount,
+                    pipeline: resources.pipeline,
                     options: options
                 )
-                try await bindTexturesAndSampler(
+                bindTexturesAndSampler(
                     commandEncoder: commandEncoder,
                     targetTexture: targetTexture,
                     arrayTexture: arrayTexture,
                     graphics: graphics,
                     shader: shader,
-                    optimization: optimization,
-                    options: options
+                    sampler: resources.sampler
                 )
                 bindUniformBuffers(
                     commandEncoder: commandEncoder,
@@ -464,7 +468,7 @@ public struct Renderer {
                     commandEncoder: commandEncoder,
                     vertices: vertices,
                     resolution: resolution,
-                    optimization: optimization
+                    optimization: resources.optimization
                 )
                 commandEncoder.endEncoding()
             
@@ -533,8 +537,9 @@ public struct Renderer {
         bits: TMBits,
         sampleCount: Int,
         graphics: [Graphicable],
+        recycledTexture: MTLTexture?,
         options: Options
-    ) async throws -> (MTLTexture, MTLTexture?) {
+    ) throws -> (MTLTexture, MTLTexture?) {
         func makeTargetTexture() throws -> MTLTexture {
             if let resolution: CGSize = resolution as? CGSize {
                 return try .empty(
@@ -561,14 +566,8 @@ public struct Renderer {
                 print("AsyncGraphics - Renderer - Warning: Target source texture's render target usage not present. Falling back to new texture.")
                 targetTexture = try makeTargetTexture()
             }
-        } else if let recycleGraphic: Graphic = await recycleGraphic,
-                  let resolution = resolution as? CGSize,
-                  recycleGraphic.resolution == resolution,
-                  recycleGraphic.bits == bits {
-            targetTexture = recycleGraphic.texture
-            await RenderActor.run {
-                self.recycleGraphic = nil
-            }
+        } else if let recycledTexture {
+            targetTexture = recycledTexture
         } else {
             targetTexture = try makeTargetTexture()
         }
@@ -591,24 +590,15 @@ public struct Renderer {
 
     private static func configurePipeline(
         commandEncoder: MTLCommandEncoder,
-        shader: Shader,
-        bits: TMBits,
-        sampleCount: Int,
+        pipeline: PreparedPipeline,
         options: Options
-    ) async throws {
+    ) {
         // MARK: Pipeline
 
         if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
-            let pipeline: MTLRenderPipelineState = try await pipeline(
-                proxy: PipelineProxy(
-                    shader: shader,
-                    additive: options.additive,
-                    depth: options.depth,
-                    stencil: options.stencil,
-                    bits: bits,
-                    sampleCount: sampleCount
-                )
-            )
+            guard case .render(let pipeline) = pipeline else {
+                preconditionFailure("A render encoder requires a render pipeline.")
+            }
             renderCommandEncoder.setRenderPipelineState(pipeline)
             if options.depth {
 
@@ -622,13 +612,10 @@ public struct Renderer {
             }
 
         } else if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
-
-            let pipeline3d: MTLComputePipelineState = try await pipeline3d(
-                proxy: Pipeline3DProxy(
-                    shader: shader
-                )
-            )
-            computeCommandEncoder.setComputePipelineState(pipeline3d)
+            guard case .compute(let pipeline) = pipeline else {
+                preconditionFailure("A compute encoder requires a compute pipeline.")
+            }
+            computeCommandEncoder.setComputePipelineState(pipeline)
         }
     }
 
@@ -638,9 +625,8 @@ public struct Renderer {
         arrayTexture: MTLTexture?,
         graphics: [Graphicable],
         shader: Shader,
-        optimization: Optimization,
-        options: Options
-    ) async throws {
+        sampler: MTLSamplerState?
+    ) {
         if let computeCommandEncoder = commandEncoder as? MTLComputeCommandEncoder {
             computeCommandEncoder.setTexture(targetTexture, index: 0)
         }
@@ -676,18 +662,8 @@ public struct Renderer {
             }
             // MARK: Sampler
 
-            let samplerKey = SamplerKey(addressMode: options.addressMode, filter: options.filter)
-            let sampler: MTLSamplerState
-            if optimization.contains(.cacheSampler),
-               let cached = await samplerCache[samplerKey] {
-                sampler = cached
-            } else {
-                sampler = try self.sampler(addressMode: options.addressMode, filter: options.filter)
-                if optimization.contains(.cacheSampler) {
-                    await RenderActor.run {
-                        samplerCache[samplerKey] = sampler
-                    }
-                }
+            guard let sampler else {
+                preconditionFailure("Source textures require a prepared sampler.")
             }
 
             if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
