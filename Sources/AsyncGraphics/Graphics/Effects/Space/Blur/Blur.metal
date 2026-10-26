@@ -7,6 +7,7 @@
 using namespace metal;
 
 #import "../../../../Shaders/Content/random_header.metal"
+#import "../../../../Shaders/Effects/blur_alpha_header.metal"
 
 struct VertexOut {
     float4 position [[position]];
@@ -19,6 +20,7 @@ struct Uniforms {
     int count;
     float angle;
     packed_float2 position;
+    uint pureAlpha;
 };
 
 fragment float4 blur(VertexOut out [[stage_in]],
@@ -132,15 +134,12 @@ fragment float4 blur(VertexOut out [[stage_in]],
     
     color /= amounts;
     
-    return color;
+    return agBlurOutput(color, uniforms.pureAlpha != 0);
 }
 
 fragment float4 blurPureAlpha(VertexOut out [[stage_in]],
                               texture2d<float> texture [[texture(0)]],
                               sampler sampler [[sampler(0)]]) {
     float4 color = texture.sample(sampler, out.texCoord);
-    if (color.a != 0.0) {
-        color.rgb /= color.a;
-    }
-    return color;
+    return agBlurOutput(color, true);
 }

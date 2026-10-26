@@ -8,6 +8,7 @@ extension Graphic3D {
 
     private struct LayeredBlur3DUniforms: Uniforms {
         let radius: Float
+        let pureAlpha: UInt32
     }
 
     public func blurredLayered(
@@ -19,10 +20,10 @@ extension Graphic3D {
 
         var blurredGraphic: Graphic3D = self
         var layerRadius: CGFloat = radius
-        for _ in 0..<layerCount {
+        for layerIndex in 0..<layerCount {
             blurredGraphic = try await blurredGraphic.blurredLayeredSinglePass(
                 radius: layerRadius,
-                options: options
+                options: layerIndex == layerCount - 1 ? options : options.subtracting(.pureAlpha)
             )
             layerRadius /= 2.0
         }
@@ -39,7 +40,10 @@ extension Graphic3D {
             name: "Blur 3D (Layered)",
             shader: .name("layeredBlur3d"),
             graphics: [self],
-            uniforms: LayeredBlur3DUniforms(radius: Float(relativeRadius)),
+            uniforms: LayeredBlur3DUniforms(
+                radius: Float(relativeRadius),
+                pureAlpha: options.contains(.pureAlpha) ? 1 : 0
+            ),
             options: options.spatialRenderOptions
         )
     }

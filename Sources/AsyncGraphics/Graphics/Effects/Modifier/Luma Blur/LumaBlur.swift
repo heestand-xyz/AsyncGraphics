@@ -16,6 +16,7 @@ extension Graphic {
         let position: PointUniform
         let angle: Float
         let lumaGamma: Float
+        let pureAlpha: UInt32
     }
    
     @EnumMacro
@@ -38,13 +39,15 @@ extension Graphic {
         if layerCount < 1 { return self }
         var blurredGraphic: Graphic = self
         var radius: CGFloat = radius
-        for _ in 0..<layerCount {
+        for layerIndex in 0..<layerCount {
+            // Preserve associated color between passes and normalize only the final output.
+            let passOptions = layerIndex == layerCount - 1 ? options : options.subtracting(.pureAlpha)
             blurredGraphic = try await blurredGraphic.lumaBlurredLayeredSinglePass(
                 with: graphic,
                 radius: radius,
                 lumaGamma: lumaGamma,
                 placement: placement,
-                options: options
+                options: passOptions
             )
             radius /= 2.0
         }
@@ -181,7 +184,8 @@ extension Graphic {
                 radius: Float(relativeRadius),
                 position: relativePosition.uniform,
                 angle: angle.uniform,
-                lumaGamma: Float(lumaGamma)
+                lumaGamma: Float(lumaGamma),
+                pureAlpha: options.contains(.pureAlpha) ? 1 : 0
             ),
             options: options.spatialRenderOptions
         )

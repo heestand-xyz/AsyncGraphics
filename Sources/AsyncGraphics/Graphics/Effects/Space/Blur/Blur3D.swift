@@ -18,6 +18,7 @@ extension Graphic3D {
         let count: UInt32
         let direction: VectorUniform
         let position: VectorUniform
+        let pureAlpha: UInt32
     }
     
     @EnumMacro
@@ -60,7 +61,8 @@ extension Graphic3D {
                 radius: Float(relativeRadius),
                 count: UInt32(sampleCount),
                 direction: VectorUniform.zero,
-                position: VectorUniform.zero
+                position: VectorUniform.zero,
+                pureAlpha: options.contains(.pureAlpha) ? 1 : 0
             ),
             options: options.spatialRenderOptions
         )
@@ -87,7 +89,8 @@ extension Graphic3D {
                 radius: Float(relativeRadius),
                 count: UInt32(sampleCount),
                 direction: VectorUniform.zero,
-                position: relativePosition.uniform
+                position: relativePosition.uniform,
+                pureAlpha: options.contains(.pureAlpha) ? 1 : 0
             ),
             options: options.spatialRenderOptions
         )
@@ -111,7 +114,8 @@ extension Graphic3D {
                 radius: Float(relativeRadius),
                 count: UInt32(sampleCount),
                 direction: direction.uniform,
-                position: VectorUniform.zero
+                position: VectorUniform.zero,
+                pureAlpha: options.contains(.pureAlpha) ? 1 : 0
             ),
             options: options.spatialRenderOptions
         )
@@ -133,7 +137,8 @@ extension Graphic3D {
                 radius: Float(relativeRadius),
                 count: 0,
                 direction: VectorUniform.zero,
-                position: VectorUniform.zero
+                position: VectorUniform.zero,
+                pureAlpha: options.contains(.pureAlpha) ? 1 : 0
             ),
             options: options.spatialRenderOptions
         )

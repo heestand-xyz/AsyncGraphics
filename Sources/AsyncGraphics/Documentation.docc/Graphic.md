@@ -376,7 +376,7 @@ Use blending modes to combine two or more graphics.
 
 ### Blur
 
-- ``blurred(radius:)``
+- ``blurred(radius:options:)``
 - ``blurredBox(radius:sampleCount:options:)``
 - ``blurredCircle(radius:sampleCount:brightnessRange:saturationRange:light:options:)``
 - ``blurredZoom(radius:position:sampleCount:options:)``

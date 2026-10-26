@@ -7,6 +7,7 @@
 using namespace metal;
 
 #import "../../../../Shaders/Effects/place_header.metal"
+#import "../../../../Shaders/Effects/blur_alpha_header.metal"
 #import "../../../../Shaders/Content/random_header.metal"
 
 struct VertexOut {
@@ -22,6 +23,7 @@ struct Uniforms {
     packed_float2 position;
     float angle;
     float lumaGamma;
+    uint pureAlpha;
 };
 
 fragment float4 lumaBlur(VertexOut out [[stage_in]],
@@ -144,5 +146,5 @@ fragment float4 lumaBlur(VertexOut out [[stage_in]],
     
     ca /= amounts;
     
-    return ca;
+    return agBlurOutput(ca, uniforms.pureAlpha != 0);
 }

@@ -6,8 +6,11 @@
 #include <metal_stdlib>
 using namespace metal;
 
+#import "../../../../Shaders/Effects/blur_alpha_header.metal"
+
 struct LayeredBlur3DUniforms {
     float radius;
+    uint pureAlpha;
 };
 
 kernel void layeredBlur3d(const device LayeredBlur3DUniforms& uniforms [[ buffer(0) ]],
@@ -41,5 +44,5 @@ kernel void layeredBlur3d(const device LayeredBlur3DUniforms& uniforms [[ buffer
         }
     }
 
-    targetTexture.write(color, pos);
+    targetTexture.write(agBlurOutput(color, uniforms.pureAlpha != 0), pos);
 }

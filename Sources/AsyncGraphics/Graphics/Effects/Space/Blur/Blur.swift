@@ -17,6 +17,7 @@ extension Graphic {
         let count: UInt32
         let angle: Float
         let position: PointUniform
+        let pureAlpha: UInt32
     }
     
     @EnumMacro
@@ -100,6 +101,8 @@ extension Graphic {
         )
     }
     
+    /// With `.pureAlpha`, normalizes RGB once after the final blur pass.
+    /// A layer count below one returns the input unchanged.
     public func blurredLayered(
         radius: CGFloat,
         layerCount: Int = 10,
@@ -108,8 +111,9 @@ extension Graphic {
         if layerCount < 1 { return self }
         var blurredGraphic: Graphic = self
         var radius: CGFloat = radius
-        for _ in 0..<layerCount {
-            blurredGraphic = try await blurredGraphic.blurredLayeredSinglePass(radius: radius, options: options)
+        for layerIndex in 0..<layerCount {
+            let passOptions = layerIndex == layerCount - 1 ? options : options.subtracting(.pureAlpha)
+            blurredGraphic = try await blurredGraphic.blurredLayeredSinglePass(radius: radius, options: passOptions)
             radius /= 2.0
         }
         return blurredGraphic
@@ -131,7 +135,8 @@ extension Graphic {
                 radius: Float(relativeRadius),
                 count: 1,
                 angle: 0.0,
-                position: CGPoint.zero.uniform
+                position: CGPoint.zero.uniform,
+                pureAlpha: options.contains(.pureAlpha) ? 1 : 0
             ),
             options: options.spatialRenderOptions
         )
@@ -154,7 +159,8 @@ extension Graphic {
                 radius: Float(relativeRadius),
                 count: UInt32(min(max(sampleCount, 1), Int(UInt32.max))),
                 angle: 0.0,
-                position: CGPoint.zero.uniform
+                position: CGPoint.zero.uniform,
+                pureAlpha: options.contains(.pureAlpha) ? 1 : 0
             ),
             options: options.spatialRenderOptions
         )
@@ -181,7 +187,8 @@ extension Graphic {
                 radius: Float(relativeRadius),
                 count: UInt32(min(max(sampleCount, 1), Int(UInt32.max))),
                 angle: 0.0,
-                position: relativePosition.uniform
+                position: relativePosition.uniform,
+                pureAlpha: options.contains(.pureAlpha) ? 1 : 0
             ),
             options: options.spatialRenderOptions
         )
@@ -205,7 +212,8 @@ extension Graphic {
                 radius: Float(relativeRadius),
                 count: UInt32(min(max(sampleCount, 1), Int(UInt32.max))),
                 angle: angle.uniform,
-                position: CGPoint.zero.uniform
+                position: CGPoint.zero.uniform,
+                pureAlpha: options.contains(.pureAlpha) ? 1 : 0
             ),
             options: options.spatialRenderOptions
         )
@@ -227,7 +235,8 @@ extension Graphic {
                 radius: Float(relativeRadius),
                 count: 0,
                 angle: 0.0,
-                position: CGPoint.zero.uniform
+                position: CGPoint.zero.uniform,
+                pureAlpha: options.contains(.pureAlpha) ? 1 : 0
             ),
             options: options.spatialRenderOptions
         )

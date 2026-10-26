@@ -7,6 +7,7 @@
 using namespace metal;
 
 #import "../../../../Shaders/Effects/hsv_header.metal"
+#import "../../../../Shaders/Effects/blur_alpha_header.metal"
 
 struct VertexOut {
     float4 position [[position]];
@@ -21,6 +22,7 @@ struct Uniforms {
     float saturationLow;
     float saturationHigh;
     float light;
+    uint pureAlpha;
 };
 
 fragment float4 circleBlur(VertexOut out [[stage_in]],
@@ -59,5 +61,5 @@ fragment float4 circleBlur(VertexOut out [[stage_in]],
     color /= amounts;
     color *= uniforms.light;
     
-    return color;
+    return agBlurOutput(color, uniforms.pureAlpha != 0);
 }

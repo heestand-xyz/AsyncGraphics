@@ -33,7 +33,7 @@ Create a task where we can execute async code. Here we also need a do catch bloc
 
 In the task we will create a asynchronous for loop, by iterating over live camera frames from ``Graphic/camera(at:lens:quality:)``.
 
-Then lastly we save each frame to the main graphic state. Here you can also add effects such as ``Graphic/blurred(radius:)``.
+Then lastly we save each frame to the main graphic state. Here you can also add effects such as ``Graphic/blurred(radius:options:)``.
 
 ```swift
 import SwiftUI

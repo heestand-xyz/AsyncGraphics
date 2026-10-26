@@ -7,6 +7,7 @@
 using namespace metal;
 
 #import "../../../../Shaders/Effects/place_header.metal"
+#import "../../../../Shaders/Effects/blur_alpha_header.metal"
 #import "../../../../Shaders/Content/random_header.metal"
 
 struct Uniforms {
@@ -16,6 +17,7 @@ struct Uniforms {
     float radius;
     packed_float3 position;
     float lumaGamma;
+    uint pureAlpha;
 };
 
 kernel void lumaBlur3d(const device Uniforms& uniforms [[ buffer(0) ]],
@@ -114,5 +116,5 @@ kernel void lumaBlur3d(const device Uniforms& uniforms [[ buffer(0) ]],
     
     ca /= amounts;
     
-    targetTexture.write(ca, pos);
+    targetTexture.write(agBlurOutput(ca, uniforms.pureAlpha != 0), pos);
 }

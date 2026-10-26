@@ -16,6 +16,7 @@ extension Graphic3D {
         let radius: Float
         let position: VectorUniform
         let lumaGamma: Float
+        let pureAlpha: UInt32
     }
    
     @EnumMacro
@@ -113,7 +114,8 @@ extension Graphic3D {
                 count: UInt32(sampleCount),
                 radius: Float(relativeRadius),
                 position: relativePosition.uniform,
-                lumaGamma: Float(lumaGamma)
+                lumaGamma: Float(lumaGamma),
+                pureAlpha: options.contains(.pureAlpha) ? 1 : 0
             ),
             options: options.spatialRenderOptions
         )

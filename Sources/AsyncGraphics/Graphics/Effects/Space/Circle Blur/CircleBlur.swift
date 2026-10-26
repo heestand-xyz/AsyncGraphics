@@ -19,6 +19,7 @@ extension Graphic {
         let saturationLow: Float
         let saturationHigh: Float
         let light: Float
+        let pureAlpha: UInt32
     }
     
     public func blurredCircle(
@@ -43,7 +44,8 @@ extension Graphic {
                 brightnessHigh: Float(brightnessRange.upperBound),
                 saturationLow: Float(saturationRange.lowerBound),
                 saturationHigh: Float(saturationRange.upperBound),
-                light: Float(light)
+                light: Float(light),
+                pureAlpha: options.contains(.pureAlpha) ? 1 : 0
             ),
             options: options.spatialRenderOptions
         )

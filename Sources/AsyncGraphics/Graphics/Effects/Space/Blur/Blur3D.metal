@@ -7,6 +7,7 @@
 using namespace metal;
 
 #import "../../../../Shaders/Content/random_header.metal"
+#import "../../../../Shaders/Effects/blur_alpha_header.metal"
 
 struct Uniforms {
     int type;
@@ -14,6 +15,7 @@ struct Uniforms {
     int count;
     packed_float3 direction;
     packed_float3 position;
+    uint pureAlpha;
 };
 
 kernel void blur3d(const device Uniforms& uniforms [[ buffer(0) ]],
@@ -121,7 +123,7 @@ kernel void blur3d(const device Uniforms& uniforms [[ buffer(0) ]],
     
     color /= amounts;
     
-    targetTexture.write(color, pos);
+    targetTexture.write(agBlurOutput(color, uniforms.pureAlpha != 0), pos);
 }
 
 

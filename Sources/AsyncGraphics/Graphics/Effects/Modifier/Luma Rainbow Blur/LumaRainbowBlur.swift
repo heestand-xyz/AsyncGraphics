@@ -20,6 +20,7 @@ extension Graphic {
         let light: Float
         let lumaGamma: Float
         let position: PointUniform
+        let pureAlpha: UInt32
     }
     
     @EnumMacro
@@ -134,7 +135,8 @@ extension Graphic {
                 angle: angle.uniform,
                 light: Float(light),
                 lumaGamma: Float(lumaGamma),
-                position: relativePosition.uniform
+                position: relativePosition.uniform,
+                pureAlpha: options.contains(.pureAlpha) ? 1 : 0
             ),
             options: options.spatialRenderOptions
         )

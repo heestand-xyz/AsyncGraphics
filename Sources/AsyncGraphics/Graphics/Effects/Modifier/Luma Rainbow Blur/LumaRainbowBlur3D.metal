@@ -8,6 +8,7 @@ using namespace metal;
 
 #import "../../../../Shaders/Effects/place_header.metal"
 #import "../../../../Shaders/Effects/hsv_header.metal"
+#import "../../../../Shaders/Effects/blur_alpha_header.metal"
 
 struct Uniforms {
     uint type;
@@ -18,6 +19,7 @@ struct Uniforms {
     float light;
     float lumaGamma;
     packed_float3 position;
+    uint pureAlpha;
 };
 
 kernel void lumaRainbowBlur3d(const device Uniforms& uniforms [[ buffer(0) ]],
@@ -99,7 +101,7 @@ kernel void lumaRainbowBlur3d(const device Uniforms& uniforms [[ buffer(0) ]],
     c /= amounts;
     c *= uniforms.light;
     
-    targetTexture.write(c, pos);
+    targetTexture.write(agBlurOutput(c, uniforms.pureAlpha != 0), pos);
 }
 
 

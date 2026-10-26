@@ -18,6 +18,7 @@ extension Graphic {
         let angle: Float
         let light: Float
         let position: PointUniform
+        let pureAlpha: UInt32
     }
     
     @EnumMacro
@@ -106,7 +107,8 @@ extension Graphic {
                 radius: Float(relativeRadius),
                 angle: angle.uniform,
                 light: Float(light),
-                position: relativePosition.uniform
+                position: relativePosition.uniform,
+                pureAlpha: options.contains(.pureAlpha) ? 1 : 0
             ),
             options: options.spatialRenderOptions
         )
