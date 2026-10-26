@@ -46,7 +46,8 @@ extension CodableGraphic.Effect.Space {
             case .gaussian:
                 
                 try await graphic.blurred(
-                    radius: radius.value.eval(at: graphic.resolution))
+                    radius: radius.value.eval(at: graphic.resolution),
+                    options: options)
                 
             case .box:
                 

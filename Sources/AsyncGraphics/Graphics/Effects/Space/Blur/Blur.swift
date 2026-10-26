@@ -46,8 +46,10 @@ extension Graphic {
     }
     
     /// Gaussian Blur
+    /// With `.pureAlpha`, converts premultiplied blurred RGB to straight alpha.
     public func blurred(
-        radius: CGFloat
+        radius: CGFloat,
+        options: EffectOptions = []
     ) async throws -> Graphic {
 #if DEBUG
         let performanceInterval = AGPerformanceTrace.rendering.begin("Gaussian blur async")
@@ -82,11 +84,19 @@ extension Graphic {
             commandBuffer.commit()
         }
         
-        return Graphic(
+        let blurredGraphic = Graphic(
             name: "Blur (Gaussian)",
             texture: targetTexture,
             bits: bits,
             colorSpace: colorSpace
+        )
+
+        guard options.contains(.pureAlpha) else { return blurredGraphic }
+
+        return try await Renderer.render(
+            name: "Blur (Gaussian, Pure Alpha)",
+            shader: .name("blurPureAlpha"),
+            graphics: [blurredGraphic]
         )
     }
     

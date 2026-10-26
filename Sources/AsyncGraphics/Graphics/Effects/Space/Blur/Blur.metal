@@ -135,4 +135,12 @@ fragment float4 blur(VertexOut out [[stage_in]],
     return color;
 }
 
-
+fragment float4 blurPureAlpha(VertexOut out [[stage_in]],
+                              texture2d<float> texture [[texture(0)]],
+                              sampler sampler [[sampler(0)]]) {
+    float4 color = texture.sample(sampler, out.texCoord);
+    if (color.a != 0.0) {
+        color.rgb /= color.a;
+    }
+    return color;
+}
