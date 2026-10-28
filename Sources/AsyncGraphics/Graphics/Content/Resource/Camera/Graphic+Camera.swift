@@ -41,6 +41,23 @@ extension Graphic {
         
         let position: AVCaptureDevice.Position
         private let device: AVCaptureDevice
+#if os(iOS)
+        @MainActor
+        private var orientationState = CameraOrientation.State()
+
+        @MainActor
+        func interfaceOrientation() -> UIInterfaceOrientation? {
+            let scenes = UIApplication.shared.connectedScenes.compactMap { scene -> CameraOrientation.Scene? in
+                guard let scene = scene as? UIWindowScene else { return nil }
+                return CameraOrientation.Scene(
+                    activationState: scene.activationState,
+                    hasKeyWindow: scene.keyWindow != nil,
+                    orientation: scene.effectiveGeometry.interfaceOrientation
+                )
+            }
+            return orientationState.resolve(in: scenes)
+        }
+#endif
 #if os(iOS) && !targetEnvironment(macCatalyst)
         @MainActor
         private var rotationCoordinator: AVCaptureDevice.RotationCoordinator?

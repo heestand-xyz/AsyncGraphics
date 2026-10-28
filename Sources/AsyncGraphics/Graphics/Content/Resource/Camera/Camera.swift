@@ -102,12 +102,7 @@ private extension Graphic {
     
     static func rotated(graphic: Graphic, with camera: Camera) async throws -> Graphic {
 #if os(iOS)
-        let orientation: UIInterfaceOrientation? = await MainActor.run {
-            let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
-            let scene = scenes.first { $0.activationState == .foregroundActive && $0.keyWindow != nil }
-                ?? scenes.first { $0.activationState == .foregroundActive }
-            return scene?.effectiveGeometry.interfaceOrientation
-        }
+        let orientation = await camera.interfaceOrientation()
         guard let orientation else { return graphic }
 #if !targetEnvironment(macCatalyst)
         if #available(iOS 27.0, *),
@@ -152,6 +147,34 @@ private extension Graphic {
 
 /// Interface and physical device orientations use opposite landscape conventions.
 enum CameraOrientation {
+    struct Scene {
+        let activationState: UIScene.ActivationState
+        let hasKeyWindow: Bool
+        let orientation: UIInterfaceOrientation
+    }
+
+    struct State {
+        private(set) var lastValidOrientation: UIInterfaceOrientation?
+
+        mutating func resolve(in scenes: [Scene]) -> UIInterfaceOrientation? {
+            // System overlays can leave a live camera's scene foreground-inactive.
+            // Never select background scenes merely because no active scene exists.
+            for activationState: UIScene.ActivationState in [.foregroundActive, .foregroundInactive] {
+                let candidates = scenes.filter {
+                    $0.activationState == activationState
+                        && CameraOrientation.captureOrientation(for: $0.orientation) != nil
+                }
+                if let scene = candidates.first(where: { $0.hasKeyWindow }) ?? candidates.first {
+                    lastValidOrientation = scene.orientation
+                    return scene.orientation
+                }
+            }
+            // Display handoff can temporarily expose no foreground scene or an
+            // unknown geometry. Keep orienting buffers with the last valid value.
+            return lastValidOrientation
+        }
+    }
+
     static func captureOrientation(for orientation: UIInterfaceOrientation) -> AVCaptureVideoOrientation? {
         switch orientation {
         case .portrait: .portrait

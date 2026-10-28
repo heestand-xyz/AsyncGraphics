@@ -73,7 +73,9 @@ On iOS 27 and later, live camera graphics use the selected capture device's
 rotation coordinator to account for its native sensor orientation. Rotation is
 applied to the raw graphic before front-camera preview mirroring. The current
 foreground window scene's interface orientation is read for each frame, including
-after display or interface-orientation changes. Applications presenting multiple
+after display or interface-orientation changes. Foreground-inactive scenes remain
+eligible during system overlays; the last valid orientation is retained across
+temporary display activation gaps or unknown scene geometry. Applications presenting multiple
 active window scenes should be aware that this API does not take an owning scene.
 
 The photo APIs configure the photo connection's rotation metadata for the physical
