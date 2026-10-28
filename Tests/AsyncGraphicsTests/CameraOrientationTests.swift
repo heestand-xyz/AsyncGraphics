@@ -35,6 +35,38 @@ struct CameraOrientationTests {
     }
 
 #if os(iOS)
+    @Test("Live orientation survives overlays and display activation gaps")
+    func sceneActivationTransitions() {
+        var state = CameraOrientation.State()
+        let activePortrait = CameraOrientation.Scene(
+            activationState: .foregroundActive, hasKeyWindow: true, orientation: .portrait
+        )
+        let inactivePortrait = CameraOrientation.Scene(
+            activationState: .foregroundInactive, hasKeyWindow: true, orientation: .portrait
+        )
+        let backgroundLandscape = CameraOrientation.Scene(
+            activationState: .background, hasKeyWindow: true, orientation: .landscapeRight
+        )
+        let unknownForeground = CameraOrientation.Scene(
+            activationState: .foregroundActive, hasKeyWindow: true, orientation: .unknown
+        )
+        #expect(state.resolve(in: [activePortrait]) == .portrait)
+        #expect(state.resolve(in: [backgroundLandscape, inactivePortrait]) == .portrait)
+        #expect(state.resolve(in: []) == .portrait)
+        #expect(state.resolve(in: [unknownForeground, backgroundLandscape]) == .portrait)
+
+        let incomingLandscape = CameraOrientation.Scene(
+            activationState: .foregroundInactive, hasKeyWindow: true, orientation: .landscapeLeft
+        )
+        #expect(state.resolve(in: [backgroundLandscape, incomingLandscape]) == .landscapeLeft)
+        #expect(state.resolve(in: [incomingLandscape, activePortrait]) == .portrait)
+
+        var startingInactive = CameraOrientation.State()
+        #expect(startingInactive.resolve(in: [inactivePortrait]) == .portrait)
+        var startingBackground = CameraOrientation.State()
+        #expect(startingBackground.resolve(in: [backgroundLandscape]) == nil)
+    }
+
     @Test("Physical and interface landscape conventions map to capture orientation")
     func landscapeConventions() {
         #expect(CameraOrientation.captureOrientation(for: UIInterfaceOrientation.landscapeLeft) == .landscapeLeft)
