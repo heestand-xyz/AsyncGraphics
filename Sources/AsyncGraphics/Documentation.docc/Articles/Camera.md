@@ -67,6 +67,20 @@ struct ContentView: View {
 
 > If you want to record live ``Graphic``s, use the ``GraphicRecorder``.
 
+## Orientation
+
+On iOS 27 and later, live camera graphics use the selected capture device's
+rotation coordinator to account for its native sensor orientation. Rotation is
+applied to the raw graphic before front-camera preview mirroring. The current
+foreground window scene's interface orientation is read for each frame, including
+after display or interface-orientation changes. Applications presenting multiple
+active window scenes should be aware that this API does not take an owning scene.
+
+The photo APIs configure the photo connection's rotation metadata for the physical
+device orientation at capture. Decoding applies that metadata once, including when
+preserving HDR gain maps; photos are not mirrored like the front-camera preview.
+Earlier iOS versions and Mac Catalyst retain the existing rotation behavior.
+
 ## Topics
 
 ### Camera

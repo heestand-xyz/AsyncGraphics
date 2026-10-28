@@ -150,6 +150,7 @@ extension Graphic {
                 await cleanup()
                 throw .outputNotFound
             }
+            let usesCaptureOrientation = await configureOrientation(of: output, device: device, orientation: orientation)
             let codec: AVVideoCodecType = output.availablePhotoCodecTypes.contains(.hevc) ? .hevc : .jpeg
             let photoSettings = AVCapturePhotoSettings(format: [AVVideoCodecKey: codec])
             output.maxPhotoQualityPrioritization = .quality
@@ -216,7 +217,9 @@ extension Graphic {
                 } else {
                     throw PhotoCameraError.noImageCapture
                 }
-                graphic = try await orient(graphic: graphic, at: orientation)
+                if !usesCaptureOrientation {
+                    graphic = try await orient(graphic: graphic, at: orientation)
+                }
             } catch {
                 await cleanup()
                 throw .imageConversionToGraphicFailed(error)
@@ -272,6 +275,7 @@ extension Graphic {
                 throw .outputNotFound
             }
             
+            let usesCaptureOrientation = await configureOrientation(of: output, device: device, orientation: orientation)
             let exposureSettings = exposureOffsets.map {
                 AVCaptureAutoExposureBracketedStillImageSettings
                     .autoExposureSettings(exposureTargetBias: $0)
@@ -328,7 +332,9 @@ extension Graphic {
             do {
                 for image in capturedImages {
                     var graphic: Graphic = try await .image(image)
-                    graphic = try await orient(graphic: graphic, at: orientation)
+                    if !usesCaptureOrientation {
+                        graphic = try await orient(graphic: graphic, at: orientation)
+                    }
                     graphics.append(graphic)
                 }
             } catch {
@@ -342,6 +348,37 @@ extension Graphic {
         
         // MARK: - Orient
         
+        @MainActor
+        private func configureOrientation(
+            of output: AVCapturePhotoOutput,
+            device: AVCaptureDevice,
+            orientation: UIDeviceOrientation
+        ) -> Bool {
+#if targetEnvironment(macCatalyst)
+            return false
+#else
+            guard #available(iOS 27.0, *),
+                  let connection = output.connection(with: .video) else { return false }
+            let coordinator = AVCaptureDevice.RotationCoordinator(device: device, previewLayer: nil)
+            let angle: CGFloat
+            if let captureOrientation = CameraOrientation.captureOrientation(for: orientation) {
+                angle = coordinator.videoRotationAngleRelative(toDeviceOrientation: captureOrientation)
+            } else {
+                // Face-up/down and unknown have no device-orientation equivalent.
+                angle = coordinator.videoRotationAngleForHorizonLevelCapture
+            }
+            guard connection.isVideoRotationAngleSupported(angle) else { return false }
+            // Photo output writes EXIF orientation rather than rotating pixels.
+            // Both UIImage and the HDR Core Image decoder apply that metadata.
+            connection.videoRotationAngle = angle
+            if connection.isVideoMirroringSupported {
+                connection.automaticallyAdjustsVideoMirroring = false
+                connection.isVideoMirrored = false
+            }
+            return true
+#endif
+        }
+
         private func orient(graphic: Graphic, at orientation: UIDeviceOrientation) async throws -> Graphic {
             switch orientation {
             case .landscapeLeft:

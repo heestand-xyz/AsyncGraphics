@@ -41,6 +41,19 @@ extension Graphic {
         
         let position: AVCaptureDevice.Position
         private let device: AVCaptureDevice
+#if os(iOS) && !targetEnvironment(macCatalyst)
+        @MainActor
+        private var rotationCoordinator: AVCaptureDevice.RotationCoordinator?
+
+        @available(iOS 27.0, *)
+        @MainActor
+        func rotationAngle(relativeTo orientation: AVCaptureVideoOrientation) -> CGFloat {
+            let coordinator = rotationCoordinator
+                ?? AVCaptureDevice.RotationCoordinator(device: device, previewLayer: nil)
+            rotationCoordinator = coordinator
+            return coordinator.videoRotationAngleRelative(toDeviceOrientation: orientation)
+        }
+#endif
         private let videoInput: AVCaptureDeviceInput
         private let videoOutput: AVCaptureVideoDataOutput
         private let captureSession: AVCaptureSession
@@ -374,6 +387,16 @@ extension Graphic {
                 }
                 captureSession.addOutput(videoOutput)
             }
+#if os(iOS)
+            if #available(iOS 27.0, *), let connection = videoOutput.connection(with: .video) {
+                // Rotation happens once on the Graphic, after receiving the buffer.
+                connection.videoRotationAngle = 0
+                if connection.isVideoMirroringSupported {
+                    connection.automaticallyAdjustsVideoMirroring = false
+                    connection.isVideoMirrored = false
+                }
+            }
+#endif
             return .success(())
         }
 
