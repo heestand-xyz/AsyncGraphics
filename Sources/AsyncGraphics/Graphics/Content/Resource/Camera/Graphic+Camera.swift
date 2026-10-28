@@ -41,6 +41,36 @@ extension Graphic {
         
         let position: AVCaptureDevice.Position
         private let device: AVCaptureDevice
+#if os(iOS)
+        @MainActor
+        private var orientationState = CameraOrientation.State()
+
+        @MainActor
+        func interfaceOrientation() -> UIInterfaceOrientation? {
+            let scenes = UIApplication.shared.connectedScenes.compactMap { scene -> CameraOrientation.Scene? in
+                guard let scene = scene as? UIWindowScene else { return nil }
+                return CameraOrientation.Scene(
+                    activationState: scene.activationState,
+                    hasKeyWindow: scene.keyWindow != nil,
+                    orientation: scene.effectiveGeometry.interfaceOrientation
+                )
+            }
+            return orientationState.resolve(in: scenes)
+        }
+#endif
+#if os(iOS) && !targetEnvironment(macCatalyst)
+        @MainActor
+        private var rotationCoordinator: AVCaptureDevice.RotationCoordinator?
+
+        @available(iOS 27.0, *)
+        @MainActor
+        func rotationAngle(relativeTo orientation: AVCaptureVideoOrientation) -> CGFloat {
+            let coordinator = rotationCoordinator
+                ?? AVCaptureDevice.RotationCoordinator(device: device, previewLayer: nil)
+            rotationCoordinator = coordinator
+            return coordinator.videoRotationAngleRelative(toDeviceOrientation: orientation)
+        }
+#endif
         private let videoInput: AVCaptureDeviceInput
         private let videoOutput: AVCaptureVideoDataOutput
         private let captureSession: AVCaptureSession
@@ -374,6 +404,16 @@ extension Graphic {
                 }
                 captureSession.addOutput(videoOutput)
             }
+#if os(iOS) && !targetEnvironment(macCatalyst)
+            if #available(iOS 27.0, *), let connection = videoOutput.connection(with: .video) {
+                // Rotation happens once on the Graphic, after receiving the buffer.
+                connection.videoRotationAngle = 0
+                if connection.isVideoMirroringSupported {
+                    connection.automaticallyAdjustsVideoMirroring = false
+                    connection.isVideoMirrored = false
+                }
+            }
+#endif
             return .success(())
         }
 
