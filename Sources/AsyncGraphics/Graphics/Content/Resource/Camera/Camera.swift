@@ -69,7 +69,7 @@ extension Graphic {
             do {
                 graphic = try await rotated(
                     graphic: graphic,
-                    at: camera.position
+                    with: camera
                 )
                 guard !Task.isCancelled else { return nil }
                 graphic = try await mirrored(
@@ -100,11 +100,26 @@ private extension Graphic {
 #endif
     }
     
-    static func rotated(graphic: Graphic, at position: AVCaptureDevice.Position) async throws -> Graphic {
+    static func rotated(graphic: Graphic, with camera: Camera) async throws -> Graphic {
 #if os(iOS)
-        guard let windowScene = await UIApplication.shared.connectedScenes.first as? UIWindowScene
-        else { return graphic }
-        switch await windowScene.interfaceOrientation {
+        let orientation: UIInterfaceOrientation? = await MainActor.run {
+            let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+            let scene = scenes.first { $0.activationState == .foregroundActive && $0.keyWindow != nil }
+                ?? scenes.first { $0.activationState == .foregroundActive }
+            return scene?.effectiveGeometry.interfaceOrientation
+        }
+        guard let orientation else { return graphic }
+#if !targetEnvironment(macCatalyst)
+        if #available(iOS 27.0, *),
+           let captureOrientation = CameraOrientation.captureOrientation(for: orientation) {
+            // These are raw pixel buffers, not an AVCaptureVideoPreviewLayer. The
+            // device-relative angle accounts for the active camera's sensor mounting.
+            let angle = await camera.rotationAngle(relativeTo: captureOrientation)
+            return try await graphic.rotatedCamera(angle: angle)
+        }
+#endif
+        let position = camera.position
+        switch orientation {
         case .portrait:
             return try await graphic.rotatedRight()
         case .portraitUpsideDown:
@@ -130,4 +145,52 @@ private extension Graphic {
         return graphic
 #endif
     }
+}
+
+#if os(iOS)
+// MARK: - Camera Orientation
+
+/// Interface and physical device orientations use opposite landscape conventions.
+enum CameraOrientation {
+    static func captureOrientation(for orientation: UIInterfaceOrientation) -> AVCaptureVideoOrientation? {
+        switch orientation {
+        case .portrait: .portrait
+        case .portraitUpsideDown: .portraitUpsideDown
+        case .landscapeLeft: .landscapeLeft
+        case .landscapeRight: .landscapeRight
+        default: nil
+        }
+    }
+
+    static func captureOrientation(for orientation: UIDeviceOrientation) -> AVCaptureVideoOrientation? {
+        switch orientation {
+        case .portrait: .portrait
+        case .portraitUpsideDown: .portraitUpsideDown
+        case .landscapeLeft: .landscapeRight
+        case .landscapeRight: .landscapeLeft
+        default: nil
+        }
+    }
+}
+
+#endif
+
+// MARK: - Sensor Rotation
+
+extension Graphic {
+    /// Device-relative orientations are quarter turns. Transpose swaps dimensions
+    /// for 90/270 degrees; the general transform operation retains the canvas size.
+    func rotatedCamera(angle: CGFloat) async throws -> Graphic {
+        switch angle {
+        case 0: return self
+        case 90: return try await rotatedRight()
+        case 180: return try await mirroredHorizontally().mirroredVertically()
+        case 270: return try await rotatedLeft()
+        default: throw CameraRotationError.unsupportedAngle(angle)
+        }
+    }
+}
+
+enum CameraRotationError: Error {
+    case unsupportedAngle(CGFloat)
 }
