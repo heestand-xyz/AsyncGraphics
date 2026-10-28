@@ -387,7 +387,7 @@ extension Graphic {
                 }
                 captureSession.addOutput(videoOutput)
             }
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(macCatalyst)
             if #available(iOS 27.0, *), let connection = videoOutput.connection(with: .video) {
                 // Rotation happens once on the Graphic, after receiving the buffer.
                 connection.videoRotationAngle = 0
