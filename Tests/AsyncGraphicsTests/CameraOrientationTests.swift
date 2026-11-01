@@ -27,11 +27,11 @@ struct CameraOrientationTests {
         default: expected = source
         }
         #expect(result.resolution == CGSize(width: expected[0].count, height: expected.count))
-        #expect(try result.pixelColors == expected)
+        #expect(try await result.pixelColors == expected)
 
         // A front preview mirrors in display space, after sensor rotation.
         let frontPreview = try await result.mirroredHorizontally()
-        #expect(try frontPreview.pixelColors == expected.map { Array($0.reversed()) })
+        #expect(try await frontPreview.pixelColors == expected.map { Array($0.reversed()) })
     }
 
 #if os(iOS)
