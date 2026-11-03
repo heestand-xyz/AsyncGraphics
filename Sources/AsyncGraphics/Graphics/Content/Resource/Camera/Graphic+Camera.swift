@@ -286,14 +286,11 @@ extension Graphic {
         }
 #endif
 
-        /// Observe only this camera's capture-session interruption state.
-        ///
-        /// Each subscriber immediately receives a snapshot, then ordered changes.
-        /// Subscribe before calling `start()` to observe startup interruptions.
-        /// `notInterrupted` is not evidence of a running session or a first frame.
-        /// Stopping resets the state; subscriptions survive a restart and finish
-        /// when the Camera is released. Canceling one subscription does not stop
-        /// capture or affect another subscriber. No mutable session is exposed.
+        /// A snapshot, then ordered interruption changes for this camera only.
+        /// Subscribe before `start()` to include startup interruptions.
+        /// `notInterrupted` does not imply capture is running or has a frame.
+        /// Streams survive stop/restart; cancel affects only that subscriber.
+        /// Releasing the camera finishes its streams.
         public func interruptionStates() -> AsyncStream<InterruptionState> {
             interruptionEvents.stream()
         }

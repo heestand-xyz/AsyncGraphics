@@ -305,28 +305,6 @@ struct ContentView: View {
 }
 ```
 
-When managing a `Graphic.Camera` directly, call `camera.interruptionStates()` before starting capture. Each subscription receives the current interruption state followed by ordered changes from that camera's private session. It ignores other sessions, including cameras using the same device.
-
-```swift
-let interruptionStates = camera.interruptionStates()
-let interruptionTask = Task {
-    for await state in interruptionStates {
-        switch state {
-        case .notInterrupted:
-            // No interruption is known; capture may still be starting or stopped.
-            break
-        case .interrupted(let reasonCode):
-            print("Camera interrupted, reason:", reasonCode as Any)
-        }
-    }
-}
-let frames = try await Graphic.camera(with: camera)
-// Consume frames, then stop capture with await camera.stopAndWait().
-// Cancel interruptionTask when this subscriber no longer needs updates.
-```
-
-Interruption subscriptions survive stop/restart; stopping resets the state to `.notInterrupted`. Canceling one subscriber affects neither capture nor other subscribers. Releasing the camera finishes its subscriptions. Raw reason codes are optional (unavailable on macOS), and `.notInterrupted` does not promise that startup succeeded or a frame exists.
-
 > Remember to set the Info.plist key `NSCameraUsageDescription` "Privacy - Camera Usage Description"
 
 ## Metal
