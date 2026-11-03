@@ -74,6 +74,7 @@ extension Graphic {
         private let videoInput: AVCaptureDeviceInput
         private let videoOutput: AVCaptureVideoDataOutput
         private let captureSession: AVCaptureSession
+        private let interruptionEvents: CameraInterruptionEvents
 #if !os(visionOS)
         private let preset: AVCaptureSession.Preset
 #endif
@@ -192,6 +193,7 @@ extension Graphic {
 #endif
             
             captureSession = AVCaptureSession()
+            interruptionEvents = CameraInterruptionEvents(session: captureSession)
 
             videoInput = try AVCaptureDeviceInput(device: device)
 
@@ -224,6 +226,7 @@ extension Graphic {
             previewSized = false
             
             captureSession = AVCaptureSession()
+            interruptionEvents = CameraInterruptionEvents(session: captureSession)
 
             videoInput = try AVCaptureDeviceInput(device: device)
 
@@ -249,6 +252,7 @@ extension Graphic {
         }
         
         deinit {
+            interruptionEvents.finish()
             NotificationCenter.default.removeObserver(self)
             cancelFrameRequest()
 
@@ -282,6 +286,18 @@ extension Graphic {
         }
 #endif
 
+        /// Observe only this camera's capture-session interruption state.
+        ///
+        /// Each subscriber immediately receives a snapshot, then ordered changes.
+        /// Subscribe before calling `start()` to observe startup interruptions.
+        /// `notInterrupted` is not evidence of a running session or a first frame.
+        /// Stopping resets the state; subscriptions survive a restart and finish
+        /// when the Camera is released. Canceling one subscription does not stop
+        /// capture or affect another subscriber. No mutable session is exposed.
+        public func interruptionStates() -> AsyncStream<InterruptionState> {
+            interruptionEvents.stream()
+        }
+
         /// Start Camera
         ///
         /// Starts the capture session and returns after startup finishes.
@@ -293,9 +309,12 @@ extension Graphic {
                         continuation.resume(returning: .success(()))
                         return
                     }
+                    interruptionEvents.beginObserving()
                     let result: Result<Void, CameraError> = configureCaptureSession()
                     if case .success = result {
                         startCaptureSession()
+                    } else {
+                        interruptionEvents.stopObserving()
                     }
                     continuation.resume(returning: result)
                 }
@@ -418,6 +437,7 @@ extension Graphic {
         }
 
         private func stopCaptureSession() {
+            interruptionEvents.stopObserving()
             Self.stop(
                 captureSession: captureSession,
                 videoInput: videoInput,
