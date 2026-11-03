@@ -35,6 +35,34 @@ struct CameraInterruptionEventsTests {
         #expect(await collect(stream) == expected)
     }
 
+    @Test("Missing and unknown reasons use the native enum conversion")
+    func nativeReasonConversion() async {
+        let center = NotificationCenter()
+        let session = NSObject()
+        let source = CameraInterruptionEvents(session: session, center: center)
+        let stream = source.stream()
+        source.beginObserving()
+        center.post(name: AVCaptureSession.wasInterruptedNotification, object: session,
+                    userInfo: reasonInfo(4))
+        center.post(name: AVCaptureSession.interruptionEndedNotification, object: session)
+        center.post(name: AVCaptureSession.wasInterruptedNotification, object: session)
+        center.post(name: AVCaptureSession.interruptionEndedNotification, object: session)
+        center.post(name: AVCaptureSession.wasInterruptedNotification, object: session,
+                    userInfo: reasonInfo(999))
+        source.finish()
+#if os(iOS) || os(tvOS) || os(visionOS)
+        #expect(await collect(stream) == [
+            .notInterrupted, .interrupted(reason: .videoDeviceNotAvailableWithMultipleForegroundApps),
+            .notInterrupted, .interrupted(reason: nil), .notInterrupted,
+            .interrupted(reason: AVCaptureSession.InterruptionReason(rawValue: 999))
+        ])
+#else
+        #expect(await collect(stream) == [
+            .notInterrupted, .interrupted, .notInterrupted, .interrupted, .notInterrupted, .interrupted
+        ])
+#endif
+    }
+
     @Test("Late subscriptions receive the interruption observed during startup")
     func startupAndLateSnapshot() async {
         let center = NotificationCenter()
@@ -67,12 +95,12 @@ struct CameraInterruptionEventsTests {
         let newGeneration: UUID = try #require(source.beginObserving())
         #expect(newGeneration != oldGeneration)
         // Exercise the same ingress as an observer already in flight at removal.
-        source.enqueue(.interrupted(reasonCode: 3), generation: oldGeneration)
-        source.enqueue(.interrupted(reasonCode: 4), generation: newGeneration)
+        source.enqueue(interrupted(3), generation: oldGeneration)
+        source.enqueue(interrupted(4), generation: newGeneration)
         source.enqueue(.notInterrupted, generation: oldGeneration)
         source.finish()
         #expect(await collect(stream) == [
-            .notInterrupted, interrupted(1), .notInterrupted, .interrupted(reasonCode: 4)
+            .notInterrupted, interrupted(1), .notInterrupted, interrupted(4)
         ])
     }
 
@@ -136,9 +164,9 @@ struct CameraInterruptionEventsTests {
 
     private func interrupted(_ code: Int) -> State {
 #if os(iOS) || os(tvOS) || os(visionOS)
-        .interrupted(reasonCode: code)
+        .interrupted(reason: AVCaptureSession.InterruptionReason(rawValue: code))
 #else
-        .interrupted(reasonCode: nil)
+        .interrupted
 #endif
     }
 }

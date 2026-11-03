@@ -14,9 +14,13 @@ extension Graphic.Camera {
         /// No interruption is known. This does not imply capture has started,
         /// is running, or has produced a frame. Also emitted when capture stops.
         case notInterrupted
-        /// The raw AVCaptureSession interruption reason, when supplied by the OS.
-        /// Reasons are unavailable on macOS; unknown future codes are preserved.
-        case interrupted(reasonCode: Int?)
+#if os(iOS) || os(tvOS) || os(visionOS)
+        /// The OS reason, or nil when missing or not convertible to the SDK enum.
+        case interrupted(reason: AVCaptureSession.InterruptionReason?)
+#else
+        /// Interruption reasons are unavailable on macOS.
+        case interrupted
+#endif
     }
 }
 
@@ -74,13 +78,14 @@ final class CameraInterruptionEvents: @unchecked Sendable {
                 center.addObserver(forName: AVCaptureSession.wasInterruptedNotification,
                                    object: session, queue: nil) { [weak self] notification in
                     guard let self, let object = notification.object as AnyObject?, object === session else { return }
-                    let reasonCode: Int?
 #if os(iOS) || os(tvOS) || os(visionOS)
-                    reasonCode = (notification.userInfo?[AVCaptureSessionInterruptionReasonKey] as? NSNumber)?.intValue
+                    let reason: AVCaptureSession.InterruptionReason? =
+                        (notification.userInfo?[AVCaptureSessionInterruptionReasonKey] as? NSNumber)
+                            .flatMap { AVCaptureSession.InterruptionReason(rawValue: $0.intValue) }
+                    enqueue(.interrupted(reason: reason), generation: id)
 #else
-                    reasonCode = nil
+                    enqueue(.interrupted, generation: id)
 #endif
-                    enqueue(.interrupted(reasonCode: reasonCode), generation: id)
                 },
                 center.addObserver(forName: AVCaptureSession.interruptionEndedNotification,
                                    object: session, queue: nil) { [weak self] notification in
