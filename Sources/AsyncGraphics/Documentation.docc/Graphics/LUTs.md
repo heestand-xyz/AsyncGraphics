@@ -40,7 +40,7 @@ Identity LUT:
 
 ### Apply
 
-- ``Graphic/applyLUT(with:layout:)``
+- ``Graphic/applyLUT(with:layout:options:)``
 - ``Graphic/applyLUT(url:)``
 - ``Graphic/applyLUT(named:format:)``
 - ``Graphic/applyLUT(named:in:format:)``

@@ -41,16 +41,18 @@ A Graphic3D is a 3d image, made up out of voxels. It's backed by a `MTLTexture`.
 - ``voxelColors``
 - ``isVoxelsEqual(to:)``
 - ``voxels(_:options:)``
+- ``subVoxel(at:)``
+- ``subVoxel(u:v:w:)``
+- ``subVoxel(x:y:z:)``
 
 ### Channels
 
 - ``channels``
 - ``channels(_:resolution:)-79xqi``
 - ``channels(_:resolution:)-5dz0k``
-- ``channels(_:resolution:)-5dz0k``
 - ``channels(pointer:resolution:)-8w75m``
 - ``channels(pointer:resolution:)-r9wl``
-- ``channels(pointer:resolution:)-r9wl``
+- ``channels(_:resolution:)-1x2np``
 
 ### Texture
 
@@ -101,10 +103,11 @@ A Graphic3D is a 3d image, made up out of voxels. It's backed by a `MTLTexture`.
 - ``Gradient3DDirection``
 
 ### Noise
-- ``noise(offset:depth:scale:octaves:seed:resolution:tile:options:)``
-- ``coloredNoise(offset:depth:scale:octaves:seed:resolution:tile:options:)``
-- ``randomNoise(seed:resolution:tile:options:)``
-- ``randomColoredNoise(seed:resolution:tile:options:)``
+
+- ``noise(offset:depth:scale:octaves:seed:includeAlpha:resolution:tile:options:)``
+- ``coloredNoise(offset:depth:scale:octaves:seed:includeAlpha:resolution:tile:options:)``
+- ``randomNoise(seed:includeAlpha:resolution:tile:options:)``
+- ``randomColoredNoise(seed:includeAlpha:resolution:tile:options:)``
 - ``transparantNoise(offset:depth:scale:octaves:seed:resolution:tile:options:)``
 
 ### Metal
@@ -115,6 +118,7 @@ A Graphic3D is a 3d image, made up out of voxels. It's backed by a `MTLTexture`.
 ### Map
 
 - ``uvw(resolution:options:)``
+- ``unitUVW()``
 
 ## Effects
 
@@ -122,8 +126,9 @@ A Graphic3D is a 3d image, made up out of voxels. It's backed by a `MTLTexture`.
 
 Use blending modes to combine two 3d graphics.
 
-- ``blend(with:blendingMode:placement:options:)``
-- ``blended(with:blendingMode:placement:options:)``
+- ``blend(with:blendingMode:placement:alignment:options:)``
+- ``blended(with:blendingMode:placement:alignment:options:)``
+- ``layered(with:blendingMode:alignment:options:)``
 
 ### Transform
 
@@ -150,6 +155,10 @@ Use blending modes to combine two 3d graphics.
 - ``vStacked(with:xAlignment:zAlignment:spacing:padding:backgroundColor:options:)``
 - ``dStacked(with:xAlignment:yAlignment:spacing:padding:backgroundColor:options:)``
 - ``Alignment3D``
+- ``dStacked(with:xAlignment:yAlignment:spacing:options:)``
+- ``hStacked(with:yAlignment:zAlignment:spacing:options:)``
+- ``vStacked(with:xAlignment:zAlignment:spacing:options:)``
+- ``StackError``
 
 ### Levels
 
@@ -162,6 +171,10 @@ Use blending modes to combine two 3d graphics.
 - ``opacity(_:options:)``
 - ``exposureOffset(_:options:)``
 - ``levels(brightness:darkness:contrast:gamma:invert:smooth:opacity:offset:options:)``
+- ``*(_:_:)``
+- ``+(_:_:)``
+- ``-(_:_:)``
+- ``/(_:_:)``
 
 ### Luma Levels
 
@@ -199,6 +212,8 @@ Use blending modes to combine two 3d graphics.
 - ``blurredDirection(radius:direction:sampleCount:options:)``
 - ``blurredRandom(radius:options:)``
 - ``Blur3DType``
+- ``blurredLayered(radius:layerCount:options:)``
+- ``blurredLayeredSinglePass(radius:options:)``
 
 ### Luma Blur
 
@@ -211,7 +226,6 @@ Use blending modes to combine two 3d graphics.
 
 - ``lumaRainbowBlurredCircle(with:radius:angle:light:lumaGamma:sampleCount:placement:options:)``
 - ``lumaRainbowBlurredZoom(with:radius:position:light:lumaGamma:sampleCount:placement:options:)``
-- ``lumaBlurredRandom(with:radius:lumaGamma:placement:options:)``
 - ``LumaRainbowBlur3DType``
 
 ### Displace
@@ -258,6 +272,11 @@ Fade two graphics by crossing them with opacity.
 - ``lookup(with:axis:sampleCoordinate:options:)``
 - ``Lookup3DAxis``
 
+### LUTs
+
+- ``convertedLUT()``
+- ``convertedLUT(with:layout:)``
+
 ### Gradient Lookup
 
 - ``gradientLookup(stops:gamma:options:)``
@@ -276,10 +295,12 @@ Sample a ``Graphic`` from a Graphic3D.
 
 - ``add(axis:brightness:options:)``
 - ``average(axis:options:)``
-- ``sample(fraction:)``
-- ``sample(index:)``
+- ``sample(fraction:axis:)``
+- ``sample(index:axis:)``
 - ``samples(progress:)``
 - ``SampleProgress``
+- ``lumaSampled(with:options:)``
+- ``slice(axis:location:options:)``
 
 ### Trace
 
@@ -315,7 +336,7 @@ Trace opaque voxels.
 
 ### Construct
 
-- ``construct(graphics:options:)``
+- ``construct(graphics:axis:options:)``
 
 ### Empty
 

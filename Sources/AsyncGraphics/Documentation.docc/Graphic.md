@@ -13,6 +13,7 @@ A Graphic is like an image, but it's backed by a `MTLTexture`.
 ### Texture
 
 - ``texture``
+- ``withIOSurface()``
 
 ### Metadata
 
@@ -32,6 +33,8 @@ To edit colors `import PixelColor`, a swift package (a dependency of AsyncGraphi
 - ``pixel(x:y:options:)``
 - ``pixel(u:v:options:)``
 - ``subPixel(u:v:)``
+- ``subPixel(at:)``
+- ``subPixel(x:y:)``
 
 ### Channels
 
@@ -41,9 +44,7 @@ To edit colors `import PixelColor`, a swift package (a dependency of AsyncGraphi
 - ``channels32``
 - ``channels(_:resolution:)-5dtx6``
 - ``channels(_:resolution:)-6011k``
-- ``channels(_:resolution:)-6011k``
 - ``channels(pointer:resolution:)-1mynx``
-- ``channels(pointer:resolution:)-5svpm``
 - ``channels(pointer:resolution:)-5svpm``
 
 ## Content
@@ -74,6 +75,12 @@ To edit colors `import PixelColor`, a swift package (a dependency of AsyncGraphi
 - ``rawImage(url:)-1dcqq``
 - ``rawImage(url:)-8w81k``
 - ``ImageOptions``
+- ``exrData``
+- ``tiffData``
+- ``xdrImageForSwiftUI``
+- ``heicData(compressionQuality:)``
+- ``jpegData(compressionQuality:)``
+- ``writeImage(to:)``
 
 ### Stereoscopic
 
@@ -85,7 +92,8 @@ To edit colors `import PixelColor`, a swift package (a dependency of AsyncGraphi
 - ``stereoscopicImages(source:)``
 - ``stereoscopicGraphics(url:)``
 - ``stereoscopicGraphics(image:)``
-- ``stereoscopicGraphics(source:)``
+- ``stereoscopicGraphics(source:imageOrientation:)``
+- ``stereoscopicImageData(leftGraphic:rightGraphic:spatialMetadata:)``
 
 ### Video
 
@@ -99,6 +107,8 @@ To edit colors `import PixelColor`, a swift package (a dependency of AsyncGraphi
 - ``exportVideoToURL(with:fps:kbps:format:codec:)``
 - ``exportVideoToData(with:fps:kbps:format:codec:)``
 - ``processVideo(url:)``
+- ``importStereoscopicVideoFrame(at:url:info:)``
+- ``playVideo(with:)``
 
 ### Texture
 
@@ -112,6 +122,9 @@ To edit colors `import PixelColor`, a swift package (a dependency of AsyncGraphi
 - ``pixelBuffer(_:)``
 - ``sampleBuffer(_:)``
 - ``BufferError``
+- ``rgb(y:uv:fullRange:)``
+- ``sendablePixelBuffer(_:)``
+- ``sendableSampleBuffer(_:)``
 
 ### View
 
@@ -149,6 +162,8 @@ Resize a graphic.
 - ``camera(at:lens:quality:)``
 - ``camera(device:quality:)``
 - ``CameraPosition``
+- ``camera(at:lens:quality:previewSized:)``
+- ``camera(device:quality:previewSized:)``
 
 ### Screen
 
@@ -180,7 +195,7 @@ Create a graphic with a solid color.
 
 ### Polygon
 
-- ``polygon(count:radius:position:rotation:cornerRadius:color:backgroundColor:resolution:tile:options:)``
+- ``polygon(count:radius:position:rotation:cornerRadius:stroke:color:backgroundColor:resolution:tile:options:)``
 
 ### Arc
 
@@ -189,13 +204,23 @@ Create a graphic with a solid color.
 
 ### Star
 
-- ``star(count:innerRadius:outerRadius:position:rotation:cornerRadius:color:backgroundColor:resolution:tile:options:)``
+- ``star(count:innerRadius:outerRadius:position:rotation:cornerRadius:stroke:color:backgroundColor:resolution:tile:options:)``
 
 ### Line
 
 - ``line(leadingPoint:trailingPoint:lineWidth:cap:color:backgroundColor:resolution:tile:options:)``
 - ``line(from:to:lineWidth:cap:color:backgroundColor:resolution:tile:options:)``
 - ``LineCap``
+- ``StrokeStyle``
+- ``line(points:cornerRadius:stroke:color:backgroundColor:resolution:tile:options:)``
+
+### Path
+
+- ``area(points:cornerRadius:stroke:fillRule:color:backgroundColor:resolution:tile:options:)``
+- ``path(_:stroke:fillRule:color:backgroundColor:resolution:tile:options:)``
+- ``rasterizedPath(_:fillRule:stroke:color:backgroundColor:resolution:options:)``
+- ``RasterizedPathError``
+- ``ShapePathError``
 
 ### Sample Line
 
@@ -204,17 +229,17 @@ Create a graphic with a solid color.
 
 ### Gradient
 
-- ``gradient(direction:stops:position:scale:offset:extend:gamma:resolution:tile:options:)``
+- ``gradient(direction:stops:position:scale:offset:extend:gamma:smooth:resolution:tile:options:)``
 - ``GradientDirection``
 - ``GradientStop``
 - ``GradientExtend``
 
 ### Noise
 
-- ``noise(offset:depth:scale:octaves:seed:resolution:tile:options:)``
-- ``coloredNoise(offset:depth:scale:octaves:seed:resolution:tile:options:)``
-- ``randomNoise(seed:resolution:tile:options:)``
-- ``randomColoredNoise(seed:resolution:tile:options:)``
+- ``noise(offset:depth:scale:octaves:seed:includeAlpha:resolution:tile:options:)``
+- ``coloredNoise(offset:depth:scale:octaves:seed:includeAlpha:resolution:tile:options:)``
+- ``randomNoise(seed:includeAlpha:resolution:tile:options:)``
+- ``randomColoredNoise(seed:includeAlpha:resolution:tile:options:)``
 
 ### Particles
 
@@ -223,6 +248,12 @@ Create a graphic with a solid color.
 - ``UVParticleSampleCount``
 - ``UVParticleOptions``
 - ``UVColorParticleOptions``
+
+### Sprites
+
+- ``Sprite``
+- ``maximumSpriteCount``
+- ``sprites(with:sprites:backgroundColor:resolution:contentOptions:effectOptions:)``
 
 ## Effects
 
@@ -307,6 +338,10 @@ Use blending modes to combine two or more graphics.
 - ``multiply(_:options:)``
 - ``divide(_:options:)``
 - ``levels(brightness:darkness:contrast:gamma:invert:smooth:opacity:offset:options:)``
+- ``*(_:_:)``
+- ``+(_:_:)``
+- ``-(_:_:)``
+- ``/(_:_:)``
 
 ### Luma Levels
 
@@ -355,6 +390,7 @@ Use blending modes to combine two or more graphics.
 ### Quantize
 
 - ``quantize(_:options:)``
+- ``bayerDithered(levels:strength:monochrome:options:)``
 
 ### Lookup
 
@@ -373,6 +409,7 @@ Use blending modes to combine two or more graphics.
 - ``luminanceToAlpha()``
 - ``luminanceToAlphaWithColor()``
 - ``ColorChannel``
+- ``redToLuminance()``
 
 ### Blur
 
@@ -462,6 +499,8 @@ Fade two graphics by crossing them with opacity.
 ### Corner Pin
 
 - ``cornerPinned(topLeft:topRight:bottomLeft:bottomRight:perspective:subdivisions:backgroundColor:options:)``
+- ``Grid``
+- ``warp(grid:perspective:subdivisions:)``
 
 ### Chroma Key
 
@@ -472,6 +511,7 @@ Fade two graphics by crossing them with opacity.
 
 - ``personSegmentation()``
 - ``personSegmentationMask()``
+- ``rawPersonSegmentationMask()``
 
 ### Remap
 
@@ -480,6 +520,8 @@ Fade two graphics by crossing them with opacity.
 ### Polar
 
 - ``polar(radius:width:leadingAngle:trailingAngle:resolution:options:)``
+- ``cartesianToPolar(startAngle:options:)``
+- ``polarToCartesian(startAngle:options:)``
 
 ### Morph
 
@@ -491,6 +533,17 @@ Fade two graphics by crossing them with opacity.
 
 - ``detectFaces()``
 - ``FaceDetection``
+
+### Saliency
+
+- ``rawSaliency(of:)``
+- ``saliency(of:)``
+- ``saliencyFrames(of:)``
+- ``SaliencyType``
+
+### Optical Flow
+
+- ``OpticalFlowAccuracy``
 
 ### Flood Fill
 
@@ -507,7 +560,7 @@ Write metal shader code.
 - ``metal(code:resolution:options:)-swift.type.method``
 - ``metal(with:code:options:)-swift.method``
 - ``metal(with:code:options:)-swift.type.method``
-- ``rawMetal(with:code:functionName:uniformsBuffer:resolution:options:)``
+- ``rawMetal(with:code:functionName:uniformsBuffer:resolution:contentOptions:effectOptions:)``
 - ``SolidMetalError``
 - ``DirectMetalError``
 - ``DualMetalError``
@@ -577,6 +630,17 @@ Write metal shader code.
 
 - ``coordinateSpace(_:rotation:fraction:options:)``
 - ``CoordinateSpaceConversion``
+- ``cubeMapToEquirect(resolution:inside:options:)``
+- ``equirectOriented(rotation:mirrorHorizontal:mirrorVertical:options:)``
+- ``equirectToCubeMap(faceResolution:inside:options:)``
+
+### Location from Depth
+
+- ``locationFromDepth(cameraWorldMatrix:cameraPosition:aspectRatio:near:far:fieldOfViewRadians:curvature:orthographicHeight:projectionOffset:isOrthographic:options:)``
+- ``locationFromDepth(inverseViewProjectionMatrix:options:)``
+- ``locationFromDepth(viewProjectionMatrix:options:)``
+- ``locationFromDepthOrthographic(cameraWorldMatrix:near:far:halfWidth:halfHeight:options:)``
+- ``LocationFromDepthError``
 
 ### Inspect
 

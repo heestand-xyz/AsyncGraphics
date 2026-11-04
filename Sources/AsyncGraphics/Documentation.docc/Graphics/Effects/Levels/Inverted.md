@@ -1,4 +1,4 @@
-# ``AsyncGraphics/Graphic/inverted()``
+# ``AsyncGraphics/Graphic/inverted(options:)``
 
 ## Overview
 

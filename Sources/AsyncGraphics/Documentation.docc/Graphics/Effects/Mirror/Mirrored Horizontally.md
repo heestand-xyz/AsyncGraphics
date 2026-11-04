@@ -1,4 +1,4 @@
-# ``AsyncGraphics/Graphic/mirroredHorizontally()``
+# ``AsyncGraphics/Graphic/mirroredHorizontally(options:)``
 
 ## Overview
 

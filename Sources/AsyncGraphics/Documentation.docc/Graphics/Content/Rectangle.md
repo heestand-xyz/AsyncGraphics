@@ -1,4 +1,4 @@
-# ``AsyncGraphics/Graphic/rectangle(size:position:cornerRadius:color:backgroundColor:resolution:options:)``
+# ``AsyncGraphics/Graphic/rectangle(size:position:cornerRadius:color:backgroundColor:resolution:tile:options:)``
 
 ## Overview
 

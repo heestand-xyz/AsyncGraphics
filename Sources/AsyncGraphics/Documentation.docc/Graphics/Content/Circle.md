@@ -1,4 +1,4 @@
-# ``AsyncGraphics/Graphic/circle(radius:position:color:backgroundColor:resolution:options:)``
+# ``AsyncGraphics/Graphic/circle(radius:position:color:backgroundColor:resolution:tile:options:)``
 
 ## Overview
 

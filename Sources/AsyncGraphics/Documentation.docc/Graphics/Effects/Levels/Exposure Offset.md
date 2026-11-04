@@ -1,4 +1,4 @@
-# ``AsyncGraphics/Graphic/exposureOffset(_:)``
+# ``AsyncGraphics/Graphic/exposureOffset(_:options:)``
 
 ## Overview
 

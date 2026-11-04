@@ -1,4 +1,4 @@
-# ``AsyncGraphics/Graphic/saturated(_:)``
+# ``AsyncGraphics/Graphic/saturated(_:options:)``
 
 ## Overview
 

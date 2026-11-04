@@ -1,4 +1,4 @@
-# ``AsyncGraphics/Graphic/randomColoredNoise(seed:resolution:options:)``
+# ``AsyncGraphics/Graphic/randomColoredNoise(seed:includeAlpha:resolution:tile:options:)``
 
 ## Overview
 

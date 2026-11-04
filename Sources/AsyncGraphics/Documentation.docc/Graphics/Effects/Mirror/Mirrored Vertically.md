@@ -1,4 +1,4 @@
-# ``AsyncGraphics/Graphic/mirroredVertically()``
+# ``AsyncGraphics/Graphic/mirroredVertically(options:)``
 
 ## Overview
 

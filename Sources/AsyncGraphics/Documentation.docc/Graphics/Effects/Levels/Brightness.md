@@ -1,4 +1,4 @@
-# ``AsyncGraphics/Graphic/brightness(_:)``
+# ``AsyncGraphics/Graphic/brightness(_:options:)``
 
 ## Overview
 

@@ -1,4 +1,4 @@
-# ``AsyncGraphics/Graphic/contrast(_:)``
+# ``AsyncGraphics/Graphic/contrast(_:options:)``
 
 ## Overview
 

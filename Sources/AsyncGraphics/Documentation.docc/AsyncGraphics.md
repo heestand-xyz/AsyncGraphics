@@ -44,6 +44,7 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 - ``Graphic3DView``
 - ``AsyncGraphicView``
 - ``GraphicRenderView``
+- ``GraphicLayerView``
 
 ### Renderers
 
@@ -64,6 +65,8 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 - ``GraphicVideoPlayer``
 - ``GraphicVideoRecorder``
 - ``GraphicRecorder``
+- ``StereoscopicGraphicVideoRecorder``
+- ``GraphicVideoRecordable``
 
 ### Layout
 
@@ -141,6 +144,13 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 - ``AnyGraphicProperty``
 - ``AnyGraphicValueProperty``
 - ``AnyGraphicEnumProperty``
+
+### Codable Macros
+
+- ``EnumMacro()``
+- ``GraphicMacro()``
+- ``GraphicTypeMacro()``
+- ``VariantMacro()``
 
 ### Codable Values
 
@@ -222,11 +232,18 @@ The main value type in **AsyncGraphics** is a ``Graphic``. It's like an image, b
 ### Images
 
 - ``SendableImage``
+- ``SpatialGraphicMetadata``
+
+### Buffers
+
+- ``SendablePixelBuffer``
+- ``SendableSampleBuffer``
 
 ### Renderer
 
 - ``Renderer``
 - ``AGGraphRenderer``
+- ``AGPerformanceTrace``
 
 ### Render Actor
 

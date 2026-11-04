@@ -1,4 +1,4 @@
-# ``AsyncGraphics/Graphic/monochrome()``
+# ``AsyncGraphics/Graphic/monochrome(options:)``
 
 ## Overview
 

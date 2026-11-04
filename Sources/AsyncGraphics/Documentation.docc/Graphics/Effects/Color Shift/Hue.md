@@ -1,4 +1,4 @@
-# ``AsyncGraphics/Graphic/hue(_:)``
+# ``AsyncGraphics/Graphic/hue(_:options:)``
 
 ## Overview
 

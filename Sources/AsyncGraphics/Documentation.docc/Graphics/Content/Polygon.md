@@ -1,4 +1,4 @@
-# ``AsyncGraphics/Graphic/polygon(count:radius:position:rotation:cornerRadius:color:backgroundColor:resolution:options:)``
+# ``AsyncGraphics/Graphic/polygon(count:radius:position:rotation:cornerRadius:stroke:color:backgroundColor:resolution:tile:options:)``
 
 ## Overview
 

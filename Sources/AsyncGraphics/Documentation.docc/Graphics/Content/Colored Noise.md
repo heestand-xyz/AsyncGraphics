@@ -1,4 +1,4 @@
-# ``AsyncGraphics/Graphic/coloredNoise(offset:depth:scale:octaves:seed:resolution:options:)``
+# ``AsyncGraphics/Graphic/coloredNoise(offset:depth:scale:octaves:seed:includeAlpha:resolution:tile:options:)``
 
 ## Overview
 

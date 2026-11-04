@@ -1,4 +1,4 @@
-# ``AsyncGraphics/Graphic/gamma(_:)``
+# ``AsyncGraphics/Graphic/gamma(_:options:)``
 
 ## Overview
 
