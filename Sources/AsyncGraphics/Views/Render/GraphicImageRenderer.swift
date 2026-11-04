@@ -26,7 +26,7 @@ public final class GraphicImageRenderer: Sendable {
         guard let viewSize: CGSize else { return nil }
         guard let resolution: CGSize else { return nil }
         return CGSize(width: resolution.width, height: resolution.height)
-            .place(in: viewSize * scale,
+            .pixelPlace(in: viewSize * scale,
                    placement: .fit)
     }
     

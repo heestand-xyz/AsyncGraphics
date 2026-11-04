@@ -2421,17 +2421,6 @@
         }
       }
     },
-    "property.faceResolution" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Face Resolution"
-          }
-        }
-      }
-    },
     "property.foregroundColor" : {
       "localizations" : {
         "en" : {
@@ -3093,7 +3082,14 @@
       }
     },
     "property.smooth" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smooth"
+          }
+        }
+      }
     },
     "property.softness" : {
       "localizations" : {

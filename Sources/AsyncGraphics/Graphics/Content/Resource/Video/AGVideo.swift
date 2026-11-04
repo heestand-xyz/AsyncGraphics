@@ -18,9 +18,9 @@ public struct AGVideo: AGGraph {
         }
         switch placement {
         case .fit:
-            return videoResolution.place(in: proposedResolution, placement: .fit)
+            return videoResolution.pixelPlace(in: proposedResolution, placement: .fit)
         case .fill:
-            return videoResolution.place(in: proposedResolution, placement: .fill)
+            return videoResolution.pixelPlace(in: proposedResolution, placement: .fill)
         case .fixed:
             return videoResolution
         case .stretch:

@@ -4,6 +4,15 @@
 
 AsyncGraphics is a Swift package for working with images and video with concurrency on the GPU. The core type is called [`Graphic`](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics/graphic), it's like an image and is backed by a [`MTLTexture`](https://developer.apple.com/documentation/metal/mtltexture).
 
+## What's New in Version 4
+
+- New area and path rendering, with updated shape shaders and smoother gradients.
+- Expanded 3D tools: stacking, blending, sampling, LUTs, and layered blur.
+- Cube map, equirectangular, and polar coordinate conversions.
+- Improved camera orientation, photo capture, and camera interruption reporting.
+- Improved renderer resource management, with command queue reuse, fewer actor hops during render preparation, and safer texture recycling.
+- **Breaking change:** Codable angles now use radians. See [Migration from 3.x](#migration-from-3x) before loading saved angle values. Minimum supported OS versions are unchanged.
+
 ## Documentation
 
 [**Documentation**](https://heestand-xyz.github.io/AsyncGraphics-Docs/documentation/asyncgraphics) (DocC)
@@ -114,8 +123,16 @@ See the [**Graphic**](https://heestand-xyz.github.io/AsyncGraphics-Docs/document
 ## Install
 
 ```swift
-.package(url: "https://github.com/heestand-xyz/AsyncGraphics", from: "3.0.0")
+.package(url: "https://github.com/heestand-xyz/AsyncGraphics", from: "4.0.0")
 ```
+
+## Migration from 3.x
+
+Version 4.0.0 changes `SwiftUI.Angle` Codable values from degrees to radians, matching Apple's native conformance. This also affects angles nested in Codable graphics and application models.
+
+Existing degree-encoded data needs a one-time, versioned migration before it is used with the new release. Values cannot be distinguished by their magnitude. See [Angle Codable Migration](Sources/AsyncGraphics/Documentation.docc/Articles/AngleCodableMigration.md) for examples and migration guidance.
+
+Minimum supported systems remain iOS 17, tvOS 17, macOS 14, and visionOS 1. Calling `.degrees(...)` and reading `.degrees` still work as before; only serialization changes.
 
 ## Views
 

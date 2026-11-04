@@ -25,7 +25,7 @@ public final class Graphic3DViewRenderer {
         let scale: CGFloat = .pixelsPerPoint
         #endif
         return CGSize(width: resolution.width, height: resolution.height)
-            .place(in: viewSize * scale,
+            .pixelPlace(in: viewSize * scale,
                    placement: .fit)
     }
     

@@ -21,7 +21,7 @@ public struct AGCamera: AGGraph {
         else { return proposedResolution }
         switch placement {
         case .fit:
-            return cameraResolution.place(in: proposedResolution, placement: .fit)
+            return cameraResolution.pixelPlace(in: proposedResolution, placement: .fit)
         case .fixed:
             return cameraResolution
         case .stretch, .fill:

@@ -13,7 +13,7 @@ public struct AGPolygon: AGGraph {
     @MainActor
     public func resolution(at proposedResolution: CGSize,
                            for specification: AGSpecification) -> CGSize {
-        .one.place(in: proposedResolution, placement: .fit)
+        .one.pixelPlace(in: proposedResolution, placement: .fit)
     }
     
     @MainActor

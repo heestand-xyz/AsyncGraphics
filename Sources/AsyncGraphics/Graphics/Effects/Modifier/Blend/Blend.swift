@@ -189,9 +189,9 @@ extension Graphic {
         case .stretch:
             frame.size
         case .fit:
-            resolution.place(in: frame.size, placement: .fill)
+            resolution.pixelPlace(in: frame.size, placement: .fill)
         case .fill:
-            resolution.place(in: frame.size, placement: .fit)
+            resolution.pixelPlace(in: frame.size, placement: .fit)
         case .fixed:
             resolution
         }

@@ -91,7 +91,7 @@ extension GraphicMetalVisionView {
         }
     }
     
-    func render(graphic: Graphic, completion: @escaping (Bool) -> ()) {
+    func render(graphic: Graphic, completion: @Sendable @escaping (Bool) -> ()) {
                 
         metalLayer.pixelFormat = pixelFormat(for: graphic.bits)
         metalLayer.drawableSize = graphic.resolution

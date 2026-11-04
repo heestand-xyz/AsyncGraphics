@@ -98,6 +98,7 @@ extension Graphic {
         return try await .image(image)
     }
     
+#if !os(tvOS)
     /// Import Stereoscopic Video Frame
     ///
     /// If info is `nil` (default), frame count, frame rate and resolution will be automatically calculate based on the video at the url.
@@ -109,6 +110,7 @@ extension Graphic {
         let (leftImage, rightImage) = try await stereoscopicVideoFrame(at: frameIndex, from: url, info: info)
         return try await (.image(leftImage), .image(rightImage))
     }
+#endif
 }
 
 

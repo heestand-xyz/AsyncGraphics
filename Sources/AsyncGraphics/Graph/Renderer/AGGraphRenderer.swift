@@ -205,7 +205,7 @@ extension AGGraphRenderer {
                 if let maximumResolution: CGSize = activeCameraMaximumResolutions[position],
                    graphic.width > maximumResolution.width,
                    graphic.height > maximumResolution.height {
-                    let targetResolution: CGSize = graphic.resolution.place(in: maximumResolution, placement: .fill)
+                    let targetResolution: CGSize = graphic.resolution.pixelPlace(in: maximumResolution, placement: .fill)
                     resizedGraphic = try await graphic.resized(to: targetResolution, method: .lanczos)
                 } else {
                     resizedGraphic = graphic
@@ -242,7 +242,7 @@ extension AGGraphRenderer {
                 if let maximumResolution: CGSize = activeVideoMaximumResolutions[videoPlayer],
                    graphic.width > maximumResolution.width,
                    graphic.height > maximumResolution.height {
-                    let targetResolution: CGSize = graphic.resolution.place(in: maximumResolution, placement: .fill)
+                    let targetResolution: CGSize = graphic.resolution.pixelPlace(in: maximumResolution, placement: .fill)
                     resizedGraphic = try await graphic.resized(to: targetResolution, method: .lanczos)
                 } else {
                     resizedGraphic = graphic
@@ -268,27 +268,32 @@ extension AGGraphRenderer {
     
     @MainActor
     private func startImage(with imageSource: AGImage.Source) {
-        print("AsyncGraphics - Graph - Video - Start")
+        print("AsyncGraphics - Graph - Image - Start")
         Task {
-            let graphic: Graphic
-            switch imageSource {
-            case .name(let name):
-                graphic = try await .image(named: name)
-            case .raw(let image):
-                graphic = try await .image(image)
-            }
-            let resizedGraphic: Graphic
-            if let maximumResolution: CGSize = activeImageMaximumResolutions[imageSource],
-               graphic.width > maximumResolution.width,
-               graphic.height > maximumResolution.height {
-                let targetResolution: CGSize = graphic.resolution.place(in: maximumResolution, placement: .fill)
-                resizedGraphic = try await graphic.resized(to: targetResolution, method: .lanczos)
-            } else {
-                resizedGraphic = graphic
-            }
-            await MainActor.run {
-                activeImageGraphics[imageSource] = resizedGraphic
-                activeImageResolutions[imageSource] = graphic.resolution
+            do {
+                let graphic: Graphic
+                switch imageSource {
+                case .name(let name):
+                    graphic = try await .image(named: name)
+                case .raw(let image):
+                    graphic = try await .image(image)
+                }
+                let resizedGraphic: Graphic
+                if let maximumResolution: CGSize = activeImageMaximumResolutions[imageSource],
+                   graphic.width > maximumResolution.width,
+                   graphic.height > maximumResolution.height {
+                    let targetResolution: CGSize = graphic.resolution.pixelPlace(in: maximumResolution, placement: .fill)
+                    resizedGraphic = try await graphic.resized(to: targetResolution, method: .lanczos)
+                } else {
+                    resizedGraphic = graphic
+                }
+                await MainActor.run {
+                    activeImageGraphics[imageSource] = resizedGraphic
+                    activeImageResolutions[imageSource] = graphic.resolution
+                }
+            } catch {
+                if error is CancellationError { return }
+                print("AsyncGraphics - Graph - Image - Failed to load:", error)
             }
         }
     }

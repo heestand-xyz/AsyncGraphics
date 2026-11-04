@@ -96,7 +96,7 @@ extension Graphic {
         placement: Placement = .fit,
         method: ResizeMethod
     ) async throws -> Graphic {
-        let placeResolution = self.resolution.place(in: resolution, placement: placement.sizePlacement)
+        let placeResolution = self.resolution.pixelPlace(in: resolution, placement: placement.sizePlacement)
         return try await resizedStretched(to: placeResolution, method: method)
             .resized(to: resolution, placement: placement)
     }

@@ -33,9 +33,9 @@ public struct AGImage: AGGraph {
         else { return proposedResolution }
         switch placement {
         case .fit:
-            return imageResolution.place(in: proposedResolution, placement: .fit)
+            return imageResolution.pixelPlace(in: proposedResolution, placement: .fit)
         case .fill:
-            return imageResolution.place(in: proposedResolution, placement: .fill)
+            return imageResolution.pixelPlace(in: proposedResolution, placement: .fill)
         case .fixed:
             return imageResolution
         case .stretch:
