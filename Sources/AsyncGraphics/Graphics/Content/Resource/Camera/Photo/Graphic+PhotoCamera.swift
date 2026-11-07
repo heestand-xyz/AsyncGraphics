@@ -15,16 +15,16 @@ import TextureMap
 
 extension Graphic {
     
-    actor PhotoCamera: Sendable {
+    public actor PhotoCamera: Sendable {
         
-        private var captureSession: AVCaptureSession?
-        private var camera: AVCaptureDevice?
-        private var input: AVCaptureInput?
-        private var output: AVCapturePhotoOutput?
+        public private(set) var captureSession: AVCaptureSession?
+        public private(set) var camera: AVCaptureDevice?
+        public private(set) var input: AVCaptureInput?
+        public private(set) var output: AVCapturePhotoOutput?
         
         private var captureContinuation: CheckedContinuation<[UIImage], Error>?
         
-        enum PhotoCameraError: LocalizedError {
+        public enum PhotoCameraError: LocalizedError {
             case sessionPresetNotSupported
             case canNotAddOutput
             case canNotAddInput
@@ -37,7 +37,7 @@ extension Graphic {
             case noImageCapture
             case captureFailed(Error)
             case cancelled
-            var errorDescription: String? {
+            public var errorDescription: String? {
                 switch self {
                 case .sessionPresetNotSupported:
                     "Photo Camera - Session preset not supported."
@@ -407,7 +407,7 @@ extension Graphic {
         
         // MARK: - Cleanup
         
-        private func cleanup() {
+        public func cleanup() {
             if let input {
                 captureSession?.removeInput(input)
                 self.input = nil
