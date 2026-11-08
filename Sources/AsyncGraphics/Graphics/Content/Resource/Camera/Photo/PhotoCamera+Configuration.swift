@@ -30,6 +30,12 @@ extension Graphic.PhotoCamera {
         let output: AVCapturePhotoOutput = AVCapturePhotoOutput()
         guard session.canAddOutput(output) else { throw .canNotAddOutput }
         session.addOutput(output)
+        if #available(anyAppleOS 26.0, *) {
+            // Photo outputs defer startup by default in apps linked against iOS 26.
+            // This headless session needs the camera ready for focusing before the
+            // capture request, and has no preview to trigger deferred startup.
+            output.isDeferredStartEnabled = false
+        }
         self.output = output
         output.maxPhotoQualityPrioritization = .quality
         previousFocus = (device.focusMode, device.focusPointOfInterest)

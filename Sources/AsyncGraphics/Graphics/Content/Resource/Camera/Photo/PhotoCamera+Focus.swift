@@ -99,8 +99,9 @@ extension Graphic.PhotoCamera {
         // Observe after requesting focus and include its current state. A fast focus
         // operation may already be locked; receiving an autoFocus notification is
         // not a prerequisite. Phase detection can settle without a focus scan.
-        let observation: NSKeyValueObservation = device.observe(\.focusMode, options: [.initial, .new]) { _, change in
-            if let mode: AVCaptureDevice.FocusMode = change.newValue { events.continuation.yield(mode) }
+        // Read the device's mode: Swift KVO change values are nil for imported enums.
+        let observation: NSKeyValueObservation = device.observe(\.focusMode, options: [.initial, .new]) { observedDevice, _ in
+            events.continuation.yield(observedDevice.focusMode)
         }
         defer {
             observation.invalidate()
