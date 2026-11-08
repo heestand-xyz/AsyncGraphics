@@ -28,15 +28,19 @@ extension Graphic {
     ///   - position: Front or back camera.
     ///   - lens: Ultra wide, wide or tele camera.
     ///   - quality: Default to photo quality.
-    ///   - focusPoint: An optional normalized focus point of interest. {0,0} is the top-left of the picture area and {1,1} is the bottom-right. *The focus point will automatically be oriented base on device rotation.*
-    ///   - preserveHDR: Decode HDR gain maps into a 16-bit float graphic. Defaults to false.
-    /// - Returns: An array of graphics.
+    ///   - focusPoint: A normalized point in the oriented, unmirrored photo, with x right and y down. The top-left is {0,0} and bottom-right is {1,1}.
+    ///   - autoFocus: True uses automatic focus and ignores focusPoint. False focuses once at focusPoint (or the center). Both modes lock focus through capture.
+    ///   - preserveHDR: Decode the original photo bytes into a 16-bit float graphic, preserving available HDR gain maps. Defaults to false.
+    ///   - onReady: Runs after validation and focus, immediately before capture starts.
+    /// - Returns: The captured graphic.
     public static func capturePhoto(
         at position: AVCaptureDevice.Position,
         lens: AVCaptureDevice.DeviceType = .builtInWideAngleCamera,
         quality: AVCaptureSession.Preset = .photo,
         focusPoint: CGPoint? = nil,
-        preserveHDR: Bool = false
+        autoFocus: Bool = true,
+        preserveHDR: Bool = false,
+        onReady: (@Sendable () async throws -> Void)? = nil
     ) async throws -> Graphic {
 
         guard let device: AVCaptureDevice = .default(
@@ -51,7 +55,9 @@ extension Graphic {
             device: device,
             quality: quality,
             focusPoint: focusPoint,
-            preserveHDR: preserveHDR
+            autoFocus: autoFocus,
+            preserveHDR: preserveHDR,
+            onReady: onReady
         )
     }
     
@@ -59,23 +65,28 @@ extension Graphic {
     /// - Parameters:
     ///   - device: The camera to use.
     ///   - quality: Default to photo quality.
-    ///   - focusPoint: An optional normalized focus point of interest. {0,0} is the top-left of the picture area and {1,1} is the bottom-right. *The focus point will automatically be oriented base on device rotation.*
-    ///   - preserveHDR: Decode HDR gain maps into a 16-bit float graphic. Defaults to false.
-    /// - Returns: An array of graphics.
-    public static func capturePhoto(
+    ///   - focusPoint: A normalized point in the oriented, unmirrored photo, with x right and y down. The top-left is {0,0} and bottom-right is {1,1}.
+    ///   - autoFocus: True uses automatic focus and ignores focusPoint. False focuses once at focusPoint (or the center). Both modes lock focus through capture.
+    ///   - preserveHDR: Decode the original photo bytes into a 16-bit float graphic, preserving available HDR gain maps. Defaults to false.
+    ///   - onReady: Runs after validation and focus, immediately before capture starts.
+    /// - Returns: The captured graphic.
+    public nonisolated(nonsending) static func capturePhoto(
         device: AVCaptureDevice,
         quality: AVCaptureSession.Preset = .photo,
         focusPoint: CGPoint? = nil,
-        preserveHDR: Bool = false
+        autoFocus: Bool = true,
+        preserveHDR: Bool = false,
+        onReady: (@Sendable () async throws -> Void)? = nil
     ) async throws -> Graphic {
         
-        let photoCamera = PhotoCamera()
-        
-        return try await photoCamera.capture(
-            for: device,
-            at: quality,
+        let deviceID: String = device.uniqueID
+        return try await capturePhoto(
+            deviceID: deviceID,
+            quality: quality,
             focusPoint: focusPoint,
-            preserveHDR: preserveHDR
+            autoFocus: autoFocus,
+            preserveHDR: preserveHDR,
+            onReady: onReady
         )
     }
     
@@ -87,14 +98,22 @@ extension Graphic {
     ///   - lens: Ultra wide, wide or tele camera.
     ///   - quality: Default to photo quality.
     ///   - exposureOffsets: An array of exposure target biases. Default [-1.0, 0.0, 1.0].
-    ///   - focusPoint: An optional normalized focus point of interest. {0,0} is the top-left of the picture area and {1,1} is the bottom-right. *The focus point will automatically be oriented base on device rotation.*
-    /// - Returns: An array of graphics.
+    ///   - focusPoint: A normalized point in the oriented, unmirrored photo, with x right and y down. The top-left is {0,0} and bottom-right is {1,1}.
+    ///   - autoFocus: True uses automatic focus and ignores focusPoint. False focuses once at focusPoint (or the center). Both modes lock focus through capture.
+    ///   - preserveHDR: Decode each original photo into a 16-bit float graphic, preserving available HDR gain maps.
+    ///   - onReady: Runs once after validation and focus, immediately before capture starts.
+    ///   - onPhoto: Receives each photo in exposure-offset order with a zero-based index. Cancellation or callback failure waits for native capture cleanup before returning.
+    /// - Returns: All captured graphics in exposure-offset order.
     public static func captureBracketedPhotos(
         at position: AVCaptureDevice.Position,
         lens: AVCaptureDevice.DeviceType = .builtInWideAngleCamera,
         quality: AVCaptureSession.Preset = .photo,
         exposureOffsets: [Float] = [-1.0, 0.0, 1.0],
-        focusPoint: CGPoint? = nil
+        focusPoint: CGPoint? = nil,
+        autoFocus: Bool = true,
+        preserveHDR: Bool = false,
+        onReady: (@Sendable () async throws -> Void)? = nil,
+        onPhoto: (@Sendable (_ index: Int, _ graphic: Graphic) async throws -> Void)? = nil
     ) async throws -> [Graphic] {
 
         guard let device: AVCaptureDevice = .default(
@@ -109,7 +128,11 @@ extension Graphic {
             device: device,
             quality: quality,
             exposureOffsets: exposureOffsets,
-            focusPoint: focusPoint
+            focusPoint: focusPoint,
+            autoFocus: autoFocus,
+            preserveHDR: preserveHDR,
+            onReady: onReady,
+            onPhoto: onPhoto
         )
     }
     
@@ -118,22 +141,33 @@ extension Graphic {
     ///   - device: The camera to use.
     ///   - quality: Default to photo quality.
     ///   - exposureOffsets: An array of exposure target biases. Default [-1.0, 0.0, 1.0].
-    ///   - focusPoint: An optional normalized focus point of interest. {0,0} is the top-left of the picture area and {1,1} is the bottom-right. *The focus point will automatically be oriented base on device rotation.*
-    /// - Returns: An array of graphics.
-    public static func captureBracketedPhotos(
+    ///   - focusPoint: A normalized point in the oriented, unmirrored photo, with x right and y down. The top-left is {0,0} and bottom-right is {1,1}.
+    ///   - autoFocus: True uses automatic focus and ignores focusPoint. False focuses once at focusPoint (or the center). Both modes lock focus through capture.
+    ///   - preserveHDR: Decode each original photo into a 16-bit float graphic, preserving available HDR gain maps.
+    ///   - onReady: Runs once after validation and focus, immediately before capture starts.
+    ///   - onPhoto: Receives each photo in exposure-offset order with a zero-based index. Cancellation or callback failure waits for native capture cleanup before returning.
+    /// - Returns: All captured graphics in exposure-offset order.
+    public nonisolated(nonsending) static func captureBracketedPhotos(
         device: AVCaptureDevice,
         quality: AVCaptureSession.Preset = .photo,
         exposureOffsets: [Float] = [-1.0, 0.0, 1.0],
-        focusPoint: CGPoint? = nil
+        focusPoint: CGPoint? = nil,
+        autoFocus: Bool = true,
+        preserveHDR: Bool = false,
+        onReady: (@Sendable () async throws -> Void)? = nil,
+        onPhoto: (@Sendable (_ index: Int, _ graphic: Graphic) async throws -> Void)? = nil
     ) async throws -> [Graphic] {
         
-        let photoCamera = PhotoCamera()
-        
-        return try await photoCamera.captureBracketed(
-            for: device,
-            at: quality,
+        let deviceID: String = device.uniqueID
+        return try await captureBracketedPhotos(
+            deviceID: deviceID,
+            quality: quality,
             exposureOffsets: exposureOffsets,
-            focusPoint: focusPoint
+            focusPoint: focusPoint,
+            autoFocus: autoFocus,
+            preserveHDR: preserveHDR,
+            onReady: onReady,
+            onPhoto: onPhoto
         )
     }
 }
