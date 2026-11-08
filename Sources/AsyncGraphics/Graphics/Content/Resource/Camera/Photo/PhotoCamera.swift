@@ -5,7 +5,7 @@
 //  Created by Anton Heestand on 2025-11-15.
 //
 
-#if os(iOS)
+#if os(iOS) || os(macOS)
 
 import AVKit
 
@@ -90,6 +90,7 @@ extension Graphic {
         )
     }
     
+#if os(iOS)
     // MARK: - Capture Bracketed Photos
     
     /// Captures bracketed photos with a camera based on position and lens.
@@ -170,6 +171,7 @@ extension Graphic {
             onPhoto: onPhoto
         )
     }
+#endif
 }
 
 #endif

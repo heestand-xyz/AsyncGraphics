@@ -5,9 +5,12 @@
 //  Created by Anton Heestand with AI on 2026-11-08.
 //
 
-#if os(iOS)
+#if os(iOS) || os(macOS)
 import Foundation
 @preconcurrency import AVKit
+#if canImport(UIKit)
+import UIKit
+#endif
 
 struct PhotoCaptureOrientation: Sendable {
     let deviceFocusPoint: CGPoint?
@@ -15,6 +18,8 @@ struct PhotoCaptureOrientation: Sendable {
 
 extension Graphic.PhotoCamera {
     private static let focusTimeout: Duration = .seconds(5)
+
+#if os(iOS)
     func configureOrientation(
         output: AVCapturePhotoOutput,
         device: AVCaptureDevice,
@@ -75,13 +80,25 @@ extension Graphic.PhotoCamera {
             connection.isVideoMirrored = false
         }
     }
+#else
+    func configureOrientation(
+        output: AVCapturePhotoOutput,
+        device: AVCaptureDevice,
+        session: AVCaptureSession,
+        focusPoint: CGPoint?
+    ) -> PhotoCaptureOrientation {
+        PhotoCaptureOrientation(deviceFocusPoint: focusPoint)
+    }
+#endif
 
     func prepareFocus(
         device: AVCaptureDevice,
         orientation: PhotoCaptureOrientation
     ) async throws(PhotoCameraError) {
-        guard device.isFocusModeSupported(.locked) else { throw .focusLockNotSupported }
-        guard device.isFocusModeSupported(.autoFocus) else { throw .autoFocusNotSupported }
+        guard device.isFocusModeSupported(.autoFocus) && device.isFocusModeSupported(.locked) else {
+            if orientation.deviceFocusPoint != nil { throw .focusPointNotSupported }
+            return
+        }
         if orientation.deviceFocusPoint != nil, !device.isFocusPointOfInterestSupported { throw .focusPointNotSupported }
 
         do { try device.lockForConfiguration() }

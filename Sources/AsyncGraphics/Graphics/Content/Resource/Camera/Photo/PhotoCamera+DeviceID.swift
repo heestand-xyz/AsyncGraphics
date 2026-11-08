@@ -5,7 +5,7 @@
 //  Created by Anton Heestand with AI on 2026-11-08.
 //
 
-#if os(iOS)
+#if os(iOS) || os(macOS)
 import Foundation
 import AVFoundation
 
@@ -30,6 +30,7 @@ extension Graphic.PhotoCamera {
         return graphic
     }
 
+#if os(iOS)
     /// Captures the exact selected device with serial, exposure-ordered callbacks.
     public func captureBracketed(
         deviceID: String,
@@ -48,6 +49,7 @@ extension Graphic.PhotoCamera {
             onReady: onReady, onPhoto: onPhoto
         )
     }
+#endif
 }
 
 // MARK: - Graphic Capture
@@ -70,6 +72,7 @@ extension Graphic {
         )
     }
 
+#if os(iOS)
     /// Captures bracketed photos by exact device ID. Callback indices are zero-based
     /// and always follow exposure-offset order, including repeated offsets.
     public static func captureBracketedPhotos(
@@ -89,5 +92,6 @@ extension Graphic {
             onReady: onReady, onPhoto: onPhoto
         )
     }
+#endif
 }
 #endif

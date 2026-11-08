@@ -5,11 +5,15 @@
 //  Created by Anton Heestand with AI on 2026-11-08.
 //
 
-#if os(iOS)
+#if os(iOS) || os(macOS)
 import CoreImage
 import Metal
 import TextureMap
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 
 extension Graphic.PhotoCamera {
     func decodePhoto(_ data: Data, preserveHDR: Bool) async throws -> Graphic {
@@ -28,7 +32,7 @@ extension Graphic.PhotoCamera {
             // been applied by the decoder and must not be applied again.
             return try await graphic.mirroredVertically()
         }
-        guard let image: UIImage = UIImage(data: data) else { throw PhotoCameraError.noImageCapture }
+        guard let image: TMImage = TMImage(data: data) else { throw PhotoCameraError.noImageCapture }
         return try await .image(image)
     }
 }

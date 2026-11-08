@@ -5,7 +5,7 @@
 //  Created by Anton Heestand with AI on 2026-11-08.
 //
 
-#if os(iOS)
+#if os(iOS) || os(macOS)
 import Foundation
 @preconcurrency import AVKit
 
@@ -16,9 +16,16 @@ extension Graphic.PhotoCamera {
         camera = device
         session.beginConfiguration()
         defer { session.commitConfiguration() }
-        guard session.canSetSessionPreset(preset) else { throw .sessionPresetNotSupported }
-        session.sessionPreset = preset
+        if session.canSetSessionPreset(preset) {
+            session.sessionPreset = preset
+        } else if session.canSetSessionPreset(.high) {
+            session.sessionPreset = .high
+        } else {
+            throw .sessionPresetNotSupported
+        }
+#if os(iOS)
         session.automaticallyConfiguresCaptureDeviceForWideColor = true
+#endif
 
         let input: AVCaptureDeviceInput
         do { input = try AVCaptureDeviceInput(device: device) }
@@ -38,7 +45,11 @@ extension Graphic.PhotoCamera {
         }
         self.output = output
         output.maxPhotoQualityPrioritization = .quality
-        previousFocus = (device.focusMode, device.focusPointOfInterest)
+        if device.isFocusPointOfInterestSupported {
+            previousFocus = (device.focusMode, device.focusPointOfInterest)
+        } else {
+            previousFocus = (device.focusMode, CGPoint(x: 0.5, y: 0.5))
+        }
     }
 
     func settings(
@@ -55,6 +66,7 @@ extension Graphic.PhotoCamera {
             throw .photoCodecNotSupported
         }
         let settings: AVCapturePhotoSettings
+#if os(iOS)
         if let exposureOffsets {
             do {
                 try PhotoCaptureValidation.exposureOffsets(
@@ -83,15 +95,24 @@ extension Graphic.PhotoCamera {
             settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: codec])
             settings.photoQualityPrioritization = .quality
         }
+#else
+        if exposureOffsets != nil {
+            throw .bracketedCaptureNotSupported
+        }
+        settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: codec])
+        settings.photoQualityPrioritization = .quality
+#endif
         if let dimensions: CMVideoDimensions = device.activeFormat.supportedMaxPhotoDimensions.max(by: {
             Int64($0.width) * Int64($0.height) < Int64($1.width) * Int64($1.height)
         }) {
             output.maxPhotoDimensions = dimensions
             settings.maxPhotoDimensions = dimensions
         }
+#if os(iOS)
         if #available(iOS 18.0, *), output.isShutterSoundSuppressionSupported {
             settings.isShutterSoundSuppressionEnabled = true
         }
+#endif
         return settings
     }
 
@@ -125,7 +146,9 @@ extension Graphic.PhotoCamera {
             catch { throw .configureOfCameraFailed }
             defer { device.unlockForConfiguration() }
             if device.isFocusPointOfInterestSupported { device.focusPointOfInterest = previousFocus.point }
-            device.focusMode = previousFocus.mode
+            if device.isFocusModeSupported(previousFocus.mode) {
+                device.focusMode = previousFocus.mode
+            }
         }
     }
 }

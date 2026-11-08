@@ -5,7 +5,7 @@
 //  Created by Anton Heestand with AI on 2026-11-08.
 //
 
-#if os(iOS)
+#if os(iOS) || os(macOS)
 import Foundation
 import AVFoundation
 
@@ -28,8 +28,12 @@ final class PhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegate {
             sequence.recordFailure(Graphic.PhotoCamera.PhotoCameraError.noImageCapture)
             return
         }
+#if os(iOS)
         // sequenceCount is one-based for a bracket and zero for a single photo.
         let index: Int = isBracketed ? photo.sequenceCount - 1 : 0
+#else
+        let index: Int = 0
+#endif
         sequence.append(index: index, data: data)
     }
 

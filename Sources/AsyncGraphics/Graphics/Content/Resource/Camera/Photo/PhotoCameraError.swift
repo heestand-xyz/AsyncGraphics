@@ -5,7 +5,7 @@
 //  Created by Anton Heestand with AI on 2026-11-08.
 //
 
-#if os(iOS)
+#if os(iOS) || os(macOS)
 import Foundation
 
 extension Graphic.PhotoCamera {

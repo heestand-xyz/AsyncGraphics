@@ -5,7 +5,7 @@
 //  Created by Anton Heestand on 2025-11-15.
 //
 
-#if os(iOS)
+#if os(iOS) || os(macOS)
 import Foundation
 @preconcurrency import AVKit
 
@@ -46,6 +46,7 @@ extension Graphic {
             )
         }
 
+#if os(iOS)
         /// Delivers each photo once in exposure-offset order, with a zero-based index.
         /// `onReady` runs after validation and focus, immediately before capture.
         /// Cancellation or callback failure drains native capture before returning.
@@ -66,6 +67,7 @@ extension Graphic {
                 onReady: onReady, onPhoto: onPhoto
             )
         }
+#endif
 
         func performCapture(
             device: AVCaptureDevice,
@@ -106,11 +108,18 @@ extension Graphic {
                 let settings: AVCapturePhotoSettings = try settings(
                     device: device, output: output, exposureOffsets: exposureOffsets
                 )
+#if os(iOS)
                 let deviceOrientation: UIDeviceOrientation = await MainActor.run { UIDevice.current.orientation }
                 let orientation: PhotoCaptureOrientation = try configureOrientation(
                     output: output, device: device, session: captureSession, deviceOrientation: deviceOrientation,
                     focusPoint: selectedFocusPoint
                 )
+#else
+                let orientation: PhotoCaptureOrientation = configureOrientation(
+                    output: output, device: device, session: captureSession,
+                    focusPoint: selectedFocusPoint
+                )
+#endif
                 captureSession.startRunning()
                 guard captureSession.isRunning else { throw PhotoCameraError.captureSessionNotRunning }
                 try checkCancellation()
@@ -150,7 +159,13 @@ extension Graphic {
             onPhoto: (@Sendable (Int, Graphic) async throws -> Void)?
         ) async throws(PhotoCameraError) -> [Graphic] {
             let sequence: PhotoCaptureSequence = PhotoCaptureSequence(expectedCount: expectedCount)
-            let delegate: PhotoCaptureDelegate = PhotoCaptureDelegate(sequence: sequence, isBracketed: settings is AVCapturePhotoBracketSettings)
+            let isBracketed: Bool
+#if os(iOS)
+            isBracketed = settings is AVCapturePhotoBracketSettings
+#else
+            isBracketed = false
+#endif
+            let delegate: PhotoCaptureDelegate = PhotoCaptureDelegate(sequence: sequence, isBracketed: isBracketed)
             let recoveryTask: Task<Void, Never> = Task(name: "Graphic.PhotoCamera: Recover Timed Out Capture") { [weak self] in
                 do { try await Task.sleep(for: Self.nativeCaptureTimeout) }
                 catch { return }
