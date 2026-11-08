@@ -45,7 +45,9 @@ extension Graphic.PhotoCamera {
         }
         self.output = output
 #if os(macOS)
-        try addExposureObserver(to: session)
+        if Self.waitsForSettledExposure {
+            try addExposureObserver(to: session)
+        }
 #endif
         output.maxPhotoQualityPrioritization = .quality
         if device.isFocusPointOfInterestSupported {

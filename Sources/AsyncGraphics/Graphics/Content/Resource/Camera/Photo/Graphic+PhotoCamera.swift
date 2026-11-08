@@ -28,6 +28,15 @@ extension Graphic {
         private var cancellationRequested: Bool = false
         private var cleanupWaiters: [CheckedContinuation<Void, Never>] = []
         private static let nativeCaptureTimeout: Duration = .seconds(60)
+#if os(macOS)
+        /// Waits for a streamed frame with settled auto exposure, instead of
+        /// the photo output's capture readiness, before capturing.
+        ///
+        /// macOS only, iOS is automatic.
+        ///
+        /// Warning: setting this to `false` will use `AVCapturePhotoOutputReadinessCoordinator` witch as of 2026 was crashing on macOS.
+        public nonisolated(unsafe) static var waitsForSettledExposure: Bool = true
+#endif
 
         public init() {}
 
@@ -128,7 +137,11 @@ extension Graphic {
                 guard captureSession.isRunning else { throw PhotoCameraError.captureSessionNotRunning }
                 try checkCancellation()
 #if os(macOS)
-                try await waitForSettledExposure()
+                if Self.waitsForSettledExposure {
+                    try await waitForSettledExposure()
+                } else {
+                    try await waitForCaptureReadiness(output: output)
+                }
                 try checkCancellation()
 #endif
                 try await prepareFocus(device: device, orientation: orientation)
