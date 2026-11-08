@@ -27,7 +27,9 @@ extension Graphic.PhotoCamera {
             let texture: MTLTexture = try .empty(resolution: image.extent.size, bits: ._16, usage: .write)
             let context: CIContext = CIContext(mtlDevice: Renderer.metalDevice)
             context.render(image, to: texture, commandBuffer: nil, bounds: image.extent, colorSpace: colorSpace)
-            let graphic: Graphic = Graphic(name: "Photo", texture: texture, bits: ._16, colorSpace: .custom(colorSpace))
+            // Rendered in extended range to keep values above 1.0, tagged as linear Display P3
+            // so the graphic can be encoded, like the OpenEXR stored for high bit bindings.
+            let graphic: Graphic = Graphic(name: "Photo", texture: texture, bits: ._16, colorSpace: .linearDisplayP3)
             // Core Image's origin differs from Graphic's; EXIF rotation has already
             // been applied by the decoder and must not be applied again.
             return try await graphic.mirroredVertically()
