@@ -20,6 +20,10 @@ extension Graphic {
         public internal(set) var output: AVCapturePhotoOutput?
 
         var previousFocus: (mode: AVCaptureDevice.FocusMode, point: CGPoint)?
+#if os(macOS)
+        var exposureOutput: AVCaptureVideoDataOutput?
+        var exposureObserver: PhotoCaptureExposureObserver?
+#endif
         private var isCapturing: Bool = false
         private var cancellationRequested: Bool = false
         private var cleanupWaiters: [CheckedContinuation<Void, Never>] = []
@@ -123,6 +127,10 @@ extension Graphic {
                 captureSession.startRunning()
                 guard captureSession.isRunning else { throw PhotoCameraError.captureSessionNotRunning }
                 try checkCancellation()
+#if os(macOS)
+                try await waitForSettledExposure()
+                try checkCancellation()
+#endif
                 try await prepareFocus(device: device, orientation: orientation)
                 try checkCancellation()
                 if let onReady {

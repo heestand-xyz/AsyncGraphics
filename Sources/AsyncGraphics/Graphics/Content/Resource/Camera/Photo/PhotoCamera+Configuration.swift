@@ -44,6 +44,9 @@ extension Graphic.PhotoCamera {
             output.isDeferredStartEnabled = false
         }
         self.output = output
+#if os(macOS)
+        try addExposureObserver(to: session)
+#endif
         output.maxPhotoQualityPrioritization = .quality
         if device.isFocusPointOfInterestSupported {
             previousFocus = (device.focusMode, device.focusPointOfInterest)
@@ -132,11 +135,18 @@ extension Graphic.PhotoCamera {
             if let session: AVCaptureSession = captureSession {
                 session.beginConfiguration()
                 if let output { session.removeOutput(output) }
+#if os(macOS)
+                if let exposureOutput { session.removeOutput(exposureOutput) }
+#endif
                 if let input { session.removeInput(input) }
                 session.commitConfiguration()
             }
             input = nil
             output = nil
+#if os(macOS)
+            exposureOutput = nil
+            exposureObserver = nil
+#endif
             captureSession = nil
             camera = nil
             previousFocus = nil

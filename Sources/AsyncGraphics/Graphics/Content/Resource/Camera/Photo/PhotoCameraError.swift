@@ -35,6 +35,7 @@ extension Graphic.PhotoCamera {
         case autoFocusNotSupported
         case focusLockNotSupported
         case focusTimedOut
+        case exposureTimedOut
         case invalidExposureOffsets
         case tooManyBracketedPhotos(maximum: Int)
         case bracketedCaptureNotSupported
@@ -67,6 +68,7 @@ extension Graphic.PhotoCamera {
             case .autoFocusNotSupported: "This camera does not support focusing before photo capture. Choose another camera."
             case .focusLockNotSupported: "This camera cannot lock focus for photo capture. Choose another camera."
             case .focusTimedOut: "The camera could not finish focusing. Try capturing again or choose another camera."
+            case .exposureTimedOut: "The camera could not finish adjusting exposure. Try capturing again in steadier light or choose another camera."
             case .invalidExposureOffsets: "Set \"Exposure Offsets\" to a nonempty list of finite values within the camera's exposure range."
             case .tooManyBracketedPhotos(let maximum): "This camera supports at most \(maximum) bracketed photos. Reduce \"Exposure Offsets\"."
             case .bracketedCaptureNotSupported: "This camera does not support bracketed photos. Choose another camera."
