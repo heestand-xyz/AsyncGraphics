@@ -78,7 +78,7 @@ extension Graphic {
         let bits: TMBits = try image.bits
         let colorSpace: TMColorSpace = try image.colorSpace
         
-        let texture: MTLTexture = try image.texture
+        let (texture, requiresAlphaPremultiplication): (MTLTexture, Bool) = try TextureMap.textureWithAlphaInfo(image: image)
         var graphic = Graphic(name: "Image", texture: texture, bits: bits, colorSpace: colorSpace)
         
         if options.contains(.colorCorrection) {
@@ -101,6 +101,11 @@ extension Graphic {
             }
         }
         
+        if requiresAlphaPremultiplication {
+            // Multiply RGB by alpha while preserving alpha itself.
+            graphic = try await graphic.blended(with: graphic.alphaToLuminance(), blendingMode: .multiply)
+        }
+
 #if canImport(UIKit)
         if options.contains(.orientationCorrection) {
             graphic = try await graphic.rotate(to: image.imageOrientation)
