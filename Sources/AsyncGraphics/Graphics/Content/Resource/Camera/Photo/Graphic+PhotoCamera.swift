@@ -154,7 +154,7 @@ extension Graphic {
                 let graphics: [Graphic] = try await collect(
                     output: output, settings: settings,
                     expectedCount: exposureOffsets?.count ?? 1,
-                    preserveHDR: preserveHDR, onPhoto: onPhoto
+                    preserveHDR: preserveHDR, position: device.position, onPhoto: onPhoto
                 )
                 result = .success(graphics)
             } catch let error as PhotoCameraError {
@@ -177,6 +177,7 @@ extension Graphic {
             settings: AVCapturePhotoSettings,
             expectedCount: Int,
             preserveHDR: Bool,
+            position: AVCaptureDevice.Position,
             onPhoto: (@Sendable (Int, Graphic) async throws -> Void)?
         ) async throws(PhotoCameraError) -> [Graphic] {
             let sequence: PhotoCaptureSequence = PhotoCaptureSequence(expectedCount: expectedCount)
@@ -207,7 +208,7 @@ extension Graphic {
                     guard operationError == nil else { continue }
                     let graphic: Graphic
                     do {
-                        graphic = try await decodePhoto(data, preserveHDR: preserveHDR)
+                        graphic = try await decodePhoto(data, preserveHDR: preserveHDR, position: position)
                     } catch {
                         operationError = .imageConversionToGraphicFailed(error)
                         continue

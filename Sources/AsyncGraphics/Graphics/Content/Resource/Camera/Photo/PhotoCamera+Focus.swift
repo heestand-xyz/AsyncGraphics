@@ -87,7 +87,13 @@ extension Graphic.PhotoCamera {
         session: AVCaptureSession,
         focusPoint: CGPoint?
     ) -> PhotoCaptureOrientation {
-        PhotoCaptureOrientation(deviceFocusPoint: focusPoint)
+        // Keep native output unmirrored; front-camera mirroring is applied once
+        // after decoding, just as on iOS.
+        if let connection = output.connection(with: .video), connection.isVideoMirroringSupported {
+            connection.automaticallyAdjustsVideoMirroring = false
+            connection.isVideoMirrored = false
+        }
+        return PhotoCaptureOrientation(deviceFocusPoint: focusPoint)
     }
 #endif
 
