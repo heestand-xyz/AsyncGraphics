@@ -6,6 +6,7 @@
 //
 
 #if os(iOS) || os(macOS)
+import AVFoundation
 import CoreImage
 import Metal
 import TextureMap
@@ -16,7 +17,8 @@ import AppKit
 #endif
 
 extension Graphic.PhotoCamera {
-    func decodePhoto(_ data: Data, preserveHDR: Bool) async throws -> Graphic {
+    func decodePhoto(_ data: Data, preserveHDR: Bool, position: AVCaptureDevice.Position) async throws -> Graphic {
+        let graphic: Graphic
         if preserveHDR {
             guard let image: CIImage = CIImage(data: data, options: [
                 .applyOrientationProperty: true,
@@ -29,13 +31,17 @@ extension Graphic.PhotoCamera {
             context.render(image, to: texture, commandBuffer: nil, bounds: image.extent, colorSpace: colorSpace)
             // Rendered in extended range to keep values above 1.0, tagged as linear Display P3
             // so the graphic can be encoded, like the OpenEXR stored for high bit bindings.
-            let graphic: Graphic = Graphic(name: "Photo", texture: texture, bits: ._16, colorSpace: .linearDisplayP3)
+            let decoded: Graphic = Graphic(name: "Photo", texture: texture, bits: ._16, colorSpace: .linearDisplayP3)
             // Core Image's origin differs from Graphic's; EXIF rotation has already
             // been applied by the decoder and must not be applied again.
-            return try await graphic.mirroredVertically()
+            graphic = try await decoded.mirroredVertically()
+        } else {
+            guard let image: TMImage = TMImage(data: data) else { throw PhotoCameraError.noImageCapture }
+            graphic = try await .image(image)
         }
-        guard let image: TMImage = TMImage(data: data) else { throw PhotoCameraError.noImageCapture }
-        return try await .image(image)
+        // Mirror in the final, oriented image space, for both single and bracketed
+        // photos. Focus coordinates remain in the unmirrored capture space.
+        return position == .front ? try await graphic.mirroredHorizontally() : graphic
     }
 }
 #endif

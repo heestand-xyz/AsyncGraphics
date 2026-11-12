@@ -28,7 +28,7 @@ extension Graphic {
     ///   - position: Front or back camera.
     ///   - lens: Ultra wide, wide or tele camera.
     ///   - quality: Default to photo quality.
-    ///   - focusPoint: A normalized point in the oriented, unmirrored photo, with x right and y down. The top-left is {0,0} and bottom-right is {1,1}.
+    ///   - focusPoint: A normalized point in the oriented, unmirrored photo (front-camera output is mirrored after capture), with x right and y down. The top-left is {0,0} and bottom-right is {1,1}.
     ///   - autoFocus: True uses automatic focus and ignores focusPoint. False focuses once at focusPoint (or the center). Both modes lock focus through capture.
     ///   - preserveHDR: Decode the original photo bytes into a 16-bit float graphic, preserving available HDR gain maps. Defaults to false.
     ///   - onReady: Runs after validation and focus, immediately before capture starts.
@@ -65,7 +65,7 @@ extension Graphic {
     /// - Parameters:
     ///   - device: The camera to use.
     ///   - quality: Default to photo quality.
-    ///   - focusPoint: A normalized point in the oriented, unmirrored photo, with x right and y down. The top-left is {0,0} and bottom-right is {1,1}.
+    ///   - focusPoint: A normalized point in the oriented, unmirrored photo (front-camera output is mirrored after capture), with x right and y down. The top-left is {0,0} and bottom-right is {1,1}.
     ///   - autoFocus: True uses automatic focus and ignores focusPoint. False focuses once at focusPoint (or the center). Both modes lock focus through capture.
     ///   - preserveHDR: Decode the original photo bytes into a 16-bit float graphic, preserving available HDR gain maps. Defaults to false.
     ///   - onReady: Runs after validation and focus, immediately before capture starts.
@@ -99,7 +99,7 @@ extension Graphic {
     ///   - lens: Ultra wide, wide or tele camera.
     ///   - quality: Default to photo quality.
     ///   - exposureOffsets: An array of exposure target biases. Default [-1.0, 0.0, 1.0].
-    ///   - focusPoint: A normalized point in the oriented, unmirrored photo, with x right and y down. The top-left is {0,0} and bottom-right is {1,1}.
+    ///   - focusPoint: A normalized point in the oriented, unmirrored photo (front-camera output is mirrored after capture), with x right and y down. The top-left is {0,0} and bottom-right is {1,1}.
     ///   - autoFocus: True uses automatic focus and ignores focusPoint. False focuses once at focusPoint (or the center). Both modes lock focus through capture.
     ///   - preserveHDR: Decode each original photo into a 16-bit float graphic, preserving available HDR gain maps.
     ///   - onReady: Runs once after validation and focus, immediately before capture starts.
@@ -142,7 +142,7 @@ extension Graphic {
     ///   - device: The camera to use.
     ///   - quality: Default to photo quality.
     ///   - exposureOffsets: An array of exposure target biases. Default [-1.0, 0.0, 1.0].
-    ///   - focusPoint: A normalized point in the oriented, unmirrored photo, with x right and y down. The top-left is {0,0} and bottom-right is {1,1}.
+    ///   - focusPoint: A normalized point in the oriented, unmirrored photo (front-camera output is mirrored after capture), with x right and y down. The top-left is {0,0} and bottom-right is {1,1}.
     ///   - autoFocus: True uses automatic focus and ignores focusPoint. False focuses once at focusPoint (or the center). Both modes lock focus through capture.
     ///   - preserveHDR: Decode each original photo into a 16-bit float graphic, preserving available HDR gain maps.
     ///   - onReady: Runs once after validation and focus, immediately before capture starts.
