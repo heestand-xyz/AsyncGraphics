@@ -30,11 +30,13 @@ struct PhotoCameraMirroringTests {
         let back = try await camera.decodePhoto(data as Data, preserveHDR: preserveHDR, position: .back)
         let front = try await camera.decodePhoto(data as Data, preserveHDR: preserveHDR, position: .front)
         let external = try await camera.decodePhoto(data as Data, preserveHDR: preserveHDR, position: .unspecified)
-        let backPixels = try await back.pixelColors
-        let frontPixels = try await front.pixelColors
+        // TextureMap cannot read half-float pixels directly on macOS. Promote
+        // only the comparison copies to float32, preserving extended-range values.
+        let backPixels = try await back.withBits(.bit32).pixelColors
+        let frontPixels = try await front.withBits(.bit32).pixelColors
         #expect(frontPixels == backPixels.map { Array($0.reversed()) })
         #expect(frontPixels != backPixels)
-        #expect(try await external.pixelColors == backPixels)
+        #expect(try await external.withBits(.bit32).pixelColors == backPixels)
         #expect(front.resolution == back.resolution)
         #expect(front.bits == back.bits)
         #expect(front.colorSpace == back.colorSpace)
