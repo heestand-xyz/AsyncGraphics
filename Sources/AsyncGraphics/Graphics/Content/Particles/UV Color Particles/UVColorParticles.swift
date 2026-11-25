@@ -60,7 +60,7 @@ extension Graphic {
             vertexUniforms: UVColorParticlesVertexUniforms(
                 multiplyParticleSize: particleOptions.contains(.channelScale),
                 particleScale: Float(particleScale),
-                resolution: self.resolution.uniform
+                resolution: resolution.pixelDimensionsUniform
             ),
             vertices: .indirect(count: self.resolution.count, type: .point),
             metadata: Renderer.Metadata(
@@ -70,6 +70,7 @@ extension Graphic {
             ),
             options: Renderer.Options(
                 addressMode: .clampToEdge,
+                filter: options.contains(.pixelated) ? .nearest : .linear,
                 clearColor: backgroundColor,
                 additive: true,
                 sampleCount: sampleCount.rawValue

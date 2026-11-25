@@ -18,6 +18,12 @@ extension SizeUniform {
 
 extension CGSize {
     
+    /// Match the integer dimensions used by the Metal texture descriptor.
+    var pixelDimensionsUniform: SizeUniform {
+        SizeUniform(width: Float(width.rounded(.towardZero)),
+                    height: Float(height.rounded(.towardZero)))
+    }
+
     var uniform: SizeUniform {
         SizeUniform(width: Float(width),
                     height: Float(height))

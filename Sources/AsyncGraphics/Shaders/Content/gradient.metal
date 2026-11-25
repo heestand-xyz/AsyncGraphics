@@ -52,46 +52,32 @@ FractionAndZero fractionAndZero(float fraction, int extend) {
     
 }
 
-float4 gradient(float fraction, array<ColorStopArray, ARRMAX> inArr, array<bool, ARRMAX> inArrActive, bool smooth) {
-    
-    array<ColorStop, 7> color_stops;
-    for (int i = 0; i < 7; ++i) {
-        ColorStop color_stop = ColorStop();
-        color_stop.enabled = inArrActive[i];
-        color_stop.position = inArr[i].fraction;
-        color_stop.color = inArr[i].color;
-        color_stops[i] = color_stop;
-    }
-
-    ColorStop low_color_stop;
-    bool low_color_stop_set = false;
-    ColorStop high_color_stop;
-    bool high_color_stop_set = false;
-    for (int i = 0; i < 7; ++i) {
-        if (color_stops[i].enabled && color_stops[i].position <= fraction && (!low_color_stop_set || color_stops[i].position > low_color_stop.position)) {
-            low_color_stop = color_stops[i];
-            low_color_stop_set = true;
+float4 gradient(float fraction,
+                const device array<ColorStopArray, ARRMAX>& stops,
+                const device array<bool, ARRMAX>& active,
+                bool smooth) {
+    int low = -1;
+    int high = -1;
+    for (int i = 0; i < ARRMAX && active[i]; ++i) {
+        float position = stops[i].fraction;
+        if (position == fraction) {
+            return stops[i].color;
         }
-        if (color_stops[i].enabled && color_stops[i].position >= fraction && (!high_color_stop_set || color_stops[i].position < high_color_stop.position)) {
-            high_color_stop = color_stops[i];
-            high_color_stop_set = true;
+        if (position < fraction && (low < 0 || position > stops[low].fraction)) {
+            low = i;
+        }
+        if (position > fraction && (high < 0 || position < stops[high].fraction)) {
+            high = i;
         }
     }
 
-    float difference = high_color_stop.position - low_color_stop.position;
-    float stop_fraction = difference > 0.0 ? ((fraction - low_color_stop.position) / difference) : 0.5;
+    if (low < 0 && high < 0) { return float4(0.0); }
+    if (low < 0) { return stops[high].color; }
+    if (high < 0) { return stops[low].color; }
 
-    if (stop_fraction < 0.0) {
-        stop_fraction = 0.0;
-    } else if (stop_fraction > 1.0) {
-        stop_fraction = 1.0;
-    }
-
+    float t = (fraction - stops[low].fraction) / (stops[high].fraction - stops[low].fraction);
     if (smooth) {
-        stop_fraction = 0.5 - 0.5 * cos(M_PI_F * stop_fraction);
+        t = 0.5 - 0.5 * cos(M_PI_F * t);
     }
-    float4 c = mix(low_color_stop.color, high_color_stop.color, stop_fraction);
-    
-    return c;
-    
+    return mix(float4(stops[low].color), float4(stops[high].color), t);
 }

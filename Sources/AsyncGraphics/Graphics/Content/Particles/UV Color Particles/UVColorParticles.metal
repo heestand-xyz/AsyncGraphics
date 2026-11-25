@@ -24,17 +24,11 @@ vertex VertexOut uvColorParticles(unsigned int vid [[ vertex_id ]],
                                   texture2d<float> trailingTexture [[ texture(1) ]],
                                   sampler sampler [[ sampler(0) ]]) {
         
-    float width = uniforms.resolution.x;
-    float height = uniforms.resolution.y;
-    float aspectRatio = width / height;
-    
-    int ux = vid % int(width);
-    int vy = int(float(vid) / width);
-    float u = float(ux) / width;
-    float v = float(vy) / height;
-    float2 uv = float2(u, v);
-    
-    float4 uvColor = leadingTexture.sample(sampler, uv);
+    uint width = leadingTexture.get_width();
+    uint2 pixel = uint2(vid % width, vid / width);
+    float aspectRatio = uniforms.resolution.x / uniforms.resolution.y;
+    float4 uvColor = leadingTexture.read(pixel);
+    float2 uv = (float2(pixel) + 0.5) / float2(width, leadingTexture.get_height());
     float4 color = trailingTexture.sample(sampler, uv);
     float x = (uvColor.r / aspectRatio) * 2;
     float y = uvColor.g * 2;

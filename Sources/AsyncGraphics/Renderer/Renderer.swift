@@ -182,7 +182,7 @@ public struct Renderer {
         graphics: [Graphicable] = [],
         uniforms: U = EmptyUniforms(),
         arrayUniforms: [AU],
-        emptyArrayUniform: AU,
+        emptyArrayUniform: AU? = nil,
         metadata: Metadata? = nil,
         options: Options = Options()
     ) async throws -> G {
@@ -292,7 +292,7 @@ public struct Renderer {
         graphics: [Graphicable] = [],
         uniforms: U,
         arrayUniforms: [AU],
-        emptyArrayUniform: AU,
+        emptyArrayUniform: AU?,
         vertexUniforms: VU,
         vertices: Vertices? = nil,
         metadata: Metadata? = nil,
@@ -312,38 +312,30 @@ public struct Renderer {
         var activeArrayUniformsBuffer: MTLBuffer?
         if !arrayUniforms.isEmpty {
             
-            let uniformArrayMaxLimit: Int = options.overrideUniformArrayMaxLimit ?? Self.uniformArrayMaxLimit
-            
-            var fixedArrayUniforms: [AU] = arrayUniforms
-            var fixedActiveArrayUniforms: [Bool] = Array(repeating: true, count: arrayUniforms.count)
-            
-            if arrayUniforms.count <= uniformArrayMaxLimit {
-                for _ in arrayUniforms.count..<uniformArrayMaxLimit {
-                    fixedArrayUniforms.append(emptyArrayUniform)
-                    fixedActiveArrayUniforms.append(false)
+            var bufferUniforms: [AU] = arrayUniforms
+            // Fixed-size shader arrays use a padded payload and a parallel active mask.
+            // Counted shader buffers read only the supplied elements.
+            if let emptyArrayUniform {
+                let limit: Int = options.overrideUniformArrayMaxLimit ?? Self.uniformArrayMaxLimit
+                let activeCount: Int = min(arrayUniforms.count, limit)
+                if activeCount < arrayUniforms.count {
+                    bufferUniforms = Array(arrayUniforms.prefix(limit))
+                    print("AsyncGraphics - Renderer - Max limit of uniform arrays exceeded. Trailing values will be truncated. \(arrayUniforms.count) / \(limit)")
+                } else {
+                    bufferUniforms.append(contentsOf: repeatElement(emptyArrayUniform, count: limit - activeCount))
                 }
-            } else {
-                let originalCount = arrayUniforms.count
-                let overflow = originalCount - uniformArrayMaxLimit
-                for _ in 0..<overflow {
-                    fixedArrayUniforms.removeLast()
-                    fixedActiveArrayUniforms.removeLast()
+                var active: [Bool] = Array(repeating: true, count: activeCount)
+                active.append(contentsOf: repeatElement(false, count: limit - activeCount))
+                guard let buffer = metalDevice.makeBuffer(bytes: active, length: MemoryLayout<Bool>.stride * limit) else {
+                    throw RendererError.failedToMakeArrayUniformBuffer
                 }
-                print("AsyncGraphics - Renderer - Max limit of uniform arrays exceeded. Trailing values will be truncated. \(originalCount) / \(uniformArrayMaxLimit)")
+                activeArrayUniformsBuffer = buffer
             }
-            
-            let size: Int = MemoryLayout<AU>.size * uniformArrayMaxLimit
-            let activeSize: Int = MemoryLayout<Bool>.size * uniformArrayMaxLimit
-            
-            guard let buffer = metalDevice.makeBuffer(bytes: &fixedArrayUniforms, length: size) else {
+            let size: Int = MemoryLayout<AU>.stride * bufferUniforms.count
+            guard let buffer = metalDevice.makeBuffer(bytes: bufferUniforms, length: size) else {
                 throw RendererError.failedToMakeArrayUniformBuffer
             }
             arrayUniformsBuffer = buffer
-            
-            guard let activeBuffer = metalDevice.makeBuffer(bytes: &fixedActiveArrayUniforms, length: activeSize) else {
-                throw RendererError.failedToMakeArrayUniformBuffer
-            }
-            activeArrayUniformsBuffer = activeBuffer
         }
         
         let hasVertices: Bool = vertexUniforms is EmptyUniforms == false
@@ -703,7 +695,7 @@ public struct Renderer {
         }
         // MARK: Array Uniforms
 
-        if let arrayUniformsBuffer, let activeArrayUniformsBuffer {
+        if let arrayUniformsBuffer {
 
             if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
 
@@ -737,28 +729,21 @@ public struct Renderer {
 
         if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
 
-            let vertexBuffer: MTLBuffer
-            if let vertices {
-                switch vertices {
-                case .direct(let vertices, _):
-                    vertexBuffer = try buffer(vertices: vertices)
-                case .indirect(let count, _):
-                    vertexBuffer = try buffer(count: count)
-                }
-            } else {
-                if optimization.contains(.cacheQuadVertexBuffer),
-                   let buffer = storedVertexQuadBuffer {
+            switch vertices {
+            case .direct(let vertices, _):
+                renderCommandEncoder.setVertexBuffer(try buffer(vertices: vertices), offset: 0, index: 0)
+            case .indirect:
+                // Particle vertex shaders derive their input from vertex_id and textures.
+                break
+            case nil:
+                let vertexBuffer: MTLBuffer
+                if optimization.contains(.cacheQuadVertexBuffer), let buffer = storedVertexQuadBuffer {
                     vertexBuffer = buffer
                 } else {
                     vertexBuffer = try makeVertexQuadBuffer()
                 }
+                renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
             }
-
-            renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
-        }
-        // MARK: Draw
-
-        if let renderCommandEncoder = commandEncoder as? MTLRenderCommandEncoder {
 
             renderCommandEncoder.drawPrimitives(type: vertices?.type ?? .triangle,
                                                 vertexStart: 0,
@@ -789,7 +774,11 @@ public struct Renderer {
         colorSpace: TMColorSpace
     ) async throws -> G {
         return try await withCheckedThrowingContinuation { continuation in
-            commandBuffer.addCompletedHandler { _ in
+            commandBuffer.addCompletedHandler { completedBuffer in
+                if let error = completedBuffer.error {
+                    continuation.resume(throwing: error)
+                    return
+                }
                 let graphic = G(id: UUID(),
                                 name: name,
                                 texture: targetTexture,

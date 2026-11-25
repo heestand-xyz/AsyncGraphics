@@ -22,20 +22,12 @@ struct Uniforms {
 
 vertex VertexOut uvParticles(unsigned int vid [[ vertex_id ]],
                              const device Uniforms& uniforms [[ buffer(1) ]],
-                             texture2d<float> texture [[ texture(0) ]],
-                             sampler sampler [[ sampler(0) ]]) {
+                             texture2d<float> texture [[ texture(0) ]]) {
     
-    float width = uniforms.resolution.x;
-    float height = uniforms.resolution.y;
-    float aspectRatio = width / height;
-    
-    int ux = vid % int(width);
-    int vy = int(float(vid) / width);
-    float u = (float(ux) + 0.5) / width;
-    float v = (float(vy) + 0.5) / height;
-    float2 uv = float2(u, v);
-    
-    float4 uvColor = texture.sample(sampler, uv);
+    uint width = texture.get_width();
+    uint2 pixel = uint2(vid % width, vid / width);
+    float aspectRatio = uniforms.resolution.x / uniforms.resolution.y;
+    float4 uvColor = texture.read(pixel);
     float x = (uvColor.x / aspectRatio) * 2;
     float y = uvColor.y * 2;
     float z = 0.0;

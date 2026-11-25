@@ -77,7 +77,7 @@ extension Graphic {
                 multiplyParticleAlpha: particleOptions.contains(.channelAlpha) || particleOptions.contains(.clipChannelAlpha),
                 clipParticleAlpha: particleOptions.contains(.clipChannelAlpha),
                 particleScale: Float(particleScale),
-                resolution: self.resolution.uniform
+                resolution: resolution.pixelDimensionsUniform
             ),
             vertices: .indirect(count: self.resolution.count, type: .point),
             metadata: Renderer.Metadata(

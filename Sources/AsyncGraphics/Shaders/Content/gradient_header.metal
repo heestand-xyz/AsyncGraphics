@@ -20,18 +20,15 @@ struct FractionAndZero {
     bool zero;
 };
 
-struct ColorStop {
-    bool enabled;
-    float position;
-    float4 color;
-};
-
 struct ColorStopArray {
     float fraction;
     packed_float4 color;
 };
 
 FractionAndZero fractionAndZero(float fraction, int extend);
-float4 gradient(float fraction, array<ColorStopArray, ARRMAX> inArr, array<bool, ARRMAX> inArrActive, bool smooth = false);
+float4 gradient(float fraction,
+                const device array<ColorStopArray, ARRMAX>& stops,
+                const device array<bool, ARRMAX>& active,
+                bool smooth = false);
 
 #endif
