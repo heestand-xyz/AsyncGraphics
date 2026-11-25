@@ -29,8 +29,6 @@ extension CodableGraphic.Effect.Modifier {
                                                               maximum: .fixed(CGSize(width: 2.0,
                                                                                      height: 2.0)))
         
-        public var isTransparent: GraphicMetadata<Bool> = .init(value: .fixed(false))
-        
         public var placement: GraphicEnumMetadata<Graphic.Placement> = .init(value: .fill)
         
         public var lumaGamma: GraphicMetadata<CGFloat> = .init(value: .fixed(1.0),
