@@ -15,6 +15,7 @@ extension Graphic {
         let scale: Float
         let size: SizeUniform
         let lumaGamma: Float
+        let isTransparent: UInt32
     }
     
     public func lumaOffset(
@@ -110,6 +111,7 @@ extension Graphic {
         rotation: Angle = .zero,
         scale: CGFloat = 1.0,
         scaleSize: CGSize = .one,
+        isTransparent: Bool = false,
         lumaGamma: CGFloat = 1.0,
         placement: Placement = .fit,
         options: EffectOptions = []
@@ -130,7 +132,8 @@ extension Graphic {
                 rotation: rotation.uniform,
                 scale: Float(scale),
                 size: scaleSize.uniform,
-                lumaGamma: Float(lumaGamma)
+                lumaGamma: Float(lumaGamma),
+                isTransparent: isTransparent ? 1 : 0
             ),
             options: options.spatialRenderOptions
         )

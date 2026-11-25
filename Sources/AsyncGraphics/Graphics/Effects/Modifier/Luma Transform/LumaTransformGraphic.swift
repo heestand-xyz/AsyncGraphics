@@ -54,6 +54,7 @@ extension CodableGraphic.Effect.Modifier {
                 rotation: rotation.value.eval(at: graphic.resolution),
                 scale: scale.value.eval(at: graphic.resolution),
                 scaleSize: scaleSize.value.eval(at: graphic.resolution),
+                isTransparent: isTransparent.value.eval(at: graphic.resolution),
                 lumaGamma: lumaGamma.value.eval(at: graphic.resolution),
                 placement: placement.value,
                 options: options.union(extendMode.value.options)

@@ -20,6 +20,7 @@ struct Uniforms {
     float scale;
     packed_float2 size;
     float lumaGamma;
+    uint isTransparent;
 };
 
 fragment float4 lumaTransform(VertexOut out [[stage_in]],
@@ -55,6 +56,9 @@ fragment float4 lumaTransform(VertexOut out [[stage_in]],
     float amp = sqrt(pow((u - 0.5) * aspect - uniforms.translation.x, 2) + pow(v - 0.5 - uniforms.translation.y, 2));
     float2 tuv = float2((cos(ang) / aspect) * amp, sin(ang) * amp) / size + 0.5;
     float2 luv = uv * (1.0 - lum) + tuv * lum;
+    if (uniforms.isTransparent != 0 && (any(luv < float2(0.0)) || any(luv > float2(1.0)))) {
+        return float4(0.0);
+    }
     float4 c = leadingTexture.sample(sampler, luv);
     
     return c;
