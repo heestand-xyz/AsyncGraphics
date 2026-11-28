@@ -38,8 +38,22 @@ extension Graphic {
         options: ContentOptions = []
     ) async throws -> Graphic {
         let outline = try stroke.map { try strokeOutline(of: path, style: $0) } ?? path
+        return try await rasterizedPathOutline(outline, fillRule: fillRule, color: color,
+                                               backgroundColor: backgroundColor, resolution: resolution,
+                                               tile: .one, options: options)
+    }
+
+    static func rasterizedPathOutline(
+        _ outline: CGPath,
+        fillRule: CGPathFillRule,
+        color: PixelColor,
+        backgroundColor: PixelColor,
+        resolution: CGSize,
+        tile: Tile,
+        options: ContentOptions
+    ) async throws -> Graphic {
         let mask = try rasterizedPathMask(outline, fillRule: fillRule, resolution: resolution,
-                                          antiAlias: options.antiAlias)
+                                          tile: tile, antiAlias: options.antiAlias)
         if color == .white, backgroundColor == .black, options.bits == ._8, options.colorSpace == .sRGB {
             return mask
         }
@@ -60,15 +74,17 @@ extension Graphic {
         _ path: CGPath,
         fillRule: CGPathFillRule,
         resolution: CGSize,
+        tile: Tile,
         antiAlias: Bool
     ) throws -> Graphic {
-        guard resolution.width.isFinite, resolution.height.isFinite,
-              resolution.width >= 1, resolution.height >= 1,
-              resolution.width <= 16_384, resolution.height <= 16_384 else {
+        let tileSize: CGSize = tile.resolution(at: resolution)
+        guard tileSize.width.isFinite, tileSize.height.isFinite,
+              tileSize.width >= 1, tileSize.height >= 1,
+              tileSize.width <= 16_384, tileSize.height <= 16_384 else {
             throw RasterizedPathError.invalidResolution
         }
-        let width = Int(resolution.width)
-        let height = Int(resolution.height)
+        let width = Int(tileSize.width)
+        let height = Int(tileSize.height)
         let bytesPerRow = width * 4
         guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: 8,
                                       bytesPerRow: bytesPerRow, space: CGColorSpaceCreateDeviceRGB(),
@@ -81,7 +97,9 @@ extension Graphic {
         context.setAllowsAntialiasing(antiAlias)
         context.setShouldAntialias(antiAlias)
         context.translateBy(x: 0, y: CGFloat(height))
-        context.scaleBy(x: 1, y: -1)
+        context.scaleBy(x: CGFloat(width) / tileSize.width, y: -CGFloat(height) / tileSize.height)
+        let origin = tile.uvOrigin
+        context.translateBy(x: -CGFloat(origin.x) * resolution.width, y: -CGFloat(origin.y) * resolution.height)
         context.setFillColor(gray: 1, alpha: 1)
         context.addPath(path)
         context.drawPath(using: fillRule == .evenOdd ? .eoFill : .fill)

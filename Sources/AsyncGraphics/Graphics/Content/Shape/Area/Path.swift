@@ -23,7 +23,7 @@ extension Graphic {
         let trailing: PointUniform
     }
 
-    /// Fills a Core Graphics path on the GPU. Coordinates and stroke widths are
+    /// Fills a Core Graphics path. Coordinates and stroke widths are
     /// measured in pixels from the upper-left corner of the full resolution.
     /// Curves are flattened to a maximum deviation of one eighth of a pixel.
     public static func path(
@@ -46,6 +46,14 @@ extension Graphic {
         outline.applyWithBlock { flattener.consume($0.pointee) }
         flattener.finishContour()
         if let error = flattener.error { throw error }
+
+        // Short dashes can produce thousands of edges. Rasterize their coverage
+        // once instead of scanning the entire outline in every fragment.
+        if let stroke, !stroke.dash.isEmpty {
+            return try await rasterizedPathOutline(outline, fillRule: fillRule, color: color,
+                                                   backgroundColor: backgroundColor, resolution: resolution,
+                                                   tile: tile, options: options)
+        }
 
         let segments = flattener.segments
         let bounds = flattener.bounds
@@ -82,7 +90,6 @@ extension Graphic {
 
     private struct PathFlattener {
         private static let toleranceSquared: CGFloat = 0.125 * 0.125
-        private static let maximumSegments = 65_536
         private static let maximumDepth = 20
 
         var segments: [PathSegmentUniform] = []
@@ -126,7 +133,7 @@ extension Graphic {
             guard error == nil else { return }
             if !contour.isEmpty, contour.last == contour.first { contour.removeLast() }
             if contour.count >= 3 {
-                guard segments.count + contour.count <= Self.maximumSegments else {
+                guard segments.count + contour.count <= Graphic.maximumPathSegments else {
                     error = .excessiveComplexity
                     return
                 }
@@ -165,7 +172,7 @@ extension Graphic {
             guard error == nil, validate(point) else { return }
             if contour.last != point { contour.append(point) }
             currentPoint = point
-            if segments.count + contour.count > Self.maximumSegments {
+            if segments.count + contour.count > Graphic.maximumPathSegments {
                 error = .excessiveComplexity
             }
         }

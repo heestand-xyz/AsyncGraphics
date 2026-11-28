@@ -3,6 +3,8 @@ import Foundation
 
 extension Graphic {
 
+    static let maximumPathSegments: Int = 65_536
+
     /// Stroke geometry in pixels, including the dash pattern and its phase.
     public struct StrokeStyle: Sendable {
         public var lineWidth: CGFloat
@@ -50,9 +52,12 @@ extension Graphic {
         }
     }
 
-    /// CoreGraphics constructs vector outlines only; coverage is rendered on the GPU.
+    /// Builds the same vector outline for both coverage renderers.
     static func strokeOutline(of path: CGPath, style: StrokeStyle) throws -> CGPath {
         var hasFinitePoints = true
+        var lengthBound: CGFloat = 0
+        var currentPoint: CGPoint = .zero
+        var contourStart: CGPoint = .zero
         path.applyWithBlock { elementPointer in
             let element = elementPointer.pointee
             let pointCount: Int
@@ -66,6 +71,19 @@ extension Graphic {
             for index in 0..<pointCount {
                 let point = element.points[index]
                 hasFinitePoints = hasFinitePoints && point.x.isFinite && point.y.isFinite
+                if !style.dash.isEmpty {
+                    if element.type == .moveToPoint {
+                        contourStart = point
+                    } else {
+                        // The control polygon bounds the length of a Bézier curve.
+                        lengthBound += hypot(point.x - currentPoint.x, point.y - currentPoint.y)
+                    }
+                    currentPoint = point
+                }
+            }
+            if !style.dash.isEmpty, element.type == .closeSubpath {
+                lengthBound += hypot(contourStart.x - currentPoint.x, contourStart.y - currentPoint.y)
+                currentPoint = contourStart
             }
         }
         guard hasFinitePoints else { throw ShapePathError.invalidPath }
@@ -85,6 +103,11 @@ extension Graphic {
         if style.dash.isEmpty {
             centerline = path
         } else {
+            // Bound the expansion before Core Graphics allocates the dashed path.
+            let meanDashLength: CGFloat = dashLength / CGFloat(style.dash.count)
+            guard lengthBound <= meanDashLength * CGFloat(maximumPathSegments) else {
+                throw ShapePathError.excessiveComplexity
+            }
             centerline = path.copy(dashingWithPhase: style.dashPhase, lengths: style.dash)
         }
         return centerline.copy(strokingWithWidth: style.lineWidth,
