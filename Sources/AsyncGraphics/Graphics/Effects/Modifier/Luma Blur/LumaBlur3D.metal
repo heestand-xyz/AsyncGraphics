@@ -73,8 +73,8 @@ kernel void lumaBlur3d(const device Uniforms& uniforms [[ buffer(0) ]],
         for (int x = -res; x <= res; ++x) {
             for (int y = -res; y <= res; ++y) {
                 for (int z = -res; z <= res; ++z) {
-                    if (x != 0 && y != 0) {
-                        float dist = sqrt(pow(float(x), 2) + pow(float(y), 2) + pow(float(z), 2));
+                    if (x != 0 || y != 0 || z != 0) {
+                        float dist = length(float3(x, y, z));
                         if (dist <= res) {
                             float amount = pow(1.0 - dist / (res + 1), 0.5);
                             float xu = u + (float(x) * uniforms.radius * lum / aspectRatio) / res;

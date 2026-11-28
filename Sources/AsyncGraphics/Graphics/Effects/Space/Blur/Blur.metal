@@ -58,8 +58,8 @@ fragment float4 blur(VertexOut out [[stage_in]],
         
         for (int x = -count; x <= count; ++x) {
             for (int y = -count; y <= count; ++y) {
-                if (x != 0 && y != 0) {
-                    float dist = sqrt(pow(float(x), 2) + pow(float(y), 2));
+                if (x != 0 || y != 0) {
+                    float dist = length(float2(x, y));
                     if (dist <= count) {
                         float amount = pow(1.0 - dist / (count + 1), 0.5);
                         float xu = u + (float(x) / count) * radius / aspect;
@@ -128,6 +128,7 @@ fragment float4 blur(VertexOut out [[stage_in]],
         for (int i = 0; i < 9; i++) {
             if (i == centerIndex) { continue; }
             float2 offset = offsets[i] * radius;
+            offset.x /= aspect;
             color += texture.sample(sampler, uv + offset) * weights[i];
         }
     }

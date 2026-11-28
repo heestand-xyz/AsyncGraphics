@@ -69,8 +69,8 @@ fragment float4 lumaBlur(VertexOut out [[stage_in]],
         
         for (int x = -res; x <= res; ++x) {
             for (int y = -res; y <= res; ++y) {
-                if (x != 0 && y != 0) {
-                    float dist = sqrt(pow(float(x), 2) + pow(float(y), 2));
+                if (x != 0 || y != 0) {
+                    float dist = length(float2(x, y));
                     if (dist <= res) {
                         float amount = pow(1.0 - dist / (res + 1), 0.5);
                         float xu = u + (float(x) * uniforms.radius * lum / aspectRatio) / res;
@@ -140,6 +140,7 @@ fragment float4 lumaBlur(VertexOut out [[stage_in]],
         for (int i = 0; i < 9; i++) {
             if (i == centerIndex) { continue; }
             float2 offset = offsets[i] * uniforms.radius * lum;
+            offset.x /= aspectRatio;
             ca += leadingTexture.sample(sampler, uv + offset) * weights[i];
         }
     }

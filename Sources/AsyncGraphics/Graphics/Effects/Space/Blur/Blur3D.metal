@@ -61,8 +61,8 @@ kernel void blur3d(const device Uniforms& uniforms [[ buffer(0) ]],
         for (int x = -count; x <= count; ++x) {
             for (int y = -count; y <= count; ++y) {
                 for (int z = -count; z <= count; ++z) {
-                    if (x != 0 && y != 0 && z != 0) {
-                        float dist = sqrt(pow(sqrt(pow(float(x), 2) + pow(float(y), 2)), 2) + pow(float(z), 2));
+                    if (x != 0 || y != 0 || z != 0) {
+                        float dist = length(float3(x, y, z));
                         if (dist <= count) {
                             float amount = pow(1.0 - dist / (count + 1), 0.5);
                             float xu = u + (float(x) / count) * radius / aspect;
